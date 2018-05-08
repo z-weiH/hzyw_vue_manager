@@ -13,7 +13,7 @@ import './assets/style/element/index.css'
 // 引入 axios
 import axios from 'axios'
 import './axios'
-Vue.prototype.$axios = axios;
+Vue.prototype.$http = axios;
 // 引入 store
 import store from './store'
 // 引入 filter
