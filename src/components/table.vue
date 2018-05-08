@@ -5,7 +5,9 @@
     stripe
     border
    >
-    <el-table-column v-for="(col, index) of columns" :v-key="index"
+    <el-table-column
+      v-for="(col, index) of columns"
+      :key="index"
       :prop="col.property"
       :label="col.label"
       :render-header="defineHeader"
@@ -16,19 +18,19 @@
 </template>
 
 <script>
-  /**
-   * @method
-   * @description 表格组件
-   * @prop tableData // Object[] 表格显示的源数据
-   * @prop columnDefine // Object[] 定义表格的列 label表示列头 property 表示列绑定的属性名，width 表示宽度
-                    例子： [
-                             {label: '序号',property: 'index'，width:180},
-                             {label: '用户名',property: 'name',width:180},
-                             {label: '真实姓名',property: 'truename',width:180},
-                             {label: '手机号码',property: 'phonenumber',width:180},
-                           ]
-   @prop spanMethod //Function  用来定义单元格合并  
-   */
+/**
+ * @method
+ * @description 表格组件
+ * @prop tableData // Object[] 表格显示的源数据
+ * @prop columnDefine // Object[] 定义表格的列 label表示列头 property 表示列绑定的属性名，width 表示宽度
+                  例子： [
+                           {label: '序号',property: 'index'，width:180},
+                           {label: '用户名',property: 'name',width:180},
+                           {label: '真实姓名',property: 'truename',width:180},
+                           {label: '手机号码',property: 'phonenumber',width:180},
+                         ]
+ @prop spanMethod //Function  用来定义单元格合并
+ */
 export default {
   name: 'table',
   props: {
