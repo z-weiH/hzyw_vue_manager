@@ -6,7 +6,7 @@
 
 <script>
 // 引入 公共css
-import '@/assets/style/index.scss'
+import '@/assets/style/scss/index.scss'
 // 引入 iconfont
 import '@/assets/style/iconfont/iconfont.css'
 
