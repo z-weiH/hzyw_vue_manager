@@ -2,7 +2,6 @@
   <div class="menu-box">
     <el-menu 
       router
-      :unique-opened="true"
       :default-active="active"
     >
       <template v-for="(item) in menuList">
@@ -45,7 +44,23 @@
                 url : 'roleManage',
               },
             ],
-          }
+          },
+          {
+            label : '第三方管理',
+            id : 21,
+            children : [
+              {
+                label : '邮件发送日志',
+                id : 22,
+                url : 'mailSendLog',
+              },
+              {
+                label : '短信发送日志',
+                id : 23,
+                url : 'noteSendLog',
+              },
+            ],
+          },
         ],
         // 当前高亮的 menu
         active : '/main/demo',
