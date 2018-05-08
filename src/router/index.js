@@ -17,6 +17,10 @@ import main from '@/views/main'
 import userQuery from '@/views/system/userQuery' // 用户查询
 import roleManage from '@/views/system/roleManage' // 角色管理
 
+// 第三方管理模块
+import mailSendLog from '@/views/third/mailSendLog' // 邮件发送日志
+import noteSendLog from '@/views/third/noteSendLog' // 短信发送日志
+
 /* main 子路由 end */
 
 Vue.use(Router)
@@ -39,6 +43,7 @@ let router = new Router({
       path : '/main',
       component : main,
       children : [
+        /* 系统管理模块 start */
         {
           path : 'userQuery',
           component : userQuery,
@@ -53,6 +58,24 @@ let router = new Router({
             name : 'roleManage',
           },
         },
+        /* 系统管理模块 end */
+
+        /* 第三方管理模块 start */
+        {
+          path : 'mailSendLog',
+          component : mailSendLog,
+          meta : {
+            name : 'mailSendLog',
+          },
+        },
+        {
+          path : 'noteSendLog',
+          component : noteSendLog,
+          meta : {
+            name : 'noteSendLog',
+          },
+        },
+        /* 第三方管理模块 end */
       ],
     },
     {
