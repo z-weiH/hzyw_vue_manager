@@ -40,7 +40,6 @@
     }
     .page-content{
       width: 960px;
-      background-color: #fff;
     }
   }
 }

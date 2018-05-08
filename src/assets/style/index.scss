@@ -3,6 +3,10 @@
 	padding: 0;
 }
 
+$themeColor:#0F357F;
+$themeBorderColor:#E9EDF0;
+$fff:#fff;
+
 @font-face {
   font-family: 'stlitiregular';
   src: url(./../font/iconfont.eot?v=220);
@@ -141,11 +145,27 @@ textarea {
 	resize: none;
 }
 
-/* 标题 */
-.table-title {
+/* 总体样式 start */
+
+.item-search{
+  border: 1px solid $themeBorderColor;
+  padding: 14px 13px 11px 13px;
+  background-color: #fff;
+  margin-bottom: 10px;
+}
+
+.item-title {
   font-size: 17px;
   color: #0F357F;
   padding: 20px 13px 14px 13px;
   background-color: #EEF3FF;
   border: 1px solid #E9EDF0;
 }
+
+.item-table{
+  background-color: #ffffff;
+  border: 1px solid #E9EDF0;
+  border-top: none;
+}
+
+/* 总体样式 end */
