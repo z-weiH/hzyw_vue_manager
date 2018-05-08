@@ -1,14 +1,23 @@
 <template>
   <div>
-    <div class="table-title">
-      <span>roleManage</span>
-    </div>
-    roleManage
   </div>
 </template>
 
 <script>
-  export default {}
+  import Searchs from '@/components/searchs'
+  export default {
+    name : 'roleManame',
+    data () {
+      return {
+        searchItem : [
+          // {type:}
+        ]
+      }
+    },
+    components : {
+      Searchs
+    }
+  }
 </script>
 
 <style scoped>
