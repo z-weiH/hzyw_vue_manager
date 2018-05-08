@@ -2,17 +2,26 @@
   <div class="search">
     <el-row :gutter="3">
       <div v-for="(search, index) in searchItems" :key="index">
-        <search-item  v-bind:value="item[search.propname]" v-bind:search-item="search" @valueChange="valueChange"></search-item>
+        <search-item  v-bind:value="item[search.property]" v-bind:search-item="search" @valueChange="valueChange"></search-item>
       </div>
-      <el-col :span="3">
-        <el-button type="success" @click="btnClickHandle">查询</el-button>
-      </el-col>
+
+      <el-button class="fl" type="warning" @click="btnClickHandle">查询</el-button>
       <slot name="moreBtn"></slot>
     </el-row>
   </div>
 </template>
 
 <script>
+/**
+ * @description 查询条件组件
+ * @props item 类型 Object  以对象形式存放查询条件数据
+ * @props searchItems 类型 Object[]  每个object定义一个查询条件
+ *        属性： colSpan  //number  div被等分成24分，columns表示占几分 ，从1到24
+ *        属性： property //string  表示该查询条件绑定到 item上的属性名
+ *        属性： placeholder //string  placeholder
+ *        属性： type //string 查询框类型 text表示文本输入,select表示下拉框,date表示日期
+ *        属性： defaultValue //any  给该查询条件定义默认值
+ */
 import SearchItem from './search.vue'
 export default {
   name: 'search',
