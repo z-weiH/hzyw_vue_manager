@@ -1,7 +1,7 @@
 export default {
     namespaced: true,
     state : {
-        city : 'xy',
+        city : new Date(),
     },
     mutations : {
         setCity(state, data) {

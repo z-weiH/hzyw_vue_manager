@@ -14,10 +14,12 @@ import './assets/style/element/index.css'
 import axios from 'axios'
 import './axios'
 Vue.prototype.$axios = axios;
-//引入vuex的store
+// 引入 store
 import store from './store'
+// 引入 filter
+import './filter'
 
-// 装载
+// 装载 element ui
 Vue.use(ElementUI);
 
 /* eslint-disable no-new */

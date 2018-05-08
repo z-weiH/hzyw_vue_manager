@@ -1,12 +1,15 @@
 <template>
   <div class="hello">
     <el-button @click="handleClick" type="primary">
-      store-{{$store.state.demo.city}}
+      store-{{ $store.state.demo.city | TimeMoment}}
     </el-button>
+    <p class="ellipsis">费大幅费大幅度发费大幅度发费大幅度发度发</p>
+    <i class="icon-sousuo iconfont"></i>
   </div>
 </template>
 
 <script>
+import {cutString} from '@/assets/js/tool'
 export default {
   name: 'HelloWorld',
   data () {
@@ -15,13 +18,12 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$store.state.demo);
-    this.$axios.get('/api',{
-      params: {
-        ID: 12345
+    this.$axios({
+      method : 'post',
+      url : '/api',
+      data : {
+        city : 'xy',
       },
-    }).then((res) => {
-      console.log(res);
     });
   },
   methods : {
@@ -33,6 +35,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="scss">
+<style lang="scss" scoped>
+
 
 </style>

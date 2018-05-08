@@ -1,0 +1,48 @@
+<template>
+  <div class="main">
+    <top class="mb-10"></top>
+    <div class="box">
+      <!-- 左侧菜单 -->
+      <div class="menu fl">
+        <menuL></menuL>
+      </div>
+      <!-- router 内容 -->
+      <div class="page-content fl">
+        <router-view/>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+  import top from './modules/top.vue'
+  import menuL from './modules/menu.vue'
+
+  export default {
+    components : {
+      top,
+      menuL,
+    },
+  }
+</script>
+
+<style lang="scss" scoped>
+
+.main{
+  background-color: #F1F2F7;
+  height: 100%;
+  .box{
+    width: 1200px;
+    margin: 0 auto;
+    .menu{
+      width: 230px;
+      margin-right: 10px;
+    }
+    .page-content{
+      width: 960px;
+      background-color: #fff;
+    }
+  }
+}
+
+</style>
