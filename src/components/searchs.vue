@@ -30,19 +30,20 @@ export default {
       type: Array,
       default: () => {
         return []
-      }
+      },
     }, // 定义显示的表单
     item: {
       type: Object,
       default: () => {
         return {}
       }
-    } // 关联表单的数据
+    }, // 关联表单的数据
+    queryUrl: String
   },
   methods: {
     btnClickHandle () {
-      console.log(this.searchItems, this.item)
-      this.$parent.doQuery(this.item)
+      console.log(this.queryUrl)
+      this.$parent.doQuery(this.queryUrl,this.item)
     },
     valueChange (newVal) {
       Object.assign(this.item, newVal)

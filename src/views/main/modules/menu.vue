@@ -1,6 +1,6 @@
 <template>
   <div class="menu-box">
-    <el-menu 
+    <el-menu
       router
       :default-active="active"
     >
@@ -17,7 +17,7 @@
             </el-menu-item>
           </template>
 
-        </el-submenu> 
+        </el-submenu>
       </template>
     </el-menu>
   </div>
@@ -42,6 +42,11 @@
                 label : '角色管理',
                 id : 3,
                 url : 'roleManage',
+              },
+              {
+                label : '用户管理',
+                id : 4,
+                url : 'userControl',
               },
             ],
           },

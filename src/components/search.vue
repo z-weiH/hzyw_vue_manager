@@ -36,7 +36,7 @@ export default {
   watch: {
     trueVal (val, oldval) {
       let newObj = Object.create({})
-      newObj[this.searchItem.propname] = val
+      newObj[this.searchItem.property] = val
       this.$emit('valueChange', newObj)
     }
   },

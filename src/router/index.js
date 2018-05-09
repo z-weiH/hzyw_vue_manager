@@ -15,6 +15,7 @@ import main from '@/views/main'
 
 // 系统管理模块
 import userQuery from '@/views/system/userQuery' // 用户查询
+import userControl from '@/views/system/userControl' // 用户管理
 import roleManage from '@/views/system/roleManage' // 角色管理
 
 // 第三方管理模块
@@ -49,6 +50,13 @@ let router = new Router({
           component : userQuery,
           meta : {
             name : 'userQuery',
+          },
+        },
+        {
+          path : 'userControl',
+          component : userControl,
+          meta : {
+            name : 'userControl',
           },
         },
         {

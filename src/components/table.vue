@@ -1,20 +1,38 @@
 <template>
-  <el-table
-    :data="tableData"
-    :span-method="spanMethod"
-    stripe
-    border
-   >
-    <el-table-column
-      v-for="(col, index) of columns"
-      :key="index"
-      :prop="col.property"
-      :label="col.label"
-      :render-header="defineHeader"
-      v-if="!col.hidden"
-      width="180">
-    </el-table-column>
-  </el-table>
+  <div class="table">
+    <el-table
+      :data="tableData"
+      :span-method="spanMethod"
+      stripe
+      border
+    >
+      <el-table-column
+        type="index"
+        label="序号"
+        width="50">
+      </el-table-column>
+      <el-table-column
+        v-for="(col, index) of columns"
+        :key="index"
+        :prop="col.property"
+        :label="col.label"
+        :render-header="defineHeader"
+        v-if="!col.hidden"
+        :width="col.width ? col.width : 120">
+      </el-table-column>
+      <!--<slot name=""></slot>-->
+      <el-table-column label="操作" v-if="actions && actions.length > 0" :width="300">
+        <template slot-scope="scope">
+          <el-button
+            v-for="(action, index) of actions"
+            :key="index"
+            size="mini"
+            @click="action.function.bind($parent)(scope.row)" >{{action.label}}</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+  </div>
+
 </template>
 
 <script>
@@ -36,7 +54,8 @@ export default {
   props: {
     tableData: Array,
     columnDefine: Array,
-    spanMethod: Function
+    spanMethod: Function,
+    actions: Array
   },
   computed:{
     columns () {
@@ -101,6 +120,8 @@ export default {
 }
 </script>
 
-<style scoped>
+<style  lang="sass">
+thead.has-gutter > tr > th
+  padding : 0
 
 </style>

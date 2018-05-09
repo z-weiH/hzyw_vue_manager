@@ -11,18 +11,9 @@
     <div class="item-table">
       <Table :table-data="tableData" :column-define="columnDefine" :actions="actions"></Table>
     </div>
+    <user-create :editState.sync="editState" :create-item="createItem" ></user-create>
+    <user-edit :editState.sync="editState" :edit-item="editItem" ></user-edit>
 
-    <el-dialog
-      title="新增用户信息"
-      :visible.sync="dialogVisible"
-      width="495px"
-      center>
-        <edits :edit-items="dailogItems" :item="dailogItem" :label-width="'150px'"></edits>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="centerDialogVisible = false">取 消</el-button>
-          <el-button type="primary"  @click="create">确 定</el-button>
-        </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -30,7 +21,8 @@
   import Searchs from '@/components/searchs'
   import Table from '@/components/table'
   import Mixins from '@/components/script/_mixin'
-  import Edits from '@/components/edits'
+  import UserCreate from './modules/create'
+  import UserEdit from './modules/edit'
   export default {
     name : 'roleManame',
     extends : Mixins,
@@ -50,27 +42,8 @@
           {label: '创建时间',property: 'createTime',width: 180},
         ],
         // fixedSearchItrems: { parent_id: '2', role_id: '3'},//固定的查询条件
-        dialogVisible: false,
-        dailogItems:[],
-        createItems: [
-          {type: 'text', property:'loginName', label: '用户名'},
-          {type: 'text', property:'password', label: '登录密码'},
-          {type: 'text', property:'juese', label: '所属角色'},
-          {type: 'text', property:'userName', label: '真实姓名'},
-          {type: 'text', property:'userPhone', label: '手机号码'},
-          {type: 'text', property:'userEmail', label: '电子邮箱'},
-          {type: 'textarea', property:'otherInfo', label: '其它信息', placeholder: '请输入内容'},
-        ],
-        editItems: [
-          {type: 'text', property:'loginName', label: '用户名'},
-          {type: 'text', property:'userName', label: '真实姓名'},
-          {type: 'text', property:'userPhone', label: '手机号码'},
-          {type: 'text', property:'userEmail', label: '电子邮箱'},
-          {type: 'text', property:'roleIds', label: '角色权限（可多选）'},
-          {type: 'text', property:'userAddress', label: '通讯地址'},
-          {type: 'textarea', property:'otherInfo', label: '其它信息', placeholder: '请输入内容'},
-        ],
-        dailogItem: {},
+        createItem: {},
+        editItem: {},
         actions: [
           {label:'修改信息', function: this.editInfo},
           {label:'修改密码', function: this.editPassword},
@@ -82,23 +55,19 @@
     components : {
       Searchs,
       Table,
-      Edits
+      UserCreate,
+      UserEdit
     },
     methods: {
       create() {
+        this.createItem = {};
         this.editState = 2;
-        this.dailogItems = this.createItems;
-        this.dialogVisible = true;
-        this.dailogItem = {};
       },
       editInfo (row) {
         this.edit('/user/selectByPrimaryKey.htm',{userId: row.userId})
           .then(res => {
-            console.log(res);
+            this.editItem = res;
             this.editState = 1;
-            this.dailogItems = this.editItems;
-            this.dialogVisible = true;
-            this.dailogItem = res;
           })
       },
       editPassword () {
