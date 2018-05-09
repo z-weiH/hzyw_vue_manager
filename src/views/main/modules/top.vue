@@ -41,7 +41,10 @@
     },
     methods : {
       handleSignOut() {
-        alert('退出');
+        this.$message.success('退出成功');
+        setTimeout(() => {
+          this.$router.push('/login');
+        },2000);
       },
     },
   }

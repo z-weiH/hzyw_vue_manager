@@ -1,5 +1,5 @@
 <template>
-  <div class="mailSendLog">
+  <div class="mail-send-log">
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
@@ -79,7 +79,7 @@
       }
     },
     mounted() {
-      this.initTableList();
+      //this.initTableList();
     },
     methods : {
       // 点击搜索
@@ -125,7 +125,7 @@
 
 <style lang="scss">
 
-.mailSendLog{
+.mail-send-log{
   .el-form-item{
     margin-bottom: 0;
   }

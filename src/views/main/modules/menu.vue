@@ -131,7 +131,7 @@
       initPath() {
         let routerPath = this.$route.path;
         if(routerPath === '/main' || routerPath === '/main/'){
-          this.$router.push({
+          this.$router.replace({
             path : '/main/' + this.menuList[0].children[0].url,
           });
         }
