@@ -22,6 +22,12 @@ import roleManage from '@/views/system/roleManage' // 角色管理
 import mailSendLog from '@/views/third/mailSendLog' // 邮件发送日志
 import noteSendLog from '@/views/third/noteSendLog' // 短信发送日志
 
+// 客户管理模块
+import clientManagement from '@/views/customer/clientManagement' // 客户管理
+import balanceQuery from '@/views/customer/balanceQuery' // 账户余额查询
+import tplSetting from '@/views/customer/tplSetting' // 模板设置
+import tplEvidenceSetting from '@/views/customer/tplEvidenceSetting' // 模板证据设置
+
 /* main 子路由 end */
 
 Vue.use(Router)
@@ -84,6 +90,37 @@ let router = new Router({
           },
         },
         /* 第三方管理模块 end */
+
+        /* 客户管理模块 start */
+        {
+          path : 'clientManagement',
+          component : clientManagement,
+          meta : {
+            name : 'clientManagement',
+          },
+        },
+        {
+          path : 'balanceQuery',
+          component : balanceQuery,
+          meta : {
+            name : 'balanceQuery',
+          },
+        },
+        {
+          path : 'tplSetting',
+          component : tplSetting,
+          meta : {
+            name : 'tplSetting',
+          },
+        },
+        {
+          path : 'tplEvidenceSetting',
+          component : tplEvidenceSetting,
+          meta : {
+            name : 'tplEvidenceSetting',
+          },
+        },
+        /* 客户管理模块 end */
       ],
     },
     {

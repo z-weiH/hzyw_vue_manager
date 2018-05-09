@@ -35,7 +35,7 @@
 }
 
 .mt-5 {
-  margin-right: 5px;
+  margin-top: 5px;
 }
 
 .mr-5 {
@@ -51,7 +51,7 @@
 }
 
 .mt-10 {
-  margin-right: 10px;
+  margin-top: 10px;
 }
 
 .mr-10 {
@@ -67,7 +67,7 @@
 }
 
 .mt-20 {
-  margin-right: 20px;
+  margin-top: 20px;
 }
 
 .mr-20 {
@@ -83,7 +83,7 @@
 }
 
 .mt-30 {
-  margin-right: 30px;
+  margin-top: 30px;
 }
 
 .mr-30 {
@@ -181,3 +181,30 @@ textarea {
 
 
 /* 总体样式 end */
+
+/* 尺寸 */
+.w-133{
+  width: 133px !important;
+}
+.w-160{
+  width: 160px !important;
+}
+.w-220{
+  width: 220px !important;
+}
+
+.w-320{
+  width: 320px !important;
+}
+
+.w-352{
+  width: 352px !important;
+}
+
+/* 重置 element ui */
+.el-table__header-wrapper th div{
+  text-align: center;
+}
+.el-table__row .cell{
+  text-align: center;
+}
