@@ -3,6 +3,7 @@
     <el-menu 
       router
       :default-active="active"
+      :unique-opened="true"
     >
       <template v-for="(item) in menuList">
 
@@ -58,6 +59,32 @@
                 label : '短信发送日志',
                 id : 23,
                 url : 'noteSendLog',
+              },
+            ],
+          },
+          {
+            label : '客户管理',
+            id : 31,
+            children : [
+              {
+                label : '客户管理',
+                id : 32,
+                url : 'clientManagement',
+              },
+              {
+                label : '账户余额查询',
+                id : 33,
+                url : 'balanceQuery',
+              },
+              {
+                label : '模板设置',
+                id : 34,
+                url : 'tplSetting',
+              },
+              {
+                label : '模板证据设置',
+                id : 35,
+                url : 'tplEvidenceSetting',
               },
             ],
           },

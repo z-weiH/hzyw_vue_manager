@@ -7,13 +7,12 @@
           <el-input v-model.trim="ruleForm.zcw" placeholder="请输入仲裁委"></el-input>
         </el-form-item>
 
-        <el-form-item prop="startTime">
-          <el-date-picker type="date" class="w-133" placeholder="请选择开始时间" v-model="ruleForm.startTime"></el-date-picker>
-        </el-form-item>
-
-        <el-form-item prop="endTime">
-          <el-date-picker type="date" class="w-133" placeholder="请选择结束时间" v-model="ruleForm.endTime"></el-date-picker>
-        </el-form-item>
+        <!-- 时间范围 选择 -->
+        <timeFrame
+          :startTime.sync="ruleForm.startTime"
+          :endTime.sync="ruleForm.endTime"
+        >
+        </timeFrame>
 
         <el-button @click="handleSearch" type="primary">查询</el-button>
 
@@ -36,33 +35,86 @@
         <el-table-column prop="date" label="结果"></el-table-column>
         <el-table-column prop="date" label="发送时间"></el-table-column>
       </el-table>
+      <!-- 分页 -->
+      <el-pagination
+        class="mt-10 mb-10"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="10"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+      </el-pagination>
     </div>
   </div>
 </template>
 
 <script>
+  import timeFrame from '@/components/timeFrame.vue'
   export default {
+    components : {
+      timeFrame,
+    },
     data() {
       return {
         ruleForm : {
           // 仲裁委
           zcw : '',
           // 开始时间
-          startTime : new Date(),
+          startTime : this.$moment().format('YYYY-MM-DD'),
           // 结束时间
-          endTime : new Date(),
+          endTime : this.$moment().format('YYYY-MM-DD'),
         },
         rules : {},
+        
+        // 表格数据
         tableData : [{},{}],
+        // 数据总数
+        total : 11,
+        // 当前页数
+        currentPage : 1,
+        // 每页数量
+        pageSize : 10,
       }
     },
     mounted() {
-
+      this.initTableList();
     },
     methods : {
       // 点击搜索
       handleSearch() {
+        console.log(this.ruleForm);
       },
+
+      // 表格相关 start
+
+      // 初始化 表格数据
+      initTableList() {
+        this.$http({
+          url : '/list',
+          params : {
+            pageSize : this.pageSize,
+            currentPage : this.currentPage,
+          },
+        }).then((res) => {
+          this.total = res.total;
+          this.tableData = res.list;
+        });
+      },
+      // 页数 change
+      handleSizeChange(val) {
+        this.pageSize = val;
+        this.currentPage = 1;
+        this.initTableList();
+      },
+      // 分页 change
+      handleCurrentChange(val) {
+        this.currentPage = val; 
+        this.initTableList();
+      },
+
+      // 表格相关 end
     },
   }
 </script>

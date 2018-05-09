@@ -30,13 +30,15 @@
 
 .main{
   background-color: #F1F2F7;
-  height: 100%;
+  overflow: hidden;
+  min-height: 100%;
   .box{
     width: 1200px;
     margin: 0 auto;
     .menu{
       width: 230px;
       margin-right: 10px;
+      padding-bottom: 50px;
     }
     .page-content{
       width: 960px;
