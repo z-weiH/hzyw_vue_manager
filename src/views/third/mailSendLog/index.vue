@@ -14,7 +14,7 @@
         >
         </timeFrame>
 
-        <el-button @click="handleSearch" type="primary">查询</el-button>
+        <el-button @click="handleSearch" type="warning">查询</el-button>
 
       </el-form>
     </div>
