@@ -1,78 +1,69 @@
 <template>
-  <div class="table">
-    <div class="header">
-      {{editDefine.title}}
-    </div>
-    <el-row>
-      <el-col :span="def.columns == 2 ? 24 : 12" v-for="(def,index) in editDefine.content" :key="index" >
-        <div class="cell" ref="">
-          <div class="grid-content grid-label">
-            <span>{{def.label}}</span>
-          </div>
-          <div class="grid-content grid-input" >
-            <el-input v-model="item[def.property]" :placeholder="def.placeholder" v-if="def.type == 'text'"></el-input>
-            <el-select v-model="item[def.property]" :placeholder="def.placeholder" v-if="def.type == 'select'">
-              <el-option
-                v-for="opt in def.options"
-                :key="opt.value"
-                :label="opt.label"
-                :value="opt.value">
-              </el-option>
-            </el-select>
-          </div>
-        </div>
-      </el-col>
-
-
-    </el-row>
-  </div>
-
+<div>
+  <table
+    class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover" v-for="(def,index) in calcDefines" :key="index"
+  >
+    <tbody>
+    <tr>
+      <td colspan="4">{{def.title}}</td>
+    </tr>
+    <tr v-for="cnt in def.content" >
+      <template v-for="td in cnt" >
+        <td colspan="1">{{td.label}}</td>
+        <td :colspan="td.columns == 2 ? 3 : 1">
+          <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" v-if="td.type == 'text'"></el-input>
+          <el-select v-model="item[td.property]" :placeholder="td.placeholder" v-if="td.type == 'select'">
+            <el-option
+              v-for="opt in td.options"
+              :key="opt.value"
+              :label="opt.label"
+              :value="opt.value">
+            </el-option>
+          </el-select>
+        </td>
+      </template>
+    </tr>
+    </tbody>
+  </table>
+</div>
 </template>
 
 <script>
   export default {
     name: 'apply',
     props: {
-      editDefine: Object,
+      editDefines: Array,
       item: Object
+    },
+    computed: {
+      calcDefines () {
+        let returnArr = [];
+        this.editDefines.forEach(it =>{
+          let obj = {title: it.title, content: []};
+          for(let i = 0;i<it.content.length;i++){
+            if(it.content[i].columns!=2){
+              obj.content.push([it.content[i],it.content[++i]])
+            }else{
+              obj.content.push([it.content[i]])
+            }
+          }
+          returnArr.push(obj);
+        })
+        return returnArr;
+      }
+    },
+    mounted () {
+      console.log(this.calcDefine)
     }
   }
 </script>
 
 <style scoped lang="scss">
-  .table{
-    font-size: 14px;
-    color: #666
+  .el-table--border, .el-table--group{
+    border: none;
+    border-left: 1px solid #ebeef5;
   }
-  .cell{
-    display: table;
-    width: 100%;
-    >div{
-      display:table-cell;
-    }
-    .grid-label{
-      width: 200px;
-    }
-  }
-  .header{
-    border-right: 1px solid #e2e2e2;
-    border-bottom: 1px solid #e2e2e2;
-    padding: 9px 15px;
-  }
-  .grid-content {
-    height:57px;
-    box-sizing: border-box;
-    lien-height: 37px;
-    border-right: 1px solid #e2e2e2;
-    border-bottom: 1px solid #e2e2e2;
-    span{
-      line-height: 37px;
-    }
-  }
-  .grid-content.grid-label{
-    padding:9px 15px
-  }
-  .grid-content.grid-input{
-    padding:7.5px 15px
+  td{
+    border: 1px solid #ebeef5;
   }
 </style>
