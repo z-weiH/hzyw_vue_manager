@@ -44,6 +44,12 @@ import caseManagement from '@/views/case/caseManagement' // 案件管理
 import contractAddNewDefault from '@/views/finance/contractAddNewDefault' // 合同加款【财务人员】
 import contractAddNewManage from '@/views/finance/contractAddNewManage' // 合同加款【财务主管-审核】
 
+
+// 案件信息
+import caseListView from '@/views/caseInfo/caseListView' //案件列表
+
+
+
 /* main 子路由 end */
 
 Vue.use(Router)
@@ -106,7 +112,15 @@ let router = new Router({
           },
         },
         /* 第三方管理模块 end */
-
+        /* 案件信息模块 start */
+        {
+          path: 'caseListView',
+          component: caseListView,
+          meta: {
+            name: 'caseListView',
+          },
+        },
+        /* 案件信息模块 end */
         /* 客户管理模块 start */
         {
           path : 'clientManagement',
