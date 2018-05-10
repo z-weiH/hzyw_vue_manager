@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div>
+    <div class="item-search">
       <searchs :search-items="searchItems" :item="item" :queryUrl="'/role/queryRoleList.htm'">
         <div class="fr" slot="moreBtn">
           <el-button type="primary" @click="create">新增角色</el-button>
@@ -17,7 +17,7 @@
     <role-permission :edit-state="editState" ></role-permission>
     <el-dialog
       :visible.sync="deleteConfirm"
-      title="修改"
+      title="提示"
       width="495px"
       center>
       <div>是否确认删除？</div>
@@ -80,7 +80,7 @@
       },
       doEdit (row) {
         this.editItem = row;
-        this.editState = 2;
+        this.editState = 1;
       },
       doDelete (row) {
         this.deleteConfirm = true;

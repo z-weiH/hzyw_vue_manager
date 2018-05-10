@@ -17,6 +17,7 @@ import main from '@/views/main'
 import userQuery from '@/views/system/userQuery' // 用户查询
 import userControl from '@/views/system/userControl' // 用户管理
 import roleManage from '@/views/system/roleManage' // 角色管理
+import menuManage from '@/views/system/menuManage' // 菜单管理
 
 // 第三方管理模块
 import mailSendLog from '@/views/third/mailSendLog' // 邮件发送日志
@@ -86,6 +87,13 @@ let router = new Router({
           component : roleManage,
           meta : {
             name : 'roleManage',
+          },
+        },
+        {
+          path : 'menuManage',
+          component : menuManage,
+          meta : {
+            name : 'menuManage',
           },
         },
         /* 系统管理模块 end */

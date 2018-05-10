@@ -25,6 +25,9 @@ export default {
      return this.$http.post(url, item)
        .then(res => {
          res = Mock.mock(res)
+         if(res instanceof Object)
+           this.tableData = [res]
+         else
            this.tableData = res
          return res
        })

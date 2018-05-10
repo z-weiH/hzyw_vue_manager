@@ -31,11 +31,11 @@
     },
     computed: {
       title () {
-        return this.editState == 1 ? '修改角色信息' : '新增角色'
+        return this.editState == 1 ? '修改角色信息' : this.editState == 2 ? '新增角色' : ''
       },
       show :{
         get: function () {
-          return this.editState == 2
+          return this.editState == 2 || this.editState == 1;
         },
         set: function (v) {
           if(!v)
