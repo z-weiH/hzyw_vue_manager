@@ -3,8 +3,8 @@
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
-        <el-form-item label=" " prop="khmc">
-          <el-input v-model.trim="ruleForm.khmc" placeholder="请输入客户名称"></el-input>
+        <el-form-item label=" " prop="keyWords">
+          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入客户名称"></el-input>
         </el-form-item>
 
         <!-- 时间范围 选择 -->
@@ -31,12 +31,12 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-        <el-table-column prop="date" label="客户号"></el-table-column>
-        <el-table-column prop="date" label="登录账号"></el-table-column>
-        <el-table-column prop="date" label="客户名称"></el-table-column>
-        <el-table-column prop="date" label="法定代表人"></el-table-column>
-        <el-table-column prop="date" label="社会信息代码"></el-table-column>
-        <el-table-column prop="date" label="开户时间"></el-table-column>
+        <el-table-column prop="code" label="客户号"></el-table-column>
+        <el-table-column prop="loginName" label="登录账号"></el-table-column>
+        <el-table-column prop="merchantName" label="客户名称"></el-table-column>
+        <el-table-column prop="name" label="法定代表人"></el-table-column>
+        <el-table-column prop="idcard" label="社会信息代码"></el-table-column>
+        <el-table-column prop="createTime" label="开户时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button @click="handleEdit(scope.row)" type="text">修改</el-button>
@@ -73,7 +73,7 @@
       return {
         ruleForm : {
           // 客户名称
-          khmc : '',
+          keyWords : '',
           // 开始时间
           startTime : this.$moment().format('YYYY-MM-DD'),
           // 结束时间
@@ -92,17 +92,25 @@
       }
     },
     mounted() {
-      //this.initTableList();
+      this.initTableList();
     },
     methods : {
       // 点击搜索
       handleSearch() {
-        console.log(this.ruleForm);
+        this.initTableList();
       },
 
       // 点击修改
       handleEdit(row) {
-        this.$refs.editDialog.show();
+        this.$http({
+          method : 'post',
+          url : '/merchant/queryClientManageExtByCustomerId.htm',
+          data : {
+            code : row.code,
+          },
+        }).then((res) => {
+          this.$refs.editDialog.show(res.result);
+        });
       },
 
       // 表格相关 start
@@ -110,14 +118,18 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/list',
-          params : {
+          url : '/merchant/queryMerchantByBaseQuery.htm',
+          method : 'post',
+          data : {
             pageSize : this.pageSize,
-            currentPage : this.currentPage,
+            currentNum : this.currentPage,
+            startTime : this.ruleForm.startTime,
+            endTime : this.ruleForm.endTime,
+            keyWords : this.ruleForm.keyWords,
           },
         }).then((res) => {
-          this.total = res.total;
-          this.tableData = res.list;
+          this.total = res.count;
+          this.tableData = res.result;
         });
       },
       // 页数 change
