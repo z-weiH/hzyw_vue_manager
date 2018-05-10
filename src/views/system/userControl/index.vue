@@ -13,7 +13,18 @@
     </div>
     <user-create :editState.sync="editState" :create-item="createItem" ></user-create>
     <user-edit :editState.sync="editState" :edit-item="editItem" ></user-edit>
-
+    <user-update-psd :editState.sync="editState" :psd-item="psdItem"></user-update-psd>
+    <el-dialog
+      :visible.sync="deleteConfirm"
+      title="修改"
+      width="495px"
+      center>
+      <div>是否确认删除？</div>
+      <span slot="footer" class="dialog-footer">
+          <el-button type="primary" @click="sureDelete">确 定</el-button>
+          <el-button @click="deleteConfirm = false">取 消</el-button>
+        </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -23,6 +34,7 @@
   import Mixins from '@/components/script/_mixin'
   import UserCreate from './modules/create'
   import UserEdit from './modules/edit'
+  import UserUpdatePsd from './modules/updatePwd'
   export default {
     name : 'roleManame',
     extends : Mixins,
@@ -34,6 +46,7 @@
         ],
         item : {},
         tableData : [],
+        psdItem:{},
         columnDefine : [
           {label: '用户名',property: 'loginName'},
           {label: '真实姓名',property: 'userName'},
@@ -49,14 +62,17 @@
           {label:'修改密码', function: this.editPassword},
           {label:'删除', function: this.delete},
         ],
-        editState : 0 // 1表示编辑  2表示新增
+        editState : 0, // 1表示编辑  2表示新增 3修改密码
+        deleteConfirm : false,
+        deleteItem : {}
       }
     },
     components : {
       Searchs,
       Table,
       UserCreate,
-      UserEdit
+      UserEdit,
+      UserUpdatePsd
     },
     methods: {
       create() {
@@ -70,11 +86,20 @@
             this.editState = 1;
           })
       },
-      editPassword () {
-
+      editPassword (row) {
+        this.psdItem = row;
+        this.editState = 3
       },
-      delete () {
+      delete (row) {
+        this.deleteConfirm = true;
+        this.deleteItem = row;
+      },
+      sureDelete () {
+        this.$http.post('/user/deleteByPrimaryKey.htm',{
+          userId: this.deleteItem.userId
+        }).then(res=>{
 
+        })
       }
     },
     mounted () {

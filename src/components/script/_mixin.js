@@ -7,7 +7,6 @@ export default {
   data () {
     return {
       tableData: [],  // 表格的数据源
-      baseurl: 'http://192.168.1.120:8080/mockjs/2',
       fixedSearchItrems: {},
     }
   },
@@ -23,13 +22,10 @@ export default {
      */
     query (url, item) {
       Object.assign(item,this.fixedSearchItrems)
-     return this.$axios.post(this.baseurl + url, item)
+     return this.$http.post(url, item)
        .then(res => {
          res = Mock.mock(res)
-         console.log(res)
-         // if(res.code == '000'){
            this.tableData = res
-         // }
          return res
        })
     },
@@ -42,7 +38,7 @@ export default {
       this.query(url, item)
     },
     edit (url, item) {
-      return this.$axios.get(this.baseurl + url, {
+      return this.$http.get(url, {
         params:item
       }).then(res => {
         return res;

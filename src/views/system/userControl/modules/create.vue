@@ -6,7 +6,7 @@
     center>
     <edits :edit-items="createItems" :item="createItem" :label-width="'90px'"></edits>
     <span slot="footer" class="dialog-footer">
-          <el-button @click="centerDialogVisible = false">取 消</el-button>
+          <el-button @click="$parent.editState = 0">取 消</el-button>
           <el-button type="primary"  >确 定</el-button>
         </span>
   </el-dialog>

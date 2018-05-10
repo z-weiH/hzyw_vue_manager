@@ -109,7 +109,7 @@
       // 获取menu 树
       getMeun() {
         return new Promise((resove,reject) => {
-          /* this.$axios({
+          /* this.$http({
             method : 'get',
             url : '/json/menu_init.json'
           }).then((res) => {
