@@ -52,6 +52,74 @@
             ],
           },
           {
+            label: '开户管理',
+            id: 10,
+            children: [
+              {
+                label: '用户查询',
+                id: 11,
+                url: 'userSearch'
+              },
+              {
+                label: '开户申请',
+                id: 12,
+                url: 'accountApply'
+              },
+              {
+                label: '开户设置【财务主管】',
+                id: 13,
+                url: 'accountSettingDefault'
+              },
+              {
+                label: '开户设置【财务人员】',
+                id: 14,
+                url: 'accountSettingManage'
+              },
+              {
+                label: '开户确认',
+                id: 15,
+                url: 'accountAffirm'
+              }
+            ]
+          },
+          {
+            label: '仲裁委管理',
+            id: 150,
+            children: [
+              {
+                label: '仲裁委管理',
+                id: 151,
+                url: 'arbitramentManage',
+              },
+              {
+                label: '通知邮箱管理',
+                id: 152,
+                url: 'informEmailManage',
+              },
+            ]
+          },
+          {
+            label: '官网管理',
+            id: 160,
+            children: [
+              {
+                label: '客户案例',
+                id: 161,
+                url: 'customerCase',
+              },
+              {
+                label: '咨询管理',
+                id: 162,
+                url: 'advisoryManage',
+              },
+              {
+                label: '新闻动态',
+                id: 163,
+                url: 'newsDynamicState',
+              },
+            ]
+          },
+          {
             label : '第三方管理',
             id : 21,
             children : [
@@ -64,6 +132,21 @@
                 label : '短信发送日志',
                 id : 23,
                 url : 'noteSendLog',
+              },
+              {
+                label : '邮件发送日志',
+                id : 24,
+                url : 'mailSendLog',
+              },
+              {
+                label : '短信发送',
+                id : 25,
+                url : 'noteSend',
+              },
+              {
+                label : '邮件发送',
+                id : 26,
+                url : 'mailSend',
               },
             ],
           },
@@ -146,7 +229,7 @@
             ],
           },
           {
-            label : '财务管理模块',
+            label : '财务管理',
             id : 61,
             children : [
               {
@@ -158,6 +241,97 @@
                 label : '合同加款【审核】',
                 id : 63,
                 url : 'contractAddNewManage'
+              },{
+                label : '订单加款【财务人员】',
+                id : 64,
+                url : 'orderAddNewDefault'
+              },{
+                label : '订单加款【审核】',
+                id : 65,
+                url : 'orderAddNewManage'
+              },{
+                label : '受理费日对账',
+                id : 66,
+                url : 'billingDay'
+              },{
+                label : '服务费日对账',
+                id : 67,
+                url : 'serviceChargeDayCheck'
+              },{
+                label : '仲券赠送【财务人员】',
+                id : 68,
+                url : 'zticketDonateDefault'
+              },{
+                label : '仲券赠送【审核】',
+                id : 69,
+                url : 'zticketDonateManage'
+              },{
+                label : '退款【财务人员】',
+                id : 70,
+                url : 'refundListDefault'
+              },{
+                label : '退款【审核】',
+                id : 711,
+                url : 'refundListManage'
+              },{
+                label : '技术服务费日对账',
+                id : 712,
+                url : 'techServiceDayCheck'
+              },{
+                label : '受理费结算',
+                id : 713,
+                url : 'processingFeeSettle'
+              },{
+                label : '受理费结算复核',
+                id : 714,
+                url : 'processingFeeSettleReview'
+              },
+            ],
+          },
+          {
+            label : '案件信息',
+            id : 71,
+            children : [
+              {
+                label : '案件列表',
+                id : 72,
+                url : 'caseListView'
+              },
+              {
+                label : '被申请人反馈',
+                id : 73,
+                url : 'respondentsFeedback'
+              },
+            ],
+          },
+           {
+            label : '短信记录',
+            id : 81,
+            children : [
+              {
+                label : '发送记录',
+                id : 82,
+                url : 'esmqLogView'
+              },
+              {
+                label : '接收记录',
+                id : 83,
+                url : 'receiveLog'
+              },
+            ],
+          }, {
+            label : '状态配置',
+            id : 91,
+            children : [
+              {
+                label : '客户分配',
+                id : 92,
+                url : 'customerAllot'
+              },
+              {
+                label : '调解状态设置',
+                id : 93,
+                url : 'mediateStatusSet'
               },
             ],
           },
