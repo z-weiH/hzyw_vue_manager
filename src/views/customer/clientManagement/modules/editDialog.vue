@@ -52,8 +52,9 @@
                   <el-form-item label=" " prop="arbId">
                     <el-select v-model="ruleForm.arbId" placeholder="所属仲裁委">
                       <el-option label="请选择" value=""></el-option>
-                      <el-option label="仲裁委1" value="1"></el-option>
-                      <el-option label="仲裁委2" value="2"></el-option>
+                      <template v-for="(item,index) in arbIdOptions">
+                        <el-option :key="index" :label="item.label" :value="item.value"></el-option>
+                      </template>
                     </el-select>
                   </el-form-item>
                 </td>
@@ -77,11 +78,12 @@
               <tr>
                 <td class="w-205">所属市场人员：</td>
                 <td class="w-205">
-                  <el-form-item label=" " prop="arbId">
-                    <el-select v-model="ruleForm.arbId" placeholder="所属仲裁委">
+                  <el-form-item label=" " prop="hzmngUserId">
+                    <el-select v-model="ruleForm.hzmngUserId" placeholder="所属仲裁委">
                       <el-option label="请选择" value=""></el-option>
-                      <el-option label="人员a" value="1"></el-option>
-                      <el-option label="人员b" value="2"></el-option>
+                      <template v-for="(item,index) in hzmngUserIdOptions">
+                        <el-option :key="index" :label="item.label" :value="item.value"></el-option>
+                      </template>
                     </el-select>
                   </el-form-item>
                 </td>
@@ -204,8 +206,7 @@
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleSubmit">保 存</el-button>
-        <el-button @click="handleSubmit">确定提交</el-button>
+        <el-button type="primary" @click="handleSubmit">确 定</el-button>
         <el-button @click="handleClose">取 消</el-button>
       </span>
     </el-dialog>
@@ -250,7 +251,7 @@
           address : '',
           // 证件类型
           idtype : '',
-          // 证件号码
+          // 证件号码 1身份证3证件照
           idcard : '',
           // IP白名单
           ip : '',
@@ -266,22 +267,43 @@
             { required : true , message : '请输入客户名称' , trigger : 'blur'},
           ],
         },
+
+        // 所属仲裁委
+        arbIdOptions : [
+          {label : '仲裁委1' , value : '仲裁委1'},
+          {label : '仲裁委2' , value : '仲裁委2'},
+        ],
+        // 所属市场人员
+        hzmngUserIdOptions : [
+          {label : '人员a' , value : '人员a'},
+          {label : '人员b' , value : '人员b'},
+        ],
       }
     },
     methods : {
-      show() {
+      show(data) {
         this.dialogVisible = true;
+        this.ruleForm = data;
       },
       // 关闭浮层 调用
       handleClose() {
         this.dialogVisible = false;
-        this.$refs.ruleForm.resetFields();
+        this.$nextTick(() => {
+          this.$refs.ruleForm.resetFields();
+        });
       },
       // 点击 保存
       handleSubmit() {
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
             alert('submit!');
+            this.$http({
+              method : 'post',
+              url : '/merchant/saveMerchantInfo.htm',
+              data : this.ruleForm,
+            }).then((res) => {
+              console.log(res);
+            });
           }
         });
       },
