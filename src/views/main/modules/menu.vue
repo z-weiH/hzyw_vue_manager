@@ -93,6 +93,74 @@
               },
             ],
           },
+          {
+            label : '案件订单',
+            id : 41,
+            children : [
+              {
+                label : '仲裁端定时任务管理',
+                id : 42,
+                url : 'arbitramentTimeTaskManage'
+              },
+              {
+                label : '客户端定时任务管理',
+                id : 43,
+                url : 'clientTimeTaskManage'
+              },
+              {
+                label : '案件提交日志',
+                id : 44,
+                url : 'caseOrderQuery'
+              },
+              {
+                label : '身份证校验',
+                id : 45,
+                url : 'idCardVerfy'
+              },
+              {
+                label : '订单管理',
+                id : 46,
+                url : 'orderManagement'
+              },
+              {
+                label : '快速通道',
+                id : 47,
+                url : 'fastTrack'
+              },
+            ],
+          },
+          {
+            label : '案件相关',
+            id : 51,
+            children : [
+              {
+                label : '仲裁用户管理',
+                id : 52,
+                url : 'arbitramentUsersManage'
+              },
+              {
+                label : '案件管理',
+                id : 53,
+                url : 'caseManagement'
+              },
+            ],
+          },
+          {
+            label : '财务管理模块',
+            id : 61,
+            children : [
+              {
+                label : '合同加款【财务人员】',
+                id : 62,
+                url : 'contractAddNewDefault'
+              },
+              {
+                label : '合同加款【审核】',
+                id : 63,
+                url : 'contractAddNewManage'
+              },
+            ],
+          },
         ],
         // 当前高亮的 menu
         active : '/main/demo',
@@ -246,6 +314,16 @@
 
 .menu-box{
 
+}
+
+</style>
+
+<style lang="scss">
+
+.menu-box{
+  .el-menu-item{
+    padding-left: 20px!important;
+  }
 }
 
 </style>

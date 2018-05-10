@@ -28,6 +28,22 @@ import balanceQuery from '@/views/customer/balanceQuery' // 账户余额查询
 import tplSetting from '@/views/customer/tplSetting' // 模板设置
 import tplEvidenceSetting from '@/views/customer/tplEvidenceSetting' // 模板证据设置
 
+// 案件订单模块
+import arbitramentTimeTaskManage from '@/views/order/arbitramentTimeTaskManage' // 仲裁端定时任务管理
+import clientTimeTaskManage from '@/views/order/clientTimeTaskManage' // 客户端定时任务管理
+import caseOrderQuery from '@/views/order/caseOrderQuery' // 案件提交日志
+import idCardVerfy from '@/views/order/idCardVerfy' // 身份证校验
+import orderManagement from '@/views/order/orderManagement' // 订单管理
+import fastTrack from '@/views/order/fastTrack' // 快速通道
+
+// 案件相关模块
+import arbitramentUsersManage from '@/views/case/arbitramentUsersManage' // 仲裁用户管理
+import caseManagement from '@/views/case/caseManagement' // 案件管理
+
+// 财务管理模块
+import contractAddNewDefault from '@/views/finance/contractAddNewDefault' // 合同加款【财务人员】
+import contractAddNewManage from '@/views/finance/contractAddNewManage' // 合同加款【财务主管-审核】
+
 /* main 子路由 end */
 
 Vue.use(Router)
@@ -121,6 +137,85 @@ let router = new Router({
           },
         },
         /* 客户管理模块 end */
+
+        /* 案件订单模块 start */
+        {
+          path : 'arbitramentTimeTaskManage',
+          component : arbitramentTimeTaskManage,
+          meta : {
+            name : 'arbitramentTimeTaskManage',
+          },
+        },
+        {
+          path : 'clientTimeTaskManage',
+          component : clientTimeTaskManage,
+          meta : {
+            name : 'clientTimeTaskManage',
+          },
+        },
+        {
+          path : 'caseOrderQuery',
+          component : caseOrderQuery,
+          meta : {
+            name : 'caseOrderQuery',
+          },
+        },
+        {
+          path : 'idCardVerfy',
+          component : idCardVerfy,
+          meta : {
+            name : 'idCardVerfy',
+          },
+        },
+        {
+          path : 'orderManagement',
+          component : orderManagement,
+          meta : {
+            name : 'orderManagement',
+          },
+        },
+        {
+          path : 'fastTrack',
+          component : fastTrack,
+          meta : {
+            name : 'fastTrack',
+          },
+        },
+        /* 案件订单模块 end */
+
+        /* 案件相关模块 start */
+        {
+          path : 'arbitramentUsersManage',
+          component : arbitramentUsersManage,
+          meta : {
+            name : 'arbitramentUsersManage',
+          },
+        },
+        {
+          path : 'caseManagement',
+          component : caseManagement,
+          meta : {
+            name : 'caseManagement',
+          },
+        },
+        /* 案件相关模块 end */
+
+        /* 财务管理模块 start */
+        {
+          path : 'contractAddNewDefault',
+          component : contractAddNewDefault,
+          meta : {
+            name : 'contractAddNewDefault',
+          },
+        },
+        {
+          path : 'contractAddNewManage',
+          component : contractAddNewManage,
+          meta : {
+            name : 'contractAddNewManage',
+          },
+        },
+        /* 财务管理模块 end */
       ],
     },
     {
