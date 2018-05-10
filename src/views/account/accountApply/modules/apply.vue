@@ -1,59 +1,57 @@
 <template>
-<div>
-  <table
-    class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover" v-for="(def,index) in calcDefines" :key="index"
-  >
-    <tbody>
-    <tr>
-      <td colspan="4">{{def.title}}</td>
-    </tr>
-    <tr v-for="cnt in def.content" >
-      <template v-for="td in cnt" >
-        <td colspan="1">{{td.label}}</td>
-        <td :colspan="td.columns == 2 ? 3 : 1">
-          <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" v-if="td.type == 'text'"></el-input>
-          <el-select v-model="item[td.property]" :placeholder="td.placeholder" v-if="td.type == 'select'">
-            <el-option
-              v-for="opt in td.options"
-              :key="opt.value"
-              :label="opt.label"
-              :value="opt.value">
-            </el-option>
-          </el-select>
-        </td>
-      </template>
-    </tr>
-    </tbody>
-  </table>
-</div>
+  <el-dialog
+    :visible.sync="show"
+    :title="title"
+    width="890px"
+    center>
+    <table-edits :editDefines="edtDefines" :item="item"></table-edits>
+    <span slot="footer" class="dialog-footer">
+          <el-button type="primary">确 定</el-button>
+          <el-button type="primary">确认提交</el-button>
+          <el-button @click="$parent.editState = 0">取 消</el-button>
+        </span>
+  </el-dialog>
 </template>
 
 <script>
+  import TableEdits from '@/components/tableEdits'
   export default {
     name: 'apply',
     props: {
-      editDefines: Array,
-      item: Object
+      editState: Number,
     },
-    computed: {
-      calcDefines () {
-        let returnArr = [];
-        this.editDefines.forEach(it =>{
-          let obj = {title: it.title, content: []};
-          for(let i = 0;i<it.content.length;i++){
-            if(it.content[i].columns!=2){
-              obj.content.push([it.content[i],it.content[++i]])
-            }else{
-              obj.content.push([it.content[i]])
-            }
-          }
-          returnArr.push(obj);
-        })
-        return returnArr;
+    data () {
+      return {
+        title:'开户申请',
+        edtDefines: [{
+          title: '第一部分：客户基本信息',
+          content: [
+            {label: '客户全称：', type: 'text', placeholder: '请输入客户全称',columns:1,property: 'hello'},
+            {label: '年营业额（万元）：', type: 'text', placeholder: '请输入年营业额',columns:1},
+            {label: '社会唯一信用号：', type: 'text', placeholder: '请输入社会唯一信用号',columns:1},
+            {label: '邮箱(账户)：', type: 'text', placeholder: '请输入邮箱(账户)',columns:1},
+            {label: '企业注册地址：', type: 'text', placeholder: '请输入企业注册地址',columns:2},
+            {label: '网址或应用(名称)：', type: 'text', placeholder: '请输入网址或应用(名称)',columns:2},
+          ]
+        }],
+        item: {hello: 1}
       }
     },
+    computed: {
+      show :{
+        get: function () {
+          return this.editState == 2 || this.editState == 1;
+        },
+        set: function (v) {
+          if(!v)
+            this.$parent.editState = 0
+        }
+      }
+    },
+    components: {
+      TableEdits
+    },
     mounted () {
-      console.log(this.calcDefine)
     }
   }
 </script>
