@@ -21,13 +21,13 @@
         :width="col.width ? col.width : 120">
       </el-table-column>
       <!--<slot name=""></slot>-->
-      <el-table-column label="操作" v-if="actions && actions.length > 0" :width="300">
+      <el-table-column :label="action.label" v-if="actions && actions.length > 0" v-for="(action, index) in actions" :key="action.label" :width="action.width">
         <template slot-scope="scope">
           <el-button
-            v-for="(action, index) of actions"
+            v-for="(btn, index) of action.btns"
             :key="index"
             size="mini"
-            @click="action.function.bind($parent)(scope.row)" >{{action.label}}</el-button>
+            @click="btn.function.bind($parent)(scope.row)" >{{btn.label}}</el-button>
         </template>
       </el-table-column>
     </el-table>

@@ -1,5 +1,6 @@
 <template>
   <div>
+
       <searchs class="item-search" :search-items="searchItems" :item="item" :query-url="'/user/queryUserList.htm'">
         <div class="fr" slot="moreBtn">
           <el-button type="primary" @click="create">新增用户</el-button>
@@ -16,7 +17,7 @@
     <user-update-psd :editState.sync="editState" :psd-item="psdItem"></user-update-psd>
     <el-dialog
       :visible.sync="deleteConfirm"
-      title="修改"
+      title="提示"
       width="495px"
       center>
       <div>是否确认删除？</div>
@@ -58,9 +59,15 @@
         createItem: {},
         editItem: {},
         actions: [
-          {label:'修改信息', function: this.editInfo},
-          {label:'修改密码', function: this.editPassword},
-          {label:'删除', function: this.delete},
+          {
+            label: '其他操作',
+            width: '300px',
+            btns: [
+              {label:'修改信息', function: this.editInfo},
+              {label:'修改密码', function: this.editPassword},
+              {label:'删除', function: this.delete},
+            ]
+          }
         ],
         editState : 0, // 1表示编辑  2表示新增 3修改密码
         deleteConfirm : false,
