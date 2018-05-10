@@ -1,7 +1,7 @@
 <template>
     <div>
       <el-form-item :label="editItem.label" v-if="editItem.type == 'text'">
-        <el-input v-model="trueValue"></el-input>
+        <el-input v-model="trueValue" :placeholder="editItem.placeholder"></el-input>
       </el-form-item>
       <el-form-item :label="editItem.label" v-if="editItem.type == 'select'">
         <el-select v-model="trueValue" :placeholder="editItem.placeholder">
