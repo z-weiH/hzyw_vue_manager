@@ -10,7 +10,7 @@
       用户列表
     </div>
     <div class="item-table">
-      <Table :table-data="tableData" :column-define="columnDefine" :actions="actions"></Table>
+      <table-component :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
     </div>
     <user-create :editState.sync="editState" :create-item="createItem" ></user-create>
     <user-edit :editState.sync="editState" :edit-item="editItem" ></user-edit>
@@ -31,7 +31,7 @@
 
 <script>
   import Searchs from '@/components/searchs'
-  import Table from '@/components/table'
+  import TableComponent from '@/components/table'
   import Mixins from '@/components/script/_mixin'
   import UserCreate from './modules/create'
   import UserEdit from './modules/edit'
@@ -76,7 +76,7 @@
     },
     components : {
       Searchs,
-      Table,
+      TableComponent,
       UserCreate,
       UserEdit,
       UserUpdatePsd

@@ -51,10 +51,8 @@ export default {
   },
   components: {
     SearchItem
-  },
-  mounted () {
-    console.log(this.searchItems, this.item)
   }
+
 }
 </script>
 

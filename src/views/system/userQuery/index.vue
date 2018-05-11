@@ -6,14 +6,14 @@
       用户列表
     </div>
     <div class="item-table">
-      <Table :table-data="tableData" :column-define="columnDefine"></Table>
+      <table-component :table-data="tableData" :column-define="columnDefine"></table-component>
     </div>
   </div>
 </template>
 
 <script>
   import Searchs from '@/components/searchs'
-  import Table from '@/components/table'
+  import TableComponent from '@/components/table'
   import Mixins from '@/components/script/_mixin'
   import Edits from '@/components/edits'
   export default {
@@ -39,7 +39,7 @@
     },
     components : {
       Searchs,
-      Table,
+      TableComponent,
       Edits
     },
     methods: {

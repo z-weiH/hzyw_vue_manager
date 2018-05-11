@@ -57,7 +57,7 @@
                 label : '个人信息',
                 id : 6,
                 url : 'personInfo',
-              },
+              }
             ],
           },
           {

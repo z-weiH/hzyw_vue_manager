@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="item-search">
-      <searchs :search-items="searchItems" :item="item" :queryUrl="'/role/queryRoleList.htm'">
+      <searchs :search-items="searchItems" :item="item" :queryUrl="queryUrl">
         <div class="fr" slot="moreBtn">
           <el-button type="primary" @click="create">新增角色</el-button>
         </div>
@@ -63,7 +63,8 @@
         editItem: {},
         editState: 0, // 4 编辑权限
         deleteConfirm: false,
-        currentItem: {}
+        currentItem: {},
+        queryUrl: '/role/queryRoleList.htm'
       }
     },
     methods: {
@@ -79,6 +80,7 @@
         this.editState = 2;
       },
       doEdit (row) {
+        console.log(row);
         this.editItem = row;
         this.editState = 1;
       },
@@ -88,6 +90,11 @@
       },
       sureDelete () {
 
+      },
+      doQuery (url,item) {
+        this.query(url,item).then(res => {
+          console.info(res[0].roleName);
+        })
       }
     },
     components : {
@@ -97,7 +104,7 @@
       RolePermission
     },
     mounted () {
-      this.doQuery('/role/queryRoleList.htm', this.item);
+      console.log(this)
     }
   }
 </script>

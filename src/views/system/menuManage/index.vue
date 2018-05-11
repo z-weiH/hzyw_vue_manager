@@ -48,7 +48,6 @@
           }
         ],
         item: {},
-        editState: 0
       }
     },
     methods: {
@@ -66,6 +65,7 @@
       doDelete () {
 
       }
+
     },
     components: {
       Searchs,
