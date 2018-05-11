@@ -1,7 +1,9 @@
 <template>
     <div>
+      <div class="clear" v-if="searchItem.newline"></div>
+      <div class="fl search-label" v-if="searchItem.label">{{searchItem.label+'：'}}</div>
       <el-col :span="searchItem.colSpan ? searchItem.colSpan : 6">
-        <el-input v-if="searchItem.type == 'text'" v-model="trueVal" :placeholder="searchItem.placeholder"></el-input>
+        <el-input v-if="searchItem.type == 'text' || !searchItem.type" v-model="trueVal" :placeholder="searchItem.placeholder"></el-input>
         <el-select v-if="searchItem.type ==  'select'" v-model="trueVal" :placeholder="searchItem.placeholder">
         <el-option
           v-for="option in searchItem.options"
@@ -47,5 +49,12 @@ export default {
 </script>
 
 <style scoped>
-
+.search-label{
+  height: 40px;
+  line-height: 40px;
+  padding-left: 10px;
+  color: #0F357F;
+  font-size: 16px;
+  font-weight: 500;
+}
 </style>

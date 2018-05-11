@@ -221,6 +221,10 @@ textarea {
     cursor: not-allowed;
   }
 }
+.el-input--prefix .el-input__inner {
+  padding-left: 20px;
+}
+
 
 /* 原生 表格样式 */
 .m-primordial-table{

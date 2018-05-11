@@ -45,7 +45,11 @@
                            {label: '序号',property: 'index'，width:180},
                            {label: '用户名',property: 'name',width:180},
                            {label: '真实姓名',property: 'truename',width:180},
-                           {label: '手机号码',property: 'phonenumber',width:180},
+                           {label: '手机号码',property: 'phonenumber',width:180,children: [
+                             {label: '序号',property: 'index'，width:180},
+                             {label: '用户名',property: 'name',width:180},
+                            {label: '真实姓名',property: 'truename',width:180},
+                           ]},
                          ]
  @prop spanMethod //Function  用来定义单元格合并
  */

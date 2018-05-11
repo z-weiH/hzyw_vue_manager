@@ -17,7 +17,6 @@
               {{child.label}}
             </el-menu-item>
           </template>
-
         </el-submenu>
       </template>
     </el-menu>
@@ -48,6 +47,16 @@
                 label : '用户管理',
                 id : 4,
                 url : 'userControl',
+              },
+              {
+                label : '菜单管理',
+                id : 5,
+                url : 'menuManage',
+              },
+              {
+                label : '个人信息',
+                id : 6,
+                url : 'personInfo',
               },
             ],
           },

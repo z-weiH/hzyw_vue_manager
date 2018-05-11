@@ -18,6 +18,7 @@ import userQuery from '@/views/system/userQuery' // 用户查询
 import userControl from '@/views/system/userControl' // 用户管理
 import roleManage from '@/views/system/roleManage' // 角色管理
 import menuManage from '@/views/system/menuManage' // 菜单管理
+import personInfo from '@/views/system/personInfo' // 个人信息
 
 //开户管理
 import accountApply from '@/views/account/accountApply' //开户申请
@@ -103,6 +104,13 @@ let router = new Router({
           component : menuManage,
           meta : {
             name : 'menuManage',
+          },
+        },
+        {
+          path : 'personInfo',
+          component : personInfo,
+          meta : {
+            name : 'personInfo',
           },
         },
         /* 系统管理模块 end */
