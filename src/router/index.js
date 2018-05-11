@@ -44,6 +44,18 @@ import caseManagement from '@/views/case/caseManagement' // 案件管理
 // 财务管理模块
 import contractAddNewDefault from '@/views/finance/contractAddNewDefault' // 合同加款【财务人员】
 import contractAddNewManage from '@/views/finance/contractAddNewManage' // 合同加款【财务主管-审核】
+import orderAddNewDefault from '@/views/finance/orderAddNewDefault' //订单加款【财务人员】
+import orderAddNewManage from '@/views/finance/orderAddNewManage' //订单加款【财务主管-审核】
+import billingDay from '@/views/finance/billingDay' //受理费日对账
+import serviceChargeDayCheck from '@/views/finance/serviceChargeDayCheck' //服务费日对账
+import zticketDonateDefault from '@/views/finance/zticketDonateDefault' //仲券赠送【财务人员】
+import zticketDonateManage from '@/views/finance/zticketDonateManage' //仲券赠送【财务主管-审核】
+import refundListDefault from '@/views/finance/refundListDefault' //退款【财务人员】
+import refundListManage from '@/views/finance/refundListManage' //退款【财务主管-审核】
+import techServiceDayCheck from '@/views/finance/techServiceDayCheck' //技术服务费日对账
+import processingFeeSettle from '@/views/finance/processingFeeSettle' //受理费结算
+import processingFeeSettleReview from '@/views/finance/processingFeeSettleReview' //受理费结算复核
+
 
 
 // 案件信息
@@ -56,67 +68,66 @@ import caseListView from '@/views/caseInfo/caseListView' //案件列表
 Vue.use(Router)
 
 let router = new Router({
-  routes: [
-    {
-      path : '/',
-      component : login,
+  routes: [{
+      path: '/',
+      component: login,
     },
     {
-      path : '/login',
-      component : login,
+      path: '/login',
+      component: login,
     },
     {
-      path : '/404',
-      component : notFind,
+      path: '/404',
+      component: notFind,
     },
     {
-      path : '/main',
-      component : main,
-      children : [
+      path: '/main',
+      component: main,
+      children: [
         /* 系统管理模块 start */
         {
-          path : 'userQuery',
-          component : userQuery,
-          meta : {
-            name : 'userQuery',
+          path: 'userQuery',
+          component: userQuery,
+          meta: {
+            name: 'userQuery',
           },
         },
         {
-          path : 'userControl',
-          component : userControl,
-          meta : {
-            name : 'userControl',
+          path: 'userControl',
+          component: userControl,
+          meta: {
+            name: 'userControl',
           },
         },
         {
-          path : 'roleManage',
-          component : roleManage,
-          meta : {
-            name : 'roleManage',
+          path: 'roleManage',
+          component: roleManage,
+          meta: {
+            name: 'roleManage',
           },
         },
         {
-          path : 'menuManage',
-          component : menuManage,
-          meta : {
-            name : 'menuManage',
+          path: 'menuManage',
+          component: menuManage,
+          meta: {
+            name: 'menuManage',
           },
         },
         /* 系统管理模块 end */
 
         /* 第三方管理模块 start */
         {
-          path : 'mailSendLog',
-          component : mailSendLog,
-          meta : {
-            name : 'mailSendLog',
+          path: 'mailSendLog',
+          component: mailSendLog,
+          meta: {
+            name: 'mailSendLog',
           },
         },
         {
-          path : 'noteSendLog',
-          component : noteSendLog,
-          meta : {
-            name : 'noteSendLog',
+          path: 'noteSendLog',
+          component: noteSendLog,
+          meta: {
+            name: 'noteSendLog',
           },
         },
         /* 第三方管理模块 end */
@@ -131,118 +142,195 @@ let router = new Router({
         /* 案件信息模块 end */
         /* 客户管理模块 start */
         {
-          path : 'clientManagement',
-          component : clientManagement,
-          meta : {
-            name : 'clientManagement',
+          path: 'clientManagement',
+          component: clientManagement,
+          meta: {
+            name: 'clientManagement',
           },
         },
         {
-          path : 'balanceQuery',
-          component : balanceQuery,
-          meta : {
-            name : 'balanceQuery',
+          path: 'balanceQuery',
+          component: balanceQuery,
+          meta: {
+            name: 'balanceQuery',
           },
         },
         {
-          path : 'tplSetting',
-          component : tplSetting,
-          meta : {
-            name : 'tplSetting',
+          path: 'tplSetting',
+          component: tplSetting,
+          meta: {
+            name: 'tplSetting',
           },
         },
         {
-          path : 'tplEvidenceSetting',
-          component : tplEvidenceSetting,
-          meta : {
-            name : 'tplEvidenceSetting',
+          path: 'tplEvidenceSetting',
+          component: tplEvidenceSetting,
+          meta: {
+            name: 'tplEvidenceSetting',
           },
         },
         /* 客户管理模块 end */
 
         /* 案件订单模块 start */
         {
-          path : 'arbitramentTimeTaskManage',
-          component : arbitramentTimeTaskManage,
-          meta : {
-            name : 'arbitramentTimeTaskManage',
+          path: 'arbitramentTimeTaskManage',
+          component: arbitramentTimeTaskManage,
+          meta: {
+            name: 'arbitramentTimeTaskManage',
           },
         },
         {
-          path : 'clientTimeTaskManage',
-          component : clientTimeTaskManage,
-          meta : {
-            name : 'clientTimeTaskManage',
+          path: 'clientTimeTaskManage',
+          component: clientTimeTaskManage,
+          meta: {
+            name: 'clientTimeTaskManage',
           },
         },
         {
-          path : 'caseOrderQuery',
-          component : caseOrderQuery,
-          meta : {
-            name : 'caseOrderQuery',
+          path: 'caseOrderQuery',
+          component: caseOrderQuery,
+          meta: {
+            name: 'caseOrderQuery',
           },
         },
         {
-          path : 'idCardVerfy',
-          component : idCardVerfy,
-          meta : {
-            name : 'idCardVerfy',
+          path: 'idCardVerfy',
+          component: idCardVerfy,
+          meta: {
+            name: 'idCardVerfy',
           },
         },
         {
-          path : 'orderManagement',
-          component : orderManagement,
-          meta : {
-            name : 'orderManagement',
+          path: 'orderManagement',
+          component: orderManagement,
+          meta: {
+            name: 'orderManagement',
           },
         },
         {
-          path : 'fastTrack',
-          component : fastTrack,
-          meta : {
-            name : 'fastTrack',
+          path: 'fastTrack',
+          component: fastTrack,
+          meta: {
+            name: 'fastTrack',
           },
         },
         /* 案件订单模块 end */
 
         /* 案件相关模块 start */
         {
-          path : 'arbitramentUsersManage',
-          component : arbitramentUsersManage,
-          meta : {
-            name : 'arbitramentUsersManage',
+          path: 'arbitramentUsersManage',
+          component: arbitramentUsersManage,
+          meta: {
+            name: 'arbitramentUsersManage',
           },
         },
         {
-          path : 'caseManagement',
-          component : caseManagement,
-          meta : {
-            name : 'caseManagement',
+          path: 'caseManagement',
+          component: caseManagement,
+          meta: {
+            name: 'caseManagement',
           },
         },
         /* 案件相关模块 end */
 
         /* 财务管理模块 start */
         {
-          path : 'contractAddNewDefault',
-          component : contractAddNewDefault,
-          meta : {
-            name : 'contractAddNewDefault',
+          path: 'contractAddNewDefault',
+          component: contractAddNewDefault,
+          meta: {
+            name: 'contractAddNewDefault',
           },
         },
         {
-          path : 'contractAddNewManage',
-          component : contractAddNewManage,
-          meta : {
-            name : 'contractAddNewManage',
+          path: 'contractAddNewManage',
+          component: contractAddNewManage,
+          meta: {
+            name: 'contractAddNewManage',
+          },
+        },
+        {
+          path: 'orderAddNewDefault',
+          component: orderAddNewDefault,
+          meta: {
+            name: 'orderAddNewDefault',
+          },
+        },
+        {
+          path: 'orderAddNewManage',
+          component: orderAddNewManage,
+          meta: {
+            name: 'orderAddNewManage',
+          },
+        },
+        {
+          path: 'billingDay',
+          component: billingDay,
+          meta: {
+            name: 'billingDay',
+          },
+        },
+        {
+          path: 'serviceChargeDayCheck',
+          component: serviceChargeDayCheck,
+          meta: {
+            name: 'serviceChargeDayCheck',
+          },
+        },
+        {
+          path: 'zticketDonateDefault',
+          component: zticketDonateDefault,
+          meta: {
+            name: 'zticketDonateDefault',
+          },
+        },
+        {
+          path: 'zticketDonateManage',
+          component: zticketDonateManage,
+          meta: {
+            name: 'zticketDonateManage',
+          },
+        },
+        {
+          path: 'refundListDefault',
+          component: refundListDefault,
+          meta: {
+            name: 'refundListDefault',
+          },
+        },
+        {
+          path: 'refundListManage',
+          component: refundListManage,
+          meta: {
+            name: 'refundListManage',
+          },
+        },
+        {
+          path: 'techServiceDayCheck',
+          component: techServiceDayCheck,
+          meta: {
+            name: 'techServiceDayCheck',
+          },
+        },
+        {
+          path: 'processingFeeSettle',
+          component: processingFeeSettle,
+          meta: {
+            name: 'processingFeeSettle',
+          },
+        },
+        {
+          path: 'processingFeeSettleReview',
+          component: processingFeeSettleReview,
+          meta: {
+            name: 'processingFeeSettleReview',
           },
         },
         /* 财务管理模块 end */
       ],
     },
     {
-      path : '*',
-      redirect : '/404',
+      path: '*',
+      redirect: '/404',
     },
   ]
 })

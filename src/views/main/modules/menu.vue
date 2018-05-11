@@ -49,6 +49,11 @@
                 id : 4,
                 url : 'userControl',
               },
+              {
+                label: '菜单管理',
+                id: 5,
+                url: 'menuManage'
+              }
             ],
           },
           {

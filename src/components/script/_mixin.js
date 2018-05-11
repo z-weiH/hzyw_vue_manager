@@ -7,12 +7,17 @@ export default {
   data () {
     return {
       tableData: [],  // 表格的数据源
-      fixedSearchItrems: {},
+      fixedSearchItrems: {}, // 放置固定的查询条件
+      editState: 0, // 页面的编辑状态 0 未操作 1 编辑 2 新增
+      queryUrl: '', // 查询api的路径 必写
+      searchitem: {}
     }
   },
-  mounted () {
-    console.log('from basePage')
-  },
+  // 待解决
+  // mounted () {
+  //   console.log(this)
+  //   this.doQuery(this.queryUrl,this.searchitem)
+  // },
   methods: {
     /**
      * @method
@@ -25,9 +30,6 @@ export default {
      return this.$http.post(url, item)
        .then(res => {
          res = Mock.mock(res)
-         if(res instanceof Object)
-           this.tableData = [res]
-         else
            this.tableData = res
          return res
        })
