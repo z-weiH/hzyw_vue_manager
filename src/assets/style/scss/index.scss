@@ -245,6 +245,9 @@ textarea {
     }
     .el-input{
       padding: 10px;
+      .el-input__suffix{
+        right: 15px;
+      }
     }
   }
   .el-form-item.is-required .el-form-item__label:before{

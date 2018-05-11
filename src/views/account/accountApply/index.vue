@@ -15,7 +15,11 @@
         <table-component :tableData="tableData" :columnDefine="columnDefine"></table-component>
       </div>
       <account-apply :edit-state="editState"></account-apply>
-
+      <el-date-picker
+        type="date"
+        placeholder="选择日期"
+        disabledDate="setDisabled">
+      </el-date-picker>
     </div>
   </div>
 </template>
@@ -70,6 +74,10 @@
       },
       doDelete () {
 
+      },
+      setDisabled(val) {
+       console.log(val)
+        return true
       }
     },
     components: {
