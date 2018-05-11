@@ -19,6 +19,9 @@ import userControl from '@/views/system/userControl' // 用户管理
 import roleManage from '@/views/system/roleManage' // 角色管理
 import menuManage from '@/views/system/menuManage' // 菜单管理
 
+//开户管理
+import accountApply from '@/views/account/accountApply' //开户申请
+
 // 第三方管理模块
 import mailSendLog from '@/views/third/mailSendLog' // 邮件发送日志
 import noteSendLog from '@/views/third/noteSendLog' // 短信发送日志
@@ -115,6 +118,15 @@ let router = new Router({
         },
         /* 系统管理模块 end */
 
+        /* 开户管理 start */
+        {
+          path : 'accountApply',
+          component : accountApply,
+          meta : {
+            name : 'accountApply',
+          },
+        },
+        /* 开户管理 end */
         /* 第三方管理模块 start */
         {
           path: 'mailSendLog',

@@ -30,7 +30,7 @@ export default {
      return this.$http.post(url, item)
        .then(res => {
          res = Mock.mock(res)
-           this.tableData = res
+         this.tableData = res
          return res
        })
     },

@@ -1,28 +1,13 @@
 <template>
   <div>
       <searchs class="item-search" :search-items="searchItems" :item="item" :query-url="'/user/queryUserList.htm'">
-        <div class="fr" slot="moreBtn">
-          <el-button type="primary" @click="create">新增用户</el-button>
-        </div>
       </searchs>
     <div class="item-title">
       用户列表
     </div>
     <div class="item-table">
-      <Table :table-data="tableData" :column-define="columnDefine" :actions="actions"></Table>
+      <Table :table-data="tableData" :column-define="columnDefine"></Table>
     </div>
-
-    <el-dialog
-      title="新增用户信息"
-      :visible.sync="dialogVisible"
-      width="495px"
-      center>
-        <edits :edit-items="dailogItems" :item="dailogItem" :label-width="'150px'"></edits>
-        <span slot="footer" class="dialog-footer">
-          <el-button @click="centerDialogVisible = false">取 消</el-button>
-          <el-button type="primary"  @click="create">确 定</el-button>
-        </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -38,7 +23,7 @@
       return {
         searchItems : [
           {type:'text', placeholder: '请输入用户名、真实名字、手机号码', colSpan: 8, property: 'keyWords'},
-          {type:'select', options: [{label:'北京',value:'BJ'}, {label:'上海',value:''}, {label:'杭州',value:'HZ'}], colSpan: 4, property: 'roleId'},
+          {type:'select', placeholder: '请选择角色', options: [{label:'北京',value:'BJ'}, {label:'上海',value:''}, {label:'杭州',value:'HZ'}], colSpan: 4, property: 'roleId'},
         ],
         item : {},
         tableData : [],
@@ -50,33 +35,6 @@
           {label: '创建时间',property: 'createTime',width: 180},
         ],
         // fixedSearchItrems: { parent_id: '2', role_id: '3'},//固定的查询条件
-        dialogVisible: false,
-        dailogItems:[],
-        createItems: [
-          {type: 'text', property:'loginName', label: '用户名'},
-          {type: 'text', property:'password', label: '登录密码'},
-          {type: 'text', property:'juese', label: '所属角色'},
-          {type: 'text', property:'userName', label: '真实姓名'},
-          {type: 'text', property:'userPhone', label: '手机号码'},
-          {type: 'text', property:'userEmail', label: '电子邮箱'},
-          {type: 'textarea', property:'otherInfo', label: '其它信息', placeholder: '请输入内容'},
-        ],
-        editItems: [
-          {type: 'text', property:'loginName', label: '用户名'},
-          {type: 'text', property:'userName', label: '真实姓名'},
-          {type: 'text', property:'userPhone', label: '手机号码'},
-          {type: 'text', property:'userEmail', label: '电子邮箱'},
-          {type: 'text', property:'roleIds', label: '角色权限（可多选）'},
-          {type: 'text', property:'userAddress', label: '通讯地址'},
-          {type: 'textarea', property:'otherInfo', label: '其它信息', placeholder: '请输入内容'},
-        ],
-        dailogItem: {},
-        actions: [
-          {label:'修改信息', function: this.editInfo},
-          {label:'修改密码', function: this.editPassword},
-          {label:'删除', function: this.delete},
-        ],
-        editState : 0 // 1表示编辑  2表示新增
       }
     },
     components : {
@@ -85,28 +43,7 @@
       Edits
     },
     methods: {
-      create() {
-        this.editState = 2;
-        this.dailogItems = this.createItems;
-        this.dialogVisible = true;
-        this.dailogItem = {};
-      },
-      editInfo (row) {
-        this.edit('/user/selectByPrimaryKey.htm',{userId: row.userId})
-          .then(res => {
-            console.log(res);
-            this.editState = 1;
-            this.dailogItems = this.editItems;
-            this.dialogVisible = true;
-            this.dailogItem = res;
-          })
-      },
-      editPassword () {
 
-      },
-      delete () {
-
-      }
     },
     mounted () {
       this.doQuery('/user/queryUserList.htm', this.item);

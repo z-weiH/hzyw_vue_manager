@@ -138,11 +138,11 @@
                 id : 23,
                 url : 'noteSendLog',
               },
-              {
+              /* {
                 label : '邮件发送日志',
                 id : 24,
                 url : 'mailSendLog',
-              },
+              }, */
               {
                 label : '短信发送',
                 id : 25,

@@ -171,6 +171,7 @@ textarea {
   padding: 20px 13px 14px 13px;
   background-color: #EEF3FF;
   border: 1px solid #E9EDF0;
+  border-bottom: none;
 }
 
 .item-table {
@@ -188,6 +189,9 @@ textarea {
 }
 .w-160{
   width: 160px !important;
+}
+.w-205{
+  width: 205px!important;
 }
 .w-220{
   width: 220px !important;
@@ -207,4 +211,38 @@ textarea {
 }
 .el-table__row .cell{
   text-align: center;
+}
+.el-dialog__footer{
+  text-align: center!important;
+}
+.el-input{
+  input:read-only{
+    background: #EEEEEE;
+    cursor: not-allowed;
+  }
+}
+
+/* 原生 表格样式 */
+.m-primordial-table{
+  &.el-table--border , &.el-table--group{
+    border: none;
+    border-right: 1px solid #ebeef5;
+  }
+  tr:hover{
+    background-color: #f6f6f7;
+  }
+  td{
+    padding: 9px 0!important;
+    border: 1px solid #ebeef5;
+    text-align: center;
+    .el-form-item{
+      padding: 10px;
+    }
+    .el-input{
+      padding: 10px;
+    }
+  }
+  .el-form-item.is-required .el-form-item__label:before{
+    display: none;
+  }
 }
