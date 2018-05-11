@@ -10,7 +10,7 @@
 
 <script>
   import Searchs from '@/components/searchs'
-  import Table from '@/components/table'
+  import TableComponent from '@/components/table'
   import Mixins from '@/components/script/_mixin'
   export default {
     name: 'caseListView',
