@@ -36,8 +36,9 @@
     },
     methods: {
       valueChange (obj) {
-        Object.assign(this.item,obj)
-        console.log(this.item);
+        Object.keys(obj).forEach(key => {
+          this.item[key]=obj[key];
+        });
         this.refresh()
       },
       refresh () {
