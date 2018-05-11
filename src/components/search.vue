@@ -2,7 +2,7 @@
     <div>
       <div class="clear" v-if="searchItem.newline"></div>
       <div class="fl search-label" v-if="searchItem.label">{{searchItem.label+'：'}}</div>
-      <el-col :span="searchItem.colSpan ? searchItem.colSpan : 6">
+      <el-col class="mb-10"git  :span="searchItem.colSpan ? searchItem.colSpan : 6">
         <el-input v-if="searchItem.type == 'text' || !searchItem.type" v-model="trueVal" :placeholder="searchItem.placeholder"></el-input>
         <el-select v-if="searchItem.type ==  'select'" v-model="trueVal" :placeholder="searchItem.placeholder">
         <el-option
