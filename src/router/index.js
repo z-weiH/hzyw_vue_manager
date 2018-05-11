@@ -25,6 +25,9 @@ import changePwd from '@/views/system/changePwd' // 修改密码
 import accountApply from '@/views/account/accountApply' //开户申请
 import userSearch from '@/views/account/userSearch' //用户查询
 
+//仲裁委管理
+import arbitramentManage from '@/views/arb/arbitramentManage' // 仲裁委管理
+
 // 第三方管理模块
 import mailSendLog from '@/views/third/mailSendLog' // 邮件发送日志
 import noteSendLog from '@/views/third/noteSendLog' // 短信发送日志
@@ -151,6 +154,17 @@ let router = new Router({
           },
         },
         /* 开户管理 end */
+
+        /* 仲裁委管理 start*/
+        {
+          path : 'arbitramentManage',
+          component : arbitramentManage,
+          meta : {
+            name : 'arbitramentManage',
+          },
+        },
+        /* 仲裁委管理 end*/
+
         /* 第三方管理模块 start */
         {
           path: 'mailSendLog',
