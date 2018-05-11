@@ -23,6 +23,7 @@ import changePwd from '@/views/system/changePwd' // 修改密码
 
 //开户管理
 import accountApply from '@/views/account/accountApply' //开户申请
+import userSearch from '@/views/account/userSearch' //用户查询
 
 // 第三方管理模块
 import mailSendLog from '@/views/third/mailSendLog' // 邮件发送日志
@@ -140,6 +141,13 @@ let router = new Router({
           component : accountApply,
           meta : {
             name : 'accountApply',
+          },
+        },
+        {
+          path : 'userSearch',
+          component : userSearch,
+          meta : {
+            name : 'userSearch',
           },
         },
         /* 开户管理 end */

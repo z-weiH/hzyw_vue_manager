@@ -50,6 +50,7 @@ export default {
     },
     valueChange (newVal) {
       Object.assign(this.item, newVal)
+      console.log(this.item)
     }
   },
   components: {

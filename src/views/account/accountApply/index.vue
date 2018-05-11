@@ -18,7 +18,8 @@
       <el-date-picker
         type="date"
         placeholder="选择日期"
-        disabledDate="setDisabled">
+        v-model="value"
+        :picker-options="pickerOptions">
       </el-date-picker>
     </div>
   </div>
@@ -37,8 +38,9 @@
         searchurl: '/customer/queryCostomerByBaseQuery.htm',
         searchItems : [
           {type: 'text',placeholder: '请输入企业名称、账户', property: 'keyWords', colSpan: 7},
+
           {type: 'date',placeholder: '请输入开始时间', property: 'startTime', colSpan: 5},
-          {type: 'date',placeholder: '请输入结束时间', property: 'endTime', colSpan: 5},
+          {type: 'date',placeholder: '请输入结束时间', property: 'endTime', colSpan: 5,newline: true},
         ],
         searchItem: {},
         columnDefine: [
@@ -58,6 +60,10 @@
         ],
         item: {hello: 333},
         editState: 0,
+        pickerOptions: {
+          disabledDate: this.disabledDate
+        },
+        value: new Date()
       }
     },
     methods: {
@@ -75,10 +81,11 @@
       doDelete () {
 
       },
-      setDisabled(val) {
-       console.log(val)
-        return true
+      disabledDate (time) {
+        if(time.getTime() > new Date().getTime())
+          return true;
       }
+
     },
     components: {
       Searchs,

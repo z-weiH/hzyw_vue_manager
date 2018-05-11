@@ -16,7 +16,9 @@
         v-if="searchItem.type == 'date' "
         v-model="trueVal"
         type="date"
-        :placeholder="searchItem.placeholder">
+        :placeholder="searchItem.placeholder"
+        :picker-options="pickerOptions"
+        >
       </el-date-picker>
 
       </el-col>
@@ -35,8 +37,17 @@ export default {
     value: String,
     searchItem: Object // 定义表单对象 type: 'text'
   },
+  computed:{
+    pickerOptions() {
+      if(this.searchItem && this.searchItem.limit){
+        return {disabledDate: this.searchItem.limit}
+      }
+      return null;
+    }
+  },
   watch: {
     trueVal (val, oldval) {
+      console.log(val);
       let newObj = Object.create({})
       newObj[this.searchItem.property] = val
       this.$emit('valueChange', newObj)
