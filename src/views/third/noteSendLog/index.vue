@@ -3,8 +3,8 @@
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
-        <el-form-item label=" " prop="zcw">
-          <el-input v-model.trim="ruleForm.zcw" placeholder="请输入仲裁委"></el-input>
+        <el-form-item label=" " prop="keyWords">
+          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入仲裁委"></el-input>
         </el-form-item>
 
         <!-- 时间范围 选择 -->
@@ -28,12 +28,16 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-        <el-table-column prop="date" label="所属仲裁委"></el-table-column>
-        <el-table-column prop="date" label="仲裁端短信id"></el-table-column>
-        <el-table-column prop="date" label="短信类型"></el-table-column>
-        <el-table-column prop="date" label="手机号"></el-table-column>
-        <el-table-column prop="date" label="发送结果"></el-table-column>
-        <el-table-column prop="date" label="发送时间"></el-table-column>
+        <el-table-column prop="fullName" label="所属仲裁委"></el-table-column>
+        <el-table-column prop="arbSmsId" label="仲裁端短信id"></el-table-column>
+        <el-table-column prop="smsType" label="短信类型">
+          <template slot-scope="scope">
+            {{scope.row.smsType === 1 ? '通知'  : '验证码'}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="phone" label="手机号"></el-table-column>
+        <el-table-column prop="status" label="发送结果"></el-table-column>
+        <el-table-column prop="createTime" label="发送时间"></el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -60,7 +64,7 @@
       return {
         ruleForm : {
           // 仲裁委
-          zcw : '',
+          keyWords : '',
           // 开始时间
           startTime : this.$moment().format('YYYY-MM-DD'),
           // 结束时间
@@ -79,12 +83,12 @@
       }
     },
     mounted() {
-      //this.initTableList();
+      this.initTableList();
     },
     methods : {
       // 点击搜索
       handleSearch() {
-        console.log(this.ruleForm);
+        this.initTableList();
       },
 
       // 表格相关 start
@@ -92,10 +96,14 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/list',
-          params : {
+          method : 'post',
+          url : '/sms/querySmsByBaseQuery.htm',
+          data : {
             pageSize : this.pageSize,
-            currentPage : this.currentPage,
+            currentNum : this.currentPage,
+            endTime : this.ruleForm.endTime,
+            startTime : this.ruleForm.startTime,
+            keyWords : this.ruleForm.keyWords,
           },
         }).then((res) => {
           this.total = res.total;

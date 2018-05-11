@@ -138,12 +138,12 @@
             id : 21,
             children : [
               {
-                label : '邮件发送日志',
+                label : '邮件发送',
                 id : 22,
                 url : 'mailSendLog',
               },
               {
-                label : '短信发送日志',
+                label : '短信发送',
                 id : 23,
                 url : 'noteSendLog',
               },
@@ -152,7 +152,7 @@
                 id : 24,
                 url : 'mailSendLog',
               }, */
-              {
+              /* {
                 label : '短信发送',
                 id : 25,
                 url : 'noteSend',
@@ -161,7 +161,7 @@
                 label : '邮件发送',
                 id : 26,
                 url : 'mailSend',
-              },
+              }, */
             ],
           },
           {
