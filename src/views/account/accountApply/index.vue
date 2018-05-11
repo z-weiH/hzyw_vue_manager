@@ -12,8 +12,9 @@
         开户申请
       </div>
       <div class="item-table">
-        <account-apply :edit-state="editState"></account-apply>
+        <table-component :tableData="tableData" :columnDefine="columnDefine"></table-component>
       </div>
+      <account-apply :edit-state="editState"></account-apply>
 
     </div>
   </div>
@@ -29,7 +30,7 @@
     extends: Mixins,
     data () {
       return {
-        searchurl: 'customer/queryCostomerByBaseQuery.htm',
+        searchurl: '/customer/queryCostomerByBaseQuery.htm',
         searchItems : [
           {type: 'text',placeholder: '请输入企业名称、账户', property: 'keyWords', colSpan: 7},
           {type: 'date',placeholder: '请输入开始时间', property: 'startTime', colSpan: 5},
@@ -37,11 +38,12 @@
         ],
         searchItem: {},
         columnDefine: [
-          {label: '菜单名称',property: 'menuName'},
-          {label: '菜单链接',property: 'menuUrl'},
-          {label: '父菜单',property: 'pMenuName'},
-          {label: '菜单层级',property: 'menuDegree'},
-          {label: '菜单排序',property: 'menuSort'},
+          {label: '企业名称',property: 'custName'},
+          {label: '账户',property: 'loginName'},
+          {label: '法定代表人',property: 'legallerName'},
+          {label: '联系人',property: 'contactsName'},
+          {label: '联系电话',property: 'contactsPhone'},
+          {label: '申请时间',property: 'applicateTime'},
         ],
         actions: [
           {label: '操作',btns: [

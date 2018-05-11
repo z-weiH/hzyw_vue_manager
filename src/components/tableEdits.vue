@@ -11,8 +11,8 @@
         <template v-for="td in cnt" >
           <td colspan="1">{{td.label}}</td>
           <td :colspan="td.columns == 2 ? 3 : 1">
-            <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" v-if="td.type == 'text'"></el-input>
-            <el-select v-model="item[td.property]" :placeholder="td.placeholder" v-if="td.type == 'select'">
+            <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :readonly="td.readonly" v-if="td.type == 'text'"></el-input>
+            <el-select v-model="item[td.property]" :placeholder="td.placeholder" :readonly="td.readonly" v-if="td.type == 'select'">
               <el-option
                 v-for="opt in td.options"
                 :key="opt.value"

@@ -40,7 +40,7 @@
     computed: {
       show :{
         get: function () {
-          return this.editState == 2 || this.editState == 1;
+          return this.editState == 2;
         },
         set: function (v) {
           if(!v)

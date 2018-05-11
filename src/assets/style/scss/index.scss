@@ -215,6 +215,12 @@ textarea {
 .el-dialog__footer{
   text-align: center!important;
 }
+.el-input{
+  input:read-only{
+    background: #EEEEEE;
+    cursor: not-allowed;
+  }
+}
 
 /* 原生 表格样式 */
 .m-primordial-table{
