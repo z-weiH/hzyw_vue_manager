@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-form :label-width="labelWidth ? labelWidth : '80px'" label-position="left">
-          <form-edit :edit-item="item" :editValue.sync="item[editItems.property]" v-for="(item,index) in editItems" :key="index" ></form-edit>
+          <form-edit :edit-item="item" :editValue="item[editItems.property]" v-for="(item,index) in editItems" :key="index" @valueChange="valueChange"></form-edit>
         </el-form>
     </div>
 </template>
@@ -37,6 +37,8 @@
     methods: {
       valueChange (obj) {
         Object.assign(this.item,obj)
+        console.log(this.item);
+        this.refresh()
       },
       refresh () {
         this.$children[0].$children.forEach(it => {

@@ -30,7 +30,7 @@
       trueValue(val,oldValue){
         let obj = {};
         obj[this.editItem.property] = val;
-        this.$emit('update:editValue', val);
+        this.$emit('valueChange', obj);
       }
     },
     mounted () {

@@ -7,6 +7,10 @@
       </div>
       <div class="item-table">
         <edits class="item-edits" :editItems="editItems" :item="item"></edits>
+        <div class="item-buttons">
+          <el-button type="primary">提 交</el-button>
+          <el-button >取 消</el-button>
+        </div>
       </div>
     </div>
 </template>
@@ -28,6 +32,12 @@ export default {
       searchItem: {},
       editItems: [
         {label: '用户名', property: 'loginName', readonly: true, type : 'text'},
+        {label: '所属角色', property: 'loginName', readonly: true, type : 'text'},
+        {label: '真实姓名', property: 'loginName',  type : 'text'},
+        {label: '手机号码', property: 'loginName',  type : 'text'},
+        {label: '电子邮箱', property: 'loginName',  type : 'text'},
+        {label: '通讯地址', property: 'loginName',  type : 'text'},
+        {label: '其他信息', property: 'loginName',  type : 'textarea'},
       ],
       item: {}
     }
@@ -44,5 +54,10 @@ export default {
     width: 495px;
     margin: 0 auto;
     padding-top: 20px;
+  }
+  .item-buttons{
+    width: 495px;
+    text-align: center;
+    margin: 20px auto;
   }
 </style>
