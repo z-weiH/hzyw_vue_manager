@@ -98,6 +98,8 @@
                 </td>
               </tr>
 
+              <tr class="division"></tr>
+
               <tr>
                 <td colspan="4">第二部分：法定代表人信息</td>
               </tr>
@@ -133,6 +135,8 @@
                 </td>
               </tr>
 
+              <tr class="division"></tr>
+
               <tr>
                 <td colspan="4">第三部分：证件信息</td>
               </tr>
@@ -155,6 +159,8 @@
                   </el-form-item>
                 </td>
               </tr>
+
+              <tr class="division"></tr>
 
               <tr>
                 <td colspan="4">第四部分：对接接口信息</td>

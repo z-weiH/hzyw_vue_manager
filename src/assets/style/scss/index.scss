@@ -247,4 +247,9 @@ body {
   .el-form-item.is-required .el-form-item__label:before {
     display: none;
   }
+  /* 分隔符 */
+  .division{
+    visibility: hidden;
+    height: 30px;
+  }
 }
