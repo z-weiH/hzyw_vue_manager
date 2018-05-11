@@ -1,4 +1,5 @@
 <template>
+  <form action="">
   <div class="search">
     <el-row :gutter="10">
       <div v-for="(search, index) in searchItems" :key="index">
@@ -9,6 +10,7 @@
       <slot name="moreBtn"></slot>
     </el-row>
   </div>
+  </form>
 </template>
 
 <script>
@@ -16,6 +18,7 @@
  * @description 查询条件组件
  * @props item 类型 Object  以对象形式存放查询条件数据
  * @props searchItems 类型 Object[]  每个object定义一个查询条件
+ *        属性： label //string 搜索组件的label字段说明
  *        属性： colSpan  //number  div被等分成24分，columns表示占几分 ，从1到24
  *        属性： property //string  表示该查询条件绑定到 item上的属性名
  *        属性： placeholder //string  placeholder
