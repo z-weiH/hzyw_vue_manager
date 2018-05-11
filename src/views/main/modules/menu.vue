@@ -57,6 +57,11 @@
                 label : '个人信息',
                 id : 6,
                 url : 'personInfo',
+              },
+              {
+                label : '修改密码',
+                id : 7,
+                url : 'changePwd',
               }
             ],
           },

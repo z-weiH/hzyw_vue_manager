@@ -19,6 +19,7 @@ import userControl from '@/views/system/userControl' // 用户管理
 import roleManage from '@/views/system/roleManage' // 角色管理
 import menuManage from '@/views/system/menuManage' // 菜单管理
 import personInfo from '@/views/system/personInfo' // 个人信息
+import changePwd from '@/views/system/changePwd' // 修改密码
 
 //开户管理
 import accountApply from '@/views/account/accountApply' //开户申请
@@ -122,6 +123,13 @@ let router = new Router({
           component : personInfo,
           meta : {
             name : 'personInfo',
+          },
+        },
+        {
+          path : 'changePwd',
+          component : changePwd,
+          meta : {
+            name : 'changePwd',
           },
         },
         /* 系统管理模块 end */
