@@ -216,7 +216,7 @@ textarea {
   text-align: center!important;
 }
 .el-input{
-  input:read-only{
+  input:disabled{
     background: #EEEEEE;
     cursor: not-allowed;
   }
@@ -228,6 +228,7 @@ textarea {
 
 /* 原生 表格样式 */
 .m-primordial-table{
+  table-layout: fixed;
   &.el-table--border , &.el-table--group{
     border: none;
     border-right: 1px solid #ebeef5;

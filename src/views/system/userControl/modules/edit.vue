@@ -24,7 +24,7 @@
     data () {
       return {
         editItems: [
-          {type: 'text', property:'loginName', label: '用户名', readonly: true},
+          {type: 'text', property:'loginName', label: '用户名', disabled: true},
           {type: 'text', property:'userName', label: '真实姓名'},
           {type: 'text', property:'userPhone', label: '手机号码'},
           {type: 'text', property:'userEmail', label: '电子邮箱'},

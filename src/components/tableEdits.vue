@@ -1,7 +1,7 @@
 <template>
   <div>
     <table
-      class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover" v-for="(def,index) in calcDefines" :key="index"
+      class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20" v-for="(def,index) in calcDefines" :key="index"
     >
       <tbody>
       <tr>
@@ -9,10 +9,10 @@
       </tr>
       <tr v-for="cnt in def.content" >
         <template v-for="td in cnt" >
-          <td colspan="1">{{td.label}}</td>
-          <td :colspan="td.columns == 2 ? 3 : 1">
-            <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :readonly="td.readonly" v-if="td.type == 'text'"></el-input>
-            <el-select v-model="item[td.property]" :placeholder="td.placeholder" :readonly="td.readonly" v-if="td.type == 'select'">
+          <td colspan="1" v-if="td.type != 'info'">{{td.label}}</td>
+          <td :colspan="td.columns == 2 ? 3 : 1" v-if="td.type != 'info'">
+            <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :disabled="td.disabled" v-if="td.type == 'text'"></el-input>
+            <el-select v-model="item[td.property]" :placeholder="td.placeholder" :disabled="td.disabled" v-if="td.type == 'select'">
               <el-option
                 v-for="opt in td.options"
                 :key="opt.value"
@@ -20,6 +20,9 @@
                 :value="opt.value">
               </el-option>
             </el-select>
+          </td>
+          <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'info'">
+            <span>{{td.content}}</span>
           </td>
         </template>
       </tr>
@@ -58,7 +61,7 @@
         this.editDefines.forEach(it =>{
           let obj = {title: it.title, content: []};
           for(let i = 0;i<it.content.length;i++){
-            if(it.content[i].columns!=2){
+            if(it.content[i].columns!=2 && i < it.content.length-1){
               obj.content.push([it.content[i],it.content[++i]])
             }else{
               obj.content.push([it.content[i]])
@@ -76,7 +79,7 @@
 </script>
 
 <style scoped lang="scss">
-  .el-table--border, .el-table--group{
+  .el-table--border{
     border: none;
     border-left: 1px solid #ebeef5;
   }

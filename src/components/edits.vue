@@ -11,7 +11,7 @@
    * @description 描述一下方法的作用
    * @param editItems Array 定义要呈现的表单元素
    *                  demo: editItems: [
-                             {type: 'text', property:'loginName', label: '用户名', readonly: true},
+                             {type: 'text', property:'loginName', label: '用户名', disalbed: true},
                              {type: 'text', property:'userName', label: '真实姓名'},
                              {type: 'text', property:'userPhone', label: '手机号码'},
                              {type: 'text', property:'userEmail', label: '电子邮箱'},
@@ -22,7 +22,7 @@
                           type 表示类型  目前有  text,select(需要额外定义options属性),textarea
                           property 属性名，作用在传入的item对象上
                           label 左侧文字说明
-                          readonly 不可编辑 直接传入 readonly为true 即可
+                          disabled 不可编辑 直接传入 readonly为true 即可
    * @param item  Object 通过property作为表单的数据源
    * @param labelWidth String label的宽度
    */

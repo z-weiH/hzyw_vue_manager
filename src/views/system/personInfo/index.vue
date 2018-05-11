@@ -31,8 +31,8 @@ export default {
       ],
       searchItem: {},
       editItems: [
-        {label: '用户名', property: 'loginName', readonly: true, type : 'text'},
-        {label: '所属角色', property: 'loginName', readonly: true, type : 'text'},
+        {label: '用户名', property: 'loginName', disabled: true, type : 'text'},
+        {label: '所属角色', property: 'loginName', disabled: true, type : 'text'},
         {label: '真实姓名', property: 'loginName',  type : 'text'},
         {label: '手机号码', property: 'loginName',  type : 'text'},
         {label: '电子邮箱', property: 'loginName',  type : 'text'},

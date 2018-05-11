@@ -20,7 +20,7 @@
     data () {
       return {
         editItems: [
-          {label: '用户名', property: 'loginName', readonly: true, type : 'text'},
+          {label: '用户名', property: 'loginName', disabled: true, type : 'text'},
           {label: '旧密码', property: 'loginName',  type : 'text'},
           {label: '新密码', property: 'loginName',  type : 'text'},
           {label: '确认密码', property: 'loginName',  type : 'text'},
