@@ -27,6 +27,7 @@ import userSearch from '@/views/account/userSearch' //用户查询
 
 //仲裁委管理
 import arbitramentManage from '@/views/arb/arbitramentManage' // 仲裁委管理
+import informEmailManage from '@/views/arb/informEmailManage' // 仲裁委邮箱管理
 
 // 第三方管理模块
 import mailSendLog from '@/views/third/mailSendLog' // 邮件发送日志
@@ -161,6 +162,13 @@ let router = new Router({
           component : arbitramentManage,
           meta : {
             name : 'arbitramentManage',
+          },
+        },
+        {
+          path : 'informEmailManage',
+          component : informEmailManage,
+          meta : {
+            name : 'informEmailManage',
           },
         },
         /* 仲裁委管理 end*/
