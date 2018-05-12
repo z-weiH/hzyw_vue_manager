@@ -27,6 +27,7 @@
 						<el-input
 							placeholder="输入您的登录密码"
 							type="password"
+							@keyup.native.13="handleSubmit"
 							v-model.trim="ruleForm.passWord">
 							<i slot="prefix" class="iconfont icon-mima"></i>
 						</el-input>

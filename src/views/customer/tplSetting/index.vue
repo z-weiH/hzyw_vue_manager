@@ -116,7 +116,7 @@
             keyWords : this.ruleForm.keyWords,
           },
         }).then((res) => {
-          this.total = res.count;
+          this.total = res.result.count;
           this.tableData = res.result.list;
         });
       },
