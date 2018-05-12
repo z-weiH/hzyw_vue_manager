@@ -106,8 +106,8 @@
             keyWords : this.ruleForm.keyWords,
           },
         }).then((res) => {
-          this.total = res.total;
-          this.tableData = res.list;
+          this.total = res.result.count;
+          this.tableData = res.result.list;
         });
       },
       // 页数 change

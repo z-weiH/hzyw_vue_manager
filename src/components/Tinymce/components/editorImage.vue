@@ -3,7 +3,7 @@
   
     <el-upload
       class="upload-demo"
-      action="https://jsonplaceholder.typicode.com/posts/"
+      action="/tplsetting/word2html.htm"
       :show-file-list="false"
       :before-upload="beforeAvatarUpload"
       :on-success="fileSuccess"
@@ -55,10 +55,12 @@ export default {
     fileSuccess(response, file, fileList) {
       console.log(response,'response');
       // this.$parent.setContent
+      this.$message.success('导入成功');
+      this.$emit('successCBK',response.result);
     },
     // 文件上传失败
     fileError(err, file, fileList) {
-
+      this.$message.error('导入失败');
     },
   }
 }
