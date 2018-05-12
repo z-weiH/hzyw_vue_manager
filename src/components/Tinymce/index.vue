@@ -113,12 +113,10 @@ export default {
       //console.log(tinymce.get(this.tinymceId).getContent({format: 'html'}));
       return window.tinymce.get(this.tinymceId).getContent()
     },
-    imageSuccessCBK(arr) {
-      const _this = this
-      arr.forEach(v => {
-        window.tinymce.get(_this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`)
-      })
-    }
+    // 导入word 成功回调
+    imageSuccessCBK(res) {
+      this.setContent(res);
+    },
   },
   destroyed() {
     this.destroyTinymce()
