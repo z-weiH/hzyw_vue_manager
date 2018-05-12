@@ -4,9 +4,9 @@
  */
 import Mock from 'mockjs'
 export default {
-  data () {
+  data() {
     return {
-      tableData: [],  // 表格的数据源
+      tableData: [], // 表格的数据源
       fixedSearchItrems: {}, // 放置固定的查询条件
       editState: 0, // 页面的编辑状态 0 未操作 1 编辑 2 新增
       queryUrl: '', // 查询api的路径 必写
@@ -25,29 +25,36 @@ export default {
      * @param searchitem 从父类里传递过来的查询条件
      * @return Promise包装的查询结果,实际页面可以做其他操作
      */
-    query (url, item) {
-      Object.assign(item,this.fixedSearchItrems)
-     return this.$http.post(url, item)
-       .then(res => {
-         res = Mock.mock(res)
-         this.tableData = res
-         return res
-       })
+    query(url, item) {
+      Object.assign(item, this.fixedSearchItrems)
+      return this.$http.post(url, item)
+        .then(res => {
+          res = Mock.mock(res)
+          this.tableData = res
+          console.log('*tableData*');
+          console.info(this.tableData);
+          console.log('*res*');
+          console.info(res);
+          return res
+        })
     },
     /**
      * @method
      * @description 实际查询操作，子组件有特殊情况用于重写
      * @param item 查询条件
      */
-    doQuery (url, item) {
+    doQuery(url, item) {
       this.query(url, item)
     },
-    edit (url, item) {
+    edit(url, item) {
       return this.$http.get(url, {
-        params:item
+        params: item
       }).then(res => {
         return res;
       })
-    }
+    },
+
+
+
   }
 }

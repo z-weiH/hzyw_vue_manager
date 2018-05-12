@@ -8,7 +8,7 @@
       </div>
       <!-- router 内容 -->
       <div class="page-content fl">
-        <router-view/>
+          <router-view/>
       </div>
     </div>
   </div>

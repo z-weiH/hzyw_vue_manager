@@ -70,6 +70,11 @@ import processingFeeSettleReview from '@/views/finance/processingFeeSettleReview
 
 // 案件信息
 import caseListView from '@/views/caseInfo/caseListView' //案件列表
+import respondentsFeedback from '@/views/caseInfo/respondentsFeedback' //被申请人反馈
+import paymentInformation from '@/views/caseInfo/paymentInformation' //还款信息
+import respondentsOperateRecord from '@/views/caseInfo/respondentsOperateRecord' //被申请人操作记录
+
+
 
 
 
@@ -124,51 +129,51 @@ let router = new Router({
           },
         },
         {
-          path : 'personInfo',
-          component : personInfo,
-          meta : {
-            name : 'personInfo',
+          path: 'personInfo',
+          component: personInfo,
+          meta: {
+            name: 'personInfo',
           },
         },
         {
-          path : 'changePwd',
-          component : changePwd,
-          meta : {
-            name : 'changePwd',
+          path: 'changePwd',
+          component: changePwd,
+          meta: {
+            name: 'changePwd',
           },
         },
         /* 系统管理模块 end */
 
         /* 开户管理 start */
         {
-          path : 'accountApply',
-          component : accountApply,
-          meta : {
-            name : 'accountApply',
+          path: 'accountApply',
+          component: accountApply,
+          meta: {
+            name: 'accountApply',
           },
         },
         {
-          path : 'userSearch',
-          component : userSearch,
-          meta : {
-            name : 'userSearch',
+          path: 'userSearch',
+          component: userSearch,
+          meta: {
+            name: 'userSearch',
           },
         },
         /* 开户管理 end */
 
         /* 仲裁委管理 start*/
         {
-          path : 'arbitramentManage',
-          component : arbitramentManage,
-          meta : {
-            name : 'arbitramentManage',
+          path: 'arbitramentManage',
+          component: arbitramentManage,
+          meta: {
+            name: 'arbitramentManage',
           },
         },
         {
-          path : 'informEmailManage',
-          component : informEmailManage,
-          meta : {
-            name : 'informEmailManage',
+          path: 'informEmailManage',
+          component: informEmailManage,
+          meta: {
+            name: 'informEmailManage',
           },
         },
         /* 仲裁委管理 end*/
@@ -196,6 +201,27 @@ let router = new Router({
           meta: {
             name: 'caseListView',
           },
+        },
+        {
+          path: 'respondentsFeedback',
+          component: respondentsFeedback,
+          meta: {
+            name: 'respondentsFeedback',
+          },
+        },
+        {
+          path: 'paymentInformation',
+          component:paymentInformation,
+          meta: {
+            name: 'paymentInformation'
+          }
+        },
+        {
+          path: 'respondentsOperateRecord',
+          component:respondentsOperateRecord,
+          meta: {
+            name: 'respondentsOperateRecord'
+          }
         },
         /* 案件信息模块 end */
         /* 客户管理模块 start */

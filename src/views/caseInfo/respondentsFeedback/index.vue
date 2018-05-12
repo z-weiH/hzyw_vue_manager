@@ -1,18 +1,19 @@
 <template>
   <div class="content">
     <div class="wsbodyhead">
-      <a>所在位置</a><router-link :to="$options.name" class="aside_tit">案件列表</router-link>
+      <a>所在位置</a>
+      <router-link :to="$options.name" class="aside_tit">被申请人反馈</router-link>
     </div>
     <searchs class="item-search" :search-items="searchItems" :item="item" :query-url="queryUrl">
-      <template slot="moreBtn">
-          <el-button class="ml-20" type="primary" @click="">导出Excel</el-button>
-      </template>
+        <template slot="moreBtn">
+              <el-button class="ml-20" type="primary" @click="">导出Excel</el-button>
+        </template>
     </searchs>
     <div class="item-title">
-      案件列表
+      被申请人反馈列表
     </div>
     <div class="item-table">
-      <table-component @refreshList="doQuery" :currentPage.sync="currentPage" :total="total" :pageSize="pageSize"  :table-data="tableData" :column-define="columnDefine" ></table-component>
+      <table-component :table-data="tableData" :column-define="columnDefine" ></table-component>
     </div>
   </div>
 </template>
@@ -22,7 +23,7 @@ import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
 export default {
-  name: "caseListView",
+  name: "respondentsFeedback",
   extends: Mixins,
   data() {
     return {
@@ -77,8 +78,7 @@ export default {
           label: "互金企业",
           type: "select",
           property: "merchantCode",
-          colSpan: 4,
-          newline: 1,
+          colSpan: 3,
           options: [
             {
               label: "企业一",
@@ -102,6 +102,86 @@ export default {
           label: "产品名称",
           type: "select",
           property: "productCode",
+          colSpan: 3,
+          options: [
+            {
+              label: "产品一",
+              value: "001"
+            },
+            {
+              label: "产品二",
+              value: "002"
+            },
+            {
+              label: "产品三",
+              value: "003"
+            }
+          ]
+        },
+        {
+          label: "案件阶段",
+          type: "select",
+          property: "hearStatus",
+          colSpan: 3,
+          options: [
+            {
+              label: "产品一",
+              value: "001"
+            },
+            {
+              label: "产品二",
+              value: "002"
+            },
+            {
+              label: "产品三",
+              value: "003"
+            }
+          ]
+        },
+        {
+          label: "应裁情况",
+          type: "select",
+          property: "caseProcess",
+          colSpan: 4,
+          options: [
+            {
+              label: "产品一",
+              value: "001"
+            },
+            {
+              label: "产品二",
+              value: "002"
+            },
+            {
+              label: "产品三",
+              value: "003"
+            }
+          ]
+        },
+        {
+          label: "短信送达",
+          type: "select",
+          property: "statusThree",
+          colSpan: 3,
+          options: [
+            {
+              label: "产品一",
+              value: "001"
+            },
+            {
+              label: "产品二",
+              value: "002"
+            },
+            {
+              label: "产品三",
+              value: "003"
+            }
+          ]
+        },
+        {
+          label: "短链查看",
+          type: "select",
+          property: "decideStatus",
           colSpan: 4,
           options: [
             {
@@ -137,254 +217,77 @@ export default {
               value: "003"
             }
           ]
-        },
-        {
-          label: "审理状态",
-          type: "select",
-          property: "hearStatus",
-          colSpan: 4,
-          newline: 1,
-          options: [
-            {
-              label: "产品一",
-              value: "001"
-            },
-            {
-              label: "产品二",
-              value: "002"
-            },
-            {
-              label: "产品三",
-              value: "003"
-            }
-          ]
-        },
-        {
-          label: "案件阶段",
-          type: "select",
-          property: "caseProcess",
-          colSpan: 4,
-          options: [
-            {
-              label: "产品一",
-              value: "001"
-            },
-            {
-              label: "产品二",
-              value: "002"
-            },
-            {
-              label: "产品三",
-              value: "003"
-            }
-          ]
-        },
-        {
-          label: "案件状态",
-          type: "select",
-          property: "statusThree",
-          colSpan: 4,
-          options: [
-            {
-              label: "产品一",
-              value: "001"
-            },
-            {
-              label: "产品二",
-              value: "002"
-            },
-            {
-              label: "产品三",
-              value: "003"
-            }
-          ]
-        },
-        {
-          label: "应裁情况",
-          type: "select",
-          property: "decideStatus",
-          colSpan: 4,
-          newline: 1,
-          options: [
-            {
-              label: "产品一",
-              value: "001"
-            },
-            {
-              label: "产品二",
-              value: "002"
-            },
-            {
-              label: "产品三",
-              value: "003"
-            }
-          ]
-        },
-        {
-          label: "还款情况",
-          type: "select",
-          property: "repaymentStatus",
-          colSpan: 4,
-          options: [
-            {
-              label: "产品一",
-              value: "001"
-            },
-            {
-              label: "产品二",
-              value: "002"
-            },
-            {
-              label: "产品三",
-              value: "003"
-            }
-          ]
         }
       ],
-      searchItem: {},
       item: {},
-      currentItem: {},
-      queryUrl: '/11/case/queryHzCaseInfoByBaseQuery.htm',
-      // 数据总数
-      total: 11,
-      // 当前页数
-      currentPage: 1,
-      // 每页数量
-      pageSize: 10,
-      tableData:[],
+      queryUrl: "/11/feedback/queryRespondentFeedbackByBaseQuery.htm",
+      tableData: [{}],
       columnDefine: [
         { label: "案件编号", property: "arbCaseId" },
         { label: "互金企业", property: "platName" },
+        { label: "产品名称", property: "productName" },
         { label: "申请人", property: "applicants" },
         { label: "被申请人", property: "respondents" },
         { label: "被申请人手机", property: "resPhone" },
+        { label: "提交日期", property: "submitTime" },
+        { label: "仲裁还款", property: "arbitrationRepayment" },
         { label: "案件阶段", property: "caseProcess" },
-        { label: "案件状态", property: "caseStatus" },
+        { label: "应裁情况", property: "decideStatus" },
+        { label: "应裁时间", property: "takeTime" },
         {
-          label: "提交日期",
-          property: "submitTime",
+          label: "短信送达",
+          property: "messageDelivery",
           width: 150,
           children: [
             {
-              label: "逾期天数",
-              property: "overdueDate"
+              label: "提交短信",
+              property: "submitMessageTime"
             },
             {
-              label: "处理天数",
-              property: "dealDate"
+              label: "应裁短信",
+              property: "takeMessageTime"
             },
             {
-              label: "立案日期",
-              property: "startTime"
+              label: "组庭短信",
+              property: "buildMessageTime"
             },
             {
-              label: "组庭日期",
-              property: "buildTime"
-            },
-            {
-              label: "结案日期",
-              property: "closeTime"
-            },
-            {
-              label: "应裁日期",
-              property: "takeTime"
-            },
-            {
-              label: "借款日期",
-              property: "borrowingDate"
-            },
-            {
-              label: "应还款日期",
-              property: "reimbursementDate"
-            },
-            {
-              label: "冻结日期",
-              property: "freezeDate"
-            },
-            {
-              label: "解冻日期",
-              property: "unfreezeDate"
+              label: "裁决短信",
+              property: "judgeMessageTime"
             }
           ]
         },
         {
-          label: "标的金额",
-          property: "amtBorrow",
-          width: 150,
+          label: "短链查看",
+          property: "shortChainView",
+          width:150,
           children: [
-            {
-              label: "调解还款额",
-              property: "adjustAmt"
-            },
-            {
-              label: "已还款总额",
-              property: "reimbursementAmt"
-            },
-            {
-              label: "合同借款金额",
-              property: "contractLoanAmt"
-            },
-            {
-              label: "打款金额",
-              property: "payAmt"
-            },
-            {
-              label: "平台服务费",
-              property: "platformFee"
-            },
-            {
-              label: "利息",
-              property: "interestAmt"
-            },
-            {
-              label: "违约金",
-              property: "penaltyAmt"
-            },
-            {
-              label: "仲券服务费",
-              property: "caseTicketFee"
-            },
-            {
-              label: "预缴受理费",
-              property: "prepaymentAmt"
-            },
-            {
-              label: "受理费退费",
-              property: "acceptReturnAmt"
-            },
-            {
-              label: "处理费",
-              property: "handFee"
-            },
-            {
-              label: "仲券",
-              property: "caseTicket"
-            }
+            { label: "提交短链", property: "submitMessageTime" },
+            { label: "应裁短链", property: "takeShortChainTime" },
+            { label: "裁决短链", property: "judgeShortChainTime" },
+            { label: "最近登录", property: "recentLoginTime" }
           ]
         }
       ]
     };
   },
   methods: {
-    doQuery (url,item) {
-      this.query(url,item).then(res => {
-        console.warn('0000000**************');
-        console.info(res);
-        this.tableData = res.result.list;
-        console.log(typeof res.result.list);
-      })
+    doQuery(url, item) {
+      this.query(url, item).then(res => {
+        this.tableData = res.result[0].list;
+      });
     }
   },
-  mounted () {
+  mounted() {
     this.doQuery(this.queryUrl, this.item);
   },
-   components: {
+  components: {
     Searchs,
     TableComponent
-  },
+  }
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>

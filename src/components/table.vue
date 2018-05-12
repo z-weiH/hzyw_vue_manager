@@ -1,130 +1,153 @@
 <template>
   <div class="table">
-    <el-table
-      :data="tableData"
-      :span-method="spanMethod"
-      stripe
-      border
-    >
-      <el-table-column
-        type="index"
-        label="序号"
-        width="50">
+    <el-table :data="tableData" :span-method="spanMethod" stripe border>
+      <el-table-column type="index" label="序号" width="50">
       </el-table-column>
-      <el-table-column
-        v-for="(col, index) of columns"
-        :key="index"
-        :prop="col.property"
-        :label="col.label"
-        :render-header="defineHeader"
-        v-if="!col.hidden"
-        :width="col.width ? col.width : 120">
+      <el-table-column v-for="(col, index) of columns" :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden" :width="col.width ? col.width : 120">
       </el-table-column>
       <!--<slot name=""></slot>-->
       <el-table-column :label="action.label" v-if="actions && actions.length > 0" v-for="(action, index) in actions" :key="action.label" :width="action.width">
         <template slot-scope="scope">
-          <el-button
-            v-for="(btn, index) of action.btns"
-            :key="index"
-            size="mini"
-            @click="btn.function.bind($parent)(scope.row)" >{{btn.label}}</el-button>
-        </template>
+              <el-button
+                v-for="(btn, index) of action.btns"
+                :key="index"
+                size="mini"
+                @click="btn.function.bind($parent)(scope.row)" >{{btn.label}}</el-button>
+</template>
       </el-table-column>
     </el-table>
+    <!-- 分页 -->
+    <div class="ctable_foot">
+      <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-sizes="[10, 20, 30, 40]"
+      :page-size="pageSize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total">
+      </el-pagination>
+    </div>
   </div>
 
 </template>
 
 <script>
 /**
- * @method
- * @description 表格组件
- * @prop tableData // Object[] 表格显示的源数据
- * @prop columnDefine // Object[] 定义表格的列 label表示列头 property 表示列绑定的属性名，width 表示宽度
-                  例子： [
-                           {label: '序号',property: 'index'，width:180},
-                           {label: '用户名',property: 'name',width:180},
-                           {label: '真实姓名',property: 'truename',width:180},
-                           {label: '手机号码',property: 'phonenumber',width:180,children: [
-                             {label: '序号',property: 'index'，width:180},
-                             {label: '用户名',property: 'name',width:180},
-                            {label: '真实姓名',property: 'truename',width:180},
-                           ]},
-                         ]
- @prop spanMethod //Function  用来定义单元格合并
- */
+     * @method
+     * @description 表格组件
+     * @prop tableData // Object[] 表格显示的源数据
+     * @prop columnDefine // Object[] 定义表格的列 label表示列头 property 表示列绑定的属性名，width 表示宽度
+                      例子： [
+                               {label: '序号',property: 'index'，width:180},
+                               {label: '用户名',property: 'name',width:180},
+                               {label: '真实姓名',property: 'truename',width:180},
+                               {label: '手机号码',property: 'phonenumber',width:180,children: [
+                                 {label: '序号',property: 'index'，width:180},
+                                 {label: '用户名',property: 'name',width:180},
+                                {label: '真实姓名',property: 'truename',width:180},
+                               ]},
+                             ]
+     @prop spanMethod //Function  用来定义单元格合并
+     */
 export default {
-  name: 'table',
+  name: "mineTable",
   props: {
     tableData: Array,
     columnDefine: Array,
     spanMethod: Function,
-    actions: Array
+    actions: Array,
+    queryUrl: String,
+    currentPage: Number,
+    pageSize: Number,
+    total: Number
   },
-  computed:{
-    columns () {
-      let arr = []
+  computed: {
+    columns() {
+      let arr = [];
       this.columnDefine.forEach(it => {
-        arr.push(it)
-        if(it.children){
-          if(it.status)
-            it.children.forEach(it => it.hidden = false)
-          else
-            it.children.forEach(it => it.hidden = true)
-          arr.push(...it.children)
+        arr.push(it);
+        if (it.children) {
+          if (it.status) it.children.forEach(it => (it.hidden = false));
+          else it.children.forEach(it => (it.hidden = true));
+          arr.push(...it.children);
         }
-      })
-      return arr
+      });
+      return arr;
     }
   },
   methods: {
-    refresh () {
-      let arr = []
+    refresh() {
+      let arr = [];
       this.columnDefine.forEach(it => {
-        arr.push(it)
-        if(it.children){
-          arr.push(...it.children)
+        arr.push(it);
+        if (it.children) {
+          arr.push(...it.children);
         }
-      })
-      console.log(arr)
-      return arr
+      });
+      console.log(arr);
+      return arr;
     },
-    defineHeader (createElement, column) {
-      console.log(column, 'column')
-      let col = this.columns.find(it => it.property == column.column.property)
+    defineHeader(createElement, column) {
+      console.log(column, "column");
+      let col = this.columns.find(it => it.property == column.column.property);
       if (col && col.children && col.children.length) {
-        let ele= createElement('i',{
-          on: {
-            click: () => this.toggleTable(col,ele)
+        let ele = createElement(
+          "i",
+          {
+            on: {
+              click: () => this.toggleTable(col, ele)
+            },
+            style: {
+              border: "1px solid #666",
+              padding: "0 3px",
+              marginLeft: "5px"
+            }
           },
-          style: {
-            border: '1px solid #666',
-            padding: '0 3px',
-            marginLeft: '5px'
-          }
-        },'+')
-        return createElement('div',[
-          createElement('span',{},col.label),
+          "+"
+        );
+        return createElement("div", [
+          createElement("span", {}, col.label),
           ele
-        ])
-      }else{
-        return col.label
+        ]);
+      } else {
+        return col.label;
       }
     },
-    toggleTable(col,ele) {
-      col.status =  !col.status
-      console.log(ele)
-      ele.elm.innerHTML = col.status ? '-' : '+'
-      this.$set(this.columnDefine,this.columnDefine.findIndex(it => it.property == col.property),col)
+    toggleTable(col, ele) {
+      col.status = !col.status;
+      console.log(ele);
+      ele.elm.innerHTML = col.status ? "-" : "+";
+      this.$set(
+        this.columnDefine,
+        this.columnDefine.findIndex(it => it.property == col.property),
+        col
+      );
+    },
+    // 页数 change
+    handleSizeChange(val) {
+      console.log("val===", val);
+      this.$emit('refreshList');
+     this.$emit('update:currentPage',val);
+    },
+    // 分页 change
+    handleCurrentChange(val) {
+      console.log("val===", val);
+      this.$emit('refreshList');
+      this.$emit('update:currentPage',val);
     }
   },
-  mounted () {
-    console.log(this.tableData)
+  mounted() {
+    console.log("--------");
+    console.log(this.tableData);
+    console.log("当前显示条数", this.pageSize);
+    console.log("当前页标", this.currentPage);
+    console.log("总数", this.total);
   }
-}
+};
 </script>
 
-<style  lang="sass">
+<style lang="sass">
 thead.has-gutter > tr > th
   padding : 0
 

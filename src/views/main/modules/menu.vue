@@ -316,6 +316,16 @@
                 id : 73,
                 url : 'respondentsFeedback'
               },
+              {
+                label : '还款信息',
+                id : 74,
+                url : 'paymentInformation'
+              },
+              {
+                label : '被申请人操作记录',
+                id : 75,
+                url : 'respondentsOperateRecord'
+              }
             ],
           },
            {

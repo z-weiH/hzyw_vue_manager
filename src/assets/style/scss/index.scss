@@ -253,3 +253,23 @@ body {
     height: 30px;
   }
 }
+
+
+.ctable_foot{
+  padding:20px 10px;
+}
+
+
+/* end */
+
+
+
+/* animate-style */
+.fade-enter-active, .fade-leave-active{
+  transition:opacity .5s;
+}
+
+.fade-enter, .fade-leave-to{
+  opacity: 0;
+}
+/* end */

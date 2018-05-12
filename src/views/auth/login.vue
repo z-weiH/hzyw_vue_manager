@@ -35,8 +35,8 @@
 					<el-checkbox class="mt-10" v-model="ruleForm.isAccountNumber">记住账号</el-checkbox>
 
 					<div class="mt-20">
-						<el-button 
-							@click="handleSubmit" 
+						<el-button
+							@click="handleSubmit"
 							:style="{
 								width : '100%',
 								height : '50px',
