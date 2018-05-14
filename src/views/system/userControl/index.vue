@@ -1,7 +1,7 @@
 <template>
   <div>
 
-      <searchs class="item-search" :search-items="searchItems" :item="item" :query-url="'/user/queryUserList.htm'">
+      <searchs class="item-search" :search-items="searchItems" :item="item">
         <div class="fr" slot="moreBtn">
           <el-button type="primary" @click="create">新增用户</el-button>
         </div>
@@ -10,7 +10,7 @@
       用户列表
     </div>
     <div class="item-table">
-      <table-component :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
+      <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
     </div>
     <user-create :editState.sync="editState" :create-item="createItem" ></user-create>
     <user-edit :editState.sync="editState" :edit-item="editItem" ></user-edit>
@@ -36,6 +36,7 @@
   import UserCreate from './modules/create'
   import UserEdit from './modules/edit'
   import UserUpdatePsd from './modules/updatePwd'
+  import {URL_JSON} from "../../../components/script/url_json";
   export default {
     name : 'roleManame',
     extends : Mixins,
@@ -52,8 +53,8 @@
           {label: '用户名',property: 'loginName'},
           {label: '真实姓名',property: 'userName'},
           {label: '手机号码',property: 'userPhone'},
-          {label: '所属角色',property: 'roleNames'},
-          {label: '创建时间',property: 'createTime',width: 180},
+          {label: '所属角色',property: 'roleNames', width: 100},
+          {label: '创建时间',property: 'createTime',width: 150},
         ],
         // fixedSearchItrems: { parent_id: '2', role_id: '3'},//固定的查询条件
         createItem: {},
@@ -71,7 +72,8 @@
         ],
         editState : 0, // 1表示编辑  2表示新增 3修改密码
         deleteConfirm : false,
-        deleteItem : {}
+        deleteItem : {},
+        queryUrl: '/2/user/queryUserList.htm'
       }
     },
     components : {
@@ -87,10 +89,12 @@
         this.editState = 2;
       },
       editInfo (row) {
-        this.edit('/user/selectByPrimaryKey.htm',{userId: row.userId})
+        this.edit('/2/user/selectByPrimaryKey.htm',{userId: row.userId})
           .then(res => {
-            this.editItem = res;
-            this.editState = 1;
+            if(res.code){
+              this.editItem = res.result;
+              this.editState = 1;
+            }
           })
       },
       editPassword (row) {
@@ -102,15 +106,15 @@
         this.deleteItem = row;
       },
       sureDelete () {
-        this.$http.post('/user/deleteByPrimaryKey.htm',{
+        this.$http.post('/2/user/deleteByPrimaryKey.htm',{
           userId: this.deleteItem.userId
         }).then(res=>{
 
         })
       }
     },
-    mounted () {
-      this.doQuery('/user/queryUserList.htm', this.item);
+    created () {
+      this.doQuery('/2'+URL_JSON['queryUserControl'], this.item);
     }
   }
 </script>

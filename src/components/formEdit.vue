@@ -4,7 +4,7 @@
         <el-input v-model="trueValue" :disabled="editItem.disabled" :placeholder="editItem.placeholder"></el-input>
       </el-form-item>
       <el-form-item :label="editItem.label" v-if="editItem.type == 'select'">
-        <el-select v-model="trueValue" :placeholder="editItem.placeholder" :disabled="editItem.disabled">
+        <el-select v-model="trueValue" :placeholder="editItem.placeholder" :disabled="editItem.disabled" :multiple="editItem.multiple">
           <el-option v-for="(opt, idx) in editItem.options" :key="idx" :label="opt.label" :value="opt.value"></el-option>
         </el-select>
       </el-form-item>

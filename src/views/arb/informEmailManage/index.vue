@@ -8,7 +8,7 @@
       仲裁委邮箱管理
     </div>
     <div class="item-table">
-      <table-component :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
+      <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
     </div>
     <inform-email-edit :item="item" :edit-state="editState"></inform-email-edit>
   </div>
@@ -47,21 +47,20 @@
         editState: 0, // 4 编辑权限
         deleteConfirm: false,
         currentItem: {},
-        queryUrl: '/role/queryRoleList.htm'
+        queryUrl: '/7/email/queryArbEmailByBaseQuery.htm'
       }
     },
     methods: {
 
       doEdit (row) {
         console.log(row);
-        this.item = row;
-        this.editState = 1;
-      },
-      doQuery (url,item) {
-        this.query(url,item).then(res => {
-          console.info(res[0].roleName);
+        this.$http.post('/7/email/selectEmailByPrimaryKey.htm',{emailId: row.emailId}).then(res => {
+          if(res.code){
+            this.item = res.result;
+            this.editState = 1;
+          }
         })
-      }
+      },
     },
     components : {
       Searchs,
@@ -69,7 +68,7 @@
       InformEmailEdit
     },
     mounted () {
-      console.log(this)
+      this.doQuery(this.queryUrl,this.searchItem);
     }
   }
 </script>

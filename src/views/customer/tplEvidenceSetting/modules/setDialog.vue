@@ -46,7 +46,8 @@
                 <el-form-item label=" " 
                   :prop="`tableData[${scope.$index}].eviList`"
                   :rules="[
-                    {required : true , message : '请输入证明对象详情' , trigger : 'blur'}
+                    {required : true , message : '请输入证明对象详情' , trigger : 'blur'},
+                    // { validator: isJSON, trigger: 'blur' }
                   ]"
                 >
                   <el-input v-model.trim="scope.row.eviList" placeholder="请输入证明对象详情"></el-input>
@@ -79,14 +80,45 @@
             // 证明对象
             eviObject : '',
             // 证明对象详情
-            eviList : '',
+            eviList : '[{"evi_code":"AGREEMENT","evi_title":"借款协议","sort_no":1,"evi_format":"借款协议.pdf","isCheck":1}]',
           }],
         },
       }
     },
     methods : {
-      show() {
+      
+      show(row) {
+        this.row = row;
         this.dialogVisible = true;
+        this.init();
+      },
+      init() {
+        this.$http({
+          method : 'post',
+          url : '/templatevidence/modifyTemplateEvidence.htm',
+          data : {
+            detailId : this.row,
+          },
+        }).then((res) => {
+          this.ruleForm.tableData = res.result;
+        });
+      },
+      // 校验 是否是json 格式
+      isJSON(rule, value, callback) {
+        if (typeof value == 'string') {
+          try {
+            let obj = JSON.parse(value);
+            if(typeof obj == 'object' && obj ){
+                callback();
+            }else{
+                callback('请输入正确的json格式');
+            }
+
+          } catch(e) {
+            callback('请输入正确的json格式');
+          }
+        }
+        callback();
       },
       // 关闭浮层 调用
       handleClose() {
@@ -114,22 +146,36 @@
         // 如果全部 校验通过
         if(verifySuccessLength === 3){
           this.$http({
-            method : '',
-            url : '',
+            method : 'post',
+            url : '/templatevidence/updateTemplateEvidence.htm',
+            data : {
+              eviId : row.eviId,
+              eviList : row.eviList,
+              eviObject : row.eviObject,
+              sortNo : row.sortNo,
+            },
           }).then((res) => {
-            console.log(res,'修改 接口');
+            this.$message.success('修改成功');
           });
         }
       },
       // 点击删除
       handleDelete(row) {
-        console.log(row,'删除');
         this.$confirm('确认删除?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$message.success('删除成功');
+          this.$http({
+            method : 'post',
+            url : '/templatevidence/deleteTemplateEvidence.htm',
+            data : {
+              eviId : row.eviId,
+            },
+          }).then((res) => {
+            this.$message.success('删除成功');
+            this.init();
+          });
         })
       },
     },

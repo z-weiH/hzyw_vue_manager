@@ -7,7 +7,7 @@
     <edits :edit-items="createItems" :item="item" :label-width="'90px'"></edits>
     <span slot="footer" class="dialog-footer">
           <el-button @click="$parent.editState = 0">取 消</el-button>
-          <el-button type="primary"  >确 定</el-button>
+          <el-button type="primary" @click="confirmClickHandle" >确 定</el-button>
         </span>
   </el-dialog>
 </template>
@@ -41,6 +41,11 @@ export default {
         if(!v)
           this.$parent.editState = 0
       }
+    }
+  },
+  methods: {
+    confirmClickHandle () {
+      console.log(this.item);
     }
   },
   components: {

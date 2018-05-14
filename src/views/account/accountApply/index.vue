@@ -12,7 +12,7 @@
         开户申请
       </div>
       <div class="item-table">
-        <table-component :tableData="tableData" :columnDefine="columnDefine"></table-component>
+        <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine"></table-component>
       </div>
       <account-apply :edit-state="editState"></account-apply>
       <el-date-picker

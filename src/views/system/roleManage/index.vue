@@ -11,7 +11,7 @@
       角色管理
     </div>
     <div class="item-table">
-      <table-component :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
+      <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
     </div>
     <role-create :create-item="editItem" :edit-state="editState"></role-create>
     <role-permission :edit-state="editState" ></role-permission>
@@ -64,12 +64,12 @@
         editState: 0, // 4 编辑权限
         deleteConfirm: false,
         currentItem: {},
-        queryUrl: '/role/queryRoleList.htm'
+        queryUrl: '/2/role/queryRoleList.htm'
       }
     },
     methods: {
       menuManager () {
-        this.$http.post('/menu/selectZTreeVOList.htm')
+        this.$http.post('/2/menu/selectZTreeVOList.htm')
           .then(res => {
             console.log(res);
             this.editState = 4;

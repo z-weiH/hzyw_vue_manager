@@ -140,9 +140,9 @@ export default {
   mounted() {
     console.log("--------");
     console.log(this.tableData);
-    console.log("当前显示条数", this.pageSize);
-    console.log("当前页标", this.currentPage);
-    console.log("总数", this.total);
+    console.log("当前显示条数", this.pager.pageSize);
+    console.log("当前页标", this.pager.currentPage);
+    console.log("总数", this.pager.total);
   }
 };
 </script>

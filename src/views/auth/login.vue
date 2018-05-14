@@ -86,7 +86,7 @@
 						this.$message.success('登录成功');
 						setTimeout(() => {
 							this.$router.push('/main');
-						},2000);
+						},0);
           }
 				});
 			},

@@ -6,7 +6,7 @@
       用户列表
     </div>
     <div class="item-table">
-      <table-component :table-data="tableData" :column-define="columnDefine"></table-component>
+      <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine"></table-component>
     </div>
   </div>
 </template>
