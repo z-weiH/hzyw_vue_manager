@@ -29,12 +29,10 @@ export default {
       Object.assign(item, this.fixedSearchItrems)
       return this.$http.post(url, item)
         .then(res => {
-          res = Mock.mock(res)
-          this.tableData = res
-          console.log('*tableData*');
-          console.info(this.tableData);
-          console.log('*res*');
-          console.info(res);
+          res = Mock.mock(res);
+          if(res.code){
+            this.tableData = res.result.list
+          }
           return res
         })
     },

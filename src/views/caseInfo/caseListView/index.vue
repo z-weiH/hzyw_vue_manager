@@ -368,10 +368,10 @@ export default {
   methods: {
     doQuery (url,item) {
       this.query(url,item).then(res => {
-        console.warn('0000000**************');
-        console.info(res);
-        this.tableData = res.result.list;
-        console.log(typeof res.result.list);
+        // console.warn('0000000**************');
+        // console.info(res);
+        // this.tableData = res.result.list;
+        // console.log(typeof res.result.list);
       })
     }
   },

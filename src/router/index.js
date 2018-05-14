@@ -68,11 +68,7 @@ import processingFeeSettleReview from '@/views/finance/processingFeeSettleReview
 
 
 
-// 案件信息
-import caseListView from '@/views/caseInfo/caseListView' //案件列表
-import respondentsFeedback from '@/views/caseInfo/respondentsFeedback' //被申请人反馈
-import paymentInformation from '@/views/caseInfo/paymentInformation' //还款信息
-import respondentsOperateRecord from '@/views/caseInfo/respondentsOperateRecord' //被申请人操作记录
+
 
 
 
@@ -197,28 +193,28 @@ let router = new Router({
         /* 案件信息模块 start */
         {
           path: 'caseListView',
-          component: caseListView,
+          component: import('@/views/caseInfo/caseListView'),//案件列表
           meta: {
             name: 'caseListView',
           },
         },
         {
           path: 'respondentsFeedback',
-          component: respondentsFeedback,
+          component: import('@/views/caseInfo/respondentsFeedback'),//被申请人反馈
           meta: {
             name: 'respondentsFeedback',
           },
         },
         {
           path: 'paymentInformation',
-          component:paymentInformation,
+          component: import('@/views/caseInfo/paymentInformation'),//还款信息
           meta: {
             name: 'paymentInformation'
           }
         },
         {
           path: 'respondentsOperateRecord',
-          component:respondentsOperateRecord,
+          component: import('@/views/caseInfo/respondentsOperateRecord'),//被申请人操作记录
           meta: {
             name: 'respondentsOperateRecord'
           }

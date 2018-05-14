@@ -13,7 +13,7 @@
       还款信息列表
     </div>
     <div class='item-table'>
-      <table-component @refreshList="doQuery" :currentPage.sync="currentPage" :total="total" :pageSize="pageSize" :table-data='tableData' :column-define='columnDefine' ></table-component>
+      <table-component @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="currentPage" :total="total" :pageSize="pageSize" :table-data='tableData' :column-define='columnDefine' ></table-component>
     </div>
   </div>
 </template>
@@ -45,9 +45,32 @@ export default {
           property: "keyWords"
         },
         {
-          type: "date",
-          placeholder: "还款日期",
+          type: "select",
+          placeholder: "日期选择",
           colSpan: 4,
+          property: "dateType",
+          options: [
+            {
+              label: "提交日期",
+              value: "1"
+            },
+            {
+              label: "立案日期",
+              value: "2"
+            },
+            {
+              label: "组庭日期",
+              value: "3"
+            },
+            {
+              label: "结案日期",
+              value: "4"
+            },
+            {
+              label: "应裁日期",
+              value: "5"
+            }
+          ],
           property: "repaymentTime"
         },
         {
@@ -177,7 +200,7 @@ export default {
 };
 </script>
 
-<style scoped lang='scss'>
+<style scoped >
 
 </style>
 

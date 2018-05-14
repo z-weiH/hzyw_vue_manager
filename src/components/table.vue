@@ -128,11 +128,13 @@ export default {
     handleSizeChange(val) {
       console.log("val===", val);
       this.$emit('refreshList');
+
      this.$emit('update:currentPage',val);
     },
     // 分页 change
     handleCurrentChange(val) {
       console.log("val===", val);
+      console.log(this.$parent)
       this.$emit('refreshList');
       this.$emit('update:currentPage',val);
     }
