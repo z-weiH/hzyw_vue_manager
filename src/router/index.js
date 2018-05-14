@@ -5,10 +5,6 @@ import Router from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
-// 登录
-import login from '@/views/auth/login.vue'
-// 404
-import notFind from '@/views/notFind'
 // main 主体路由
 import main from '@/views/main'
 /* main 子路由 start */
@@ -29,31 +25,7 @@ import userSearch from '@/views/account/userSearch' //用户查询
 import arbitramentManage from '@/views/arb/arbitramentManage' // 仲裁委管理
 import informEmailManage from '@/views/arb/informEmailManage' // 仲裁委邮箱管理
 
-// 第三方管理模块
-import mailSendLog from '@/views/third/mailSendLog' // 邮件发送日志
-import noteSendLog from '@/views/third/noteSendLog' // 短信发送日志
-
-// 客户管理模块
-import clientManagement from '@/views/customer/clientManagement' // 客户管理
-import balanceQuery from '@/views/customer/balanceQuery' // 账户余额查询
-import tplSetting from '@/views/customer/tplSetting' // 模板设置
-import tplEvidenceSetting from '@/views/customer/tplEvidenceSetting' // 模板证据设置
-
-// 案件订单模块
-import arbitramentTimeTaskManage from '@/views/order/arbitramentTimeTaskManage' // 仲裁端定时任务管理
-import clientTimeTaskManage from '@/views/order/clientTimeTaskManage' // 客户端定时任务管理
-import caseOrderQuery from '@/views/order/caseOrderQuery' // 案件提交日志
-import idCardVerfy from '@/views/order/idCardVerfy' // 身份证校验
-import orderManagement from '@/views/order/orderManagement' // 订单管理
-import fastTrack from '@/views/order/fastTrack' // 快速通道
-
-// 案件相关模块
-import arbitramentUsersManage from '@/views/case/arbitramentUsersManage' // 仲裁用户管理
-import caseManagement from '@/views/case/caseManagement' // 案件管理
-
 // 财务管理模块
-import contractAddNewDefault from '@/views/finance/contractAddNewDefault' // 合同加款【财务人员】
-import contractAddNewManage from '@/views/finance/contractAddNewManage' // 合同加款【财务主管-审核】
 import orderAddNewDefault from '@/views/finance/orderAddNewDefault' //订单加款【财务人员】
 import orderAddNewManage from '@/views/finance/orderAddNewManage' //订单加款【财务主管-审核】
 import billingDay from '@/views/finance/billingDay' //受理费日对账
@@ -81,15 +53,15 @@ Vue.use(Router)
 let router = new Router({
   routes: [{
       path: '/',
-      component: login,
+      component: () => import ('@/views/auth/login.vue'), // 登录,
     },
     {
       path: '/login',
-      component: login,
+      component: () => import ('@/views/auth/login.vue'), // 登录
     },
     {
       path: '/404',
-      component: notFind,
+      component: () => import ('@/views/notFind'), // 404
     },
     {
       path: '/main',
@@ -177,14 +149,14 @@ let router = new Router({
         /* 第三方管理模块 start */
         {
           path: 'mailSendLog',
-          component: mailSendLog,
+          component: () => import ('@/views/third/mailSendLog'), //邮件发送日志
           meta: {
             name: 'mailSendLog',
           },
         },
         {
           path: 'noteSendLog',
-          component: noteSendLog,
+          component: () => import ('@/views/third/noteSendLog'), //短信发送日志
           meta: {
             name: 'noteSendLog',
           },
@@ -227,28 +199,28 @@ let router = new Router({
         /* 客户管理模块 start */
         {
           path: 'clientManagement',
-          component: clientManagement,
+          component: () => import ('@/views/customer/clientManagement'), // 客户管理
           meta: {
             name: 'clientManagement',
           },
         },
         {
           path: 'balanceQuery',
-          component: balanceQuery,
+          component: () => import ('@/views/customer/balanceQuery'), // 账户余额查询
           meta: {
             name: 'balanceQuery',
           },
         },
         {
           path: 'tplSetting',
-          component: tplSetting,
+          component: () => import ('@/views/customer/tplSetting'), // 模板设置
           meta: {
             name: 'tplSetting',
           },
         },
         {
           path: 'tplEvidenceSetting',
-          component: tplEvidenceSetting,
+          component: () => import ('@/views/customer/tplEvidenceSetting'), // 模板证据设置,
           meta: {
             name: 'tplEvidenceSetting',
           },
@@ -258,42 +230,42 @@ let router = new Router({
         /* 案件订单模块 start */
         {
           path: 'arbitramentTimeTaskManage',
-          component: arbitramentTimeTaskManage,
+          component: () => import ('@/views/order/arbitramentTimeTaskManage'), // 仲裁端定时任务管理
           meta: {
             name: 'arbitramentTimeTaskManage',
           },
         },
         {
           path: 'clientTimeTaskManage',
-          component: clientTimeTaskManage,
+          component: () => import ('@/views/order/clientTimeTaskManage'), // 客户端定时任务管理
           meta: {
             name: 'clientTimeTaskManage',
           },
         },
         {
           path: 'caseOrderQuery',
-          component: caseOrderQuery,
+          component: () => import ('@/views/order/caseOrderQuery'), // 案件提交日志
           meta: {
             name: 'caseOrderQuery',
           },
         },
         {
           path: 'idCardVerfy',
-          component: idCardVerfy,
+          component: () => import ('@/views/order/idCardVerfy'), // 身份证校验
           meta: {
             name: 'idCardVerfy',
           },
         },
         {
           path: 'orderManagement',
-          component: orderManagement,
+          component: () => import ('@/views/order/orderManagement'), // 订单管理
           meta: {
             name: 'orderManagement',
           },
         },
         {
           path: 'fastTrack',
-          component: fastTrack,
+          component: () => import ('@/views/order/fastTrack'), // 快速通道
           meta: {
             name: 'fastTrack',
           },
@@ -303,14 +275,14 @@ let router = new Router({
         /* 案件相关模块 start */
         {
           path: 'arbitramentUsersManage',
-          component: arbitramentUsersManage,
+          component: () => import ('@/views/case/arbitramentUsersManage'), // 仲裁用户管理
           meta: {
             name: 'arbitramentUsersManage',
           },
         },
         {
           path: 'caseManagement',
-          component: caseManagement,
+          component: () => import ('@/views/case/caseManagement'), // 案件管理
           meta: {
             name: 'caseManagement',
           },
@@ -320,14 +292,14 @@ let router = new Router({
         /* 财务管理模块 start */
         {
           path: 'contractAddNewDefault',
-          component: contractAddNewDefault,
+          component: () => import ('@/views/finance/contractAddNewDefault'), // 合同加款【财务人员】
           meta: {
             name: 'contractAddNewDefault',
           },
         },
         {
           path: 'contractAddNewManage',
-          component: contractAddNewManage,
+          component: () => import ('@/views/finance/contractAddNewManage'), // 合同加款【财务主管-审核】
           meta: {
             name: 'contractAddNewManage',
           },
