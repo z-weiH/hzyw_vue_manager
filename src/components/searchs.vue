@@ -49,8 +49,11 @@ export default {
       this.$parent.doQuery(this.queryUrl,this.item)
     },
     valueChange (newVal) {
-      Object.assign(this.item, newVal)
-      console.log(this.item)
+      Object.keys(newVal).forEach(key => {
+        this.item[key] = newVal[key];
+      })
+      // Object.assign(this.item, newVal)
+      // console.log(this.item)
     }
   },
   components: {

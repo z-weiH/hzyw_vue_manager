@@ -13,7 +13,7 @@
                 :key="index"
                 size="mini"
                 @click="btn.function.bind($parent)(scope.row)" >{{btn.label}}</el-button>
-</template>
+        </template>
       </el-table-column>
     </el-table>
     <!-- 分页 -->
@@ -21,11 +21,11 @@
       <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="currentPage"
+      :current-page="pager.currentPage"
       :page-sizes="[10, 20, 30, 40]"
-      :page-size="pageSize"
+      :page-size="pager.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="total">
+      :total="pager.total">
       </el-pagination>
     </div>
   </div>
@@ -57,10 +57,7 @@ export default {
     columnDefine: Array,
     spanMethod: Function,
     actions: Array,
-    queryUrl: String,
-    currentPage: Number,
-    pageSize: Number,
-    total: Number
+    pager: Object
   },
   computed: {
     columns() {
@@ -126,15 +123,18 @@ export default {
     },
     // 页数 change
     handleSizeChange(val) {
-      console.log("val===", val);
-      this.$emit('refreshList');
-     this.$emit('update:currentPage',val);
+     this.$parent.pager.pageSize = val;
     },
     // 分页 change
     handleCurrentChange(val) {
-      console.log("val===", val);
-      this.$emit('refreshList');
-      this.$emit('update:currentPage',val);
+      console.log("val===", val,this);
+      this.$parent.pager.currentPage = val;
+      this.$parent.doQuery(this.$parent.queryUrl,this.$parent.item)
+    }
+  },
+  watch: {
+    tableData (val1,val2) {
+      console.log(val1,val2)
     }
   },
   mounted() {
