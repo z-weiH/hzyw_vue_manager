@@ -101,9 +101,9 @@ body {
   }
   /* 溢出 省略 */
   .ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow: hidden!important;
+    text-overflow: ellipsis!important;
+    white-space: nowrap!important;
   }
   /* 居中 */
   .center {
