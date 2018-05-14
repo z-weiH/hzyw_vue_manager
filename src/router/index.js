@@ -132,6 +132,25 @@ let router = new Router({
         },
         /* 仲裁委管理 end*/
 
+        /* 官网管理 */
+        {
+          path: 'customerCase',
+          component: () => import('@/views/officialweb/customerCase'),
+          meta: {
+            name: 'customerCase',
+          },
+        },
+        {
+          path: 'advisoryManage',
+          component: () => import('@/views/officialweb/advisoryManage'),
+          meta: {
+            name: 'advisoryManage',
+          },
+        },
+
+
+        /* 官网管理 */
+
         /* 第三方管理模块 start */
         {
           path: 'mailSendLog',

@@ -3,8 +3,16 @@
     <el-table :data="tableData" :span-method="spanMethod" stripe border>
       <el-table-column type="index" label="序号" width="50">
       </el-table-column>
-      <el-table-column v-for="(col, index) of columns" :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden" :width="col.width ? col.width : 120">
-      </el-table-column>
+      <template v-for="(col, index) of columns" >
+        <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type == 'img'" :width="col.width ? col.width : 120">
+          <template slot-scope="scope" v-if="col.type == 'img'">
+            <img :src="scope.row.custIcon">
+          </template>
+        </el-table-column>
+        <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img'" :width="col.width ? col.width : 120">
+        </el-table-column>
+      </template>
+
       <!--<slot name=""></slot>-->
       <el-table-column :label="action.label" v-if="actions && actions.length > 0" v-for="(action, index) in actions" :key="action.label" :width="action.width">
         <template slot-scope="scope">

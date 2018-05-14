@@ -7,10 +7,10 @@
       <tr>
         <td colspan="4">{{def.title}}</td>
       </tr>
-      <tr v-for="cnt in def.content" >
+      <tr class="table-edits" v-for="cnt in def.content" >
         <template v-for="td in cnt" >
-          <td colspan="1" v-if="td.type != 'info'">{{td.label}}</td>
-          <td :colspan="td.columns == 2 ? 3 : 1" v-if="td.type != 'info'">
+          <td colspan="1" v-if="td.type != 'info' && td.type != 'img'">{{td.label}}</td>
+          <td :colspan="td.columns == 2 ? 3 : 1" v-if="td.type != 'info' && td.type != 'img'">
             <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :disabled="td.disabled" v-if="td.type == 'text'"></el-input>
             <el-select v-model="item[td.property]" :placeholder="td.placeholder" :disabled="td.disabled" v-if="td.type == 'select'">
               <el-option
@@ -20,8 +20,15 @@
                 :value="opt.value">
               </el-option>
             </el-select>
+            <el-input type="textarea" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="td.disabled" v-if="td.type == 'textarea'"></el-input>
+            <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/"   :limit="3" :show-file-list="false" v-if="td.type == 'file'">
+              <el-button size="small" type="info" plain>点击这里上传文件</el-button>
+            </el-upload>
           </td>
           <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'info'">
+            <span>{{td.content}}</span>
+          </td>
+          <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'img'">
             <span>{{td.content}}</span>
           </td>
         </template>

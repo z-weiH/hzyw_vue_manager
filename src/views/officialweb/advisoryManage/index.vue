@@ -1,22 +1,17 @@
 <template>
   <div class="customerCase">
     <searchs class="item-search" :searchItems="searchItems" :item="searchItem" :queryUrl="queryUrl">
-      <div class="fr" slot="moreBtn">
-        <el-button type="primary" @click="create">新增案例</el-button>
-      </div>
     </searchs>
     <div class="item-title">
-      客户案例
+      咨询管理
     </div>
     <div class="item-table">
-      <table-component :pager="pager" :actions="actions" :table-data="tableData" :column-define="columnDefine"></table-component>
+      <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine"></table-component>
     </div>
-    <case-edit :edit-state="editState" :item="item"></case-edit>
   </div>
 </template>
 
 <script>
-  import CaseEdit from './modules/edit'
   import Searchs from '@/components/searchs'
   import Mixins from '@/components/script/_mixin'
   import TableComponent from '@/components/table'
@@ -27,45 +22,28 @@
     data() {
       return {
         searchItems: [
-          {placeholder: '请输入客户名称', colSpan: 7, property: 'keyWords'},
-          {placeholder: '请选择开户状态', colSpan: 5, property: 'custStatus',type: 'select', options: [
+          {placeholder: '姓名、手机号', colSpan: 7, property: 'keyWords'},
+          {placeholder: '起始时间', colSpan: 4, property: 'startTime',type: 'date',limit: this.limit1},
+          {placeholder: '结束时间', colSpan: 4, property: 'endTime',type: 'date',limit: this.limit2},
+          {placeholder: '请选择开户状态', colSpan: 5, property: 'processed',type: 'select', options: [
               {label:'待审核', value: 1},
               {label:'待确认', value: 2},
               {label:'开户成功', value: 3},
             ]},
         ],
         searchItem: {},
-        queryUrl: '/4'+URL_JSON['queryCustomerCase'],
+        queryUrl: '/4'+URL_JSON['queryAdvisoryManage'],
         columnDefine: [
-          {label: '客户名称', property: 'custName'},
-          {label: '客户logo图标', property: 'custIcon', type: 'img'},
-          {label: '发布时间', property: 'publishTime'},
-          {label: '上线状态', property: 'custStatus'},
-        ],
-        actions: [
-          {label: '操作',btns: [
-              {label:'修改', function: this.doEdit},
-              {label:'删除', function: this.doDelete},
-            ]
-          }
-        ],
-        item: {}
+          {label: '姓名', property: 'name'},
+          {label: '手机号', property: 'phone'},
+          {label: '电子邮箱', property: 'email'},
+          {label: '公司名称', property: 'company'},
+          {label: '职位', property: 'position'},
+          {label: '处理状态', property: 'processed'},
+        ]
       }
     },
     methods: {
-      create() {
-        this.editState = 2;
-      },
-      doEdit(row) {
-        this.$http.post('/4'+URL_JSON['editCustomerCase'],{custId: row.custId})
-          .then(res => {
-            console.log(res)
-            if(res.code){
-              this.item = res.result;
-              this.editState = 1;
-            }
-          })
-      },
       limit1(time) {
         if(!this.searchItem.endTime)
           return false;
@@ -87,8 +65,7 @@
     },
     components: {
       Searchs,
-      TableComponent,
-      CaseEdit
+      TableComponent
     },
     created () {
       this.doQuery(this.queryUrl,this.searchItem)
