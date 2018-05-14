@@ -10,7 +10,12 @@ export default {
       fixedSearchItrems: {}, // 放置固定的查询条件
       editState: 0, // 页面的编辑状态 0 未操作 1 编辑 2 新增
       queryUrl: '', // 查询api的路径 必写
-      searchitem: {}
+      searchitem: {},
+      pager: {
+        currentPage: 1,
+        pageSize: 10,
+        total: 500
+      }
     }
   },
   // 待解决
@@ -26,12 +31,13 @@ export default {
      * @return Promise包装的查询结果,实际页面可以做其他操作
      */
     query(url, item) {
-      Object.assign(item, this.fixedSearchItrems)
+      Object.assign(item, this.pager, this.fixedSearchItrems);
       return this.$http.post(url, item)
         .then(res => {
           res = Mock.mock(res);
           if(res.code){
-            this.tableData = res.result.list
+            this.tableData = res.result.list;
+            this.pager.total = res.result.count;
           }
           return res
         })

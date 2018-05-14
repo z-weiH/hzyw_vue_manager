@@ -218,6 +218,10 @@ body {
   padding-left: 20px;
 }
 
+.el-dialog__header{
+  text-align: center;
+}
+
 /* 原生 表格样式 */
 
 .m-primordial-table {
@@ -238,7 +242,7 @@ body {
       padding: 10px;
     }
     .el-input {
-      padding: 10px;
+      /* padding: 10px; */
       .el-input__suffix {
         right: 15px;
       }
