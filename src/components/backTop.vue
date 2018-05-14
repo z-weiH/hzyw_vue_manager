@@ -1,0 +1,56 @@
+<template>
+ <div>
+    <div @click="backTop()" class="backTop" v-if="btopstat"></div>
+ </div>
+</template>
+
+<script type="text/ecmascript-6">
+export default {
+  data() {
+    return {
+      btopstat: false
+    };
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+  },
+  methods: {
+    handleScroll() {
+      let scrollTop =
+        window.pageYOffset ||
+        document.documentElement.scrollTop ||
+        document.body.scrollTop;
+      if (scrollTop > 20) {
+        this.btopstat = true;
+      } else if (scrollTop === 0) {
+        this.btopstat = false;
+      }
+    },
+    backTop() {
+      $('html,body').animate({ scrollTop: 0 }, 400);
+    }
+  }
+};
+</script>
+
+<style scoped lang="scss">
+.main {
+  position: relative;
+}
+.backTop {
+  z-index: 1000;
+  display: block;
+  cursor: pointer;
+  position: fixed;
+  text-decoration: none;
+  right: 20px;
+  bottom: 122px;
+  width: 37px;
+  height: 38px;
+  background: url(./../assets/img/result-huge-bg.png) no-repeat 1px 0;
+  z-index: 999;
+  &:hover {
+    background-position: -37px 0;
+  }
+}
+</style>

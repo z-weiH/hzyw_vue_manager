@@ -218,7 +218,8 @@ let router = new Router({
         },
         {
           path: 'respondentsOperateRecord',
-          component: import ('@/views/caseInfo/respondentsOperateRecord'), //被申请人操作记录
+          component: () =>
+            import ('@/views/caseInfo/respondentsOperateRecord'), //被申请人操作记录
           meta: {
             name: 'respondentsOperateRecord'
           }

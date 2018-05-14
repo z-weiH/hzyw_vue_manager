@@ -13,7 +13,7 @@
       被申请人反馈列表
     </div>
     <div class="item-table">
-      <table-component :table-data="tableData" :column-define="columnDefine" ></table-component>
+      <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data='tableData' :column-define='columnDefine' ></table-component>
     </div>
   </div>
 </template>
@@ -221,6 +221,12 @@ export default {
       ],
       item: {},
       queryUrl: "/11/feedback/queryRespondentFeedbackByBaseQuery.htm",
+       // 数据总数
+      total: 11,
+      // 当前页数
+      currentPage: 1,
+      // 每页数量
+      pageSize: 10,
       tableData: [{}],
       columnDefine: [
         { label: "案件编号", property: "arbCaseId" },
@@ -274,7 +280,9 @@ export default {
   methods: {
     doQuery(url, item) {
       this.query(url, item).then(res => {
+        console.info(res);
         this.tableData = res.result[0].list;
+         this.total = res.result[0].count;
       });
     }
   },

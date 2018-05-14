@@ -35,6 +35,8 @@ export default {
       return this.$http.post(url, item)
         .then(res => {
           res = Mock.mock(res);
+          console.log('res----------');
+          console.info(res);
           if(res.code){
             this.tableData = res.result.list;
             this.pager.total = res.result.count;
