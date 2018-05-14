@@ -11,7 +11,7 @@
       仲裁委管理
     </div>
     <div class="item-table">
-      <table-component @refreshList="doQuery" :currentPage.sync="currentPage" :total="total" :pageSize="pageSize"  :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
+      <table-component  :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
     </div>
     <arbitrament-create :item="item" :edit-state="editState"></arbitrament-create>
     <el-dialog
@@ -68,12 +68,6 @@ export default {
       deleteConfirm: false,
       currentItem: {},
       queryUrl: "/7/arbitration/queryArbByBaseQuery.htm",
-      // 数据总数
-      total: 11,
-      // 当前页数
-      currentPage: 1,
-      // 每页数量
-      pageSize: 10
     };
   },
   methods: {

@@ -45,8 +45,10 @@ export default {
   },
   methods: {
     btnClickHandle () {
-      console.log(this.queryUrl)
-      this.$parent.doQuery(this.queryUrl,this.item)
+      let url = this.queryUrl;
+      if(!url)
+        url = this.$parent.queryUrl;
+      this.$parent.doQuery(url, this.item);
     },
     valueChange (newVal) {
       Object.keys(newVal).forEach(key => {

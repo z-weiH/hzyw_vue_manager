@@ -12,7 +12,7 @@
           菜单管理
         </div>
         <div class="item-table">
-          <table-component :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
+          <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
         </div>
         <menu-create :edit-state="editState" :item="item"></menu-create>
       </div>
