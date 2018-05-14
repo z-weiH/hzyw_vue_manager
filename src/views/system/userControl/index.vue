@@ -53,8 +53,8 @@
           {label: '用户名',property: 'loginName'},
           {label: '真实姓名',property: 'userName'},
           {label: '手机号码',property: 'userPhone'},
-          {label: '所属角色',property: 'roleNames'},
-          {label: '创建时间',property: 'createTime',width: 180},
+          {label: '所属角色',property: 'roleNames', width: 100},
+          {label: '创建时间',property: 'createTime',width: 150},
         ],
         // fixedSearchItrems: { parent_id: '2', role_id: '3'},//固定的查询条件
         createItem: {},
@@ -113,7 +113,7 @@
         })
       }
     },
-    mounted () {
+    created () {
       this.doQuery('/2'+URL_JSON['queryUserControl'], this.item);
     }
   }
