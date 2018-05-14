@@ -51,20 +51,6 @@ import fastTrack from '@/views/order/fastTrack' // 快速通道
 import arbitramentUsersManage from '@/views/case/arbitramentUsersManage' // 仲裁用户管理
 import caseManagement from '@/views/case/caseManagement' // 案件管理
 
-// 财务管理模块
-import contractAddNewDefault from '@/views/finance/contractAddNewDefault' // 合同加款【财务人员】
-import contractAddNewManage from '@/views/finance/contractAddNewManage' // 合同加款【财务主管-审核】
-import orderAddNewDefault from '@/views/finance/orderAddNewDefault' //订单加款【财务人员】
-import orderAddNewManage from '@/views/finance/orderAddNewManage' //订单加款【财务主管-审核】
-import billingDay from '@/views/finance/billingDay' //受理费日对账
-import serviceChargeDayCheck from '@/views/finance/serviceChargeDayCheck' //服务费日对账
-import zticketDonateDefault from '@/views/finance/zticketDonateDefault' //仲券赠送【财务人员】
-import zticketDonateManage from '@/views/finance/zticketDonateManage' //仲券赠送【财务主管-审核】
-import refundListDefault from '@/views/finance/refundListDefault' //退款【财务人员】
-import refundListManage from '@/views/finance/refundListManage' //退款【财务主管-审核】
-import techServiceDayCheck from '@/views/finance/techServiceDayCheck' //技术服务费日对账
-import processingFeeSettle from '@/views/finance/processingFeeSettle' //受理费结算
-import processingFeeSettleReview from '@/views/finance/processingFeeSettleReview' //受理费结算复核
 
 
 
@@ -225,6 +211,40 @@ let router = new Router({
           }
         },
         /* 案件信息模块 end */
+        /* 短息记录 start */
+        {
+          path: 'esmqLogView',
+          component: () =>
+            import ('@/views/msgRecorder/esmqLogView'), //发送记录
+          meta: {
+            name: 'esmqLogView'
+          }
+        },{
+          path: 'receiveLog',
+          component: () =>
+            import ('@/views/msgRecorder/receiveLog'), //接收记录
+          meta: {
+            name: 'receiveLog'
+          }
+        },
+        /* 短息记录 end */
+        /* 状态配置 start */
+        {
+          path: 'customerAllot',
+          component: () =>
+            import ('@/views/statusConfig/customerAllot'), //客户分配
+          meta: {
+             name: 'customerAllot'
+          }
+        },{
+          path: 'mediateStatusSet',
+          component: () =>
+            import ('@/views/statusConfig/mediateStatusSet'), //调解状态设置
+          meta: {
+            name: 'mediateStatusSet'
+          }
+        },
+        /* 状态配置 end */
         /* 客户管理模块 start */
         {
           path: 'clientManagement',
@@ -321,91 +341,104 @@ let router = new Router({
         /* 财务管理模块 start */
         {
           path: 'contractAddNewDefault',
-          component: contractAddNewDefault,
+          component: () =>
+            import ('@/views/finance/contractAddNewDefault'), // 合同加款【财务人员】
           meta: {
             name: 'contractAddNewDefault',
           },
         },
         {
           path: 'contractAddNewManage',
-          component: contractAddNewManage,
+          component: () =>
+            import ('@/views/finance/contractAddNewManage'), // 合同加款【财务主管-审核】
           meta: {
             name: 'contractAddNewManage',
           },
         },
         {
           path: 'orderAddNewDefault',
-          component: orderAddNewDefault,
+          component: () =>
+            import ('@/views/finance/orderAddNewDefault'), //订单加款【财务人员】
           meta: {
             name: 'orderAddNewDefault',
           },
         },
         {
           path: 'orderAddNewManage',
-          component: orderAddNewManage,
+          component: () =>
+            import ('@/views/finance/orderAddNewManage'), //订单加款【财务主管-审核】
           meta: {
             name: 'orderAddNewManage',
           },
         },
         {
           path: 'billingDay',
-          component: billingDay,
+          component: () =>
+            import ('@/views/finance/billingDay'), //受理费日对账
           meta: {
             name: 'billingDay',
           },
         },
         {
           path: 'serviceChargeDayCheck',
-          component: serviceChargeDayCheck,
+          component: () =>
+            import ('@/views/finance/serviceChargeDayCheck'), //服务费日对账
           meta: {
             name: 'serviceChargeDayCheck',
           },
         },
         {
           path: 'zticketDonateDefault',
-          component: zticketDonateDefault,
+          component: () =>
+            import ('@/views/finance/zticketDonateDefault'), //仲券赠送【财务人员】
           meta: {
             name: 'zticketDonateDefault',
           },
         },
         {
           path: 'zticketDonateManage',
-          component: zticketDonateManage,
+          component: () =>
+            import ('@/views/finance/zticketDonateManage'), //仲券赠送【财务主管-审核】
           meta: {
             name: 'zticketDonateManage',
           },
         },
         {
           path: 'refundListDefault',
-          component: refundListDefault,
+          component: () =>
+            import ('@/views/finance/refundListDefault'), //退款【财务人员】
           meta: {
             name: 'refundListDefault',
           },
         },
         {
           path: 'refundListManage',
-          component: refundListManage,
+          component: () =>
+            import ('@/views/finance/refundListManage'), //退款【财务主管-审核】
           meta: {
             name: 'refundListManage',
           },
         },
         {
           path: 'techServiceDayCheck',
-          component: techServiceDayCheck,
+          component: () =>
+            import ('@/views/finance/techServiceDayCheck'), //技术服务费日对账
           meta: {
             name: 'techServiceDayCheck',
           },
         },
         {
           path: 'processingFeeSettle',
-          component: processingFeeSettle,
+          component: () =>
+            import ('@/views/finance/processingFeeSettle'), //受理费结算
           meta: {
             name: 'processingFeeSettle',
           },
         },
         {
           path: 'processingFeeSettleReview',
-          component: processingFeeSettleReview,
+          component: () =>
+            import ('@/views/finance/processingFeeSettleReview'), //受理费结算复核
           meta: {
             name: 'processingFeeSettleReview',
           },
