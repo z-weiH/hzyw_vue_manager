@@ -52,8 +52,8 @@
                   <el-form-item label=" " prop="arbId">
                     <el-select v-model="ruleForm.arbId" placeholder="所属仲裁委">
                       <el-option label="请选择" value=""></el-option>
-                      <template v-for="(item,index) in arbIdOptions">
-                        <el-option :key="index" :label="item.label" :value="item.value"></el-option>
+                      <template v-for="(item) in arbIdOptions">
+                        <el-option :key="item.arbId" :label="item.arbName" :value="item.arbId"></el-option>
                       </template>
                     </el-select>
                   </el-form-item>
@@ -81,8 +81,8 @@
                   <el-form-item label=" " prop="hzmngUserId">
                     <el-select v-model="ruleForm.hzmngUserId" placeholder="所属仲裁委">
                       <el-option label="请选择" value=""></el-option>
-                      <template v-for="(item,index) in hzmngUserIdOptions">
-                        <el-option :key="index" :label="item.label" :value="item.value"></el-option>
+                      <template v-for="(item) in hzmngUserIdOptions">
+                        <el-option :key="item.userId" :label="item.userName" :value="item.userId"></el-option>
                       </template>
                     </el-select>
                   </el-form-item>
@@ -276,15 +276,27 @@
 
         // 所属仲裁委
         arbIdOptions : [
-          {label : '仲裁委1' , value : '仲裁委1'},
-          {label : '仲裁委2' , value : '仲裁委2'},
         ],
         // 所属市场人员
         hzmngUserIdOptions : [
-          {label : '人员a' , value : '人员a'},
-          {label : '人员b' , value : '人员b'},
         ],
       }
+    },
+    mounted() {
+      // 获取所属仲裁委 options
+      this.$http({
+        method : 'post',
+        url : '/arbitration/queryAllArbList.htm',
+      }).then((res) => {
+        this.arbIdOptions = res.result;
+      });
+      // 所属市场人员 options
+      this.$http({
+        method : 'post',
+        url : '/user/queryUserListByRoleId.htm',
+      }).then((res) => {
+        this.hzmngUserIdOptions = res.result;
+      });
     },
     methods : {
       show(data) {
@@ -302,13 +314,14 @@
       handleSubmit() {
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
-            alert('submit!');
             this.$http({
               method : 'post',
               url : '/merchant/saveMerchantInfo.htm',
               data : this.ruleForm,
             }).then((res) => {
-              console.log(res);
+              this.$message.success('修改成功');
+              this.$emit('successCBK');
+              this.handleClose();
             });
           }
         });

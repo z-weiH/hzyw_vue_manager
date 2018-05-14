@@ -176,6 +176,7 @@
             templateId : this.templateId,
           },
         }).then((res) => {
+          this.$message.success('设置成功');
           this.init();
         });
       },
