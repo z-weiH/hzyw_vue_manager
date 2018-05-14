@@ -13,7 +13,7 @@
       还款信息列表
     </div>
     <div class='item-table'>
-      <table-component @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="currentPage" :total="total" :pageSize="pageSize" :table-data='tableData' :column-define='columnDefine' ></table-component>
+      <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data='tableData' :column-define='columnDefine' ></table-component>
     </div>
   </div>
 </template>
@@ -29,12 +29,14 @@ export default {
     return {
       item: {},
       queryUrl: "/11/repayment/queryRepaymentList.htm",
-      // 数据总数
-      total: 11,
-      // 当前页数
-      currentPage: 1,
-      // 每页数量
-      pageSize: 10,
+      pager: {
+        // 数据总数
+        total: 11,
+        // 当前页数
+        currentPage: 1,
+        // 每页数量
+        pageSize: 10
+      },
       tableData: [{}],
       searchItems: [
         {
@@ -86,15 +88,15 @@ export default {
           property: "endDate"
         },
         {
-          label:"互金企业",
-          newline:1,
+          label: "互金企业",
+          newline: 1,
           type: "select",
           placeholder: "互金企业",
           colSpan: 3,
           property: "merchantCode"
         },
         {
-          label:"产品名称",
+          label: "产品名称",
           type: "select",
           placeholder: "产品名称",
           colSpan: 3,
@@ -108,7 +110,7 @@ export default {
           property: "caseProcess"
         },
         {
-          label:"还款案件状态",
+          label: "还款案件状态",
           type: "select",
           placeholder: "还款案件状态",
           colSpan: 3,
@@ -183,15 +185,14 @@ export default {
     doQuery(url, item) {
       this.query(url, item).then(res => {
         this.tableData = res.result.list;
-          this.total = res.result.count;
-          console.log('ttttttttttttttttttttt');
-         console.info(res.result.count);
+        this.total = res.result.count;
+        console.log("ttttttttttttttttttttt");
+        console.info(res.result.count);
       });
     }
   },
   mounted() {
     this.doQuery(this.queryUrl, this.item);
-
   },
   components: {
     Searchs,

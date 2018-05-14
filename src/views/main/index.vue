@@ -11,17 +11,20 @@
           <router-view/>
       </div>
     </div>
+    <backTop></backTop>
   </div>
 </template>
 
 <script>
   import top from './modules/top.vue'
   import menuL from './modules/menu.vue'
+  import backTop from '@/components/backTop.vue'
 
   export default {
     components : {
       top,
       menuL,
+      backTop
     },
   }
 </script>

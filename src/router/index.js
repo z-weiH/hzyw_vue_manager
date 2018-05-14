@@ -5,24 +5,52 @@ import Router from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
+// 登录
+import login from '@/views/auth/login.vue'
+// 404
+import notFind from '@/views/notFind'
 // main 主体路由
 import main from '@/views/main'
 /* main 子路由 start */
 
+// 系统管理模块
+import userQuery from '@/views/system/userQuery' // 用户查询
+import userControl from '@/views/system/userControl' // 用户管理
+import roleManage from '@/views/system/roleManage' // 角色管理
+import menuManage from '@/views/system/menuManage' // 菜单管理
+import personInfo from '@/views/system/personInfo' // 个人信息
+import changePwd from '@/views/system/changePwd' // 修改密码
 
+//开户管理
+import accountApply from '@/views/account/accountApply' //开户申请
+import userSearch from '@/views/account/userSearch' //用户查询
 
-// 财务管理模块
-import orderAddNewDefault from '@/views/finance/orderAddNewDefault' //订单加款【财务人员】
-import orderAddNewManage from '@/views/finance/orderAddNewManage' //订单加款【财务主管-审核】
-import billingDay from '@/views/finance/billingDay' //受理费日对账
-import serviceChargeDayCheck from '@/views/finance/serviceChargeDayCheck' //服务费日对账
-import zticketDonateDefault from '@/views/finance/zticketDonateDefault' //仲券赠送【财务人员】
-import zticketDonateManage from '@/views/finance/zticketDonateManage' //仲券赠送【财务主管-审核】
-import refundListDefault from '@/views/finance/refundListDefault' //退款【财务人员】
-import refundListManage from '@/views/finance/refundListManage' //退款【财务主管-审核】
-import techServiceDayCheck from '@/views/finance/techServiceDayCheck' //技术服务费日对账
-import processingFeeSettle from '@/views/finance/processingFeeSettle' //受理费结算
-import processingFeeSettleReview from '@/views/finance/processingFeeSettleReview' //受理费结算复核
+//仲裁委管理
+import arbitramentManage from '@/views/arb/arbitramentManage' // 仲裁委管理
+import informEmailManage from '@/views/arb/informEmailManage' // 仲裁委邮箱管理
+
+// 第三方管理模块
+import mailSendLog from '@/views/third/mailSendLog' // 邮件发送日志
+import noteSendLog from '@/views/third/noteSendLog' // 短信发送日志
+
+// 客户管理模块
+import clientManagement from '@/views/customer/clientManagement' // 客户管理
+import balanceQuery from '@/views/customer/balanceQuery' // 账户余额查询
+import tplSetting from '@/views/customer/tplSetting' // 模板设置
+import tplEvidenceSetting from '@/views/customer/tplEvidenceSetting' // 模板证据设置
+
+// 案件订单模块
+import arbitramentTimeTaskManage from '@/views/order/arbitramentTimeTaskManage' // 仲裁端定时任务管理
+import clientTimeTaskManage from '@/views/order/clientTimeTaskManage' // 客户端定时任务管理
+import caseOrderQuery from '@/views/order/caseOrderQuery' // 案件提交日志
+import idCardVerfy from '@/views/order/idCardVerfy' // 身份证校验
+import orderManagement from '@/views/order/orderManagement' // 订单管理
+import fastTrack from '@/views/order/fastTrack' // 快速通道
+
+// 案件相关模块
+import arbitramentUsersManage from '@/views/case/arbitramentUsersManage' // 仲裁用户管理
+import caseManagement from '@/views/case/caseManagement' // 案件管理
+
 
 
 
@@ -39,15 +67,15 @@ Vue.use(Router)
 let router = new Router({
   routes: [{
       path: '/',
-      component: () => import ('@/views/auth/login.vue'), // 登录,
+      component: login,
     },
     {
       path: '/login',
-      component: () => import ('@/views/auth/login.vue'), // 登录
+      component: login,
     },
     {
       path: '/404',
-      component: () => import ('@/views/notFind'), // 404
+      component: notFind,
     },
     {
       path: '/main',
@@ -56,42 +84,42 @@ let router = new Router({
         /* 系统管理模块 start */
         {
           path: 'userQuery',
-          component: ()=> import('@/views/system/userQuery'),
+          component: userQuery,
           meta: {
             name: 'userQuery',
           },
         },
         {
           path: 'userControl',
-          component: ()=> import('@/views/system/userControl'),
+          component: userControl,
           meta: {
             name: 'userControl',
           },
         },
         {
           path: 'roleManage',
-          component: ()=> import('@/views/system/roleManage'),
+          component: roleManage,
           meta: {
             name: 'roleManage',
           },
         },
         {
           path: 'menuManage',
-          component: ()=> import('@/views/system/menuManage'),
+          component: menuManage,
           meta: {
             name: 'menuManage',
           },
         },
         {
           path: 'personInfo',
-          component: ()=> import('@/views/system/personInfo'),
+          component: personInfo,
           meta: {
             name: 'personInfo',
           },
         },
         {
           path: 'changePwd',
-          component: ()=> import('@/views/system/changePwd'),
+          component: changePwd,
           meta: {
             name: 'changePwd',
           },
@@ -101,14 +129,14 @@ let router = new Router({
         /* 开户管理 start */
         {
           path: 'accountApply',
-          component: () => import('@/views/account/accountApply'),
+          component: accountApply,
           meta: {
             name: 'accountApply',
           },
         },
         {
           path: 'userSearch',
-          component: () => import('@/views/account/userSearch'),
+          component: userSearch,
           meta: {
             name: 'userSearch',
           },
@@ -118,14 +146,14 @@ let router = new Router({
         /* 仲裁委管理 start*/
         {
           path: 'arbitramentManage',
-          component: () => import('@/views/arb/arbitramentManage'),
+          component: arbitramentManage,
           meta: {
             name: 'arbitramentManage',
           },
         },
         {
           path: 'informEmailManage',
-          component: () => import('@/views/arb/informEmailManage'),
+          component: informEmailManage,
           meta: {
             name: 'informEmailManage',
           },
@@ -154,14 +182,14 @@ let router = new Router({
         /* 第三方管理模块 start */
         {
           path: 'mailSendLog',
-          component: () => import ('@/views/third/mailSendLog'), //邮件发送日志
+          component: mailSendLog,
           meta: {
             name: 'mailSendLog',
           },
         },
         {
           path: 'noteSendLog',
-          component: () => import ('@/views/third/noteSendLog'), //短信发送日志
+          component: noteSendLog,
           meta: {
             name: 'noteSendLog',
           },
@@ -195,37 +223,72 @@ let router = new Router({
         },
         {
           path: 'respondentsOperateRecord',
-          component: import ('@/views/caseInfo/respondentsOperateRecord'), //被申请人操作记录
+          component: () =>
+            import ('@/views/caseInfo/respondentsOperateRecord'), //被申请人操作记录
           meta: {
             name: 'respondentsOperateRecord'
           }
         },
         /* 案件信息模块 end */
+        /* 短息记录 start */
+        {
+          path: 'esmqLogView',
+          component: () =>
+            import ('@/views/msgRecorder/esmqLogView'), //发送记录
+          meta: {
+            name: 'esmqLogView'
+          }
+        },{
+          path: 'receiveLog',
+          component: () =>
+            import ('@/views/msgRecorder/receiveLog'), //接收记录
+          meta: {
+            name: 'receiveLog'
+          }
+        },
+        /* 短息记录 end */
+        /* 状态配置 start */
+        {
+          path: 'customerAllot',
+          component: () =>
+            import ('@/views/statusConfig/customerAllot'), //客户分配
+          meta: {
+             name: 'customerAllot'
+          }
+        },{
+          path: 'mediateStatusSet',
+          component: () =>
+            import ('@/views/statusConfig/mediateStatusSet'), //调解状态设置
+          meta: {
+            name: 'mediateStatusSet'
+          }
+        },
+        /* 状态配置 end */
         /* 客户管理模块 start */
         {
           path: 'clientManagement',
-          component: () => import ('@/views/customer/clientManagement'), // 客户管理
+          component: clientManagement,
           meta: {
             name: 'clientManagement',
           },
         },
         {
           path: 'balanceQuery',
-          component: () => import ('@/views/customer/balanceQuery'), // 账户余额查询
+          component: balanceQuery,
           meta: {
             name: 'balanceQuery',
           },
         },
         {
           path: 'tplSetting',
-          component: () => import ('@/views/customer/tplSetting'), // 模板设置
+          component: tplSetting,
           meta: {
             name: 'tplSetting',
           },
         },
         {
           path: 'tplEvidenceSetting',
-          component: () => import ('@/views/customer/tplEvidenceSetting'), // 模板证据设置,
+          component: tplEvidenceSetting,
           meta: {
             name: 'tplEvidenceSetting',
           },
@@ -235,42 +298,42 @@ let router = new Router({
         /* 案件订单模块 start */
         {
           path: 'arbitramentTimeTaskManage',
-          component: () => import ('@/views/order/arbitramentTimeTaskManage'), // 仲裁端定时任务管理
+          component: arbitramentTimeTaskManage,
           meta: {
             name: 'arbitramentTimeTaskManage',
           },
         },
         {
           path: 'clientTimeTaskManage',
-          component: () => import ('@/views/order/clientTimeTaskManage'), // 客户端定时任务管理
+          component: clientTimeTaskManage,
           meta: {
             name: 'clientTimeTaskManage',
           },
         },
         {
           path: 'caseOrderQuery',
-          component: () => import ('@/views/order/caseOrderQuery'), // 案件提交日志
+          component: caseOrderQuery,
           meta: {
             name: 'caseOrderQuery',
           },
         },
         {
           path: 'idCardVerfy',
-          component: () => import ('@/views/order/idCardVerfy'), // 身份证校验
+          component: idCardVerfy,
           meta: {
             name: 'idCardVerfy',
           },
         },
         {
           path: 'orderManagement',
-          component: () => import ('@/views/order/orderManagement'), // 订单管理
+          component: orderManagement,
           meta: {
             name: 'orderManagement',
           },
         },
         {
           path: 'fastTrack',
-          component: () => import ('@/views/order/fastTrack'), // 快速通道
+          component: fastTrack,
           meta: {
             name: 'fastTrack',
           },
@@ -280,14 +343,14 @@ let router = new Router({
         /* 案件相关模块 start */
         {
           path: 'arbitramentUsersManage',
-          component: () => import ('@/views/case/arbitramentUsersManage'), // 仲裁用户管理
+          component: arbitramentUsersManage,
           meta: {
             name: 'arbitramentUsersManage',
           },
         },
         {
           path: 'caseManagement',
-          component: () => import ('@/views/case/caseManagement'), // 案件管理
+          component: caseManagement,
           meta: {
             name: 'caseManagement',
           },
@@ -297,91 +360,104 @@ let router = new Router({
         /* 财务管理模块 start */
         {
           path: 'contractAddNewDefault',
-          component: () => import ('@/views/finance/contractAddNewDefault'), // 合同加款【财务人员】
+          component: () =>
+            import ('@/views/finance/contractAddNewDefault'), // 合同加款【财务人员】
           meta: {
             name: 'contractAddNewDefault',
           },
         },
         {
           path: 'contractAddNewManage',
-          component: () => import ('@/views/finance/contractAddNewManage'), // 合同加款【财务主管-审核】
+          component: () =>
+            import ('@/views/finance/contractAddNewManage'), // 合同加款【财务主管-审核】
           meta: {
             name: 'contractAddNewManage',
           },
         },
         {
           path: 'orderAddNewDefault',
-          component: orderAddNewDefault,
+          component: () =>
+            import ('@/views/finance/orderAddNewDefault'), //订单加款【财务人员】
           meta: {
             name: 'orderAddNewDefault',
           },
         },
         {
           path: 'orderAddNewManage',
-          component: orderAddNewManage,
+          component: () =>
+            import ('@/views/finance/orderAddNewManage'), //订单加款【财务主管-审核】
           meta: {
             name: 'orderAddNewManage',
           },
         },
         {
           path: 'billingDay',
-          component: billingDay,
+          component: () =>
+            import ('@/views/finance/billingDay'), //受理费日对账
           meta: {
             name: 'billingDay',
           },
         },
         {
           path: 'serviceChargeDayCheck',
-          component: serviceChargeDayCheck,
+          component: () =>
+            import ('@/views/finance/serviceChargeDayCheck'), //服务费日对账
           meta: {
             name: 'serviceChargeDayCheck',
           },
         },
         {
           path: 'zticketDonateDefault',
-          component: zticketDonateDefault,
+          component: () =>
+            import ('@/views/finance/zticketDonateDefault'), //仲券赠送【财务人员】
           meta: {
             name: 'zticketDonateDefault',
           },
         },
         {
           path: 'zticketDonateManage',
-          component: zticketDonateManage,
+          component: () =>
+            import ('@/views/finance/zticketDonateManage'), //仲券赠送【财务主管-审核】
           meta: {
             name: 'zticketDonateManage',
           },
         },
         {
           path: 'refundListDefault',
-          component: refundListDefault,
+          component: () =>
+            import ('@/views/finance/refundListDefault'), //退款【财务人员】
           meta: {
             name: 'refundListDefault',
           },
         },
         {
           path: 'refundListManage',
-          component: refundListManage,
+          component: () =>
+            import ('@/views/finance/refundListManage'), //退款【财务主管-审核】
           meta: {
             name: 'refundListManage',
           },
         },
         {
           path: 'techServiceDayCheck',
-          component: techServiceDayCheck,
+          component: () =>
+            import ('@/views/finance/techServiceDayCheck'), //技术服务费日对账
           meta: {
             name: 'techServiceDayCheck',
           },
         },
         {
           path: 'processingFeeSettle',
-          component: processingFeeSettle,
+          component: () =>
+            import ('@/views/finance/processingFeeSettle'), //受理费结算
           meta: {
             name: 'processingFeeSettle',
           },
         },
         {
           path: 'processingFeeSettleReview',
-          component: processingFeeSettleReview,
+          component: () =>
+            import ('@/views/finance/processingFeeSettleReview'), //受理费结算复核
           meta: {
             name: 'processingFeeSettleReview',
           },

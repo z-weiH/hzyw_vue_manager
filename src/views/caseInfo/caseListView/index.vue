@@ -12,7 +12,7 @@
       案件列表
     </div>
     <div class="item-table">
-      <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" ></table-component>
+      <table-component :pager="pager" @refreshList="doQuery(this.queryUrl, this.item)" :table-data="tableData" :column-define="columnDefine" ></table-component>
     </div>
   </div>
 </template>
@@ -245,12 +245,12 @@ export default {
       item: {},
       currentItem: {},
       queryUrl: '/11/case/queryHzCaseInfoByBaseQuery.htm',
-      // // 数据总数
-      // total: 11,
-      // // 当前页数
-      // currentPage: 1,
-      // // 每页数量
-      // pageSize: 10,
+      // 数据总数
+      total: 11,
+      // 当前页数
+      currentPage: 1,
+      // 每页数量
+      pageSize: 10,
       tableData:[],
       columnDefine: [
         { label: "案件编号", property: "arbCaseId" },
@@ -368,10 +368,9 @@ export default {
   methods: {
     doQuery (url,item) {
       this.query(url,item).then(res => {
-        // console.warn('0000000**************');
-        // console.info(res);
-        // this.tableData = res.result.list;
-        // console.log(typeof res.result.list);
+        console.info(res);
+        //  this.tableData = res.result.list;
+        //   this.total = res.result.count;
       })
     }
   },

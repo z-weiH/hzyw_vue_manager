@@ -28,10 +28,12 @@
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.0",
     "element-ui": "^2.3.7",
+    "exports-loader": "^0.7.0",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
+    "jquery": "^3.3.1",
     "mockjs": "^1.0.1-beta3",
     "moment": "^2.22.1",
     "node-notifier": "^5.1.2",
@@ -45,8 +47,10 @@
     "postcss-url": "^7.2.1",
     "rimraf": "^2.6.0",
     "sass-loader": "^7.0.1",
+    "script-loader": "^0.7.2",
     "semver": "^5.3.0",
     "shelljs": "^0.7.6",
+    "tween.js": "^16.6.0",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue-loader": "^13.3.0",
@@ -56,7 +60,8 @@
     "webpack": "^3.6.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.9.1",
-    "webpack-merge": "^4.1.0"
+    "webpack-merge": "^4.1.0",
+    "zepto": "^1.2.0"
   },
   "engines": {
     "node": ">= 6.0.0",

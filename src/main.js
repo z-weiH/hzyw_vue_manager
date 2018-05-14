@@ -17,6 +17,9 @@ Vue.prototype.$http = axios;
 // 引入 moment
 import moment from 'moment'
 Vue.prototype.$moment = moment;
+// 引入jquery
+// import $ from 'jquery';
+
 // 引入 store
 import store from './store'
 // 引入 filter
