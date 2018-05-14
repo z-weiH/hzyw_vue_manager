@@ -281,8 +281,8 @@ export default {
     doQuery(url, item) {
       this.query(url, item).then(res => {
         console.info(res);
-        this.tableData = res.result[0].list;
-         this.total = res.result[0].count;
+        this.tableData = res.result.list;
+         this.total = res.result.count;
       });
     }
   },

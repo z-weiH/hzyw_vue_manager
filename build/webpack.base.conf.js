@@ -32,10 +32,6 @@ module.exports = {
   module: {
     rules: [
       {
-        test: require.resolve('jquery'),
-        loader: 'exports-loader?window.jquery!script-loader'
-      },
-      {
         test: /\.vue$/,
         loader: 'vue-loader',
         options: vueLoaderConfig
