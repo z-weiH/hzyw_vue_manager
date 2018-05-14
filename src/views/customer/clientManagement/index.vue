@@ -56,7 +56,7 @@
       </el-pagination>
 
       <!-- 编辑弹出框 -->
-      <editDialog ref="editDialog"></editDialog>
+      <editDialog @successCBK="successCBK" ref="editDialog"></editDialog>
     </div>
   </div>
 </template>
@@ -111,6 +111,10 @@
         }).then((res) => {
           this.$refs.editDialog.show(res.result);
         });
+      },
+      // 修改完成 回调
+      successCBK() {
+        this.initTableList();
       },
 
       // 表格相关 start

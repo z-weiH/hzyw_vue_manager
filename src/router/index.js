@@ -475,6 +475,8 @@ let router = new Router({
 
 /* 前置钩子 */
 router.beforeEach((to, from, next) => {
+  // 返回顶部
+  window.scrollTo(0,0);  
   NProgress.start();
   next();
 });

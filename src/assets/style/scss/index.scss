@@ -101,9 +101,9 @@ body {
   }
   /* 溢出 省略 */
   .ellipsis {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow: hidden!important;
+    text-overflow: ellipsis!important;
+    white-space: nowrap!important;
   }
   /* 居中 */
   .center {
@@ -225,7 +225,11 @@ body {
 }
 
 /* 原生 表格样式 */
-
+.table .el-table__row > td> div.cell{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .m-primordial-table {
   table-layout: fixed;
   &.el-table--border,

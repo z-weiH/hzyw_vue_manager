@@ -9,7 +9,7 @@
       <div class="m-content">
         <div class="m-form-item">
           <div class="m-label">商户名称：</div>
-          <div class="m-value">{{ruleForm.merchantName}}</div>
+          <div class="m-value">{{ruleForm.fullName}}</div>
         </div>
 
         <div class="m-form-item">
@@ -19,7 +19,7 @@
 
         <div class="m-form-item">
           <div class="m-label">请求时间：</div>
-          <div class="m-value">{{ruleForm.createTime}}</div>
+          <div class="m-value">{{ruleForm.requireTime}}</div>
         </div>
 
         <div class="m-form-item">
@@ -49,11 +49,11 @@
 
         ruleForm : {
           // 商户名称
-          merchantName : '卡户',
+          fullName : '卡户',
           // 业务编码
           busiCode : 'SUBMIT',
           // 请求时间
-          createTime : '2018-05-12 14:32:14',
+          requireTime : '2018-05-12 14:32:14',
           // 处理状态
           isProcessedCN : '处理失败',
           // 参数
@@ -66,6 +66,7 @@
     methods : {
       show(ruleForm) {
         this.dialogVisible = true;
+        console.log(ruleForm,'-');
         this.ruleForm = ruleForm || this.ruleForm;
       },
 

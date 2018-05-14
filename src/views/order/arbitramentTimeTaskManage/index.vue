@@ -3,12 +3,12 @@
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
-        <el-form-item label=" " prop="qsrcs">
-          <el-input v-model.trim="ruleForm.qsrcs" placeholder="请输入参数"></el-input>
+        <el-form-item label=" " prop="keyWords">
+          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入参数"></el-input>
         </el-form-item>
 
-        <el-form-item label=" " prop="processfingState">
-          <el-select v-model="ruleForm.processfingState" placeholder="处理状态">
+        <el-form-item label=" " prop="isProcessed">
+          <el-select v-model="ruleForm.isProcessed" placeholder="处理状态">
             <el-option label="请选择" value=""></el-option>
             <template v-for="(item) in processingStateOptions">
               <el-option 
@@ -38,16 +38,29 @@
         </el-table-column>
         <el-table-column label="商户名称">
           <template slot-scope="scope">
-            <el-button @click="handleDetail" type="text">{{scope.row.fullName}}</el-button>
+            <el-button @click="handleDetail(scope.row)" type="text">{{scope.row.fullName}}</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="templateName" label="业务编码"></el-table-column>
-        <el-table-column prop="busiCode" label="参数"></el-table-column>
-        <el-table-column prop="createTime" label="处理状态"></el-table-column>
-        <el-table-column prop="createTime" label="请求时间"></el-table-column>
+        <el-table-column prop="busiCode" label="业务编码"></el-table-column>
+        <el-table-column prop="params" label="参数"></el-table-column>
+        <el-table-column label="处理状态">
+          <template slot-scope="scope">
+            {{
+              scope.isProcessed === 0 ? '待处理':
+              scope.isProcessed === 2 ? '处理失败': '处理中'
+            }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="requireTime" label="请求时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button @click="handleReset(scope.row)" type="text">重发</el-button>
+            <!-- 待处理 or 处理失败有 重发按钮 -->
+            <template v-if="scope.row.isProcessed === 0 || scope.row.isProcessed === 2">
+              <el-button @click="handleReset(scope.row)" type="text">重发</el-button>
+            </template>
+            <template>
+              --
+            </template>
           </template>
         </el-table-column>
       </el-table>
@@ -77,16 +90,16 @@
       return {
         ruleForm : {
           // 处理状态
-          processfingState : '',
+          isProcessed : '',
           // 参数
-          qsrcs : '',
+          keyWords : '',
         },
 
         // 处理状态 options
         processingStateOptions : [
-          {label : '待处理' , value : '待处理'},
-          {label : '处理失败' , value : '处理失败'},
-          {label : '处理中' , value : '处理中'},
+          {label : '待处理' , value : '0'},
+          {label : '处理失败' , value : '2'},
+          {label : '处理中' , value : '3'},
         ],
 
         // 表格数据
@@ -100,7 +113,7 @@
       }
     },
     mounted() {
-      //this.initTableList();
+      this.initTableList();
     },
     methods : {
       // 点击搜索
@@ -110,11 +123,29 @@
       // 点击重发
       handleReset(row) {
         this.$message.success('重新发送成功');
-        //this.$http();
+        this.$http({
+          method : 'post',
+          url : '/order/updateByPrimaryKey.htm',
+          data : {
+            taskerId : row.taskerId,
+          },
+        }).then((res) => {
+          this.$message.success('修改成功');
+          this.currentPage = 1;
+          this.initTableList();
+        });
       },
       // 点击查看详情，明细
       handleDetail(row) {
-        this.$refs.timedTaskDetail.show();
+        this.$http({
+          method : 'post',
+          url : '/order/selectByPrimaryKey.htm',
+          data : {
+            taskerId : row.taskerId,
+          },
+        }).then((res) => {
+          this.$refs.timedTaskDetail.show(res.result);
+        });
       },
 
       // 表格相关 start
@@ -123,11 +154,12 @@
       initTableList() {
         this.$http({
           method : 'post',
-          url : '/templatevidence/querytemplatevidenceByBaseQuery.htm',
+          url : '/order/queryTaskerInfoByBaseQuery.htm',
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
             keyWords : this.ruleForm.keyWords,
+            isProcessed : this.ruleForm.isProcessed,
           },
         }).then((res) => {
           this.total = res.result.count;
