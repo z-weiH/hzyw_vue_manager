@@ -193,28 +193,32 @@ let router = new Router({
         /* 案件信息模块 start */
         {
           path: 'caseListView',
-          component: import('@/views/caseInfo/caseListView'),//案件列表
+          component: () =>
+            import ('@/views/caseInfo/caseListView'), //案件列表
           meta: {
             name: 'caseListView',
           },
         },
         {
           path: 'respondentsFeedback',
-          component: import('@/views/caseInfo/respondentsFeedback'),//被申请人反馈
+          component: () =>
+            import ('@/views/caseInfo/respondentsFeedback'), //被申请人反馈
           meta: {
             name: 'respondentsFeedback',
           },
         },
         {
           path: 'paymentInformation',
-          component: import('@/views/caseInfo/paymentInformation'),//还款信息
+          component: () =>
+            import ('@/views/caseInfo/paymentInformation'), //还款信息
+
           meta: {
             name: 'paymentInformation'
           }
         },
         {
           path: 'respondentsOperateRecord',
-          component: import('@/views/caseInfo/respondentsOperateRecord'),//被申请人操作记录
+          component: import ('@/views/caseInfo/respondentsOperateRecord'), //被申请人操作记录
           meta: {
             name: 'respondentsOperateRecord'
           }
