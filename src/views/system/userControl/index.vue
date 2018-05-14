@@ -36,6 +36,7 @@
   import UserCreate from './modules/create'
   import UserEdit from './modules/edit'
   import UserUpdatePsd from './modules/updatePwd'
+  import {URL_JSON} from "../../../components/script/url_json";
   export default {
     name : 'roleManame',
     extends : Mixins,
@@ -113,7 +114,7 @@
       }
     },
     mounted () {
-      this.doQuery(this.queryUrl, this.item);
+      this.doQuery('/2'+URL_JSON['queryUserControl'], this.item);
     }
   }
 </script>

@@ -1,4 +1,4 @@
-const URL_JSON = {
+export const URL_JSON = {
   /* 系统管理 */
 
   //用户管理 UserControl
