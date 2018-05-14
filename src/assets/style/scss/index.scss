@@ -225,7 +225,11 @@ body {
 }
 
 /* 原生 表格样式 */
-
+.table .el-table__row > td> div.cell{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
 .m-primordial-table {
   table-layout: fixed;
   &.el-table--border,
