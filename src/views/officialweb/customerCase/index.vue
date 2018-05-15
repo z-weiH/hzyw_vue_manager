@@ -68,12 +68,16 @@
       },
       doDelete(row) {
         this.$confirm('是否确认删除？', '提示', {
-          cancelButtonText: '取消',
-          confirmButtonText: '确定',
+          cancelButtonText: '确定',
+          confirmButtonText: '取消',
+          cancelButtonClass: 'cancel',
+          confirmButtonClass: 'confirm',
           center: true
         }).then(res => {
+          //点取消
           console.log(res);
         }).catch(err => {
+          //点确定
           console.log(err);
         })
       },
