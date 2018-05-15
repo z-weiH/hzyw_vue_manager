@@ -11,7 +11,7 @@
         </el-table-column>
         <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img'" :width="col.width ? col.width : 'auto'">
            <template slot-scope="scope">
-             <span :title="scope.row[col.property]" :ref="col.property+scope.$index">{{scope.row[col.property]}}</span>
+             <span :title="EllipsisObjs[col.property+scope.$index] ? scope.row[col.property] : ''" :ref="col.property+scope.$index">{{scope.row[col.property]}}</span>
         </template>
         </el-table-column>
       </template>
@@ -166,26 +166,19 @@ export default {
   },
   mounted() {
     console.log("--------");
-    setTimeout(() => {
-<<<<<<< HEAD
-      console.log(this.$refs,this);
-    },5900)
+
     // console.log("当前显示条数", this.pager.pageSize);
     // console.log("当前页标", this.pager.currentPage);
     // console.log("总数", this.pager.total);
   },
   updated(){
       this.EllipsisObjs = this.getEllipsisObjs();
-=======
-      console.log('%%%%',this);
-    }, 5000);
-    console.log(this.tableData);
-    console.log("当前显示条数", this.pager.pageSize);
-    console.log("当前页标", this.pager.currentPage);
-    console.log("总数", this.pager.total);
->>>>>>> 107d53210905db1853d63eba19ef2f5a51bfd2ae
+      console.log(this.tableData);
+      console.log("当前显示条数", this.pager.pageSize);
+      console.log("当前页标", this.pager.currentPage);
+      console.log("总数", this.pager.total);
   }
-};
+}
 </script>
 
 <style lang="sass">
