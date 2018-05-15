@@ -6,7 +6,7 @@
          <router-link :to='$options.name' class='aside_tit'>客户分配</router-link>
         </div>
         <searchs class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
-          <template slot='moreBtn'><el-button class='ml-20' type='primary' @click=''>导出Excel</el-button></template>
+          <template slot='moreBtn'><el-button class='ml-20' type='primary' @click='create'>新增分配</el-button></template>
         </searchs>
         <div class='item-title'>
           客户分配列表
@@ -40,18 +40,21 @@ export default {
           type: "select",
           colSpan: 4,
           property: "merchantCode"
-        },{
+        },
+        {
           label: "运营人员",
           type: "select",
           colSpan: 4,
           property: "operatorId"
-        },{
+        },
+        {
           label: "分配时间",
           type: "date",
-          placeholder:"开始时段",
+          placeholder: "开始时段",
           colSpan: 4,
           property: "beginDistributeTime"
-        },{
+        },
+        {
           type: "date",
           placeholder: "结束时段",
           colSpan: 4,
@@ -75,9 +78,7 @@ export default {
       actions: [
         {
           label: "操作",
-          btns: [
-            { label: "解除分配", function: this.doEdit },
-          ]
+          btns: [{ label: "解除分配", function: this.doEdit }]
         }
       ]
     };
@@ -89,11 +90,21 @@ export default {
         this.total = res.result.count;
       });
     },
-    doEdit(row) {
-      console.log(row);
-      this.item = row;
+    create() {
       this.editState = 1;
+      // this.item = row;
+
     },
+    doEdit(row) {
+      // console.log(row);
+      // this.item = row;
+      // this.editState = 1;
+      console.info(row);
+      this.showConfirm().then(res => {
+        //点确定 res为true , false为true
+        console.log(res);
+      });
+    }
   },
   mounted() {
     this.doQuery(this.queryUrl, this.item);
@@ -106,5 +117,4 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-
 </style>

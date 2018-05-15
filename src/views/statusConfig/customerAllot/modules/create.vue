@@ -43,10 +43,18 @@ export default {
         return this.editState == 2 || this.editState == 1;
       },
       set(v){
-        if(!v)
+        if(!v){
           this.$parent.editState = 0;
+        }
       }
     }
+  },
+  methods: {
+
+  },
+  created () {
+    console.info('*******item');
+    console.info(this.item);
   },
   components: {
     Edits
