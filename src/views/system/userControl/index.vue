@@ -102,6 +102,7 @@
         this.editState = 3
       },
       delete (row) {
+        console.log(row)
         this.deleteConfirm = true;
         this.deleteItem = row;
       },

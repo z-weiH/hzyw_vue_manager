@@ -68,6 +68,7 @@
       },
       doDelete(row) {
         this.showConfirm().then( res=> {
+          //点确定 res为true , false为true
           console.log(res)
         })
       },

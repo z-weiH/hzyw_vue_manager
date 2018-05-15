@@ -4,19 +4,14 @@
       <el-table-column type="index" label="序号" width="50">
       </el-table-column>
       <template v-for="(col, index) of columns" >
-        <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type == 'img'" :width="col.width ? col.width : 106">
+        <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type == 'img'" :width="col.width ? col.width : 'auto'">
           <template slot-scope="scope" v-if="col.type == 'img'">
             <img :src="scope.row.custIcon">
           </template>
         </el-table-column>
-        <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img'" :width="col.width ? col.width : 106">
+        <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img'" :width="col.width ? col.width : 'auto'">
           <template slot-scope="scope">
-            <el-popover trigger="hover" placement="top">
-              <p>{{ scope.row[col.property] }}</p>
-              <div slot="reference" class="name-wrapper">
-                {{scope.row[col.property]}}
-              </div>
-            </el-popover>
+            <span :ref="col.property+scope.$index" :title="EllipsisObjs[col.property+scope.$index] ? scope.row[col.property] : ''">{{scope.row[col.property]}}</span>
           </template>
         </el-table-column>
       </template>
@@ -75,6 +70,11 @@ export default {
     actions: Array,
     pager: Object
   },
+  data() {
+    return {
+      EllipsisObjs: {}
+    }
+  },
   computed: {
     columns() {
       let arr = [];
@@ -87,9 +87,21 @@ export default {
         }
       });
       return arr;
-    }
+    },
   },
   methods: {
+    getEllipsisObjs() {
+      let obj={};
+      Object.keys(this.$refs).forEach( key  => {
+        let ele = this.$refs[key][0]
+        if(ele && (ele.offsetWidth > ele.offsetParent.offsetWidth)){
+          obj[key] = true;
+        }
+        else
+          obj[key] = false;
+      })
+      return obj;
+    },
     refresh() {
       let arr = [];
       this.columnDefine.forEach(it => {
@@ -155,10 +167,15 @@ export default {
   },
   mounted() {
     console.log("--------");
-    console.log(this.tableData);
-    console.log("当前显示条数", this.pager.pageSize);
-    console.log("当前页标", this.pager.currentPage);
-    console.log("总数", this.pager.total);
+    setTimeout(() => {
+      console.log(this.$refs,this);
+    },5900)
+    // console.log("当前显示条数", this.pager.pageSize);
+    // console.log("当前页标", this.pager.currentPage);
+    // console.log("总数", this.pager.total);
+  },
+  updated(){
+      this.EllipsisObjs = this.getEllipsisObjs();
   }
 };
 </script>
