@@ -1,6 +1,6 @@
 <template>
   <div>
-      <searchs class="item-search" :search-items="searchItems" :item="item" :query-url="'/user/queryUserList.htm'">
+      <searchs class="item-search" :search-items="searchItems" :item="item" :query-url="queryUrl">
       </searchs>
     <div class="item-title">
       用户列表
@@ -16,6 +16,7 @@
   import TableComponent from '@/components/table'
   import Mixins from '@/components/script/_mixin'
   import Edits from '@/components/edits'
+  import {URL_JSON} from "../../../components/script/url_json";
   export default {
     name : 'roleManame',
     extends : Mixins,
@@ -34,6 +35,8 @@
           {label: '所属角色',property: 'roleNames'},
           {label: '创建时间',property: 'createTime',width: 180},
         ],
+        queryUrl: '/2' + URL_JSON['queryUserControl']
+
         // fixedSearchItrems: { parent_id: '2', role_id: '3'},//固定的查询条件
       }
     },
@@ -45,8 +48,8 @@
     methods: {
 
     },
-    mounted () {
-      this.doQuery('/user/queryUserList.htm', this.item);
+    created () {
+      this.doQuery(this.queryUrl, this.item);
     }
   }
 </script>

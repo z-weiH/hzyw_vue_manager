@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="item-search">
-      <searchs :search-items="searchItems" :item="item" :queryUrl="queryUrl">
+      <searchs :search-items="searchItems" :item="searchItem" :queryUrl="queryUrl">
         <div class="fr" slot="moreBtn">
           <el-button type="primary" @click="create">新增角色</el-button>
         </div>
@@ -14,27 +14,18 @@
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
     </div>
     <role-create :create-item="editItem" :edit-state="editState"></role-create>
-    <role-permission :edit-state="editState" ></role-permission>
-    <el-dialog
-      :visible.sync="deleteConfirm"
-      title="提示"
-      width="495px"
-      center>
-      <div>是否确认删除？</div>
-      <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="sureDelete">确 定</el-button>
-          <el-button @click="deleteConfirm = false">取 消</el-button>
-        </span>
-    </el-dialog>
+    <role-permission :edit-state="editState" :list="list"></role-permission>
   </div>
 </template>
 
 <script>
+  import Mock from 'mockjs'
   import Searchs from '@/components/searchs'
   import Mixins from '@/components/script/_mixin'
   import TableComponent from '@/components/table'
   import RoleCreate from './modules/create'
   import RolePermission from './modules/permission'
+  import {URL_JSON} from "../../../components/script/url_json";
   export default {
     name : 'roleManame',
     extends: Mixins,
@@ -43,7 +34,7 @@
         searchItems : [
           {type: 'text',placeholder: '请输入角色编码、角色名称', property: 'keyWords', colSpan: 6}
         ],
-        item: {},
+        searchItem: {},
         columnDefine: [
           {label: '角色编码',property: 'roleCode'},
           {label: '角色名称',property: 'roleName'},
@@ -62,17 +53,28 @@
         ],
         editItem: {},
         editState: 0, // 4 编辑权限
-        deleteConfirm: false,
-        currentItem: {},
-        queryUrl: '/2/role/queryRoleList.htm'
+        queryUrl: '/2' + URL_JSON['queryRoleManage'],
+        list: [] //权限数列表
       }
     },
     methods: {
       menuManager () {
-        this.$http.post('/2/menu/selectZTreeVOList.htm')
-          .then(res => {
-            console.log(res);
-            this.editState = 4;
+        this.$http.post('/2' + URL_JSON['treeRoleManage'])
+          .then(res=> {
+            res=Mock.mock(res)
+            if(res.code){
+                this.editState = 4;
+                this.list = res.result.list;
+                this.list = [
+                  {id: 1,name: 'parent1'},
+                  {id: 2,name: 'parent2'},
+                  {id: 3,name: 'parent3'},
+                  {id: 4,name: 'child1',pId: 1},
+                  {id: 5,name: 'child2',pId: 2},
+                  {id: 6,name: 'child3',pId: 3},
+                  {id: 7,name: 'child4',pId: 4},
+                ]
+            }
           })
       },
       create () {
@@ -85,15 +87,19 @@
         this.editState = 1;
       },
       doDelete (row) {
-        this.deleteConfirm = true;
-        this.currentItem = row;
-      },
-      sureDelete () {
-
+        this.showConfirm().then(confirm => {
+          if(confirm){
+            this.$http.post('/2'+URL_JSON['deleteRoleManage'],{userId: row.userId}).then(res=> {
+              if(res.code){
+                this.tableData.splice(this.tableData.findIndex(it => it == row),1);
+              }
+            })
+          }
+        })
       },
       doQuery (url,item) {
         this.query(url,item).then(res => {
-          console.info(res[0].roleName);
+          // console.info(res[0].roleName);
         })
       }
     },
@@ -103,8 +109,8 @@
       RoleCreate,
       RolePermission
     },
-    mounted () {
-      console.log(this)
+    created () {
+      this.doQuery(this.queryUrl, this.searchItem)
     }
   }
 </script>
