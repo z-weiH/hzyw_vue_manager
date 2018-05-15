@@ -11,7 +11,7 @@
         </el-table-column>
         <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img'" :width="col.width ? col.width : 'auto'">
            <template slot-scope="scope">
-             <span :title="scope.row[col.property]" :ref="col.property+scope.$index">{{scope.row[col.property]}}</span>
+             <span :title="scope.row[col.property]" :title="EllipsisObjs[col.property+scope.$index] ? scope.row[col.property] : ''" :ref="col.property+scope.$index">{{scope.row[col.property]}}</span>
         </template>
         </el-table-column>
       </template>
@@ -166,17 +166,19 @@ export default {
   },
   mounted() {
     console.log("--------");
-    setTimeout(() => {
-      console.log(this.$refs,this);
-    },5900)
+
     // console.log("当前显示条数", this.pager.pageSize);
     // console.log("当前页标", this.pager.currentPage);
     // console.log("总数", this.pager.total);
   },
   updated(){
       this.EllipsisObjs = this.getEllipsisObjs();
+      console.log(this.tableData);
+      console.log("当前显示条数", this.pager.pageSize);
+      console.log("当前页标", this.pager.currentPage);
+      console.log("总数", this.pager.total);
   }
-};
+}
 </script>
 
 <style lang="sass">
