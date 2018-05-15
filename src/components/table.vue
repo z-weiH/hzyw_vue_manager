@@ -10,6 +10,14 @@
           </template>
         </el-table-column>
         <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img'" :width="col.width ? col.width : 106">
+          <template slot-scope="scope">
+            <el-popover trigger="hover" placement="top">
+              <p>{{ scope.row[col.property] }}</p>
+              <div slot="reference" class="name-wrapper">
+                {{scope.row[col.property]}}
+              </div>
+            </el-popover>
+          </template>
         </el-table-column>
       </template>
 
