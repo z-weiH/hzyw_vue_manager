@@ -12,7 +12,7 @@
             <el-option label="请选择" value=""></el-option>
             <template v-for="(item) in processingStateOptions">
               <el-option 
-                :key="item.productId" 
+                :key="item.value" 
                 :label="item.label" 
                 :value="item.value"
               >
@@ -122,7 +122,6 @@
       },
       // 点击重发
       handleReset(row) {
-        this.$message.success('重新发送成功');
         this.$http({
           method : 'post',
           url : '/order/updateByPrimaryKey.htm',

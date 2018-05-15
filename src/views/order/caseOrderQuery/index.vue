@@ -21,8 +21,8 @@
 
         <!-- 时间范围 选择 -->
         <timeFrame
-          :startTime.sync="ruleForm.startTime"
-          :endTime.sync="ruleForm.endTime"
+          :startDate.sync="ruleForm.startDate"
+          :endDate.sync="ruleForm.endDate"
         >
         </timeFrame>
 
@@ -83,15 +83,15 @@
           // 处理状态
           processfingState : '',
           // 开始时间
-          startTime : this.$moment().format('YYYY-MM-DD'),
+          startDate : this.$moment().format('YYYY-MM-DD'),
           // 结束时间
-          endTime : this.$moment().format('YYYY-MM-DD'),
+          endDate : this.$moment().format('YYYY-MM-DD'),
         },
         // 处理状态 options
         processingStateOptions : [
-          {label : '待处理' , value : '待处理'},
-          {label : '处理失败' , value : '处理失败'},
-          {label : '处理中' , value : '处理中'},
+          {label : '待处理' , value : '0'},
+          {label : '处理失败' , value : '2'},
+          {label : '处理中' , value : '3'},
         ],
 
         // 表格数据
@@ -105,7 +105,7 @@
       }
     },
     mounted() {
-      //this.initTableList();
+      this.initTableList();
     },
     methods : {
       // 点击搜索
@@ -124,15 +124,16 @@
       initTableList() {
         this.$http({
           method : 'post',
-          url : '/templatevidence/querytemplatevidenceByBaseQuery.htm',
+          url : '/case/queryCaseOrderByBaseQuery.htm',
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
-            endTime : this.ruleForm.endTime,
-            startTime : this.ruleForm.startTime,
+            endDate : this.ruleForm.endDate,
+            startDate : this.ruleForm.startDate,
             keyWords : this.ruleForm.keyWords,
           },
         }).then((res) => {
+          res = res[0];
           this.total = res.result.count;
           this.tableData = res.result.list;
         });

@@ -164,7 +164,9 @@
         this.$confirm('确认删除?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
-          type: 'warning'
+          cancelButtonClass: 'cancel',
+          confirmButtonClass: 'confirm',
+          center: true,
         }).then(() => {
           this.$http({
             method : 'post',

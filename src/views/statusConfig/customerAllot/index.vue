@@ -21,12 +21,16 @@
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
+import customerAllotCreate from "./modules/create";
 export default {
   name: "customerAllot",
   extends: Mixins,
   data() {
     return {
       item: {},
+      editState: 0, // 4 编辑权限
+      deleteConfirm: false,
+      currentItem: {},
       queryUrl: "/13/distribution/queryDistributionByBaseQuery.htm",
       tableData: [{}],
       searchItems: [
@@ -34,29 +38,45 @@ export default {
           label: "互金企业",
           type: "select",
           colSpan: 4,
-          property: ""
+          property: "merchantCode"
         },{
           label: "运营人员",
           type: "select",
           colSpan: 4,
-          property: ""
+          property: "operatorId"
         },{
           label: "分配时间",
           type: "date",
           placeholder:"开始时段",
           colSpan: 4,
-          property: ""
+          property: "beginDistributeTime"
         },{
           type: "date",
           placeholder: "结束时段",
           colSpan: 4,
-          property: ""
+          property: "endDistributeTime"
         }
       ],
       columnDefine: [
         {
-          label: "",
-          property: ""
+          label: "互金企业",
+          property: "merchantName"
+        },
+        {
+          label: "运营人员",
+          property: "operatorName"
+        },
+        {
+          label: "分配时间",
+          property: "distributeTime"
+        }
+      ],
+      actions: [
+        {
+          label: "操作",
+          btns: [
+            { label: "解除分配", function: this.doEdit },
+          ]
         }
       ]
     };
@@ -74,7 +94,8 @@ export default {
   },
   components: {
     Searchs,
-    TableComponent
+    TableComponent,
+    customerAllotCreate
   }
 };
 </script>
