@@ -11,7 +11,7 @@
         </el-table-column>
         <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img'" :width="col.width ? col.width : 'auto'">
            <template slot-scope="scope">
-             <span :title="scope.row[col.property]" :title="EllipsisObjs[col.property+scope.$index] ? scope.row[col.property] : ''" :ref="col.property+scope.$index">{{scope.row[col.property]}}</span>
+             <span :title="EllipsisObjs[col.property+scope.$index] ? scope.row[col.property] : ''" :ref="col.property+scope.$index">{{scope.row[col.property]}}</span>
         </template>
         </el-table-column>
       </template>
