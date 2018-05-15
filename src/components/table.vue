@@ -167,7 +167,6 @@ export default {
   mounted() {
     console.log("--------");
     setTimeout(() => {
-<<<<<<< HEAD
       console.log(this.$refs,this);
     },5900)
     // console.log("当前显示条数", this.pager.pageSize);
@@ -176,14 +175,6 @@ export default {
   },
   updated(){
       this.EllipsisObjs = this.getEllipsisObjs();
-=======
-      console.log('%%%%',this);
-    }, 5000);
-    console.log(this.tableData);
-    console.log("当前显示条数", this.pager.pageSize);
-    console.log("当前页标", this.pager.currentPage);
-    console.log("总数", this.pager.total);
->>>>>>> 107d53210905db1853d63eba19ef2f5a51bfd2ae
   }
 };
 </script>
