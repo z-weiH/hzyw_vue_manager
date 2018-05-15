@@ -9,11 +9,12 @@
           <template slot='moreBtn'><el-button class='ml-20' type='primary' @click=''>导出Excel</el-button></template>
         </searchs>
         <div class='item-title'>
-
+          客户分配列表
         </div>
         <div class='item-table'>
-           <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData"  :column-define="columnDefine" ></table-component>
+           <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData"  :column-define="columnDefine" :actions="actions"></table-component>
         </div>
+        <customer-allot-create  :item="item" :edit-state="editState"></customer-allot-create>
    </div>
 </div>
 </template>
@@ -21,7 +22,7 @@
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
-import customerAllotCreate from "./modules/create";
+import CustomerAllotCreate from "./modules/create";
 export default {
   name: "customerAllot",
   extends: Mixins,
@@ -87,7 +88,12 @@ export default {
         this.tableData = res.result.list;
         this.total = res.result.count;
       });
-    }
+    },
+    doEdit(row) {
+      console.log(row);
+      this.item = row;
+      this.editState = 1;
+    },
   },
   mounted() {
     this.doQuery(this.queryUrl, this.item);
@@ -95,7 +101,7 @@ export default {
   components: {
     Searchs,
     TableComponent,
-    customerAllotCreate
+    CustomerAllotCreate
   }
 };
 </script>

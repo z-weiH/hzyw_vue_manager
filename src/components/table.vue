@@ -4,16 +4,15 @@
       <el-table-column type="index" label="序号" width="50">
       </el-table-column>
       <template v-for="(col, index) of columns" >
-
-        <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type == 'img'" :width="col.width ? col.width : auto">
+        <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type == 'img'" :width="col.width ? col.width : 'auto'">
           <template slot-scope="scope" v-if="col.type == 'img'">
             <img :src="scope.row.custIcon">
           </template>
         </el-table-column>
         <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img'" :width="col.width ? col.width : 'auto'">
-          <template slot-scope="scope">
-            <span :ref="col.property+scope.$index" :title="EllipsisObjs[col.property+scope.$index] ? scope.row[col.property] : ''">{{scope.row[col.property]}}</span>
-          </template>
+           <template slot-scope="scope">
+             <span :title="scope.row[col.property]" :ref="col.property+scope.$index">{{scope.row[col.property]}}</span>
+        </template>
         </el-table-column>
       </template>
       <!--<slot name=""></slot>-->
@@ -168,6 +167,7 @@ export default {
   mounted() {
     console.log("--------");
     setTimeout(() => {
+<<<<<<< HEAD
       console.log(this.$refs,this);
     },5900)
     // console.log("当前显示条数", this.pager.pageSize);
@@ -176,6 +176,14 @@ export default {
   },
   updated(){
       this.EllipsisObjs = this.getEllipsisObjs();
+=======
+      console.log('%%%%',this);
+    }, 5000);
+    console.log(this.tableData);
+    console.log("当前显示条数", this.pager.pageSize);
+    console.log("当前页标", this.pager.currentPage);
+    console.log("总数", this.pager.total);
+>>>>>>> 107d53210905db1853d63eba19ef2f5a51bfd2ae
   }
 };
 </script>
