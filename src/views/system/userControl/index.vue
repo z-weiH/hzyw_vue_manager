@@ -7,7 +7,7 @@
         </div>
       </searchs>
     <div class="item-title">
-      用户列表
+      用户管理
     </div>
     <div class="item-table">
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
@@ -15,17 +15,6 @@
     <user-create :editState.sync="editState" :create-item="createItem" ></user-create>
     <user-edit :editState.sync="editState" :edit-item="editItem" ></user-edit>
     <user-update-psd :editState.sync="editState" :psd-item="psdItem"></user-update-psd>
-    <el-dialog
-      :visible.sync="deleteConfirm"
-      title="提示"
-      width="495px"
-      center>
-      <div>是否确认删除？</div>
-      <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="sureDelete">确 定</el-button>
-          <el-button @click="deleteConfirm = false">取 消</el-button>
-        </span>
-    </el-dialog>
   </div>
 </template>
 
@@ -102,15 +91,10 @@
         this.editState = 3
       },
       delete (row) {
-        console.log(row)
-        this.deleteConfirm = true;
-        this.deleteItem = row;
-      },
-      sureDelete () {
-        this.$http.post('/2/user/deleteByPrimaryKey.htm',{
-          userId: this.deleteItem.userId
-        }).then(res=>{
-
+        this.showConfirm().then(res => {
+          if(res){
+            console.log('删除')
+          }
         })
       }
     },

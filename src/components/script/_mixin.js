@@ -14,7 +14,7 @@ export default {
       pager: {
         currentPage: 1,
         pageSize: 10,
-        total: 500
+        total: 500,
       }
     }
   },
@@ -32,7 +32,7 @@ export default {
      */
     query(url, item) {
       Object.assign(item, this.pager, this.fixedSearchItrems);
-      return this.$http.post(url, item)
+       let promise = this.$http.post(url, item)
         .then(res => {
           res = Mock.mock(res);
           console.log('***mock:');
@@ -43,6 +43,7 @@ export default {
           }
           return res
         })
+      return promise;
     },
     /**
      * @method
@@ -59,6 +60,9 @@ export default {
         return res;
       })
     },
+    beforeClose (action, instance, done) {
+      console.log(action, instance, done)
+    },
     async showConfirm(){
       let promise = new Promise((resolve,reject)=>{
         this.$confirm('是否确认删除？', '提示', {
@@ -66,7 +70,7 @@ export default {
           confirmButtonText: '取消',
           cancelButtonClass: 'cancel',
           confirmButtonClass: 'confirm',
-          center: true
+          center: true,
         }).then(res => {
           //点取消
           resolve(false)
