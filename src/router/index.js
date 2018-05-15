@@ -4,32 +4,6 @@ import Router from 'vue-router'
 // 进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
-
-// 登录
-import login from '@/views/auth/login.vue'
-// 404
-import notFind from '@/views/notFind'
-// main 主体路由
-import main from '@/views/main'
-/* main 子路由 start */
-
-// 系统管理模块
-import userQuery from '@/views/system/userQuery' // 用户查询
-import userControl from '@/views/system/userControl' // 用户管理
-import roleManage from '@/views/system/roleManage' // 角色管理
-import menuManage from '@/views/system/menuManage' // 菜单管理
-import personInfo from '@/views/system/personInfo' // 个人信息
-import changePwd from '@/views/system/changePwd' // 修改密码
-
-//开户管理
-import accountApply from '@/views/account/accountApply' //开户申请
-import userSearch from '@/views/account/userSearch' //用户查询
-
-//仲裁委管理
-import arbitramentManage from '@/views/arb/arbitramentManage' // 仲裁委管理
-import informEmailManage from '@/views/arb/informEmailManage' // 仲裁委邮箱管理
-
-
 /* main 子路由 end */
 
 Vue.use(Router)
@@ -37,59 +11,59 @@ Vue.use(Router)
 let router = new Router({
   routes: [{
       path: '/',
-      component: login,
+      component: () => import('@/views/auth/login.vue'),
     },
     {
       path: '/login',
-      component: login,
+      component: () => import('@/views/auth/login.vue'),
     },
     {
       path: '/404',
-      component: notFind,
+      component: () => import('@/views/notFind'),
     },
     {
       path: '/main',
-      component: main,
+      component: () => import('@/views/main'),
       children: [
         /* 系统管理模块 start */
         {
           path: 'userQuery',
-          component: userQuery,
+          component: () => import('@/views/system/userQuery'),
           meta: {
             name: 'userQuery',
           },
         },
         {
           path: 'userControl',
-          component: userControl,
+          component: () => import('@/views/system/userControl'),
           meta: {
             name: 'userControl',
           },
         },
         {
           path: 'roleManage',
-          component: roleManage,
+          component: () => import('@/views/system/roleManage'),
           meta: {
             name: 'roleManage',
           },
         },
         {
           path: 'menuManage',
-          component: menuManage,
+          component: () => import('@/views/system/menuManage'),
           meta: {
             name: 'menuManage',
           },
         },
         {
           path: 'personInfo',
-          component: personInfo,
+          component: () => import('@/views/system/personInfo'),
           meta: {
             name: 'personInfo',
           },
         },
         {
           path: 'changePwd',
-          component: changePwd,
+          component: () => import('@/views/system/changePwd'),
           meta: {
             name: 'changePwd',
           },
@@ -99,14 +73,14 @@ let router = new Router({
         /* 开户管理 start */
         {
           path: 'accountApply',
-          component: accountApply,
+          component: () => import('@/views/account/accountApply'),
           meta: {
             name: 'accountApply',
           },
         },
         {
           path: 'userSearch',
-          component: userSearch,
+          component: () => import('@/views/account/userSearch'),
           meta: {
             name: 'userSearch',
           },
@@ -116,14 +90,14 @@ let router = new Router({
         /* 仲裁委管理 start*/
         {
           path: 'arbitramentManage',
-          component: arbitramentManage,
+          component: () => import('@/views/arb/arbitramentManage'),
           meta: {
             name: 'arbitramentManage',
           },
         },
         {
           path: 'informEmailManage',
-          component: informEmailManage,
+          component: () => import('@/views/arb/informEmailManage'),
           meta: {
             name: 'informEmailManage',
           },
@@ -446,7 +420,7 @@ let router = new Router({
 /* 前置钩子 */
 router.beforeEach((to, from, next) => {
   // 返回顶部
-  window.scrollTo(0,0);  
+  window.scrollTo(0,0);
   NProgress.start();
   next();
 });
