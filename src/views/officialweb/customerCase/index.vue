@@ -66,6 +66,17 @@
             }
           })
       },
+      doDelete(row) {
+        this.$confirm('是否确认删除？', '提示', {
+          cancelButtonText: '取消',
+          confirmButtonText: '确定',
+          center: true
+        }).then(res => {
+          console.log(res);
+        }).catch(err => {
+          console.log(err);
+        })
+      },
       limit1(time) {
         if(!this.searchItem.endTime)
           return false;

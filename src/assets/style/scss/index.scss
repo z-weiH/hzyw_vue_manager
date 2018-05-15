@@ -260,10 +260,58 @@ body {
   .el-form-item.is-required .el-form-item__label:before {
     display: none;
   }
+
+
   /* 分隔符 */
   .division{
     visibility: hidden;
     height: 30px;
+  }
+}
+
+/* messagebox样式 */
+.el-message-box{
+  .el-message-box__header{
+    background: #FAFAFC;
+    border-bottom: 1px solid #E9EDF0;
+    .el-message-box__title{
+      color: #154097;
+      margin-top: -10px;
+    }
+    .el-message-box__headerbtn{
+      background: #909399;
+      padding: 3px;
+      border-radius: 50%;
+      &:hover{
+        background: #aaa;
+      }
+      i.el-message-box__close.el-icon-close{
+        color: #fff;
+        vertical-align: text-bottom;
+      }
+    }
+  }
+  .el-message-box__btns{
+    .el-button{
+      font-size: 16px;
+      width: 98px;
+      padding: 0;
+      span{
+        height: 43px;
+        line-height: 43px;
+      }
+    }
+  }
+  width: 493px !important;
+  .el-message-box__content{
+    height: 178px;
+    font-size: 16px;
+    display:flex;
+    vertical-align:middle;
+    align-items:center;
+    .el-message-box__message{
+      margin: 0 auto;
+    }
   }
 }
 
