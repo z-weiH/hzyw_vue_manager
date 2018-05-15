@@ -1,6 +1,6 @@
 <template>
   <div class="time-frame">
-    <el-form-item prop="startTime">
+    <el-form-item prop="startDate">
       <el-date-picker 
         type="date" class="w-133" 
         placeholder="起始时间" 
@@ -11,7 +11,7 @@
       </el-date-picker>
     </el-form-item>
     <span class="mr-10">-</span>
-    <el-form-item prop="endTime">
+    <el-form-item prop="endDate">
       <el-date-picker 
         type="date" class="w-133" 
         placeholder="结束时间" 
@@ -28,11 +28,11 @@
   export default {
     props : {
       /* 开始时间 */
-      startTime : {
+      startDate : {
         required: true,
       },
       /* 结束时间 */
-      endTime : {
+      endDate : {
         required: true,
       },
     },
@@ -47,20 +47,20 @@
     data() {
       let _this = this;
       return {
-        start : this.startTime,
-        end : this.endTime,
+        start : this.startDate,
+        end : this.endDate,
         pickerOptions1 : {
           disabledDate(time) {
-            if(_this.endTime){
-              return time.getTime() > + new Date(_this.endTime);
+            if(_this.endDate){
+              return time.getTime() > + new Date(_this.endDate);
             }
             return false;
           }
         },
         pickerOptions2 : {
           disabledDate(time) {
-            if(_this.startTime){
-              return time.getTime() < + new Date(_this.startTime) - (1000 * 3600 * 20);
+            if(_this.startDate){
+              return time.getTime() < + new Date(_this.startDate) - (1000 * 3600 * 20);
             }
             return false;
           }
@@ -70,8 +70,8 @@
     mounted() {},
     methods : {
       initTime() {
-        this.$emit('update:startTime',this.start);
-        this.$emit('update:endTime',this.end);
+        this.$emit('update:startDate',this.start);
+        this.$emit('update:endDate',this.end);
       },
     },
   }

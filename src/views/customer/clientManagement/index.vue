@@ -9,8 +9,8 @@
 
         <!-- 时间范围 选择 -->
         <timeFrame
-          :startTime.sync="ruleForm.startTime"
-          :endTime.sync="ruleForm.endTime"
+          :startDate.sync="ruleForm.startDate"
+          :endDate.sync="ruleForm.endDate"
         >
         </timeFrame>
 
@@ -75,9 +75,9 @@
           // 客户名称
           keyWords : '',
           // 开始时间
-          startTime : this.$moment().format('YYYY-MM-DD'),
+          startDate : this.$moment().format('YYYY-MM-DD'),
           // 结束时间
-          endTime : this.$moment().format('YYYY-MM-DD'),
+          endDate : this.$moment().format('YYYY-MM-DD'),
         },
         rules : {},
         
@@ -127,8 +127,8 @@
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
-            startTime : this.ruleForm.startTime,
-            endTime : this.ruleForm.endTime,
+            startDate : this.ruleForm.startDate,
+            endDate : this.ruleForm.endDate,
             keyWords : this.ruleForm.keyWords,
           },
         }).then((res) => {
