@@ -93,7 +93,7 @@ export default {
       let obj={};
       Object.keys(this.$refs).forEach( key  => {
         let ele = this.$refs[key][0]
-        if(ele && (ele.offsetWidth > ele.offsetParent.offsetWidth)){
+        if(ele && (ele.offsetWidth+20 > ele.offsetParent.offsetWidth)){
           obj[key] = true;
         }
         else

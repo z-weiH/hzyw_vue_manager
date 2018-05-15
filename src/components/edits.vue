@@ -37,6 +37,7 @@
     methods: {
       valueChange (obj) {
         Object.keys(obj).forEach(key => {
+          console.log(obj[key]);
           this.item[key]=obj[key];
         });
         this.refresh()
@@ -46,13 +47,13 @@
           it.trueValue = this.item[it.editItem.property];
         })
       }
-
     },
     watch: {
       item (val, oldval) {
         this.refresh()
       },
       editItems (val, oldval) {
+        console.error(val, oldval);
 
       }
     },

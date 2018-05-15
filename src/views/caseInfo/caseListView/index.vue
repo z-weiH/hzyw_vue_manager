@@ -253,11 +253,11 @@ export default {
       pageSize: 10,
       tableData:[],
       columnDefine: [
-        { label: "案件编号", property: "arbCaseId" },
-        { label: "互金企业", property: "platName" },
-        { label: "申请人", property: "applicants" },
-        { label: "被申请人", property: "respondents" },
-        { label: "被申请人手机", property: "resPhone" },
+        { label: "案件编号", property: "arbCaseId" ,width: 120},
+        { label: "互金企业", property: "platName" ,width: 100},
+        { label: "申请人", property: "applicants" ,width: 100},
+        { label: "被申请人", property: "respondents" ,width: 100},
+        { label: "被申请人手机", property: "resPhone" ,width: 150},
         { label: "案件阶段", property: "caseProcess" },
         { label: "案件状态", property: "caseStatus" },
         {
@@ -295,7 +295,8 @@ export default {
             },
             {
               label: "应还款日期",
-              property: "reimbursementDate"
+              property: "reimbursementDate",
+              width: 150
             },
             {
               label: "冻结日期",
@@ -314,43 +315,53 @@ export default {
           children: [
             {
               label: "调解还款额",
-              property: "adjustAmt"
+              property: "adjustAmt",
+              width:110
             },
             {
               label: "已还款总额",
-              property: "reimbursementAmt"
+              property: "reimbursementAmt",
+              width:110
             },
             {
               label: "合同借款金额",
-              property: "contractLoanAmt"
+              property: "contractLoanAmt",
+              width:110
             },
             {
               label: "打款金额",
-              property: "payAmt"
+              property: "payAmt",
+              width:110
             },
             {
               label: "平台服务费",
-              property: "platformFee"
+              property: "platformFee",
+              width:110
             },
             {
               label: "利息",
-              property: "interestAmt"
+              property: "interestAmt",
+              width:110
             },
             {
               label: "违约金",
-              property: "penaltyAmt"
+              property: "penaltyAmt",
+              width:110
             },
             {
               label: "仲券服务费",
-              property: "caseTicketFee"
+              property: "caseTicketFee",
+              width:110
             },
             {
               label: "预缴受理费",
-              property: "prepaymentAmt"
+              property: "prepaymentAmt",
+              width:110
             },
             {
               label: "受理费退费",
-              property: "acceptReturnAmt"
+              property: "acceptReturnAmt",
+              width:110
             },
             {
               label: "处理费",

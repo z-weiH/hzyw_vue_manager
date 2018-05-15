@@ -4,9 +4,7 @@
       <a>所在位置</a><a class="aside_tit" href="javascript:;">案件列表</a>
     </div>
     <searchs class="item-search" :search-items="searchItems" :item="item" :query-url="1">
-      <div slot="moreBtn">
-        <el-button type="primary" @click="">导出Excel</el-button>
-      </div>
+        <template slot='moreBtn'><el-button class='ml-20' type='primary' @click=''>导出Excel</el-button></template>
     </searchs>
 
   </div>
