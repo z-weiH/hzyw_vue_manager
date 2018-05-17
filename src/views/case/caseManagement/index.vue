@@ -63,7 +63,7 @@
       <!-- 详情弹出框 -->
       <detailDialog ref="detailDialog"></detailDialog>
       <!-- 新增弹出框 -->
-      <addDialog ref="addDialog"></addDialog>
+      <addDialog @upload="successCBK" ref="addDialog"></addDialog>
     </div>
   </div>
 </template>
@@ -129,6 +129,11 @@
       // 点击新增 案件
       handleAdd() {
         this.$refs.addDialog.show();
+      },
+      // 新增成功 回调
+      successCBK() {
+        this.currentPage = 1;
+        this.initTableList();
       },
 
       // 表格相关 start

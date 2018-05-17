@@ -25,8 +25,8 @@
                 <el-form-item label=" " prop="userId">
                   <el-select v-model="ruleForm.userId" placeholder="请选择">
                     <el-option label="请选择" value=" "></el-option>
-                    <template v-for="(item) in userOptions">
-                      <el-option :key="item.userId" :label="item.name" :value="item.userId"></el-option>
+                    <template v-for="(item,index) in userOptions">
+                      <el-option :key="item.userId + index" :label="item.name" :value="item.userId"></el-option>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -343,22 +343,14 @@
               </template>
             </el-table-column>
           </el-table>
-          <el-form-item label=" " prop="evidences">
+          <el-form-item class="evidences-item" label=" " prop="evidences">
           </el-form-item>
           <div class="mt-20">
-            <el-form-item  label=" " prop="img02">
-              <el-upload
-                class="upload-demo"
-                action="/casemanage/selectCaseDetailByCaseId.htm"
-                :show-file-list="false"
-                :before-upload="applicationForUploadingArbitrationBefore"
-                :on-success="applicationForUploadingArbitrationSuccess"
-                :on-error="fileError"
-              >
-                <el-button size="mini" icon='el-icon-upload'>
-                  上传仲裁申请书
-                </el-button>
-              </el-upload>
+            <el-form-item  label=" " prop="file">
+              <el-button class="file-inut-box" size="mini" icon='el-icon-upload'>
+                上传仲裁申请书
+                <input ref="file" @change="applicationForUploadingArbitrationSuccess" class="m-file-input" type="file" />
+              </el-button>
             </el-form-item>
           </div>
 
@@ -383,7 +375,7 @@
     components : {addEvidenceDialog},
     data() {
       return {
-        dialogVisible : true,
+        dialogVisible : false,
 
         ruleForm : {
           // 申请人
@@ -530,6 +522,14 @@
         ],
       }
     },
+    mounted() {
+      this.$http({
+        method : 'post',
+        url : '/casemanage/selectHzUser.htm',
+      }).then((res) => {
+        this.userOptions = res.result.list;
+      });
+    },
     methods : {
       show(row) {
         this.dialogVisible = true;
@@ -561,6 +561,8 @@
       // 新增证据 成功回调
       successCBK(row) {
         this.ruleForm.evidences.push(row);
+        // 重新校验
+        this.$refs.ruleForm.validateField('evidences');
       },
       // 关闭浮层
       handleClose() {
@@ -573,9 +575,24 @@
       handleSubmit() {
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
-            alert('submit');
+            let formData = new FormData();
+            let form = {...this.ruleForm};
+            form.evidences = JSON.stringify(form.evidences);
+            for(let key in form) {
+              formData.append(key,form[key]);
+            }
+            this.$http({
+              method : 'post',
+              url : '/casemanage/saveCase.htm',
+              data : formData,
+            }).then((res) => {
+              this.$message.success('新增成功');
+              this.handleClose();
+              this.$emit('upload');
+            });
           }
         });
+        
       },
 
       /* 营业执照 上传前 */
@@ -626,21 +643,20 @@
         /* 重新校验 */
         this.$refs.ruleForm.validateField('img02');
       },
-      /* 上传仲裁申请书 上传前 */
-      applicationForUploadingArbitrationBefore(file) {
-        let fileType = file.name.split('.').pop();
-        let arr = ['pdf'];
-        if(arr.indexOf(fileType) === -1){
-          this.$message.error('文件格式有误');
-          return false;
-        }
-        return true;
-      },
+
       /* 上传仲裁申请书 上传成功 */
-      applicationForUploadingArbitrationSuccess(response, file, fileList) {
-        this.ruleForm.file = response;
-        /* 重新校验 */
+      applicationForUploadingArbitrationSuccess(event) {
+        let file = event.target.files[0];
+        event.target.value = '';
+        let fileType = file.name.split('.').pop().toLowerCase();
+        if(fileType !== 'pdf'){
+          this.$message.warning('文件格式必须为PDF格式');
+          return;
+        }
+        this.ruleForm.file = file;
+        // 重新校验
         this.$refs.ruleForm.validateField('file');
+        
       },
       /* 文件上传失败 回调 */
       fileError() {
@@ -665,6 +681,28 @@
   }
   .el-form-item.is-required .el-form-item__label:before{
     opacity: 0;
+  }
+  .evidences-item{
+    .el-form-item__label{
+      display: none;
+    }
+  }
+
+  /* 上传仲裁申请书 样式 */
+  .file-inut-box{
+    position: relative;
+    overflow: hidden;
+    margin-left: -22px;
+    .m-file-input{
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+    }
   }
 }
 
