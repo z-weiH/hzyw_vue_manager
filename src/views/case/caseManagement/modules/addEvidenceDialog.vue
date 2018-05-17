@@ -41,6 +41,7 @@
               <el-button size="mini" icon='el-icon-upload'>
                 上传证据
               </el-button>
+              {{ruleForm.evidence}}
             </el-upload>
           </el-form-item>
 
@@ -48,6 +49,7 @@
             <el-input :autosize="{ minRows: 3}" type="textarea" placeholder="请输入证明对象" v-model="ruleForm.eviObject"></el-input>
           </el-form-item>
 
+          <el-form-item class="hidden"  label=" " prop="evidence"></el-form-item>
 
         </el-form>
       </div>
@@ -79,6 +81,8 @@
           eviObject : '',
           // 证据链接
           eviFileurl : '',
+          // 证据上传 名称
+          evidence : '',
         },
         rules : {
           eviTitle : [
@@ -137,6 +141,7 @@
       /* 上传证据 上传成功 */
       evidenceSuccess(response, file, fileList) {
         this.ruleForm.eviFileurl = response;
+        this.ruleForm.evidence = file.name;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('eviFileurl');
       },

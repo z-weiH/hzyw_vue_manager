@@ -270,6 +270,7 @@
                       <el-button size="mini" icon='el-icon-upload'>
                         点击这里上传文件
                       </el-button>
+                      {{ruleForm.img01FileName}}
                     </el-upload>
                   </el-form-item>
                 </td>
@@ -290,6 +291,7 @@
                       <el-button size="mini" icon='el-icon-upload'>
                         点击这里上传文件
                       </el-button>
+                      {{ruleForm.img02FileName}}
                     </el-upload>
                   </el-form-item>
                 </td>
@@ -351,8 +353,13 @@
                 上传仲裁申请书
                 <input ref="file" @change="applicationForUploadingArbitrationSuccess" class="m-file-input" type="file" />
               </el-button>
+              {{ruleForm.fileFileName}}
             </el-form-item>
           </div>
+
+          <el-form-item class="hidden"  label=" " prop="img01FileName"></el-form-item>
+          <el-form-item class="hidden"  label=" " prop="img02FileName"></el-form-item>
+          <el-form-item class="hidden"  label=" " prop="fileFileName"></el-form-item>
 
         </el-form>
       </div>
@@ -436,6 +443,13 @@
           legaller : '',
           // 法定代表人职务
           position : '',
+
+          // 身份证正面照 or 营业执照 文件名
+          img01FileName : '',
+          // 身份证背面照 文件名
+          img02FileName : '',
+          // 仲裁申请书 文件名
+          fileFileName : '',
         },
         rules : {
           // 申请人
@@ -608,6 +622,7 @@
       /* 营业执照 上传成功 */
       businessLicenseSuccess(response, file, fileList) {
         this.ruleForm.img01 = response;
+        this.ruleForm.img01FileName = file.name;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('img01');
       },
@@ -624,6 +639,7 @@
       /* 身份证正面照 上传成功 */
       facadeOfIDCardSuccess(response, file, fileList) {
         this.ruleForm.img01 = response;
+        this.ruleForm.img01FileName = file.name;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('img01');
       },
@@ -640,6 +656,7 @@
       /* 身份证背面照 上传成功 */
       backsidePhotoOfIDCardSuccess(response, file, fileList) {
         this.ruleForm.img02 = response;
+        this.ruleForm.img02FileName = file.name;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('img02');
       },
@@ -654,6 +671,7 @@
           return;
         }
         this.ruleForm.file = file;
+        this.ruleForm.fileFileName = file.name;
         // 重新校验
         this.$refs.ruleForm.validateField('file');
         
