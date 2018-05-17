@@ -23,6 +23,10 @@
       </el-form>
     </div>
 
+    <div class="item-title">
+      案件管理
+    </div>
+
     <div class="item-table">
       <el-table
         :data="tableData"
