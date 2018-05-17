@@ -1,0 +1,671 @@
+<template>
+  <div class="case-management-add-dialog">
+    <el-dialog
+      title="案件新增"
+      :visible.sync="dialogVisible"
+      width="700px"
+      @close="handleClose"
+    >
+      <div class="m-content">
+        <el-form ref="ruleForm" :model="ruleForm" :rules="rules">
+          
+          <!-- 案件信息 -->
+          <table
+            class="m-primordial-table 
+              el-table el-table--fit el-table--border 
+              el-table--enable-row-hover"
+          >
+            <tr>
+              <td colspan="4">案件信息</td>
+            </tr>
+
+            <tr>
+              <td colspan="1">申请人：</td>
+              <td colspan="1">
+                <el-form-item label=" " prop="userId">
+                  <el-select v-model="ruleForm.userId" placeholder="请选择">
+                    <el-option label="请选择" value=" "></el-option>
+                    <template v-for="(item) in userOptions">
+                      <el-option :key="item.userId" :label="item.name" :value="item.userId"></el-option>
+                    </template>
+                  </el-select>
+                </el-form-item>
+              </td>
+              <td colspan="1">案件标的：</td>
+              <td colspan="1">
+                <el-form-item label=" " prop="amtBorrow">
+                  <el-input placeholder="请输入案件标的" v-model="ruleForm.amtBorrow"></el-input>
+                </el-form-item>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="1">诉讼请求：</td>
+              <td colspan="3">
+                <el-form-item label=" " prop="requireItem">
+                  <el-input :autosize="{ minRows: 3}" type="textarea" placeholder="请输入诉讼请求" v-model="ruleForm.requireItem"></el-input>
+                </el-form-item>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="1">事实与理由：</td>
+              <td colspan="3">
+                <el-form-item label=" " prop="factsReason">
+                  <el-input :autosize="{ minRows: 3}" type="textarea" placeholder="请输入事实与理由" v-model="ruleForm.factsReason"></el-input>
+                </el-form-item>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="1">案件受理费：</td>
+              <td colspan="1">
+                <el-form-item label=" " prop="caseAmt">
+                  <el-input placeholder="请输入案件受理费" v-model="ruleForm.caseAmt"></el-input>
+                </el-form-item>
+              </td>
+              <td colspan="1">案件仲券：</td>
+              <td colspan="1">
+                <el-form-item label=" " prop="caseTicket">
+                  <el-input placeholder="请输入案件仲券" v-model="ruleForm.caseTicket"></el-input>
+                </el-form-item>
+              </td>
+            </tr>
+
+          </table>
+
+          <!-- 被申请人信息 -->
+          <table
+            class="m-primordial-table mt-10
+              el-table el-table--fit el-table--border 
+              el-table--enable-row-hover"
+          >
+            <!-- 企业 -->
+            <template v-if="ruleForm.type === '1'">
+
+              <tr>
+                <td colspan="1">被申请人性质：</td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="type">
+                    <el-select @change="handleTypeChange" v-model="ruleForm.type" placeholder="请选择">
+                      <el-option label="自然人" value="0"></el-option>
+                      <el-option label="企业" value="1"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </td>
+                <td colspan="2"></td>
+              </tr>
+
+              <tr>
+                <td colspan="1">企业名称：</td>
+                  <td colspan="3">
+                  <el-form-item label=" " prop="name">
+                    <el-input :autosize="{ minRows: 1}" type="textarea" placeholder="请输入企业名称" v-model="ruleForm.name"></el-input>
+                  </el-form-item>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="1">证件类型：</td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="idtype">
+                    <el-select @change="handleTypeChange" v-model="ruleForm.idtype" placeholder="请选择">
+                      <el-option key="1" v-if="ruleForm.type === '0'" label="身份证" value="0"></el-option>
+                      <el-option key="2" v-else label="营业执照" value="3"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </td>
+                <td colspan="1">社会唯一信用代码：</td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="idcard">
+                    <el-input placeholder="请输入案件仲券" v-model="ruleForm.idcard"></el-input>
+                  </el-form-item>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="1">营业执照：</td>
+                <td colspan="3">
+                  <el-form-item  label=" " prop="img01">
+                    <el-upload
+                      class="upload-demo"
+                      action="/casemanage/selectCaseDetailByCaseId.htm"
+                      :show-file-list="false"
+                      :before-upload="businessLicenseBefore"
+                      :on-success="businessLicenseSuccess"
+                      :on-error="fileError"
+                    >
+                      <el-button size="mini" icon='el-icon-upload'>
+                        点击这里上传文件
+                      </el-button>
+                    </el-upload>
+                  </el-form-item>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="1">注册地址：</td>
+                  <td colspan="3">
+                  <el-form-item label=" " prop="idaddress">
+                    <el-input :autosize="{ minRows: 1}" type="textarea" placeholder="请输入注册地址" v-model="ruleForm.idaddress"></el-input>
+                  </el-form-item>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="1">法定代表人：</td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="legaller">
+                    <el-input placeholder="请输入法定代表人" v-model="ruleForm.legaller"></el-input>
+                  </el-form-item>
+                </td>
+                <td colspan="1">法定代表人职务：</td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="position">
+                    <el-input placeholder="请输入法定代表人职务" v-model="ruleForm.position"></el-input>
+                  </el-form-item>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="1">手机号：</td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="phone">
+                    <el-input placeholder="请输入手机号" v-model="ruleForm.phone"></el-input>
+                  </el-form-item>
+                </td>
+                <td colspan="1">电子邮箱：</td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="email">
+                    <el-input placeholder="请输入电子邮箱" v-model="ruleForm.email"></el-input>
+                  </el-form-item>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="1">通讯地址：</td>
+                  <td colspan="3">
+                  <el-form-item label=" " prop="address">
+                    <el-input :autosize="{ minRows: 1}" type="textarea" placeholder="请输入通讯地址" v-model="ruleForm.address"></el-input>
+                  </el-form-item>
+                </td>
+              </tr>
+
+            </template>
+            <!-- 个人 -->
+            <template v-else>
+              <tr>
+                <td colspan="1">被申请人性质：</td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="type">
+                    <el-select @change="handleTypeChange" v-model="ruleForm.type" placeholder="请选择">
+                      <el-option label="自然人" value="0"></el-option>
+                      <el-option label="企业" value="1"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </td>
+                <td colspan="2"></td>
+              </tr>
+
+              <tr>
+                <td colspan="1">姓名：</td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="name">
+                    <el-input placeholder="请输入姓名" v-model="ruleForm.name"></el-input>
+                  </el-form-item>
+                </td>
+                <td colspan="1">民族：</td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="nation">
+                    <el-input placeholder="请输入民族" v-model="ruleForm.nation"></el-input>
+                  </el-form-item>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="1">手机号：</td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="phone">
+                    <el-input placeholder="请输入手机号" v-model="ruleForm.phone"></el-input>
+                  </el-form-item>
+                </td>
+                <td colspan="1">电子邮箱：</td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="email">
+                    <el-input placeholder="请输入电子邮箱" v-model="ruleForm.email"></el-input>
+                  </el-form-item>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="1">证件类型：</td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="idtype">
+                    <el-select @change="handleTypeChange" v-model="ruleForm.idtype" placeholder="请选择">
+                      <el-option key="1" v-if="ruleForm.type === '0'" label="身份证" value="0"></el-option>
+                      <el-option key="2" v-else label="营业执照" value="3"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </td>
+                <td colspan="1">身份证号：</td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="idcard">
+                    <el-input placeholder="请输入身份证号" v-model="ruleForm.idcard"></el-input>
+                  </el-form-item>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="1">身份证正面照：</td>
+                <td colspan="3">
+                  <el-form-item  label=" " prop="img01">
+                    <el-upload
+                      class="upload-demo"
+                      action="/casemanage/selectCaseDetailByCaseId.htm"
+                      :show-file-list="false"
+                      :before-upload="facadeOfIDCardBefore"
+                      :on-success="facadeOfIDCardSuccess"
+                      :on-error="fileError"
+                    >
+                      <el-button size="mini" icon='el-icon-upload'>
+                        点击这里上传文件
+                      </el-button>
+                    </el-upload>
+                  </el-form-item>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="1">身份证背面照：</td>
+                <td colspan="3">
+                  <el-form-item  label=" " prop="img02">
+                    <el-upload
+                      class="upload-demo"
+                      action="/casemanage/selectCaseDetailByCaseId.htm"
+                      :show-file-list="false"
+                      :before-upload="backsidePhotoOfIDCardBefore"
+                      :on-success="backsidePhotoOfIDCardSuccess"
+                      :on-error="fileError"
+                    >
+                      <el-button size="mini" icon='el-icon-upload'>
+                        点击这里上传文件
+                      </el-button>
+                    </el-upload>
+                  </el-form-item>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="1">证件地址：</td>
+                  <td colspan="3">
+                  <el-form-item label=" " prop="idaddress">
+                    <el-input :autosize="{ minRows: 1}" type="textarea" placeholder="请输入证件地址" v-model="ruleForm.idaddress"></el-input>
+                  </el-form-item>
+                </td>
+              </tr>
+
+              <tr>
+                <td colspan="1">通讯地址：</td>
+                  <td colspan="3">
+                  <el-form-item label=" " prop="address">
+                    <el-input :autosize="{ minRows: 1}" type="textarea" placeholder="请输入通讯地址" v-model="ruleForm.address"></el-input>
+                  </el-form-item>
+                </td>
+              </tr>
+
+            </template>
+          </table>
+
+          <!-- 证据信息 -->
+          <div class="evidence-information-box mt-10">
+            <p class="fl">证据信息</p>
+            <div class="fr">
+              <el-button @click="handleAddEvidence" size="mini" type="primary">新增证据</el-button>
+            </div>
+          </div>
+          <el-table
+            :data="ruleForm.evidences"
+            border
+          >
+            <el-table-column prop="date" label="序号" width="50px">
+              <template slot-scope="scope">
+                {{scope.$index + 1}}
+              </template>
+            </el-table-column>
+            <el-table-column prop="eviTitle" label="证据名称"></el-table-column>
+            <el-table-column prop="eviSource" label="证据来源"></el-table-column>
+            <el-table-column prop="eviFormat" label="形式"></el-table-column>
+            <el-table-column prop="eviPage" label="页数"></el-table-column>
+            <el-table-column prop="eviObject" label="证明对象"></el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <a class="underline" target="_blank" :href="scope.row.eviFileurl">详情</a>
+              </template>
+            </el-table-column>
+          </el-table>
+          <el-form-item label=" " prop="evidences">
+          </el-form-item>
+          <div class="mt-20">
+            <el-form-item  label=" " prop="img02">
+              <el-upload
+                class="upload-demo"
+                action="/casemanage/selectCaseDetailByCaseId.htm"
+                :show-file-list="false"
+                :before-upload="applicationForUploadingArbitrationBefore"
+                :on-success="applicationForUploadingArbitrationSuccess"
+                :on-error="fileError"
+              >
+                <el-button size="mini" icon='el-icon-upload'>
+                  上传仲裁申请书
+                </el-button>
+              </el-upload>
+            </el-form-item>
+          </div>
+
+        </el-form>
+      </div>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="handleSubmit">确 定</el-button>
+        <el-button @click="handleClose">取 消</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 新增证据 dialog -->
+    <addEvidenceDialog @successCBK="successCBK" ref="addEvidenceDialog"></addEvidenceDialog>
+  </div>
+</template>
+
+<script>
+  import addEvidenceDialog from './addEvidenceDialog.vue'
+
+  export default {
+    components : {addEvidenceDialog},
+    data() {
+      return {
+        dialogVisible : true,
+
+        ruleForm : {
+          // 申请人
+          userId : '',
+          // 案件标的
+          amtBorrow : '',
+          // 诉讼请求
+          requireItem : '',
+          // 事实与理由
+          factsReason : '',
+          // 案件受理费
+          caseAmt : '',
+          // 案件仲券
+          caseTicket : '',
+          // 被申请人性质 0自然人 1企业
+          type : '0',
+          // 姓名 or 企业名称
+          name : '',
+          // 民族
+          nation : '',
+          // 手机号
+          phone : '',
+          // 电子邮箱
+          email : '',
+          // 证件类型 	0身份证 3营业执照
+          idtype : '0',
+          // 身份证号 or 社会唯一信用代码
+          idcard : '',
+          // 身份证正面照 or 营业执照
+          img01 : '',
+          // 身份证反面照
+          img02 : '',
+          // 证件地址 or 注册地址
+          idaddress : '',
+          // 通讯地址
+          address : '',
+          // 证据列表
+          evidences : [
+            /* {
+              // 证据名称
+              eviTitle : '',
+              // 证据来源
+              eviSource : '',
+              // 形式
+              eviFormat : '',
+              // 页数
+              eviPage : '',
+              // 证明对象
+              eviObject : '',
+              // 证据链接
+              eviFileurl : '',
+            } */
+          ],
+          // 仲裁申请书 pdf 格式
+          file : '',
+
+          // 法定代表人
+          legaller : '',
+          // 法定代表人职务
+          position : '',
+        },
+        rules : {
+          // 申请人
+          userId : [
+            {required : true , message : '请选择申请人' , trigger : 'change'},
+          ],
+          // 案件标的
+          amtBorrow : [
+            {required : true , message : '请输入案件标的' , trigger : 'blur'},
+          ],
+          // 诉讼请求
+          requireItem : [
+            {required : true , message : '请输入诉讼请求' , trigger : 'blur'},
+          ],
+          // 事实与理由
+          factsReason : [
+            {required : true , message : '请输入事实与理由' , trigger : 'blur'},
+          ],
+          // 案件受理费
+          caseAmt : [
+            {required : true , message : '请输入案件受理费' , trigger : 'blur'},
+          ],
+          // 案件仲券
+          caseTicket : [
+            {required : true , message : '请输入案件仲券' , trigger : 'blur'},
+          ],
+          // 姓名 or 企业名称
+          name : [
+            {required : true , message : '请输入' , trigger : 'blur'},
+          ],
+          // 民族
+          nation : [
+            {required : true , message : '请输入民族' , trigger : 'blur'},
+          ],
+          // 手机号
+          phone : [
+            {required : true , message : '请输入手机号' , trigger : 'blur'},
+          ],
+          // 电子邮箱
+          email : [
+            {required : true , message : '请输入电子邮箱' , trigger : 'blur'},
+          ],
+          // 身份证号 or 社会唯一信用代码
+          idcard : [
+            {required : true , message : '请输入' , trigger : 'blur'},
+          ],
+          // 身份证正面照 or 营业执照
+          img01 : [
+            {required : true , message : '请上传文件' , trigger : 'change'},
+          ],
+          // 身份证反面照
+          img02 : [
+            {required : true , message : '请上传文件' , trigger : 'change'},
+          ],
+          // 证件地址 or 注册地址
+          idaddress : [
+            {required : true , message : '请输入' , trigger : 'blur'},
+          ],
+          // 通讯地址
+          address : [
+            {required : true , message : '请输入通讯地址' , trigger : 'blur'},
+          ],
+          // 证据列表
+          evidences : [
+            {type : 'array' , required : true , message : '请添加证据' , trigger : 'blur'},
+          ],
+          // 仲裁申请书 pdf 格式
+          file : [
+            {required : true , message : '请上传文件' , trigger : 'change'},
+          ],
+          // 法定代表人
+          legaller : [
+            {required : true , message : '请输入法定代表人' , trigger : 'blur'},
+          ],
+          // 法定代表人职务
+          position : [
+            {required : true , message : '请输入法定代表人职务' , trigger : 'blur'},
+          ],
+        },
+
+        // 申请人 options
+        userOptions : [
+          {name : '张三' , userId : '张三'}
+        ],
+      }
+    },
+    methods : {
+      show(row) {
+        this.dialogVisible = true;
+      },
+      // 被申请人 change
+      handleTypeChange(val) {
+        // 重置相关数据
+        let arr = [
+          'name' , 'nation' , 'phone' , 'email' , 'idcard' , 'img01' , 'img02' , 'idaddress' , 'address' ,
+          'legaller' , 'position' ,
+        ];
+        arr.map((v,k) => {
+          this.ruleForm[v] = '';
+        });
+        // 移除校验
+        this.$refs.ruleForm.clearValidate();
+
+        // 设置 证据类型 选中
+        if(val === '0'){
+          this.ruleForm.idtype = '0';
+        }else{
+          this.ruleForm.idtype = '3';
+        }
+      },
+      // 点击新增证据
+      handleAddEvidence() {
+        this.$refs.addEvidenceDialog.show();
+      },
+      // 新增证据 成功回调
+      successCBK(row) {
+        this.ruleForm.evidences.push(row);
+      },
+      // 关闭浮层
+      handleClose() {
+        this.dialogVisible = false;
+        this.$nextTick(() => {
+          this.$refs.ruleForm.resetFields();
+        });
+      },
+      // 点击提交
+      handleSubmit() {
+        this.$refs.ruleForm.validate((valid) => {
+          if(valid) {
+            alert('submit');
+          }
+        });
+      },
+
+      /* 营业执照 上传前 */
+      businessLicenseBefore(file) {
+        let fileType = file.name.split('.').pop();
+        let arr = ['jpg','png','gif','jpeg'];
+        if(arr.indexOf(fileType) === -1){
+          this.$message.error('文件格式有误');
+          return false;
+        }
+        return true;
+      },
+      /* 营业执照 上传成功 */
+      businessLicenseSuccess(response, file, fileList) {
+        this.ruleForm.img01 = response;
+        /* 重新校验 */
+        this.$refs.ruleForm.validateField('img01');
+      },
+      /* 身份证正面照 上传前 */
+      facadeOfIDCardBefore(file) {
+        let fileType = file.name.split('.').pop();
+        let arr = ['jpg','png','gif','jpeg'];
+        if(arr.indexOf(fileType) === -1){
+          this.$message.error('文件格式有误');
+          return false;
+        }
+        return true;
+      },
+      /* 身份证正面照 上传成功 */
+      facadeOfIDCardSuccess(response, file, fileList) {
+        this.ruleForm.img01 = response;
+        /* 重新校验 */
+        this.$refs.ruleForm.validateField('img01');
+      },
+      /* 身份证背面照 上传前 */
+      backsidePhotoOfIDCardBefore(file) {
+        let fileType = file.name.split('.').pop();
+        let arr = ['jpg','png','gif','jpeg'];
+        if(arr.indexOf(fileType) === -1){
+          this.$message.error('文件格式有误');
+          return false;
+        }
+        return true;
+      },
+      /* 身份证背面照 上传成功 */
+      backsidePhotoOfIDCardSuccess(response, file, fileList) {
+        this.ruleForm.img02 = response;
+        /* 重新校验 */
+        this.$refs.ruleForm.validateField('img02');
+      },
+      /* 上传仲裁申请书 上传前 */
+      applicationForUploadingArbitrationBefore(file) {
+        let fileType = file.name.split('.').pop();
+        let arr = ['pdf'];
+        if(arr.indexOf(fileType) === -1){
+          this.$message.error('文件格式有误');
+          return false;
+        }
+        return true;
+      },
+      /* 上传仲裁申请书 上传成功 */
+      applicationForUploadingArbitrationSuccess(response, file, fileList) {
+        this.ruleForm.file = response;
+        /* 重新校验 */
+        this.$refs.ruleForm.validateField('file');
+      },
+      /* 文件上传失败 回调 */
+      fileError() {
+        this.$message.error('文件上传失败，请稍后重试');
+      },
+    },
+  }
+</script>
+
+<style lang="scss">
+
+.case-management-add-dialog{
+  .evidence-information-box{
+    padding: 10px;
+    background-color: #f6f6f7;
+    overflow: hidden;
+    border: 1px solid #e5eaee;
+    border-bottom: none;
+  }
+  .el-dialog__body{
+    padding: 0 20px;
+  }
+  .el-form-item.is-required .el-form-item__label:before{
+    opacity: 0;
+  }
+}
+
+</style>
