@@ -140,12 +140,12 @@
               {
                 label : '邮件发送',
                 id : 22,
-                url : 'mailSendLog',
+                url : 'mailSend',
               },
               {
                 label : '短信发送',
                 id : 23,
-                url : 'noteSendLog',
+                url : 'noteSend',
               },
               /* {
                 label : '邮件发送日志',
