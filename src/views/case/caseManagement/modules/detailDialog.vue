@@ -21,8 +21,7 @@
             <td colspan="1">案件名称：</td>
             <td colspan="3">
               <!-- 申请人+与+被申请人+caseCause -->
-              {{ruleForm.hzCaseInfoVO.applicants}}与{{ruleForm.hzCaseInfoVO.respondents}}
-              {{ruleForm.hzCaseInfoVO.caseCause}}
+              {{ruleForm.hzCaseInfoVO.applicants}}与{{ruleForm.hzCaseInfoVO.respondents}}{{ruleForm.hzCaseInfoVO.caseCause}}
             </td>
           </tr>
 
@@ -116,7 +115,7 @@
 
               <tr>
                 <td colspan="1">姓名：</td>
-                <td colspan="1">{{item.amtBorrow}}</td>
+                <td colspan="1">{{item.name}}</td>
                 <td colspan="1">性别：</td>
                 <td colspan="1">
                   {{item.sex === 0 ? '女' : '男'}}
@@ -208,7 +207,7 @@
 
             <!-- 二层循环 -->
             <template v-for="(child,ind) in item.details">
-              <tr>
+              <tr :key="ind">
                 <td v-if="ind === 0" :rowspan="item.details.length" colspan="1">
                   {{index + 1}}
                 </td>
