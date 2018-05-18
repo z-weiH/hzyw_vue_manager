@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '*':{
-        target: 'http://192.168.1.120:8080/mockjs',
+        target: 'http://192.168.30.120:8080/mockjs',
       },
     },
 

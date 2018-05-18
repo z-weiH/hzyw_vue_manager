@@ -2,7 +2,7 @@
     <div>
       <div>
         <div class="item-search">
-          <searchs :search-items="searchItems" :item="searchItem" :queryUrl="'/menu/queryMenuList.htm'">
+          <searchs :search-items="searchItems" :item="searchItem" :queryUrl="queryUrl">
             <div class="fr" slot="moreBtn">
               <el-button type="primary" @click="create">新增菜单</el-button>
             </div>
@@ -24,6 +24,7 @@
   import Searchs from '@/components/searchs'
   import TableComponent from '@/components/table'
   import MenuCreate from './modules/create'
+  import {URL_JSON} from "../../../components/script/url_json";
   export default {
     name: 'menuManage',
     extends: Mixins,
@@ -48,6 +49,7 @@
           }
         ],
         item: {},
+        queryUrl: '/2' + URL_JSON['queryMenuManage']
       }
     },
     methods: {
@@ -65,12 +67,14 @@
       doDelete () {
 
       }
-
     },
     components: {
       Searchs,
       TableComponent,
       MenuCreate
+    },
+    created() {
+      this.doQuery(this.queryUrl, this.searchItem);
     }
   }
 </script>

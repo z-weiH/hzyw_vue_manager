@@ -26,25 +26,25 @@ export const URL_JSON = {
 
   /* 开户管理 */
   //开户申请 accountApply
-  'saveAccountApply': 'customer/saveCustomerInfo.htm',  //开户申请保存
-  'queryAccountApply': 'customer/queryCostomerByBaseQuery.htm',  //开户申请列表查询
-  'editAccountApply': 'customer/queryCustomerExtByCustomerId.htm',    //开户申请详情
-  'ArbListAccountApply': 'arbitration/queryAllArbList.htm',    //开户申请详情-查询所有仲裁委列表
-  'RoleTypeAccountApply': 'user/queryUserListByRoleType.htm',   //开户申请详情-查询所有市场人员列表
+  'saveAccountApply': '/customer/saveCustomerInfo.htm',  //开户申请保存
+  'queryAccountApply': '/customer/queryCostomerByBaseQuery.htm',  //开户申请列表查询
+  'editAccountApply': '/customer/queryCustomerExtByCustomerId.htm',    //开户申请详情
+  'ArbListAccountApply': '/arbitration/queryAllArbList.htm',    //开户申请详情-查询所有仲裁委列表
+  'RoleTypeAccountApply': '/user/queryUserListByRoleType.htm',   //开户申请详情-查询所有市场人员列表
 
   //开户确认 AccountAffirm
-  'queryAccountAffirm': 'customer/queryApplicationOrderForOperator.htm', //开户确认列表查询
-  'openAccountAffirm': 'customer/openCustomerConfirmByCustId.htm', //开户确认设置
-  'editAccountAffirm': 'customer/queryApplicationOrderForOperator.htm', //开户确认详情
+  'queryAccountAffirm': '/customer/queryApplicationOrderForOperator.htm', //开户确认列表查询
+  'openAccountAffirm': '/customer/openCustomerConfirmByCustId.htm', //开户确认设置
+  'editAccountAffirm': '/customer/queryApplicationOrderForOperator.htm', //开户确认详情
 
   //开户设置【财务主管】 AccountSettingDefault
-  'editAccountSettingDefault': 'order/selectDetailByOrderId.htm',  //开户设置详情
-  'queryAccountSettingDefault': 'order/queryApplicationOrderForFinancialCharge.htm',  //用户列表
-  'saveAccountSettingDefault': 'order/updateOrderResultInfo.htm',  //财务主管加款信息审核
+  'editAccountSettingDefault': '/order/selectDetailByOrderId.htm',  //开户设置详情
+  'queryAccountSettingDefault': '/order/queryApplicationOrderForFinancialCharge.htm',  //用户列表
+  'saveAccountSettingDefault': '/order/updateOrderResultInfo.htm',  //财务主管加款信息审核
 
   //开户设置【财务人员】 AccountSettingManage
-  'queryAccountSettingManage': 'order/queryApplicationOrderForFinancial.htm',  //客户列表
-  'editAccountSettingManage': 'order/selectDetailByOrderId.htm',  //开户设置详情
+  'queryAccountSettingManage': '/order/queryApplicationOrderForFinancial.htm',  //客户列表
+  'editAccountSettingManage': '/order/selectDetailByOrderId.htm',  //开户设置详情
 
   /* 开户管理 */
 

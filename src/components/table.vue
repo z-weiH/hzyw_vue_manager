@@ -25,6 +25,7 @@
                 @click="btn.function.bind($parent)(scope.row)" >{{btn.label}}</el-button>
         </template>
       </el-table-column>
+      <slot name="defineCol"></slot>
     </el-table>
     <!-- 分页 -->
     <div class="ctable_foot">
@@ -100,17 +101,6 @@ export default {
           obj[key] = false;
       })
       return obj;
-    },
-    refresh() {
-      let arr = [];
-      this.columnDefine.forEach(it => {
-        arr.push(it);
-        if (it.children) {
-          arr.push(...it.children);
-        }
-      });
-      console.log(arr);
-      return arr;
     },
     defineHeader(createElement, column) {
       console.log(column, "column");

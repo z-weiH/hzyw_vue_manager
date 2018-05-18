@@ -85,6 +85,27 @@ let router = new Router({
             name: 'userSearch',
           },
         },
+        {
+          path: 'accountSettingDefault',
+          component: () => import('@/views/account/accountSettingDefault'),
+          meta: {
+            name: 'accountSettingDefault',
+          },
+        },
+        {
+          path: 'accountSettingManage',
+          component: () => import('@/views/account/accountSettingManage'),
+          meta: {
+            name: 'accountSettingManage',
+          },
+        },
+        {
+          path: 'accountAffirm',
+          component: () => import('@/views/account/accountAffirm'),
+          meta: {
+            name: 'accountAffirm',
+          },
+        },
         /* 开户管理 end */
 
         /* 仲裁委管理 start*/
@@ -117,6 +138,13 @@ let router = new Router({
           component: () => import('@/views/officialweb/advisoryManage'),
           meta: {
             name: 'advisoryManage',
+          },
+        },
+        {
+          path: 'newsDynamicState',
+          component: () => import('@/views/officialweb/newsDynamicState'),
+          meta: {
+            name: 'newsDynamicState',
           },
         },
 

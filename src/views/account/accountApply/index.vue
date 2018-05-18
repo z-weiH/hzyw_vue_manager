@@ -12,7 +12,16 @@
         开户申请
       </div>
       <div class="item-table">
-        <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine"></table-component>
+        <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine">
+          <el-table-column label="操作" prop="orderStatusName" slot="defineCol">
+            <template slot-scope="scope">
+              <el-button
+                size="mini"
+                @click="showDailog(scope.row)" v-if="scope.row.orderStatus == 0">{{scope.row.orderStatusName}}</el-button>
+              <span v-else>{{scope.row.orderStatusName}}</span>
+            </template>
+          </el-table-column>
+        </table-component>
       </div>
       <account-apply :edit-state="editState"></account-apply>
       <el-date-picker

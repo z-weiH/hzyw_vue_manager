@@ -147,6 +147,11 @@
                 id : 23,
                 url : 'noteSendLog',
               },
+              {
+                label : '短信渠道管理',
+                id : 24,
+                url : 'channelManage',
+              },
               /* {
                 label : '邮件发送日志',
                 id : 24,
