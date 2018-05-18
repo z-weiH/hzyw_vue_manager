@@ -138,6 +138,7 @@
                       <el-button size="mini" icon='el-icon-upload'>
                         点击这里上传文件
                       </el-button>
+                      {{ruleForm.img01FileName}}
                     </el-upload>
                   </el-form-item>
                 </td>
@@ -553,7 +554,7 @@
         // 重置相关数据
         let arr = [
           'name' , 'nation' , 'phone' , 'email' , 'idcard' , 'img01' , 'img02' , 'idaddress' , 'address' ,
-          'legaller' , 'position' ,
+          'legaller' , 'position' , 'img01FileName' , 'img02FileName' ,
         ];
         arr.map((v,k) => {
           this.ruleForm[v] = '';
@@ -599,6 +600,7 @@
               method : 'post',
               url : '/casemanage/saveCase.htm',
               data : formData,
+              mheaders : true,
             }).then((res) => {
               this.$message.success('新增成功');
               this.handleClose();
