@@ -153,17 +153,17 @@ let router = new Router({
 
         /* 第三方管理模块 start */
         {
-          path: 'mailSendLog',
+          path: 'mailSend',
           component: () => import ('@/views/third/mailSendLog'), // 邮件发送日志
           meta: {
-            name: 'mailSendLog',
+            name: 'mailSend',
           },
         },
         {
-          path: 'noteSendLog',
+          path: 'noteSend',
           component: () => import ('@/views/third/noteSendLog'), // 短信发送日志
           meta: {
-            name: 'noteSendLog',
+            name: 'noteSend',
           },
         },
         /* 第三方管理模块 end */
