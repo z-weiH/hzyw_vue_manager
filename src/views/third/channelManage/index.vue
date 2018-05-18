@@ -41,8 +41,8 @@
         ],
         actions: [
           {label: '操作',btns: [
-              {label:'修改', function: this.doEdit},
-              {label:'删除', function: this.doDelete},
+              {label:'修改', function: this.edit},
+              {label:'删除', function: this.delete},
             ]
           }
         ],
@@ -51,20 +51,21 @@
       }
     },
     methods: {
+      edit() {
+        this.editState = 1;
+      },
       create () {
         this.item = {};
         this.editState = 2;
       },
-      doEdit (row) {
-        this.$http.post('/menu/selectByPrimaryKey.htm',{menuId:row.menuId})
-          .then(res => {
-            this.item = res;
-          })
-        this.editState = 1;
+      delete (row) {
+        this.showConfirm().then(res => {
+          if(res){
+            console.log('删除');
+          }
+        })
       },
-      doDelete () {
 
-      }
     },
     components: {
       Searchs,
