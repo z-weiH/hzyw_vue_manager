@@ -86,6 +86,13 @@ export const URL_JSON = {
 
   /* 仲裁委管理 */
 
+  /* 第三方管理 */
+
+  //短信渠道管理channelManage
+  'queryChannelManage': '/riskChannel/queryChannelByBaseQuery.htm', // 短信渠道管理列表页面
+
+  /* 第三方管理 */
+
 
 }
 

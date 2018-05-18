@@ -5,7 +5,7 @@
     >
       <tbody>
       <tr>
-        <td colspan="4">{{def.title}}</td>
+        <td colspan="4" v-if="def.title">{{def.title}}</td>
       </tr>
       <tr class="table-edits" v-for="cnt in def.content" >
         <template v-for="td in cnt" >

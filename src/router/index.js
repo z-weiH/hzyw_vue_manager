@@ -166,6 +166,13 @@ let router = new Router({
             name: 'noteSend',
           },
         },
+        {
+          path: 'channelManage',
+          component: () => import ('@/views/third/channelManage'), // 短信发送日志
+          meta: {
+            name: 'channelManage',
+          },
+        },
         /* 第三方管理模块 end */
         /* 案件信息模块 start */
         {
