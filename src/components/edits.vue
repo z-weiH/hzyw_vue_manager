@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form :model="item"  :rules="rules" :label-width="labelWidth ? labelWidth : '80px'" label-position="left">
+        <el-form :model="item" :ref="formname"  :rules="rules" :label-width="labelWidth ? labelWidth : '80px'" label-position="left">
           <form-edit :item="item" :edit-item="item1" v-for="(item1,index) in editItems" :key="index"></form-edit>
         </el-form>
     </div>
@@ -33,7 +33,8 @@
     props: {
       editItems: Array,
       item: Object,
-      labelWidth: String
+      labelWidth: String,
+      formname: String
     },
     methods: {
       valueChange (obj) {

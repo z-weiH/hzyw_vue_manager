@@ -4,17 +4,19 @@
     title="新增用户信息"
     width="495px"
     center>
-    <edits :edit-items="createItems" :item="createItem" :label-width="'90px'"></edits>
+    <edits :edit-items="createItems" :item="createItem" formname="userControlEdit" :label-width="'90px'"></edits>
     <span slot="footer" class="dialog-footer">
           <el-button @click="$parent.editState = 0">取 消</el-button>
-          <el-button type="primary"  >确 定</el-button>
+          <el-button type="primary" @click="createClickHandle" >确 定</el-button>
         </span>
   </el-dialog>
 </template>
 
 <script>
+  import FormCheck from '@/components/script/formCheck'
   import Edits from '@/components/edits'
   export default {
+    mixins: [FormCheck],
     name: 'createUser',
     props: {
       createItem: Object,
@@ -42,6 +44,11 @@
           if(!v)
             this.$parent.editState = 0
         }
+      }
+    },
+    methods: {
+      createClickHandle() {
+        console.error(this.checkForm('userControlEdit'));
       }
     },
     components: {
