@@ -23,18 +23,10 @@
             </td>
             <td colspan="1">上传签章：</td>
             <td colspan="1">
-              <el-upload
-                class="upload-demo"
-                action="/img/upload"
-                :show-file-list="false"
-                :before-upload="handleBefore"
-                :on-success="handleSuccess"
-                :on-error="fileError"
-              >
-                <el-button size="mini" icon='el-icon-upload'>
-                  点击这里上传文件
-                </el-button>
-              </el-upload>
+              <el-button class="file-inut-box" size="mini" icon='el-icon-upload'>
+                点击这里上传文件
+                <input ref="file" @change="handleSuccess" class="m-file-input" type="file" />
+              </el-button>
             </td>
           </tr>
         </table>
@@ -78,36 +70,42 @@
       },
       // 点击修改
       handleSubmit() {
+        if(!this.sendImgUrl){
+          this.$message.warning('未上传文件');
+          return;
+        }
+
+        let formDate = new FormData();
+        formDate.append('file',this.sendImgUrl);
+        formDate.append('userId',this.userId);
         this.$http({
           method : 'post',
           url : '/hzuser/saveSign.htm',
-          data : {
-            file : this.imgUrl,
-            userId : this.userId,
-          },
+          data : formDate,
+          mheaders : true,
         }).then((res) => {
           this.handleClose();
           this.$emit('successCBK');
         });
       },
 
-      /* 上传前 */
-      handleBefore(file) {
-        let fileType = file.name.split('.').pop();
+      /* 上传成功 */
+      handleSuccess(event) {
+        let file = event.target.files[0];
+        event.target.value = '';
+        let fileType = file.name.split('.').pop().toLowerCase();
         let arr = ['jpg','png','gif','jpeg'];
         if(arr.indexOf(fileType) === -1){
-          this.$message.error('文件格式有误');
-          return false;
+          this.$message.warning('文件格式有误');
+          return;
         }
-        return true;
-      },
-      /* 上传成功 */
-      handleSuccess(response, file, fileList) {
-        this.imgUrl = response.result.imgUrl;
-      },
-      /* 文件上传失败 回调 */
-      fileError() {
-        this.$message.error('文件上传失败，请稍后重试');
+        this.sendImgUrl = file;
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (data) => {
+            let base64 = data.target.result;
+            this.imgUrl = base64;
+        }
       },
     },
   }
@@ -117,8 +115,22 @@
 
 .arbitrament-users-manage-signature-management{
   .m-img{
-    width: 100px;
-    height: 100px;
+    max-width: 150px;
+  }
+  /* 上传 样式 */
+  .file-inut-box{
+    position: relative;
+    overflow: hidden;
+    .m-file-input{
+      position: absolute;
+      left: 0;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+    }
   }
 }
 
