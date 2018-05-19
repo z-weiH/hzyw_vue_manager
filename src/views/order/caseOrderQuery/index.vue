@@ -4,7 +4,7 @@
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入客户名称、账号"></el-input>
+          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入案件编号"></el-input>
         </el-form-item>
 
         <el-select class="mr-10" style="width:120px;" v-model="ruleForm.processfingState" placeholder="处理状态">
@@ -41,11 +41,11 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-        <el-table-column prop="merchantName" label="案件编号"></el-table-column>
-        <el-table-column prop="templateName" label="客户名称"></el-table-column>
-        <el-table-column prop="busiCode" label="返回信息"></el-table-column>
-        <el-table-column prop="createTime" label="状态"></el-table-column>
-        <el-table-column prop="createTime" label="业务编码"></el-table-column>
+        <el-table-column prop="caseOrderId" label="案件编号"></el-table-column>
+        <el-table-column prop="merchantName" label="客户名称"></el-table-column>
+        <el-table-column prop="params" label="返回信息"></el-table-column>
+        <el-table-column prop="status" label="状态"></el-table-column>
+        <el-table-column prop="busiDesc" label="业务编码"></el-table-column>
         <el-table-column prop="createTime" label="发送时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
