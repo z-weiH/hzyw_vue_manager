@@ -23,7 +23,7 @@
     data () {
       return {
         createItems: [
-          {type: 'text', property:'loginName', label: '用户名'},
+          {type: 'text', property:'loginName', label: '用户名', rule: 'require,email'},
           {type: 'text', property:'password', label: '登录密码'},
           {type: 'text', property:'juese', label: '所属角色'},
           {type: 'text', property:'userName', label: '真实姓名'},

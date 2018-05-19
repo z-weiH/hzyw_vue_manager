@@ -1,3 +1,4 @@
+<script src="../../../../../newbuild_MchantAdmin/mchant_manage_top/build/develop/app/caseMg/caseListView.js"></script>
 <template>
   <div>
     <div class="item-search">
@@ -67,7 +68,7 @@ export default {
       editState: 0, // 4 编辑权限
       deleteConfirm: false,
       currentItem: {},
-      queryUrl: "/7/arbitration/queryArbByBaseQuery.htm",
+      queryUrl: "http://192.168.30.13:8999/arb/queryArbByBaseQuery.htm",
     };
   },
   methods: {

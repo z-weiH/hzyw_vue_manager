@@ -47,14 +47,14 @@
         editState: 0, // 4 编辑权限
         deleteConfirm: false,
         currentItem: {},
-        queryUrl: '/7/email/queryArbEmailByBaseQuery.htm'
+        queryUrl: '/email/queryArbEmailByBaseQuery.htm'
       }
     },
     methods: {
 
       doEdit (row) {
         console.log(row);
-        this.$http.post('/7/email/selectEmailByPrimaryKey.htm',{emailId: row.emailId}).then(res => {
+        this.$http.post('/email/selectEmailByPrimaryKey.htm',{emailId: row.emailId}).then(res => {
           if(res.code){
             this.item = res.result;
             this.editState = 1;

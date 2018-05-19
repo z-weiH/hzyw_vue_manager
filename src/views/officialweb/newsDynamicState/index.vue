@@ -28,7 +28,7 @@
           {placeholder: '新闻标题', colSpan: 7, property: 'keyWords'},
           {placeholder: '起始时间', colSpan: 4, property: 'startTime',type: 'date',limit: this.limit1},
           {placeholder: '结束时间', colSpan: 4, property: 'endTime',type: 'date',limit: this.limit2},
-          {placeholder: '请选择状态', colSpan: 5, property: 'newsStatus',type: 'select', options: [
+          {placeholder: '请选择状态', colSpan: 4, property: 'newsStatus',type: 'select', options: [
               {label:'待上线', value: 0},
               {label:'已上线', value: 1},
               {label:'已下线', value: 2},

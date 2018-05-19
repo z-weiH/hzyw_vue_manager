@@ -1,7 +1,7 @@
 <template>
     <div>
-        <el-form :label-width="labelWidth ? labelWidth : '80px'" label-position="left">
-          <form-edit :edit-item="item" :editValue="item[editItems.property]" v-for="(item,index) in editItems" :key="index" @valueChange="valueChange"></form-edit>
+        <el-form :model="item"  :rules="rules" :label-width="labelWidth ? labelWidth : '80px'" label-position="left">
+          <form-edit :item="item" :edit-item="item1" v-for="(item1,index) in editItems" :key="index"></form-edit>
         </el-form>
     </div>
 </template>
@@ -27,6 +27,7 @@
    * @param labelWidth String label的宽度
    */
   import FormEdit from './formEdit'
+  import {RULES} from "./script/rules";
   export default {
     name: 'edits',
     props: {
@@ -40,25 +41,37 @@
           console.log(obj[key]);
           this.item[key]=obj[key];
         });
+        console.error(this.item)
         this.refresh()
       },
-      refresh () {
-        this.$children[0].$children.forEach(it => {
-          it.trueValue = this.item[it.editItem.property];
-        })
-      }
     },
-    watch: {
-      item (val, oldval) {
-        this.refresh()
-      },
-      editItems (val, oldval) {
-        console.error(val, oldval);
+    data () {
+      return {
 
       }
     },
+    computed: {
+      rules() {
+        let res= {};
+        this.editItems.forEach( it => {
+          if(it.rule){
+            let ruleKeys = it.rule.split(',');
+            let rules = [];
+            ruleKeys.forEach( ii => {
+              rules.push(RULES[ii]);
+            });
+            Object.defineProperty(res,it.property,{
+              configurable: true,
+              enumerable: true,
+              value: rules,
+              writable: true
+            })
+          }
+        })
+        return res;
+      }
+    },
     mounted () {
-      this.refresh()
     },
     components: {
       FormEdit
