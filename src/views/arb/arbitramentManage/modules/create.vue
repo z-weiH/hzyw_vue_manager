@@ -1,19 +1,21 @@
 <template>
   <el-dialog
     :visible.sync="show"
+    v-dialogDrag
     :title="title"
     width="495px"
     center>
-    <edits :edit-items="createItems" :item="item" :label-width="'90px'"></edits>
+    <edits :edit-items="createItems" :item="item" :label-width="'100px'"></edits>
     <span slot="footer" class="dialog-footer">
           <el-button @click="$parent.editState = 0">取 消</el-button>
-          <el-button type="primary"  >确 定</el-button>
+          <el-button type="primary"  @click="save">确 定</el-button>
         </span>
   </el-dialog>
 </template>
 
 <script>
 import Edits from '@/components/edits'
+import {URL_JSON} from "../../../../components/script/url_json";
 export default {
   name: 'arbitramentCreate',
   props: {
@@ -31,6 +33,31 @@ export default {
         {type: 'text', property:'url', label: '接口链接地址', placeholder: '接口链接地址'},
         {type: 'textarea', property:'remark', label: '备注信息', placeholder: '备注信息'},
       ]
+    }
+  },
+  methods: {
+    save() {
+      this.$http.post('/7' + URL_JSON['saveArbitramentManage'], this.item)
+        .then(res => {
+          if(res.code){
+            if(this.editState == 1){
+              let currentItem = this.$parent.tableData.find(it => it.arbId == this.item.arbId);
+              if(currentItem){
+                Object.keys(this.item).forEach(key => {
+                  currentItem[key] = this.item[key];
+                });
+                this.$parent.editState = 0;
+                console.log(this.$parent.tableData);
+              }
+            }
+            else{
+              Object.assign(this.item, res.result);
+              console.log(this.item);
+              this.$parent.tableData.unshift(this.item);
+              this.$parent.editState = 0;
+            }
+          }
+        })
     }
   },
   computed: {

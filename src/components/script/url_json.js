@@ -6,7 +6,8 @@ export const URL_JSON = {
   'saveUserControl': '/user/saveUserInfo.htm',              //用户保存
   'queryUserControl': '/user/queryUserList.htm',             //用户列表
   'deleteUserControl': '/user/deleteByPrimaryKey.htm',      //用户删除
-  'editUserControl': ' /user/selectByPrimaryKey.htm',        //用户详情
+  'editUserControl': '/user/queryUserInfoByUserId.htm',        //用户详情
+  'queryALlRole': '/role/queryAllRoleList.htm',        //角色选择
 
   //菜单管理  MenuManage
   'parentMenuMenuManage': '/menu/queryParentMenuList.htm',   //一级菜单
@@ -74,7 +75,7 @@ export const URL_JSON = {
   /* 仲裁委管理 */
   //仲裁委管理 ArbitramentManage
   'saveArbitramentManage': '/arbitration/saveArbArbitration.htm', // 仲裁委保存
-  'deleteArbitramentManage': 'arbitration/deleteArbByPrimaryKey.htm', // 仲裁委删除
+  'deleteArbitramentManage': '/arbitration/deleteArbByPrimaryKey.htm', // 仲裁委删除
   'queryArbitramentManage': '/arbitration/queryArbByBaseQuery.htm', // 仲裁委管理列表
   'editArbitramentManage': '/arbitration/selectArbByPrimaryKey.htm', // 仲裁委详情
 

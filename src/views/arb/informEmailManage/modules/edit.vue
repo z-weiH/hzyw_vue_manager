@@ -1,19 +1,21 @@
 <template>
   <el-dialog
     :visible.sync="show"
+    v-dialogDrag
     :title="title"
     width="495px"
     center>
     <edits :edit-items="createItems" :item="item" :label-width="'90px'"></edits>
     <span slot="footer" class="dialog-footer">
           <el-button @click="$parent.editState = 0">取 消</el-button>
-          <el-button type="primary" @click="confirmClickHandle" >确 定</el-button>
+          <el-button type="primary" @click="save" >确 定</el-button>
         </span>
   </el-dialog>
 </template>
 
 <script>
 import Edits from '@/components/edits'
+import {URL_JSON} from "../../../../components/script/url_json";
 export default {
   name: 'informEmailEdit',
   props: {
@@ -44,8 +46,18 @@ export default {
     }
   },
   methods: {
-    confirmClickHandle () {
-      console.log(this.item);
+    save () {
+      this.$http.post('/7' + URL_JSON['saveInformEmailManage'],this.item)
+        .then(res => {
+          if(res.code) {
+            let currentItem = this.$parent.tableData.find(it => it.emailId == this.item.emailId);
+            if(currentItem){
+              Object.keys(this.item).forEach(key => {
+                currentItem[key] = this.item[key];
+              })
+            }
+          }
+        })
     }
   },
   components: {

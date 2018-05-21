@@ -110,7 +110,7 @@
       RolePermission
     },
     created () {
-      this.doQuery(this.queryUrl, this.searchItem)
+      this.doQuery(this.queryUrl, this.searchItem);
     }
   }
 </script>

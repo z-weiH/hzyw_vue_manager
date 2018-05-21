@@ -16,31 +16,26 @@
 
 <script>
   export default {
-      name: 'formEdit',
-      props: {
-        editItem: Object,
-        editValue: {},
-        item: Object
-      },
-    data () {
-      return {
-        trueValue : this.editValue
-      }
+    name: 'formEdit',
+    props: {
+      editItem: Object,
+      editValue: {},
+      item: Object
     },
-    watch: {
-      item(val, oldVal){
-        console.log(val,oldVal)
-        this.item = val;
-      },
-      trueValue(val,oldValue){
-        let obj = {};
-        obj[this.editItem.property] = val;
-        this.$emit('valueChange', obj);
-      }
-    },
-    mounted () {
-      console.log(this.item)
-    }
+    // watch: {
+    //   item(val, oldVal){
+    //     console.log(val,oldVal)
+    //     this.item = val;
+    //   },
+    //   trueValue(val,oldValue){
+    //     let obj = {};
+    //     obj[this.editItem.property] = val;
+    //     this.$emit('valueChange', obj);
+    //   }
+    // },
+    // mounted () {
+    //   console.log(this.item)
+    // }
   }
 </script>
 

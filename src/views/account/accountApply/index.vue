@@ -2,7 +2,7 @@
   <div>
     <div>
       <div class="item-search">
-        <searchs :search-items="searchItems" :item="searchItem" :queryUrl="searchurl">
+        <searchs :search-items="searchItems" :item="searchItem" :queryUrl="queryUrl">
           <div class="fr" slot="moreBtn">
             <el-button type="primary" @click="create">提交开户申请</el-button>
           </div>
@@ -39,17 +39,18 @@
   import Searchs from '@/components/searchs'
   import TableComponent from '@/components/table'
   import AccountApply from './modules/apply'
+  import {URL_JSON} from "../../../components/script/url_json";
   export default {
     name: 'menuManage',
     extends: Mixins,
     data () {
       return {
-        searchurl: '/customer/queryCostomerByBaseQuery.htm',
+        queryUrl: '/3' + URL_JSON['queryAccountApply'],
         searchItems : [
           {type: 'text',placeholder: '请输入企业名称、账户', property: 'keyWords', colSpan: 7},
 
           {type: 'date',placeholder: '请输入开始时间', property: 'startTime', colSpan: 5},
-          {type: 'date',placeholder: '请输入结束时间', property: 'endTime', colSpan: 5,newline: true},
+          {type: 'date',placeholder: '请输入结束时间', property: 'endTime', colSpan: 5},
         ],
         searchItem: {},
         columnDefine: [
@@ -81,7 +82,7 @@
         this.editState = 2;
       },
       doEdit (row) {
-        this.$http.post('/menu/selectByPrimaryKey.htm',{menuId:row.menuId})
+        this.$http.post('/3' + URL_JSON['editAccountApply'],{menuId:row.menuId})
           .then(res => {
             this.item = res;
           })
@@ -100,6 +101,9 @@
       Searchs,
       TableComponent,
       AccountApply
+    },
+    created() {
+      this.doQuery(this.queryUrl,this.searchItem);
     }
   }
 </script>

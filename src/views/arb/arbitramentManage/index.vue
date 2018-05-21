@@ -15,97 +15,102 @@
       <table-component  :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
     </div>
     <arbitrament-create :item="item" :edit-state="editState"></arbitrament-create>
-    <el-dialog
-      :visible.sync="deleteConfirm"
-      title="提示"
-      width="495px"
-      center>
-      <div>是否确认删除？</div>
-      <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="sureDelete">确 定</el-button>
-          <el-button @click="deleteConfirm = false">取 消</el-button>
-        </span>
-    </el-dialog>
   </div>
 </template>
 
 <script>
-import Searchs from "@/components/searchs";
-import Mixins from "@/components/script/_mixin";
-import TableComponent from "@/components/table";
-import ArbitramentCreate from "./modules/create";
-export default {
-  name: "roleManame",
-  extends: Mixins,
-  data() {
-    return {
-      tableData: [{}],
-      searchItems: [
-        {
-          type: "text",
-          placeholder: "请输入仲裁委名称",
-          property: "keyWords",
-          colSpan: 6
-        }
-      ],
-      searchItem: {},
-      columnDefine: [
-        { label: "仲裁委全称", property: "fullName" },
-        { label: "仲裁委简称", property: "shortName" },
-        { label: "联系人姓名", property: "linkman" },
-        { label: "接口地址", property: "url" }
-      ],
-      actions: [
-        {
-          label: "操作",
-          btns: [
-            { label: "修改", function: this.doEdit },
-            { label: "删除", function: this.doDelete }
-          ]
-        }
-      ],
-      item: {},
-      editState: 0, // 4 编辑权限
-      deleteConfirm: false,
-      currentItem: {},
-      queryUrl: "http://192.168.30.13:8999/arb/queryArbByBaseQuery.htm",
-    };
-  },
-  methods: {
-    create() {
-      this.item = {};
-      this.editState = 2;
+  import Searchs from "@/components/searchs";
+  import Mixins from "@/components/script/_mixin";
+  import TableComponent from "@/components/table";
+  import ArbitramentCreate from "./modules/create";
+  import {URL_JSON} from "../../../components/script/url_json";
+  export default {
+    name: "roleManame",
+    extends: Mixins,
+    data() {
+      return {
+        tableData: [{}],
+        searchItems: [
+          {
+            type: "text",
+            placeholder: "请输入仲裁委名称",
+            property: "keyWords",
+            colSpan: 6
+          }
+        ],
+        searchItem: {},
+        columnDefine: [
+          { label: "仲裁委全称", property: "fullName" },
+          { label: "仲裁委简称", property: "shortName" },
+          { label: "联系人姓名", property: "linkman" },
+          { label: "接口地址", property: "url" }
+        ],
+        actions: [
+          {
+            label: "操作",
+            btns: [
+              { label: "修改", function: this.doEdit },
+              { label: "删除", function: this.doDelete }
+            ]
+          }
+        ],
+        item: {},
+        editState: 0, // 4 编辑权限
+        queryUrl: '/7' + URL_JSON['queryArbitramentManage'],
+      };
     },
-    doEdit(row) {
-      console.log(row);
-      this.item = row;
-      this.editState = 1;
+    methods: {
+      create() {
+        this.item = {};
+        this.editState = 2;
+      },
+      doEdit(row) {
+        this.$http.post('/7' + URL_JSON['editArbitramentManage'],{
+          arbId: row.arbId
+        }).then(res => {
+          if(res.code){
+            console.log(res);
+            this.item = res.result;
+            this.editState = 1;
+          }
+        })
+      },
+      doDelete(row) {
+        this.showConfirm().then(res => {
+          if(res){
+            this.$http.post('/7' + URL_JSON['deleteArbitramentManage'],{
+              arbId: row.arbId
+            }).then(r => {
+              if(r.code){
+                let idx = this.tableData.findIndex(it => it == row);
+                console.log(idx);
+                this.tableData.splice(idx,1);
+              }
+            })
+          }
+        })
+      },
+      sureDelete() {},
+      doQuery(url, item) {
+        console.log('doquery');
+        this.query(url, item).then(res => {
+          console.warn("000000000000000000");
+          console.info(res);
+          this.tableData = res[0].result.list;
+          this.total = res[0].result.count;
+          console.log(typeof res[0].result.list);
+        });
+      }
     },
-    doDelete(row) {
-      this.deleteConfirm = true;
-      this.currentItem = row;
+    components: {
+      Searchs,
+      TableComponent,
+      ArbitramentCreate
     },
-    sureDelete() {},
-    doQuery(url, item) {
-      console.log('doquery');
-      this.query(url, item).then(res => {
-        console.warn("000000000000000000");
-        console.info(res);
-        this.tableData = res[0].result.list;
-        this.total = res[0].result.count;
-        console.log(typeof res[0].result.list);
-      });
+    mounted() {
+      this.doQuery(this.queryUrl, this.item);
     }
-  },
-  components: {
-    Searchs,
-    TableComponent,
-    ArbitramentCreate
-  },
-  mounted() {
-    this.doQuery(this.queryUrl, this.item);
-  }
-};
+  };
 </script>
 
 <style scoped>
