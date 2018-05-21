@@ -11,7 +11,7 @@
         </el-table-column>
         <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img'" :width="col.width ? col.width : 'auto'">
            <template slot-scope="scope">
-             <span :title="EllipsisObjs[col.property+scope.$index] ? scope.row[col.property] : ''" :ref="col.property+scope.$index">{{scope.row[col.property]}}</span>
+             <span v-tableCollapse>{{scope.row[col.property]}}</span>
         </template>
         </el-table-column>
       </template>
@@ -70,11 +70,6 @@ export default {
     actions: Array,
     pager: Object
   },
-  data() {
-    return {
-      EllipsisObjs: {}
-    }
-  },
   computed: {
     columns() {
       let arr = [];
@@ -90,18 +85,6 @@ export default {
     },
   },
   methods: {
-    getEllipsisObjs() {
-      let obj={};
-      Object.keys(this.$refs).forEach( key  => {
-        let ele = this.$refs[key][0]
-        if(ele && (ele.offsetWidth+20 > ele.offsetParent.offsetWidth)){
-          obj[key] = true;
-        }
-        else
-          obj[key] = false;
-      })
-      return obj;
-    },
     defineHeader(createElement, column) {
       console.log(column, "column");
       let col = this.columns.find(it => it.property == column.column.property);
@@ -162,7 +145,6 @@ export default {
     // console.log("总数", this.pager.total);
   },
   updated(){
-      this.EllipsisObjs = this.getEllipsisObjs();
       console.log(this.tableData);
       console.log("当前显示条数", this.pager.pageSize);
       console.log("当前页标", this.pager.currentPage);

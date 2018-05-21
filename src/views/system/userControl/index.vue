@@ -1,7 +1,7 @@
 <template>
   <div>
 
-      <searchs class="item-search" :search-items="searchItems" :item="item">
+      <searchs class="item-search" :search-items="searchItems" :item="searchItem" >
         <div class="fr" slot="moreBtn">
           <el-button type="primary" @click="create">新增用户</el-button>
         </div>
@@ -35,7 +35,7 @@
           {type:'text', placeholder: '请输入用户名、真实名字、手机号码', colSpan: 8, property: 'keyWords'},
           {type:'select', options: [{label:'北京',value:'BJ'}, {label:'上海',value:''}, {label:'杭州',value:'HZ'}], colSpan: 4, property: 'roleId'},
         ],
-        item : {},
+        searchItem : {},
         tableData : [],
         psdItem:{},
         columnDefine : [
@@ -62,6 +62,7 @@
         editState : 0, // 1表示编辑  2表示新增 3修改密码
         deleteConfirm : false,
         deleteItem : {},
+        roleList: [],
         queryUrl: '/2/user/queryUserList.htm'
       }
     },
@@ -78,7 +79,7 @@
         this.editState = 2;
       },
       editInfo (row) {
-        this.edit('/2/user/selectByPrimaryKey.htm',{userId: row.userId})
+        this.edit('/2' + URL_JSON['editUserControl'],{userId: row.userId})
           .then(res => {
             if(res.code){
               this.editItem = res.result;
@@ -99,7 +100,14 @@
       }
     },
     created () {
-      this.doQuery('/2'+URL_JSON['queryUserControl'], this.item);
+      this.doQuery('/2'+URL_JSON['queryUserControl'], this.searchItem);
+      //获取 角色
+      this.$http.post('/2' + URL_JSON['queryALlRole']).then(res => {
+        if(res.code){
+          this.roleList = res.result.list;
+        }
+      })
+
     }
   }
 </script>

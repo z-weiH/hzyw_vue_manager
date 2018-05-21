@@ -28,13 +28,16 @@
           {type: 'text', property:'userName', label: '真实姓名'},
           {type: 'text', property:'userPhone', label: '手机号码'},
           {type: 'text', property:'userEmail', label: '电子邮箱'},
-          {type: 'text', property:'roleIds', label: '角色权限（可多选）'},
+          {type: 'select', property:'roleIds', label: '角色权限（可多选）'},
           {type: 'text', property:'userAddress', label: '通讯地址'},
           {type: 'textarea', property:'otherInfo', label: '其它信息', placeholder: '请输入内容'},
         ],
       }
     },
     computed: {
+      list() {
+
+      },
       show :{
         get: function () {
           return this.editState == 1

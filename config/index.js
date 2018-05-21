@@ -10,11 +10,12 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    // proxyTable: {
-    //   '*':{
-    //     target: 'http://192.168.30.13:8999',
-    //   },
-    // },
+    proxyTable: {
+      '*':{
+        target: 'http://192.168.30.120:8080/mockjs',
+        // target: '192.168.30.13:8999',   //费余波
+      },
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST

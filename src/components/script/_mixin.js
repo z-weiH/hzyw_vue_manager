@@ -54,18 +54,16 @@ export default {
       this.query(url, item)
     },
     edit(url, item) {
-      return this.$http.get(url, {
-        params: item
-      }).then(res => {
+      return this.$http.post(url, item).then(res => {
         return res;
       })
     },
     beforeClose (action, instance, done) {
       console.log(action, instance, done)
     },
-    async showConfirm(){
+    async showConfirm(msg){
       let promise = new Promise((resolve,reject)=>{
-        this.$confirm('是否确认删除？', '提示', {
+        this.$confirm(msg ? msg :'是否确认删除？', '提示', {
           cancelButtonText: '确定',
           confirmButtonText: '取消',
           cancelButtonClass: 'cancel',

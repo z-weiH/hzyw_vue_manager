@@ -19,6 +19,7 @@
   import Mixins from '@/components/script/_mixin'
   import TableComponent from '@/components/table'
   import InformEmailEdit from './modules/edit'
+  import {URL_JSON} from "../../../components/script/url_json";
   export default {
     name : 'roleManame',
     extends: Mixins,
@@ -47,14 +48,12 @@
         editState: 0, // 4 编辑权限
         deleteConfirm: false,
         currentItem: {},
-        queryUrl: '/email/queryArbEmailByBaseQuery.htm'
+        queryUrl: '/7' + URL_JSON['queryInformEmailManage']
       }
     },
     methods: {
-
       doEdit (row) {
-        console.log(row);
-        this.$http.post('/email/selectEmailByPrimaryKey.htm',{emailId: row.emailId}).then(res => {
+        this.$http.post('/7' + URL_JSON['editInformEmailManage'],{emailId: row.emailId}).then(res => {
           if(res.code){
             this.item = res.result;
             this.editState = 1;
