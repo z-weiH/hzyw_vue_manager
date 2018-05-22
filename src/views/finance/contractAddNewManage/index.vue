@@ -162,7 +162,7 @@
       initTableList() {
         this.$http({
           method : 'post',
-          url : '/contractOrder/queryContractOrderByFinancialStaff.htm',
+          url : '/contractOrder/queryContractOrderByCharge.htm',
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,

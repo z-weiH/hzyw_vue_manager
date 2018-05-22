@@ -230,7 +230,7 @@
           <template v-for="(item,index) in ruleForm.orderDetailList">
 
             <!-- 编辑 -->
-            <template v-if="item.orderStatus === 0 && type !== 'detail'">
+            <template v-if="item.orderStatus === 0 && type !== 'detail' && type !== 'examineDetail'">
               <table
                 :key="index"
                 class="m-primordial-table mt-10
@@ -880,7 +880,7 @@
           data : {
             orderId : row.orderId,
           },
-        }).then(() => {
+        }).then((res) => {
           this.ruleForm = res.result;
         });
       },
