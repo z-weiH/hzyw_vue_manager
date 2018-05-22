@@ -594,7 +594,7 @@
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <template v-if="type === 'detail'">
+        <template v-if="type === 'detail' || type === 'examineDetail'">
           <el-button type="primary" @click="handleClose">返 回</el-button>
         </template>
 

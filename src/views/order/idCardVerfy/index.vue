@@ -1,5 +1,5 @@
 <template>
-  <div class="id-card-verfy">
+  <div class="id-card-verfy fn-hide">
     <div class="item-search">
       <span>Excel文件(最多查100条)：</span>
       <el-button class="file-inut-box"  icon='el-icon-upload'>

@@ -1,5 +1,5 @@
 <template>
-  <div class="case-order-query">
+  <div class="case-order-query fn-hide">
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 

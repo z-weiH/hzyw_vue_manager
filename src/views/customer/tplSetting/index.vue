@@ -1,5 +1,5 @@
 <template>
-  <div class="tpl-setting">
+  <div class="tpl-setting fn-hide">
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 

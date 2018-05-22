@@ -1,5 +1,5 @@
 <template>
-  <div class="client-time-task-manage">
+  <div class="client-time-task-manage fn-hide">
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 

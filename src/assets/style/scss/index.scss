@@ -105,6 +105,10 @@ body {
     text-overflow: ellipsis!important;
     white-space: nowrap!important;
   }
+  /* 隐藏 */
+  .fn-hide{
+    display: none;
+  }
   /* 居中 */
   .center {
     text-align: center;

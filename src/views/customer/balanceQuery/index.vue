@@ -1,5 +1,5 @@
 <template>
-  <div class="balance-query">
+  <div class="balance-query fn-hide">
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
         <el-form-item label=" " prop="keyWords">
