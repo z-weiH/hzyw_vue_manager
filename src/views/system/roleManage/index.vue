@@ -53,13 +53,13 @@
         ],
         editItem: {},
         editState: 0, // 4 编辑权限
-        queryUrl: '/2' + URL_JSON['queryRoleManage'],
+        queryUrl:  URL_JSON['queryRoleManage'],
         list: [] //权限数列表
       }
     },
     methods: {
       menuManager () {
-        this.$http.post('/2' + URL_JSON['treeRoleManage'])
+        this.$http.post( URL_JSON['treeRoleManage'])
           .then(res=> {
             res=Mock.mock(res)
             if(res.code){
@@ -89,7 +89,7 @@
       doDelete (row) {
         this.showConfirm().then(confirm => {
           if(confirm){
-            this.$http.post('/2'+URL_JSON['deleteRoleManage'],{userId: row.userId}).then(res=> {
+            this.$http.post(URL_JSON['deleteRoleManage'],{userId: row.userId}).then(res=> {
               if(res.code){
                 this.tableData.splice(this.tableData.findIndex(it => it == row),1);
               }

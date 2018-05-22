@@ -44,7 +44,7 @@ export default {
           ]},
       ],
       searchItem: {},
-      queryUrl: '/3'+URL_JSON['queryAccountSettingDefault'],
+      queryUrl: +URL_JSON['queryAccountSettingDefault'],
       columnDefine: [
         {label: '企业名称', property: 'custName'},
         {label: '合同号', property: 'contactNo'},
@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     showDailog(row) {
-      this.$http('/3'+URL_JSON['editAccountSettingDefault'],{orderId: row.orderId})
+      this.$http(URL_JSON['editAccountSettingDefault'],{orderId: row.orderId})
         .then(res => {
           if(res.code){
             this.item = res.result;

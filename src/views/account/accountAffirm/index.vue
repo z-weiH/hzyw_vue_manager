@@ -49,7 +49,7 @@ export default {
         {label: '开户受理费（元）',property: 'caseAmount'},
         {label: '申请时间',property: 'submitTime'},
       ],
-      queryUrl: '/3'+URL_JSON['queryAccountAffirm'],
+      queryUrl: URL_JSON['queryAccountAffirm'],
       searchItem: {}
     }
   },

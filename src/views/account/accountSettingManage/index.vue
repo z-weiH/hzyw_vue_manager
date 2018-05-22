@@ -39,7 +39,7 @@
             ]},
         ],
         searchItem: {},
-        queryUrl: '/3'+URL_JSON['queryAccountSettingManage'],
+        queryUrl: URL_JSON['queryAccountSettingManage'],
         columnDefine: [
           {label: '企业名称', property: 'custName'},
           {label: '合同号', property: 'contactNo'},

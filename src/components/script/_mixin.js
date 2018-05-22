@@ -12,9 +12,9 @@ export default {
       queryUrl: '', // 查询api的路径 必写
       searchitem: {},
       pager: {
-        currentPage: 1,
+        currentNum: 1,
         pageSize: 10,
-        total: 500,
+        count: 500,
       }
     }
   },
@@ -39,7 +39,7 @@ export default {
           console.log(res);
           if(res.code){
             this.tableData = res.result.list;
-            this.pager.total = res.result.count;
+            this.pager.count = res.result.count;
           }
           return res
         })

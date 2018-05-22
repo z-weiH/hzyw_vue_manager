@@ -23,13 +23,7 @@
           </el-table-column>
         </table-component>
       </div>
-      <account-apply :edit-state="editState"></account-apply>
-      <el-date-picker
-        type="date"
-        placeholder="选择日期"
-        v-model="value"
-        :picker-options="pickerOptions">
-      </el-date-picker>
+      <account-apply :edit-state="editState" :item="item"></account-apply>
     </div>
   </div>
 </template>
@@ -45,16 +39,33 @@
     extends: Mixins,
     data () {
       return {
-        queryUrl: '/3' + URL_JSON['queryAccountApply'],
+        queryUrl:  URL_JSON['queryAccountApply'],
         searchItems : [
-          {type: 'text',placeholder: '请输入企业名称、账户', property: 'keyWords', colSpan: 7},
+          {type: 'text',placeholder: '请输入企业名称、账户', property: 'keyWords', colSpan: 6},
 
-          {type: 'date',placeholder: '请输入开始时间', property: 'startTime', colSpan: 5},
-          {type: 'date',placeholder: '请输入结束时间', property: 'endTime', colSpan: 5},
+          {type: 'date',placeholder: '请输入开始时间', property: 'startTime', colSpan: 4},
+          {type: 'date',placeholder: '请输入结束时间', property: 'endTime', colSpan: 4},
+          // 10待提交11 待审核20待开户设置30待确认40开户成功41开户失败
+          {type: 'select',placeholder: '开户状态',property: 'custStatus', colSpan: 4, options: [
+              {label: '全部', value: ''},
+              {label: '待提交', value: 10},
+              {label: '待审核', value: 11},
+              {label: '待开户设置', value: 20},
+              {label: '待确认', value: 30},
+              {label: '开户成功', value: 40},
+              {label: '开户失败', value: 41},
+            ]}
         ],
         searchItem: {},
         columnDefine: [
-          {label: '企业名称',property: 'custName'},
+          {label: '企业名称',property: 'custName',isLink: 1, linkShowPanel: (row) => {
+              this.queryDetail(URL_JSON['editAccountApply'],{customerId: row.custId}).then(res => {
+                  if(res.code == '0000'){
+                    this.item = res.result;
+                    this.editState = 9;
+                  }
+              })
+            }},
           {label: '账户',property: 'loginName'},
           {label: '法定代表人',property: 'legallerName'},
           {label: '联系人',property: 'contactsName'},
@@ -82,7 +93,7 @@
         this.editState = 2;
       },
       doEdit (row) {
-        this.$http.post('/3' + URL_JSON['editAccountApply'],{menuId:row.menuId})
+        this.$http.post( URL_JSON['editAccountApply'],{menuId:row.menuId})
           .then(res => {
             this.item = res;
           })

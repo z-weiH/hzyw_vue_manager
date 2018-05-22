@@ -49,7 +49,7 @@
           }
         ],
         item: {},
-        queryUrl: '/2' + URL_JSON['queryMenuManage']
+        queryUrl:  URL_JSON['queryMenuManage']
       }
     },
     methods: {

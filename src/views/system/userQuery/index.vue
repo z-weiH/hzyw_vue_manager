@@ -35,7 +35,7 @@
           {label: '所属角色',property: 'roleNames'},
           {label: '创建时间',property: 'createTime',width: 180},
         ],
-        queryUrl: '/2' + URL_JSON['queryUserControl']
+        queryUrl:  URL_JSON['queryUserControl']
 
         // fixedSearchItrems: { parent_id: '2', role_id: '3'},//固定的查询条件
       }

@@ -32,11 +32,11 @@
       <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
-      :current-page="pager.currentPage"
+      :current-page="pager.currentNum"
       :page-sizes="[10, 20, 30, 40]"
       :page-size="pager.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="pager.total">
+      :total="pager.count">
       </el-pagination>
     </div>
   </div>
@@ -128,7 +128,7 @@ export default {
     // 分页 change
     handleCurrentChange(val) {
       console.log("val===", val,this);
-      this.$parent.pager.currentPage = val;
+      this.$parent.pager.currentNum = val;
       this.$parent.doQuery(this.$parent.queryUrl,this.$parent.item)
     }
   },
@@ -146,9 +146,9 @@ export default {
   },
   updated(){
       console.log(this.tableData);
-      console.log("当前显示条数", this.pager.pageSize);
-      console.log("当前页标", this.pager.currentPage);
-      console.log("总数", this.pager.total);
+      // console.log("当前显示条数", this.pager.pageSize);
+      // console.log("当前页标", this.pager.currentPage);
+      // console.log("总数", this.pager.total);
   }
 }
 </script>

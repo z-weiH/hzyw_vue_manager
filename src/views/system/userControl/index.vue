@@ -79,7 +79,7 @@
         this.editState = 2;
       },
       editInfo (row) {
-        this.edit('/2' + URL_JSON['editUserControl'],{userId: row.userId})
+        this.edit( URL_JSON['editUserControl'],{userId: row.userId})
           .then(res => {
             if(res.code){
               this.editItem = res.result;
@@ -100,9 +100,9 @@
       }
     },
     created () {
-      this.doQuery('/2'+URL_JSON['queryUserControl'], this.searchItem);
+      this.doQuery(URL_JSON['queryUserControl'], this.searchItem);
       //获取 角色
-      this.$http.post('/2' + URL_JSON['queryALlRole']).then(res => {
+      this.$http.post( URL_JSON['queryALlRole']).then(res => {
         if(res.code){
           this.roleList = res.result.list;
         }
