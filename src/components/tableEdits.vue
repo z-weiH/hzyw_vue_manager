@@ -35,6 +35,7 @@
       </tr>
       </tbody>
     </table>
+    <slot name="tablePlus"></slot>
   </div>
 </template>
 

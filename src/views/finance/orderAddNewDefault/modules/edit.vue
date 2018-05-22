@@ -115,7 +115,7 @@ export default {
         return this.editState == 1 || this.editState == 9;
       },
       set: function(v) {
-        if (!v) this.$parent.editState = false;
+        if (!v) this.$parent.editState = 0;
       }
     }
   },

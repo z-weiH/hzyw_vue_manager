@@ -1,9 +1,10 @@
 <template>
   <div class="content">
     <div class="wsbodyhead" id="bodyhead">
-      <a>所在位置</a><a class="aside_tit" href="javascript:;">案件列表</a>
+      <a>所在位置</a><a class="aside_tit" href="javascript:;">订单加款【财务人员】</a>
     </div>
-    <searchs class="item-search" :search-items="searchItems" :item="searchItem" :query-url="queryUrl">
+    <searchs class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
+          <template slot='moreBtn'><el-button class='ml-20' type='primary' @click=''>导出Excel</el-button></template>
     </searchs>
     <div class="item-title">
       订单加款列表
@@ -14,8 +15,9 @@
           <template slot-scope="scope">
                 <el-button
                   size="mini"
-                  @click="showDialog(scope.row,1)" v-if="scope.row.orderStatus == 0">待加款</el-button>
-                <span v-if="scope.row.orderStatus == 1">待复核</span>
+                  @click="showDialog(scope.row,1)" v-if="scope.row.orderStatus == 0">待提交</el-button>
+                <el-button size="mini"
+                  @click="showDialog(scope.row,1)" v-if="scope.row.orderStatus == 1">待复核</el-button>
                 <el-button
                   size="mini"
                   @click="showDialog(scope.row,1)" v-if="scope.row.orderStatus == 2">已加款</el-button>
@@ -64,7 +66,7 @@ export default {
           property: "orderStatus",
           options: [
             {
-              label: "待加款",
+              label: "待提交",
               value: "0"
             },
             {
@@ -85,10 +87,15 @@ export default {
       item: {},
       queryUrl: "/6" + URL_JSON["queryOrderAddNewDefault"],
       columnDefine: [
-        { label: "订单号", property: "orderNo" ,isLink:1 ,linkShowPanel:(el)=>{
-          console.info('orderNo:::',el,this);
-          this.showDialog(el,9);
-        }},
+        {
+          label: "订单号",
+          property: "orderNo",
+          isLink: 1,
+          linkShowPanel: el => {
+            console.info("orderNo:::", el, this);
+            this.showDialog(el, 9);
+          }
+        },
         { label: "申请时间", property: "orderDate" },
         { label: "客户名称", property: "merchantName" },
         { label: "联系电话", property: "orderPhone" },
@@ -109,14 +116,14 @@ export default {
      * @param row 当前行数据
      * @param type 显示的视图是否可编辑 1:可编辑 9:只读
      * */
-    showDialog(row,type) {
+    showDialog(row, type) {
       this.queryDetail("/6" + URL_JSON["queryOrderAddNewDefaultDetail"], {
         orderId: row.orderId
       }).then(res => {
         if (res.code) {
           this.item = res.result;
           this.editState = type;
-          console.log('type::',type);
+          console.log("type::", type);
         }
       });
     }
