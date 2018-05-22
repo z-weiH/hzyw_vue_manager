@@ -24,7 +24,7 @@
               <td colspan="1">
                 <el-form-item label=" " prop="userId">
                   <el-select v-model="ruleForm.userId" placeholder="请选择">
-                    <el-option label="请选择" value=" "></el-option>
+                    <el-option label="请选择" value=""></el-option>
                     <template v-for="(item,index) in userOptions">
                       <el-option :key="item.userId + index" :label="item.name" :value="item.userId"></el-option>
                     </template>

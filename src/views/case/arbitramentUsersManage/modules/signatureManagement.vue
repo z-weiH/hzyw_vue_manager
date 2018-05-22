@@ -67,6 +67,10 @@
       // 关闭 浮层
       handleClose() {
         this.dialogVisible = false;
+        
+        // 清空数据
+        this.imgUrl = '';
+        this.sendImgUrl = '';
       },
       // 点击修改
       handleSubmit() {

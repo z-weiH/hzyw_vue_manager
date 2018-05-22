@@ -10,6 +10,7 @@ let exportFile = (obj) => {
   let iframe = document.createElement('iframe');
   let name = `iframe-${+ new Date()}`;
   iframe.name = name;
+  iframe.style = 'display:none';
   let arr = [];
 
   for(let key in data) {
