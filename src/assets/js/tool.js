@@ -42,4 +42,5 @@ function throttle(fn, delay) {
 
 export {
   cutString,
+  throttle,
 }

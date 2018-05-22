@@ -6,6 +6,7 @@
 
 <script type="text/ecmascript-6">
 import $ from 'jquery'
+import {throttle} from '@/assets/js/tool'
 export default {
   data() {
     return {
@@ -13,7 +14,7 @@ export default {
     };
   },
   mounted() {
-    window.addEventListener("scroll", this.handleScroll);
+    window.addEventListener("scroll", throttle(this.handleScroll,50));
   },
   methods: {
     handleScroll() {
