@@ -53,8 +53,9 @@ export default {
     doQuery(url, item) {
       this.query(url, item)
     },
-    edit(url, item) {
+    queryDetail(url, item) {
       return this.$http.post(url, item).then(res => {
+        res  = Mock.mock(res);
         return res;
       })
     },

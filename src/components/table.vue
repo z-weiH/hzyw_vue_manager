@@ -11,7 +11,7 @@
         </el-table-column>
         <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img'" :width="col.width ? col.width : 'auto'">
            <template slot-scope="scope">
-             <span v-tableCollapse>{{scope.row[col.property]}}</span>
+             <span v-tableCollapse :class="{colLink: col.isLink}" @click="col.linkShowPanel && col.linkShowPanel.bind($parent)(scope.row)">{{scope.row[col.property]}}</span>
         </template>
         </el-table-column>
       </template>
