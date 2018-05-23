@@ -92,8 +92,8 @@
               <tr>
                 <td class="w-205">企业注册地址：</td>
                 <td colspan="3">
-                  <el-form-item label=" " prop="Idaddress">
-                    <el-input v-model.trim="ruleForm.Idaddress" placeholder="请输入企业注册地址"></el-input>
+                  <el-form-item label=" " prop="idaddress">
+                    <el-input v-model.trim="ruleForm.idaddress" placeholder="请输入企业注册地址"></el-input>
                   </el-form-item>
                 </td>
               </tr>
@@ -244,7 +244,7 @@
           // 所属市场人员
           hzmngUserId : '',
           // 企业注册地址
-          Idaddress : '',
+          idaddress : '',
           // 法定代表人姓名
           name : '',
           // 法定代表人职务
@@ -296,7 +296,7 @@
           hzmngUserId : [
             { required : true , message : '请选择所属市场人员' , trigger : 'change'},
           ],
-          Idaddress : [
+          idaddress : [
             { required : true , message : '请输入企业注册地址' , trigger : 'blur'},
           ],
           name : [
