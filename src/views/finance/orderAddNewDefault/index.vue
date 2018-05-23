@@ -3,8 +3,10 @@
     <div class="wsbodyhead" id="bodyhead">
       <a>所在位置</a><a class="aside_tit" href="javascript:;">订单加款【财务人员】</a>
     </div>
-    <searchs class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
-          <template slot='moreBtn'><el-button class='ml-20' type='primary' @click=''>导出Excel</el-button></template>
+    <searchs class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
+          <template slot='moreBtn'>
+            <el-button class='ml-20' type='primary' @click='exportFile(exportUrl)' >导出Excel</el-button>
+          </template>
     </searchs>
     <div class="item-title">
       订单加款列表
@@ -33,12 +35,13 @@
 <script type="text/ecmascript-6">
 import { URL_JSON } from "../../../components/script/url_json";
 import Mixins from "@/components/script/_mixin";
+import exportFile from "@/components/script/exportFile";
 import SettingDlg from "./modules/edit";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 export default {
   name: "orderAddNewDefault",
-  extends: Mixins,
+  mixins: [Mixins, exportFile],
   data() {
     return {
       searchItem: {},
@@ -85,7 +88,8 @@ export default {
         }
       ],
       item: {},
-      queryUrl: "/6" + URL_JSON["queryOrderAddNewDefault"],
+      queryUrl: URL_JSON["queryOrderAddNewDefault"],
+      exportUrl: URL_JSON["exportOrderAddNewDefault"],
       columnDefine: [
         {
           label: "订单号",
@@ -117,7 +121,7 @@ export default {
      * @param type 显示的视图是否可编辑 1:可编辑 9:只读
      * */
     showDialog(row, type) {
-      this.queryDetail("/6" + URL_JSON["queryOrderAddNewDefaultDetail"], {
+      this.queryDetail(URL_JSON["queryOrderAddNewDefaultDetail"], {
         orderId: row.orderId
       }).then(res => {
         if (res.code) {
@@ -126,7 +130,7 @@ export default {
           console.log("type::", type);
         }
       });
-    }
+    },
   },
   components: {
     Searchs,

@@ -98,10 +98,12 @@ export const URL_JSON = {
   //  订单加款【 财务人员】
   'queryOrderAddNewDefault': '/order/queryOrderByFinancialStaff.htm', // 订单加款列表
   'queryOrderAddNewDefaultDetail': '/order/queryOrderDetailByOrderId.htm', //订单加款详情
+  'exportOrderAddNewDefault': '/order/exportExcelForManager.htm',//导出excel
+  'saveOrderAddNewDefaultDetail': '/order/saveOrderInfo.htm',//保存加款明细
 
   //  订单加款【 审核】
   'queryOrderAddNewManage': '/order/queryOrderByCharge.htm', // 订单加款列表
-
+  'exportOrderAddNewManage': '/order/exportExcel.htm',//导出excel
 
   /* 财务管理 */
 
