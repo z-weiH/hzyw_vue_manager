@@ -232,9 +232,9 @@
           // 年营业额（万元）
           busiAmount : '',
           // 开户时间
-          createTime : '2012-11-11',
+          createTime : '',
           // 登录账号
-          loginName : '15700000004@163.com',
+          loginName : '',
           // 所属仲裁委
           arbId : '',
           // 固定电话
@@ -255,9 +255,9 @@
           email : '',
           // 通讯地址
           address : '',
-          // 证件类型
+          // 证件类型 1身份证3证件照
           idtype : '',
-          // 证件号码 1身份证3证件照
+          // 证件号码
           idcard : '',
           // IP白名单
           ip : '',
@@ -271,6 +271,66 @@
         rules : {
           merchantName : [
             { required : true , message : '请输入客户名称' , trigger : 'blur'},
+          ],
+          busiAmount : [
+            { required : true , message : '请输入年营业额' , trigger : 'blur'},
+          ],
+          createTime : [
+            { required : true , message : '请输入开户时间' , trigger : 'blur'},
+          ],
+          loginName : [
+            { required : true , message : '请输入登录账号' , trigger : 'blur'},
+          ],
+          arbId : [
+            { required : true , message : '请选择所属仲裁委' , trigger : 'change'},
+          ],
+          telephone : [
+            { required : true , message : '请输入固定电话' , trigger : 'blur'},
+          ],
+          loginName : [
+            { required : true , message : '请输入登录账号' , trigger : 'blur'},
+          ],
+          fax : [
+            { required : true , message : '请输入传真号码' , trigger : 'blur'},
+          ],
+          hzmngUserId : [
+            { required : true , message : '请选择所属市场人员' , trigger : 'change'},
+          ],
+          Idaddress : [
+            { required : true , message : '请输入企业注册地址' , trigger : 'blur'},
+          ],
+          name : [
+            { required : true , message : '请输入法定代表人姓名' , trigger : 'blur'},
+          ],
+          position : [
+            { required : true , message : '请输入法定代表人职务' , trigger : 'blur'},
+          ],
+          phone : [
+            { required : true , message : '请输入法定代表人手机' , trigger : 'blur'},
+          ],
+          email : [
+            { required : true , message : '请输入法定代表人邮箱' , trigger : 'blur'},
+          ],
+          address : [
+            { required : true , message : '请输入通讯地址' , trigger : 'blur'},
+          ],
+          idtype : [
+            { required : true , message : '请选择证件类型' , trigger : 'change'},
+          ],
+          idcard : [
+            { required : true , message : '请输入证件号码' , trigger : 'blur'},
+          ],
+          ip : [
+            { required : true , message : '请输入IP白名单' , trigger : 'blur'},
+          ],
+          url : [
+            { required : true , message : '请输入接口地址' , trigger : 'blur'},
+          ],
+          isGuarded : [
+            { required : true , message : '请选择是否预审' , trigger : 'change'},
+          ],
+          isComputed : [
+            { required : true , message : '请选择是否计算' , trigger : 'change'},
           ],
         },
 

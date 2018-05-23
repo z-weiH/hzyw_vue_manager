@@ -97,10 +97,10 @@ export const URL_JSON = {
   /* 财务管理 */
   //  订单加款【 财务人员】
   'queryOrderAddNewDefault': '/order/queryOrderByFinancialStaff.htm', // 订单加款列表
-  'queryOrderAddNewDefaultDetail': '/order/queryOrderDetailByOrderId.htm', //
+  'queryOrderAddNewDefaultDetail': '/order/queryOrderDetailByOrderId.htm', //订单加款详情
 
   //  订单加款【 审核】
-  'orderAddNewManage': '/order/queryOrderByCharge.htm', // 订单加款列表
+  'queryOrderAddNewManage': '/order/queryOrderByCharge.htm', // 订单加款列表
 
 
   /* 财务管理 */

@@ -75,9 +75,9 @@
           // 客户名称
           keyWords : '',
           // 开始时间
-          startDate : this.$moment().format('YYYY-MM-DD'),
+          startDate : '',
           // 结束时间
-          endDate : this.$moment().format('YYYY-MM-DD'),
+          endDate : '',
         },
         rules : {},
         
