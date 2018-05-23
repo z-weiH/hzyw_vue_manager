@@ -16,14 +16,15 @@
               <el-option
                 v-for="opt in td.options"
                 :key="opt.value"
-                :label="opt.label"
-                :value="opt.value">
+                :label="td.labelfield ? opt[td.labelfield] : opt.label"
+                :value="td.valuefield ? opt[td.valuefield] : opt.value">
               </el-option>
             </el-select>
             <el-input type="textarea" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'textarea'"></el-input>
-            <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/"   :limit="3" :show-file-list="false" v-if="td.type == 'file'">
+            <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/"   :limit="3" :show-file-list="false" v-if="td.type == 'file' && !(disabled || td.disabled)" >
               <el-button size="small" type="info" plain>点击这里上传文件</el-button>
             </el-upload>
+            <a v-else class="colLink" :href="item[td.property]" target="_blank">{{td.disabledLabel}}</a>
           </td>
           <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'info'">
             <span>{{td.content}}</span>
@@ -80,8 +81,13 @@
         return returnArr;
       }
     },
+    watch: {
+      editDefines(val, oldVal) {
+        console.error(val,oldVal)
+      }
+    },
     mounted () {
-      console.log(this.calcDefine)
+      console.log(this.editDefines)
     }
   }
 </script>

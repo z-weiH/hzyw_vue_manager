@@ -56,7 +56,7 @@
         ],
         item: {},
         editState: 0, // 4 编辑权限
-        queryUrl: '/7' + URL_JSON['queryArbitramentManage'],
+        queryUrl:  URL_JSON['queryArbitramentManage'],
       };
     },
     methods: {
@@ -65,10 +65,11 @@
         this.editState = 2;
       },
       doEdit(row) {
-        this.$http.post('/7' + URL_JSON['editArbitramentManage'],{
+        console.log( typeof(row.arbId));
+        this.$http.post( URL_JSON['editArbitramentManage'],{
           arbId: row.arbId
         }).then(res => {
-          if(res.code){
+          if(res.code == '0000'){
             console.log(res);
             this.item = res.result;
             this.editState = 1;
@@ -78,7 +79,7 @@
       doDelete(row) {
         this.showConfirm().then(res => {
           if(res){
-            this.$http.post('/7' + URL_JSON['deleteArbitramentManage'],{
+            this.$http.post( URL_JSON['deleteArbitramentManage'],{
               arbId: row.arbId
             }).then(r => {
               if(r.code){
@@ -90,7 +91,9 @@
           }
         })
       },
-      sureDelete() {},
+      sureDelete() {
+
+      },
       doQuery(url, item) {
         console.log('doquery');
         this.query(url, item).then(res => {

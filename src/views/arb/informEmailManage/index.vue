@@ -48,12 +48,12 @@
         editState: 0, // 4 编辑权限
         deleteConfirm: false,
         currentItem: {},
-        queryUrl: '/7' + URL_JSON['queryInformEmailManage']
+        queryUrl:  URL_JSON['queryInformEmailManage']
       }
     },
     methods: {
       doEdit (row) {
-        this.$http.post('/7' + URL_JSON['editInformEmailManage'],{emailId: row.emailId}).then(res => {
+        this.$http.post( URL_JSON['editInformEmailManage'],{emailId: row.emailId}).then(res => {
           if(res.code){
             this.item = res.result;
             this.editState = 1;
