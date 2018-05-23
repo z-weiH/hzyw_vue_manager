@@ -30,7 +30,7 @@ export const URL_JSON = {
   'saveAccountApply': '/customer/saveCustomerInfo.htm', //开户申请保存
   'queryAccountApply': '/customer/queryCostomerByBaseQuery.htm', //开户申请列表查询
   'editAccountApply': '/customer/queryCustomerExtByCustomerId.htm', //开户申请详情
-  'ArbListAccountApply': '/arbitration/queryAllArbList.htm', //开户申请详情-查询所有仲裁委列表
+  'ArbListAccountApply': '/arb/queryAllArbList.htm', //开户申请详情-查询所有仲裁委列表
   'RoleTypeAccountApply': '/user/queryUserListByRoleType.htm', //开户申请详情-查询所有市场人员列表
 
   //开户确认 AccountAffirm
@@ -74,10 +74,10 @@ export const URL_JSON = {
 
   /* 仲裁委管理 */
   //仲裁委管理 ArbitramentManage
-  'saveArbitramentManage': '/arbitration/saveArbArbitration.htm', // 仲裁委保存
-  'deleteArbitramentManage': '/arbitration/deleteArbByPrimaryKey.htm', // 仲裁委删除
-  'queryArbitramentManage': '/arbitration/queryArbByBaseQuery.htm', // 仲裁委管理列表
-  'editArbitramentManage': '/arbitration/selectArbByPrimaryKey.htm', // 仲裁委详情
+  'saveArbitramentManage': '/arb/saveArbArbitration.htm', // 仲裁委保存
+  'deleteArbitramentManage': '/arb/deleteArbByPrimaryKey.htm', // 仲裁委删除
+  'queryArbitramentManage': '/arb/queryArbByBaseQuery.htm', // 仲裁委管理列表
+  'editArbitramentManage': '/arb/queryArbByPrimaryKey.htm', // 仲裁委详情
 
   //通知邮箱管理  InformEmailManage
   'saveInformEmailManage': '/email/updateArbEmailByEmailId.htm', //仲裁委邮箱修改

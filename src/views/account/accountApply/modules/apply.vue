@@ -5,11 +5,11 @@
     width="890px"
     center>
     <div class="dailog-container">
-      <table-edits :editDefines="edtDefines" :item="item"></table-edits>
+      <table-edits :editDefines="edtDefines" :item="item" :disabled="editState == 9"></table-edits>
     </div>
     <span slot="footer" class="dialog-footer">
-          <el-button type="primary"  v-if="editState ==1 || editState ==2">确 定</el-button>
-          <el-button type="primary" v-if="editState ==1 || editState ==2">确认提交</el-button>
+          <el-button type="primary"  v-if="editState ==1 || editState ==2" @click="saveApply(0)">确 定</el-button>
+          <el-button type="primary" v-if="editState ==1 || editState ==2" @click="saveApply(1)">确认提交</el-button>
           <el-button @click="$parent.editState = 0" v-if="editState ==1 || editState ==2">取 消</el-button>
           <el-button @click="$parent.editState = 0" v-if="editState == 9">返 回</el-button>
         </span>
@@ -59,14 +59,14 @@
         },{
           title: '第四部分：配置信息',
           content: [
-            {label: '选择仲裁委：', type: 'select', options: [{label: '杭州仲裁委员会', value: 'hz'},{label: '衢州仲裁委员会', value: 'qz'}],columns:1,property: 'arbId'},
+            {label: '选择仲裁委：', type: 'select', options: this.AllArbList,columns:1,property: 'arbId',valuefield: 'arbId', labelfield: 'fullName'},
             // 1主账户、2子账户
             {label: '客户类型：', type: 'select', options: [{label: '主账户', value: 1},{label: '子账户', value: 2}],columns:1,property: 'custType'},
           ]
         },{
           title: '第五部分：客户资料',
           content: [
-            {label: '营业执照(jpg，png)', type: 'text', placeholder: '请输入客户联系人',columns:2,property: 'dataUrl'},
+            {label: '营业执照(jpg，png)', type: 'file', placeholder: '请输入客户联系人',columns:2,property: 'dataUrl',disabledLabel: '点击查看营业执照'},
           ]
         },{
           title: '第六部分：合同信息',
@@ -83,10 +83,9 @@
           title: '第七部分：所属负责人',
           content: [
             {label: '市场人员：',  type: 'select', options: [{label: '杭州仲裁委员会', value: 'hz'},{label: '衢州仲裁委员会', value: 'qz'}],columns:1,placeholder:'请选择市场人员',property: 'marketerId'},
-            {type: 'info',columns:1, content:'',property: 'dataUrl'},
+            {type: 'info',columns:1, content:''},
           ]
         }],
-        AllArbList: [],
         UserList: []
       }
     },
@@ -106,12 +105,12 @@
         this.$http.post(URL_JSON['ArbListAccountApply'])
           .then(res=> {
             if(res.code === '0000'){
-
+              this.edtDefines[3].content[0].options = res.result;
             }
           })
       },
       getUserList() {
-        this.$http.post(URL_JSON['RoleTypeAccountApply'],/*貌似有个参数*/)
+        this.$http.post(URL_JSON['RoleTypeAccountApply'],{type: 'MARKETER'})
           .then(res=> {
             if(res.code === '0000'){
 
@@ -127,6 +126,7 @@
     },
     created() {
       this.getAllArbList();
+      this.getUserList();
     }
   }
 </script>

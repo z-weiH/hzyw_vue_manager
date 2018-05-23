@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     save () {
-      this.$http.post('/7' + URL_JSON['saveInformEmailManage'],this.item)
+      this.$http.post( URL_JSON['saveInformEmailManage'],this.item)
         .then(res => {
           if(res.code) {
             let currentItem = this.$parent.tableData.find(it => it.emailId == this.item.emailId);

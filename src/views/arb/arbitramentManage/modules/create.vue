@@ -37,7 +37,7 @@ export default {
   },
   methods: {
     save() {
-      this.$http.post('/7' + URL_JSON['saveArbitramentManage'], this.item)
+      this.$http.post( URL_JSON['saveArbitramentManage'], this.item)
         .then(res => {
           if(res.code){
             if(this.editState == 1){
