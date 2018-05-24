@@ -793,7 +793,7 @@
       // 获取客户列表
       this.$http({
         method : 'post',
-        url : '/merchant/queryAllMerchant.htm',
+        url : '/merchant/queryMerchants.htm',
       }).then((res) => {
         this.merchantOptions = res.result.list;
       });
