@@ -49,7 +49,7 @@
         </el-table-column>
         <el-table-column label="合同号">
           <template slot-scope="scope">
-            <el-button type="text" @click="handleDetail(scope.row)">{{scope.row.contractNo}}</el-button>
+            <span class="fn-a" @click="handleDetail(scope.row)">{{scope.row.contractNo}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="contractDate" label="合同时间"></el-table-column>
@@ -90,7 +90,7 @@
       </el-pagination>
 
       <!-- 合同加款 dialog -->
-      <contractAddition ref="contractAddition"></contractAddition>
+      <contractAddition @successCBK="successCBK" ref="contractAddition"></contractAddition>
 
     </div>
   </div>
@@ -157,6 +157,10 @@
       // 点击 已处理
       handleAlreadyProcessed(row) {
         this.$refs.contractAddition.show('edit',row);
+      },
+      // 成功 回调
+      successCBK() {
+        this.initTableList();
       },
       // 点击 详情
       handleDetail(row) {

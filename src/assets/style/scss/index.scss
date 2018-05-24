@@ -116,6 +116,11 @@ body {
   textarea {
     resize: none;
   }
+  /* a标签 样式 _不带下划线 */
+  .fn-a{
+    cursor: pointer;
+    color: #0F357F;
+  }
 }
 
 /* 面包屑导航 start*/
