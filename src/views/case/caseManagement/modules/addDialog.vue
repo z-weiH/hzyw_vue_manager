@@ -538,9 +538,10 @@
       }
     },
     mounted() {
+      // 获取申请人 列表
       this.$http({
         method : 'post',
-        url : '/casemanage/selectHzUser.htm',
+        url : '/hzuser/queryUsers.htm',
       }).then((res) => {
         this.userOptions = res.result.list;
       });
