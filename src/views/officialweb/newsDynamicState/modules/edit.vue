@@ -58,7 +58,7 @@
         this.$http.post(URL_JSON['saveNewsDynamicState'],this.item)
           .then(res => {
             if(res.code == '0000'){
-              console.log(res);
+              console.log(res );
               if(this.$parent.editState == 2){
                 // this.$parent.tableData.unshift(Object.assign(this.item, res.result));
                 // this.$message.success('新增成功');
@@ -103,7 +103,7 @@
       tinymce
     },
     updated () {
-      console.error(123);
+      console.error(this.item.newsDetail);
       this.$refs.tinymce.setContent(this.item.newsDetail);
     }
   }

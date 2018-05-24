@@ -54,7 +54,7 @@
     },
     methods: {
       create() {
-        this.item= {};
+        this.item= {custIcon: ''};
         this.editState = 2;
       },
       doEdit(row) {

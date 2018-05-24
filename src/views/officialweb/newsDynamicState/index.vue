@@ -91,7 +91,8 @@
       doDelete(row) {
         this.showConfirm().then( res=> {
           //点确定 res为true , false为true
-          if(res){
+          console.log(res);
+          if(res == true){
             this.$http.post( URL_JSON['deleteNewsDynamicState'],{
               newsId: row.newsId
             }).then(r => {
