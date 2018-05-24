@@ -11,6 +11,8 @@
         <template v-for="td in cnt" >
           <td colspan="1" v-if="td.type != 'info' && td.type != 'img'">{{td.label}}</td>
           <td :colspan="td.columns == 2 ? 3 : 1" v-if="td.type != 'info' && td.type != 'img'">
+            <el-date-picker v-if="td.type == 'date'" v-model="item[td.property]" type="date" :placeholder="td.placeholder"  :disabled="disabled || td.disabled" :readonly="td.readonly">
+            </el-date-picker>
             <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text'"></el-input>
             <el-select v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
               <el-option
@@ -41,7 +43,7 @@
 </template>
 
 <script>
-  /**
+/**
    * @method
    * @description 描述一下方法的作用
    * @pros editDefines 传入的表单定义,可循环生产多个表格，暂时不支持文件上传
@@ -58,47 +60,47 @@
                                     }]
    *@props item 传入的和edit的property属性双向绑定的数据对象
    */
-  export default {
-    name: 'tableEdits',
-    props: {
-      editDefines: Array,
-      item: Object,
-      disabled: Boolean
-    },
-    computed: {
-      calcDefines () {
-        let returnArr = [];
-        this.editDefines.forEach(it =>{
-          let obj = {title: it.title, content: []};
-          for(let i = 0;i<it.content.length;i++){
-            if(it.content[i].columns!=2 && i < it.content.length-1){
-              obj.content.push([it.content[i],it.content[++i]])
-            }else{
-              obj.content.push([it.content[i]])
-            }
+export default {
+  name: "tableEdits",
+  props: {
+    editDefines: Array,
+    item: Object,
+    disabled: Boolean
+  },
+  computed: {
+    calcDefines() {
+      let returnArr = [];
+      this.editDefines.forEach(it => {
+        let obj = { title: it.title, content: [] };
+        for (let i = 0; i < it.content.length; i++) {
+          if (it.content[i].columns != 2 && i < it.content.length - 1) {
+            obj.content.push([it.content[i], it.content[++i]]);
+          } else {
+            obj.content.push([it.content[i]]);
           }
-          returnArr.push(obj);
-        })
-        return returnArr;
-      }
-    },
-    watch: {
-      editDefines(val, oldVal) {
-        console.error(val,oldVal)
-      }
-    },
-    mounted () {
-      console.log(this.editDefines)
+        }
+        returnArr.push(obj);
+      });
+      return returnArr;
     }
+  },
+  watch: {
+    editDefines(val, oldVal) {
+      console.error(val, oldVal);
+    }
+  },
+  mounted() {
+    console.log(this.editDefines);
   }
+};
 </script>
 
 <style scoped lang="scss">
-  .el-table--border{
-    border: none;
-    border-left: 1px solid #ebeef5;
-  }
-  td{
-    border: 1px solid #ebeef5;
-  }
+.el-table--border {
+  border: none;
+  border-left: 1px solid #ebeef5;
+}
+td {
+  border: 1px solid #ebeef5;
+}
 </style>

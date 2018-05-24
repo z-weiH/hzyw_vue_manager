@@ -1,9 +1,9 @@
 <template>
-  <el-dialog :visible.sync="show" :title="title" width="890px" center>
+  <el-dialog :visible.sync="show" v-dialogDrag :title="title" width="890px" center>
     <div class="dailog-container">
       <table-edits :editDefines="edtDefines" :item="item.orderVO"></table-edits>
       <table-edits v-for="(orderDetail, index) in item.orderDetailList" :key="index" :disabled="Boolean(orderDetail.orderStatus) || $parent.editState == 9" :editDefines="edtDefines_item" :item="orderDetail">
-          <table slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
+          <!-- <table slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
             <tbody>
               <tr class="table-edits">
                 <td colspan="4">审核结果</td>
@@ -23,13 +23,13 @@
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table> -->
       </table-edits>
     </div>
     <el-button v-if="$parent.editState == 1" type="primary" @click="newCurrentTpl">新增加款</el-button>
     <span slot="footer" class="dialog-footer">
-            <el-button v-if="$parent.editState == 1" type="primary" @click="save(1)">保存</el-button>
-            <el-button v-if="$parent.editState == 1" type="primary" @click="commit(0)">提交</el-button>
+            <el-button v-if="$parent.editState == 1" type="primary" @click="save(0)">保存</el-button>
+            <el-button v-if="$parent.editState == 1" type="primary" @click="commit(1)">提交</el-button>
             <el-button v-if="$parent.editState == 1" @click="$parent.editState = 0">取 消</el-button>
             <el-button v-if="$parent.editState == 9" type="primary" @click="$parent.editState = 0">返回</el-button>
       </span>
@@ -137,7 +137,7 @@ export default {
             },
             {
               label: "到款时间：",
-              type: "text",
+              type: "date",
               columns: 1,
               property: "payTime"
             },
