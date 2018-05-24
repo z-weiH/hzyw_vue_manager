@@ -9,29 +9,32 @@
       </tr>
       <tr class="table-edits" v-for="cnt in def.content" >
         <template v-for="td in cnt" >
-          <td colspan="1" v-if="td.type != 'info' && td.type != 'img'">{{td.label}}</td>
-          <td :colspan="td.columns == 2 ? 3 : 1" v-if="td.type != 'info' && td.type != 'img'">
-            <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text'"></el-input>
-            <el-select v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
-              <el-option
-                v-for="opt in td.options"
-                :key="opt.value"
-                :label="td.labelfield ? opt[td.labelfield] : opt.label"
-                :value="td.valuefield ? opt[td.valuefield] : opt.value">
-              </el-option>
-            </el-select>
-            <el-input type="textarea" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'textarea'"></el-input>
-            <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/"   :limit="3" :show-file-list="false" v-if="td.type == 'file' && !(disabled || td.disabled)" >
-              <el-button size="small" type="info" plain>点击这里上传文件</el-button>
-            </el-upload>
-            <a v-else class="colLink" :href="item[td.property]" target="_blank">{{td.disabledLabel}}</a>
-          </td>
-          <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'info'">
-            <span>{{td.content}}</span>
-          </td>
-          <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'img'">
-            <span>{{td.content}}</span>
-          </td>
+          <template v-if="!td.hidden || td.hidden()">
+            <td colspan="1" v-if="td.type != 'info' && td.type != 'img'">{{td.label}}</td>
+            <td :colspan="td.columns == 2 ? 3 : 1" v-if="td.type != 'info' && td.type != 'img'">
+              <el-input v-model.trim="item[td.property]" :type="td.type" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text' || td.type == 'number'"></el-input>
+              <el-select v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
+                <el-option
+                  v-for="opt in td.options"
+                  :key="opt.value"
+                  :label="td.labelfield ? opt[td.labelfield] : opt.label"
+                  :value="td.valuefield ? opt[td.valuefield] : opt.value">
+                </el-option>
+              </el-select>
+              <el-input type="textarea" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'textarea'"></el-input>
+              <el-upload class="upload-demo"  :http-request="fileUpload"  :accept="td.accept" :action="uploadUrl"  :limit="1" :show-file-list="true" v-if="td.type == 'file' && !(disabled || td.disabled)" >
+                <el-button size="small" type="info" @click="startUpload(td)" plain>点击这里上传文件</el-button>
+              </el-upload>
+              <a v-else class="colLink" :href="item[td.property]" target="_blank">{{td.disabledLabel}}</a>
+            </td>
+            <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'info'">
+              <span>{{td.content}}</span>
+            </td>
+            <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'img'">
+              <span>{{td.content}}</span>
+            </td>
+          </template>
+
         </template>
       </tr>
       </tbody>
@@ -58,12 +61,20 @@
                                     }]
    *@props item 传入的和edit的property属性双向绑定的数据对象
    */
+  import axios from 'axios';
   export default {
     name: 'tableEdits',
     props: {
       editDefines: Array,
       item: Object,
       disabled: Boolean
+    },
+    data() {
+      return {
+        uploadUrl: '/file//upload.htm',
+        path: '',
+        editPro: ''
+      }
     },
     computed: {
       calcDefines () {
@@ -82,10 +93,28 @@
         return returnArr;
       }
     },
-    watch: {
-      editDefines(val, oldVal) {
-        console.error(val,oldVal)
-      }
+    methods: {
+      startUpload(td){
+        console.log(td);
+        this.path = td.path;
+        this.editPro = td. property;
+      },
+      fileUpload(event) {
+        let param = new FormData(); //创建form对象
+        param.append('file', event.file);//通过append向form对象添加数据
+        param.append('path', this.path);
+        console.log(param.get('file'),param.get('path'));
+        let config = {
+          headers:{'Content-Type':'multipart/form-data'},
+          mheaders: true
+        };
+        this.$http.post(this.uploadUrl,param,config).then(res => {
+          console.log(res);
+          if(res.code == '0000'){
+            this.item[this.editPro] = res.result;
+          }
+        })
+      },
     },
     mounted () {
       console.log(this.editDefines)
@@ -102,3 +131,14 @@
     border: 1px solid #ebeef5;
   }
 </style>
+Accept: */*
+Accept-Encoding: gzip, deflate, br
+Accept-Language: zh-CN,zh;q=0.9
+Connection: keep-alive
+Content-Length: 58603
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryT70pcUladrz2THsx
+Cookie: _ga=GA1.1.366899317.1525409895; io=VTcwb0hyQ34ob0svAAAI
+Host: localhost:8080
+Origin: http://localhost:8080
+Referer: http://localhost:8080/
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36

@@ -82,11 +82,15 @@
             this.$http.post( URL_JSON['deleteArbitramentManage'],{
               arbId: row.arbId
             }).then(r => {
-              if(r.code){
+              if(r.code == '0000'){
                 let idx = this.tableData.findIndex(it => it == row);
                 console.log(idx);
                 this.tableData.splice(idx,1);
               }
+              this.$message({
+                message: res.description,
+                type:res.code == '0000' ? 'success' : 'error'
+              });
             })
           }
         })

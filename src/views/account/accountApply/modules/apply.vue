@@ -8,7 +8,7 @@
       <table-edits :editDefines="edtDefines" :item="item" :disabled="editState == 9"></table-edits>
     </div>
     <span slot="footer" class="dialog-footer">
-          <el-button type="primary"  v-if="editState ==1 || editState ==2" @click="saveApply(0)">确 定</el-button>
+          <el-button type="primary"  v-if="editState ==1 || editState ==2" @click="saveApply(0)">保 存</el-button>
           <el-button type="primary" v-if="editState ==1 || editState ==2" @click="saveApply(1)">确认提交</el-button>
           <el-button @click="$parent.editState = 0" v-if="editState ==1 || editState ==2">取 消</el-button>
           <el-button @click="$parent.editState = 0" v-if="editState == 9">返 回</el-button>
@@ -66,7 +66,7 @@
         },{
           title: '第五部分：客户资料',
           content: [
-            {label: '营业执照(jpg，png)', type: 'file', placeholder: '请输入客户联系人',columns:2,property: 'dataUrl',disabledLabel: '点击查看营业执照'},
+            {label: '营业执照(jpg，png)', type: 'file', placeholder: '请输入客户联系人',columns:2,property: 'dataUrl',disabledLabel: '点击查看营业执照', accept: 'image/jpeg,image/png'},
           ]
         },{
           title: '第六部分：合同信息',
@@ -78,6 +78,23 @@
             {label: '充值仲券（张）：', type: 'text', placeholder: '请输入充值仲券',columns:1,property: 'preCaseTicket'},
             {label: '仲券金额（元）：', type: 'text', placeholder: '请输入仲券金额',columns:1,property: 'preTicketAmt'},
             {label: '赠送仲券（张）：', type: 'text', placeholder: '请输入赠送仲券',columns:1,property: 'preGiftTicket'},
+            {label: '赠券有效期 ：', type: 'select', placeholder: '请选择赠券有效期',columns:1,property: 'preGiftPeriod',options: [
+                {label: '请选择赠券有效期', value: ''},
+                {label: '1个月', value: '1'},
+                {label: '2个月', value: '2'},
+                {label: '3个月', value: '3'},
+                {label: '4个月', value: '4'},
+                {label: '5个月', value: '5'},
+                {label: '6个月', value: '6'},
+                {label: '7个月', value: '7'},
+                {label: '8个月', value: '8'},
+                {label: '9个月', value: '9'},
+                {label: '10个月', value: '10'},
+                {label: '11个月', value: '11'},
+                {label: '12个月', value: '12'},
+              ],hidden: () => {
+                return this.item.preGiftTicket && this.item.preGiftTicket != 0;
+              }},
           ]
         },{
           title: '第七部分：所属负责人',
@@ -113,6 +130,16 @@
         this.$http.post(URL_JSON['RoleTypeAccountApply'],{type: 'MARKETER'})
           .then(res=> {
             if(res.code === '0000'){
+
+            }
+          })
+      },
+      saveApply(num) {
+        let obj = Object.assign({isCommit: num}, this.item);
+        this.$http.post(URL_JSON['saveAccountApply'], obj)
+          .then(res => {
+            console.log(res);
+            if(res.code == 0){
 
             }
           })

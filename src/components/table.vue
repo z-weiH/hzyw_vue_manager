@@ -6,7 +6,7 @@
       <template v-for="(col, index) of columns" >
         <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type == 'img'" :width="col.width ? col.width : 'auto'">
           <template slot-scope="scope" v-if="col.type == 'img'">
-            <img :src="scope.row.custIcon">
+            <img :src="scope.row.custIcon" class="table_img">
           </template>
         </el-table-column>
         <el-table-column :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img'" :width="col.width ? col.width : 'auto'">
@@ -118,7 +118,6 @@ export default {
       this.$set(
         this.columnDefine,
         this.columnDefine.findIndex(it => it.property == col.property),
-        col
       );
     },
     // 页数 change
@@ -153,8 +152,15 @@ export default {
 }
 </script>
 
-<style lang="sass">
-thead.has-gutter > tr > th
-  padding : 0
+<style >
+
+    thead.has-gutter > tr > th {
+      padding : 0
+    }
+
+    .table_img {
+      width: 100px;
+      height: 60px;
+    }
 
 </style>

@@ -14,7 +14,7 @@ export default {
       pager: {
         currentNum: 1,
         pageSize: 10,
-        count: 500,
+        count: 0,
       }
     }
   },
@@ -37,9 +37,11 @@ export default {
           res = Mock.mock(res);
           console.log('***mock:');
           console.log(res);
-          if(res.code){
+          if(res.code === '0000'){
             this.tableData = res.result.list;
             this.pager.count = res.result.count;
+          }else{
+            this.$message.error(res.description);
           }
           return res
         })

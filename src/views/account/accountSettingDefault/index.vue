@@ -44,7 +44,7 @@ export default {
           ]},
       ],
       searchItem: {},
-      queryUrl: +URL_JSON['queryAccountSettingDefault'],
+      queryUrl: URL_JSON['queryAccountSettingDefault'],
       columnDefine: [
         {label: '企业名称', property: 'custName'},
         {label: '合同号', property: 'contactNo'},

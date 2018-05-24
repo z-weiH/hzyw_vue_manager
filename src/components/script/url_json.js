@@ -82,7 +82,7 @@ export const URL_JSON = {
   //通知邮箱管理  InformEmailManage
   'saveInformEmailManage': '/email/updateArbEmailByEmailId.htm', //仲裁委邮箱修改
   'queryInformEmailManage': '/email/queryArbEmailByBaseQuery.htm', //仲裁委邮箱列表
-  'editInformEmailManage': '/email/selectEmailByPrimaryKey.htm', //仲裁委邮箱详情
+  'editInformEmailManage': '/email/queryEmailByPrimaryKey.htm', //仲裁委邮箱详情
 
 
   /* 仲裁委管理 */

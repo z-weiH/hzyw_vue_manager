@@ -12,6 +12,18 @@
       <div class="item-table">
         <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine">
           <!--slot-->
+          <el-table-column label="操作" slot="defineCol">
+            <template slot-scope="scope" >
+              <el-button
+                size="mini"
+                @click="" v-if="scope.row.orderStatus == 0" >待提交</el-button>
+              <el-button
+                size="mini"
+                @click="" v-if="scope.row.orderStatus == 1" >待审核</el-button>
+              <span v-if="scope.row.orderStatus == 2">通过</span>
+              <span v-if="scope.row.orderStatus == 3">不通过</span>
+            </template>
+          </el-table-column>
         </table-component>
       </div>
     </div>

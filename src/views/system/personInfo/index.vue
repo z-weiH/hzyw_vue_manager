@@ -34,7 +34,7 @@ export default {
         {label: '用户名', property: 'loginName', disabled: true, type : 'text'},
         {label: '所属角色', property: 'loginName', disabled: true, type : 'text'},
         {label: '真实姓名', property: 'loginName',  type : 'text'},
-        {label: '手机号码', property: 'loginName',  type : 'text'},
+        {label: '手机号码', property: 'loginName',  type : 'number'},
         {label: '电子邮箱', property: 'loginName',  type : 'text'},
         {label: '通讯地址', property: 'loginName',  type : 'text'},
         {label: '其他信息', property: 'loginName',  type : 'textarea'},

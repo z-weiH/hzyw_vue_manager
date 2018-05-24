@@ -49,14 +49,19 @@ export default {
     save () {
       this.$http.post( URL_JSON['saveInformEmailManage'],this.item)
         .then(res => {
-          if(res.code) {
+          if(res.code == '0000') {
             let currentItem = this.$parent.tableData.find(it => it.emailId == this.item.emailId);
             if(currentItem){
               Object.keys(this.item).forEach(key => {
                 currentItem[key] = this.item[key];
               })
             }
+            this.$parent.editState = 0;
           }
+          this.$message({
+            message: res.description,
+            type:res.code == '0000' ? 'success' : 'error'
+          });
         })
     }
   },

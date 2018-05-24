@@ -35,7 +35,7 @@
             ]},
         ],
         searchItem: {},
-        queryUrl: '/4'+URL_JSON['queryCustomerCase'],
+        queryUrl: URL_JSON['queryCustomerCase'],
         columnDefine: [
           {label: '客户名称', property: 'custName'},
           {label: '客户logo图标', property: 'custIcon', type: 'img'},
@@ -57,7 +57,7 @@
         this.editState = 2;
       },
       doEdit(row) {
-        this.$http.post('/4'+URL_JSON['editCustomerCase'],{custId: row.custId})
+        this.$http.post(URL_JSON['editCustomerCase'],{custId: row.custId})
           .then(res => {
             console.log(res)
             if(res.code){
@@ -69,7 +69,21 @@
       doDelete(row) {
         this.showConfirm().then( res=> {
           //点确定 res为true , false为true
-          console.log(res)
+          if(res){
+            this.$http.post( URL_JSON['deleteCustomerCase'],{
+              arbId: row.arbId
+            }).then(r => {
+              if(r.code == '0000'){
+                let idx = this.tableData.findIndex(it => it == row);
+                console.log(idx);
+                this.tableData.splice(idx,1);
+              }
+              this.$message({
+                message: res.description,
+                type:res.code == '0000' ? 'success' : 'error'
+              });
+            })
+          }
         })
       },
       limit1(time) {

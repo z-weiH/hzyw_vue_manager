@@ -83,6 +83,10 @@
       },
       doEdit (row) {
         console.log(row);
+        this.$http.post(URL_JSON['editRoleManage'],{roleId:row.roleId})
+          .then(res =>{
+            console.log(res);
+          })
         this.editItem = row;
         this.editState = 1;
       },

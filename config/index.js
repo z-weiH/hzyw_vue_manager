@@ -13,8 +13,9 @@ module.exports = {
     proxyTable: {
       '*':{
         // target: 'http://192.168.30.120:8080/mockjs',
-        target: 'http://192.168.30.13:8999',   //费余波
+        // target: 'http://192.168.30.13:8999',   //费余波
         // target: 'http://192.168.30.14:8999',   //向昌学
+        target: 'http://192.168.30.16:8999',   //徐炜
       },
     },
 

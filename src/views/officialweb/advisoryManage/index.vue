@@ -32,7 +32,7 @@
             ]},
         ],
         searchItem: {},
-        queryUrl: '/4'+URL_JSON['queryAdvisoryManage'],
+        queryUrl: URL_JSON['queryAdvisoryManage'],
         columnDefine: [
           {label: '姓名', property: 'name'},
           {label: '手机号', property: 'phone'},

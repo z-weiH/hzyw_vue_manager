@@ -39,7 +39,7 @@ export default {
     save() {
       this.$http.post( URL_JSON['saveArbitramentManage'], this.item)
         .then(res => {
-          if(res.code){
+          if(res.code == '0000'){
             if(this.editState == 1){
               let currentItem = this.$parent.tableData.find(it => it.arbId == this.item.arbId);
               if(currentItem){
@@ -57,6 +57,10 @@ export default {
               this.$parent.editState = 0;
             }
           }
+          this.$message({
+            message: res.description,
+            type: res.code == '0000' ? 'success' : 'error'
+          });
         })
     }
   },
