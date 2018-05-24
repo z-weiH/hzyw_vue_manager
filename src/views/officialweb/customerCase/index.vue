@@ -54,6 +54,7 @@
     },
     methods: {
       create() {
+        this.item= {};
         this.editState = 2;
       },
       doEdit(row) {

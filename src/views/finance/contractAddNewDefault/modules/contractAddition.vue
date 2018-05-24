@@ -105,18 +105,18 @@
                   <el-form-item v-if="preGiftPeriodIsShow" label=" " prop="preGiftPeriod">
                     <el-select v-model="ruleForm.preGiftPeriod" placeholder="请选择">
                       <el-option label="请选择" value=""></el-option>
-                      <el-option label="1个月" value="1"></el-option>
-                      <el-option label="2个月" value="2"></el-option>
-                      <el-option label="3个月" value="3"></el-option>
-                      <el-option label="4个月" value="4"></el-option>
-                      <el-option label="5个月" value="5"></el-option>
-                      <el-option label="6个月" value="6"></el-option>
-                      <el-option label="7个月" value="7"></el-option>
-                      <el-option label="8个月" value="8"></el-option>
-                      <el-option label="9个月" value="9"></el-option>
-                      <el-option label="10个月" value="10"></el-option>
-                      <el-option label="11个月" value="11"></el-option>
-                      <el-option label="12个月" value="12"></el-option>
+                      <el-option label="1个月" :value="1"></el-option>
+                      <el-option label="2个月" :value="2"></el-option>
+                      <el-option label="3个月" :value="3"></el-option>
+                      <el-option label="4个月" :value="4"></el-option>
+                      <el-option label="5个月" :value="5"></el-option>
+                      <el-option label="6个月" :value="6"></el-option>
+                      <el-option label="7个月" :value="7"></el-option>
+                      <el-option label="8个月" :value="8"></el-option>
+                      <el-option label="9个月" :value="9"></el-option>
+                      <el-option label="10个月" :value="10"></el-option>
+                      <el-option label="11个月" :value="11"></el-option>
+                      <el-option label="12个月" :value="12"></el-option>
                     </el-select>
                   </el-form-item>
                 </td>
@@ -394,18 +394,18 @@
                     >
                       <el-select v-model="item.addGiftPeriod" placeholder="请选择">
                         <el-option label="请选择" value=""></el-option>
-                        <el-option label="1个月" value="1"></el-option>
-                        <el-option label="2个月" value="2"></el-option>
-                        <el-option label="3个月" value="3"></el-option>
-                        <el-option label="4个月" value="4"></el-option>
-                        <el-option label="5个月" value="5"></el-option>
-                        <el-option label="6个月" value="6"></el-option>
-                        <el-option label="7个月" value="7"></el-option>
-                        <el-option label="8个月" value="8"></el-option>
-                        <el-option label="9个月" value="9"></el-option>
-                        <el-option label="10个月" value="10"></el-option>
-                        <el-option label="11个月" value="11"></el-option>
-                        <el-option label="12个月" value="12"></el-option>
+                        <el-option label="1个月" :value="1"></el-option>
+                        <el-option label="2个月" :value="2"></el-option>
+                        <el-option label="3个月" :value="3"></el-option>
+                        <el-option label="4个月" :value="4"></el-option>
+                        <el-option label="5个月" :value="5"></el-option>
+                        <el-option label="6个月" :value="6"></el-option>
+                        <el-option label="7个月" :value="7"></el-option>
+                        <el-option label="8个月" :value="8"></el-option>
+                        <el-option label="9个月" :value="9"></el-option>
+                        <el-option label="10个月" :value="10"></el-option>
+                        <el-option label="11个月" :value="11"></el-option>
+                        <el-option label="12个月" :value="12"></el-option>
                       </el-select>
                     </el-form-item>
                   </td>
@@ -548,11 +548,14 @@
 
                   <tr>
                     <td colspan="1">
-                      <el-form-item label=" " prop="resultStatus">
-                        <el-select v-model="ruleForm.resultStatus" placeholder="请选择">
+                      <el-form-item label=" " 
+                        :prop="`orderDetailList[${index}].resultStatus`"
+                        :rules="rules.resultStatus"
+                      >
+                        <el-select v-model="item.resultStatus" placeholder="请选择">
                           <el-option label="请选择" value=""></el-option>
-                          <el-option label="通过" value="2"></el-option>
-                          <el-option label="不通过" value="3"></el-option>
+                          <el-option label="通过" :value="2"></el-option>
+                          <el-option label="不通过" :value="3"></el-option>
                         </el-select>
                       </el-form-item>
                     </td>
@@ -564,7 +567,7 @@
                       <el-form-item label=" " 
                         :prop="`orderDetailList[${index}].apprerResult`"
                         :rules="{
-                          required: ruleForm.resultStatus === '3' ? true : false, 
+                          required: item.resultStatus === 3 ? true : false, 
                           message: '请输入审核说明', 
                           trigger: 'blur',
                         }"
@@ -721,9 +724,9 @@
           /* preTicketAmt : [
             {required : true , message : '请输入仲券金额' , trigger : 'blur'}
           ], */
-          preGiftTicket : [
+          /* preGiftTicket : [
             {required : true , message : '请输入赠送仲券' , trigger : 'blur'}
-          ],
+          ], */
           preGiftPeriod : [
             {required : true , message : '请选择赠券有效期' , trigger : 'change'}
           ],
@@ -765,9 +768,9 @@
           addService : [
             {required : true , message : '请输入技术服务费' , trigger : 'blur'}
           ],
-          addGiftTicket : [
+          /* addGiftTicket : [
             {required : true , message : '请输入赠送仲券' , trigger : 'blur'}
-          ],
+          ], */
           addGiftPeriod : [
             {required : true , message : '请选择赠券有效期' , trigger : 'change'}
           ],
@@ -867,6 +870,11 @@
             orderId : row.orderId,
           },
         }).then((res) => {
+          // 设置 如果当前是审核状态  初始化为 请选择
+          res.result.orderDetailList = res.result.orderDetailList.map((v) => {
+            v.resultStatus = '';
+            return v;
+          });
           this.ruleForm = res.result;
         });
       },
@@ -961,14 +969,14 @@
           sendDataArr.map((v,k) => {
             sendObj[v] = this.ruleForm[v];
           });
-          sendObj.orderDetailList = JSON.stringify(this.ruleForm.orderDetailList);
+          sendObj.orderDetailList = (this.ruleForm.orderDetailList);
           sendObj.orderId = '';
 
         // 编辑
         }else if(type === 'edit'){
           sendUrl = '/contractOrder/saveContractOrderInfo.htm';
           sendObj.orderId = this.ruleForm.orderId;
-          sendObj.orderDetailList = JSON.stringify(this.ruleForm.orderDetailList.filter((v) => {
+          sendObj.orderDetailList = (this.ruleForm.orderDetailList.filter((v) => {
             return v.orderStatus === 0;
           }));
 
@@ -978,8 +986,11 @@
           method : 'post',
           url : sendUrl,
           data : sendObj,
+          mheaders : true,
         }).then((res) => {
-          console.log(res);
+          this.$message.success('操作成功');
+          this.handleClose();
+          this.$emit('successCBK');
         });
       },
       // 点击审核
@@ -999,8 +1010,9 @@
               url : '/contractOrder/auditContractOrder.htm',
               data : {
                 orderId : this.ruleForm.orderId,
-                auditList : JSON.stringify(auditList),
+                auditList : (auditList),
               },
+              mheaders : true,
             }).then((res) => {
               this.$message.success('操作成功');
               this.handleClose();

@@ -29,7 +29,7 @@
           content: [
             {label: '客户全称：', type: 'text', placeholder: '客户全称',columns:2,property: 'custName'},
             {label: '客户logo图标：',type: 'file',columns:1,property: 'custIcon',path: 'custinfo/logo'},
-            {type: 'img',columns:1},
+            {type: 'img',columns:1,property:'custIcon'},
             {label: '客户pc官网地址：', type: 'text', placeholder: '客户pc官网地址',columns:2,property: 'custWebpc'},
             {label: '客户手机官网地址：', type: 'text', placeholder: '客户手机官网地址',columns:2,property: 'custWebmobile'},
             {label: '上线状态：', type: 'select', placeholder: '请选择',columns:2, options: [
@@ -46,6 +46,10 @@
     methods: {
       save() {
           // console.error(this.item);
+        if(this.editState == 2){
+          console.error(this.item);
+          return
+        }
         this.$http.post(URL_JSON['saveCustomerCase'],this.item)
           .then(res => {
           if(res.code == '0000'){
