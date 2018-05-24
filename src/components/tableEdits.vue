@@ -96,7 +96,6 @@
     },
     methods: {
       clearFiles() {
-        console.error(this.$refs)
         Object.keys(this.$refs).forEach(key => {
           if(this.$refs[key][0].clearFiles instanceof Function)
             this.$refs[key][0].clearFiles();
@@ -111,13 +110,16 @@
         console.log(response, file, fileList)
         if(response.code == '0000'){
           this.item[this.editPro] = response.result;
+          this.$emit('update:item',this.item);
+          // this.$parent.$set(this.item, this.editPro, response.result);
           fileList = [];
+        }else {
+          this.$message.error('上传文件失败');
         }
       }
     },
   watch: {
     editDefines(val, oldVal) {
-      console.error(val, oldVal);
     }
   },
   mounted() {

@@ -9,12 +9,14 @@
       新闻动态
     </div>
     <div class="item-table">
-      <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine"></table-component>
+      <table-component :pager="pager" :table-data="tableData" :actions="actions" :column-define="columnDefine"></table-component>
     </div>
+    <news-edit :edit-state="editState" :item="item"></news-edit>
   </div>
 </template>
 
 <script>
+  import newsEdit from './modules/edit'
   import Searchs from '@/components/searchs'
   import Mixins from '@/components/script/_mixin'
   import TableComponent from '@/components/table'
@@ -35,15 +37,22 @@
             ]},
         ],
         searchItem: {},
-        queryUrl: URL_JSON['queryAdvisoryManage'],
+        queryUrl: URL_JSON['queryNewsDynamicState'],
         columnDefine: [
-          {label: '姓名', property: 'name'},
-          {label: '手机号', property: 'phone'},
-          {label: '电子邮箱', property: 'email'},
-          {label: '公司名称', property: 'company'},
-          {label: '职位', property: 'position'},
-          {label: '处理状态', property: 'processed'},
-        ]
+          {label: '新闻标题', property: 'newsTitle'},
+          {label: '新闻类型', property: 'newsType'},
+          {label: '创建时间', property: 'createTime'},
+          {label: '发布时间', property: 'releaseTime'},
+          {label: '状态', property: 'newsStatus'},
+        ],
+        actions: [
+          {label: '操作',btns: [
+              {label:'修改', function: this.doEdit},
+              {label:'删除', function: this.doDelete},
+            ]
+          }
+        ],
+        item: {}
       }
     },
     methods: {
@@ -64,11 +73,46 @@
           return true;
         else
           return false;
-      }
+      },
+      create() {
+        this.item = {newsDetail: '',newsImg: ''};
+        this.editState = 2;
+      },
+      doEdit(row) {
+        this.$http.post(URL_JSON['editNewsDynamicState'],{newsId: row.newsId})
+          .then(res => {
+            console.log(res)
+            if(res.code){
+              this.item = res.result;
+              this.editState = 1;
+            }
+          })
+      },
+      doDelete(row) {
+        this.showConfirm().then( res=> {
+          //点确定 res为true , false为true
+          if(res){
+            this.$http.post( URL_JSON['deleteNewsDynamicState'],{
+              newsId: row.newsId
+            }).then(r => {
+              if(r.code == '0000'){
+                let idx = this.tableData.findIndex(it => it == row);
+                console.log(idx);
+                this.tableData.splice(idx,1);
+              }
+              this.$message({
+                message: r.description,
+                type:r.code == '0000' ? 'success' : 'error'
+              });
+            })
+          }
+        })
+      },
     },
     components: {
       Searchs,
-      TableComponent
+      TableComponent,
+      newsEdit
     },
     created () {
       this.doQuery(this.queryUrl,this.searchItem)

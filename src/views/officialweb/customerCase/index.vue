@@ -72,7 +72,7 @@
           //点确定 res为true , false为true
           if(res){
             this.$http.post( URL_JSON['deleteCustomerCase'],{
-              arbId: row.arbId
+              custId: row.custId
             }).then(r => {
               if(r.code == '0000'){
                 let idx = this.tableData.findIndex(it => it == row);
@@ -80,8 +80,8 @@
                 this.tableData.splice(idx,1);
               }
               this.$message({
-                message: res.description,
-                type:res.code == '0000' ? 'success' : 'error'
+                message: r.description,
+                type:r.code == '0000' ? 'success' : 'error'
               });
             })
           }
