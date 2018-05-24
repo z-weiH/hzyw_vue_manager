@@ -53,7 +53,7 @@
                     <el-select v-model="ruleForm.arbId" placeholder="所属仲裁委">
                       <el-option label="请选择" value=""></el-option>
                       <template v-for="(item) in arbIdOptions">
-                        <el-option :key="item.arbId" :label="item.arbName" :value="item.arbId"></el-option>
+                        <el-option :key="item.arbId" :label="item.fullName" :value="item.arbId"></el-option>
                       </template>
                     </el-select>
                   </el-form-item>
@@ -92,8 +92,8 @@
               <tr>
                 <td class="w-205">企业注册地址：</td>
                 <td colspan="3">
-                  <el-form-item label=" " prop="Idaddress">
-                    <el-input v-model.trim="ruleForm.Idaddress" placeholder="请输入企业注册地址"></el-input>
+                  <el-form-item label=" " prop="idaddress">
+                    <el-input v-model.trim="ruleForm.idaddress" placeholder="请输入企业注册地址"></el-input>
                   </el-form-item>
                 </td>
               </tr>
@@ -147,8 +147,8 @@
                   <el-form-item label=" " prop="idtype">
                     <el-select v-model="ruleForm.idtype" placeholder="证件类型">
                       <el-option label="请选择" value=""></el-option>
-                      <el-option label="身份证" value="1"></el-option>
-                      <el-option label="营业执照" value="3"></el-option>
+                      <el-option label="身份证" :value="1"></el-option>
+                      <el-option label="营业执照" :value="3"></el-option>
                     </el-select>
                   </el-form-item>
                 </td>
@@ -190,8 +190,8 @@
                   <el-form-item label=" " prop="isGuarded">
                     <el-select v-model="ruleForm.isGuarded" placeholder="证件类型">
                       <el-option label="请选择" value=""></el-option>
-                      <el-option label="预审" value="0"></el-option>
-                      <el-option label="不预审" value="1"></el-option>
+                      <el-option label="预审" :value="0"></el-option>
+                      <el-option label="不预审" :value="1"></el-option>
                     </el-select>
                   </el-form-item>
                 </td>
@@ -200,8 +200,8 @@
                   <el-form-item label=" " prop="isComputed">
                     <el-select v-model="ruleForm.isComputed" placeholder="证件类型">
                       <el-option label="请选择" value=""></el-option>
-                      <el-option label="否" value="0"></el-option>
-                      <el-option label="是" value="1"></el-option>
+                      <el-option label="否" :value="0"></el-option>
+                      <el-option label="是" :value="1"></el-option>
                     </el-select>
                   </el-form-item>
                 </td>
@@ -244,7 +244,7 @@
           // 所属市场人员
           hzmngUserId : '',
           // 企业注册地址
-          Idaddress : '',
+          idaddress : '',
           // 法定代表人姓名
           name : '',
           // 法定代表人职务
@@ -296,7 +296,7 @@
           hzmngUserId : [
             { required : true , message : '请选择所属市场人员' , trigger : 'change'},
           ],
-          Idaddress : [
+          idaddress : [
             { required : true , message : '请输入企业注册地址' , trigger : 'blur'},
           ],
           name : [
@@ -346,14 +346,17 @@
       // 获取所属仲裁委 options
       this.$http({
         method : 'post',
-        url : '/arbitration/queryAllArbList.htm',
+        url : '/arb/queryAllArbList.htm',
       }).then((res) => {
         this.arbIdOptions = res.result;
       });
       // 所属市场人员 options
       this.$http({
         method : 'post',
-        url : '/user/queryUserListByRoleId.htm',
+        url : '/user/queryUserListByRoleType.htm',
+        data : {
+          type : 'MARKETER',
+        },
       }).then((res) => {
         this.hzmngUserIdOptions = res.result;
       });
@@ -393,10 +396,10 @@
 <style lang="scss" scoped>
 
 .client-management-edit-dialog{
-  .content-body-box{
-    height: 350px;
-    overflow-y: auto;
-  } 
+   /* .content-body-box{
+     height: 350px;
+     overflow-y: auto;
+   }  */
 }
 
 </style>

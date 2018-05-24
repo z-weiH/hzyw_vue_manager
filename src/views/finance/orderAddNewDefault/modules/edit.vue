@@ -1,30 +1,52 @@
 <template>
-  <el-dialog
-    :visible.sync="show"
-    :title="title"
-    width="890px"
-    center>
+  <el-dialog :visible.sync="show" v-dialogDrag :title="title" width="890px" center>
     <div class="dailog-container">
       <table-edits :editDefines="edtDefines" :item="item.orderVO"></table-edits>
-      <table-edits v-for="(orderDetail, index) in item.orderDetailList" :key="index" :disabled="Boolean(orderDetail.orderStatus) || $parent.editState == 9" :editDefines="edtDefines_item" :item="orderDetail"></table-edits>
+      <table-edits v-for="(orderDetail, index) in item.orderDetailList" :key="index" :disabled="Boolean(orderDetail.orderStatus) || $parent.editState == 9" :editDefines="edtDefines_item" :item="orderDetail">
+          <!-- <table slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
+            <tbody>
+              <tr class="table-edits">
+                <td colspan="4">审核结果</td>
+              </tr>
+              <tr class="table-edits">
+                <td colspan="1">
+                  <el-select v-model="orderDetail.resultStatus" placeholder="请选择审核状态" :disabled="editState == 9">
+                    <el-option label="通过" :value="2"></el-option>
+                    <el-option label="不通过" :value="3"></el-option>
+                  </el-select>
+                </td>
+                <td colspan="3"></td>
+              </tr>
+              <tr class="table-edits">
+                <td colspan="4">
+                  <el-input type="textarea" v-model="orderDetail.apprerResult" placeholder="请输入审核说明" :disabled="editState == 9"></el-input>
+                </td>
+              </tr>
+            </tbody>
+          </table> -->
+      </table-edits>
     </div>
     <el-button v-if="$parent.editState == 1" type="primary" @click="newCurrentTpl">新增加款</el-button>
     <span slot="footer" class="dialog-footer">
-          <el-button v-if="$parent.editState == 1" type="primary" @click="save(1)">保存</el-button>
-          <el-button v-if="$parent.editState == 1" type="primary" @click="commit(0)">提交</el-button>
-          <el-button v-if="$parent.editState == 1" @click="$parent.editState = 0">取 消</el-button>
-          <el-button v-if="$parent.editState == 9" type="primary" @click="$parent.editState = 0">返回</el-button>
-    </span>
+            <el-button v-if="$parent.editState == 1" type="primary" @click="save(0)">保存</el-button>
+            <el-button v-if="$parent.editState == 1" type="primary" @click="commit(1)">提交</el-button>
+            <el-button v-if="$parent.editState == 1" @click="$parent.editState = 0">取 消</el-button>
+            <el-button v-if="$parent.editState == 9" type="primary" @click="$parent.editState = 0">返回</el-button>
+      </span>
   </el-dialog>
 </template>
 
 
 <script>
+import dataHandle from "@/components/script/_dataHandle";
 import TableEdits from "@/components/tableEdits";
+import { URL_JSON } from '../../../../components/script/url_json';
+
 export default {
   name: "edit",
+  extends: dataHandle,
   props: {
-    editState: Number,// 1:显示 0:隐藏 9:只读
+    editState: Number, // 1:显示 0:隐藏 9:只读
     item: Object
   },
   data() {
@@ -79,31 +101,52 @@ export default {
           ]
         }
       ],
-      edtDefines_item:[
+      edtDefines_item: [
         {
-          title: '加款信息',
+          title: "加款信息",
           content: [
             {
-              label: '客户银行账户名：', type: 'text', columns:1, property: 'acctName'
+              label: "客户银行账户名：",
+              type: "text",
+              columns: 1,
+              property: "acctName"
             },
             {
-              label: '客户银行账号：', type: 'text', columns:1, property: 'acctNo'
+              label: "客户银行账号：",
+              type: "text",
+              columns: 1,
+              property: "acctNo"
             },
             {
-              label: '客户开户行：', type: 'text', columns:1, property: 'bankName'
+              label: "客户开户行：",
+              type: "text",
+              columns: 1,
+              property: "bankName"
             },
             {
-              label: '银行流水号：', type: 'text', columns:1, property: 'bankOrderno'
+              label: "银行流水号：",
+              type: "text",
+              columns: 1,
+              property: "bankOrderno"
             },
             {
-              label: '到账金额（元）：', type: 'text', columns:1, property: 'arrivalAmt'
+              label: "到账金额（元）：",
+              type: "text",
+              columns: 1,
+              property: "arrivalAmt"
             },
             {
-              label: '到款时间：', type: 'text', columns:1, property: 'payTime'
+              label: "到款时间：",
+              type: "date",
+              columns: 1,
+              property: "payTime"
             },
             {
-              label: '转账摘要：', type: 'text', columns:1, property: 'bankRemark'
-            },
+              label: "转账摘要：",
+              type: "text",
+              columns: 1,
+              property: "bankRemark"
+            }
           ]
         }
       ]
@@ -124,15 +167,36 @@ export default {
   },
   methods: {
     newCurrentTpl() {
-      this.item.orderDetailList.push({});//创建一个observer的新对象
+      this.item.orderDetailList.push({}); //创建一个observer的新对象
       console.info(this.item.orderDetailList);
     },
-    save(){
+    save(type) {
+      console.log('ssssssiiiii:',this.item);
+      let _thatObj = this.item.orderDetailList[0];
+      let _obj = {};
+      let _orderDetailList = this.deepCopy(_thatObj, [
+        "acctName",
+        "acctNo",
+        "arrivalAmt",
+        "bankName",
+        "bankOrderno",
+        "bankRemark",
+        "payTime"
+      ]);
+      _obj['isCommit'] = type;
+      _obj['orderDetailList'] = _orderDetailList;
+      _obj['orderId'] = this.item.orderVO.orderId;
+      console.info(_obj);
+      this.$http.post(URL_JSON['saveOrderAddNewDefaultDetail'],_obj)
+      .then(res =>{
+        if(res.code){
+          console.log(res);
+        }
+      })
+
 
     },
-    commit(){
-
-    }
+    commit() {}
   },
   mounted() {}
 };

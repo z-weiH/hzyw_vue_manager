@@ -10,31 +10,32 @@
       <tr class="table-edits" v-for="cnt in def.content" >
         <template v-for="td in cnt" >
           <template v-if="!td.hidden || td.hidden()">
-            <td colspan="1" v-if="td.type != 'info' && td.type != 'img'">{{td.label}}</td>
-            <td :colspan="td.columns == 2 ? 3 : 1" v-if="td.type != 'info' && td.type != 'img'">
-              <el-input v-model.trim="item[td.property]" :type="td.type" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text' || td.type == 'number'"></el-input>
-              <el-select v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
-                <el-option
-                  v-for="opt in td.options"
-                  :key="opt.value"
-                  :label="td.labelfield ? opt[td.labelfield] : opt.label"
-                  :value="td.valuefield ? opt[td.valuefield] : opt.value">
-                </el-option>
-              </el-select>
-              <el-input type="textarea" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'textarea'"></el-input>
-              <el-upload class="upload-demo"  :http-request="fileUpload"  :accept="td.accept" :action="uploadUrl"  :limit="1" :show-file-list="true" v-if="td.type == 'file' && !(disabled || td.disabled)" >
-                <el-button size="small" type="info" @click="startUpload(td)" plain>点击这里上传文件</el-button>
-              </el-upload>
-              <a v-else class="colLink" :href="item[td.property]" target="_blank">{{td.disabledLabel}}</a>
-            </td>
-            <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'info'">
-              <span>{{td.content}}</span>
-            </td>
-            <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'img'">
-              <span>{{td.content}}</span>
-            </td>
-          </template>
-
+          <td colspan="1" v-if="td.type != 'info' && td.type != 'img'">{{td.label}}</td>
+          <td :colspan="td.columns == 2 ? 3 : 1" v-if="td.type != 'info' && td.type != 'img'">
+            <el-date-picker value-format='yyyy-MM-dd' v-if="td.type == 'date'" v-model="item[td.property]" type="date" :placeholder="td.placeholder"  :disabled="disabled || td.disabled" :readonly="td.readonly">
+            </el-date-picker>
+            <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text'"></el-input>
+            <el-select v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
+              <el-option
+                v-for="opt in td.options"
+                :key="opt.value"
+                :label="td.labelfield ? opt[td.labelfield] : opt.label"
+                :value="td.valuefield ? opt[td.valuefield] : opt.value">
+              </el-option>
+            </el-select>
+            <el-input type="textarea" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'textarea'"></el-input>
+            <el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/"   :limit="3" :show-file-list="false" v-if="td.type == 'file' && !(disabled || td.disabled)" >
+              <el-button size="small" type="info" plain>点击这里上传文件</el-button>
+            </el-upload>
+            <a v-else class="colLink" :href="item[td.property]" target="_blank">{{td.disabledLabel}}</a>
+          </td>
+          <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'info'">
+            <span>{{td.content}}</span>
+          </td>
+          <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'img'">
+            <span>{{td.content}}</span>
+          </td>
+        </template>
         </template>
       </tr>
       </tbody>
@@ -44,7 +45,7 @@
 </template>
 
 <script>
-  /**
+/**
    * @method
    * @description 描述一下方法的作用
    * @pros editDefines 传入的表单定义,可循环生产多个表格，暂时不支持文件上传
@@ -116,20 +117,25 @@
         })
       },
     },
-    mounted () {
-      console.log(this.editDefines)
+  watch: {
+    editDefines(val, oldVal) {
+      console.error(val, oldVal);
     }
+  },
+  mounted() {
+    console.log(this.editDefines);
   }
+};
 </script>
 
 <style scoped lang="scss">
-  .el-table--border{
-    border: none;
-    border-left: 1px solid #ebeef5;
-  }
-  td{
-    border: 1px solid #ebeef5;
-  }
+.el-table--border {
+  border: none;
+  border-left: 1px solid #ebeef5;
+}
+td {
+  border: 1px solid #ebeef5;
+}
 </style>
 Accept: */*
 Accept-Encoding: gzip, deflate, br

@@ -81,15 +81,15 @@
               el-table--enable-row-hover"
           >
             <!-- 企业 -->
-            <template v-if="ruleForm.type === '1'">
+            <template v-if="ruleForm.type === 1">
 
               <tr>
                 <td colspan="1">被申请人性质：</td>
                 <td colspan="1">
                   <el-form-item label=" " prop="type">
                     <el-select @change="handleTypeChange" v-model="ruleForm.type" placeholder="请选择">
-                      <el-option label="自然人" value="0"></el-option>
-                      <el-option label="企业" value="1"></el-option>
+                      <el-option label="自然人" :value="0"></el-option>
+                      <el-option label="企业" :value="1"></el-option>
                     </el-select>
                   </el-form-item>
                 </td>
@@ -110,8 +110,8 @@
                 <td colspan="1">
                   <el-form-item label=" " prop="idtype">
                     <el-select @change="handleTypeChange" v-model="ruleForm.idtype" placeholder="请选择">
-                      <el-option key="1" v-if="ruleForm.type === '0'" label="身份证" value="0"></el-option>
-                      <el-option key="2" v-else label="营业执照" value="3"></el-option>
+                      <el-option key="1" v-if="ruleForm.type === 0" label="身份证" :value="0"></el-option>
+                      <el-option key="2" v-else label="营业执照" :value="3"></el-option>
                     </el-select>
                   </el-form-item>
                 </td>
@@ -200,8 +200,8 @@
                 <td colspan="1">
                   <el-form-item label=" " prop="type">
                     <el-select @change="handleTypeChange" v-model="ruleForm.type" placeholder="请选择">
-                      <el-option label="自然人" value="0"></el-option>
-                      <el-option label="企业" value="1"></el-option>
+                      <el-option label="自然人" :value="0"></el-option>
+                      <el-option label="企业" :value="1"></el-option>
                     </el-select>
                   </el-form-item>
                 </td>
@@ -243,8 +243,8 @@
                 <td colspan="1">
                   <el-form-item label=" " prop="idtype">
                     <el-select @change="handleTypeChange" v-model="ruleForm.idtype" placeholder="请选择">
-                      <el-option key="1" v-if="ruleForm.type === '0'" label="身份证" value="0"></el-option>
-                      <el-option key="2" v-else label="营业执照" value="3"></el-option>
+                      <el-option key="1" v-if="ruleForm.type === 0" label="身份证" :value="0"></el-option>
+                      <el-option key="2" v-else label="营业执照" :value="3"></el-option>
                     </el-select>
                   </el-form-item>
                 </td>
@@ -399,7 +399,7 @@
           // 案件仲券
           caseTicket : '',
           // 被申请人性质 0自然人 1企业
-          type : '0',
+          type : 0,
           // 姓名 or 企业名称
           name : '',
           // 民族
@@ -409,7 +409,7 @@
           // 电子邮箱
           email : '',
           // 证件类型 	0身份证 3营业执照
-          idtype : '0',
+          idtype : 0,
           // 身份证号 or 社会唯一信用代码
           idcard : '',
           // 身份证正面照 or 营业执照
@@ -538,9 +538,10 @@
       }
     },
     mounted() {
+      // 获取申请人 列表
       this.$http({
         method : 'post',
-        url : '/casemanage/selectHzUser.htm',
+        url : '/hzuser/queryUsers.htm',
       }).then((res) => {
         this.userOptions = res.result.list;
       });
@@ -563,10 +564,10 @@
         this.$refs.ruleForm.clearValidate();
 
         // 设置 证据类型 选中
-        if(val === '0'){
-          this.ruleForm.idtype = '0';
+        if(val === 0){
+          this.ruleForm.idtype = 0;
         }else{
-          this.ruleForm.idtype = '3';
+          this.ruleForm.idtype = 3;
         }
       },
       // 点击新增证据

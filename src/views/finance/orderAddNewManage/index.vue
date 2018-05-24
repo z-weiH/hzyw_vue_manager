@@ -5,7 +5,7 @@
          <router-link :to='$options.name' class='aside_tit'>订单加款【审核】</router-link>
         </div>
         <searchs class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
-          <template slot='moreBtn'><el-button class='ml-20' type='primary' @click=''>导出Excel</el-button></template>
+          <template slot='moreBtn'><el-button class='ml-20' type='primary' @click='exportFile'>导出Excel</el-button></template>
         </searchs>
         <div class='item-title'>
           订单加款列表
@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       item: {},
-      queryUrl: "/6" + URL_JSON["queryOrderAddNewManage"],
+      queryUrl:  URL_JSON["queryOrderAddNewManage"],
       searchItems: [
         {
           type: "text",
@@ -101,7 +101,7 @@ export default {
      * @param type 显示的视图是否可编辑 1:可编辑 9:只读
      * */
     showDialog(row, type) {
-      this.queryDetail("/6" + URL_JSON["queryOrderAddNewDefaultDetail"], {
+      this.queryDetail( URL_JSON["queryOrderAddNewDefaultDetail"], {
         orderId: row.orderId
       }).then(res => {
         if (res.code) {
@@ -110,6 +110,21 @@ export default {
           console.log("type::", type);
           console.info("item:::",this.item);
         }
+      });
+    },
+
+    exportFile(){
+
+      alert(123123);
+      this.$http.post(URL_JSON['exportOrderAddNewManage'],{
+        endDate: '',
+        keyWords: '',
+        keyWords: '',
+        startDate: ''
+      })
+      .then(res => {
+        console.log('123123');
+        console.info(res);
       });
     }
   },

@@ -44,8 +44,8 @@
               <td colspan="1">
                 <el-form-item label=" " prop="type">
                   <el-select :disabled="typeDisabled" @change="handleTypeChange" v-model="ruleForm.type" placeholder="请选择">
-                    <el-option label="自然人" value="0"></el-option>
-                    <el-option label="企业" value="1"></el-option>
+                    <el-option label="自然人" :value="0"></el-option>
+                    <el-option label="企业" :value="1"></el-option>
                   </el-select>
                 </el-form-item>
               </td>
@@ -59,7 +59,7 @@
               el-table--enable-row-hover"
           >
             <!-- 用户信息 -->
-            <template v-if="ruleForm.type === '0'">
+            <template v-if="ruleForm.type === 0">
               <tr>
                 <td colspan="4">
                   用户信息
@@ -86,8 +86,8 @@
                 <td colspan="1">
                   <el-form-item label=" " prop="idtype">
                     <el-select v-model="ruleForm.idtype" placeholder="请选择">
-                      <el-option key="1" v-if="ruleForm.type === '0'" label="身份证" value="0"></el-option>
-                      <el-option key="2" v-else label="营业执照" value="3"></el-option>
+                      <el-option key="1" v-if="ruleForm.type === 0" label="身份证" :value="0"></el-option>
+                      <el-option key="2" v-else label="营业执照" :value="3"></el-option>
                     </el-select>
                   </el-form-item>
                 </td>
@@ -195,8 +195,8 @@
                 <td colspan="1">
                   <el-form-item label=" " prop="idtype">
                     <el-select v-model="ruleForm.idtype" placeholder="请选择">
-                      <el-option key="1" v-if="ruleForm.type === '0'" label="身份证" value="0"></el-option>
-                      <el-option key="2" v-else label="营业执照" value="3"></el-option>
+                      <el-option key="1" v-if="ruleForm.type === 0" label="身份证" :value="0"></el-option>
+                      <el-option key="2" v-else label="营业执照" :value="3"></el-option>
                     </el-select>
                   </el-form-item>
                 </td>
@@ -321,14 +321,14 @@
           // 客户名称
           name : '',
           // 客户类型 0自然人 1企业
-          type : '0',
+          type : 0,
 
           // 手机号
           phone : '',
           // 电子邮箱
           email : '',
           // 证件类型 0身份证 3营业执照
-          idtype : '0',
+          idtype : 0,
           // 证件号 or 社会唯一信用代码
           idcard : '',
           // 民族
@@ -449,7 +449,7 @@
               userId : data.userId,
             },
           }).then((res) => {
-            // res.result.type = '0'; 
+            // res.result.type = 1; 
             this.ruleForm = res.result;
             this.ruleForm.userId = data.userId;
 
@@ -473,10 +473,10 @@
         this.$refs.ruleForm.clearValidate();
 
         // 设置 证据类型 选中
-        if(val === '0'){
-          this.ruleForm.idtype = '0';
+        if(val === 0){
+          this.ruleForm.idtype = 0;
         }else{
-          this.ruleForm.idtype = '3';
+          this.ruleForm.idtype = 3;
         }
       },
 
@@ -484,11 +484,22 @@
       handleClose() {
         this.seeImg01 = false;
         this.seeImg02 = false;
-        //this.type = '0';
         this.typeDisabled = false;
+        this.dialogVisible = false;
+
+        // 由于 dom 切换问题 form无法完全重置 ， 手动清空表单元素数据
+        for(let key in this.ruleForm) {
+          if(key === 'type') {
+            this.ruleForm[key] = 0;
+          }else if(key === 'idtype'){
+            this.ruleForm[key] = 0;
+          }else{
+            this.ruleForm[key] = '';
+          }
+        }
 
         this.$nextTick(() => {
-          this.dialogVisible = false;
+          
           this.$refs.ruleForm.resetFields();
         });
         

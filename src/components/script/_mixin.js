@@ -15,7 +15,8 @@ export default {
         currentNum: 1,
         pageSize: 10,
         count: 0,
-      }
+      },
+      _createElement: null
     }
   },
   // 待解决
@@ -32,18 +33,18 @@ export default {
      */
     query(url, item) {
       Object.assign(item, this.pager, this.fixedSearchItrems);
-       let promise = this.$http.post(url, item)
+      let promise = this.$http.post(url, item)
         .then(res => {
-          res = Mock.mock(res);
-          console.log('***mock:');
           console.log(res);
-          if(res.code === '0000'){
-            this.tableData = res.result.list;
-            this.pager.count = res.result.count;
-          }else{
-            this.$message.error(res.description);
+          if(res.code === '0000') {
+            if (res.code) {
+              this.tableData = res.result.list;
+              this.pager.count = res.result.count;
+            } else {
+              this.$message.error(res.description);
+            }
+            return res
           }
-          return res
         })
       return promise;
     },
@@ -57,16 +58,16 @@ export default {
     },
     queryDetail(url, item) {
       return this.$http.post(url, item).then(res => {
-        res  = Mock.mock(res);
+        res = Mock.mock(res);
         return res;
       })
     },
-    beforeClose (action, instance, done) {
+    beforeClose(action, instance, done) {
       console.log(action, instance, done)
     },
-    async showConfirm(msg){
-      let promise = new Promise((resolve,reject)=>{
-        this.$confirm(msg ? msg :'是否确认删除？', '提示', {
+    async showConfirm(msg) {
+      let promise = new Promise((resolve, reject) => {
+        this.$confirm(msg ? msg : '是否确认删除？', '提示', {
           cancelButtonText: '确定',
           confirmButtonText: '取消',
           cancelButtonClass: 'cancel',
@@ -81,7 +82,8 @@ export default {
         })
       });
       return promise;
-    }
+    },
+
 
 
   }
