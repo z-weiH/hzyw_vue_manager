@@ -46,6 +46,10 @@
     methods: {
       save() {
           // console.error(this.item);
+        if(this.editState == 2){
+          console.error(this.item);
+          return
+        }
         this.$http.post(URL_JSON['saveCustomerCase'],this.item)
           .then(res => {
           if(res.code == '0000'){

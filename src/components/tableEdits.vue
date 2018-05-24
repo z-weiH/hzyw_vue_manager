@@ -24,7 +24,7 @@
               </el-option>
             </el-select>
             <el-input type="textarea" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'textarea'"></el-input>
-            <el-upload class="upload-demo" :http-request="fileUpload"   :limit="1"  v-if="td.type == 'file' && !(disabled || td.disabled)" >
+            <el-upload :ref="td.property" :on-success="uploadSucc"	 class="upload-demo" :data="{path: td.path}" :action="uploadUrl"   :limit="1"  v-if="td.type == 'file' && !(disabled || td.disabled)" >
               <el-button size="small" type="info" plain @click="startUpload(td)">点击这里上传文件</el-button>
             </el-upload>
             <a v-else class="colLink" :href="item[td.property]" target="_blank">{{td.disabledLabel}}</a>
@@ -95,27 +95,25 @@
       }
     },
     methods: {
+      clearFiles() {
+        console.error(this.$refs)
+        Object.keys(this.$refs).forEach(key => {
+          if(this.$refs[key][0].clearFiles instanceof Function)
+            this.$refs[key][0].clearFiles();
+        })
+      },
       startUpload(td){
         console.log(td);
         this.path = td.path;
         this.editPro = td. property;
       },
-      fileUpload(event) {
-        let param = new FormData(); //创建form对象
-        param.append('file', event.file);//通过append向form对象添加数据
-        param.append('path', this.path);
-        console.log(param.get('file'),param.get('path'));
-        let config = {
-          headers:{'Content-Type':'multipart/form-data'},
-          mheaders: true
-        };
-        this.$http.post(this.uploadUrl,param,config).then(res => {
-          console.log(res);
-          if(res.code == '0000'){
-            this.item[this.editPro] = res.result;
-          }
-        })
-      },
+      uploadSucc(response, file, fileList){
+        console.log(response, file, fileList)
+        if(response.code == '0000'){
+          this.item[this.editPro] = response.result;
+          fileList = [];
+        }
+      }
     },
   watch: {
     editDefines(val, oldVal) {
@@ -126,7 +124,7 @@
     console.log(this.editDefines);
   },
     updated() {
-      console.log(this);
+      this.clearFiles();
     }
 };
 </script>
