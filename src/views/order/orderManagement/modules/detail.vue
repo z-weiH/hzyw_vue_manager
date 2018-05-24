@@ -306,6 +306,29 @@
           </tr>
         </table>
 
+        <!-- 还款信息 -->
+        <table
+          class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mt-10"
+        >
+          <tr>
+            <td colspan="1">还款时间</td>
+            <td colspan="1">到期时间</td>
+            <td colspan="1">需还金额</td>
+            <td colspan="1">实际还款</td>
+            <td colspan="1">还款方式</td>
+            <td colspan="1">还款状态</td>
+          </tr>
+
+          <tr v-for="(item,index) in ruleForm.refunds" :key="index">
+            <td colspan="1">{{item.refunddate}}</td>
+            <td colspan="1">{{item.expiredate}}</td>
+            <td colspan="1">{{item.amtrefund}}</td>
+            <td colspan="1">{{item.amtactural}}</td>
+            <td colspan="1">{{item.refundtype}}</td>
+            <td colspan="1">{{item.refundstatus}}</td>
+          </tr>
+        </table>
+
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="handleClose">返 回</el-button>
@@ -318,7 +341,7 @@
   export default {
     data() {
       return {
-        dialogVisible : true,
+        dialogVisible : false,
 
         ruleForm : {
           /* ---------------------------- 案件订单信息 -------------------------- */
@@ -484,8 +507,19 @@
       }
     },
     methods: {
-      show() {
+      show(row) {
         this.dialogVisible = true;
+        this.$http({
+          method : 'post',
+          url : '/ordermanage/selectOrderDetail.htm',
+          data : {
+            caseOrderId : row.caseorderid,
+          },
+        }).then((res) => {
+          // 处理 rap 上数据问题
+          res.result.refunds = [res.result.refunds];
+          this.ruleForm = res.result;
+        });
       },
 
       // 浮层关闭

@@ -1,5 +1,5 @@
 <template>
-  <div class="order-management">
+  <div class="order-management fn-hide">
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
@@ -10,8 +10,8 @@
         <el-form-item label=" " prop="merchantCode">
           <el-select style="width:120px;" v-model="ruleForm.merchantCode" placeholder="请选择商户">
             <el-option label="请选择" value=""></el-option>
-            <template v-for="(item) in merchantOptions">
-              <el-option :key="item.code" :label="item.merchantName" :value="item.code"></el-option>
+            <template v-for="(item,index) in merchantOptions">
+              <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
             </template>
           </el-select>
         </el-form-item>
@@ -26,8 +26,8 @@
         <el-form-item label=" " prop="orderStatus">
           <el-select style="width:120px;" v-model="ruleForm.orderStatus" placeholder="请选择案件">
             <el-option label="请选择" value=""></el-option>
-            <template v-for="(item) in orderStatuOptions">
-              <el-option :key="item.code" :label="item.desc" :value="item.code"></el-option>
+            <template v-for="(item,index) in orderStatuOptions">
+              <el-option :key="item.code + index" :label="item.desc" :value="item.code"></el-option>
             </template>
           </el-select>
         </el-form-item>
@@ -131,6 +131,20 @@
     },
     mounted() {
       this.initTableList();
+      // 获取所有 商户
+      this.$http({
+        method : 'post',
+        url : '/merchant/queryAllMerchant.htm',
+      }).then((res) => {
+        this.merchantOptions = res.result.list;
+      });
+      // 获取所有 案件
+      this.$http({
+        method : 'post',
+        url : '/ordermanage/queryOrderStatus.htm',
+      }).then((res) => {
+        this.orderStatuOptions = res.result.list;
+      });
     },
     methods: {
       // 点击搜索
