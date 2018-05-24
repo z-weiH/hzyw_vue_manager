@@ -353,7 +353,10 @@
       // 所属市场人员 options
       this.$http({
         method : 'post',
-        url : '/user/queryUserListByRoleId.htm',
+        url : '/user/queryUserListByRoleType.htm',
+        data : {
+          type : 'MARKETER',
+        },
       }).then((res) => {
         this.hzmngUserIdOptions = res.result;
       });
