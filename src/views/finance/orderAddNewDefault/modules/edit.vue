@@ -3,36 +3,36 @@
     <div class="dailog-container">
       <table-edits :editDefines="edtDefines" :item="item.orderVO"></table-edits>
       <table-edits v-for="(orderDetail, index) in item.orderDetailList" :key="index" :disabled="Boolean(orderDetail.orderStatus) || $parent.editState == 9" :editDefines="edtDefines_item" :item="orderDetail">
-          <!-- <table slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
-            <tbody>
-              <tr class="table-edits">
-                <td colspan="4">审核结果</td>
-              </tr>
-              <tr class="table-edits">
-                <td colspan="1">
-                  <el-select v-model="orderDetail.resultStatus" placeholder="请选择审核状态" :disabled="editState == 9">
-                    <el-option label="通过" :value="2"></el-option>
-                    <el-option label="不通过" :value="3"></el-option>
-                  </el-select>
-                </td>
-                <td colspan="3"></td>
-              </tr>
-              <tr class="table-edits">
-                <td colspan="4">
-                  <el-input type="textarea" v-model="orderDetail.apprerResult" placeholder="请输入审核说明" :disabled="editState == 9"></el-input>
-                </td>
-              </tr>
-            </tbody>
-          </table> -->
+        <!-- <table slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
+              <tbody>
+                <tr class="table-edits">
+                  <td colspan="4">审核结果</td>
+                </tr>
+                <tr class="table-edits">
+                  <td colspan="1">
+                    <el-select v-model="orderDetail.resultStatus" placeholder="请选择审核状态" :disabled="editState == 9">
+                      <el-option label="通过" :value="2"></el-option>
+                      <el-option label="不通过" :value="3"></el-option>
+                    </el-select>
+                  </td>
+                  <td colspan="3"></td>
+                </tr>
+                <tr class="table-edits">
+                  <td colspan="4">
+                    <el-input type="textarea" v-model="orderDetail.apprerResult" placeholder="请输入审核说明" :disabled="editState == 9"></el-input>
+                  </td>
+                </tr>
+              </tbody>
+            </table> -->
       </table-edits>
     </div>
     <el-button v-if="$parent.editState == 1" type="primary" @click="newCurrentTpl">新增加款</el-button>
     <span slot="footer" class="dialog-footer">
-            <el-button v-if="$parent.editState == 1" type="primary" @click="save(0)">保存</el-button>
-            <el-button v-if="$parent.editState == 1" type="primary" @click="commit(1)">提交</el-button>
-            <el-button v-if="$parent.editState == 1" @click="$parent.editState = 0">取 消</el-button>
-            <el-button v-if="$parent.editState == 9" type="primary" @click="$parent.editState = 0">返回</el-button>
-      </span>
+              <el-button v-if="$parent.editState == 1" type="primary" @click="saveAndcommit(0)">保存</el-button>
+              <el-button v-if="$parent.editState == 1" type="primary" @click="saveAndcommit(1)">提交</el-button>
+              <el-button v-if="$parent.editState == 1" @click="$parent.editState = 0">取 消</el-button>
+              <el-button v-if="$parent.editState == 9" type="primary" @click="$parent.editState = 0">返回</el-button>
+        </span>
   </el-dialog>
 </template>
 
@@ -40,7 +40,7 @@
 <script>
 import dataHandle from "@/components/script/_dataHandle";
 import TableEdits from "@/components/tableEdits";
-import { URL_JSON } from '../../../../components/script/url_json';
+import { URL_JSON } from "../../../../components/script/url_json";
 
 export default {
   name: "edit",
@@ -170,33 +170,62 @@ export default {
       this.item.orderDetailList.push({}); //创建一个observer的新对象
       console.info(this.item.orderDetailList);
     },
-    save(type) {
-      console.log('ssssssiiiii:',this.item);
-      let _thatObj = this.item.orderDetailList[0];
-      let _obj = {};
-      let _orderDetailList = this.deepCopy(_thatObj, [
-        "acctName",
-        "acctNo",
-        "arrivalAmt",
-        "bankName",
-        "bankOrderno",
-        "bankRemark",
-        "payTime"
-      ]);
-      _obj['isCommit'] = type;
-      _obj['orderDetailList'] = _orderDetailList;
-      _obj['orderId'] = this.item.orderVO.orderId;
-      console.info(_obj);
-      this.$http.post(URL_JSON['saveOrderAddNewDefaultDetail'],_obj)
-      .then(res =>{
-        if(res.code){
-          console.log(res);
-        }
-      })
-
-
-    },
-    commit() {}
+    saveAndcommit(type) {
+      console.log("***saveAndcommit***:", this.item);
+      let _thatObj = this.item.orderDetailList.filter(it => !it.detailId);
+      let _sUrl = URL_JSON["saveOrderAddNewDefaultDetail"];
+      switch (type) {
+        case 0:
+          this.$http
+            .post(
+              _sUrl,
+              {
+                isCommit: type,
+                orderDetailList: _thatObj,
+                orderId: this.item.orderVO.orderId
+              },
+              {
+                mheaders: true
+              }
+            )
+            .then(res => {
+              console.log(res);
+              if (res.code == "0000") {
+                this.$message({
+                  message: "保存成功",
+                  type: "success"
+                });
+              }
+            });
+          break;
+        case 1:
+          this.$http
+            .post(
+              _sUrl,
+              {
+                isCommit: type,
+                orderDetailList: _thatObj,
+                orderId: this.item.orderVO.orderId
+              },
+              {
+                mheaders: true
+              }
+            )
+            .then(res => {
+              console.log(res);
+              if (res.code == "0000") {
+                this.$parent.editState = 0;
+                this.$message({
+                  message: "提交成功",
+                  type: "success"
+                });
+              }
+            });
+          break;
+        default:
+          break;
+      }
+    }
   },
   mounted() {}
 };
