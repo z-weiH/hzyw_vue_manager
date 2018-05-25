@@ -8,10 +8,12 @@
     <div class="item-table">
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine"></table-component>
     </div>
+    <advisory-edit :editState="editState" :item="item"></advisory-edit>
   </div>
 </template>
 
 <script>
+  import advisoryEdit from './modules/edit'
   import Searchs from '@/components/searchs'
   import Mixins from '@/components/script/_mixin'
   import TableComponent from '@/components/table'
@@ -34,13 +36,14 @@
         searchItem: {},
         queryUrl: URL_JSON['queryAdvisoryManage'],
         columnDefine: [
-          {label: '姓名', property: 'name'},
+          {label: '姓名', property: 'name', isLink: true, linkShowPanel: this.doView},
           {label: '手机号', property: 'phone'},
           {label: '电子邮箱', property: 'email'},
           {label: '公司名称', property: 'company'},
           {label: '职位', property: 'position'},
           {label: '处理状态', property: 'processed'},
-        ]
+        ],
+        item: {}
       }
     },
     methods: {
@@ -61,11 +64,19 @@
           return true;
         else
           return false;
-      }
+      },
+      doView(row) {
+        this.$http.post(URL_JSON['editAdvisoryManage'],{consultId: row.consultId})
+          .then(res => {
+            this.item = res.result;
+            this.editState = 9;
+          })
+      },
     },
     components: {
       Searchs,
-      TableComponent
+      TableComponent,
+      advisoryEdit
     },
     created () {
       this.doQuery(this.queryUrl,this.searchItem)

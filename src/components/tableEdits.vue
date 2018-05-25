@@ -97,7 +97,7 @@
     methods: {
       clearFiles() {
         Object.keys(this.$refs).forEach(key => {
-          if(this.$refs[key][0].clearFiles instanceof Function)
+          if(this.$refs[key][0] && this.$refs[key][0].clearFiles instanceof Function)
             this.$refs[key][0].clearFiles();
         })
       },

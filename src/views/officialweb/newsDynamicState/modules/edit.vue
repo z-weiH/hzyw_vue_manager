@@ -7,15 +7,16 @@
       width="868px"
       ref="dialog"
       center>
-      <table-edits :editDefines="editDefines" :item.sync="item"></table-edits>
+      <table-edits :editDefines="editDefines" :item.sync="item" :disabled="editState == 9"></table-edits>
       <span class="fl w-133">新闻内容:</span>
       <div class="m-content fl" >
         <tinymce :path="'portal/news'" :height="300" ref="tinymce"></tinymce>
       </div>
       <div class="clear"></div>
       <span  slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="save" >{{action}}</el-button>
-          <el-button @click="$parent.editState = 0">取 消</el-button>
+          <el-button type="primary" @click="save" v-if="editState != 9" >{{action}}</el-button>
+          <el-button type="primary" @click="$parent.editState = 0" v-if="editState == 9">返 回</el-button>
+          <el-button @click="$parent.editState = 0" v-if="editState != 9">取 消</el-button>
         </span>
     </el-dialog>
   </div>
@@ -35,7 +36,12 @@
         editDefines:  [{
           content: [
             {label: '新闻标题：', type: 'text', placeholder: '请输入新闻标题',columns:2,property: 'newsTitle'},
-            {label: '新闻类型：',type: 'text',columns:2,placeholder: '请输入新闻类型',property: 'newsType'},
+            {label: '新闻类型：',type: 'select',columns:2,placeholder: '请输入新闻类型',property: 'newsType',options: [
+                // 1签约 2活动 3行业资讯
+                {label:'签约', value: 1},
+                {label:'活动', value: 2},
+                {label:'行业资讯', value: 3},
+              ]},
             {label: '关键词：',type: 'text',columns:2,placeholder: '请输入关键词',property: 'keyWords'},
             {label: '新闻图标：',type: 'file',columns:1,path: 'portal/news',property:'newsImg'},
             {type: 'img',columns:1,property:'newsImg'},
@@ -87,11 +93,11 @@
         return this.editState == 2 ? '新 增' : '修 改'
       },
       title() {
-        return this.editState == 2 ? '新增案例' : '修改案例'
+        return this.editState == 2 ? '新增新闻' : this.editState == 1 ? '修改新闻' : '新闻详情'
       },
       show :{
         get: function () {
-          return this.editState == 1 || this.editState == 2
+          return this.editState == 1 || this.editState == 2 || this.editState == 9
         },
         set: function (v) {
           if(!v){

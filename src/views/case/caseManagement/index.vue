@@ -120,6 +120,7 @@
       },
       // 点击详情
       handleDetail(row) {
+        let loading = this.$loading();
         this.$http({
           method : 'post',
           url : '/casemanage/selectCaseDetailByCaseId.htm',
@@ -127,7 +128,10 @@
             caseId : row.caseId,
           },
         }).then((res) => {
+          loading.close();
           this.$refs.detailDialog.show(res.result);
+        },(err) => {
+          loading.close();
         });
       },
       // 点击新增 案件

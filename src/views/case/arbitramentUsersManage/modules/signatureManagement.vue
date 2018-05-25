@@ -19,7 +19,8 @@
           <tr>
             <td colspan="1">签章图片：</td>
             <td colspan="1">
-              <img class="m-img" :src="imgUrl" />
+              <img v-if="imgUrl" class="m-img" :src="imgUrl" />
+              <span v-else>暂无图片</span>
             </td>
             <td colspan="1">上传签章：</td>
             <td colspan="1">
@@ -88,6 +89,7 @@
           data : formDate,
           mheaders : true,
         }).then((res) => {
+          this.$message.success('修改成功');
           this.handleClose();
           this.$emit('successCBK');
         });

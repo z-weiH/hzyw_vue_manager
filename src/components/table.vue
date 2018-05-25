@@ -9,9 +9,14 @@
             <img :src="scope.row.custIcon" class="table_img">
           </template>
         </el-table-column>
-        <el-table-column :resizable="false" :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img'" :width="col.width ? col.width : 'auto'">
+        <el-table-column :resizable="false" :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img' && col.type != 'select'" :width="col.width ? col.width : 'auto'">
            <template slot-scope="scope">
              <span v-tableCollapse :class="{colLink: col.isLink}" @click="col.linkShowPanel && col.linkShowPanel.bind($parent)(scope.row)">{{scope.row[col.property]}}</span>
+        </template>
+        </el-table-column>
+        <el-table-column :resizable="false" :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type == 'select'" :width="col.width ? col.width : 'auto'">
+           <template slot-scope="scope" >
+             <span v-tableCollapse :class="{colLink: col.isLink}" @click="col.linkShowPanel && col.linkShowPanel.bind($parent)(scope.row)">{{getLabel(col,scope.row[col.property])}}</span>
         </template>
         </el-table-column>
       </template>
@@ -85,6 +90,18 @@ export default {
     },
   },
   methods: {
+    getLabel(col, prop) {
+      let label = 'label', value = 'value';
+      if(col&&col.valuePath)
+        value = col.valuePath;
+      if(col && col.labelPath)
+        label = col.labelPath;
+      let item = col.options.find(it => it[value] == prop);
+      console.log(item,prop)
+      if(item)
+        return item[label];
+      return '--';
+    },
     defineHeader(createElement, column) {
       console.log(column, "column");
       let col = this.columns.find(it => it.property == column.column.property);

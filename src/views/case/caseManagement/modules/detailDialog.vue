@@ -180,12 +180,12 @@
         >
           <tr>
             <td colspan="1">诉讼请求：</td>
-            <td colspan="3">{{ruleForm.hzCaseInfoVO.requireItem}}</td>
+            <td v-html="ruleForm.hzCaseInfoVO.requireItem" colspan="3"></td>
           </tr>
 
           <tr>
             <td colspan="1">事实与理由：</td>
-            <td colspan="3">{{ruleForm.hzCaseInfoVO.factsReason}}</td>
+            <td v-html="ruleForm.hzCaseInfoVO.factsReason" colspan="3"></td>
           </tr>
         </table>
 
@@ -207,14 +207,14 @@
 
             <!-- 二层循环 -->
             <template v-for="(child,ind) in item.details">
-              <tr :key="ind">
+              <tr :key="item.eviId + ind">
                 <td v-if="ind === 0" :rowspan="item.details.length" colspan="1">
                   {{index + 1}}
                 </td>
-                <td colspan="1">2{{ind}}</td>
-                <td colspan="1">3</td>
-                <td colspan="1">4</td>
-                <td colspan="1">5</td>
+                <td colspan="1">{{child.eviTitle}}</td>
+                <td colspan="1">{{child.eviSource}}</td>
+                <td colspan="1">{{child.eviFormat}}</td>
+                <td colspan="1">{{child.eviPage}}</td>
                 <td>
                   <a class="underline" target="_blank" :href="child.eviFileurl">查看</a>
                 </td>
