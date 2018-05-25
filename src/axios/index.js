@@ -34,6 +34,7 @@ axios.interceptors.response.use((res) => {
       duration: 5000,
       showClose: true
     });
+    return Promise.reject(res);
   }
   return res.data;
 }, (error) => {
