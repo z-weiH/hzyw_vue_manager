@@ -11,7 +11,7 @@
     <div class="item-table">
       <table-component :pager="pager" :table-data="tableData" :actions="actions" :column-define="columnDefine"></table-component>
     </div>
-    <news-edit :edit-state="editState" :item="item"></news-edit>
+    <news-edit ref="edit" :edit-state="editState" :item="item"></news-edit>
   </div>
 </template>
 
@@ -85,6 +85,7 @@
             if(res.code){
               this.item = res.result;
               this.editState = 1;
+              this.$refs.edit.$refs.tinymce.setContent(res.result.newsDetail);
             }
           })
       },

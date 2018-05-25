@@ -5,11 +5,12 @@
       :visible.sync="show"
       :title="title"
       width="868px"
+      ref="dialog"
       center>
       <table-edits :editDefines="editDefines" :item.sync="item"></table-edits>
       <span class="fl w-133">新闻内容:</span>
       <div class="m-content fl" >
-        <tinymce :height="300" ref="tinymce"></tinymce>
+        <tinymce :path="'portal/news'" :height="300" ref="tinymce"></tinymce>
       </div>
       <div class="clear"></div>
       <span  slot="footer" class="dialog-footer">
@@ -93,8 +94,10 @@
           return this.editState == 1 || this.editState == 2
         },
         set: function (v) {
-          if(!v)
+          if(!v){
             this.$parent.editState = 0
+            this.$refs.tinymce.setContent('');
+          }
         }
       }
     },
@@ -102,10 +105,9 @@
       TableEdits,
       tinymce
     },
-    updated () {
-      console.error(this.item.newsDetail);
-      this.$refs.tinymce.setContent(this.item.newsDetail);
-    }
+    mounted() {
+      this.$refs.dialog.rendered = true;
+    },
   }
 </script>
 

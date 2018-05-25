@@ -23,6 +23,10 @@ export default {
       type: String,
       default: ''
     },
+    path:{
+      type: String,
+      default: ''
+    },
     toolbar: {
       type: Array,
       required: false,
@@ -84,6 +88,26 @@ export default {
         imagetools_cors_hosts: ['www.tinymce.com', 'codepen.io'],
         default_link_target: '_blank',
         link_title: false,
+        images_upload_handler:(blobInfo, success, failure) => {
+          let fd = new FormData();
+          fd.append('file',blobInfo.blob());
+          fd.append('path',this.path);
+          this.$http.post('/file//upload.htm',fd,{mheaders: true,header: {'Content-Type': 'multipart/form-data'}})
+            .then(res => {
+              if(res.code == '0000'){
+                success(res.result);
+              }
+            })
+          // uploadRichImg(fd).then(res => {
+          //   console.log(res);
+          //   let result = res.data[0]
+          //   success(result.url)
+          // })
+          //   .catch(err => {
+          //
+          //   })
+
+        },
         /* init_instance_callback: editor => {
           if (_this.value) {
             editor.setContent(_this.value)
