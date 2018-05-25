@@ -169,6 +169,7 @@
             endDate : this.ruleForm.endDate,
             startDate : this.ruleForm.startDate,
             keyWords : this.ruleForm.keyWords,
+            isSigned : this.ruleForm.isSigned,
           },
         }).then((res) => {
           this.total = res.result.count;

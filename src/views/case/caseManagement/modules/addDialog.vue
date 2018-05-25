@@ -129,7 +129,7 @@
                   <el-form-item  label=" " prop="img01">
                     <el-upload
                       class="upload-demo"
-                      action="/img/upload"
+                      action="/file/upload.htm"
                       :show-file-list="false"
                       :before-upload="businessLicenseBefore"
                       :on-success="businessLicenseSuccess"
@@ -262,7 +262,7 @@
                   <el-form-item  label=" " prop="img01">
                     <el-upload
                       class="upload-demo"
-                      action="/img/upload"
+                      action="/file/upload.htm"
                       :show-file-list="false"
                       :before-upload="facadeOfIDCardBefore"
                       :on-success="facadeOfIDCardSuccess"
@@ -283,7 +283,7 @@
                   <el-form-item  label=" " prop="img02">
                     <el-upload
                       class="upload-demo"
-                      action="/img/upload"
+                      action="/file/upload.htm"
                       :show-file-list="false"
                       :before-upload="backsidePhotoOfIDCardBefore"
                       :on-success="backsidePhotoOfIDCardSuccess"
@@ -624,7 +624,7 @@
       },
       /* 营业执照 上传成功 */
       businessLicenseSuccess(response, file, fileList) {
-        this.ruleForm.img01 = response.result.imgUrl; 
+        this.ruleForm.img01 = response.result; 
         this.ruleForm.img01FileName = file.name;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('img01');
@@ -641,7 +641,7 @@
       },
       /* 身份证正面照 上传成功 */
       facadeOfIDCardSuccess(response, file, fileList) {
-        this.ruleForm.img01 = response.result.imgUrl;
+        this.ruleForm.img01 = response.result;
         this.ruleForm.img01FileName = file.name;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('img01');
@@ -658,7 +658,7 @@
       },
       /* 身份证背面照 上传成功 */
       backsidePhotoOfIDCardSuccess(response, file, fileList) {
-        this.ruleForm.img02 = response.result.imgUrl;
+        this.ruleForm.img02 = response.result;
         this.ruleForm.img02FileName = file.name;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('img02');
