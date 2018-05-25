@@ -28,10 +28,11 @@
       return {
         searchItems: [
           {placeholder: '请输入客户名称', colSpan: 7, property: 'keyWords'},
-          {placeholder: '请选择开户状态', colSpan: 5, property: 'custStatus',type: 'select', options: [
-              {label:'待审核', value: 1},
-              {label:'待确认', value: 2},
-              {label:'开户成功', value: 3},
+          // 0待上线 1已上线 2已下线
+          {placeholder: '请选择上线状态', colSpan: 5, property: 'custStatus',type: 'select', options: [
+              {label:'待上线', value: 0},
+              {label:'已上线', value: 1},
+              {label:'已下线', value: 2},
             ]},
         ],
         searchItem: {},
@@ -40,7 +41,11 @@
           {label: '客户名称', property: 'custName'},
           {label: '客户logo图标', property: 'custIcon', type: 'img'},
           {label: '发布时间', property: 'publishTime'},
-          {label: '上线状态', property: 'custStatus'},
+          {label: '上线状态', property: 'custStatus', type: 'select', options: [
+              {label:'待上线', value: 0},
+              {label:'已上线', value: 1},
+              {label:'已下线', value: 2},
+            ]},
         ],
         actions: [
           {label: '操作',btns: [

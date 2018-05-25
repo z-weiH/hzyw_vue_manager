@@ -35,7 +35,12 @@
         editDefines:  [{
           content: [
             {label: '新闻标题：', type: 'text', placeholder: '请输入新闻标题',columns:2,property: 'newsTitle'},
-            {label: '新闻类型：',type: 'text',columns:2,placeholder: '请输入新闻类型',property: 'newsType'},
+            {label: '新闻类型：',type: 'select',columns:2,placeholder: '请输入新闻类型',property: 'newsType',options: [
+                // 1签约 2活动 3行业资讯
+                {label:'签约', value: 1},
+                {label:'活动', value: 2},
+                {label:'行业资讯', value: 3},
+              ]},
             {label: '关键词：',type: 'text',columns:2,placeholder: '请输入关键词',property: 'keyWords'},
             {label: '新闻图标：',type: 'file',columns:1,path: 'portal/news',property:'newsImg'},
             {type: 'img',columns:1,property:'newsImg'},

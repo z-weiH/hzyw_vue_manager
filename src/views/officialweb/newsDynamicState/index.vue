@@ -40,10 +40,20 @@
         queryUrl: URL_JSON['queryNewsDynamicState'],
         columnDefine: [
           {label: '新闻标题', property: 'newsTitle'},
-          {label: '新闻类型', property: 'newsType'},
+          {label: '新闻类型', type: 'select', property: 'newsType', options: [
+              // 1签约 2活动 3行业资讯
+              {label:'签约', value: 1},
+              {label:'活动', value: 2},
+              {label:'行业资讯', value: 3},
+            ]},
           {label: '创建时间', property: 'createTime'},
           {label: '发布时间', property: 'releaseTime'},
-          {label: '状态', property: 'newsStatus'},
+          {label: '状态', type: 'select', property: 'newsStatus', options: [
+              // 0待发布 1已发布 2已下线
+              {label:'待发布', value: 0},
+              {label:'已发布', value: 1},
+              {label:'已下线', value: 2},
+            ]},
         ],
         actions: [
           {label: '操作',btns: [
