@@ -89,6 +89,7 @@
           data : formDate,
           mheaders : true,
         }).then((res) => {
+          this.$message.success('修改成功');
           this.handleClose();
           this.$emit('successCBK');
         });

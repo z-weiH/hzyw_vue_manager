@@ -130,7 +130,7 @@
         }).then((res) => {
           loading.close();
           this.$refs.detailDialog.show(res.result);
-        }).then(() => {
+        },(err) => {
           loading.close();
         });
       },
