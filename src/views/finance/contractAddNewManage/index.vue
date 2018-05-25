@@ -44,7 +44,7 @@
         </el-table-column>
         <el-table-column label="合同号">
           <template slot-scope="scope">
-            <span class="fn-a ellipsis" :title="scope.row.contractNo" @click="handleDetail(scope.row)">{{scope.row.contractNo}}</span>
+            <span class="fn-a" @click="handleDetail(scope.row)">{{scope.row.contractNo}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="contractDate" label="合同时间"></el-table-column>
