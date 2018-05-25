@@ -4,54 +4,55 @@
       <table-edits :editDefines="edtDefines" :item="item.orderVO"></table-edits>
       <table-edits v-for="(orderDetail, index) in item.orderDetailList" :key="index" :disabled="Boolean(orderDetail.orderStatus) || $parent.editState == 9" :editDefines="edtDefines_item" :item="orderDetail">
         <table slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
-        <tbody>
-          <tr class="table-edits">
-            <td colspan="4">审核结果</td>
-          </tr>
-          <tr class="table-edits">
-            <td colspan="1">
-              <el-select v-model="orderDetail.resultStatus" placeholder="请选择审核状态" :disabled="editState == 9">
-                <el-option label="通过" :value="2"></el-option>
-                <el-option label="不通过" :value="3"></el-option>
-              </el-select>
-            </td>
-            <td colspan="3"></td>
-          </tr>
-          <tr class="table-edits">
-            <td colspan="4">
-              <el-input type="textarea" v-model="orderDetail.apprerResult" placeholder="请输入审核说明" :disabled="editState == 9"></el-input>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+          <tbody>
+            <tr class="table-edits">
+              <td colspan="4">审核结果</td>
+            </tr>
+            <tr class="table-edits">
+              <td colspan="1">
+                <el-select v-model="orderDetail.resultStatus" placeholder="请选择审核状态" :disabled="editState == 9">
+                  <el-option label="通过" :value="2"></el-option>
+                  <el-option label="不通过" :value="3"></el-option>
+                </el-select>
+              </td>
+              <td colspan="3"></td>
+            </tr>
+            <tr class="table-edits">
+              <td colspan="4">
+                <el-input type="textarea" v-model="orderDetail.apprerResult" placeholder="请输入审核说明" :disabled="editState == 9"></el-input>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </table-edits>
       <!-- <table-edits :editDefines="edtDefines_audit" :item="item.orderDetailList" v-if="$parent.editState == 3"></table-edits> -->
     </div>
     <el-button v-if="$parent.editState == 1" type="primary" @click="newCurrentTpl">新增加款</el-button>
     <span slot="footer" class="dialog-footer">
-                <el-button v-if="$parent.editState == 3" type="primary" @click="save(1)">审核</el-button>
-                <el-button v-if="$parent.editState == 3" @click="$parent.editState = 0">取 消</el-button>
-                <el-button v-if="$parent.editState == 9" type="primary" @click="$parent.editState = 0">返回</el-button>
-          </span>
+                  <el-button v-if="$parent.editState == 3" type="primary" @click="checkUpdate">审核</el-button>
+                  <el-button v-if="$parent.editState == 3" @click="$parent.editState = 0">取 消</el-button>
+                  <el-button v-if="$parent.editState == 9" type="primary" @click="$parent.editState = 0">返回</el-button>
+            </span>
   </el-dialog>
 </template>
 
 <script type="text/ecmascript-6">
-import TableEdits from "@/components/tableEdits";
-export default {
-  name: "edit",
-  props: {
-    editState: Number, // 1:显示 0:隐藏 9:只读 3:开启审核模板
-    item: Object
-  },
-  data() {
-    return {
-      title: "订单加款审核",
-      edtDefines: [
-        {
+  import TableEdits from "@/components/tableEdits";
+  import {
+    URL_JSON
+  } from '../../../../components/script/url_json';
+  export default {
+    name: "edit",
+    props: {
+      editState: Number, // 1:显示 0:隐藏 9:只读 3:开启审核模板
+      item: Object
+    },
+    data() {
+      return {
+        title: "订单加款审核",
+        edtDefines: [{
           title: "订单明细",
-          content: [
-            {
+          content: [{
               label: "订单号：",
               type: "text",
               disabled: "disabled",
@@ -94,13 +95,10 @@ export default {
               property: "factAmt"
             }
           ]
-        }
-      ],
-      edtDefines_item: [
-        {
+        }],
+        edtDefines_item: [{
           title: "加款信息",
-          content: [
-            {
+          content: [{
               label: "客户银行账户名：",
               type: "text",
               columns: 1,
@@ -143,33 +141,39 @@ export default {
               property: "bankRemark"
             }
           ]
+        }]
+      };
+    },
+    computed: {
+      show: {
+        get: function() {
+          return (
+            this.editState == 1 || this.editState == 9 || this.editState == 3
+          );
+        },
+        set: function(v) {
+          if (!v) this.$parent.editState = 0;
         }
-      ]
-    };
-  },
-  computed: {
-    show: {
-      get: function() {
-        return (
-          this.editState == 1 || this.editState == 9 || this.editState == 3
-        );
-      },
-      set: function(v) {
-        if (!v) this.$parent.editState = 0;
       }
-    }
-  },
-  components: {
-    TableEdits
-  },
-  methods: {
-    save() {
-      // 审核
-    }
-  },
-  mounted() {}
-};
+    },
+    components: {
+      TableEdits
+    },
+    methods: {
+      checkUpdate() {
+        // 审核
+        this.$http.post(URL_JSON['updateOrderAddNewManage'], {
+            // auditList:
+          })
+          .then(res => {
+
+          })
+      }
+    },
+    mounted() {}
+  };
 </script>
 
 <style scoped lang="scss">
+
 </style>
