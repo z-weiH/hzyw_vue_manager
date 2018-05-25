@@ -96,10 +96,6 @@
     },
     methods: {
       clearFiles() {
-<<<<<<< HEAD
-        // console.error(this.$refs)
-=======
->>>>>>> c118b851af8c94a4f0d9e22df751695bdb64d971
         Object.keys(this.$refs).forEach(key => {
           if(this.$refs[key][0].clearFiles instanceof Function)
             this.$refs[key][0].clearFiles();
