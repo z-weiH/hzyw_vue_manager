@@ -5,7 +5,7 @@
          <router-link :to='$options.name' class='aside_tit'>订单加款【审核】</router-link>
         </div>
         <searchs class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
-          <template slot='moreBtn'><el-button class='ml-20' type='primary' @click='exportFile'>导出Excel</el-button></template>
+          <template slot='moreBtn'><el-button class='ml-20' type='primary' @click='exportFile(exportUrl)'>导出Excel</el-button></template>
         </searchs>
         <div class='item-title'>
           订单加款列表
@@ -28,16 +28,19 @@
 <script type="text/ecmascript-6">
 import { URL_JSON } from "../../../components/script/url_json";
 import Mixins from "@/components/script/_mixin";
+import exportFile from "@/components/script/exportFile";
 import SettingDlg from "./modules/edit";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 export default {
   name: "orderAddNewManage",
-  extends: Mixins,
+   mixins: [Mixins, exportFile],
   data() {
     return {
       item: {},
       queryUrl:  URL_JSON["queryOrderAddNewManage"],
+      exportUrl: URL_JSON["exportOrderAddNewManage"],
+      searchItem:{},
       searchItems: [
         {
           type: "text",
@@ -89,9 +92,9 @@ export default {
         { label: "申请时间", property: "orderDate" },
         { label: "客户名称", property: "merchantName" },
         { label: "联系电话", property: "orderPhone" },
-        { label: "订单金额", property: "orderPhone" },
+        { label: "订单金额", property: "orderAmt" },
         { label: "已到账", property: "factAmt" },
-        { label: "未到账金额", property: "factAmt" }
+        { label: "未到账金额", property: "unArriveAmt" }
       ]
     };
   },
@@ -112,21 +115,6 @@ export default {
         }
       });
     },
-
-    exportFile(){
-
-      alert(123123);
-      this.$http.post(URL_JSON['exportOrderAddNewManage'],{
-        endDate: '',
-        keyWords: '',
-        keyWords: '',
-        startDate: ''
-      })
-      .then(res => {
-        console.log('123123');
-        console.info(res);
-      });
-    }
   },
   mounted() {
     this.doQuery(this.queryUrl, this.item);

@@ -104,6 +104,9 @@ export const URL_JSON = {
   //  订单加款【 审核】
   'queryOrderAddNewManage': '/order/queryOrderByCharge.htm', // 订单加款列表
   'exportOrderAddNewManage': '/order/exportExcel.htm',//导出excel
+  'updateOrderAddNewManage': '/order/auditOrderAdd.htm',//订单加款审核
+
+
 
   /* 财务管理 */
 

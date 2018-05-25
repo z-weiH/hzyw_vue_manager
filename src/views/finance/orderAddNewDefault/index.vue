@@ -103,9 +103,9 @@ export default {
         { label: "申请时间", property: "orderDate" },
         { label: "客户名称", property: "merchantName" },
         { label: "联系电话", property: "orderPhone" },
-        { label: "订单金额", property: "orderPhone" },
+        { label: "订单金额", property: "orderAmt" },
         { label: "已到账", property: "factAmt" },
-        { label: "未到账金额", property: "factAmt" }
+        { label: "未到账金额", property: "unArriveAmt" }
       ],
       editItems: [
         {
