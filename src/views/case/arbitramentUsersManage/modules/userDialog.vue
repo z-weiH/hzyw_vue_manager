@@ -115,7 +115,7 @@
                   <el-form-item  label=" " prop="img01">
                     <el-upload
                       class="upload-demo"
-                      action="/img/upload"
+                      action="/file/upload.htm"
                       :show-file-list="false"
                       :before-upload="facadeOfIDCardBefore"
                       :on-success="facadeOfIDCardSuccess"
@@ -140,7 +140,7 @@
                   <el-form-item  label=" " prop="img02">
                     <el-upload
                       class="upload-demo"
-                      action="/img/upload"
+                      action="/file/upload.htm"
                       :show-file-list="false"
                       :before-upload="backsidePhotoOfIDCardBefore"
                       :on-success="backsidePhotoOfIDCardSuccess"
@@ -214,7 +214,7 @@
                   <el-form-item  label=" " prop="img01">
                     <el-upload
                       class="upload-demo"
-                      action="/img/upload"
+                      action="/file/upload.htm"
                       :show-file-list="false"
                       :before-upload="businessLicenseBefore"
                       :on-success="businessLicenseSuccess"
@@ -430,7 +430,15 @@
         seeImg02 : false,
       }
     },
-    mounted() {},
+    mounted() {
+      // 获取 所有仲裁委
+      this.$http({
+        method : 'post',
+        url : "/arb/queryAllArbList.htm",
+      }).then((res) => {
+        this.arbOptions = res.result;
+      });
+    },
     methods : {
       show(type,data) {
         this.dialogVisible = true;
@@ -535,7 +543,7 @@
       },
       /* 营业执照 上传成功 */
       businessLicenseSuccess(response, file, fileList) {
-        this.ruleForm.img01 = response.result.imgUrl;
+        this.ruleForm.img01 = response.result;
         this.ruleForm.img01FileName = file.name;
 
         this.seeImg01 = false;
@@ -554,7 +562,7 @@
       },
       /* 身份证正面照 上传成功 */
       facadeOfIDCardSuccess(response, file, fileList) {
-        this.ruleForm.img01 = response.result.imgUrl;
+        this.ruleForm.img01 = response.result;
         this.ruleForm.img01FileName = file.name;
 
         this.seeImg01 = false;
@@ -573,7 +581,7 @@
       },
       /* 身份证背面照 上传成功 */
       backsidePhotoOfIDCardSuccess(response, file, fileList) {
-        this.ruleForm.img02 = response.result.imgUrl;
+        this.ruleForm.img02 = response.result;
         this.ruleForm.img02FileName = file.name;
 
         this.seeImg02 = false;

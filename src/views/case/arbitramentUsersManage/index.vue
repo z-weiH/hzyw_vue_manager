@@ -46,7 +46,7 @@
         </el-table-column>
         <el-table-column prop="name" label="客户名称">
           <template slot-scope="scope">
-            <el-button @click="handleDetail(scope.row)" type="text">{{scope.row.name}}</el-button>
+            <span class="fn-a" @click="handleDetail(scope.row)">{{scope.row.name}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="phone" label="手机号码"></el-table-column>
