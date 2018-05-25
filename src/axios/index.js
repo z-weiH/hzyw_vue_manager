@@ -13,6 +13,7 @@ axios.defaults.timeout = 10000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 
+// 请求拦截
 axios.interceptors.request.use((config) => {
   // 判断是否是formdata格式
   // post 请求 使用 form Data 请求方式
@@ -21,11 +22,10 @@ axios.interceptors.request.use((config) => {
   }
   return config;
 }, (error) => {
-  console.log('请求头错误参数')
   return Promise.reject(error);
 });
 
-// 请求拦截及http返回码处理
+// 响应拦截
 axios.interceptors.response.use((res) => {
   if (res.data.code != '0000') {
     Message({
@@ -34,16 +34,9 @@ axios.interceptors.response.use((res) => {
       duration: 5000,
       showClose: true
     });
-    return Promise.reject(res.data);
   }
   return res.data;
 }, (error) => {
-  console.log(error);
-  Message({
-    type: 'error',
-    message: '网络出错，请稍候再次尝试',
-    duration: 5000
-  });
   if (error.response) {
     switch (error.response.status) {
       case 400:
@@ -67,9 +60,16 @@ axios.interceptors.response.use((res) => {
           duration: 5000
         });
         break;
+      default :
+        Message({
+          type: 'error',
+          message: '网络出错，请稍候再次尝试',
+          duration: 5000
+        });
+        break;
     }
   }
-  return Promise.reject(error);
+  return error;
 });
 
 
