@@ -69,7 +69,7 @@ axios.interceptors.response.use((res) => {
         break;
     }
   }
-  return error;
+  return Promise.reject(error);
 });
 
 
