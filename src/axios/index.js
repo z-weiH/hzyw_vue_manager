@@ -17,6 +17,7 @@ axios.interceptors.request.use((config) => {
   // 判断是否是formdata格式
   // post 请求 使用 form Data 请求方式
   if (config.method === 'post' && config.mheaders !== true) {
+    console.error(config)
     config.data = qs.stringify(config.data);
   }
   return config;
