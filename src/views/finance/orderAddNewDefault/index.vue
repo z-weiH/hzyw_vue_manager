@@ -13,7 +13,7 @@
     </div>
     <div class="item-table">
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine">
-        <el-table-column label="状态" prop="orderStatus" slot="defineCol">
+        <el-table-column :resizable="false" label="状态" prop="orderStatus" slot="defineCol">
           <template slot-scope="scope">
                 <el-button
                   size="mini"
@@ -55,13 +55,13 @@ export default {
         {
           type: "date",
           placeholder: "开始时间",
-          property: "startTime",
+          property: "startDate",
           colSpan: 4
         },
         {
           type: "date",
           placeholder: "结束时间",
-          property: "endTime",
+          property: "endDate",
           colSpan: 4
         },
         {
