@@ -3,14 +3,14 @@
     <div class="dailog-container">
       <table-edits :editDefines="edtDefines" :item="item.orderVO"></table-edits>
       <table-edits v-for="(orderDetail, index) in item.orderDetailList" :key="index" :disabled="Boolean(orderDetail.orderStatus) || $parent.editState == 9" :editDefines="edtDefines_item" :item="orderDetail">
-        <table slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
+        <table v-if="orderDetail.orderStatus > 1" slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
               <tbody>
                 <tr class="table-edits">
                   <td colspan="4">审核结果</td>
                 </tr>
                 <tr class="table-edits">
                   <td colspan="1">
-                    <el-select v-model="orderDetail.resultStatus" placeholder="请选择审核状态" :disabled="editState == 9">
+                    <el-select v-model="orderDetail.resultStatus" placeholder="请选择审核状态" :disabled="orderDetail.orderStatus > 1 || editState == 9">
                       <el-option label="通过" :value="2"></el-option>
                       <el-option label="不通过" :value="3"></el-option>
                     </el-select>
@@ -19,7 +19,7 @@
                 </tr>
                 <tr class="table-edits">
                   <td colspan="4">
-                    <el-input type="textarea" v-model="orderDetail.apprerResult" placeholder="请输入审核说明" :disabled="editState == 9"></el-input>
+                    <el-input type="textarea" v-model="orderDetail.apprerResult" placeholder="请输入审核说明" :disabled="orderDetail.orderStatus > 1 || editState == 9"></el-input>
                   </td>
                 </tr>
               </tbody>
@@ -146,6 +146,91 @@ export default {
               type: "text",
               columns: 1,
               property: "bankRemark"
+            },
+            {
+              label: "加款人：",
+              type: "text",
+              columns: 1,
+              property: "operName",
+              hidden: item => {
+                //自定义orderStatus== 2,3 显示扩展字段，并且新增【加款信息】时，扩展字段是隐藏的。
+                return (
+                  (this.item.orderVO.orderStatus == 2 ||
+                    this.item.orderVO.orderStatus == 3) &&
+                  item.resultStatus
+                );
+              }
+            },
+            {
+              label: "加款时间：",
+              type: "date",
+              columns: 1,
+              property: "submitTime",
+              hidden: item => {
+                //自定义orderStatus== 2,3 显示扩展字段，并且新增【加款信息】时，扩展字段是隐藏的。
+                return (
+                  (this.item.orderVO.orderStatus == 2 ||
+                    this.item.orderVO.orderStatus == 3) &&
+                  item.resultStatus
+                );
+              }
+            },
+            {
+              label: "审批时间：",
+              type: "date",
+              columns: 1,
+              property: "apprerTime",
+
+              hidden: item => {
+                //自定义orderStatus== 2,3 显示扩展字段，并且新增【加款信息】时，扩展字段是隐藏的。
+                return (
+                  (this.item.orderVO.orderStatus == 2 ||
+                    this.item.orderVO.orderStatus == 3) &&
+                  item.resultStatus
+                );
+              }
+            },
+            {
+              label: "审核状态：",
+              type: "select",
+              columns: 1,
+              property: "resultStatus",
+              options: [
+                {
+                  label: "待复核",
+                  value: 1
+                },
+                {
+                  label: "通过",
+                  value: 2
+                },
+                {
+                  label: "未通过",
+                  value: 3
+                }
+              ],
+              hidden: item => {
+                //自定义orderStatus== 2,3 显示扩展字段，并且新增【加款信息】时，扩展字段是隐藏的。
+                return (
+                  (this.item.orderVO.orderStatus == 2 ||
+                    this.item.orderVO.orderStatus == 3) &&
+                  item.resultStatus
+                );
+              }
+            },
+            {
+              label: "审核说明：",
+              type: "textarea",
+              columns: 1,
+              property: "apprerResult",
+              hidden: item => {
+                //自定义orderStatus== 2,3 显示扩展字段，并且新增【加款信息】时，扩展字段是隐藏的。
+                return (
+                  (this.item.orderVO.orderStatus == 2 ||
+                    this.item.orderVO.orderStatus == 3) &&
+                  item.resultStatus
+                );
+              }
             }
           ]
         }

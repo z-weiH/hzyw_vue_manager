@@ -4,9 +4,9 @@
       <a>所在位置</a><a class="aside_tit" href="javascript:;">订单加款【财务人员】</a>
     </div>
     <searchs class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
-          <template slot='moreBtn'>
-            <el-button class='ml-20' type='primary' @click='exportFile(exportUrl)' >导出Excel</el-button>
-          </template>
+      <template slot='moreBtn'>
+              <el-button class='ml-20' type='primary' @click='exportFile(exportUrl)' >导出Excel</el-button>
+</template>
     </searchs>
     <div class="item-title">
       订单加款列表
@@ -14,17 +14,13 @@
     <div class="item-table">
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine">
         <el-table-column :resizable="false" label="状态" prop="orderStatus" slot="defineCol">
-          <template slot-scope="scope">
-                <el-button
-                  size="mini"
-                  @click="showDialog(scope.row,1)" v-if="scope.row.orderStatus == 0">待提交</el-button>
-                <el-button size="mini"
-                  @click="showDialog(scope.row,1)" v-if="scope.row.orderStatus == 1">待复核</el-button>
-                <el-button
-                  size="mini"
-                  @click="showDialog(scope.row,1)" v-if="scope.row.orderStatus == 2">已加款</el-button>
-                <span v-if="scope.row.orderStatus == 3">未通过</span>
-          </template>
+<template slot-scope="scope">
+  <el-button size="mini" @click="showDialog(scope.row,1)" v-if="scope.row.orderStatus == 0">
+    待提交</el-button>
+  <span v-if="scope.row.orderStatus == 1">待复核</span>
+  <el-button size="mini" @click="showDialog(scope.row,1)" v-if="scope.row.orderStatus == 2">已加款</el-button>
+  <el-button size="mini" @click="showDialog(scope.row,1)" v-if="scope.row.orderStatus == 3">未通过</el-button>
+</template>
         </el-table-column>
       </table-component>
     </div>
@@ -100,12 +96,30 @@ export default {
             this.showDialog(el, 9);
           }
         },
-        { label: "申请时间", property: "orderDate" },
-        { label: "客户名称", property: "merchantName" },
-        { label: "联系电话", property: "orderPhone" },
-        { label: "订单金额", property: "orderAmt" },
-        { label: "已到账", property: "factAmt" },
-        { label: "未到账金额", property: "unArriveAmt" }
+        {
+          label: "申请时间",
+          property: "orderDate"
+        },
+        {
+          label: "客户名称",
+          property: "merchantName"
+        },
+        {
+          label: "联系电话",
+          property: "orderPhone"
+        },
+        {
+          label: "订单金额",
+          property: "orderAmt"
+        },
+        {
+          label: "已到账",
+          property: "factAmt"
+        },
+        {
+          label: "未到账金额",
+          property: "unArriveAmt"
+        }
       ],
       editItems: [
         {
@@ -130,7 +144,7 @@ export default {
           console.log("type::", type);
         }
       });
-    },
+    }
   },
   components: {
     Searchs,
