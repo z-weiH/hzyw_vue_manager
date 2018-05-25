@@ -68,17 +68,13 @@ export default {
     async showConfirm(msg) {
       let promise = new Promise((resolve, reject) => {
         this.$confirm(msg ? msg : '是否确认删除？', '提示', {
-          cancelButtonText: '确定',
-          confirmButtonText: '取消',
-          cancelButtonClass: 'cancel',
-          confirmButtonClass: 'confirm',
           center: true,
         }).then(res => {
           //点取消
-          resolve(false)
+          resolve(true)
         }).catch(err => {
           //点确定
-          resolve(true)
+          resolve(false)
         })
       });
       return promise;

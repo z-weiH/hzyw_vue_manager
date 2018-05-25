@@ -39,7 +39,7 @@
         searchItem: {},
         queryUrl: URL_JSON['queryNewsDynamicState'],
         columnDefine: [
-          {label: '新闻标题', property: 'newsTitle'},
+          {label: '新闻标题', property: 'newsTitle',isLink: true, linkShowPanel: this.doView},
           {label: '新闻类型', type: 'select', property: 'newsType', options: [
               // 1签约 2活动 3行业资讯
               {label:'签约', value: 1},
@@ -83,6 +83,14 @@
           return true;
         else
           return false;
+      },
+      doView(row) {
+        this.$http.post(URL_JSON['editNewsDynamicState'],{newsId: row.newsId})
+          .then(res => {
+            this.item = res.result;
+            this.editState = 9;
+            this.$refs.edit.$refs.tinymce.setContent(res.result.newsDetail);
+          })
       },
       create() {
         this.item = {newsDetail: '',newsImg: ''};
