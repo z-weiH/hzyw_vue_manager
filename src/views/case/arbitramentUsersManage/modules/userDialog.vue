@@ -203,7 +203,7 @@
                 <td colspan="1">社会唯一信用代码：</td>
                 <td colspan="1">
                   <el-form-item label=" " prop="idcard">
-                    <el-input placeholder="请输入案件仲券" v-model="ruleForm.idcard"></el-input>
+                    <el-input placeholder="请输入信用代码" v-model="ruleForm.idcard"></el-input>
                   </el-form-item>
                 </td>
               </tr>
