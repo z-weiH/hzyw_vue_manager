@@ -6,7 +6,7 @@
       :title="title"
       width="868px"
       center>
-      <table-edits :editDefines="editDefines" :item="item"></table-edits>
+      <table-edits :editDefines="editDefines" :item.sync="item"></table-edits>
       <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="save" >{{action}}</el-button>
           <el-button @click="$parent.editState = 0">取 消</el-button>
@@ -46,16 +46,16 @@
     methods: {
       save() {
           // console.error(this.item);
-        if(this.editState == 2){
-          console.error(this.item);
-          return
-        }
         this.$http.post(URL_JSON['saveCustomerCase'],this.item)
           .then(res => {
           if(res.code == '0000'){
             console.log(res);
-            if(this.editState == 2){
-
+            if(this.$parent.editState == 2){
+              // this.$parent.tableData.unshift(Object.assign(this.item, res.result));
+              // this.$message.success('新增成功');
+              this.$parent.editState = 0;
+              this.$message.success('修改成功');
+              this.$parent.doQuery(this.$parent.queryUrl, this.$parent.searchItem);
             }else{
               console.log(this.$parent);
               let currentItem = this.$parent.tableData.find(it => it.custId == this.item.custId);
@@ -63,8 +63,11 @@
                 currentItem[key] = this.item[key];
               });
               this.$parent.editState = 0;
-
+              this.$message.success('修改成功');
             }
+          }
+          else{
+            this.$message.error(res.description);
           }
         })
       }

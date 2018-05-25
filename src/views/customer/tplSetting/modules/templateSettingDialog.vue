@@ -43,7 +43,7 @@
         console.log(data,'富文本 dialog data');
         this.$http({
           method : 'post',
-          url : 'tplsetting/getTemplateTextByDetailIdAndType.htm',
+          url : '/tplsetting/getTemplateTextByDetailIdAndType.htm',
           data : {
             productId : data.productId,
             templateId : data.templateId,

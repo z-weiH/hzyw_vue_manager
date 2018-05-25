@@ -13,6 +13,7 @@
         </el-option>
       </el-select>
       <el-date-picker
+        value-format="yyyy-MM-dd"
         v-if="searchItem.type == 'date' "
         v-model="trueVal"
         type="date"

@@ -3,7 +3,7 @@
   <div class="search">
     <el-row :gutter="10">
       <div v-for="(search, index) in searchItems" :key="index">
-        <search-item  v-bind:value="item[search.property]" v-bind:search-item="search" @valueChange="valueChange"></search-item>
+        <search-item v-bind:value="item[search.property]" v-bind:search-item="search" @valueChange="valueChange"></search-item>
       </div>
 
       <el-button class="fl" type="warning" @click="btnClickHandle">查询</el-button>
