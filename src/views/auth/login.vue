@@ -83,10 +83,16 @@
 				this.$refs.ruleForm.validate((valid) => {
 					if (valid) {
 						this.ruleForm.isAccountNumber === true && localStorage.setItem('loginName',this.ruleForm.loginName);
-						this.$message.success('登录成功');
-						setTimeout(() => {
-							this.$router.push('/main');
-						},0);
+						this.$http.post('logindo.htm',{loginName: this.ruleForm.loginName, passWord: this.ruleForm.passWord})
+              .then(res => {
+                if(res.code == '0000'){
+                  localStorage.setItem('loginInfo', JSON.stringify(res.result.loginInfoVO))
+                  this.$message.success('登录成功');
+                  setTimeout(() => {
+                    this.$router.push('/main');
+                  },0);
+                }
+              })
           }
 				});
 			},

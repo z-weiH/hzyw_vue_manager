@@ -1,7 +1,7 @@
 <template>
   <div>
 
-      <searchs class="item-search" :search-items="searchItems" :item="searchItem" >
+      <searchs class="item-search" :search-items="searchItems" :item="searchItem" :queryUrl="queryUrl">
         <div class="fr" slot="moreBtn">
           <el-button type="primary" @click="create">新增用户</el-button>
         </div>
@@ -63,7 +63,7 @@
         deleteConfirm : false,
         deleteItem : {},
         roleList: [],
-        queryUrl: '/2/user/queryUserList.htm'
+        queryUrl: '/user/queryUserList.htm'
       }
     },
     components : {
@@ -79,7 +79,7 @@
         this.editState = 2;
       },
       editInfo (row) {
-        this.edit( URL_JSON['editUserControl'],{userId: row.userId})
+        this.$http.post( URL_JSON['editUserControl'],{userId: row.userId})
           .then(res => {
             if(res.code){
               this.editItem = res.result;
@@ -94,7 +94,10 @@
       delete (row) {
         this.showConfirm().then(res => {
           if(res){
-            console.log('删除')
+            this.$http.post(URL_JSON['deleteUserControl'],{userId: row.userId})
+              .then(r=> {
+
+              })
           }
         })
       }

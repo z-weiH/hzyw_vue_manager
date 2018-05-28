@@ -2,9 +2,56 @@
   <el-dialog
     :visible.sync="show"
     :title="title"
-    width="495px"
+    width="685px"
     center>
-    <edits :edit-items="createItems" :item="item" :label-width="'90px'"></edits>
+    <el-form ref="ruleForm" :model="item" >
+      <!-- 加款信息 -->
+      <table
+        class="m-primordial-table
+              el-table el-table--fit el-table--border
+              el-table--enable-row-hover"
+      >
+          <tr>
+            <td colspan="1">角色编码：</td>
+            <td colspan="1">
+              <el-form-item label=" " prop="roleCode">
+                <el-input v-model="item.roleCode" placeholder="请输入角色编码" />
+              </el-form-item>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="1">角色名称：</td>
+            <td colspan="1">
+              <el-form-item label=" " prop="roleName">
+                <el-input v-model="item.roleName" placeholder="请输入角色名称" />
+              </el-form-item>
+            </td>
+          </tr>
+
+          <tr>
+            <td colspan="1">
+              选择菜单：
+            </td>
+            <td colspan="1">
+              <el-tree
+                :data="treeList"
+                show-checkbox
+                node-key="id"
+                ref="tree"
+                :props="defaultProps">
+              </el-tree>
+            </td>
+          </tr>
+        <tr>
+          <td colspan="1">otherInfo：</td>
+          <td colspan="1">
+            <el-form-item label=" " prop="contractNo">
+              <el-input type="textarea" v-model="item.otherInfo" placeholder="请输入其它信息" />
+            </el-form-item>
+          </td>
+        </tr>
+      </table>
+    </el-form>
     <span slot="footer" class="dialog-footer">
           <el-button @click="$parent.editState = 0">取 消</el-button>
           <el-button type="primary" @click="save">确 定</el-button>
@@ -19,15 +66,15 @@
     name: 'createRole',
     props: {
       item: Object,
-      editState: Number
+      editState: Number,
     },
     data () {
       return {
-        createItems: [
-          {type: 'text', property:'roleCode', label: '角色编码', placeholder: '输入角色编码'},
-          {type: 'text', property:'roleName', label: '角色名称', placeholder: '输入角色名称'},
-          {type: 'textarea', property:'otherInfo', label: '其它信息', placeholder: '输入其他信息'},
-        ]
+        defaultProps: {
+          label: 'name'
+        },
+        treeList: [],
+        list: []
       }
     },
     methods: {
@@ -36,10 +83,8 @@
           .then(res => {
             this.$message.success(res.description);
             if(res.code == '0000'){
-              if(this.editState == 2){
-                this.$parent.doQuery(this.$parent.queryUrl, this.$parent.searchItem)
-              }
               this.$parent.editState = 0;
+              this.$parent.doQuery(this.$parent.queryUrl, this.$parent.searchItem)
 
             }
           })
@@ -59,8 +104,47 @@
         }
       }
     },
+    watch: {
+      list () {
+        this.initList();
+      }
+    },
+    methods: {
+      initList () {
+        this.treeList = this.list.filter(it => it.pId == '0');
+        this.treeList.forEach(it => {
+          this.getChildren(it);
+        })
+        console.log(this.treeList)
+      },
+      getChildren(obj){
+        obj.children = this.list.filter(it => it.pId == obj.id);
+        obj.children.forEach(i => {
+          this.getChildren(i)
+        })
+      },
+      save() {
+        this.item.menus = this.$refs['tree'].getCheckedKeys().join(',');
+        this.$http.post(URL_JSON['saveRoleManage'],this.item)
+          .then(res => {
+            this.$message.success(res.description);
+            if(res.code == '0000'){
+              this.$parent.editState = 0;
+              this.$emit('refresh');
+            }
+          })
+      }
+    },
     components: {
       Edits
+    },
+    created() {
+          this.$http.post( URL_JSON['treeRoleManage'],null,{headers:{token: JSON.parse(localStorage.getItem('loginInfo')).token}})
+            .then(r=> {
+              if(r.code == '0000'){
+                this.list = r.result;
+              }
+            })
     }
   }
 </script>
