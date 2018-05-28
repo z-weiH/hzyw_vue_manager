@@ -25,17 +25,21 @@
     name: 'updatePwd',
     props: {
       item: Object,
-      editState: Number
+      editState: Number,
+      disabled: Boolean,
+      consultId: Number,
     },
     data () {
       return {
         editDefines:  [{
           content: [
-            {label: '姓名：', type: 'text', placeholder: '请输入姓名',columns:2,property: 'name'},
-            {label: '姓名：', type: 'text', placeholder: '请输入姓名',columns:2,property: 'name'},
-            {label: '姓名：', type: 'text', placeholder: '请输入姓名',columns:2,property: 'name'},
-            {label: '姓名：', type: 'text', placeholder: '请输入姓名',columns:2,property: 'name'},
-            {label: '姓名：', type: 'text', placeholder: '请输入姓名',columns:2,property: 'name'},
+            {label: '姓名：', type: 'text', placeholder: '请输入姓名',columns:2,property: 'name', disabled : true},
+            {label: '手机：', type: 'text', placeholder: '请输入手机',columns:2,property: 'phone', disabled : true},
+            {label: '邮箱：', type: 'text', placeholder: '请输入邮箱',columns:2,property: 'email', disabled : true},
+            {label: '公司名称：', type: 'text', placeholder: '请输入公司名称',columns:2,property: 'company', disabled : true},
+            {label: '职位：', type: 'text', placeholder: '请输入职位',columns:2,property: 'position', disabled : true},
+            {label: '留言：', type: 'text', placeholder: '请输入留言',columns:2,property: 'message' , disabled : true},
+            {label: '处理结果：', type: 'text', placeholder: '请输入处理结果',columns:2,property: 'result',disabled : this.disabled},
          ]
         }]
       }
@@ -43,7 +47,7 @@
     methods: {
       save() {
         // console.error(this.item);
-        this.item.newsDetail = this.$refs.tinymce.getContent();
+        /* this.item.newsDetail = this.$refs.tinymce.getContent();
         this.$http.post(URL_JSON['saveNewsDynamicState'],this.item)
           .then(res => {
             if(res.code == '0000'){
@@ -67,12 +71,24 @@
             else{
               this.$message.error(res.description);
             }
-          })
+          }) */
+          this.$http({
+            method : 'post',
+            url : '/consult/updateConsultByConsultId.htm',
+            data : {
+              consultId : this.consultId,
+              result : this.item.result,
+            },
+          }).then((res) => {
+            this.$message.success('处理成功');
+            this.$parent.editState = 0,
+            this.$parent.doQuery(this.$parent.queryUrl,this.$parent.searchItem);
+          });
       }
     },
     computed: {
       action() {
-        return this.editState == 2 ? '新 增' : '修 改'
+        return this.editState == 2 ? '新 增' : '处 理'
       },
       title() {
         return this.editState == 2 ? '新增新闻' : this.editState == 1 ? '修改新闻' : '新闻详情'

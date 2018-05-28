@@ -6,9 +6,20 @@
       咨询管理
     </div>
     <div class="item-table">
-      <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine"></table-component>
+      <table-component :disabled="disabled" :pager="pager" :table-data="tableData" :column-define="columnDefine">
+        <el-table-column :resizable="false" label="操作" prop="processed" slot="defineCol">
+            <template slot-scope="scope">
+              <template v-if="scope.row.processed === 0">
+                <el-button @click="handleEdit(scope.row)" type="text">未处理</el-button>
+              </template>
+              <template v-else>
+                已处理
+              </template>
+            </template>
+        </el-table-column>
+      </table-component>
     </div>
-    <advisory-edit :editState="editState" :item="item"></advisory-edit>
+    <advisory-edit :consultId="consultId" :editState="editState" :item="item"></advisory-edit>
   </div>
 </template>
 
@@ -23,6 +34,8 @@
     extends: Mixins,
     data() {
       return {
+        disabled : false,
+        consultId : 1,
         searchItems: [
           {placeholder: '姓名、手机号', colSpan: 7, property: 'keyWords'},
           {placeholder: '起始时间', colSpan: 4, property: 'startTime',type: 'date',limit: this.limit1},
@@ -69,8 +82,18 @@
         this.$http.post(URL_JSON['editAdvisoryManage'],{consultId: row.consultId})
           .then(res => {
             this.item = res.result;
+            this.disabled = true;
             this.editState = 9;
           })
+      },
+      handleEdit(row) {
+        this.$http.post(URL_JSON['editAdvisoryManage'],{consultId: row.consultId})
+        .then(res => {
+          this.item = res.result;
+          this.disabled = false;
+          this.editState = 1;
+          this.consultId = row.consultId;
+        })
       },
     },
     components: {
