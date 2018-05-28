@@ -12,7 +12,7 @@ import router from '../router'
 axios.defaults.timeout = 10000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-
+ 
 // 请求拦截
 axios.interceptors.request.use((config) => {
   // 判断是否是formdata格式
