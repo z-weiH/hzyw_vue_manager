@@ -32,11 +32,14 @@
           <el-form-item label="上传证据：" prop="eviFileurl">
             <el-upload
               class="upload-demo"
-              action="/img/upload"
+              action="/file/upload.htm"
               :show-file-list="false"
               :before-upload="evidenceBefore"
               :on-success="evidenceSuccess"
               :on-error="fileError"
+              :data="{
+                path : 'case/evidence'
+              }"
             >
               <el-button size="mini" icon='el-icon-upload'>
                 上传证据
@@ -140,7 +143,7 @@
       },
       /* 上传证据 上传成功 */
       evidenceSuccess(response, file, fileList) {
-        this.ruleForm.eviFileurl = response.result.imgUrl;
+        this.ruleForm.eviFileurl = response.result;
         this.ruleForm.evidence = file.name;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('eviFileurl');

@@ -93,6 +93,13 @@
               disabled: "disabled",
               columns: 1,
               property: "factAmt"
+            },
+            {
+              label: "订单状态：",
+              type: "select",
+              disabled: "disabled",
+              columns: 1,
+              property: "orderStatus"
             }
           ]
         }],
@@ -130,7 +137,7 @@
             },
             {
               label: "到款时间：",
-              type: "text",
+              type: "date",
               columns: 1,
               property: "payTime"
             },
@@ -139,6 +146,44 @@
               type: "text",
               columns: 1,
               property: "bankRemark"
+            },
+            {
+              label: "加款人：",
+              type: "text",
+              columns: 1,
+              property: "operName"
+            },
+            {
+              label: "审核状态：",
+              type: "select",
+              columns: 1,
+              options:[
+                {
+                  label: "待复核",
+                  value: 1
+                },
+                {
+                  label: "通过",
+                  value: 2
+                },
+                {
+                  label: "未通过",
+                  value: 3
+                }
+              ],
+              property: "resultStatus"
+            },
+            {
+              label: "审核说明：",
+              type: "textarea",
+              columns: 1,
+              property: "apprerResult"
+            },
+            {
+              label: "加款时间：",
+              type: "date",
+              columns: 1,
+              property: "submitTime"
             }
           ]
         }]

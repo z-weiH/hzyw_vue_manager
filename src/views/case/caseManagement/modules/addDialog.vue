@@ -118,7 +118,7 @@
                 <td colspan="1">社会唯一信用代码：</td>
                 <td colspan="1">
                   <el-form-item label=" " prop="idcard">
-                    <el-input placeholder="请输入案件仲券" v-model="ruleForm.idcard"></el-input>
+                    <el-input placeholder="请输入信用代码" v-model="ruleForm.idcard"></el-input>
                   </el-form-item>
                 </td>
               </tr>
@@ -129,7 +129,7 @@
                   <el-form-item  label=" " prop="img01">
                     <el-upload
                       class="upload-demo"
-                      action="/img/upload"
+                      action="/file/upload.htm"
                       :show-file-list="false"
                       :before-upload="businessLicenseBefore"
                       :on-success="businessLicenseSuccess"
@@ -262,7 +262,7 @@
                   <el-form-item  label=" " prop="img01">
                     <el-upload
                       class="upload-demo"
-                      action="/img/upload"
+                      action="/file/upload.htm"
                       :show-file-list="false"
                       :before-upload="facadeOfIDCardBefore"
                       :on-success="facadeOfIDCardSuccess"
@@ -283,7 +283,7 @@
                   <el-form-item  label=" " prop="img02">
                     <el-upload
                       class="upload-demo"
-                      action="/img/upload"
+                      action="/file/upload.htm"
                       :show-file-list="false"
                       :before-upload="backsidePhotoOfIDCardBefore"
                       :on-success="backsidePhotoOfIDCardSuccess"
@@ -593,19 +593,29 @@
           if(valid) {
             let formData = new FormData();
             let form = {...this.ruleForm};
-            form.evidences = JSON.stringify(form.evidences);
+            form.evidences = JSON.stringify(form.evidences.map((v,k) => {
+              v.sortNum = k + 1;
+              return v;
+            }));
             for(let key in form) {
               formData.append(key,form[key]);
             }
+            let loading = this.$loading({
+              text : '提交中',
+              lock : true,
+            });
             this.$http({
               method : 'post',
               url : '/casemanage/saveCase.htm',
               data : formData,
               mheaders : true,
             }).then((res) => {
+              loading.close();
               this.$message.success('新增成功');
               this.handleClose();
               this.$emit('upload');
+            },(err) => {
+              loading.close();
             });
           }
         });
@@ -624,7 +634,7 @@
       },
       /* 营业执照 上传成功 */
       businessLicenseSuccess(response, file, fileList) {
-        this.ruleForm.img01 = response.result.imgUrl; 
+        this.ruleForm.img01 = response.result; 
         this.ruleForm.img01FileName = file.name;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('img01');
@@ -641,7 +651,7 @@
       },
       /* 身份证正面照 上传成功 */
       facadeOfIDCardSuccess(response, file, fileList) {
-        this.ruleForm.img01 = response.result.imgUrl;
+        this.ruleForm.img01 = response.result;
         this.ruleForm.img01FileName = file.name;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('img01');
@@ -658,7 +668,7 @@
       },
       /* 身份证背面照 上传成功 */
       backsidePhotoOfIDCardSuccess(response, file, fileList) {
-        this.ruleForm.img02 = response.result.imgUrl;
+        this.ruleForm.img02 = response.result;
         this.ruleForm.img02FileName = file.name;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('img02');

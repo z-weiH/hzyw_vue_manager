@@ -9,7 +9,7 @@
       </tr>
       <tr class="table-edits" v-for="cnt in def.content" >
         <template v-for="td in cnt" >
-          <template v-if="!td.hidden || td.hidden()">
+          <template v-if="!td.hidden || td.hidden(item)">
           <td colspan="1" v-if="td.type != 'info' && td.type != 'img'">{{td.label}}</td>
           <td :colspan="td.columns == 2 ? 3 : 1" v-if="td.type != 'info' && td.type != 'img'">
             <el-date-picker value-format='yyyy-MM-dd' v-if="td.type == 'date'" v-model="item[td.property]" type="date" :placeholder="td.placeholder"  :disabled="disabled || td.disabled" :readonly="td.readonly">

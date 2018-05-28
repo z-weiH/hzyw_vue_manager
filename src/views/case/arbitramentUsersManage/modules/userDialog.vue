@@ -180,8 +180,8 @@
               <tr>
                 <td colspan="1">其他信息：</td>
                   <td colspan="3">
-                  <el-form-item label=" " prop="remark">
-                    <el-input :autosize="{ minRows: 3}" type="textarea" placeholder="请输入其他信息" v-model="ruleForm.remark"></el-input>
+                  <el-form-item key="1" label=" " prop="remark">
+                    <el-input :autosize="{ minRows: 3 , maxRows : 3}" type="textarea" placeholder="请输入其他信息" v-model="ruleForm.remark"></el-input>
                   </el-form-item>
                 </td>
               </tr>
@@ -203,7 +203,7 @@
                 <td colspan="1">社会唯一信用代码：</td>
                 <td colspan="1">
                   <el-form-item label=" " prop="idcard">
-                    <el-input placeholder="请输入案件仲券" v-model="ruleForm.idcard"></el-input>
+                    <el-input placeholder="请输入信用代码" v-model="ruleForm.idcard"></el-input>
                   </el-form-item>
                 </td>
               </tr>
@@ -284,8 +284,8 @@
               <tr>
                 <td colspan="1">其他信息：</td>
                   <td colspan="3">
-                  <el-form-item label=" " prop="remark">
-                    <el-input :autosize="{ minRows: 3}" type="textarea" placeholder="请输入其他信息" v-model="ruleForm.remark"></el-input>
+                  <el-form-item key="2" label=" " prop="remark">
+                    <el-input :autosize="{ minRows: 3 , maxRows : 3}" type="textarea" placeholder="请输入其他信息" v-model="ruleForm.remark"></el-input>
                   </el-form-item>
                 </td>
               </tr>
@@ -523,7 +523,7 @@
             }).then((res) => {
               let message = this.type === 'add' ? '新增成功' : '修改成功';
               this.$message.success(message);
-
+              this.handleClose();
               this.$emit('successCBK');
             });
           }

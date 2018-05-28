@@ -51,13 +51,13 @@ export default {
         {
           type: "date",
           placeholder: "开始时间",
-          property: "startTime",
+          property: "startDate",
           colSpan: 4
         },
         {
           type: "date",
           placeholder: "结束时间",
-          property: "endTime",
+          property: "endDate",
           colSpan: 4
         },
         {
