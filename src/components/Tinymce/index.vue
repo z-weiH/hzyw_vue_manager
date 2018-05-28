@@ -92,7 +92,7 @@ export default {
           let fd = new FormData();
           fd.append('file',blobInfo.blob());
           fd.append('path',this.path);
-          this.$http.post('/file//upload.htm',fd,{mheaders: true,header: {'Content-Type': 'multipart/form-data'}})
+          this.$http.post('/file/upload.htm',fd,{mheaders: true,header: {'Content-Type': 'multipart/form-data'}})
             .then(res => {
               if(res.code == '0000'){
                 success(res.result);
