@@ -7,6 +7,20 @@
           <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入参数"></el-input>
         </el-form-item>
 
+        <el-form-item label=" " prop="busiCode">
+          <el-select clearable v-model="ruleForm.busiCode" placeholder="请选择业务">
+            <el-option label="请选择业务编码" value=""></el-option>
+            <template v-for="(item) in busiCodeOptions">
+              <el-option 
+                :key="item.busiCode" 
+                :label="item.busiCode" 
+                :value="item.busiCode"
+              >
+              </el-option>
+            </template>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label=" " prop="isProcessed">
           <el-select clearable v-model="ruleForm.isProcessed" placeholder="处理状态">
             <el-option label="请选择" value=""></el-option>
@@ -94,8 +108,15 @@
           isProcessed : '',
           // 参数
           keyWords : '',
+          // 业务编码
+          busiCode : '',
         },
 
+        // 业务编码 options
+        busiCodeOptions : [
+          {busiCode : '业务1' , busiCode : '业务1'},
+          {busiCode : '业务2' , busiCode : '业务2'}
+        ],
         // 处理状态 options
         processingStateOptions : [
           {label : '待处理' , value : '0'},
@@ -115,6 +136,13 @@
     },
     mounted() {
       this.initTableList();
+      // 获取业务编码
+      this.$http({
+        method : 'post',
+        url : '/order/queryByBusiCode.htm',
+      }).then((res) => {
+        this.busiCodeOptions = res.result;
+      });
     },
     methods : {
       // 点击搜索
@@ -160,6 +188,7 @@
             currentNum : this.currentPage,
             keyWords : this.ruleForm.keyWords,
             isProcessed : this.ruleForm.isProcessed,
+            busiCode : this.ruleForm.busiCode,
           },
         }).then((res) => {
           this.total = res.result.count;

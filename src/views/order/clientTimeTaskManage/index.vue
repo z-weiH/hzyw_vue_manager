@@ -139,9 +139,9 @@
       // 获取业务编码
       this.$http({
         method : 'post',
-        url : '/order/queryByBusiCode.htm',
+        url : '/orderThird/queryByBusiCode.htm',
       }).then((res) => {
-        //this.busiCodeOptions = res.result;
+        this.busiCodeOptions = res.result;
       });
     },
     methods : {
@@ -182,7 +182,7 @@
       initTableList() {
         this.$http({
           method : 'post',
-          url : '/order/queryTaskerInfoByBaseQuery.htm',
+          url : '/orderThird/queryThirdTaskerInfoByBaseQuery.htm',
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
