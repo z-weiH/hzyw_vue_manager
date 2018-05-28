@@ -6,7 +6,7 @@
         <router-link :to='$options.name' class='aside_tit'>发送记录</router-link>
       </div>
       <searchs class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
-        <template slot='moreBtn'><el-button class='ml-20' type='primary' @click=''>导出Excel</el-button></template>
+        <template slot='moreBtn'><el-button class='ml-20' type='primary' @click='exportFile(exportUrl)'>导出Excel</el-button></template>
       </searchs>
 <div class='item-title'>
   发送记录列表
@@ -19,6 +19,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+import { URL_JSON } from "../../../components/script/url_json";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
@@ -28,7 +29,7 @@ export default {
   data() {
     return {
       item: {},
-      queryUrl: "/14/send/querySmsSendByBaseQuery.htm",
+      queryUrl: URL_JSON['queryEsmqLogView'],///14/send/querySmsSendByBaseQuery.htm
       tableData: [{}],
       searchItems: [
         {
@@ -66,7 +67,8 @@ export default {
           property: "respondents"
         },{
           label: "发送手机号",
-          property: "sendPhone"
+          property: "sendPhone",
+          width: "130"
         },{
           label: "发送时间",
           property: "sendTimeDate"

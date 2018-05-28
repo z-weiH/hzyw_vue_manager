@@ -18,6 +18,7 @@
 </div>
 </template>
 <script type="text/ecmascript-6">
+import { URL_JSON } from "../../../components/script/url_json";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
@@ -27,7 +28,7 @@ export default {
   data() {
     return {
       item: {},
-      queryUrl: "/14/receive/querySmsReceiveByBaseQuery.htm",
+      queryUrl: URL_JSON["queryReceiveLog"],///14/receive/querySmsReceiveByBaseQuery.htm
       tableData: [{}],
       searchItems: [
         {
@@ -57,7 +58,8 @@ export default {
           property: "respondents"
         },{
           label: "疑似案件编号",
-          property: "case_num"
+          property: "case_num",
+          width:"130"
         },{
           label: "互金企业",
           property: "platName"

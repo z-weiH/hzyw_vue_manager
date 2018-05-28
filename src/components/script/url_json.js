@@ -110,4 +110,12 @@ export const URL_JSON = {
 
   /* 财务管理 */
 
+  /* 短信记录 */
+  'queryEsmqLogView': '/send/querySmsSendByBaseQuery.htm', //发送记录
+  'queryReceiveLog': '/receive/querySmsReceiveByBaseQuery.htm', //接收记录
+
+
+
+  /* 短信记录 */
+
 }
