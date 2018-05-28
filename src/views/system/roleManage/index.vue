@@ -13,8 +13,8 @@
     <div class="item-table">
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
     </div>
-    <role-create :item="item" :edit-state="editState"></role-create>
-    <role-permission :edit-state="editState" :list="list" ref="permission" :item="item"></role-permission>
+    <role-create ref="create" :item="item"  :edit-state="editState" @refresh="doQuery(queryUrl,searchItem)"></role-create>
+    <!--<role-permission :edit-state="editState" :list="list" ref="permission" :item="item"></role-permission>-->
   </div>
 </template>
 
@@ -41,10 +41,6 @@
           {label: '创建时间',property: 'createTime',width: 180},
         ],
         actions: [
-          {label: '菜单权限',btns: [
-              {label:'菜单管理', function: this.menuManager},
-            ]
-          },
           {label: '操作',btns: [
               {label:'修改', function: this.doEdit},
               {label:'删除', function: this.doDelete},
@@ -53,7 +49,6 @@
         ],
         editState: 0, // 4 编辑权限
         queryUrl:  URL_JSON['queryRoleManage'],
-        list: [], //权限数列表,
         item: {}
       }
     },
@@ -62,13 +57,16 @@
         this.$http.post(URL_JSON['editRoleManage'],{roleId: row.roleId})
           .then(res => {
             this.item = res.result;
-            this.$refs['permission'].$refs['tree'].setCheckedKeys(res.result.menus.split(','));
             this.editState = 4;
+
           })
       },
       create () {
-        this.editItem = {};
+        this.item = {};
         this.editState = 2;
+        setTimeout(() => {
+          this.$refs['create'].$refs['tree'].setCheckedKeys([]);
+        },100)
       },
       doEdit (row) {
         console.log(row);
@@ -76,14 +74,21 @@
           .then(res =>{
             this.item = res.result;
             this.editState = 1;
+            setTimeout(() => {
+              let items= []
+              res.result.menus && (items=res.result.menus.split(','));
+              this.$refs['create'].$refs['tree'].setCheckedKeys(items);
+            },100)
           })
       },
       doDelete (row) {
         this.showConfirm().then(confirm => {
           if(confirm){
-            this.$http.post(URL_JSON['deleteRoleManage'],{userId: row.userId}).then(res=> {
+            this.$http.post(URL_JSON['deleteRoleManage'],{roleId: row.roleId}).then(res=> {
               if(res.code){
-                this.tableData.splice(this.tableData.findIndex(it => it == row),1);
+                // this.tableData.splice(this.tableData.findIndex(it => it == row),1);
+                // this.pager.count--;
+                this.doQuery(this.queryUrl, this.searchItem);
               }
             })
           }
@@ -103,19 +108,7 @@
     },
     created () {
       this.doQuery(this.queryUrl, this.searchItem);
-      this.$http.post('logindo.htm',{loginName: '13200000004',passWord: '123456'}).then(res => {
-        if(res.code == '0000'){
-          console.log(res);
-          this.$http.post( URL_JSON['treeRoleManage'],null,{headers:{token: res.result.loginInfoVO.token}})
-            .then(res=> {
-              res=Mock.mock(res)
-              if(res.code){
-                this.list = res.result;
 
-              }
-            })
-        }
-      })
     }
   }
 </script>

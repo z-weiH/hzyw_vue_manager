@@ -1,5 +1,5 @@
 <template>
-  <div class="arbitrament-time-task-manage fn-hide">
+  <div class="arbitrament-time-task-manage">
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
@@ -7,8 +7,22 @@
           <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入参数"></el-input>
         </el-form-item>
 
+        <el-form-item label=" " prop="busiCode">
+          <el-select clearable v-model="ruleForm.busiCode" placeholder="请选择业务">
+            <el-option label="请选择业务编码" value=""></el-option>
+            <template v-for="(item) in busiCodeOptions">
+              <el-option 
+                :key="item.busiCode" 
+                :label="item.busiCode" 
+                :value="item.busiCode"
+              >
+              </el-option>
+            </template>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label=" " prop="isProcessed">
-          <el-select v-model="ruleForm.isProcessed" placeholder="处理状态">
+          <el-select clearable v-model="ruleForm.isProcessed" placeholder="处理状态">
             <el-option label="请选择" value=""></el-option>
             <template v-for="(item) in processingStateOptions">
               <el-option 
@@ -42,12 +56,13 @@
           </template>
         </el-table-column>
         <el-table-column prop="busiCode" label="业务编码"></el-table-column>
-        <el-table-column prop="params" label="参数"></el-table-column>
+        <el-table-column prop="params" label="参数" width="280px"></el-table-column>
         <el-table-column label="处理状态">
           <template slot-scope="scope">
             {{
-              scope.isProcessed === 0 ? '待处理':
-              scope.isProcessed === 2 ? '处理失败': '处理中'
+              scope.row.isProcessed === 0 ? '待处理':
+              scope.row.isProcessed === 2 ? '处理失败': 
+              scope.row.isProcessed === 3 ? '处理中' : '处理成功'
             }}
           </template>
         </el-table-column>
@@ -58,7 +73,7 @@
             <template v-if="scope.row.isProcessed === 0 || scope.row.isProcessed === 2">
               <el-button @click="handleReset(scope.row)" type="text">重发</el-button>
             </template>
-            <template>
+            <template v-else>
               --
             </template>
           </template>
@@ -93,8 +108,15 @@
           isProcessed : '',
           // 参数
           keyWords : '',
+          // 业务编码
+          busiCode : '',
         },
 
+        // 业务编码 options
+        busiCodeOptions : [
+          {busiCode : '业务1' , busiCode : '业务1'},
+          {busiCode : '业务2' , busiCode : '业务2'}
+        ],
         // 处理状态 options
         processingStateOptions : [
           {label : '待处理' , value : '0'},
@@ -114,6 +136,13 @@
     },
     mounted() {
       this.initTableList();
+      // 获取业务编码
+      this.$http({
+        method : 'post',
+        url : '/order/queryByBusiCode.htm',
+      }).then((res) => {
+        this.busiCodeOptions = res.result;
+      });
     },
     methods : {
       // 点击搜索
@@ -124,12 +153,12 @@
       handleReset(row) {
         this.$http({
           method : 'post',
-          url : '/order/updateByPrimaryKey.htm',
+          url : '/order/updateByHzTaskerIdPrimaryKey.htm',
           data : {
             taskerId : row.taskerId,
           },
         }).then((res) => {
-          this.$message.success('修改成功');
+          this.$message.success('操作成功');
           this.currentPage = 1;
           this.initTableList();
         });
@@ -138,7 +167,7 @@
       handleDetail(row) {
         this.$http({
           method : 'post',
-          url : '/order/selectByPrimaryKey.htm',
+          url : '/order/queryByPrimaryKey.htm',
           data : {
             taskerId : row.taskerId,
           },
@@ -159,6 +188,7 @@
             currentNum : this.currentPage,
             keyWords : this.ruleForm.keyWords,
             isProcessed : this.ruleForm.isProcessed,
+            busiCode : this.ruleForm.busiCode,
           },
         }).then((res) => {
           this.total = res.result.count;

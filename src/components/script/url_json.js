@@ -52,7 +52,7 @@ export const URL_JSON = {
   /* 官网管理 */
   //咨询管理   AdvisoryManage
   'queryAdvisoryManage': '/consult/queryConsultByBaseQuery.htm', //咨询管理列表
-  'editAdvisoryManage': ' /consult/queryConsultByPrimaryKey.htm', //咨询管理详情
+  'editAdvisoryManage': '/consult/queryConsultByPrimaryKey.htm', //咨询管理详情
   'saveAdvisoryManage': '/consult/updateConsultByConsultId.htm', //处理
 
   //客户案例 CustomerCase

@@ -24,7 +24,13 @@
 
         <div class="m-form-item">
           <div class="m-label">处理状态：</div>
-          <div class="m-value">{{ruleForm.isProcessedCN}}</div>
+          <div class="m-value">
+            {{
+              ruleForm.isProcessed === 0 ? '待处理':
+              ruleForm.isProcessed === 2 ? '处理失败': 
+              ruleForm.isProcessed === 3 ? '处理中' : '处理成功'
+            }}
+          </div>
         </div>
 
         <div class="m-form-item">
