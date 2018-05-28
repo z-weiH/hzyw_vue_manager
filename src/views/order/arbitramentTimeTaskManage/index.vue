@@ -1,5 +1,5 @@
 <template>
-  <div class="arbitrament-time-task-manage fn-hide">
+  <div class="arbitrament-time-task-manage">
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
@@ -8,7 +8,7 @@
         </el-form-item>
 
         <el-form-item label=" " prop="isProcessed">
-          <el-select v-model="ruleForm.isProcessed" placeholder="处理状态">
+          <el-select clearable v-model="ruleForm.isProcessed" placeholder="处理状态">
             <el-option label="请选择" value=""></el-option>
             <template v-for="(item) in processingStateOptions">
               <el-option 
@@ -42,12 +42,13 @@
           </template>
         </el-table-column>
         <el-table-column prop="busiCode" label="业务编码"></el-table-column>
-        <el-table-column prop="params" label="参数"></el-table-column>
+        <el-table-column prop="params" label="参数" width="280px"></el-table-column>
         <el-table-column label="处理状态">
           <template slot-scope="scope">
             {{
-              scope.isProcessed === 0 ? '待处理':
-              scope.isProcessed === 2 ? '处理失败': '处理中'
+              scope.row.isProcessed === 0 ? '待处理':
+              scope.row.isProcessed === 2 ? '处理失败': 
+              scope.row.isProcessed === 3 ? '处理中' : '处理成功'
             }}
           </template>
         </el-table-column>
@@ -58,7 +59,7 @@
             <template v-if="scope.row.isProcessed === 0 || scope.row.isProcessed === 2">
               <el-button @click="handleReset(scope.row)" type="text">重发</el-button>
             </template>
-            <template>
+            <template v-else>
               --
             </template>
           </template>
@@ -124,12 +125,12 @@
       handleReset(row) {
         this.$http({
           method : 'post',
-          url : '/order/updateByPrimaryKey.htm',
+          url : '/order/updateByHzTaskerIdPrimaryKey.htm',
           data : {
             taskerId : row.taskerId,
           },
         }).then((res) => {
-          this.$message.success('修改成功');
+          this.$message.success('操作成功');
           this.currentPage = 1;
           this.initTableList();
         });
@@ -138,7 +139,7 @@
       handleDetail(row) {
         this.$http({
           method : 'post',
-          url : '/order/selectByPrimaryKey.htm',
+          url : '/order/queryByPrimaryKey.htm',
           data : {
             taskerId : row.taskerId,
           },

@@ -9,47 +9,21 @@ import router from '../router'
 
 
 
+axios.defaults.timeout = 10000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
-
-//设置全局的请求次数，以及配置请求的间隙
-axios.defaults.retry = 3;
-axios.defaults.retryDelay = 1000;
-
-axios.interceptors.response.use(undefined, function axiosRetryInterceptor(err) {
-  var config = err.config;
-   // 判断是否是formdata格式
-   // post 请求 使用 form Data 请求方式
-   if (config.method === 'post' && config.mheaders !== true)
+ 
+// 请求拦截
+axios.interceptors.request.use((config) => {
+  // 判断是否是formdata格式
+  // post 请求 使用 form Data 请求方式
+  if (config.method === 'post' && config.mheaders !== true) {
     config.data = qs.stringify(config.data);
-  // If config does not exist or the retry option is not set, reject
-  if (!config || !config.retry) return Promise.reject(err);
-
-  // Set the variable for keeping track of the retry count
-  config.__retryCount = config.__retryCount || 0;
-
-  // Check if we've maxed out the total number of retries
-  if (config.__retryCount >= config.retry) {
-    // Reject with the error
-    return Promise.reject(err);
   }
-
-  // Increase the retry count
-  config.__retryCount += 1;
-
-  // Create new promise to handle exponential backoff
-  var backoff = new Promise(function (resolve) {
-    setTimeout(function () {
-      resolve();
-    }, config.retryDelay || 1);
-  });
-
-  // Return the promise in which recalls axios to retry the request
-  return backoff.then(function () {
-    return axios(config);
-  });
+  return config;
+}, (error) => {
+  return Promise.reject(error);
 });
-
 
 // 响应拦截
 axios.interceptors.response.use((res) => {
