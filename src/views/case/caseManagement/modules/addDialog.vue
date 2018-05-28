@@ -593,7 +593,10 @@
           if(valid) {
             let formData = new FormData();
             let form = {...this.ruleForm};
-            form.evidences = JSON.stringify(form.evidences);
+            form.evidences = JSON.stringify(form.evidences.map((v,k) => {
+              v.sortNum = k + 1;
+              return v;
+            }));
             for(let key in form) {
               formData.append(key,form[key]);
             }

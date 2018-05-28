@@ -37,6 +37,9 @@
               :before-upload="evidenceBefore"
               :on-success="evidenceSuccess"
               :on-error="fileError"
+              :data="{
+                path : 'case/evidence'
+              }"
             >
               <el-button size="mini" icon='el-icon-upload'>
                 上传证据
