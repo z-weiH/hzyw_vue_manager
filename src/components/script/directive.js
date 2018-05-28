@@ -50,8 +50,11 @@ Vue.directive('dialogDrag', {
 //表格内容缩进... hover 显示完整
 Vue.directive('tableCollapse',{
   inserted(el, binding, vnode, oldVnode){
-    if(el.offsetParent && (el.offsetWidth+20 > el.offsetParent.offsetWidth)){
-      el.setAttribute('title',el.innerHTML)
-    }
+    setTimeout(()=> {
+      if(el.offsetParent && (el.offsetWidth+20 > el.offsetParent.offsetWidth)){
+        el.setAttribute('title',el.innerHTML)
+      }
+    },200)
+
   }
 })
