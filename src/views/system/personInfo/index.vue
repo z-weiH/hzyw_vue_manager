@@ -27,7 +27,6 @@ export default {
         {options: [{label: '提交日期', value: 'tijiao'}, {label: '立案日期', value: 'lian'}], placeholder: '请选择', property: 'anjian',type: 'select',colSpan: 3},
         {type:'date',placeholder: '开始时间',property:'startTime',colSpan: 4},
         {type:'date',placeholder: '结束时间',property:'endTime',colSpan: 4,},
-        {label: '企业互金', options: [{label: '提交日期', value: 'tijiao'}, {label: '立案日期', value: 'lian'}], placeholder: '请选择', property: 'anjian',type: 'select',colSpan: 3,newline: 1},
       ],
       searchItem: {},
       editItems: [

@@ -95,6 +95,7 @@
       create() {
         this.item = {newsDetail: '',newsImg: ''};
         this.editState = 2;
+        this.$refs.edit.$refs.tinymce.setContent('');
       },
       doEdit(row) {
         this.$http.post(URL_JSON['editNewsDynamicState'],{newsId: row.newsId})

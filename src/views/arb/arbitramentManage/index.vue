@@ -88,8 +88,8 @@
                 this.tableData.splice(idx,1);
               }
               this.$message({
-                message: res.description,
-                type:res.code == '0000' ? 'success' : 'error'
+                message: r.description,
+                type:r.code == '0000' ? 'success' : 'error'
               });
             })
           }

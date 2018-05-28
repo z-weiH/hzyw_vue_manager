@@ -13,8 +13,8 @@
     <div class="item-table">
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
     </div>
-    <role-create :create-item="editItem" :edit-state="editState"></role-create>
-    <role-permission :edit-state="editState" :list="list"></role-permission>
+    <role-create :item="item" :edit-state="editState"></role-create>
+    <role-permission :edit-state="editState" :list="list" ref="permission" :item="item"></role-permission>
   </div>
 </template>
 
@@ -51,30 +51,19 @@
             ]
           }
         ],
-        editItem: {},
         editState: 0, // 4 编辑权限
         queryUrl:  URL_JSON['queryRoleManage'],
-        list: [] //权限数列表
+        list: [], //权限数列表,
+        item: {}
       }
     },
     methods: {
-      menuManager () {
-        this.$http.post( URL_JSON['treeRoleManage'])
-          .then(res=> {
-            res=Mock.mock(res)
-            if(res.code){
-                this.editState = 4;
-                this.list = res.result.list;
-                this.list = [
-                  {id: 1,name: 'parent1'},
-                  {id: 2,name: 'parent2'},
-                  {id: 3,name: 'parent3'},
-                  {id: 4,name: 'child1',pId: 1},
-                  {id: 5,name: 'child2',pId: 2},
-                  {id: 6,name: 'child3',pId: 3},
-                  {id: 7,name: 'child4',pId: 4},
-                ]
-            }
+      menuManager (row) {
+        this.$http.post(URL_JSON['editRoleManage'],{roleId: row.roleId})
+          .then(res => {
+            this.item = res.result;
+            this.$refs['permission'].$refs['tree'].setCheckedKeys(res.result.menus.split(','));
+            this.editState = 4;
           })
       },
       create () {
@@ -85,10 +74,9 @@
         console.log(row);
         this.$http.post(URL_JSON['editRoleManage'],{roleId:row.roleId})
           .then(res =>{
-            console.log(res);
+            this.item = res.result;
+            this.editState = 1;
           })
-        this.editItem = row;
-        this.editState = 1;
       },
       doDelete (row) {
         this.showConfirm().then(confirm => {
@@ -115,6 +103,19 @@
     },
     created () {
       this.doQuery(this.queryUrl, this.searchItem);
+      this.$http.post('logindo.htm',{loginName: '13200000004',passWord: '123456'}).then(res => {
+        if(res.code == '0000'){
+          console.log(res);
+          this.$http.post( URL_JSON['treeRoleManage'],null,{headers:{token: res.result.loginInfoVO.token}})
+            .then(res=> {
+              res=Mock.mock(res)
+              if(res.code){
+                this.list = res.result;
+
+              }
+            })
+        }
+      })
     }
   }
 </script>

@@ -9,11 +9,12 @@
       show-checkbox
       node-key="id"
       default-expand-all
+      ref="tree"
       :props="defaultProps">
     </el-tree>
     <span slot="footer" class="dialog-footer">
           <el-button @click="$parent.editState = 0">取 消</el-button>
-          <el-button type="primary"  >确 定</el-button>
+          <el-button type="primary"  @click="save">确 定</el-button>
         </span>
   </el-dialog>
 </template>
@@ -24,7 +25,8 @@
     name: 'rolePermission',
     props: {
       editState: Number,
-      list: Array
+      list: Array,
+      item: Object
     },
     data () {
       return {
@@ -54,7 +56,7 @@
     },
     methods: {
       initList () {
-        this.treeList = this.list.filter(it => !it.pId);
+        this.treeList = this.list.filter(it => it.pId == '0');
         this.treeList.forEach(it => {
           this.getChildren(it);
         })
@@ -65,8 +67,19 @@
         obj.children.forEach(i => {
           this.getChildren(i)
         })
+      },
+      save() {
+        // this.item.permissions = this.$refs['tree'].getCheckedKeys().join(',');
+        this.item.menus = this.$refs['tree'].getCheckedKeys().join(',');
+        this.$http.post(URL_JSON['saveRoleManage'],this.item)
+          .then(res => {
+            this.$message.success(res.description);
+            if(res.code == '0000'){
+              this.$parent.editState = 0;
+            }
+          })
       }
-    }
+    },
   }
 </script>
 
