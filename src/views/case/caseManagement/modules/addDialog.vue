@@ -600,15 +600,22 @@
             for(let key in form) {
               formData.append(key,form[key]);
             }
+            let loading = this.$loading({
+              text : '提交中',
+              lock : true,
+            });
             this.$http({
               method : 'post',
               url : '/casemanage/saveCase.htm',
               data : formData,
               mheaders : true,
             }).then((res) => {
+              loading.close();
               this.$message.success('新增成功');
               this.handleClose();
               this.$emit('upload');
+            },(err) => {
+              loading.close();
             });
           }
         });
