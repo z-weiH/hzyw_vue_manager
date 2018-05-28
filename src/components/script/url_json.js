@@ -124,15 +124,20 @@ export const URL_JSON = {
   'queryOperType': '/respondents/queryOperType.htm', //操作类型
   'queryOperObject': '/respondents/queryOperObject.htm', //操作对象
 
-
-
-
-
-
-
-
-
-
   /* 案件信息 */
+
+  /* 状态配置 */
+  'queryCustomerAllot': '/distribution/queryDistributionByBaseQuery.htm', //客户分配列表
+  'queryAllMerchant': '/merchant/queryAllMerchant.htm', //互金企业
+  'queryUserListByRoleType': '/user/queryUserListByRoleType.htm',//运营人员
+
+
+
+
+
+
+
+
+  /* 状态配置 */
 
 }

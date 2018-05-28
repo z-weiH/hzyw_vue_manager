@@ -11,6 +11,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+import { URL_JSON } from "../../../../components/script/url_json";
   import Mock from 'mockjs'
   import Edits from "@/components/edits";
   export default {
@@ -22,8 +23,8 @@
       return {
         item: {},
         merchantList: [],
-        queryUrl: "/13/merchant/queryAllMerchant.htm",//互金企业
-        queryUrl1:"/13/user/queryUserListByRoleType.htm",//运营人员
+        queryUrl: URL_JSON['queryAllMerchant'],//互金企业"/13/merchant/queryAllMerchant.htm"
+        queryUrl1: URL_JSON['queryUserListByRoleType'],//运营人员"/13/user/queryUserListByRoleType.htm"
         createItems: [{
             type: "select",
             property: "merchantName",
@@ -45,7 +46,7 @@
     },
     computed: {
       title() {
-        // return this.editState == 1 ? '修改仲裁委' : this.editState == 2 ? '新增仲裁委' : ''
+        return this.editState == 1 ? '新增' :  ''
       },
       show: {
         get() {

@@ -19,6 +19,7 @@
 </div>
 </template>
 <script type="text/ecmascript-6">
+import { URL_JSON } from "../../../components/script/url_json";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
@@ -32,7 +33,7 @@ export default {
       editState: 0, // 4 编辑权限
       deleteConfirm: false,
       currentItem: {},
-      queryUrl: "/13/distribution/queryDistributionByBaseQuery.htm",
+      queryUrl: URL_JSON['queryCustomerAllot'],///13/distribution/queryDistributionByBaseQuery.htm
       tableData: [{}],
       searchItems: [
         {
