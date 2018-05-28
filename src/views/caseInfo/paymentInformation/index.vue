@@ -22,13 +22,14 @@
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
+import { URL_JSON } from '../../../components/script/url_json';
 export default {
   name: "paymentInformation",
   extends: Mixins,
   data() {
     return {
       item: {},
-      queryUrl: "/11/repayment/queryRepaymentList.htm",
+      queryUrl: URL_JSON['queryPaymentInformation'],///11/repayment/queryRepaymentList.htm
       pager: {
         // 数据总数
         total: 11,
@@ -140,7 +141,8 @@ export default {
         },
         {
           label: "被申请人手机",
-          property: "resPhone"
+          property: "resPhone",
+          width:'150'
         },
         {
           label: "还款金额",
@@ -152,15 +154,18 @@ export default {
         },
         {
           label: "还款案件阶段",
-          property: "caseProcess"
+          property: "caseProcess",
+          width:'150'
         },
         {
           label: "还款案件状态",
-          property: "statusThree"
+          property: "statusThree",
+           width:'150'
         },
         {
           label: "提交后天数",
-          property: "submitDate"
+          property: "submitDate",
+           width:'150'
         },
         {
           label: "标的金额",
@@ -172,7 +177,8 @@ export default {
         },
         {
           label: "已还款总额",
-          property: "reimbursementAmt"
+          property: "reimbursementAmt",
+           width:'150'
         },
         {
           label: "打款金额",

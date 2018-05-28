@@ -7,9 +7,9 @@
         <el-select v-if="searchItem.type ==  'select'" v-model="trueVal" :placeholder="searchItem.placeholder">
         <el-option
           v-for="option in searchItem.options"
-          :key="option.value"
-          :label="option.label"
-          :value="option.value">
+          :key="searchItem.valuefield ? option[searchItem.valuefield] : option.value"
+          :label="searchItem.labelfield ? option[searchItem.labelfield] : option.label"
+          :value="searchItem.valuefield ? option[searchItem.valuefield] : option.value">
         </el-option>
       </el-select>
       <el-date-picker
@@ -35,7 +35,7 @@ export default {
     }
   },
   props: {
-    value: String,
+    value: {},
     searchItem: Object // 定义表单对象 type: 'text'
   },
   computed:{

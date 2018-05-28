@@ -157,7 +157,7 @@ export default {
                 return (
                   (this.item.orderVO.orderStatus == 2 ||
                     this.item.orderVO.orderStatus == 3) &&
-                  item.resultStatus
+                  item.orderStatus
                 );
               }
             },
@@ -171,7 +171,7 @@ export default {
                 return (
                   (this.item.orderVO.orderStatus == 2 ||
                     this.item.orderVO.orderStatus == 3) &&
-                  item.resultStatus
+                  item.orderStatus
                 );
               }
             },
@@ -186,7 +186,7 @@ export default {
                 return (
                   (this.item.orderVO.orderStatus == 2 ||
                     this.item.orderVO.orderStatus == 3) &&
-                  item.resultStatus
+                  item.orderStatus
                 );
               }
             },
@@ -214,7 +214,7 @@ export default {
                 return (
                   (this.item.orderVO.orderStatus == 2 ||
                     this.item.orderVO.orderStatus == 3) &&
-                  item.resultStatus
+                  item.orderStatus
                 );
               }
             },
@@ -228,7 +228,7 @@ export default {
                 return (
                   (this.item.orderVO.orderStatus == 2 ||
                     this.item.orderVO.orderStatus == 3) &&
-                  item.resultStatus
+                  item.orderStatus
                 );
               }
             }

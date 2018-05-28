@@ -16,7 +16,9 @@
                 <template slot-scope="scope">
                       <el-button size="mini"
                         @click="showDialog(scope.row,3)" v-if="scope.row.orderStatus == 1">待复核</el-button>
-                      <span v-if="scope.row.orderStatus == 2">已加款</span>
+                      <el-button size="mini"
+                        @click="showDialog(scope.row,3)"
+                        v-if="scope.row.orderStatus == 2">已加款</el-button>
                       <span v-if="scope.row.orderStatus == 3">未通过</span>
                 </template>
               </el-table-column>

@@ -118,4 +118,21 @@ export const URL_JSON = {
 
   /* 短信记录 */
 
+  /* 案件信息 */
+  'queryPaymentInformation': '/repayment/queryRepaymentList.htm',//还款信息
+  'queryRespondentsOperateRecord': '/respondents/queryOperRecordList.htm', //被申请人操作记录
+  'queryOperType': '/respondents/queryOperType.htm', //操作类型
+  'queryOperObject': '/respondents/queryOperObject.htm', //操作对象
+
+
+
+
+
+
+
+
+
+
+  /* 案件信息 */
+
 }

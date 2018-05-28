@@ -22,14 +22,17 @@
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
+import { URL_JSON } from "../../../components/script/url_json";
 export default {
   name: "respondentsOperateRecord",
   extends: Mixins,
   data() {
     return {
       item: {},
-      queryUrl: "/11/respondents/queryOperRecordList.htm",
+      queryUrl: URL_JSON["queryRespondentsOperateRecord"], ///11/respondents/queryOperRecordList.htm
       tableData: [{}],
+      opTypeData:[],
+      opObData:[],
       searchItems: [
         {
           label: "案件查询",
@@ -43,13 +46,13 @@ export default {
           type: "date",
           placeholder: "开始日期",
           colSpan: 4,
-          property: "startTime"
+          property: "startDate"
         },
         {
           type: "date",
           placeholder: "结束日期",
           colSpan: 4,
-          property: "endTime"
+          property: "endDate"
         },
         {
           label: "互金企业",
@@ -79,13 +82,20 @@ export default {
           label: "操作类型",
           type: "select",
           colSpan: 4,
-          property: "xsxs"
+          property: "operType",
+          newline: 1,
+          options: this.opTypeData,
+          labelfield: "desc",
+          valuefield: "operType"
         },
         {
           label: "操作对象",
           type: "select",
           colSpan: 4,
-          property: "asdas1"
+          options: this.opObData,
+          property: "operObject",
+          labelfield: "desc",
+          valuefield: "operObject"
         }
       ],
       columnDefine: [
@@ -95,7 +105,8 @@ export default {
         },
         {
           label: "被申请人手机",
-          property: "resPhone"
+          property: "resPhone",
+          width: "150"
         },
         {
           label: "案件编号",
@@ -115,11 +126,11 @@ export default {
         },
         {
           label: "案件阶段",
-          property: "caseProcess"
+          property: "caseProcessCn"
         },
         {
           label: "案件状态",
-          property: "statusThree"
+          property: "statusThreeCn"
         },
         {
           label: "操作类型",
@@ -144,9 +155,25 @@ export default {
         console.log("ttttttttttttttttttttt");
         console.info(res.result.count);
       });
+    },
+    optsTypeListView() {
+      this.$http.post(URL_JSON["queryOperType"]).then(res => {
+        console.info("type::::", res);
+        this.searchItems[7].options = res.result.list;
+
+      });
+    },
+    optsObjListView() {
+      this.$http.post(URL_JSON["queryOperObject"]).then(res => {
+        console.info("obj:::::", res);
+        this.searchItems[8].options = res.result.list;
+
+      });
     }
   },
-  mounted() {
+  created() {
+    this.optsTypeListView(); //操作类型
+    this.optsObjListView(); //操作对象
     this.doQuery(this.queryUrl, this.item);
   },
   components: {
@@ -157,5 +184,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 </style>

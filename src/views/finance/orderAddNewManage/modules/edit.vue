@@ -3,7 +3,7 @@
     <div class="dailog-container">
       <table-edits :editDefines="edtDefines" :item="item.orderVO"></table-edits>
       <table-edits v-for="(orderDetail, index) in item.orderDetailList" :key="index" :disabled="Boolean(orderDetail.orderStatus) || $parent.editState == 9" :editDefines="edtDefines_item" :item="orderDetail">
-        <table slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
+        <table v-if="orderDetail.orderStatus > 1" slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
           <tbody>
             <tr class="table-edits">
               <td colspan="4">审核结果</td>
@@ -37,22 +37,22 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import TableEdits from "@/components/tableEdits";
-  import {
-    URL_JSON
-  } from '../../../../components/script/url_json';
-  export default {
-    name: "edit",
-    props: {
-      editState: Number, // 1:显示 0:隐藏 9:只读 3:开启审核模板
-      item: Object
-    },
-    data() {
-      return {
-        title: "订单加款审核",
-        edtDefines: [{
+import TableEdits from "@/components/tableEdits";
+import { URL_JSON } from "../../../../components/script/url_json";
+export default {
+  name: "edit",
+  props: {
+    editState: Number, // 1:显示 0:隐藏 9:只读 3:开启审核模板
+    item: Object
+  },
+  data() {
+    return {
+      title: "订单加款审核",
+      edtDefines: [
+        {
           title: "订单明细",
-          content: [{
+          content: [
+            {
               label: "订单号：",
               type: "text",
               disabled: "disabled",
@@ -102,10 +102,13 @@
               property: "orderStatus"
             }
           ]
-        }],
-        edtDefines_item: [{
+        }
+      ],
+      edtDefines_item: [
+        {
           title: "加款信息",
-          content: [{
+          content: [
+            {
               label: "客户银行账户名：",
               type: "text",
               columns: 1,
@@ -151,13 +154,21 @@
               label: "加款人：",
               type: "text",
               columns: 1,
-              property: "operName"
+              property: "operName",
+              hidden: item => {
+                //自定义orderStatus== 2,3 显示扩展字段，并且新增【加款信息】时，扩展字段是隐藏的。
+                return (
+                  (this.item.orderVO.orderStatus == 2 ||
+                    this.item.orderVO.orderStatus == 3) &&
+                  item.orderStatus
+                );
+              }
             },
             {
               label: "审核状态：",
               type: "select",
               columns: 1,
-              options:[
+              options: [
                 {
                   label: "待复核",
                   value: 1
@@ -171,54 +182,77 @@
                   value: 3
                 }
               ],
-              property: "resultStatus"
+              property: "resultStatus",
+              hidden: item => {
+                //自定义orderStatus== 2,3 显示扩展字段，并且新增【加款信息】时，扩展字段是隐藏的。
+                return (
+                  (this.item.orderVO.orderStatus == 2 ||
+                    this.item.orderVO.orderStatus == 3) &&
+                  item.orderStatus
+                );
+              }
             },
             {
               label: "审核说明：",
               type: "textarea",
               columns: 1,
-              property: "apprerResult"
+              property: "apprerResult",
+              hidden: item => {
+                //自定义orderStatus== 2,3 显示扩展字段，并且新增【加款信息】时，扩展字段是隐藏的。
+                return (
+                  (this.item.orderVO.orderStatus == 2 ||
+                    this.item.orderVO.orderStatus == 3) &&
+                  item.orderStatus
+                );
+              }
             },
             {
               label: "加款时间：",
               type: "date",
               columns: 1,
-              property: "submitTime"
+              property: "submitTime",
+              hidden: item => {
+                //自定义orderStatus== 2,3 显示扩展字段，并且新增【加款信息】时，扩展字段是隐藏的。
+                return (
+                  (this.item.orderVO.orderStatus == 2 ||
+                    this.item.orderVO.orderStatus == 3) &&
+                  item.orderStatus
+                );
+              }
             }
           ]
-        }]
-      };
-    },
-    computed: {
-      show: {
-        get: function() {
-          return (
-            this.editState == 1 || this.editState == 9 || this.editState == 3
-          );
-        },
-        set: function(v) {
-          if (!v) this.$parent.editState = 0;
         }
+      ]
+    };
+  },
+  computed: {
+    show: {
+      get: function() {
+        return (
+          this.editState == 1 || this.editState == 9 || this.editState == 3
+        );
+      },
+      set: function(v) {
+        if (!v) this.$parent.editState = 0;
       }
-    },
-    components: {
-      TableEdits
-    },
-    methods: {
-      checkUpdate() {
-        // 审核
-        this.$http.post(URL_JSON['updateOrderAddNewManage'], {
-            // auditList:
-          })
-          .then(res => {
-
-          })
-      }
-    },
-    mounted() {}
-  };
+    }
+  },
+  components: {
+    TableEdits
+  },
+  methods: {
+    checkUpdate() {
+      // 审核
+      this.$http
+        .post(URL_JSON["updateOrderAddNewManage"], {
+          // auditList:
+        })
+        .then(res => {});
+    }
+  },
+  mounted() {}
+};
 </script>
 
 <style scoped lang="scss">
-
 </style>
