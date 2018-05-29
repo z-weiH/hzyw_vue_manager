@@ -3,11 +3,10 @@
       <div class="item-title">
         个人信息
       </div>
-      <div class="item-table">
-        <edits class="item-edits" :editItems="editItems" :item="item"></edits>
+      <div class="item-table padding">
+        <edits :edit-items="editItems" :item="item" :label-width="'150px'"></edits>
         <div class="item-buttons">
-          <el-button type="primary">提 交</el-button>
-          <el-button >取 消</el-button>
+          <el-button type="primary" @click="save">提 交</el-button>
         </div>
       </div>
     </div>
@@ -21,23 +20,26 @@ export default {
   name: 'index',
   data () {
     return {
-      searchItems: [
-        {label:'案件查询', placeholder: '输入按键', property: 'anjian',colSpan: 5},
-        {options: [{label: '提交日期', value: 'tijiao'}, {label: '立案日期', value: 'lian'}], placeholder: '请选择', property: 'anjian',type: 'select',colSpan: 3},
-        {type:'date',placeholder: '开始时间',property:'startTime',colSpan: 4},
-        {type:'date',placeholder: '结束时间',property:'endTime',colSpan: 4,},
-      ],
       searchItem: {},
       editItems: [
         {label: '用户名', property: 'loginName', disabled: true, type : 'text'},
-        {label: '所属角色', property: 'loginName', disabled: true, type : 'text'},
-        {label: '真实姓名', property: 'loginName',  type : 'text'},
-        {label: '手机号码', property: 'loginName',  type : 'number'},
-        {label: '电子邮箱', property: 'loginName',  type : 'text'},
-        {label: '通讯地址', property: 'loginName',  type : 'text'},
-        {label: '其他信息', property: 'loginName',  type : 'textarea'},
+        {label: '所属角色', property: 'roleIdsArr', disabled: true, type : 'select', multiple: true, options: [], optLabel:'roleName', optValue: 'roleId'},
+        {label: '真实姓名', property: 'userName',  type : 'text'},
+        {label: '手机号码', property: 'userPhone',  type : 'number'},
+        {label: '电子邮箱', property: 'userEmail',  type : 'text'},
+        {label: '通讯地址', property: 'userAddress',  type : 'text'},
+        {label: '其他信息', property: 'otherInfo',  type : 'textarea'},
       ],
       item: {}
+    }
+  },
+  methods: {
+    save() {
+      this.$http.post(URL_JSON['saveUserControl'],this.item).then(res => {
+        if(res.code === '0000'){
+          this.$message.success(res.description);
+        }
+      })
     }
   },
   components: {
@@ -45,7 +47,29 @@ export default {
     Searchs
   },
   created() {
-    this.$http.post(URL_JSON[''])
+    try{
+      this.$http.post(URL_JSON['queryALlRole'])
+        .then(res => {
+          if(res.code === '0000'){
+            this.editItems[1].options = res.result;
+            this.$http.post(URL_JSON['editUserControl'],{userId: JSON.parse(localStorage.getItem('loginInfo')).userId})
+              .then(r => {
+                if(r.code === '0000'){
+                  this.item = r.result;
+                  this.item.roleIdsArr = this.item.roleIds.split(',');
+                }
+            })
+          }
+        })
+    }
+    catch(err){
+      this.$message.warn('登陆超时,请重新登陆');
+      setTimeout(() => {
+        this.$router.push('/login')
+      },200)
+    }
+
+
   }
 }
 </script>
@@ -55,6 +79,9 @@ export default {
     width: 495px;
     margin: 0 auto;
     padding-top: 20px;
+  }
+  .padding{
+    padding: 10px 50px;
   }
   .item-buttons{
     width: 495px;

@@ -56,5 +56,13 @@ Vue.directive('tableCollapse',{
       }
     },200)
 
+  },
+  updated(el, binding, vnode, oldVnode){
+    setTimeout(()=> {
+      if(el.offsetParent && (el.offsetWidth+20 > el.offsetParent.offsetWidth)){
+        el.setAttribute('title',el.innerHTML)
+      }
+    },200)
+
   }
 })

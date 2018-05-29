@@ -5,9 +5,22 @@
     width="495px"
     center>
     <edits :edit-items="createItems" :item="createItem" formname="userControlEdit" :label-width="'90px'"></edits>
+    <el-form  label-position="left" label-width="90px">
+      <el-form-item label="所属角色" >
+        <el-select v-model="roleids" multiple placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.roleId"
+            :label="item.roleName"
+            :value="item.roleId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+    </el-form>
+    <edits :edit-items="createItems1" :item="createItem"  :label-width="'90px'"></edits>
     <span slot="footer" class="dialog-footer">
           <el-button @click="$parent.editState = 0">取 消</el-button>
-          <el-button type="primary" @click="createClickHandle" >确 定</el-button>
+          <el-button type="primary" @click="save" >确 定</el-button>
         </span>
   </el-dialog>
 </template>
@@ -15,6 +28,7 @@
 <script>
   import FormCheck from '@/components/script/formCheck'
   import Edits from '@/components/edits'
+  import {URL_JSON} from "../../../../components/script/url_json";
   export default {
     mixins: [FormCheck],
     name: 'createUser',
@@ -25,14 +39,19 @@
     data () {
       return {
         createItems: [
-          {type: 'text', property:'loginName', label: '用户名', rule: 'require,email'},
-          {type: 'text', property:'password', label: '登录密码'},
-          {type: 'text', property:'juese', label: '所属角色'},
+          {type: 'text', property:'loginName', label: '用户名'},
+          {type: 'text', property:'loginPwd', label: '登录密码'},
+        ],
+        createItems1: [
+          // {type: 'text', property:'roleIds', label: '所属角色'},
           {type: 'text', property:'userName', label: '真实姓名'},
           {type: 'text', property:'userPhone', label: '手机号码'},
           {type: 'text', property:'userEmail', label: '电子邮箱'},
+          {type: 'text', property:'userAddress', label: '通讯地址'},
           {type: 'textarea', property:'otherInfo', label: '其它信息', placeholder: '请输入内容'},
-        ]
+        ],
+        options: [],
+        roleids: []
       }
     },
     computed: {
@@ -47,12 +66,28 @@
       }
     },
     methods: {
-      createClickHandle() {
-        console.error(this.checkForm('userControlEdit'));
+      save() {
+        console.log(this.createItem);
+        this.createItem.roleIds = this.roleids.join(',');
+        this.$http.post(URL_JSON['saveUserControl'],this.createItem).then(res => {
+          if(res.code === '0000'){
+            this.$emit('refresh');
+          }
+        })
       }
     },
     components: {
       Edits
+    },
+    created() {
+      this.$http.post(URL_JSON['queryALlRole'])
+        .then(res => {
+          if(res.code === '0000'){
+            // this.editItems1[4].options = res.result;
+            this.options = res.result;
+            console.log(res.result);
+          }
+        })
     }
   }
 </script>
