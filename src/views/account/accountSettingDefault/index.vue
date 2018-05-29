@@ -11,8 +11,10 @@
             <template slot-scope="scope">
               <el-button
                 size="mini"
-                @click="showDailog(scope.row)" v-if="scope.row.orderStatus == 0">{{scope.row.orderStatusName}}</el-button>
-              <span v-else>{{scope.row.orderStatusName}}</span>
+                @click="showDailog(scope.row)" v-if="scope.row.orderStatus == 0">待处理</el-button>
+              <span  v-if="scope.row.orderStatus == 1">待审核</span>
+              <span  v-if="scope.row.orderStatus == 2">通过</span>
+              <span  v-if="scope.row.orderStatus == 3">不通过</span>
             </template>
           </el-table-column>
         </table-component>
@@ -66,25 +68,7 @@ export default {
           }
         })
     },
-    doQuery(url,item) {
-      this.query(url,item).then(res=>{
-        this.tableData[0].orderStatus = 0;
-        this.tableData.forEach( it => {
-          if(it.orderStatus == 0){
-            it.orderStatusName = '待提交';
-          }
-          else if(it.orderStatus == 1){
-            it.orderStatusName = '待审核';
-          }
-          else if(it.orderStatus == 2){
-            it.orderStatusName = '通过';
-          }
-          else if(it.orderStatus == 3){
-            it.orderStatusName = '不通过';
-          }
-        })
-      })
-    }
+
   },
   components: {
     Searchs,

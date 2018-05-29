@@ -143,7 +143,8 @@
           .then(res => {
             console.log(res);
             if(res.code === '0000'){
-
+              this.$message.success(res.description);
+              this.$emit('refresh');
             }
           })
       }

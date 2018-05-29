@@ -6,15 +6,15 @@
     center>
     <table-edits :editDefines="editDefines" :item="item"></table-edits>
     <span slot="footer" class="dialog-footer">
-          <el-button type="primary">{{btnName}}</el-button>
-                <el-button @click="$parent.editState = 0">取 消</el-button>
-
+          <el-button type="primary" @click="save">{{btnName}}</el-button>
+          <el-button @click="$parent.editState = 0">取 消</el-button>
         </span>
   </el-dialog>
 </template>
 
 <script>
   import tableEdits from '@/components/tableEdits'
+  import {URL_JSON} from "../../../../components/script/url_json";
   export default {
     name: 'createMenu',
     props: {
@@ -31,7 +31,6 @@
             ]
           }
         ],
-        item: {}
       }
     },
     computed: {
@@ -49,6 +48,17 @@
       },
       btnName() {
         return this.editState == 1 ? '修 改' : this.editState == 2 ? '新 增' : '';
+      }
+    },
+    methods: {
+      save() {
+        this.$http.post(URL_JSON['saveChannelManage'],this.item)
+          .then(res => {
+            if(res.code === '0000'){
+              this.$message.success(res.description);
+              this.$emit('refresh')
+            }
+          })
       }
     },
     components: {
