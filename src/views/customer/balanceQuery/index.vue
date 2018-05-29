@@ -51,7 +51,8 @@
     data() {
       return {
         ruleForm : {
-
+          // 客户名称
+          keyWords : '',
         },
         tableData : [{},{}],
 
@@ -71,6 +72,7 @@
     methods : {
       // 点击搜索
       handleSearch() {
+        this.currentPage = 1;
         this.initTableList();
       },
 
@@ -84,8 +86,6 @@
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
-            endTime : this.ruleForm.endTime,
-            startTime : this.ruleForm.startTime,
             keyWords : this.ruleForm.keyWords,
           },
         }).then((res) => {
