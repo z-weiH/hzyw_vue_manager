@@ -31,12 +31,7 @@ export default {
     return {
       item: {},
       Withdrawals: false,
-      opCompany: [
-        {
-          value: "-1",
-          label: "请选择"
-        }
-      ],
+      opCompany: [],
       opProduct: [],
       opHkCaseStage: [],
       opHkCaseStatus: [],

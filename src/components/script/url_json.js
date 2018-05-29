@@ -126,6 +126,7 @@ export const URL_JSON = {
   'selectHkCaseStatus': '/caseStatus/queryCaseStatusThreeLevel.htm', //还款案件状态
   'exportPaymentInfomation':'/repayment/exportExcel.htm',//导出还款信息
   'queryRespondentsOperateRecord': '/respondents/queryOperRecordList.htm', //被申请人操作记录
+  'exportRespondentsOperateRecord': '/respondents/exportExcel.htm', //导出被申请人操作记录
   'queryOperType': '/respondents/queryOperType.htm', //操作类型
   'queryOperObject': '/respondents/queryOperObject.htm', //操作对象
 
