@@ -141,7 +141,12 @@
         method : 'post',
         url : '/order/queryByBusiCode.htm',
       }).then((res) => {
-        this.busiCodeOptions = res.result;
+        // 处理后台的数据 ， 后台数据可能返回null
+        let arr = [];
+        res.result.map((v) => {
+          v && arr.push(v);
+        });
+        this.busiCodeOptions = arr;
       });
     },
     methods : {
