@@ -3,11 +3,11 @@
       <div class="clear" v-if="searchItem.newline"></div>
       <div class="fl search-label" v-if="searchItem.label">{{searchItem.label+'：'}}</div>
       <el-col class="mb-10"  :span="searchItem.colSpan ? searchItem.colSpan : 6">
-        <el-input v-if="searchItem.type == 'text' || !searchItem.type" v-model="trueVal" :placeholder="searchItem.placeholder"></el-input>
-        <el-select v-if="searchItem.type ==  'select'" v-model="trueVal" :placeholder="searchItem.placeholder">
+        <el-input v-if="searchItem.type == 'text' || !searchItem.type" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder"></el-input>
+        <el-select @change="valueChange" v-if="searchItem.type ==  'select'" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder">
         <el-option
-          v-for="option in searchItem.options"
-          :key="searchItem.valuefield ? option[searchItem.valuefield] : option.value"
+          v-for="(option,index) in searchItem.options"
+          :key="index"
           :label="searchItem.labelfield ? option[searchItem.labelfield] : option.label"
           :value="searchItem.valuefield ? option[searchItem.valuefield] : option.value">
         </el-option>
@@ -15,7 +15,7 @@
       <el-date-picker
         value-format="yyyy-MM-dd"
         v-if="searchItem.type == 'date' "
-        v-model="trueVal"
+        v-model="item[searchItem.property]"
         type="date"
         :placeholder="searchItem.placeholder"
         :picker-options="pickerOptions"
@@ -35,6 +35,7 @@ export default {
     }
   },
   props: {
+    item: Object,
     value: {},
     searchItem: Object // 定义表单对象 type: 'text'
   },
@@ -46,13 +47,18 @@ export default {
       return null;
     }
   },
-  watch: {
-    trueVal (val, oldval) {
-      console.log(val);
-      let newObj = Object.create({})
-      newObj[this.searchItem.property] = val
-      this.$emit('valueChange', newObj)
+  methods: {
+    valueChange() {
+      let newObj = Object.create({});
+      // newObj[this.searchItem.property] = val;
+      this.$emit('valueChange', this.searchItem.property)
     }
+  },
+  watch: {
+    value (val,oldval){
+      console.log(val,oldval)
+    },
+
   },
   mounted () {
     this.trueVal = this.value

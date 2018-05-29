@@ -120,6 +120,11 @@ export const URL_JSON = {
 
   /* 案件信息 */
   'queryPaymentInformation': '/repayment/queryRepaymentList.htm',//还款信息
+  'selectCompany': '/case/queryCustomerList.htm',//选择-互金公司
+  'selectProduct': '/case/queryProducts.htm',//选择-产品
+  'selectHkCaseStage': '/caseStatus/queryCaseStatusTwoLevel.htm', //还款案件阶段
+  'selectHkCaseStatus': '/caseStatus/queryCaseStatusThreeLevel.htm', //还款案件状态
+  'exportPaymentInfomation':'/repayment/exportExcel.htm',//导出还款信息
   'queryRespondentsOperateRecord': '/respondents/queryOperRecordList.htm', //被申请人操作记录
   'queryOperType': '/respondents/queryOperType.htm', //操作类型
   'queryOperObject': '/respondents/queryOperObject.htm', //操作对象

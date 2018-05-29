@@ -6,6 +6,7 @@ export default {
   },
   methods: {
     exportFile(surl) {
+      // alert(1);
       let url = surl + '?';
       delete this.searchItem.pageSize;
       delete this.searchItem.currentNum;
