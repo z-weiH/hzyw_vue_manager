@@ -51,7 +51,8 @@
     data() {
       return {
         ruleForm : {
-
+          // 客户名称
+          keyWords : '',
         },
         tableData : [{},{}],
 
@@ -84,8 +85,6 @@
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
-            endTime : this.ruleForm.endTime,
-            startTime : this.ruleForm.startTime,
             keyWords : this.ruleForm.keyWords,
           },
         }).then((res) => {
