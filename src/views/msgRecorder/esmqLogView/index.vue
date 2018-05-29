@@ -20,17 +20,20 @@
 
 <script type="text/ecmascript-6">
 import { URL_JSON } from "../../../components/script/url_json";
+import exportFile from "@/components/script/exportFile";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
 export default {
   name: "esmqLogView",
-  extends: Mixins,
+  mixins: [Mixins, exportFile],
   data() {
     return {
       item: {},
+      exportUrl: URL_JSON['exportEsmqLogView'],
       queryUrl: URL_JSON['queryEsmqLogView'],///14/send/querySmsSendByBaseQuery.htm
       tableData: [{}],
+      searchItem:{},
       searchItems: [
         {
           label: "短信类型",
