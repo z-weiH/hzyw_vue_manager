@@ -12,8 +12,8 @@
     <div class="item-table">
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
     </div>
-    <user-create :editState.sync="editState" :create-item="createItem" ></user-create>
-    <user-edit :editState.sync="editState" :edit-item="editItem" ></user-edit>
+    <user-create ref="create" :editState.sync="editState" :create-item="createItem" @refresh="refresh" ></user-create>
+    <user-edit ref="edit" :editState.sync="editState"  @refresh="refresh" ></user-edit>
     <user-update-psd :editState.sync="editState" :psd-item="psdItem"></user-update-psd>
   </div>
 </template>
@@ -33,7 +33,7 @@
       return {
         searchItems : [
           {type:'text', placeholder: '请输入用户名、真实名字、手机号码', colSpan: 8, property: 'keyWords'},
-          {type:'select', options: [{label:'北京',value:'BJ'}, {label:'上海',value:''}, {label:'杭州',value:'HZ'}], colSpan: 4, property: 'roleId'},
+          {type:'select', options: [], valuefield: 'roleId', labelfield: 'roleName', colSpan: 4, property: 'roleId'},
         ],
         searchItem : {},
         tableData : [],
@@ -63,7 +63,9 @@
         deleteConfirm : false,
         deleteItem : {},
         roleList: [],
-        queryUrl: '/user/queryUserList.htm'
+        queryUrl: URL_JSON['queryUserControl'],
+        options: []
+
       }
     },
     components : {
@@ -76,19 +78,29 @@
     methods: {
       create() {
         this.createItem = {};
+        this.$refs['create'].roleids= [];
         this.editState = 2;
       },
       editInfo (row) {
         this.$http.post( URL_JSON['editUserControl'],{userId: row.userId})
           .then(res => {
             if(res.code){
-              this.editItem = res.result;
+              this.$refs['edit'].editItem = res.result;
+              this.$refs['edit'].roleids= [];
+              if(this.$refs['edit'].editItem.roleIds){
+                this.$refs['edit'].editItem.roleIdsStr = this.$refs['edit'].editItem.roleIds.split(',');
+                this.$refs['edit'].roleids = this.$refs['edit'].editItem.roleIds.split(',');
+              }
+              console.log(this.editItem);
               this.editState = 1;
             }
           })
       },
       editPassword (row) {
-        this.psdItem = row;
+        this.psdItem = {};
+        this.psdItem.userId = row.userId;
+        this.psdItem.loginName = row.loginName;
+        this.psdItem.userName = row.userName;
         this.editState = 3
       },
       delete (row) {
@@ -96,20 +108,28 @@
           if(res){
             this.$http.post(URL_JSON['deleteUserControl'],{userId: row.userId})
               .then(r=> {
-
+                  this.refresh();
               })
           }
         })
+      },
+      refresh() {
+        this.editState = 0;
+        this.doQuery(this.queryUrl, this.searchItem);
       }
     },
     created () {
-      this.doQuery(URL_JSON['queryUserControl'], this.searchItem);
+      this.doQuery(this.queryUrl, this.searchItem);
       //获取 角色
-      this.$http.post( URL_JSON['queryALlRole']).then(res => {
-        if(res.code){
-          this.roleList = res.result.list;
-        }
-      })
+      this.$http.post(URL_JSON['queryALlRole'])
+        .then(res => {
+          if(res.code === '0000'){
+            // this.editItems1[4].options = res.result;
+            this.options = res.result;
+            this.searchItems[1].options = res.result;
+            console.log(res.result);
+          }
+        })
 
     }
   }

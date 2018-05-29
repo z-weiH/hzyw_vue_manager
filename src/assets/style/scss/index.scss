@@ -238,6 +238,9 @@ body {
 .el-dialog__header{
   text-align: center;
 }
+.el-table .has-gutter > tr > th{
+  padding: 12px 0;
+}
 
 /* 原生 表格样式 */
 .table .el-table__row > td> div.cell{

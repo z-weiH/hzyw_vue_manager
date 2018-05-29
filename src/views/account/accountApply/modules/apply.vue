@@ -99,7 +99,7 @@
         },{
           title: '第七部分：所属负责人',
           content: [
-            {label: '市场人员：',  type: 'select', options: [{label: '杭州仲裁委员会', value: 'hz'},{label: '衢州仲裁委员会', value: 'qz'}],columns:1,placeholder:'请选择市场人员',property: 'marketerId'},
+            {label: '市场人员：',  type: 'select', options: [{label: '杭州仲裁委员会', value: 'hz'},{label: '衢州仲裁委员会', value: 'qz'}],columns:1,placeholder:'请选择市场人员',property: 'marketerId',valuefield: 'userId', labelfield: 'userName'},
             {type: 'info',columns:1, content:''},
           ]
         }],
@@ -130,7 +130,7 @@
         this.$http.post(URL_JSON['RoleTypeAccountApply'],{type: 'MARKETER'})
           .then(res=> {
             if(res.code === '0000'){
-
+              this.edtDefines[6].content[0].options = res.result;
             }
           })
       },
@@ -139,7 +139,7 @@
         this.$http.post(URL_JSON['saveAccountApply'], obj)
           .then(res => {
             console.log(res);
-            if(res.code == 0){
+            if(res.code === '0000'){
 
             }
           })

@@ -8,7 +8,9 @@
       </div>
       <!-- router 内容 -->
       <div class="page-content fl">
-          <router-view/>
+          <transition name="el-fade-in-linear" mode="out-in">
+            <router-view/>
+          </transition>
       </div>
     </div>
     <backTop></backTop>
