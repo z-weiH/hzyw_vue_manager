@@ -6,15 +6,25 @@
         width="495px"
         center>
         <edit-component :edit-items="editItems" :item="editItem" :label-width="'150px'"></edit-component>
+        <el-select v-model="editItem.roleIdsStr"  multiple>
+          <el-option v-for="(opt, idx) in options"
+                     :key="idx"
+                     :label="opt.roleName"
+                     :value="opt.roleId"
+          >
+          </el-option>
+        </el-select>
+
         <span slot="footer" class="dialog-footer">
           <el-button @click="$parent.editState = 0">取 消</el-button>
-          <el-button type="primary"  >确 定</el-button>
+          <el-button type="primary"  @click="save">确 定</el-button>
         </span>
       </el-dialog>
     </div>
 </template>
 <script>
   import EditComponent from '@/components/edits'
+  import {URL_JSON} from "../../../../components/script/url_json";
   export default {
     name: 'editUsrControl',
     props: {
@@ -28,10 +38,11 @@
           {type: 'text', property:'userName', label: '真实姓名'},
           {type: 'text', property:'userPhone', label: '手机号码'},
           {type: 'text', property:'userEmail', label: '电子邮箱'},
-          {type: 'select', property:'roleIds', label: '角色权限（可多选）'},
+          {type: 'select', property:'roleIdsStr', label: '角色权限（可多选）',multiple: true,options: [], optLabel:'roleName', optValue: 'roleId'},
           {type: 'text', property:'userAddress', label: '通讯地址'},
           {type: 'textarea', property:'otherInfo', label: '其它信息', placeholder: '请输入内容'},
         ],
+        options:[]
       }
     },
     computed: {
@@ -48,8 +59,24 @@
         }
       }
     },
+    methods: {
+      save() {
+        console.log(this.editItem);
+
+      }
+    },
     components: {
       EditComponent
+    },
+    created() {
+      this.$http.post(URL_JSON['queryALlRole'])
+        .then(res => {
+          if(res.code === '0000'){
+              this.editItems[4].options = res.result;
+              this.options = res.result;
+              console.log(res.result);
+          }
+        })
     }
   }
 </script>

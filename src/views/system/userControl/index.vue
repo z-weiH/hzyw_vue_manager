@@ -63,7 +63,9 @@
         deleteConfirm : false,
         deleteItem : {},
         roleList: [],
-        queryUrl: '/user/queryUserList.htm'
+        queryUrl: '/user/queryUserList.htm',
+        arr: []
+
       }
     },
     components : {
@@ -83,6 +85,13 @@
           .then(res => {
             if(res.code){
               this.editItem = res.result;
+              this.editItem.roleIdsStr= []
+              if(this.editItem.roleIds){
+                this.editItem.roleIdsStr = this.editItem.roleIds.split(',');
+              }
+              console.log(this.editItem);
+
+
               this.editState = 1;
             }
           })
@@ -105,11 +114,11 @@
     created () {
       this.doQuery(URL_JSON['queryUserControl'], this.searchItem);
       //获取 角色
-      this.$http.post( URL_JSON['queryALlRole']).then(res => {
-        if(res.code){
-          this.roleList = res.result.list;
-        }
-      })
+      // this.$http.post( URL_JSON['']).then(res => {
+      //   if(res.code){
+      //     this.roleList = res.result.list;
+      //   }
+      // })
 
     }
   }

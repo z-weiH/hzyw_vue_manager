@@ -1,7 +1,5 @@
 <template>
     <div>
-      <searchs class="item-search" :search-items="searchItems" :item="searchItem" :query-url="'/user/queryUserList.htm'">
-      </searchs>
       <div class="item-title">
         个人信息
       </div>
@@ -18,6 +16,7 @@
 <script>
 import Edits from '@/components/edits'
 import Searchs from '@/components/searchs'
+import {URL_JSON} from "../../../components/script/url_json";
 export default {
   name: 'index',
   data () {
@@ -44,6 +43,9 @@ export default {
   components: {
     Edits,
     Searchs
+  },
+  created() {
+    this.$http.post(URL_JSON[''])
   }
 }
 </script>
