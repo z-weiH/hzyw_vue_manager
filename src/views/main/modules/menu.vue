@@ -347,6 +347,16 @@
                 id : 83,
                 url : 'receiveLog'
               },
+              {
+                label : '调解短信',
+                id: 84,
+                url : 'mediationMsg'
+              },
+              {
+                label : '调解短信设置',
+                id: 85,
+                url : 'mediationMsgSet'
+              }
             ],
           }, {
             label : '状态配置',

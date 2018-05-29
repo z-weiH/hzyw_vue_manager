@@ -11,59 +11,69 @@ Vue.use(Router)
 let router = new Router({
   routes: [{
       path: '/',
-      component: () => import('@/views/auth/login.vue'),
+      component: () =>
+        import ('@/views/auth/login.vue'),
     },
     {
       path: '/login',
-      component: () => import('@/views/auth/login.vue'),
+      component: () =>
+        import ('@/views/auth/login.vue'),
     },
     {
       path: '/404',
-      component: () => import('@/views/notFind'),
+      component: () =>
+        import ('@/views/notFind'),
     },
     {
       path: '/main',
-      component: () => import('@/views/main'),
+      component: () =>
+        import ('@/views/main'),
       children: [
         /* 系统管理模块 start */
         {
           path: 'userQuery',
-          component: () => import('@/views/system/userQuery'),
+          component: () =>
+            import ('@/views/system/userQuery'),
           meta: {
             name: 'userQuery',
           },
         },
         {
           path: 'userControl',
-          component: () => import('@/views/system/userControl'),
+          component: () =>
+            import ('@/views/system/userControl'),
           meta: {
             name: 'userControl',
           },
         },
         {
           path: 'roleManage',
-          component: () => import('@/views/system/roleManage'),
+          component: () =>
+            import ('@/views/system/roleManage'),
           meta: {
             name: 'roleManage',
           },
         },
         {
           path: 'menuManage',
-          component: () => import('@/views/system/menuManage'),
+          component: () =>
+            import ('@/views/system/menuManage'),
           meta: {
             name: 'menuManage',
           },
         },
         {
           path: 'personInfo',
-          component: () => import('@/views/system/personInfo'),
+          component: () =>
+            import ('@/views/system/personInfo'),
           meta: {
             name: 'personInfo',
           },
         },
         {
           path: 'changePwd',
-          component: () => import('@/views/system/changePwd'),
+          component: () =>
+            import ('@/views/system/changePwd'),
           meta: {
             name: 'changePwd',
           },
@@ -73,35 +83,40 @@ let router = new Router({
         /* 开户管理 start */
         {
           path: 'accountApply',
-          component: () => import('@/views/account/accountApply'),
+          component: () =>
+            import ('@/views/account/accountApply'),
           meta: {
             name: 'accountApply',
           },
         },
         {
           path: 'userSearch',
-          component: () => import('@/views/account/userSearch'),
+          component: () =>
+            import ('@/views/account/userSearch'),
           meta: {
             name: 'userSearch',
           },
         },
         {
           path: 'accountSettingDefault',
-          component: () => import('@/views/account/accountSettingDefault'),
+          component: () =>
+            import ('@/views/account/accountSettingDefault'),
           meta: {
             name: 'accountSettingDefault',
           },
         },
         {
           path: 'accountSettingManage',
-          component: () => import('@/views/account/accountSettingManage'),
+          component: () =>
+            import ('@/views/account/accountSettingManage'),
           meta: {
             name: 'accountSettingManage',
           },
         },
         {
           path: 'accountAffirm',
-          component: () => import('@/views/account/accountAffirm'),
+          component: () =>
+            import ('@/views/account/accountAffirm'),
           meta: {
             name: 'accountAffirm',
           },
@@ -111,14 +126,16 @@ let router = new Router({
         /* 仲裁委管理 start*/
         {
           path: 'arbitramentManage',
-          component: () => import('@/views/arb/arbitramentManage'),
+          component: () =>
+            import ('@/views/arb/arbitramentManage'),
           meta: {
             name: 'arbitramentManage',
           },
         },
         {
           path: 'informEmailManage',
-          component: () => import('@/views/arb/informEmailManage'),
+          component: () =>
+            import ('@/views/arb/informEmailManage'),
           meta: {
             name: 'informEmailManage',
           },
@@ -128,21 +145,24 @@ let router = new Router({
         /* 官网管理 */
         {
           path: 'customerCase',
-          component: () => import('@/views/officialweb/customerCase'),
+          component: () =>
+            import ('@/views/officialweb/customerCase'),
           meta: {
             name: 'customerCase',
           },
         },
         {
           path: 'advisoryManage',
-          component: () => import('@/views/officialweb/advisoryManage'),
+          component: () =>
+            import ('@/views/officialweb/advisoryManage'),
           meta: {
             name: 'advisoryManage',
           },
         },
         {
           path: 'newsDynamicState',
-          component: () => import('@/views/officialweb/newsDynamicState'),
+          component: () =>
+            import ('@/views/officialweb/newsDynamicState'),
           meta: {
             name: 'newsDynamicState',
           },
@@ -154,21 +174,24 @@ let router = new Router({
         /* 第三方管理模块 start */
         {
           path: 'mailSend',
-          component: () => import ('@/views/third/mailSendLog'), // 邮件发送日志
+          component: () =>
+            import ('@/views/third/mailSendLog'), // 邮件发送日志
           meta: {
             name: 'mailSend',
           },
         },
         {
           path: 'noteSend',
-          component: () => import ('@/views/third/noteSendLog'), // 短信发送日志
+          component: () =>
+            import ('@/views/third/noteSendLog'), // 短信发送日志
           meta: {
             name: 'noteSend',
           },
         },
         {
           path: 'channelManage',
-          component: () => import ('@/views/third/channelManage'), // 短信发送日志
+          component: () =>
+            import ('@/views/third/channelManage'), // 短信发送日志
           meta: {
             name: 'channelManage',
           },
@@ -209,7 +232,7 @@ let router = new Router({
           }
         },
         /* 案件信息模块 end */
-        /* 短息记录 start */
+        /* 短信记录 start */
         {
           path: 'esmqLogView',
           component: () =>
@@ -217,7 +240,7 @@ let router = new Router({
           meta: {
             name: 'esmqLogView'
           }
-        },{
+        }, {
           path: 'receiveLog',
           component: () =>
             import ('@/views/msgRecorder/receiveLog'), //接收记录
@@ -225,16 +248,32 @@ let router = new Router({
             name: 'receiveLog'
           }
         },
-        /* 短息记录 end */
+        {
+          path: 'mediationMsg',
+          component: () =>
+            import ('@/views/msgRecorder/mediationMsg'),//调解短信
+          meta: {
+            name: 'mediationMsg'
+          }
+        }, {
+          path: 'mediationMsgSet',
+          component: () =>
+            import ('@/views/msgRecorder/mediationMsgSet'),//调解短信设置
+          meta: {
+            name: 'mediationMsgSet'
+
+          }
+        },
+        /* 短信记录 end */
         /* 状态配置 start */
         {
           path: 'customerAllot',
           component: () =>
             import ('@/views/statusConfig/customerAllot'), //客户分配
           meta: {
-             name: 'customerAllot'
+            name: 'customerAllot'
           }
-        },{
+        }, {
           path: 'mediateStatusSet',
           component: () =>
             import ('@/views/statusConfig/mediateStatusSet'), //调解状态设置
@@ -246,28 +285,32 @@ let router = new Router({
         /* 客户管理模块 start */
         {
           path: 'clientManagement',
-          component: () => import ('@/views/customer/clientManagement'), // 客户管理
+          component: () =>
+            import ('@/views/customer/clientManagement'), // 客户管理
           meta: {
             name: 'clientManagement',
           },
         },
         {
           path: 'balanceQuery',
-          component: () => import ('@/views/customer/balanceQuery'), // 账户余额查询
+          component: () =>
+            import ('@/views/customer/balanceQuery'), // 账户余额查询
           meta: {
             name: 'balanceQuery',
           },
         },
         {
           path: 'tplSetting',
-          component: () => import ('@/views/customer/tplSetting'), // 模板设置
+          component: () =>
+            import ('@/views/customer/tplSetting'), // 模板设置
           meta: {
             name: 'tplSetting',
           },
         },
         {
           path: 'tplEvidenceSetting',
-          component: () => import ('@/views/customer/tplEvidenceSetting'), // 模板证据设置
+          component: () =>
+            import ('@/views/customer/tplEvidenceSetting'), // 模板证据设置
           meta: {
             name: 'tplEvidenceSetting',
           },
@@ -277,42 +320,48 @@ let router = new Router({
         /* 案件订单模块 start */
         {
           path: 'arbitramentTimeTaskManage',
-          component: () => import ('@/views/order/arbitramentTimeTaskManage'), // 仲裁端定时任务管理
+          component: () =>
+            import ('@/views/order/arbitramentTimeTaskManage'), // 仲裁端定时任务管理
           meta: {
             name: 'arbitramentTimeTaskManage',
           },
         },
         {
           path: 'clientTimeTaskManage',
-          component: () => import ('@/views/order/clientTimeTaskManage'), // 客户端定时任务管理
+          component: () =>
+            import ('@/views/order/clientTimeTaskManage'), // 客户端定时任务管理
           meta: {
             name: 'clientTimeTaskManage',
           },
         },
         {
           path: 'caseOrderQuery',
-          component: () => import ('@/views/order/caseOrderQuery'), // 案件提交日志
+          component: () =>
+            import ('@/views/order/caseOrderQuery'), // 案件提交日志
           meta: {
             name: 'caseOrderQuery',
           },
         },
         {
           path: 'idCardVerfy',
-          component: () => import ('@/views/order/idCardVerfy'), // 身份证校验
+          component: () =>
+            import ('@/views/order/idCardVerfy'), // 身份证校验
           meta: {
             name: 'idCardVerfy',
           },
         },
         {
           path: 'orderManagement',
-          component: () => import ('@/views/order/orderManagement'), // 订单管理
+          component: () =>
+            import ('@/views/order/orderManagement'), // 订单管理
           meta: {
             name: 'orderManagement',
           },
         },
         {
           path: 'fastTrack',
-          component: () => import ('@/views/order/fastTrack'), // 快速通道
+          component: () =>
+            import ('@/views/order/fastTrack'), // 快速通道
           meta: {
             name: 'fastTrack',
           },
@@ -322,14 +371,16 @@ let router = new Router({
         /* 案件相关模块 start */
         {
           path: 'arbitramentUsersManage',
-          component: () => import ('@/views/case/arbitramentUsersManage'), // 仲裁用户管理
+          component: () =>
+            import ('@/views/case/arbitramentUsersManage'), // 仲裁用户管理
           meta: {
             name: 'arbitramentUsersManage',
           },
         },
         {
           path: 'caseManagement',
-          component: () => import ('@/views/case/caseManagement'), // 案件管理
+          component: () =>
+            import ('@/views/case/caseManagement'), // 案件管理
           meta: {
             name: 'caseManagement',
           },
@@ -455,7 +506,7 @@ let router = new Router({
 /* 前置钩子 */
 router.beforeEach((to, from, next) => {
   // 返回顶部
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
   NProgress.start();
   next();
 });
