@@ -1,6 +1,8 @@
 <template>
   <el-dialog
     :visible.sync="show"
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
     :title="title"
     width="890px"
     center>
@@ -66,13 +68,14 @@
         },{
           title: '第五部分：客户资料',
           content: [
-            {label: '营业执照(jpg，png)', type: 'file', placeholder: '请输入客户联系人',columns:2,property: 'dataUrl',disabledLabel: '点击查看营业执照', accept: 'image/jpeg,image/png'},
+            {label: '营业执照(jpg，png)', type: 'file', placeholder: '请输入客户联系人',columns:1,property: 'dataUrl',disabledLabel: '点击查看营业执照', accept: 'image/jpeg,image/png'},
+            {type: 'img',columns:1,property:'dataUrl'},
           ]
         },{
           title: '第六部分：合同信息',
           content: [
             {label: '合同编号：', type: 'text', placeholder: '请输入合同编号',columns:1,property: 'contractNo'},
-            {label: '合同时间：', type: 'text', placeholder: '请输入合同时间',columns:1,property: 'contractDate'},
+            {label: '合同时间：', type: 'date', placeholder: '请输入合同时间',columns:1,property: 'contractDate'},
             {label: '预缴仲裁受理费（元）：', type: 'text', placeholder: '请输入预缴仲裁受理费',columns:1,property: 'preCaseAmt'},
             {label: '技术服务费（元）：', type: 'text', placeholder: '请输入技术服务费',columns:1,property: 'serviceAmt'},
             {label: '充值仲券（张）：', type: 'text', placeholder: '请输入充值仲券',columns:1,property: 'preCaseTicket'},
@@ -136,7 +139,7 @@
       },
       saveApply(num) {
         let obj = Object.assign({isCommit: num}, this.item);
-        this.$http.post(URL_JSON['saveAccountApply'], obj)
+        this.$http.post(URL_JSON['saveAccountApply'], obj, {headers:{token: JSON.parse(localStorage.getItem('loginInfo')).token}})
           .then(res => {
             console.log(res);
             if(res.code === '0000'){
