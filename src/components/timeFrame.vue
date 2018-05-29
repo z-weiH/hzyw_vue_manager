@@ -1,6 +1,6 @@
 <template>
   <div class="time-frame">
-    <el-form-item prop="startDate">
+    <el-form-item prop="start">
       <el-date-picker 
         type="date" class="w-133" 
         placeholder="起始时间" 
@@ -11,7 +11,7 @@
       </el-date-picker>
     </el-form-item>
     <span class="mr-10">-</span>
-    <el-form-item prop="endDate">
+    <el-form-item prop="end">
       <el-date-picker 
         type="date" class="w-133" 
         placeholder="结束时间" 
