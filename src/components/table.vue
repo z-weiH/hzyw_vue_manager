@@ -4,24 +4,24 @@
       <el-table-column :resizable="false" type="index" label="序号" width="50">
       </el-table-column>
       <template v-for="(col, index) of columns" >
-        <el-table-column :resizable="false" :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type == 'img'" :width="col.width ? col.width : 'auto'">
+        <el-table-column show-overflow-tooltip :resizable="false" :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type == 'img'" :width="col.width ? col.width : 'auto'">
           <template slot-scope="scope" v-if="col.type == 'img'">
             <img :src="scope.row.custIcon" class="table_img">
           </template>
         </el-table-column>
-        <el-table-column :resizable="false" :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img' && col.type != 'select'" :width="col.width ? col.width : 'auto'">
+        <el-table-column show-overflow-tooltip :resizable="false" :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type != 'img' && col.type != 'select'" :width="col.width ? col.width : 'auto'">
            <template slot-scope="scope">
-             <span v-tableCollapse :class="{colLink: col.isLink}" @click="col.linkShowPanel && col.linkShowPanel.bind($parent)(scope.row)">{{scope.row[col.property]}}</span>
+             <span  :class="{colLink: col.isLink}" @click="col.linkShowPanel && col.linkShowPanel.bind($parent)(scope.row)">{{scope.row[col.property]}}</span>
         </template>
         </el-table-column>
-        <el-table-column :resizable="false" :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type == 'select'" :width="col.width ? col.width : 'auto'">
+        <el-table-column show-overflow-tooltip :resizable="false" :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type == 'select'" :width="col.width ? col.width : 'auto'">
            <template slot-scope="scope" >
-             <span v-tableCollapse :class="{colLink: col.isLink}" @click="col.linkShowPanel && col.linkShowPanel.bind($parent)(scope.row)">{{getLabel(col,scope.row[col.property])}}</span>
+             <span  :class="{colLink: col.isLink}" @click="col.linkShowPanel && col.linkShowPanel.bind($parent)(scope.row)">{{getLabel(col,scope.row[col.property])}}</span>
         </template>
         </el-table-column>
       </template>
       <!--<slot name=""></slot>-->
-      <el-table-column :resizable="false" :label="action.label" v-if="actions && actions.length > 0" v-for="(action, index) in actions" :key="action.label" :width="action.width">
+      <el-table-column show-overflow-tooltip :resizable="false" :label="action.label" v-if="actions && actions.length > 0" v-for="(action, index) in actions" :key="action.label" :width="action.width">
         <template slot-scope="scope">
               <el-button
                 v-for="(btn, index) of action.btns"
