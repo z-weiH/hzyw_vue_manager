@@ -116,6 +116,7 @@
     methods : {
       // 点击搜索
       handleSearch() {
+        this.currentPage = 1;
         this.initTableList();
       },
       // 点击详情
