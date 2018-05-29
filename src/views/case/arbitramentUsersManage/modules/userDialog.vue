@@ -453,7 +453,7 @@
               userId : data.userId,
             },
           }).then((res) => {
-            // res.result.type = 1; 
+            // res.result.type = 1;   
             this.ruleForm = Object.assign(this.ruleForm,res.result);
             this.ruleForm.userId = data.userId;
 
