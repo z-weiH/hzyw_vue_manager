@@ -15,17 +15,19 @@
         <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine">
           <el-table-column label="操作" prop="orderStatusName" slot="defineCol">
             <template slot-scope="scope">
-              <span v-if="scope.row.custStatus == 10" class="colLink" @click="doEdit(scope.row)">待提交</span>
-              <span v-if="scope.row.custStatus == 10" class="colLink" @click="doDelete">删除</span>
+              <el-button
+                size="mini" v-if="scope.row.custStatus == 10"  @click="doEdit(scope.row)">待提交</el-button>
+              <el-button
+                size="mini" v-if="scope.row.custStatus == 10"  @click="doDelete">删除</el-button>
               <span v-if="scope.row.custStatus == 11">待审核</span>
               <span v-if="scope.row.custStatus == 20">待开户设置</span>
               <span v-if="scope.row.custStatus == 30">待确认</span>
               <span v-if="scope.row.custStatus == 40">开户成功</span>
               <span v-if="scope.row.custStatus == 41">开户失败</span>
-              <el-button
-                size="mini"
-                @click="showDailog(scope.row)" v-if="scope.row.orderStatus == 0">{{scope.row.orderStatusName}}</el-button>
-              <span v-else>{{scope.row.orderStatusName}}</span>
+              <!--<el-button-->
+                <!--size="mini"-->
+                <!--@click="showDailog(scope.row)" v-if="scope.row.custStatus == 10">{{scope.row.orderStatusName}}</el-button>-->
+              <!--<span v-else>{{scope.row.orderStatusName}}</span>-->
             </template>
           </el-table-column>
         </table-component>
@@ -100,7 +102,7 @@
         this.editState = 2;
       },
       doEdit (row) {
-        this.$http.post( URL_JSON['editAccountApply'],{menuId:row.menuId})
+        this.$http.post( URL_JSON['editAccountApply'],{customerId:row.customerId})
           .then(res => {
             this.item = res;
           })

@@ -458,7 +458,7 @@
             },
           }).then((res) => {
             // res.result.type = 1; 
-            this.ruleForm = res.result;
+            this.ruleForm = Object.assign(this.ruleForm,res.result);
             this.ruleForm.userId = data.userId;
 
             this.typeDisabled = true;
@@ -564,7 +564,10 @@
       facadeOfIDCardSuccess(response, file, fileList) {
         this.ruleForm.img01 = response.result;
         this.ruleForm.img01FileName = file.name;
-
+        this.$nextTick(() => {
+          console.log(file.name);
+          console.log(this.ruleForm.img01FileName);
+        });
         this.seeImg01 = false;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('img01');
