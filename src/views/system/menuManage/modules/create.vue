@@ -32,6 +32,7 @@
           {type: 'text', property:'menuIcon', label: '菜单图标', placeholder: '菜单图标'},
           {type: 'text', property:'menuUrl', label: '菜单链接', placeholder: '菜单链接'},
           {type: 'select', property:'menuDegree', label: '菜单层级', placeholder: '菜单层级',options: [{label:'一级菜单',value: 1},{label:'二级菜单',value: 2}]},
+          {type: 'select', property:'parentId', label: '父菜单', placeholder: '父菜单',options: [], optLabel: 'menuName', optValue: 'menuId',hidden: () => this.item.menuDegree == 2},
           {type: 'number', property:'menuSort', label: '菜单排序', placeholder: '输入菜单排序(数字)'},
           {type: 'textarea', property:'otherInfo', label: '其它信息', placeholder: '输入其它信息'},
         ]
@@ -63,7 +64,18 @@
               this.$emit('refresh');
             }
           })
+      },
+      getParentMenu() {
+        this.$http.post(URL_JSON['parentMenuMenuManage'],{menuDegree: 1})
+          .then(res => {
+            if(res.code == '0000'){
+              this.createItems[5].options = res.result.list;
+            }
+          })
       }
+    },
+    created() {
+      this.getParentMenu();
     }
   }
 </script>

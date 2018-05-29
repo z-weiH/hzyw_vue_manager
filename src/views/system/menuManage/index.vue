@@ -32,8 +32,8 @@
       return {
         searchItems : [
           {type: 'text',placeholder: '请输入菜单名称', property: 'keyWords', colSpan: 6},
-          {type: 'select',placeholder: '请选择菜单', property: 'keyWords', colSpan: 4,options:[]},
-          {type: 'select',placeholder: '请选择菜单层级', property: 'keyWords', colSpan: 5,options: [{label:'一级菜单',value: 1},{label:'二级菜单',value: 2}]},
+          // {type: 'select',placeholder: '请选择菜单', property: 'keyWords', colSpan: 4,options:[],labelfield: 'name',valuefield: 'id'},
+          {type: 'select',placeholder: '请选择菜单层级', property: 'level', colSpan: 5,options: [{label:'一级菜单',value: 1},{label:'二级菜单',value: 2}]},
         ],
         searchItem: {},
         columnDefine: [
@@ -68,8 +68,21 @@
             }
           })
       },
-      doDelete () {
-
+      doDelete (row) {
+        this.showConfirm().then( res=> {
+          //点确定 res为true , false为true
+          console.log(res);
+          if(res == true){
+            this.$http.post( URL_JSON['deleteMenuManage'],{
+              menuId: row.menuId
+            }).then(r => {
+              if(r.code === '0000'){
+                this.$message.success(r.description);
+                this.refresh();
+              }
+            })
+          }
+        })
       },
       doQuery(url,item){
         this.$http.post(URL_JSON['queryMenuManage'],this.searchItem)
@@ -86,14 +99,7 @@
         this.editState = 0;
         this.doQuery(this.queryUrl, this.searchItem);
       },
-      getParentMenu() {
-        this.$http.post(URL_JSON['parentMenuMenuManage'],{menuDegree: 1})
-          .then(res => {
-            if(res.code == '0000'){
 
-            }
-          })
-      }
 
     },
     components: {
@@ -103,7 +109,6 @@
     },
     created() {
       this.doQuery(this.queryUrl, this.searchItem);
-      this.getParentMenu();
     }
   }
 </script>
