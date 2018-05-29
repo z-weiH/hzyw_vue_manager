@@ -3,7 +3,7 @@
       <el-form-item :label="editItem.label" v-if="editItem.type == 'text' || editItem.type == 'number'" :prop="editItem.property" >
         <el-input :type="editItem.type" v-model="item[editItem.property]" :disabled="editItem.disabled"  :placeholder="editItem.placeholder"></el-input>
       </el-form-item>
-      <el-form-item :label="editItem.label" v-if="editItem.type == 'select'">
+      <el-form-item :label="editItem.label" v-if="editItem.type == 'select' && (! editItem.hidden || editItem.hidden())" >
         <el-select v-model="item[editItem.property]" style="width:100%;" :placeholder="editItem.placeholder" :disabled="editItem.disabled" :multiple="editItem.multiple">
           <el-option v-for="(opt, idx) in editItem.options"
                      :key="idx"
