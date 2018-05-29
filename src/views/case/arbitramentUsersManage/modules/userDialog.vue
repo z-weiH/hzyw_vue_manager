@@ -126,7 +126,7 @@
                       </el-button>
                       {{ruleForm.img01FileName}}
                       <!-- 编辑 查看 -->
-                      <template v-if="seeImg01">
+                      <template v-if="type === 'edit' && !ruleForm.img01FileName">
                         <a slot="tip" :href="ruleForm.img01" target="_blank">查看</a>
                       </template>
                     </el-upload>
@@ -151,7 +151,7 @@
                       </el-button>
                       {{ruleForm.img02FileName}}
                       <!-- 编辑 查看 -->
-                      <template v-if="seeImg02">
+                      <template v-if="type === 'edit' && !ruleForm.img02FileName">
                         <a slot="tip" :href="ruleForm.img02" target="_blank">查看</a>
                       </template>
                     </el-upload>
@@ -225,7 +225,7 @@
                       </el-button>
                       {{ruleForm.img01FileName}}
                       <!-- 编辑 查看 -->
-                      <template v-if="seeImg01">
+                      <template v-if="type === 'edit' && !ruleForm.img01FileName">
                         <a slot="tip" :href="ruleForm.img01" target="_blank">查看</a>
                       </template>
                     </el-upload>
@@ -424,10 +424,6 @@
         ],
         // 客户类型 disabled
         typeDisabled : false,
-        // 查看1
-        seeImg01 : false,
-        // 查看2
-        seeImg02 : false,
       }
     },
     mounted() {
@@ -462,8 +458,6 @@
             this.ruleForm.userId = data.userId;
 
             this.typeDisabled = true;
-            this.seeImg01 = true;
-            this.seeImg02 = true;
           });
         }
       },
@@ -490,8 +484,6 @@
 
       // 关闭浮层
       handleClose() {
-        this.seeImg01 = false;
-        this.seeImg02 = false;
         this.typeDisabled = false;
         this.dialogVisible = false;
 
@@ -546,7 +538,6 @@
         this.ruleForm.img01 = response.result;
         this.ruleForm.img01FileName = file.name;
 
-        this.seeImg01 = false;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('img01');
       },
@@ -568,7 +559,6 @@
           console.log(file.name);
           console.log(this.ruleForm.img01FileName);
         });
-        this.seeImg01 = false;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('img01');
       },
@@ -587,7 +577,6 @@
         this.ruleForm.img02 = response.result;
         this.ruleForm.img02FileName = file.name;
 
-        this.seeImg02 = false;
         /* 重新校验 */
         this.$refs.ruleForm.validateField('img02');
       },
