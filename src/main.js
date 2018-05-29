@@ -17,6 +17,16 @@ Vue.prototype.$http = axios;
 // 引入 moment
 import moment from 'moment'
 Vue.prototype.$moment = moment;
+
+import Vtip from 'vtip';
+import 'vtip/lib/index.min.css';
+// 注册指令使用
+Vue.use(Vtip.directive)
+
+// 工具函数调用
+Vue.prototype.$tip = Vtip.tip
+
+
 // 引入jquery
 // import $ from 'jquery';
 //自定义指令
