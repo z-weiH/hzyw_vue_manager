@@ -66,3 +66,5 @@ Vue.directive('tableCollapse',{
 
   }
 })
+
+

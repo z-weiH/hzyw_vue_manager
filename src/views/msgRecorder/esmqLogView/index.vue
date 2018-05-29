@@ -30,52 +30,98 @@ export default {
   data() {
     return {
       item: {},
-      exportUrl: URL_JSON['exportEsmqLogView'],
-      queryUrl: URL_JSON['queryEsmqLogView'],///14/send/querySmsSendByBaseQuery.htm
+      exportUrl: URL_JSON["exportEsmqLogView"],
+      queryUrl: URL_JSON["queryEsmqLogView"], ///14/send/querySmsSendByBaseQuery.htm
       tableData: [{}],
-      searchItem:{},
+      searchItem: {},
       searchItems: [
         {
           label: "短信类型",
           type: "select",
           colSpan: 6,
-          property: "messageType"
-        },{
+          property: "messageType",
+          options: [
+            {
+              value: "",
+              label: "请选择"
+            },
+            {
+              value: "0",
+              label: "其他"
+            },
+            {
+              value: "1",
+              label: "提交通知"
+            },
+            {
+              value: "2",
+              label: "应裁通知"
+            },
+            {
+              value: "3",
+              label: "组庭通知"
+            },
+            {
+              value: "4",
+              label: "裁决通知"
+            },
+            {
+              value: "5",
+              label: "验证码"
+            },
+            {
+              value: "6",
+              label: "生成账号"
+            },
+            {
+              value: "7",
+              label: "调解短信"
+            }
+          ]
+        },
+        {
           label: "发送日期",
           type: "date",
           placeholder: "开始日期",
           colSpan: 4,
           property: "beginSendTime"
-        },{
-          type: "select",
+        },
+        {
+          type: "date",
           placeholder: "结束日期",
           colSpan: 4,
           property: "endSendTime"
-        },{
+        },
+        {
           type: "text",
           placeholder: "手机号、发送内容",
           colSpan: 4,
           property: "keyWords"
-        },
+        }
       ],
       columnDefine: [
         {
           label: "案件编号",
           property: "caseNum"
-        },{
+        },
+        {
           label: "申请人",
           property: "applicants"
-        },{
+        },
+        {
           label: "被申请人",
           property: "respondents"
-        },{
+        },
+        {
           label: "发送手机号",
           property: "sendPhone",
           width: "130"
-        },{
+        },
+        {
           label: "发送时间",
           property: "sendTimeDate"
-        },{
+        },
+        {
           label: "发送结果",
           property: "sendResult"
         },
@@ -117,5 +163,4 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 </style>
