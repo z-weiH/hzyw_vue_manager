@@ -209,11 +209,11 @@
                 id : 43,
                 url : 'clientTimeTaskManage'
               },
-              {
+              /* {
                 label : '案件提交日志',
                 id : 44,
                 url : 'caseOrderQuery'
-              },
+              }, */
               {
                 label : '身份证校验',
                 id : 45,
