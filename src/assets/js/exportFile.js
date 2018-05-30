@@ -10,14 +10,14 @@ let exportFile = (obj) => {
   let iframe = document.createElement('iframe');
   let name = `iframe-${+ new Date()}`;
   iframe.name = name;
-  iframe.style = 'display:none';
+  iframe.style.display = 'none';
   let arr = [];
 
   for(let key in data) {
     arr.push(`${key}=${data[key]}`);
   };
   iframe.src = url + '?' + arr.join('&');
-
+  
   iframe.onload = function() {
     // 获取 iframe window对象
     let i_window = window.frames[name];
