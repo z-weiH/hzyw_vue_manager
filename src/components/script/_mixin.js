@@ -79,7 +79,14 @@ export default {
       });
       return promise;
     },
-
+    /**
+     * @method
+     * @description 刷新表格
+     */
+    refresh() {
+      this.editState = 0;
+      this.doQuery(this.queryUrl, this.searchItem)
+    }
 
 
   }

@@ -64,6 +64,10 @@
             {label: '选择仲裁委：', type: 'select', options: this.AllArbList,columns:1,property: 'arbId',valuefield: 'arbId', labelfield: 'fullName'},
             // 1主账户、2子账户
             {label: '客户类型：', type: 'select', options: [{label: '主账户', value: 1},{label: '子账户', value: 2}],columns:1,property: 'custType'},
+            {label: '选择关联的普通客户：', type: 'select', options: [],columns:2,property: 'parentId', valuefield: 'custId', labelfield: 'custName',
+              hidden: () => this.item.custType === 2
+            },
+
           ]
         },{
           title: '第五部分：客户资料',
@@ -137,6 +141,14 @@
             }
           })
       },
+      getParentCustomer() {
+        this.$http.post(URL_JSON['getParentCustomerAccountApply'])
+          .then(res => {
+            if(res.code === '0000'){
+              this.edtDefines[3].content[2].options = res.result.list;
+            }
+          })
+      },
       saveApply(num) {
         let obj = Object.assign({isCommit: num}, this.item);
         this.$http.post(URL_JSON['saveAccountApply'], obj, {headers:{token: JSON.parse(localStorage.getItem('loginInfo')).token}})
@@ -157,6 +169,7 @@
     created() {
       this.getAllArbList();
       this.getUserList();
+      this.getParentCustomer();
     }
   }
 </script>

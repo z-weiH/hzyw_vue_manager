@@ -32,6 +32,7 @@ export const URL_JSON = {
   'editAccountApply': '/customer/queryCustomerExtByCustomerId.htm', //开户申请详情
   'ArbListAccountApply': '/arb/queryAllArbList.htm', //开户申请详情-查询所有仲裁委列表
   'RoleTypeAccountApply': '/user/queryUserListByRoleType.htm', //开户申请详情-查询所有市场人员列表
+  'getParentCustomerAccountApply': '/customer/selectAllParentCustomer.htm', //父账户下拉列表
 
   //开户确认 AccountAffirm
   'queryAccountAffirm': '/customer/queryApplicationOrderForOperator.htm', //开户确认列表查询
@@ -46,6 +47,7 @@ export const URL_JSON = {
   //开户设置【财务人员】 AccountSettingManage
   'queryAccountSettingManage': '/order/queryApplicationOrderForFinancial.htm', //客户列表
   'editAccountSettingManage': '/order/selectDetailByOrderId.htm', //开户设置详情
+  'saveAccountSettingManage': '/order/saveAdditionalInformation.htm',//保存，提交
 
   /* 开户管理 */
 

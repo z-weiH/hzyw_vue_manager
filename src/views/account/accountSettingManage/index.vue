@@ -19,7 +19,7 @@
         </el-table-column>
       </table-component>
     </div>
-    <edit :item="item" :edit-state="editState"></edit>
+    <edit :item="item" :edit-state="editState" @refresh="refresh"></edit>
   </div>
 </template>
 
@@ -69,7 +69,6 @@
             }
           })
       }
-
     },
     components: {
       Searchs,

@@ -94,26 +94,30 @@ export default {
   methods: {
     // 工具函数使用
     setTip({ target }, $eleVal) {
-      this.tipInstance = this.$tip({
-        target,
-        width: "auto",
-        theme: "dark",
-        transition: true,
-        // customProps 传递 customComponent 组件的需要的 props
-        customProps: {
-          msg: $eleVal,
-          handler() {
-            console.log("click");
-          }
-        },
-        // 用于监听自定义组件的 emit 事件
-        customListeners: {
-          created() {
-            console.log("created");
-          }
-        },
-        customComponent: Tip
-      });
+      if(target.offsetWidth < target.getElementsByTagName('span')[0].offsetWidth){
+        this.tipInstance = this.$tip({
+          target,
+          width: "auto",
+          theme: "dark",
+          transition: true,
+          // customProps 传递 customComponent 组件的需要的 props
+          customProps: {
+            msg: $eleVal,
+            handler() {
+              console.log("click");
+            }
+          },
+          // 用于监听自定义组件的 emit 事件
+          customListeners: {
+            created() {
+              console.log("created");
+            }
+          },
+          customComponent: Tip
+        });
+      }
+      // el.offsetParent && (el.offsetWidth+20 > el.offsetParent.offsetWidth
+
     },
     hiddenTip({ target }) {
       const { tipInstance } = this;
