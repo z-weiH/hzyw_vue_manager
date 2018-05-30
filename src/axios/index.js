@@ -12,11 +12,15 @@ import router from '../router'
 axios.defaults.timeout = 10000;
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
- 
+
 // 请求拦截
 axios.interceptors.request.use((config) => {
   // 判断是否是formdata格式
   // post 请求 使用 form Data 请求方式
+  let token='';
+  if(JSON.parse(localStorage.getItem('loginInfo')))
+    token= JSON.parse(localStorage.getItem('loginInfo')).token;
+  config.headers['token'] = token;
   if (config.method === 'post' && config.mheaders !== true) {
     config.data = qs.stringify(config.data);
   }

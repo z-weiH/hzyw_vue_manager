@@ -3,7 +3,7 @@
     <table
       class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20" v-for="(def,index) in calcDefines" :key="index"
     >
-      <tbody>
+      <tbody v-if="!def.hidden || def.hidden()">
       <tr>
         <td colspan="4" v-if="def.title">{{def.title}}</td>
       </tr>
@@ -81,7 +81,7 @@
       calcDefines () {
         let returnArr = [];
         this.editDefines.forEach(it =>{
-          let obj = {title: it.title, content: []};
+          let obj = {title: it.title, content: [],hidden: it.hidden};
           for(let i = 0;i<it.content.length;i++){
             if(it.content[i].columns!=2 && i < it.content.length-1){
               obj.content.push([it.content[i],it.content[++i]])

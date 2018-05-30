@@ -39,7 +39,7 @@
           {placeholder: '起始时间', colSpan: 4, property: 'startTime',type: 'date',limit: this.limit1},
           {placeholder: '结束时间', colSpan: 4, property: 'endTime',type: 'date',limit: this.limit2},
           {placeholder: '开户状态', colSpan: 5, property: 'orderStatus',type: 'select', options: [
-              {label:'待提交', value: 0},
+              {label:'待处理', value: 0},
               {label:'待审核', value: 1},
               {label:'通过', value: 2},
               {label:'不通过', value: 3},
@@ -49,7 +49,7 @@
         queryUrl: URL_JSON['queryAccountSettingManage'],
         columnDefine: [
           {label: '企业名称', property: 'custName'},
-          {label: '合同号', property: 'contactNo'},
+          {label: '合同号', property: 'contactNo',isLink: true, linkShowPanel: this.doView},
           {label: '技术服务费(元)', property: 'serveAmount'},
           {label: '开户仲券(张)', property: 'ticketCount'},
           {label: '开户受理费(元)', property: 'caseAmount'},
@@ -59,6 +59,15 @@
       }
     },
     methods: {
+      doView(row) {
+        this.$http.post(URL_JSON['editAccountSettingManage'],{orderId: row.orderId})
+          .then(res => {
+            if(res.code === '0000'){
+              this.item = res.result;
+              this.editState = 9;
+            }
+          })
+      },
       showDailog(row) {
         console.log(row);
         this.$http.post(URL_JSON['editAccountSettingManage'],{orderId: row.orderId})
