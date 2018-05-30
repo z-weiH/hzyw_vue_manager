@@ -64,14 +64,14 @@ import { URL_JSON } from "../../../../components/script/url_json";
         this.$http.post(this.queryUrl).then(res => {
           res = Mock.mock(res);
           console.info('fff:', res);
-          this.createItems[0].options = res.result.list;
+          this.createItems[0].options = res.result;
         });
       },
       searchYyPeople() {
         this.$http.post(this.queryUrl).then(res => {
           res = Mock.mock(res);
           console.info('yy:', res);
-          this.createItems[1].options = res.result.list;
+          this.createItems[1].options = res.result;
         });
       },
       fpnewstatus() {
