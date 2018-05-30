@@ -32,7 +32,7 @@
           </el-table-column>
         </table-component>
       </div>
-      <account-apply :edit-state="editState" :item="item"></account-apply>
+      <account-apply :edit-state="editState" :item="item" @refresh="refresh"></account-apply>
     </div>
   </div>
 </template>
@@ -102,11 +102,13 @@
         this.editState = 2;
       },
       doEdit (row) {
-        this.$http.post( URL_JSON['editAccountApply'],{customerId:row.customerId})
+        this.$http.post( URL_JSON['editAccountApply'],{customerId:row.custId})
           .then(res => {
-            this.item = res;
+            if(res.code === '0000'){
+              this.item = res.result;
+              this.editState = 1;
+            }
           })
-        this.editState = 1;
       },
       doDelete () {
 
@@ -115,6 +117,10 @@
         if(time.getTime() > new Date().getTime())
           return true;
       },
+      refresh() {
+        this.editState = 0;
+        this.doQuery(this.queryUrl, this.searchItems);
+      }
     },
     components: {
       Searchs,

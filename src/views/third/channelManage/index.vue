@@ -15,7 +15,7 @@
         <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
       </div>
     </div>
-    <channel-edit :editState="editState" :item="item"></channel-edit>
+    <channel-edit :editState="editState" :item="item" @refresh="refresh"></channel-edit>
   </div>
 </template>
 
@@ -47,12 +47,18 @@
           }
         ],
         item: {},
-        queryUrl: '/9' + URL_JSON['queryChannelManage']
+        queryUrl: URL_JSON['queryChannelManage']
       }
     },
     methods: {
-      edit() {
-        this.editState = 1;
+      edit(row) {
+        this.$http.post(URL_JSON['editChannelManage'],{channelId:row.channelId})
+          .then(res => {
+            if(res.code === '0000'){
+              this.item = res.result;
+              this.editState = 1;
+            }
+          });
       },
       create () {
         this.item = {};
@@ -61,11 +67,21 @@
       delete (row) {
         this.showConfirm().then(res => {
           if(res){
-            console.log('删除');
+            if(res){
+              this.$http.post(URL_JSON['deleteChannelManage'],{channelId:row.channelId}).then(r => {
+                if(r.code === '0000'){
+                  this.$message.success(r.description);
+                  this.refresh()
+                }
+              })
+            }
           }
         })
       },
-
+      refresh(){
+        this.editState = 0;
+        this.doQuery(this.queryUrl, this.searchItem);
+      }
     },
     components: {
       Searchs,

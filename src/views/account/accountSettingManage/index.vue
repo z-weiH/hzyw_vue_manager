@@ -9,11 +9,17 @@
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine">
         <el-table-column label="操作" prop="orderStatusName" slot="defineCol">
           <template slot-scope="scope">
-            <span>{{scope.row.orderStatusName}}</span>
+            <el-button
+              size="mini"
+              @click="showDailog(scope.row)" v-if="scope.row.orderStatus == 0">待处理</el-button>
+            <span  v-if="scope.row.orderStatus == 1">待审核</span>
+            <span  v-if="scope.row.orderStatus == 2">通过</span>
+            <span  v-if="scope.row.orderStatus == 3">不通过</span>
           </template>
         </el-table-column>
       </table-component>
     </div>
+    <edit :item="item" :edit-state="editState"></edit>
   </div>
 </template>
 
@@ -22,6 +28,7 @@
   import Mixins from '@/components/script/_mixin'
   import {URL_JSON} from "../../../components/script/url_json";
   import TableComponent from '@/components/table'
+  import  edit from './modules/edit'
   export default {
     name: 'accountSettingDefault',
     extends: Mixins,
@@ -52,30 +59,22 @@
       }
     },
     methods: {
-
-      doQuery(url,item) {
-        this.query(url,item).then(res=>{
-          this.tableData[0].orderStatus = 0;
-          this.tableData.forEach( it => {
-            if(it.orderStatus == 0){
-              it.orderStatusName = '待提交';
-            }
-            else if(it.orderStatus == 1){
-              it.orderStatusName = '待审核';
-            }
-            else if(it.orderStatus == 2){
-              it.orderStatusName = '通过';
-            }
-            else if(it.orderStatus == 3){
-              it.orderStatusName = '不通过';
+      showDailog(row) {
+        console.log(row);
+        this.$http.post(URL_JSON['editAccountSettingManage'],{orderId: row.orderId})
+          .then(res => {
+            if(res.code === '0000'){
+              this.item = res.result;
+              this.editState = 1;
             }
           })
-        })
       }
+
     },
     components: {
       Searchs,
-      TableComponent
+      TableComponent,
+      edit
     },
     created() {
       this.doQuery(this.queryUrl,this.searchItem);

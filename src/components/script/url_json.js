@@ -91,6 +91,9 @@ export const URL_JSON = {
 
   //短信渠道管理channelManage
   'queryChannelManage': '/riskChannel/queryChannelByBaseQuery.htm', // 短信渠道管理列表页面
+  'editChannelManage': '/riskChannel/queryChannelByChannelId.htm', // 短信渠道修改详情
+  'deleteChannelManage': '/riskChannel/updateChannelByPrimaryKey.htm', // 短信渠道的删除
+  'saveChannelManage': '/riskChannel/saveChannelManage.htm', // 短信渠道保存
 
   /* 第三方管理 */
 
