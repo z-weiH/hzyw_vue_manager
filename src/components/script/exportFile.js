@@ -2,8 +2,7 @@ export default {
   methods: {
     exportFile(surl) {
       let _userData = JSON.parse(localStorage.getItem('loginInfo'));
-      console.info(_userData.token);
-      alert(1);
+      // alert(1);
       let url = surl + '?';
       delete this.searchItem.pageSize;
       delete this.searchItem.currentNum;
@@ -14,6 +13,7 @@ export default {
       })
       // url = url.substr(0, url.length - 1);
       url = url + `token=${_userData.token}`;
+      console.log(url);
       let _form = document.createElement('form');
       _form.setAttribute('id', 'efile');
       _form.setAttribute('action', url);
@@ -22,7 +22,6 @@ export default {
       document.body.appendChild(_form);
       _form.submit();
       document.getElementById('efile').remove();
-      console.log(url);
 
     }
 

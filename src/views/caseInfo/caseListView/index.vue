@@ -5,7 +5,7 @@
     </div>
     <searchs @valueChange="searchItemChange" class="item-search" :search-items="searchItems" :item="item" :query-url="queryUrl">
       <template slot="moreBtn">
-          <el-button class="ml-20" type="primary" @click="exportFile(exportUrl)">导出Excel</el-button>
+          <el-button class="ml-20" type="primary" @click="handleExport">导出Excel</el-button>
       </template>
     </searchs>
     <div class="item-title">
@@ -19,13 +19,13 @@
 
 <script type="text/ecmascript-6">
 import { URL_JSON } from "../../../components/script/url_json";
-import exportFile from "@/components/script/exportFile";
+import exportFile from "@/assets/js/exportFile";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
 export default {
   name: "caseListView",
-  mixins: [Mixins, exportFile],
+  mixins: [Mixins],
   data() {
     return {
       searchItems: [
@@ -215,7 +215,7 @@ export default {
       searchItem: {},
       item: {},
       currentItem: {},
-      exportUrl: URL_JSON["exportCaseListView"],
+      exportUrl: "http://192.168.30.15:8999" + URL_JSON["exportCaseListView"],
       queryUrl: URL_JSON["queryCaseListView"], ///11/case/queryHzCaseInfoByBaseQuery.htm
       // 数据总数
       total: 11,
@@ -353,6 +353,15 @@ export default {
     };
   },
   methods: {
+    handleExport() {
+       console.info('searchItem:::',this.searchItem);
+      let _token = JSON.parse(localStorage.getItem('loginInfo')).token;
+          this.searchItem.token = _token;
+      exportFile({
+        url: this.exportUrl,
+        data: this.searchItem
+      });
+    },
     searchItemChange(item) {
       console.error(item);
       for (var i in item) {
@@ -389,7 +398,6 @@ export default {
     },
     optsPduListView(params) {
       this.$http.post(URL_JSON["selectProduct"], params).then(res => {
-
         // console.log('selectProduct:::',res);
         this.searchItems[5].options = res.result;
       });

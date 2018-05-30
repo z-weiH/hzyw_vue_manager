@@ -5,7 +5,7 @@
          <a>所在位置</a>
          <router-link :to='$options.name' class='aside_tit'>客户分配</router-link>
         </div>
-        <searchs class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
+        <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
           <template slot='moreBtn'><el-button class='ml-20' type='primary' @click='create'>新增分配</el-button></template>
         </searchs>
         <div class='item-title'>
@@ -33,20 +33,28 @@ export default {
       editState: 0, // 4 编辑权限
       deleteConfirm: false,
       currentItem: {},
-      queryUrl: URL_JSON['queryCustomerAllot'],///13/distribution/queryDistributionByBaseQuery.htm
+      opCompany: [],
+      operatorList: [],
+      queryUrl: URL_JSON["queryCustomerAllot"], ///13/distribution/queryDistributionByBaseQuery.htm
       tableData: [{}],
       searchItems: [
         {
           label: "互金企业",
           type: "select",
           colSpan: 4,
-          property: "merchantCode"
+          property: "merchantCode",
+          options: this.opCompany,
+          labelfield: "merchantName",
+          valuefield: "code"
         },
         {
           label: "运营人员",
           type: "select",
           colSpan: 4,
-          property: "operatorId"
+          property: "operatorId",
+          options: this.operatorList,
+          labelfield: "userName",
+          valuefield: "userId"
         },
         {
           label: "分配时间",
@@ -85,6 +93,22 @@ export default {
     };
   },
   methods: {
+    searchItemChange(item) {
+      console.error(item);
+    },
+    optsCompanyListView() {
+      this.$http.post(URL_JSON["queryAllMerchant"]).then(res => {
+        console.log("queryAllMerchant:::", res);
+
+        this.searchItems[0].options = res.result;
+        // console.log('list:',res.result);
+      });
+    },
+    operatorListView(){
+      this.$http.post(URL_JSON["queryUserListByRoleType"]).then(res => {
+          this.searchItems[1].options = res.result;
+      });
+    },
     doQuery(url, item) {
       this.query(url, item).then(res => {
         this.tableData = res.result.list;
@@ -94,7 +118,6 @@ export default {
     create() {
       this.editState = 1;
       // this.item = row;
-
     },
     doEdit(row) {
       // console.log(row);
@@ -104,8 +127,17 @@ export default {
       this.showConfirm().then(res => {
         //点确定 res为true , false为true
         console.log(res);
+        this.$http.post(URL_JSON['unbindCustomerAllot'],res.id).then(res => {
+          this.$message.success('解绑成功');
+          this.doQuery(this.queryUrl, this.item);
+        });
+
       });
     }
+  },
+  created () {
+    this.optsCompanyListView();//互金企业
+    this.operatorListView();//运营人员
   },
   mounted() {
     this.doQuery(this.queryUrl, this.item);

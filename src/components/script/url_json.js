@@ -144,6 +144,11 @@ export const URL_JSON = {
   'queryCustomerAllot': '/distribution/queryDistributionByBaseQuery.htm', //客户分配列表
   'queryAllMerchant': '/merchant/queryAllMerchant.htm', //互金企业
   'queryUserListByRoleType': '/user/queryUserListByRoleType.htm',//运营人员
+  'saveCustomerAllot': '/distribution/saveDistribution.htm',//新增分配人员
+  'unbindCustomerAllot': '/distribution/queryDistributionByBaseQuery.htm',//解绑分配人员
+
+
+
 
 
 

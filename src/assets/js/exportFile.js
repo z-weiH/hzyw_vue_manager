@@ -1,8 +1,8 @@
 
 /**
- * @param {string} url 
+ * @param {string} url
  *  请求url
- * @param {object} data 
+ * @param {object} data
  *  请求参数
  */
 let exportFile = (obj) => {
@@ -17,7 +17,7 @@ let exportFile = (obj) => {
     arr.push(`${key}=${data[key]}`);
   };
   iframe.src = url + '?' + arr.join('&');
-  
+
   iframe.onload = function() {
     // 获取 iframe window对象
     let i_window = window.frames[name];
