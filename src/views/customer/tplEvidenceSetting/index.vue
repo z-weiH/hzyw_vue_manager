@@ -4,13 +4,15 @@
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入客户名称、账号"></el-input>
+          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入客户名称"></el-input>
         </el-form-item>
 
         <!-- 时间范围 选择 -->
         <timeFrame
           :startDate.sync="ruleForm.startDate"
           :endDate.sync="ruleForm.endDate"
+          startPlaceholder="发送起始时间"
+          endPlaceholder="发送结束时间"
         >
         </timeFrame>
 

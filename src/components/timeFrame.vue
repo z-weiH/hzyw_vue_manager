@@ -3,7 +3,7 @@
     <el-form-item prop="start">
       <el-date-picker 
         type="date" class="w-133" 
-        placeholder="起始时间" 
+        :placeholder="startPlaceholder" 
         v-model="start"
         :picker-options="pickerOptions1"
         value-format="yyyy-MM-dd"
@@ -14,7 +14,7 @@
     <el-form-item prop="end">
       <el-date-picker 
         type="date" class="w-133" 
-        placeholder="结束时间" 
+        :placeholder="endPlaceholder" 
         v-model="end"
         :picker-options="pickerOptions2"
         value-format="yyyy-MM-dd"
@@ -34,6 +34,14 @@
       /* 结束时间 */
       endDate : {
         required: true,
+      },
+      startPlaceholder : {
+        type : String,
+        default : '起始时间',
+      },
+      endPlaceholder : {
+        type : String,
+        default : '结束时间',
       },
     },
     watch : {

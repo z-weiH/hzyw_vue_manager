@@ -75,6 +75,8 @@
         
         ruleForm : {
           tableData : [{
+            // 证据id
+            eviId : '1',
             // 证据序号
             sortNo : '',
             // 证明对象
@@ -178,6 +180,8 @@
             this.$message.success('删除成功');
             this.init();
           });
+        },() => {
+          console.log('已取消');
         }).catch(() => {});
       },
     },
