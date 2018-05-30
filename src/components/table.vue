@@ -178,7 +178,7 @@ export default {
     handleCurrentChange(val) {
       console.log("val===", val, this);
       this.$parent.pager.currentNum = val;
-      this.$parent.doQuery(this.$parent.queryUrl, this.$parent.item);
+      this.$parent.doQuery(this.$parent.queryUrl, this.$parent.searchItem);
     }
   },
   watch: {

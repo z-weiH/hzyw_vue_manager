@@ -5,11 +5,17 @@
     width="890px"
     center>
     <div class="dailog-container">
-      <table-edits :editDefines="edtDefines" :item="item"></table-edits>
+      <table-edits :editDefines="edtDefines" :item="item" :disabled="true">
+      </table-edits>
+      <el-form>
+        <el-form-item label="">
+          <el-input type="textarea" v-model="item.apprerResult" placeholder="请输入审核意见"></el-input>
+        </el-form-item>
+      </el-form>
     </div>
     <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="save">保 存</el-button>
-          <el-button type="primary">确认提交</el-button>
+          <el-button type="primary" @click="save(2)">通 过</el-button>
+          <el-button @click="save(3)">不通过</el-button>
           <el-button @click="$parent.editState = 0">取 消</el-button>
         </span>
   </el-dialog>
@@ -17,6 +23,7 @@
 
 <script>
 import TableEdits from '@/components/tableEdits'
+import {URL_JSON} from "../../../../components/script/url_json";
 export default {
   name: 'edit',
   props: {
@@ -56,13 +63,22 @@ export default {
           {label: '技术服务费（元）：', type: 'text', placeholder: '请输入技术服务费',columns:1,property: 'serveAmount'},
           {label: '赠送仲券（张）：', type: 'text', placeholder: '请输入赠送仲券',columns:1,property: 'giftTicket'},
         ]
-      }]
+      },
+        {
+          title: '第四部分：审核结果',
+          content: [
+            {label:'审核状态：',type: 'text', columns: 2, property: 'auditStatus' },
+            {label:'财务主管审批意见：',type: 'textarea', columns: 2, property: 'apprerResult' },
+          ],
+          hidden: () => this.item.orderStatus >= 2
+        }
+      ]
     }
   },
   computed: {
     show :{
       get: function () {
-        return this.editState == 1;
+        return this.editState === 1 || this.editState === 9;
       },
       set: function (v) {
         if(!v)
@@ -74,8 +90,14 @@ export default {
     TableEdits
   },
   methods: {
-    save() {
-      console.log(this.item);
+    save(num) {
+      this.$http.post(URL_JSON['saveAccountSettingDefault'], {apprerResult: this.item.apprerResult,orderId: this.item.orderId, status:num})
+        .then(res => {
+          if(res.code === '0000'){
+            this.$message.success(res.description);
+            this.$emit('refresh');
+          }
+        })
     }
   },
   mounted () {

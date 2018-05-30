@@ -12,14 +12,16 @@
               <el-button
                 size="mini"
                 @click="showDailog(scope.row)" v-if="scope.row.orderStatus == 0">待处理</el-button>
-              <span  v-if="scope.row.orderStatus == 1">待审核</span>
+              <el-button
+                size="mini"
+                @click="showDailog(scope.row)" v-if="scope.row.orderStatus == 1">待审核</el-button>
               <span  v-if="scope.row.orderStatus == 2">通过</span>
               <span  v-if="scope.row.orderStatus == 3">不通过</span>
             </template>
           </el-table-column>
         </table-component>
       </div>
-      <setting-dlg :edit-state="editState" :item="item"></setting-dlg>
+      <setting-dlg :edit-state="editState" :item="item" @refresh="refresh"></setting-dlg>
     </div>
 </template>
 
@@ -49,7 +51,7 @@ export default {
       queryUrl: URL_JSON['queryAccountSettingDefault'],
       columnDefine: [
         {label: '企业名称', property: 'custName'},
-        {label: '合同号', property: 'contactNo'},
+        {label: '合同号', property: 'contactNo',isLink: true, linkShowPanel: this.doView},
         {label: '技术服务费(元)', property: 'serveAmount'},
         {label: '开户仲券(张)', property: 'ticketCount'},
         {label: '开户受理费(元)', property: 'caseAmount'},
@@ -60,7 +62,8 @@ export default {
   },
   methods: {
     showDailog(row) {
-      this.$http(URL_JSON['editAccountSettingDefault'],{orderId: row.orderId})
+      console.log(row)
+      this.$http.post(URL_JSON['editAccountSettingDefault'],{orderId: row.orderId})
         .then(res => {
           if(res.code){
             this.item = res.result;
@@ -68,6 +71,16 @@ export default {
           }
         })
     },
+    doView(row) {
+        console.log(row)
+        this.$http.post(URL_JSON['editAccountSettingDefault'],{orderId: row.orderId})
+          .then(res => {
+            if(res.code){
+              this.item = res.result;
+              this.editState = 9;
+            }
+          })
+      },
 
   },
   components: {
