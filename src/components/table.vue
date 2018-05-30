@@ -13,7 +13,7 @@
 <template slot-scope="scope">
   <div style="overflow:hidden" @mouseenter="setTip($event,scope.row[col.property])"
     @mouseleave="hiddenTip($event)">
-  <span :class="{colLink: col.isLink}" @click="col.linkShowPanel && col.linkShowPanel.bind($parent)(scope.row)">{{scope.row[col.property]}}</span>
+  <span  :class="{colLink: col.isLink}" @click="col.linkShowPanel && col.linkShowPanel.bind($parent)(scope.row)">{{scope.row[col.property]}}</span>
   </div>
 </template>
         </el-table-column>
@@ -67,32 +67,9 @@
        @prop spanMethod //Function  用来定义单元格合并
        */
 import Vue from "vue";
+import Tip from "@/components/tip";
 export default {
   name: "mineTable",
-  data() {
-    return {
-      options: {
-        title: "这里是标题",
-        content: "显示内容",
-        theme: "dark",
-        //  tip 的容器，在不设置的情况下，tip 会自动在参考元素的父级元素上面查找合适的容器，但推荐手动设置一个 tip 对象容器
-        container: document.body,
-        customProps: {
-          msg: "自定义渲染"
-        },
-        // 这里通过 customComponent 定义了一个自定义组件
-        customComponent: Vue.extend({
-          props: ["msg"],
-          render(h) {
-            return h("span", "123312313");
-          }
-        }),
-        placements: ["top", "buttom"],
-        duration: 400,
-        transition: true
-      }
-    };
-  },
   props: {
     tableData: Array,
     columnDefine: Array,
@@ -119,13 +96,26 @@ export default {
     setTip({ target }, $eleVal) {
       this.tipInstance = this.$tip({
         target,
-        width: "100px",
+        width: "auto",
         theme: "dark",
         transition: true,
-        content: $eleVal
+        // customProps 传递 customComponent 组件的需要的 props
+        customProps: {
+          msg: $eleVal,
+          handler() {
+            console.log("click");
+          }
+        },
+        // 用于监听自定义组件的 emit 事件
+        customListeners: {
+          created() {
+            console.log("created");
+          }
+        },
+        customComponent: Tip
       });
     },
-    hiddenTip({target}) {
+    hiddenTip({ target }) {
       const { tipInstance } = this;
       if (tipInstance && tipInstance.target === target) {
         tipInstance.hiddenTip();
