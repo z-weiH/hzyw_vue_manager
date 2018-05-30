@@ -15,7 +15,7 @@
         </timeFrame>
 
         <el-form-item label=" " prop="isSigned">
-          <el-select style="width:120px;" v-model="ruleForm.isSigned" placeholder="请选择状态">
+          <el-select clearable style="width:120px;" v-model="ruleForm.isSigned" placeholder="请选择状态">
             <el-option label="未签约" :value="0"></el-option>
             <el-option label="已签约" :value="1"></el-option>
           </el-select>

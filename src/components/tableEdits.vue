@@ -27,7 +27,10 @@
             <el-upload :ref="td.property" :on-success="uploadSucc"	 class="upload-demo" :data="{path: td.path}" :action="uploadUrl"   :limit="1"  v-if="td.type == 'file' && !(disabled || td.disabled)" >
               <el-button size="small" type="info" plain @click="startUpload(td)">点击这里上传文件</el-button>
             </el-upload>
-            <a v-else class="colLink" :href="item[td.property]" target="_blank">{{td.disabledLabel}}</a>
+            <template v-else>
+              <a v-if="item[td.property] && td.type == 'file'" class="colLink" :href="item[td.property]" target="_blank">{{td.disabledLabel}}</a>
+              <a v-if="!item[td.property] && td.type == 'file'" >未上传内容</a>
+            </template>
           </td>
           <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'info'">
             <span>{{td.content}}</span>

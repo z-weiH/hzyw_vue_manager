@@ -37,7 +37,7 @@ export const URL_JSON = {
   //开户确认 AccountAffirm
   'queryAccountAffirm': '/customer/queryApplicationOrderForOperator.htm', //开户确认列表查询
   'openAccountAffirm': '/customer/openCustomerConfirmByCustId.htm', //开户确认设置
-  'editAccountAffirm': '/customer/queryApplicationOrderForOperator.htm', //开户确认详情
+  'editAccountAffirm': 'customer/queryCustomerConfirmDetailByCustomerId.htm', //开户确认详情
 
   //开户设置【财务主管】 AccountSettingDefault
   'editAccountSettingDefault': '/order/selectDetailByOrderId.htm', //开户设置详情

@@ -7,13 +7,13 @@
     <div class="dailog-container">
       <table-edits :editDefines="edtDefines" :item="item" :disabled="true">
       </table-edits>
-      <el-form>
+      <el-form v-if="editState != 9 ">
         <el-form-item label="">
           <el-input type="textarea" v-model="item.apprerResult" placeholder="请输入审核意见"></el-input>
         </el-form-item>
       </el-form>
     </div>
-    <span slot="footer" class="dialog-footer">
+    <span slot="footer" class="dialog-footer" v-if="editState != 9 ">
           <el-button type="primary" @click="save(2)">通 过</el-button>
           <el-button @click="save(3)">不通过</el-button>
           <el-button @click="$parent.editState = 0">取 消</el-button>
