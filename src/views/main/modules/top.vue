@@ -30,58 +30,60 @@
 </template>
 
 <script>
-  export default {
-    data() {
-      return {
-        time : '',
-      }
-    },
-    mounted() {
-
-    },
-    methods : {
-      handleSignOut() {
-        this.$message.success('退出成功');
-        setTimeout(() => {
-          this.$router.push('/login');
-        },2000);
-      },
-    },
+export default {
+  data() {
+    return {
+      time: ""
+    };
+  },
+  mounted() {},
+  methods: {
+    handleSignOut() {
+      this.$confirm("是否退出客户服务平台?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        center: true
+      }).then(() => {
+        // this.$http.post("/logout.htm", {}).then(response => {
+          localStorage.removeItem("loginInfo");
+          this.$router.push({ path: "/login" });
+        // });
+      });
+    }
   }
+};
 </script>
 
 <style lang="scss" scoped>
-
-.top-header{
+.top-header {
   background-color: #fff;
   height: 33px;
   line-height: 33px;
   padding: 23px 0 19px 0;
-  border-bottom: 1px solid #E0E4E8;
-  .content{
+  border-bottom: 1px solid #e0e4e8;
+  .content {
     width: 1200px;
     margin: 0 auto;
-    .left{
-      color: #0F357F;
-      a{
+    .left {
+      color: #0f357f;
+      a {
         font-size: 37px;
-        font-family: 'stlitiregular';
+        font-family: "stlitiregular";
       }
-      >span{
+      > span {
         font-size: 27px;
       }
     }
-    .right{
-      .iconfont{
+    .right {
+      .iconfont {
         font-size: 16px;
       }
-      .m-btn{
+      .m-btn {
         padding: 5px 5px;
-        border: 1px solid #747F94;
+        border: 1px solid #747f94;
         margin-left: 10px;
       }
     }
   }
 }
-
 </style>
