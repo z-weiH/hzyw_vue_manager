@@ -80,6 +80,7 @@ export default {
   computed: {
     columns() {
       let arr = [];
+      console.error(this.columnDefine)
       this.columnDefine.forEach(it => {
         arr.push(it);
         if (it.children) {
@@ -167,7 +168,8 @@ export default {
       ele.elm.innerHTML = col.status ? "-" : "+";
       this.$set(
         this.columnDefine,
-        this.columnDefine.findIndex(it => it.property == col.property)
+        this.columnDefine.findIndex(it => it.property == col.property),
+        col
       );
     },
     // 页数 change

@@ -7,7 +7,7 @@
           <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入案件编号"></el-input>
         </el-form-item>
 
-        <el-select class="mr-10" style="width:120px;" v-model="ruleForm.processfingState" placeholder="处理状态">
+        <el-select clearable class="mr-10" style="width:120px;" v-model="ruleForm.processfingState" placeholder="处理状态">
           <el-option label="请选择" value=""></el-option>
           <template v-for="(item) in processingStateOptions">
             <el-option 

@@ -4,7 +4,7 @@
       <div class="fl search-label" v-if="searchItem.label">{{searchItem.label+'：'}}</div>
       <el-col class="mb-10"  :span="searchItem.colSpan ? searchItem.colSpan : 6">
         <el-input v-if="searchItem.type == 'text' || !searchItem.type" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder"></el-input>
-        <el-select @change="valueChange" v-if="searchItem.type ==  'select'" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder">
+        <el-select clearable @change="valueChange" v-if="searchItem.type ==  'select'" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder">
         <el-option
           v-for="(option,index) in searchItem.options"
           :key="index"

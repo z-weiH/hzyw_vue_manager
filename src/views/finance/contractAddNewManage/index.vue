@@ -15,7 +15,7 @@
         </timeFrame>
 
         <el-form-item label=" " prop="orderStatus">
-          <el-select style="width:100px;" v-model="ruleForm.orderStatus">
+          <el-select clearable style="width:100px;" v-model="ruleForm.orderStatus">
             <el-option label="请选择" value=""></el-option>
             <el-option label="待处理" value="1"></el-option>
             <el-option label="已加款" value="2"></el-option>

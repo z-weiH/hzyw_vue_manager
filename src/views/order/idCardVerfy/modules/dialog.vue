@@ -8,8 +8,8 @@
     >
       <div class="m-content">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="20px">
-          <el-form-item label=" " prop="yijian">
-            <el-input placeholder="请输入审核意见" v-model="ruleForm.yijian" />
+          <el-form-item label=" " prop="processResult">
+            <el-input placeholder="请输入审核意见" v-model="ruleForm.processResult" />
           </el-form-item>  
         </el-form> 
       </div>
@@ -31,19 +31,19 @@
 
         ruleForm : {
           // 审核意见
-          yijian : '',
+          processResult : '',
         },
         rules : {
-          yijian : [
+          processResult : [
             {required : true , message : '请输入审核意见' }
           ],
         },
-        row : {},
+        row : {
+        },
       }
     },
     methods: {
       show(row) {
-        console.log(row);
         this.dialogVisible = true;
         this.row = row;
       },
@@ -56,15 +56,12 @@
       handleSubmit() {
         this.$refs.ruleForm.validate((valid) => {
           if (valid) {
-            console.log(this.row,'lalala');
-            console.log(this.row.caseorderId,'aaaa');
-            let id = this.row.caseorderId;
             this.$http({
               method : 'post',
               url : '/order/saveVerifyResult.htm',
               data : {
-                caseorderid : this.row.caseorderId,
-                yijian : this.ruleForm.yijian,
+                caseOrderId : this.row.caseOrderId,
+                processResult : this.ruleForm.processResult,
               },
             }).then((res) => {
               this.$message.success('操作成功');
@@ -78,10 +75,12 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 .id-card-verfy-dialog{
-
+  .el-form-item.is-required .el-form-item__label:before{
+    display: none;
+  }
 }
 
 </style>

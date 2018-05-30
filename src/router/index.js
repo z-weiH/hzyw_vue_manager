@@ -334,14 +334,14 @@ let router = new Router({
             name: 'clientTimeTaskManage',
           },
         },
-        {
+        /* {
           path: 'caseOrderQuery',
           component: () =>
             import ('@/views/order/caseOrderQuery'), // 案件提交日志
           meta: {
             name: 'caseOrderQuery',
           },
-        },
+        }, */
         {
           path: 'idCardVerfy',
           component: () =>

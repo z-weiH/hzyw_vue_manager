@@ -513,11 +513,9 @@
           method : 'post',
           url : '/ordermanage/selectOrderDetail.htm',
           data : {
-            caseOrderId : row.caseorderid,
+            caseOrderId : row.caseOrderId,
           },
         }).then((res) => {
-          // 处理 rap 上数据问题
-          res.result.refunds = [res.result.refunds];
           this.ruleForm = res.result;
         });
       },

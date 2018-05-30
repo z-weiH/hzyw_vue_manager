@@ -1,5 +1,5 @@
 <template>
-  <div class="id-card-verfy fn-hide">
+  <div class="id-card-verfy">
     <div class="item-search">
       <span>Excel文件(最多查100条)：</span>
       <el-button class="file-inut-box"  icon='el-icon-upload'>
@@ -28,9 +28,9 @@
                 <li>被申请人信息</li>
                 <li>{{item.name}}</li>
                 <li>{{item.sex === 0 ? '女' : '男'}}</li>
-                <li>{{item.idaddress}}</li>
+                <li>{{item.idAddress}}</li>
                 <li>{{item.idcard}}</li>
-                <li>{{item.loanbillno}}</li>
+                <li>{{item.loanBillNo}}</li>
               </ul>
               <div class="mt-20">
                 <el-button size="small" type="primary" @click="handleExamine(item)">审核意见</el-button>
@@ -63,7 +63,28 @@
         // 文件名称
         fileName : '',
         // 表格数据
-        tableList : [],
+        tableList : [
+          /* {
+            // id
+            caseOrderId : '',
+            // 证件地址
+            idAddress : '',
+            // 身份证号
+            idcard : '',
+            // 身份证正面
+            img01 : '',
+            // 身份证反面
+            img02 : '',
+            // 借款单号
+            loanBillNo : '',
+            // 被申请人姓名
+            name : '',
+            // 民族
+            nation : '',
+            // 性别  0女 1男
+            sex : '',
+          } */
+        ],
       }
     },
     methods: {
@@ -95,7 +116,7 @@
       // 点击搜索
       handleSearch() {
         if(!this.file){
-          this.$message.warning('请上传文件');
+          this.$message.warning('文件不能为空');
           return;
         }
         this.initList();
@@ -110,7 +131,7 @@
       },
     },
   }
-</script>
+</script> 
 
 <style lang="scss" scoped>
 

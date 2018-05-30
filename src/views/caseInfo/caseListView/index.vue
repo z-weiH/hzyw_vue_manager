@@ -3,9 +3,9 @@
     <div class="wsbodyhead">
       <a>所在位置</a><router-link :to="$options.name" class="aside_tit">案件列表</router-link>
     </div>
-    <searchs class="item-search" :search-items="searchItems" :item="item" :query-url="queryUrl">
+    <searchs @valueChange="searchItemChange" class="item-search" :search-items="searchItems" :item="item" :query-url="queryUrl">
       <template slot="moreBtn">
-          <el-button class="ml-20" type="primary" @click="">导出Excel</el-button>
+          <el-button class="ml-20" type="primary" @click="exportFile(exportUrl)">导出Excel</el-button>
       </template>
     </searchs>
     <div class="item-title">
@@ -18,12 +18,14 @@
 </template>
 
 <script type="text/ecmascript-6">
+import { URL_JSON } from "../../../components/script/url_json";
+import exportFile from "@/components/script/exportFile";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
 export default {
   name: "caseListView",
-  extends: Mixins,
+  mixins: [Mixins, exportFile],
   data() {
     return {
       searchItems: [
@@ -79,44 +81,18 @@ export default {
           property: "merchantCode",
           colSpan: 4,
           newline: 1,
-          options: [
-            {
-              label: "企业一",
-              value: "001"
-            },
-            {
-              label: "企业二",
-              value: "002"
-            },
-            {
-              label: "企业三",
-              value: "003"
-            },
-            {
-              label: "企业四",
-              value: "004"
-            }
-          ]
+          options: this.opCompany,
+          labelfield: "merchantName",
+          valuefield: "code"
         },
         {
           label: "产品名称",
           type: "select",
           property: "productCode",
           colSpan: 4,
-          options: [
-            {
-              label: "产品一",
-              value: "001"
-            },
-            {
-              label: "产品二",
-              value: "002"
-            },
-            {
-              label: "产品三",
-              value: "003"
-            }
-          ]
+          options: this.opProduct,
+          labelfield: "prodName",
+          valuefield: "prodCode"
         },
         {
           label: "逾期天数",
@@ -125,16 +101,32 @@ export default {
           colSpan: 4,
           options: [
             {
-              label: "产品一",
-              value: "001"
+              label: "0-30天",
+              value: "M1"
             },
             {
-              label: "产品二",
-              value: "002"
+              label: "31-60天",
+              value: "M2"
             },
             {
-              label: "产品三",
-              value: "003"
+              label: "61-90天",
+              value: "M3"
+            },
+            {
+              label: "91-120天",
+              value: "M4"
+            },
+            {
+              label: "121-150天",
+              value: "M5"
+            },
+            {
+              label: "151-180天",
+              value: "M6"
+            },
+            {
+              label: "180天以上",
+              value: "M7"
             }
           ]
         },
@@ -146,16 +138,12 @@ export default {
           newline: 1,
           options: [
             {
-              label: "产品一",
-              value: "001"
+              label: "审理中",
+              value: "1"
             },
             {
-              label: "产品二",
-              value: "002"
-            },
-            {
-              label: "产品三",
-              value: "003"
+              label: "已结案",
+              value: "2"
             }
           ]
         },
@@ -164,40 +152,18 @@ export default {
           type: "select",
           property: "caseProcess",
           colSpan: 4,
-          options: [
-            {
-              label: "产品一",
-              value: "001"
-            },
-            {
-              label: "产品二",
-              value: "002"
-            },
-            {
-              label: "产品三",
-              value: "003"
-            }
-          ]
+          options: this.opHkCaseStage,
+          labelfield: "desc",
+          valuefield: "status"
         },
         {
           label: "案件状态",
           type: "select",
           property: "statusThree",
           colSpan: 4,
-          options: [
-            {
-              label: "产品一",
-              value: "001"
-            },
-            {
-              label: "产品二",
-              value: "002"
-            },
-            {
-              label: "产品三",
-              value: "003"
-            }
-          ]
+          options: this.opHkCaseStatus,
+          labelfield: "desc",
+          valuefield: "status"
         },
         {
           label: "应裁情况",
@@ -207,16 +173,16 @@ export default {
           newline: 1,
           options: [
             {
-              label: "产品一",
-              value: "001"
+              label: "未应裁",
+              value: "0"
             },
             {
-              label: "产品二",
-              value: "002"
+              label: "应裁有意见",
+              value: "1"
             },
             {
-              label: "产品三",
-              value: "003"
+              label: "应裁无意见",
+              value: "2"
             }
           ]
         },
@@ -227,37 +193,47 @@ export default {
           colSpan: 4,
           options: [
             {
-              label: "产品一",
-              value: "001"
+              label: "有还款",
+              value: "1"
             },
             {
-              label: "产品二",
-              value: "002"
+              label: "无还款",
+              value: "2"
             },
             {
-              label: "产品三",
-              value: "003"
+              label: "有仲裁后还款",
+              value: "3"
+            },
+            {
+              label: "无仲裁后还款",
+              value: "4"
             }
           ]
         }
       ],
+
       searchItem: {},
       item: {},
       currentItem: {},
-      queryUrl: '/11/case/queryHzCaseInfoByBaseQuery.htm',
+      exportUrl: URL_JSON["exportCaseListView"],
+      queryUrl: URL_JSON["queryCaseListView"], ///11/case/queryHzCaseInfoByBaseQuery.htm
       // 数据总数
       total: 11,
       // 当前页数
       currentPage: 1,
       // 每页数量
       pageSize: 10,
-      tableData:[],
+      tableData: [],
+      opCompany: [],
+      opProduct: [],
+      opHkCaseStage: [],
+      opHkCaseStatus: [],
       columnDefine: [
-        { label: "案件编号", property: "arbCaseId" ,width: 120},
-        { label: "互金企业", property: "platName" ,width: 100},
-        { label: "申请人", property: "applicants" ,width: 100},
-        { label: "被申请人", property: "respondents" ,width: 100},
-        { label: "被申请人手机", property: "resPhone" ,width: 150},
+        { label: "案件编号", property: "arbCaseId", width: 120 },
+        { label: "互金企业", property: "platName", width: 100 },
+        { label: "申请人", property: "applicants", width: 100 },
+        { label: "被申请人", property: "respondents", width: 100 },
+        { label: "被申请人手机", property: "resPhone", width: 150 },
         { label: "案件阶段", property: "caseProcess" },
         { label: "案件状态", property: "caseStatus" },
         {
@@ -316,52 +292,52 @@ export default {
             {
               label: "调解还款额",
               property: "adjustAmt",
-              width:110
+              width: 110
             },
             {
               label: "已还款总额",
               property: "reimbursementAmt",
-              width:110
+              width: 110
             },
             {
               label: "合同借款金额",
               property: "contractLoanAmt",
-              width:110
+              width: 110
             },
             {
               label: "打款金额",
               property: "payAmt",
-              width:110
+              width: 110
             },
             {
               label: "平台服务费",
               property: "platformFee",
-              width:110
+              width: 110
             },
             {
               label: "利息",
               property: "interestAmt",
-              width:110
+              width: 110
             },
             {
               label: "违约金",
               property: "penaltyAmt",
-              width:110
+              width: 110
             },
             {
               label: "仲券服务费",
               property: "caseTicketFee",
-              width:110
+              width: 110
             },
             {
               label: "预缴受理费",
               property: "prepaymentAmt",
-              width:110
+              width: 110
             },
             {
               label: "受理费退费",
               property: "acceptReturnAmt",
-              width:110
+              width: 110
             },
             {
               label: "处理费",
@@ -377,24 +353,82 @@ export default {
     };
   },
   methods: {
-    doQuery (url,item) {
-      this.query(url,item).then(res => {
+    searchItemChange(item) {
+      console.error(item);
+      for (var i in item) {
+        switch (item[i]) {
+          case "merchantCode":
+            console.log(item["value"]);
+            this.optsPduListView({ merchantCode: item["value"] });
+            break;
+          case "caseProcess":
+            this.optsHkCaseStatusView({ status: item["value"] });
+            break;
+          case "operType":
+            this.optsObjListView({ operType: item["value"] });
+            break;
+          default:
+            break;
+        }
+      }
+    },
+    doQuery(url, item) {
+      this.query(url, item).then(res => {
         console.info(res);
         //  this.tableData = res.result.list;
         //   this.total = res.result.count;
-      })
+      });
+    },
+    optsCompanyListView() {
+      this.$http.post(URL_JSON["selectCompany"]).then(res => {
+        console.log("selectCompany:::", res);
+
+        this.searchItems[4].options = res.result;
+        // console.log('list:',res.result);
+      });
+    },
+    optsPduListView(params) {
+      this.$http.post(URL_JSON["selectProduct"], params).then(res => {
+
+        // console.log('selectProduct:::',res);
+        this.searchItems[5].options = res.result;
+      });
+    },
+    optsHkCaseStageView() {
+      this.$http.post(URL_JSON["selectHkCaseStage"]).then(res => {
+        // console.log('selectHkCaseStage:::',res);
+
+        this.searchItems[8].options = res.result.list;
+      });
+    },
+    optsHkCaseStatusView(params) {
+      this.$http.post(URL_JSON["selectHkCaseStatus"], params).then(res => {
+        console.error("", res.result.list);
+
+        this.searchItems[9].options = res.result.list;
+        setTimeout(() => {
+          // this.searchItem.statusThree = '';
+          this.$set(this.searchItem, "statusThree", "");
+          console.log(this.searchItem);
+        }, 300);
+      });
     }
   },
-  mounted () {
+  created() {
+    this.optsCompanyListView(); //互金企业
+    this.optsPduListView(); //产品名称
+    this.optsHkCaseStageView(); //还款案件阶段
+    this.optsHkCaseStatusView(); //还款案件状态
+  },
+  mounted() {
     this.doQuery(this.queryUrl, this.item);
   },
-   components: {
+  components: {
     Searchs,
     TableComponent
-  },
+  }
 };
 </script>
 
 <style scoped>
-
 </style>

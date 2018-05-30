@@ -1,5 +1,5 @@
 <template>
-  <div class="order-management fn-hide">
+  <div class="order-management">
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
@@ -8,7 +8,7 @@
         </el-form-item>
 
         <el-form-item label=" " prop="merchantCode">
-          <el-select style="width:120px;" v-model="ruleForm.merchantCode" placeholder="请选择商户">
+          <el-select clearable style="width:120px;" v-model="ruleForm.merchantCode" placeholder="请选择商户">
             <el-option label="请选择" value=""></el-option>
             <template v-for="(item,index) in merchantOptions">
               <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
@@ -24,10 +24,10 @@
         </timeFrame>
 
         <el-form-item label=" " prop="orderStatus">
-          <el-select style="width:120px;" v-model="ruleForm.orderStatus" placeholder="请选择案件">
+          <el-select clearable style="width:120px;" v-model="ruleForm.orderStatus" placeholder="请选择案件">
             <el-option label="请选择" value=""></el-option>
             <template v-for="(item,index) in orderStatuOptions">
-              <el-option :key="item.code + index" :label="item.desc" :value="item.code"></el-option>
+              <el-option :key="item.id + index" :label="item.desc" :value="item.id"></el-option>
             </template>
           </el-select>
         </el-form-item>
@@ -125,7 +125,7 @@
         ],
         // 案件options
         orderStatuOptions : [
-          {desc : '李四' , code : '李四'}
+          {desc : '李四' , id : '李四'}
         ],
       }
     },
@@ -134,7 +134,7 @@
       // 获取所有 商户
       this.$http({
         method : 'post',
-        url : '/merchant/queryAllMerchant.htm',
+        url : '/merchant/queryMerchants.htm',
       }).then((res) => {
         this.merchantOptions = res.result.list;
       });
@@ -158,10 +158,9 @@
       },
       // 点击 重新提交
       handleReset(row) {
-        console.log('重新提交');
         this.$http({
           method : 'post',
-          url :'',
+          url :'/ordermanage/submitAgain',
           data : {
             caseorderId : row.caseorderId
           },
@@ -175,7 +174,7 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : ' /ordermanage/queryThirdOrderInfoByBaseQuery.htm',
+          url : '/ordermanage/queryOrderInfoByBaseQuery.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
