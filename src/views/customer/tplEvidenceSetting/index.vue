@@ -1,5 +1,5 @@
 <template>
-  <div class="tpl-evidence-setting fn-hide">
+  <div class="tpl-evidence-setting">
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
