@@ -111,6 +111,10 @@ export const URL_JSON = {
   'exportOrderAddNewManage': '/order/exportExcel.htm',//导出excel
   'updateOrderAddNewManage': '/order/auditOrderAdd.htm',//订单加款审核
 
+  // 受理费日对账
+  'queryBillingDay': '/amountcheckday/billdaylist.htm', //受理费日对账列表
+
+  'queryServiceChargeDayCheck': '/amountcheckday/servicedaylist.htm', //服务费日对账列表
 
 
   /* 财务管理 */
@@ -145,7 +149,8 @@ export const URL_JSON = {
   'queryAllMerchant': '/merchant/queryAllMerchant.htm', //互金企业
   'queryUserListByRoleType': '/user/queryUserListByRoleType.htm',//运营人员
   'saveCustomerAllot': '/distribution/saveDistribution.htm',//新增分配人员
-  'unbindCustomerAllot': '/distribution/queryDistributionByBaseQuery.htm',//解绑分配人员
+  'unbindCustomerAllot': '/distribution/deleteChannelByPrimaryKey.htm', //解绑分配人员
+
 
 
 

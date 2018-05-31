@@ -93,6 +93,9 @@ export default {
     };
   },
   methods: {
+    FullListQuery(){
+      this.doQuery(this.queryUrl, this.item);
+    },
     searchItemChange(item) {
       console.error(item);
     },
@@ -105,7 +108,7 @@ export default {
       });
     },
     operatorListView(){
-      this.$http.post(URL_JSON["queryUserListByRoleType"]).then(res => {
+      this.$http.post(URL_JSON["queryUserListByRoleType"],{ type: 'OPERATOR'}).then(res => {
           this.searchItems[1].options = res.result;
       });
     },
@@ -118,6 +121,7 @@ export default {
     create() {
       this.editState = 1;
       // this.item = row;
+    // console.info('row::::',this.item);
     },
     doEdit(row) {
       // console.log(row);
@@ -126,11 +130,13 @@ export default {
       console.info(row);
       this.showConfirm().then(res => {
         //点确定 res为true , false为true
-        console.log(res);
-        this.$http.post(URL_JSON['unbindCustomerAllot'],res.id).then(res => {
-          this.$message.success('解绑成功');
-          this.doQuery(this.queryUrl, this.item);
-        });
+        if(res){
+          console.log('sdsdsdsd',row.id);
+          this.$http.post(URL_JSON['unbindCustomerAllot'],{id:row.id}).then(res => {
+            this.$message.success('解绑成功');
+            this.doQuery(this.queryUrl, this.item);
+          });
+        }
 
       });
     }
