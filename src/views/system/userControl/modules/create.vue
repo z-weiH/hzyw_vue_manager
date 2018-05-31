@@ -70,15 +70,16 @@
       save() {
         this.checkbeforeSave().then(res=> {
           console.log(res);
+          this.createItem.roleIds = this.roleids.join(',');
+          this.$http.post(URL_JSON['saveUserControl'],this.createItem).then(res => {
+            if(res.code === '0000'){
+              this.$emit('refresh');
+            }
+          })
         }).catch(res => {
           console.log(res);
         })
-        // this.createItem.roleIds = this.roleids.join(',');
-        // this.$http.post(URL_JSON['saveUserControl'],this.createItem).then(res => {
-        //   if(res.code === '0000'){
-        //     this.$emit('refresh');
-        //   }
-        // })
+
       }
     },
     components: {
