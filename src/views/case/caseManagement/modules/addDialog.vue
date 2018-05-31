@@ -134,6 +134,9 @@
                       :before-upload="businessLicenseBefore"
                       :on-success="businessLicenseSuccess"
                       :on-error="fileError"
+                      :data="{
+                        path : 'hzuser/idcard'
+                      }"
                     >
                       <el-button size="mini" icon='el-icon-upload'>
                         点击这里上传文件
@@ -267,6 +270,9 @@
                       :before-upload="facadeOfIDCardBefore"
                       :on-success="facadeOfIDCardSuccess"
                       :on-error="fileError"
+                      :data="{
+                        path : 'hzuser/idcard'
+                      }"
                     >
                       <el-button size="mini" icon='el-icon-upload'>
                         点击这里上传文件
@@ -288,6 +294,9 @@
                       :before-upload="backsidePhotoOfIDCardBefore"
                       :on-success="backsidePhotoOfIDCardSuccess"
                       :on-error="fileError"
+                      :data="{
+                        path : 'hzuser/idcard'
+                      }"
                     >
                       <el-button size="mini" icon='el-icon-upload'>
                         点击这里上传文件
