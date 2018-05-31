@@ -1,6 +1,10 @@
 <template>
   <div class="table">
     <el-table :data="tableData" :span-method="spanMethod" stripe border>
+      <el-table-column
+        type="selection"
+        width="55" v-if="needCheckbox">
+      </el-table-column>
       <el-table-column :resizable="false" type="index" label="序号" width="50">
       </el-table-column>
       <template v-for="(col, index) of columns">
@@ -75,7 +79,8 @@ export default {
     columnDefine: Array,
     spanMethod: Function,
     actions: Array,
-    pager: Object
+    pager: Object,
+    needCheckbox:Boolean
   },
   computed: {
     columns() {
