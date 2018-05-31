@@ -17,9 +17,9 @@
 
           <tr>
             <td colspan="1">案件订单编号：</td>
-            <td colspan="1">{{ruleForm.orderInfo.loanbillno}}</td>
+            <td colspan="1">{{ruleForm.orderInfo.loanBillNo}}</td>
             <td colspan="1">所属平台：</td>
-            <td colspan="1">{{ruleForm.orderInfo.platname}}</td>
+            <td colspan="1">{{ruleForm.orderInfo.platName}}</td>
           </tr>
 
           <tr>
@@ -31,7 +31,7 @@
 
           <tr>
             <td colspan="1">标的金额：</td>
-            <td colspan="1">{{ruleForm.orderInfo.amtcase}}</td>
+            <td colspan="1">{{ruleForm.orderInfo.amtCase}}</td>
             <td colspan="1">案件受理费：</td>
             <td colspan="1">{{ruleForm.orderInfo.caseAmt}}</td>
           </tr>
@@ -55,65 +55,65 @@
           </tr>
           <tr>
             <td colspan="1">本金：</td>
-            <td colspan="1">{{ruleForm.fundInfo.amtcapital}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.amtCapital}}</td>
             <td colspan="1">利息：</td>
-            <td colspan="1">{{ruleForm.fundInfo.amtinterest}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.amtInterest}}</td>
           </tr>
 
           <tr>
             <td colspan="1">利息利率：</td>
-            <td colspan="1">{{ruleForm.fundInfo.rateinterest}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.rateInterest}}</td>
             <td colspan="1">罚息：</td>
-            <td colspan="1">{{ruleForm.fundInfo.amtpenalty}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.amtPenalty}}</td>
           </tr>
 
           <tr>
             <td colspan="1">服务费：</td>
-            <td colspan="1">{{ruleForm.fundInfo.amtservice}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.amtService}}</td>
             <td colspan="1">服务费利率：</td>
-            <td colspan="1">{{ruleForm.fundInfo.rateservice}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.rateService}}</td>
           </tr>
 
           <tr>
             <td colspan="1">其他费用：</td>
-            <td colspan="1">{{ruleForm.fundInfo.amtother}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.amtOther}}</td>
             <td colspan="1">已还费用：</td>
-            <td colspan="1">{{ruleForm.fundInfo.amtrefund}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.amtRefund}}</td>
           </tr>
 
           <tr>
             <td colspan="1">分期还款利率：</td>
-            <td colspan="1">{{ruleForm.fundInfo.raterefund}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.rateRefund}}</td>
             <td colspan="1">期数类型：</td>
-            <td colspan="1">{{ruleForm.fundInfo.periodstype}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.periodsType}}</td>
           </tr>
 
           <tr>
             <td colspan="1">期数：</td>
-            <td colspan="1">{{ruleForm.fundInfo.countperiods}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.countPeriods}}</td>
             <td colspan="1">借款开始日期：</td>
-            <td colspan="1">{{ruleForm.fundInfo.borrowstartdate}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.borrowStartDate}}</td>
           </tr>
 
           <tr>
             <td colspan="1">借款结束日期：</td>
-            <td colspan="1">{{ruleForm.fundInfo.borrowenddate}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.borrowEndDate}}</td>
             <td colspan="1">借款天数：</td>
-            <td colspan="1">{{ruleForm.fundInfo.daysborrowed}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.daysBorrowed}}</td>
           </tr>
 
           <tr>
             <td colspan="1">违约计算开始日期：</td>
-            <td colspan="1">{{ruleForm.fundInfo.violatestartdate}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.violateStartDate}}</td>
             <td colspan="1">违约计算结束日期：</td>
-            <td colspan="1">{{ruleForm.fundInfo.violateenddate}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.violateEndDate}}</td>
           </tr>
 
           <tr>
             <td colspan="1">逾期天数：</td>
-            <td colspan="1">{{ruleForm.fundInfo.dayoverdue}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.dayOverDue}}</td>
             <td colspan="1">逾期利率：</td>
-            <td colspan="1">{{ruleForm.fundInfo.rateoverdue}}</td>
+            <td colspan="1">{{ruleForm.fundInfo.rateOverDue}}</td>
           </tr>
         </table>
 
@@ -241,11 +241,11 @@
           </tr>
 
           <tr v-for="(item,index) in ruleForm.agreements" :key="index">
-            <td colspan="1">{{item.provedobject}}</td>
-            <td colspan="1">{{item.agreeno}}</td>
-            <td colspan="1">{{item.pagesize}}</td>
+            <td colspan="1">{{item.provedObject}}</td>
+            <td colspan="1">{{item.agreeNo}}</td>
+            <td colspan="1">{{item.pageSize}}</td>
             <td colspan="1">
-              <a :href="item.agreeurl" target="_blank" class="underline">查看</a>
+              <a :href="item.agreeUrl" target="_blank" class="underline">查看</a>
             </td>
           </tr>
         </table>
@@ -260,30 +260,30 @@
 
           <tr>
             <td colspan="1">借款单号：</td>
-            <td colspan="1">{{ruleForm.creditInfo.loanbillno}}</td>
+            <td colspan="1">{{ruleForm.creditInfo.loanBillNo}}</td>
             <td colspan="1">借款金额：</td>
-            <td colspan="1">{{ruleForm.creditInfo.amtborrow}}</td>
+            <td colspan="1">{{ruleForm.creditInfo.lamtBorrow}}</td>
           </tr>
           
           <tr>
             <td colspan="1">借款时间：</td>
             <td colspan="1">{{ruleForm.creditInfo.borrowdate}}</td>
             <td colspan="1">借款银行卡号：</td>
-            <td colspan="1">{{ruleForm.creditInfo.bankno}}</td>
+            <td colspan="1">{{ruleForm.creditInfo.bankNo}}</td>
           </tr>
 
           <tr>
             <td colspan="1">借款状态：</td>
-            <td colspan="1">{{ruleForm.creditInfo.billstatus}}</td>
+            <td colspan="1">{{ruleForm.creditInfo.billStatus}}</td>
             <td colspan="1">还款状态：</td>
-            <td colspan="1">{{ruleForm.creditInfo.refundstatus}}</td>
+            <td colspan="1">{{ruleForm.creditInfo.refundStatus}}</td>
           </tr>
 
           <tr>
             <td colspan="1">分期数：</td>
-            <td colspan="1">{{ruleForm.creditInfo.daysinstalment}}</td>
+            <td colspan="1">{{ruleForm.creditInfo.daysInstalment}}</td>
             <td colspan="1">借款到期时间：</td>
-            <td colspan="1">{{ruleForm.creditInfo.loaddate}}</td>
+            <td colspan="1">{{ruleForm.creditInfo.loadDate}}</td>
           </tr>
           
         </table>
@@ -298,10 +298,10 @@
 
           <tr>
             <td colspan="1">凭证供应商：</td>
-            <td colspan="1">{{ruleForm.voucherInfo.voucheroffer}}</td>
+            <td colspan="1">{{ruleForm.voucherInfo.voucherOffer}}</td>
             <td colspan="1">凭证凭证：</td>
             <td colspan="1">
-              <a :href="ruleForm.voucherInfo.voucherurl" target="_blank" class="underline">查看</a>
+              <a :href="ruleForm.voucherInfo.voucherUrl" target="_blank" class="underline">查看</a>
             </td>
           </tr>
         </table>
@@ -320,12 +320,12 @@
           </tr>
 
           <tr v-for="(item,index) in ruleForm.refunds" :key="index">
-            <td colspan="1">{{item.refunddate}}</td>
-            <td colspan="1">{{item.expiredate}}</td>
-            <td colspan="1">{{item.amtrefund}}</td>
-            <td colspan="1">{{item.amtactural}}</td>
-            <td colspan="1">{{item.refundtype}}</td>
-            <td colspan="1">{{item.refundstatus}}</td>
+            <td colspan="1">{{item.refundDate}}</td>
+            <td colspan="1">{{item.expireDate}}</td>
+            <td colspan="1">{{item.amtRefund}}</td>
+            <td colspan="1">{{item.amtActural}}</td>
+            <td colspan="1">{{item.refundType}}</td>
+            <td colspan="1">{{item.refundStatus}}</td>
           </tr>
         </table>
 
@@ -347,15 +347,15 @@
           /* ---------------------------- 案件订单信息 -------------------------- */
           orderInfo : {
             // 案件订单编号
-            loanbillno : '',
+            loanBillNo : '',
             // 所属平台
-            platname : '',
+            platName : '',
             // 出借人
             lender : '',
             // 被申请人
             respondents : '',
             // 标的金额
-            amtcase : '',
+            amtCase : '',
             // 案件受理费
             caseAmt : '',
             // 案件仲券
@@ -367,46 +367,46 @@
           /* ---------------------------- 相关金额信息 -------------------------- */
           fundInfo : {
             // 本金
-            amtcapital : '',
+            amtCapital : '',
             // 利息
-            amtinterest : '',
+            amtInterest : '',
             // 利息利率
-            rateinterest : '',
+            rateInterest : '',
             // 罚息
-            amtpenalty : '',
+            amtPenalty : '',
             // 服务费
-            amtservice : '',
+            amtService : '',
             // 服务费利率
-            rateservice : '',
+            rateService : '',
             // 其他费用
-            amtother : '',
+            amtOther : '',
             // 已还费用
-            amtrefund : '',
+            amtRefund : '',
             // 分期还款利率
-            raterefund : '',
+            rateRefund : '',
             // 期数类型
-            periodstype : '',
+            periodsType : '',
             // 期数
-            countperiods : '',
+            countPeriods : '',
             // 借款开始日期
-            borrowstartdate : '',
+            borrowStartDate : '',
             // 借款结束日期
-            borrowenddate : '',
+            borrowEndDate : '',
             // 借款天数
-            daysborrowed : '',
+            daysBorrowed : '',
             // 违约计算开始日期
-            violatestartdate : '',
+            violateStartDate : '',
             // 违约计算结束日期
-            violateenddate : '',
+            violateEndDate : '',
             // 逾期天数
-            dayoverdue : '',
+            dayOverDue : '',
             // 逾期利率
-            rateoverdue : '',
+            rateOverDue : '',
           },
 
           /* ---------------------------- 申请人 与 被申请人 信息 -------------------------- */
           respondents : [
-            {
+            /* {
               // 用户类型 0自然人 1企业
               type : 0,
               // 当事人类型 	0申请人 1被申请人
@@ -440,67 +440,67 @@
               legaler : '',
               // 职位
               position : '',
-            }
+            } */
           ],
 
           /* ---------------------------- 借款协议 -------------------------- */
           agreements : [
-            {
+            /* {
               // 协议名称
-              provedobject : '',
+              provedObject : '',
               // 协议编号
-              agreeno : '',
+              agreeNo : '',
               // 协议页数
-              pagesize : '',
+              pageSize : '',
               // 协议地址
-              agreeurl : '',
-            }
+              agreeUrl : '',
+            } */
           ],
 
           /* ---------------------------- 借款信息 -------------------------- */
           creditInfo : {
             // 借款单号
-            loanbillno : '',
+            loanBillNo : '',
             // 借款金额
-            amtborrow : '',
+            lamtBorrow : '',
             // 借款时间
             borrowdate : '',
             // 借款银行卡号
-            bankno : '',
+            bankNo : '',
             // 借款状态
-            billstatus : '',
+            billStatus : '',
             // 还款状态
-            refundstatus : '',
+            refundStatus : '',
             // 分期数
-            daysinstalment : '',
+            daysInstalment : '',
             // 借款到期时间
-            loaddate : '',
+            loadDate : '',
           },
           
           /* ---------------------------- 打款凭证 -------------------------- */
           voucherInfo : {
             // 凭证供应商
-            voucheroffer : '',
+            voucherOffer : '',
             // 凭证凭证
-            voucherurl : '',
+            voucherUrl : '',
           },
 
           /* ---------------------------- 还款信息 -------------------------- */
           refunds : [
-            {
+            /* {
               // 还款时间
-              refunddate : '',
+              refundDate : '',
               // 到期时间
-              expiredate : '',
+              expireDate : '',
               // 需还金额
-              amtrefund : '',
+              amtRefund : '',
               // 实际还款
-              amtactural : '',
+              amtActural : '',
               // 还款方式
-              refundtype : '',
+              refundType : '',
               // 还款状态
-              refundstatus : '',
-            }
+              refundStatus : '',
+            } */
           ],
 
         },
@@ -516,7 +516,7 @@
             caseOrderId : row.caseOrderId,
           },
         }).then((res) => {
-          this.ruleForm = res.result;
+          this.ruleForm = Object.assign(this.ruleForm,res.result);
         });
       },
 

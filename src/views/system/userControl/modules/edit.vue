@@ -4,8 +4,9 @@
         :visible.sync="show"
         title="修改用户信息"
         width="495px"
+        @open="resetForm"
         center>
-        <edit-component :edit-items="editItems" :item="editItem" :label-width="'150px'"></edit-component>
+        <edit-component formname="editUsrControl1" ref="edits1" :edit-items="editItems" :item="editItem" :label-width="'150px'"></edit-component>
         <el-form  label-position="left" label-width="150px">
           <el-form-item label="角色权限（可多选)" >
             <el-select v-model="roleids" multiple placeholder="请选择">
@@ -18,7 +19,7 @@
             </el-select>
           </el-form-item>
         </el-form>
-        <edit-component :edit-items="editItems1" :item="editItem" :label-width="'150px'"></edit-component>
+        <edit-component formname="editUsrControl2" ref="edits2" :edit-items="editItems1"  :item="editItem" :label-width="'150px'"></edit-component>
         <!--<el-form ref="ruleForm" :model="editItem" >-->
           <!--&lt;!&ndash; 加款信息 &ndash;&gt;-->
           <!--<table-->
@@ -93,19 +94,21 @@
 <script>
   import EditComponent from '@/components/edits'
   import {URL_JSON} from "../../../../components/script/url_json";
+  import Checkform from "@/components/script/formCheck"
   export default {
     name: 'editUsrControl',
     props: {
       item: Object,
       editState: Number
     },
+    mixins: [Checkform],
     data () {
       return {
         editItems: [
           {type: 'text', property:'loginName', label: '用户名', disabled: true},
-          {type: 'text', property:'userName', label: '真实姓名'},
-          {type: 'text', property:'userPhone', label: '手机号码'},
-          {type: 'text', property:'userEmail', label: '电子邮箱'},
+          {type: 'text', property:'userName', label: '真实姓名',rule:'require'},
+          {type: 'text', property:'userPhone', label: '手机号码',rule:'require'},
+          {type: 'text', property:'userEmail', label: '电子邮箱',rule:'require'},
         ],
         editItems1: [
           // {type: 'text', property:'loginName', label: '用户名', disabled: true},
@@ -113,7 +116,7 @@
           // {type: 'text', property:'userPhone', label: '手机号码'},
           // {type: 'text', property:'userEmail', label: '电子邮箱'},
           // {type: 'select', property:'roleIdsStr', label: '角色权限（可多选）',multiple: true,options: [], optLabel:'roleName', optValue: 'roleId'},
-          {type: 'text', property:'userAddress', label: '通讯地址'},
+          {type: 'text', property:'userAddress', label: '通讯地址',rule:'require'},
           {type: 'textarea', property:'otherInfo', label: '其它信息', placeholder: '请输入内容'},
         ],
         options:[],
@@ -136,14 +139,15 @@
       }
     },
     methods: {
-      save() {
-        console.log(this.editItem);
-        this.editItem.roleIds = this.roleids.join(',');
-        this.$http.post(URL_JSON['saveUserControl'],this.editItem).then(res => {
-          if(res.code === '0000'){
-            this.$emit('refresh');
-          }
-        })
+    save() {
+            this.checkbeforeSave().then(() => {
+              this.editItem.roleIds = this.roleids.join(',');
+              this.$http.post(URL_JSON['saveUserControl'],this.editItem).then(res => {
+                if(res.code === '0000'){
+                  this.$emit('refresh');
+                }
+              })
+            })
       }
     },
     components: {

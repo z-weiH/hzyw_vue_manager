@@ -1,6 +1,6 @@
 <template>
     <div>
-        <el-form :model="item" :ref="formname"  :rules="rules" :label-width="labelWidth ? labelWidth : '80px'" label-position="left">
+        <el-form :model="item" :ref="formname ? formname : 'editsform'"  :rules="rules" :label-width="labelWidth ? labelWidth : '80px'" label-position="left">
           <form-edit :item="item" :edit-item="item1" v-for="(item1,index) in editItems" :key="index"></form-edit>
         </el-form>
     </div>
@@ -42,7 +42,6 @@
           console.log(obj[key]);
           this.item[key]=obj[key];
         });
-        console.error(this.item)
         this.refresh()
       },
     },
@@ -55,7 +54,7 @@
       rules() {
         let res= {};
         this.editItems.forEach( it => {
-          if(it.rule){
+          if(it.rule && typeof it.rule === 'string'){
             let ruleKeys = it.rule.split(',');
             let rules = [];
             ruleKeys.forEach( ii => {
@@ -65,6 +64,14 @@
               configurable: true,
               enumerable: true,
               value: rules,
+              writable: true
+            })
+          }
+          else if(it.rule && it.rule instanceof Array){
+            Object.defineProperty(res,it.property,{
+              configurable: true,
+              enumerable: true,
+              value: it.rule,
               writable: true
             })
           }

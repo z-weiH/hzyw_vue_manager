@@ -1,48 +1,56 @@
 <template>
   <div>
+    <el-form :model="item" ref="tableEdits" :rules="rules">
+
     <table
       class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20" v-for="(def,index) in calcDefines" :key="index"
     >
-      <tbody v-if="!def.hidden || def.hidden()">
-      <tr>
-        <td colspan="4" v-if="def.title">{{def.title}}</td>
-      </tr>
-      <tr class="table-edits" v-for="cnt in def.content" >
-        <template v-for="td in cnt" >
-          <template v-if="!td.hidden || td.hidden(item)">
-          <td colspan="1" v-if="td.type != 'info' && td.type != 'img'">{{td.label}}</td>
-          <td :colspan="td.columns == 2 ? 3 : 1" v-if="td.type != 'info' && td.type != 'img'">
-            <el-date-picker value-format='yyyy-MM-dd' v-if="td.type == 'date'" v-model="item[td.property]" type="date" :placeholder="td.placeholder"  :disabled="disabled || td.disabled" :readonly="td.readonly">
-            </el-date-picker>
-            <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text'"></el-input>
-            <el-select v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
-              <el-option
-                v-for="opt in td.options"
-                :key="opt.value"
-                :label="td.labelfield ? opt[td.labelfield] : opt.label"
-                :value="td.valuefield ? opt[td.valuefield] : opt.value">
-              </el-option>
-            </el-select>
-            <el-input type="textarea" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'textarea'"></el-input>
-            <el-upload :ref="td.property" :on-success="uploadSucc"	 class="upload-demo" :data="{path: td.path}" :action="uploadUrl"   :limit="1"  v-if="td.type == 'file' && !(disabled || td.disabled)" >
-              <el-button size="small" type="info" plain @click="startUpload(td)">点击这里上传文件</el-button>
-            </el-upload>
-            <template v-else>
-              <a v-if="item[td.property] && td.type == 'file'" class="colLink" :href="item[td.property]" target="_blank">{{td.disabledLabel}}</a>
-              <a v-if="!item[td.property] && td.type == 'file'" >未上传内容</a>
+        <tbody v-if="!def.hidden || def.hidden()" >
+        <tr>
+          <td colspan="4" v-if="def.title">{{def.title}}</td>
+        </tr>
+        <tr class="table-edits" v-for="cnt in def.content" >
+          <template v-for="td in cnt" >
+            <template v-if="!td.hidden || td.hidden(item)">
+              <td colspan="1" v-if="td.type != 'info' && td.type != 'img'">{{td.label}}</td>
+              <td :colspan="td.columns == 2 ? 3 : 1" v-if="td.type != 'info' && td.type != 'img'">
+                <el-form-item label="" :prop="td.property">
+                  <el-date-picker value-format='yyyy-MM-dd' v-if="td.type == 'date'" v-model="item[td.property]" type="date" :placeholder="td.placeholder"  :disabled="disabled || td.disabled" :readonly="td.readonly">
+                  </el-date-picker>
+                  <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :type="td.type" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text' || td.type === 'number'"></el-input>
+                  <el-select v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
+                    <el-option
+                      v-for="opt in td.options"
+                      :key="opt.value"
+                      :label="td.labelfield ? opt[td.labelfield] : opt.label"
+                      :value="td.valuefield ? opt[td.valuefield] : opt.value">
+                    </el-option>
+                  </el-select>
+                  <el-input type="textarea" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'textarea'"></el-input>
+                  <el-upload :ref="td.property" :on-success="uploadSucc"	 class="upload-demo" :data="{path: td.path}" :action="uploadUrl"   :limit="1"  v-if="td.type == 'file' && !(disabled || td.disabled)" >
+                    <el-button size="small" type="info" plain @click="startUpload(td)">点击这里上传文件</el-button>
+                  </el-upload>
+                  <template v-else>
+                    <a v-if="item[td.property] && td.type == 'file'" class="colLink" :href="item[td.property]" target="_blank">{{td.disabledLabel}}</a>
+                    <a v-if="!item[td.property] && td.type == 'file'" >未上传内容</a>
+                  </template>
+                </el-form-item>
+
+              </td>
+              <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'info'">
+                <span>{{td.content}}</span>
+              </td>
+              <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'img'">
+                <img class="table_img" :src="item[td.property]" alt="">
+              </td>
             </template>
-          </td>
-          <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'info'">
-            <span>{{td.content}}</span>
-          </td>
-          <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'img'">
-            <img class="table_img" :src="item[td.property]" alt="">
-          </td>
-        </template>
-        </template>
-      </tr>
-      </tbody>
+          </template>
+        </tr>
+        </tbody>
+
     </table>
+    </el-form>
+
     <slot name="tablePlus"></slot>
   </div>
 </template>
@@ -66,6 +74,7 @@
    *@props item 传入的和edit的property属性双向绑定的数据对象
    */
   import axios from 'axios';
+import {RULES} from "./script/rules";
   export default {
     name: 'tableEdits',
     props: {
@@ -95,6 +104,38 @@
           returnArr.push(obj);
         })
         return returnArr;
+      },
+      rules() {
+        let res= {},arr = [];
+        this.editDefines.forEach(it => {
+          it.content.forEach(ii => {
+            arr.push(ii);
+          })
+        })
+        arr.forEach( it => {
+          if(it.rule && typeof it.rule === 'string'){
+            let ruleKeys = it.rule.split(',');
+            let rules = [];
+            ruleKeys.forEach( ii => {
+              rules.push(RULES[ii]);
+            });
+            Object.defineProperty(res,it.property,{
+              configurable: true,
+              enumerable: true,
+              value: rules,
+              writable: true
+            })
+          }
+          else if(it.rule && it.rule instanceof Array){
+            Object.defineProperty(res,it.property,{
+              configurable: true,
+              enumerable: true,
+              value: it.rule,
+              writable: true
+            })
+          }
+        })
+        return res;
       }
     },
     methods: {

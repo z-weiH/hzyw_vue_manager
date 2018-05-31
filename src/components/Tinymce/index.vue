@@ -25,7 +25,7 @@ export default {
     },
     path:{
       type: String,
-      default: ''
+      default: 'demo'
     },
     toolbar: {
       type: Array,

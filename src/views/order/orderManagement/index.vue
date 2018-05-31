@@ -9,7 +9,6 @@
 
         <el-form-item label=" " prop="merchantCode">
           <el-select clearable style="width:120px;" v-model="ruleForm.merchantCode" placeholder="请选择商户">
-            <el-option label="请选择" value=""></el-option>
             <template v-for="(item,index) in merchantOptions">
               <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
             </template>
@@ -25,9 +24,8 @@
 
         <el-form-item label=" " prop="orderStatus">
           <el-select clearable style="width:120px;" v-model="ruleForm.orderStatus" placeholder="请选择案件">
-            <el-option label="请选择" value=""></el-option>
-            <template v-for="(item,index) in orderStatuOptions">
-              <el-option :key="item.id + index" :label="item.desc" :value="item.id"></el-option>
+            <template v-for="(item) in orderStatuOptions">
+              <el-option :key="item.code" :label="item.name" :value="item.code"></el-option>
             </template>
           </el-select>
         </el-form-item>
@@ -125,7 +123,7 @@
         ],
         // 案件options
         orderStatuOptions : [
-          {desc : '李四' , id : '李四'}
+          {name : '李四' , code : '李四'}
         ],
       }
     },
@@ -160,7 +158,7 @@
       handleReset(row) {
         this.$http({
           method : 'post',
-          url :'/ordermanage/submitAgain',
+          url :'/ordermanage/submitAgain.htm',
           data : {
             caseorderId : row.caseorderId
           },

@@ -27,7 +27,7 @@
 
         <el-select clearable class="mr-10" style="width:150px;" v-model="ruleForm.busiCode" placeholder="请选择业务">
           <template v-for="(item,index) in busiOptions">
-            <el-option :key="item.value + index" :label="item.label" :value="item.value"></el-option>
+            <el-option :key="item.id + index" :label="item.desc" :value="item.id"></el-option>
           </template>
         </el-select>
 
@@ -104,7 +104,7 @@
         ],
         // 业务编码options
         busiOptions : [
-          {label : 'SUBMIT' , value : 'SUBMIT'}
+          {desc : 'SUBMIT' , id : 'SUBMIT'}
         ],
       }
     },
@@ -120,11 +120,17 @@
       // 获取所有 商户
       this.$http({
         method : 'post',
-        url : ' /merchant/queryAllMerchant.htm',
+        url : '/merchant/queryMerchants.htm',
       }).then((res) => {
         this.merchantOptions = res.result.list;
       });
       // 获取所有 业务编码
+      this.$http({
+        method : 'post',
+        url : '/fastTrack/queryBusicodeList.htm',
+      }).then((res) => {
+        this.busiOptions = res.result.list;
+      });
     },
     methods : {
       // 点击搜索
@@ -138,7 +144,7 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : ' /fastTrack/orderFastDeal.htm',
+          url : '/fastTrack/orderFastDeal.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,

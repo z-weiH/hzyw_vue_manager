@@ -2,11 +2,12 @@
   <el-dialog
     :visible.sync="show"
     :title="title"
+    @open="resetForm"
     width="890px"
     center>
     <div class="dailog-container">
       <table-edits :editDefines="edtDefines1" :item="item" :disabled="true"></table-edits>
-      <table-edits :editDefines="edtDefines" :item="item" :disabled="editState != 1"></table-edits>
+      <table-edits ref="edits" :editDefines="edtDefines" :item="item" :disabled="editState != 1"></table-edits>
     </div>
     <span slot="footer" class="dialog-footer" v-if="editState !== 9">
           <el-button type="primary" @click="save(0)">保 存</el-button>
@@ -19,8 +20,12 @@
 <script>
 import TableEdits from '@/components/tableEdits'
 import {URL_JSON} from "../../../../components/script/url_json";
+import formCheck from '@/components/script/formCheck'
+
+
 export default {
   name: 'edit',
+  mixins:[formCheck],
   props: {
     editState: Number,
     item: Object
@@ -43,23 +48,23 @@ export default {
       edtDefines: [{
         title: '第二部分：银行到款信息',
         content: [
-          {label: '银行账户名称：', type: 'text', placeholder: '请输入银行账户名称',columns:2,property: 'acctName'},
-          {label: '银行账号：', type: 'text', placeholder: '请输入银行账号',columns:1,property: 'acctNo'},
-          {label: '开户行名称：', type: 'text', placeholder: '请输入开户行名称',columns:1,property: 'bankName'},
-          {label: '银行支付流水号：', type: 'text', placeholder: '请输入银行支付流水号',columns:1,property: 'bankOrderno',columns:2},
-          {label: '到款金额：', type: 'text', placeholder: '请输入到款金额',columns:1,property: 'arrivalAmt'},
-          {label: '到款时间：', type: 'date', placeholder: '请输入到款时间',columns:1,property: 'payTime'},
-          {label: '摘要：', type: 'text', placeholder: '请输入摘要',columns:2,property: 'bankRemark'},
+          {label: '银行账户名称：', type: 'text', placeholder: '请输入银行账户名称',columns:2,property: 'acctName',rule:'require'},
+          {label: '银行账号：', type: 'text', placeholder: '请输入银行账号',columns:1,property: 'acctNo',rule:'require'},
+          {label: '开户行名称：', type: 'text', placeholder: '请输入开户行名称',columns:1,property: 'bankName',rule:'require'},
+          {label: '银行支付流水号：', type: 'text', placeholder: '请输入银行支付流水号',columns:1,property: 'bankOrderno',columns:2,rule:'require'},
+          {label: '到款金额：', type: 'text', placeholder: '请输入到款金额',columns:1,property: 'arrivalAmt',rule:'require'},
+          {label: '到款时间：', type: 'date', placeholder: '请输入到款时间',columns:1,property: 'payTime',rule:'require'},
+          {label: '摘要：', type: 'text', placeholder: '请输入摘要',columns:2,property: 'bankRemark',rule:'require'},
 
         ]
       },{
         title: '第三部分：加款信息',
         content: [
-          {label: '添加仲券（张）：', type: 'text', placeholder: '请输入添加仲券',columns:1,property: 'ticketCount'},
-          {label: '仲券金额（元）：', type: 'text', placeholder: '请输入仲券金额',columns:1,property: 'ticketAmount'},
-          {label: '添加受理费（元）：', type: 'text', placeholder: '请输入添加受理费',columns:1,property: 'caseAmount'},
-          {label: '技术服务费（元）：', type: 'text', placeholder: '请输入技术服务费',columns:1,property: 'serveAmount'},
-          {label: '赠送仲券（张）：', type: 'text', placeholder: '请输入赠送仲券',columns:1,property: 'giftTicket'},
+          {label: '添加仲券（张）：', type: 'number', placeholder: '请输入添加仲券',columns:1,property: 'ticketCount',rule:'require'},
+          {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'ticketAmount',rule:'require'},
+          {label: '添加受理费（元）：', type: 'number', placeholder: '请输入添加受理费',columns:1,property: 'caseAmount',rule:'require'},
+          {label: '技术服务费（元）：', type: 'number', placeholder: '请输入技术服务费',columns:1,property: 'serveAmount',rule:'require'},
+          {label: '赠送仲券（张）：', type: 'number', placeholder: '请输入赠送仲券',columns:1,property: 'giftTicket',rule:'require'},
           {label: '赠券有效期 ：', type: 'select', placeholder: '请选择赠券有效期',columns:1,property: 'giftPeriod',options: [
               {label: '请选择赠券有效期', value: ''},
               {label: '1个月', value: '1'},
@@ -107,13 +112,16 @@ export default {
   methods: {
     save(num) {
       // console.log(this.item);
-      this.$http.post(URL_JSON['saveAccountSettingManage'],Object.assign({isCommit: num},this.item),{headers:{token: JSON.parse(localStorage.getItem('loginInfo')).token}})
-        .then(res => {
-          if(res.code === '0000'){
-            this.$message.success(res.description);
-            this.$emit('refresh')
-          }
-        })
+      this.checkbeforeSave().then(res => {
+        this.$http.post(URL_JSON['saveAccountSettingManage'],Object.assign({isCommit: num},this.item),{headers:{token: JSON.parse(localStorage.getItem('loginInfo')).token}})
+          .then(res => {
+            if(res.code === '0000'){
+              this.$message.success(res.description);
+              this.$emit('refresh')
+            }
+          })
+      }).catch(()=>{});
+
     }
   },
   mounted () {

@@ -3,6 +3,7 @@
     :visible.sync="show"
     :title="title"
     width="685px"
+    @open="resetForm"
     center>
     <el-form ref="ruleForm" :model="item" >
       <!-- 加款信息 -->
@@ -14,7 +15,7 @@
           <tr>
             <td colspan="1">角色编码：</td>
             <td colspan="1">
-              <el-form-item label=" " prop="roleCode">
+              <el-form-item label=" " prop="roleCode" :rules="[{ required : true , message : '不能为空' , trigger : 'blur'}]">
                 <el-input v-model="item.roleCode" placeholder="请输入角色编码" />
               </el-form-item>
             </td>
@@ -22,7 +23,7 @@
           <tr>
             <td colspan="1">角色名称：</td>
             <td colspan="1">
-              <el-form-item label=" " prop="roleName">
+              <el-form-item label=" " prop="roleName" :rules="[{ required : true , message : '不能为空' , trigger : 'blur'}]">
                 <el-input v-model="item.roleName" placeholder="请输入角色名称" />
               </el-form-item>
             </td>
@@ -79,15 +80,18 @@
     },
     methods: {
       save() {
-        this.$http.post(URL_JSON['saveRoleManage'],this.item)
-          .then(res => {
-            this.$message.success(res.description);
-            if(res.code == '0000'){
-              this.$parent.editState = 0;
-              this.$parent.doQuery(this.$parent.queryUrl, this.$parent.searchItem)
+        this.checkbeforeSave().then( () => {
+          this.$http.post(URL_JSON['saveRoleManage'],this.item)
+            .then(res => {
+              this.$message.success(res.description);
+              if(res.code == '0000'){
+                this.$parent.editState = 0;
+                this.$parent.doQuery(this.$parent.queryUrl, this.$parent.searchItem)
 
-            }
-          })
+              }
+            })
+        }).catch( () => {})
+
       }
     },
     computed: {
@@ -110,6 +114,11 @@
       }
     },
     methods: {
+      resetForm () {
+        setTimeout(() => {
+          this.$refs['ruleForm'].clearValidate();
+        },200)
+      },
       initList () {
         this.treeList = this.list.filter(it => it.pId == '0');
         this.treeList.forEach(it => {
@@ -124,15 +133,20 @@
         })
       },
       save() {
-        this.item.menus = this.$refs['tree'].getCheckedKeys().join(',');
-        this.$http.post(URL_JSON['saveRoleManage'],this.item)
-          .then(res => {
-            this.$message.success(res.description);
-            if(res.code == '0000'){
-              this.$parent.editState = 0;
-              this.$emit('refresh');
-            }
-          })
+        this.$refs['ruleForm'].validate(res => {
+          if(res){
+            this.item.menus = this.$refs['tree'].getCheckedKeys().join(',');
+            this.$http.post(URL_JSON['saveRoleManage'],this.item)
+              .then(res => {
+                this.$message.success(res.description);
+                if(res.code == '0000'){
+                  this.$parent.editState = 0;
+                  this.$emit('refresh');
+                }
+              })
+          }
+        });
+
       }
     },
     components: {
