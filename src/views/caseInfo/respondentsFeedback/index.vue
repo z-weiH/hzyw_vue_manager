@@ -6,7 +6,7 @@
     </div>
     <searchs @valueChange="searchItemChange"  class="item-search" :search-items="searchItems" :item="item" :query-url="queryUrl">
         <template slot="moreBtn">
-              <el-button class="ml-20" type="primary" @click="exportFile(exportUrl)">导出Excel</el-button>
+              <el-button class="ml-20" type="primary" @click="handleExport">导出Excel</el-button>
         </template>
     </searchs>
     <div class="item-title">
@@ -20,13 +20,13 @@
 
 <script type="text/ecmascript-6">
 import { URL_JSON } from "../../../components/script/url_json";
-import exportFile from "@/components/script/exportFile";
+import exportFile from "@/assets/js/exportFile";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
 export default {
   name: "respondentsFeedback",
-  mixins: [Mixins, exportFile],
+  mixins: [Mixins],
   data() {
     return {
       searchItems: [
@@ -198,7 +198,7 @@ export default {
       opHkCaseStage: [],
       opHkCaseStatus: [],
       item: {},
-      exportUrl: URL_JSON["exportRespondentsFeedback"],
+      exportUrl:   URL_JSON["exportRespondentsFeedback"],
       queryUrl: URL_JSON["queryRespondentsFeedback"], //"/11/feedback/queryRespondentFeedbackByBaseQuery.htm",
       // 数据总数
       total: 11,
@@ -257,6 +257,15 @@ export default {
     };
   },
   methods: {
+    handleExport() {
+       console.info('searchItem:::',this.searchItem);
+      let _token = JSON.parse(localStorage.getItem('loginInfo')).token;
+          this.searchItem.token = _token;
+      exportFile({
+        url: this.exportUrl,
+        data: this.searchItem
+      });
+    },
     searchItemChange(item) {
       console.error(item);
       for (var i in item) {
@@ -266,7 +275,6 @@ export default {
             this.optsPduListView({ merchantCode: item["value"] });
             break;
           case "caseProcess":
-            this.optsHkCaseStatusView({ status: item["value"] });
             break;
           case "operType":
             this.optsObjListView({ operType: item["value"] });
@@ -307,7 +315,6 @@ export default {
     this.optsCompanyListView(); //互金企业
     this.optsPduListView(); //产品名称
     this.optsHkCaseStageView(); //还款案件阶段
-    this.optsHkCaseStatusView(); //还款案件状态
   },
   mounted() {
     this.doQuery(this.queryUrl, this.item);

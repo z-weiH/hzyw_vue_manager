@@ -27,19 +27,19 @@ import { URL_JSON } from "../../../../components/script/url_json";
         queryUrl1: URL_JSON['queryUserListByRoleType'],//运营人员"/13/user/queryUserListByRoleType.htm"
         createItems: [{
             type: "select",
-            property: "merchantName",
+            property: "merchantCode",
             label: "互金企业",
             options: [],
-            optValue: 'merchantCode',
+            optValue: 'code',
             optLabel: 'merchantName'
           },
           {
             type: "select",
-            property: "operatorName",
+            property: "operatorId",
             label: "运营人员",
             options: [],
-            optValue: 'merchantCode',
-            optLabel: 'merchantName'
+            optValue: 'userId',
+            optLabel: 'userName'
           }
         ]
       };
@@ -68,14 +68,17 @@ import { URL_JSON } from "../../../../components/script/url_json";
         });
       },
       searchYyPeople() {
-        this.$http.post(this.queryUrl).then(res => {
+        this.$http.post(this.queryUrl1).then(res => {
           res = Mock.mock(res);
           console.info('yy:', res);
           this.createItems[1].options = res.result;
         });
       },
       fpnewstatus() {
-        console.log(this.item);
+        console.log('xinz::',this.item);
+        this.$http.post(URL_JSON['saveCustomerAllot'], this.item).then(res=>{
+          this.$message.success('新增成功');
+        })
       }
     },
     created() {

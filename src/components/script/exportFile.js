@@ -1,11 +1,7 @@
 export default {
-  data() {
-    return {
-
-    }
-  },
   methods: {
     exportFile(surl) {
+      let _userData = JSON.parse(localStorage.getItem('loginInfo'));
       // alert(1);
       let url = surl + '?';
       delete this.searchItem.pageSize;
@@ -15,10 +11,9 @@ export default {
         !this.searchItem[key] && (this.searchItem[key] = '');
         url += key + '=' + this.searchItem[key] + '&';
       })
-      url = url.substr(0, url.length - 1);
+      // url = url.substr(0, url.length - 1);
+      url = url + `token=${_userData.token}`;
       console.log(url);
-
-
       let _form = document.createElement('form');
       _form.setAttribute('id', 'efile');
       _form.setAttribute('action', url);
