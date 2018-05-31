@@ -1,7 +1,7 @@
 <template>
-  <div class="fast-track fn-hide">
+  <div class="fast-track">
     <div class="item-search">
-      <el-form ref="ruleForm" :model="ruleForm">
+      <el-form :rules="rules" ref="ruleForm" :model="ruleForm">
         <el-form-item label=" " prop="loanBillNos">
           <el-input 
             style="width:100%;"
@@ -13,23 +13,29 @@
           </el-input>
         </el-form-item>
 
-        <el-select clearable class="mr-10" style="width:150px;" v-model="ruleForm.arbId" placeholder="请选择仲裁委">
-          <template v-for="(item,index) in arbOptions">
-            <el-option :key="item.arbId + index" :label="item.fullName" :value="item.arbId"></el-option>
-          </template>
-        </el-select>
+        <el-form-item style="display:inline-block;" label=" " prop="arbId">
+          <el-select filterable clearable class="mr-10" style="width:150px;" v-model="ruleForm.arbId" placeholder="请选择仲裁委">
+            <template v-for="(item,index) in arbOptions">
+              <el-option :key="item.arbId + index" :label="item.fullName" :value="item.arbId"></el-option>
+            </template>
+          </el-select>
+        </el-form-item>
 
-        <el-select clearable class="mr-10" style="width:150px;" v-model="ruleForm.merchantCode" placeholder="请选择商户">
-          <template v-for="(item,index) in merchantOptions">
-            <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
-          </template>
-        </el-select>
+        <el-form-item style="display:inline-block;" label=" " prop="merchantCode">
+          <el-select filterable clearable class="mr-10" style="width:150px;" v-model="ruleForm.merchantCode" placeholder="请选择商户">
+            <template v-for="(item,index) in merchantOptions">
+              <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
+            </template>
+          </el-select>
+        </el-form-item>
 
-        <el-select clearable class="mr-10" style="width:150px;" v-model="ruleForm.busiCode" placeholder="请选择业务">
-          <template v-for="(item,index) in busiOptions">
-            <el-option :key="item.id + index" :label="item.desc" :value="item.id"></el-option>
-          </template>
-        </el-select>
+        <el-form-item style="display:inline-block;" label=" " prop="busiCode">
+          <el-select clearable class="mr-10" style="width:150px;" v-model="ruleForm.busiCode" placeholder="请选择业务">
+            <template v-for="(item,index) in busiOptions">
+              <el-option :key="item.id + index" :label="item.desc" :value="item.id"></el-option>
+            </template>
+          </el-select>
+        </el-form-item>
 
 
         <el-button @click="handleSearch" type="warning">提交</el-button>
@@ -54,7 +60,7 @@
         <el-table-column prop="result" label="处理结果"></el-table-column>
       </el-table>
       <!-- 分页 -->
-      <el-pagination
+      <!-- <el-pagination
         class="mt-10 mb-10"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -63,7 +69,7 @@
         :page-size="10"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
-      </el-pagination>
+      </el-pagination> -->
 
     </div>
   </div>
@@ -83,12 +89,25 @@
           // 业务编码
           busiCode : '',
         },
-        rules : {},
+        rules : {
+          loanBillNos : [
+            {required : true , message : '请输入借款单号' , trigger : 'blur'}
+          ],
+          arbId : [
+            {required : true , message : '请选择仲裁委' , trigger : 'change'}
+          ],
+          merchantCode : [
+            {required : true , message : '请选择商户' , trigger : 'change'}
+          ],
+          busiCode : [
+            {required : true , message : '请选择业务编码' , trigger : 'change'}
+          ],
+        },
         
         // 表格数据
-        tableData : [{},{}],
+        tableData : [],
         // 数据总数
-        total : 11,
+        total : 0,
         // 当前页数
         currentPage : 1,
         // 每页数量
@@ -104,7 +123,8 @@
         ],
         // 业务编码options
         busiOptions : [
-          {desc : 'SUBMIT' , id : 'SUBMIT'}
+          {desc : 'SUBMIT' , id : 'SUBMIT'},
+          {desc : 'APPLICATION' , id : 'APPLICATION'},
         ],
       }
     },
@@ -113,9 +133,9 @@
       // 获取所有 仲裁委
       this.$http({
         method : 'post',
-        url : '/arbitration/queryAllArbList.htm',
+        url : '/arb/queryAllArbList.htm',
       }).then((res) => {
-        this.arbOptions = res.result.list;
+        this.arbOptions = res.result;
       });
       // 获取所有 商户
       this.$http({
@@ -125,18 +145,22 @@
         this.merchantOptions = res.result.list;
       });
       // 获取所有 业务编码
-      this.$http({
+      /* this.$http({
         method : 'post',
         url : '/fastTrack/queryBusicodeList.htm',
       }).then((res) => {
         this.busiOptions = res.result.list;
-      });
+      }); */
     },
     methods : {
       // 点击搜索
       handleSearch() {
-        this.currentPage = 1;
-        this.initTableList();
+        this.$refs.ruleForm.validate((valid) => {
+          if (valid) {
+            this.currentPage = 1;
+            this.initTableList();
+          }
+        });
       },
 
       // 表格相关 start
@@ -147,8 +171,9 @@
           url : '/fastTrack/orderFastDeal.htm',
           method : 'post',
           data : {
-            pageSize : this.pageSize,
-            currentNum : this.currentPage,
+            /* pageSize : this.pageSize,
+            currentNum : this.currentPage, */
+
             arbId	: this.ruleForm.arbId,
             busiCode	: this.ruleForm.busiCode,
             loanBillNos	: this.ruleForm.loanBillNos,
@@ -179,7 +204,9 @@
 <style lang="scss">
 
 .fast-track{
-
+  .el-form-item.is-required .el-form-item__label:before{
+    display: none;
+  }
 }
 
 </style>
