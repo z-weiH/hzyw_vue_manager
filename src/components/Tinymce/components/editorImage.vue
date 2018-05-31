@@ -44,10 +44,11 @@ export default {
 
       if (!isWord) {
         this.$message.error('文件只支持doc/docx格式');
-        return;
+        return false;
       }
       if (!isSize) {
         this.$message.error('文件大小不能超过1M');
+        return false;
       }
       return isWord && isSize;
     },

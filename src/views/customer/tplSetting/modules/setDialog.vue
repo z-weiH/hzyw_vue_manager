@@ -143,7 +143,7 @@
     },
     methods : {
       show(row) {
-        console.log(row);
+        // 模板 id
         this.templateId = row.templateId;
         this.dialogVisible = true;
         this.init();
@@ -154,7 +154,7 @@
           method : 'post',
           url : '/tplsetting/modifyTemplate.htm',
           data : {
-            template_id : this.templateId,
+            templateId : this.templateId,
           },
         }).then((res) => {
           // 客户基本信息
