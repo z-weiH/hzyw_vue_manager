@@ -7,8 +7,8 @@
     <div class="dailog-container">
       <table-edits :editDefines="edtDefines" :item="item" :disabled="true">
       </table-edits>
-      <el-form v-if="editState != 9 ">
-        <el-form-item label="">
+      <el-form v-if="editState != 9 " ref="edits" :model="item" >
+        <el-form-item label="" :rules="[{ required : true , message : '不能为空' , trigger : 'blur'}]" prop="apprerResult">
           <el-input type="textarea" v-model="item.apprerResult" placeholder="请输入审核意见"></el-input>
         </el-form-item>
       </el-form>
@@ -91,16 +91,22 @@ export default {
   },
   methods: {
     save(num) {
-      this.$http.post(URL_JSON['saveAccountSettingDefault'], {apprerResult: this.item.apprerResult,orderId: this.item.orderId, status:num})
-        .then(res => {
-          if(res.code === '0000'){
-            this.$message.success(res.description);
-            this.$emit('refresh');
-          }
-        })
+      this.$refs['edits'].validate(res => {
+        if(res){
+          this.$http.post(URL_JSON['saveAccountSettingDefault'], {apprerResult: this.item.apprerResult,orderId: this.item.orderId, status:num})
+            .then(res => {
+              if(res.code === '0000'){
+                this.$message.success(res.description);
+                this.$emit('refresh');
+              }
+            })
+        }
+      })
+
     }
   },
-  mounted () {
+  updated () {
+    this.$refs['edits'].clearValidate();
   }
 }
 </script>

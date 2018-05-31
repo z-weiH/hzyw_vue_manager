@@ -6,8 +6,8 @@
     center>
     <div class="dailog-container">
       <table-edits :editDefines="edtDefines" :item="item" :disabled="true"></table-edits>
-      <el-form v-if="editState != 9 ">
-        <el-form-item label="">
+      <el-form v-if="editState != 9 " ref="edits" :model="item">
+        <el-form-item label="" :rules="[{ required : true , message : '不能为空' , trigger : 'blur'}]" prop="remark">
           <el-input type="textarea" v-model="item.remark" placeholder="请输入确认原因"></el-input>
         </el-form-item>
       </el-form>
@@ -68,16 +68,25 @@
     },
     methods: {
       save () {
-        this.$http.post(URL_JSON['openAccountAffirm'],{custId: this.item.custId,remark: this.item.remark})
-          .then(res => {
-            if(res.code === '0000'){
-              this.$message.success(res.description);
-              this.$emit('refresh');
-            }
-          })
+        this.$refs['edits'].validate(res => {
+          if(res){
+            this.$http.post(URL_JSON['openAccountAffirm'],{custId: this.item.custId,remark: this.item.remark})
+              .then(res => {
+                if(res.code === '0000'){
+                  this.$message.success(res.description);
+                  this.$emit('refresh');
+                }
+              })
+          }
+
+        });
+
       }
     },
     mounted () {
+    },
+    updated () {
+      this.$refs['edits'].clearValidate();
     }
   }
 </script>

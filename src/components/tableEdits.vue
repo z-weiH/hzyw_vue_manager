@@ -17,7 +17,7 @@
                 <el-form-item label="" :prop="td.property">
                   <el-date-picker value-format='yyyy-MM-dd' v-if="td.type == 'date'" v-model="item[td.property]" type="date" :placeholder="td.placeholder"  :disabled="disabled || td.disabled" :readonly="td.readonly">
                   </el-date-picker>
-                  <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text'"></el-input>
+                  <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :type="td.type" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text' || td.type === 'number'"></el-input>
                   <el-select v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
                     <el-option
                       v-for="opt in td.options"

@@ -50,7 +50,7 @@ export default {
         {type: 'date',placeholder: '请输入开始时间', property: 'startTime', colSpan: 5},
         {type: 'date',placeholder: '请输入结束时间', property: 'endTime', colSpan: 5},
         //<!--10待提交11 待审核20待开户设置30待确认40开户成功41开户失败-->
-        {type: 'select',placeholder: '开户状态', property: 'orderStatus', colSpan: 4,options:[
+        {type: 'select',placeholder: '开户状态', property: 'custStatus', colSpan: 4,options:[
             {label:'全部', value: ''},
             {label:'待提交', value: 10},
             {label:'待审核', value: 11},
