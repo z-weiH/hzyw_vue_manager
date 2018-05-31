@@ -45,8 +45,7 @@
           method : 'post',
           url : '/tplsetting/getTemplateTextByDetailIdAndType.htm',
           data : {
-            productId : data.productId,
-            templateId : data.templateId,
+            detailId : data.detailId,
             templateType : data.templateType,
           },
         }).then((res) => {
@@ -70,8 +69,7 @@
           method : 'post',
           url : '/tplsetting/saveTemplateTextByDetailIdAndType.htm',
           data : {
-            productId : this.data.productId,
-            templateId : this.data.templateId,
+            detailId : this.data.detailId,
             templateText : template,
             templateType : this.data.templateType,
           },

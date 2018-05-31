@@ -143,8 +143,7 @@
     },
     methods : {
       show(row) {
-        // 模板 id
-        this.templateId = row.templateId;
+        this.row = row;
         this.dialogVisible = true;
         this.init();
       },
@@ -154,7 +153,7 @@
           method : 'post',
           url : '/tplsetting/modifyTemplate.htm',
           data : {
-            templateId : this.templateId,
+            templateId : this.row.templateId,
           },
         }).then((res) => {
           // 客户基本信息
@@ -171,9 +170,8 @@
           method : 'post',
           url : '/tplsetting/changeTemplateStatus.htm',
           data : {
-            productId : this.productList[index].productId,
-            status : this.productList[index].status === 1 ? 2 : 1,
-            templateId : this.templateId,
+            detailId : this.productList[index].detailId,
+            templateStatus : this.productList[index].status === 1 ? 2 : 1,
           },
         }).then((res) => {
           this.$message.success('设置成功');
@@ -196,9 +194,9 @@
         }
         let data = {
           title : title,
-          productId : this.productList[index].productId,
+          detailId : this.productList[index].detailId,
           templateType : templateType,
-          templateId : this.templateId,
+          templateId : this.row.templateId,
         };
         this.$refs.templateSettingDialog.show(data);
       },
@@ -209,8 +207,8 @@
       // 点击 添加新产品
       handleNewProduct() {
         this.$refs.addProduct.show({
-          merchantCode : this.custInfo.merchantCode,
-          templateId : this.templateId,
+          merchantCode : this.row.merchantCode,
+          templateId : this.row.templateId,
         });
       },
       // 添加新产品成功 回调

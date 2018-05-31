@@ -17,8 +17,8 @@
               <tr>
                 <td>产品名称：</td>
                 <td colspan="2">
-                  <el-form-item label=" " prop="productId">
-                    <el-select v-model="ruleForm.productId" placeholder="证件类型">
+                  <el-form-item label=" " prop="detailId">
+                    <el-select v-model="ruleForm.detailId" placeholder="请选择产品名称">
                       <el-option label="请选择" value=""></el-option>
                       <template v-for="(item) in productList">
                         <el-option 
@@ -70,14 +70,14 @@
         dialogVisible : false,
         ruleForm : {
           // 产品名称
-          productId : '',
+          detailId : '',
           // 模板名称
           tempateName : '',
           // 模板编码
           templateCode : '',
         },
         rules : {
-          productId : [
+          detailId : [
             {required : true , trigger : 'change' , message : '请选择产品名称'}
           ],
           tempateName : [
@@ -122,9 +122,9 @@
             this.$message.success('添加新产品 成功');
             this.$http({
               method : 'get',
-              url : '/tplsetting/queryProductInfoByMerchantCode.htm',
+              url : '/tplsetting/saveTemplateDetail.htm',
               params : {
-                productId : this.ruleForm.productId,
+                busiCode : this.ruleForm.detailId,
                 tempateName : this.ruleForm.tempateName,
                 templateCode : this.ruleForm.templateCode,
                 templateId : this.data.templateId,
