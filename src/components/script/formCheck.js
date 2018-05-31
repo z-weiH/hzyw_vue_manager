@@ -8,6 +8,7 @@ export default  {
 
   methods: {
     resetForm () {
+      console.log(this);
       setTimeout(() => {
         this._refForms = [];
         Object.keys(this.$refs).forEach(key => {
@@ -19,7 +20,9 @@ export default  {
           }
         })
         this._refForms.forEach(it => {
-          it.clearValidate();
+          if(it.clearValidate){
+            it.clearValidate();
+          }
         })
       },200)
 
@@ -28,7 +31,8 @@ export default  {
       let ret = true;
       let arr = [];
        this._refForms.forEach(it => {
-        arr.push(it.validate());
+         if(it.validate)
+          arr.push(it.validate());
         })
       // console.log(arr);
       return Promise.all(arr);
