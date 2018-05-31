@@ -35,6 +35,9 @@ export default {
       Object.assign(item, this.pager, this.fixedSearchItrems);
       let promise = this.$http.post(url, item)
         .then(res => {
+          console.log('query::数据');
+          // mock格式转换成正规json格式
+          // res = Mock.mock(res);
           console.log(res);
           if(res.code === '0000') {
             if (res.code) {
