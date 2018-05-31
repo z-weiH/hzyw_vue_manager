@@ -3,8 +3,9 @@
     :visible.sync="show"
     title="新增用户信息"
     width="495px"
+    @open="resetForm"
     center>
-    <edits :edit-items="createItems" :item="createItem" formname="userControlEdit" :label-width="'90px'"></edits>
+    <edits ref="edits1" :formname="'editsform1'" :edit-items="createItems"  :item="createItem" :label-width="'90px'"></edits>
     <el-form  label-position="left" label-width="90px">
       <el-form-item label="所属角色" >
         <el-select v-model="roleids" multiple placeholder="请选择">
@@ -17,7 +18,7 @@
         </el-select>
       </el-form-item>
     </el-form>
-    <edits :edit-items="createItems1" :item="createItem"  :label-width="'90px'"></edits>
+    <edits ref="edits2" :formname="'editsform2'" :edit-items="createItems1" :item="createItem"  :label-width="'90px'"></edits>
     <span slot="footer" class="dialog-footer">
           <el-button @click="$parent.editState = 0">取 消</el-button>
           <el-button type="primary" @click="save" >确 定</el-button>
@@ -39,15 +40,15 @@
     data () {
       return {
         createItems: [
-          {type: 'text', property:'loginName', label: '用户名'},
-          {type: 'text', property:'loginPwd', label: '登录密码'},
+          {type: 'text', property:'loginName', label: '用户名',rule:'require'},
+          {type: 'text', property:'loginPwd', label: '登录密码',rule:'require'},
         ],
         createItems1: [
           // {type: 'text', property:'roleIds', label: '所属角色'},
-          {type: 'text', property:'userName', label: '真实姓名'},
-          {type: 'text', property:'userPhone', label: '手机号码'},
-          {type: 'text', property:'userEmail', label: '电子邮箱'},
-          {type: 'text', property:'userAddress', label: '通讯地址'},
+          {type: 'text', property:'userName', label: '真实姓名',rule:'require'},
+          {type: 'text', property:'userPhone', label: '手机号码',rule:'require'},
+          {type: 'text', property:'userEmail', label: '电子邮箱',rule:'require'},
+          {type: 'text', property:'userAddress', label: '通讯地址',rule:'require'},
           {type: 'textarea', property:'otherInfo', label: '其它信息', placeholder: '请输入内容'},
         ],
         options: [],
@@ -67,13 +68,17 @@
     },
     methods: {
       save() {
-        console.log(this.createItem);
-        this.createItem.roleIds = this.roleids.join(',');
-        this.$http.post(URL_JSON['saveUserControl'],this.createItem).then(res => {
-          if(res.code === '0000'){
-            this.$emit('refresh');
-          }
+        this.checkbeforeSave().then(res=> {
+          console.log(res);
+        }).catch(res => {
+          console.log(res);
         })
+        // this.createItem.roleIds = this.roleids.join(',');
+        // this.$http.post(URL_JSON['saveUserControl'],this.createItem).then(res => {
+        //   if(res.code === '0000'){
+        //     this.$emit('refresh');
+        //   }
+        // })
       }
     },
     components: {
