@@ -277,11 +277,15 @@
                 id : 67,
                 url : 'serviceChargeDayCheck'
               },{
-                label : '仲券赠送【财务人员】',
+                label : '仲券赠送【销售申请】',
+                id : 671,
+                url : 'zticketDonateGeneral'
+              },{
+                label : '仲券赠送【销售主管初审】',
                 id : 68,
                 url : 'zticketDonateDefault'
               },{
-                label : '仲券赠送【审核】',
+                label : '仲券赠送【CEO复审】',
                 id : 69,
                 url : 'zticketDonateManage'
               },{

@@ -30,12 +30,12 @@ export default {
   data() {
     return {
       item: {},
-      queryUrl:'/6' +  URL_JSON['queryBillingDay'],
+      queryUrl: /* '/6' +  */ URL_JSON["queryBillingDay"],
       tableData: [{}],
-      searchItem:{},
+      searchItem: {},
       searchItems: [
         {
-          type: "select",
+          type: "date",
           placeholder: "选择日期",
           colSpan: 4,
           property: "startDate"
@@ -49,16 +49,16 @@ export default {
       ],
       columnDefine: [
         {
-          type: 'select',
+          type: "select",
           label: "交易类型",
           property: "checkType",
           options: [
             // 1预缴受理费2服务费充值3受理费退回4受理费月结5技术服务费
-          {label:'预缴受理费',value:1},
-          {label:'服务费充值',value:2},
-          {label:'受理费退回',value:3},
-          {label:'受理费月结',value:4},
-          {label:'技术服务费',value:5},
+            { label: "预缴受理费", value: 1 },
+            { label: "服务费充值", value: 2 },
+            { label: "受理费退回", value: 3 },
+            { label: "受理费月结", value: 4 },
+            { label: "技术服务费", value: 5 }
           ]
         },
         {
@@ -66,12 +66,12 @@ export default {
           property: "detailTime"
         },
         {
-          label: "现金流出",
-          property: "outAmount"
-        },
-        {
           label: "现金流入",
           property: "inAmount"
+        },
+        {
+          label: "现金流出",
+          property: "outAmount"
         },
         {
           label: "收付方名称",
@@ -84,18 +84,18 @@ export default {
         {
           label: "操作人",
           property: "operName"
-        },
+        }
       ]
     };
   },
   methods: {
     doQuery(url, item) {
       this.query(url, item).then(res => {
-        console.info('sssssss:::',res);
+        console.info("sssssss:::", res);
         this.tableData = res.result.list;
         this.total = res.result.count;
       });
-      console.log('sxxxxxxxxxxxxxxxxx');
+      console.log("sxxxxxxxxxxxxxxxxx");
     }
   },
   mounted() {

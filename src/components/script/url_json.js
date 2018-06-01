@@ -111,10 +111,27 @@ export const URL_JSON = {
   'exportOrderAddNewManage': '/order/exportExcel.htm',//导出excel
   'updateOrderAddNewManage': '/order/auditOrderAdd.htm',//订单加款审核
 
+  // 仲券赠送【销售申请】
+  'queryZticketDonateGeneral': '/ticketGift/queryTicketGiftByMarketer.htm', //列表
+  'queryZticketDonateGeneralDetail': '/ticketGift/queryTicketByTicketId.htm', //详情
+  'queryZticketCompany': '/merchant/queryMerchantsByUserId.htm', //赠送企业申请列表
+  'queryZticketCompanyInfo': '/ticketGift/queryMerchantInfoByMerchantCode.htm',//企业信息
+  'updateZticketDetail': '/ticketGift/applicationTicketGift.htm', //保存、修改、提交
+
+
+
+
+
+
+
   // 受理费日对账
   'queryBillingDay': '/amountcheckday/billdaylist.htm', //受理费日对账列表
 
   'queryServiceChargeDayCheck': '/amountcheckday/servicedaylist.htm', //服务费日对账列表
+
+  // 受理费结算
+  'queryProcessingFeeSettle': '/recharge/processingFee.htm', //受理费结算列表
+
 
 
   /* 财务管理 */

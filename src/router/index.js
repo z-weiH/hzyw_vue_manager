@@ -251,14 +251,14 @@ let router = new Router({
         {
           path: 'mediationMsg',
           component: () =>
-            import ('@/views/msgRecorder/mediationMsg'),//调解短信
+            import ('@/views/msgRecorder/mediationMsg'), //调解短信
           meta: {
             name: 'mediationMsg'
           }
         }, {
           path: 'mediationMsgSet',
           component: () =>
-            import ('@/views/msgRecorder/mediationMsgSet'),//调解短信设置
+            import ('@/views/msgRecorder/mediationMsgSet'), //调解短信设置
           meta: {
             name: 'mediationMsgSet'
 
@@ -434,6 +434,14 @@ let router = new Router({
             import ('@/views/finance/serviceChargeDayCheck'), //服务费日对账
           meta: {
             name: 'serviceChargeDayCheck',
+          },
+        },
+        {
+          path: 'zticketDonateGeneral',
+          component: () =>
+            import ('@/views/finance/zticketDonateGeneral'), //仲券赠送【财务人员】
+          meta: {
+            name: 'zticketDonateGeneral',
           },
         },
         {

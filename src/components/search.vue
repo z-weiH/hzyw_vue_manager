@@ -13,10 +13,11 @@
         </el-option>
       </el-select>
       <el-date-picker
-        value-format="yyyy-MM-dd"
-        v-if="searchItem.type == 'date' "
+        :format="baseFmat"
+        :value-format="baseFmat"
+        v-if="searchItem.type == 'date' | searchItem.type == 'month'  "
         v-model="item[searchItem.property]"
-        type="date"
+        :type="searchItem.type"
         :placeholder="searchItem.placeholder"
         :picker-options="pickerOptions"
         >
@@ -40,6 +41,9 @@ export default {
     searchItem: Object // 定义表单对象 type: 'text'
   },
   computed:{
+    baseFmat(){
+      return this.searchItem.type == 'date' ? 'yyyy-MM-dd' : 'yyyyMM';
+    },
     pickerOptions() {
       if(this.searchItem && this.searchItem.limit){
         return {disabledDate: this.searchItem.limit}

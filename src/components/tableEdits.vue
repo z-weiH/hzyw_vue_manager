@@ -18,7 +18,7 @@
                   <el-date-picker value-format='yyyy-MM-dd' v-if="td.type == 'date'" v-model="item[td.property]" type="date" :placeholder="td.placeholder"  :disabled="disabled || td.disabled" :readonly="td.readonly">
                   </el-date-picker>
                   <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :type="td.type" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text' || td.type === 'number'"></el-input>
-                  <el-select v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
+                  <el-select @change="valueChange({label:td.property,value:item[td.property]})" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
                     <el-option
                       v-for="opt in td.options"
                       :key="opt.value"
@@ -139,6 +139,9 @@ import {RULES} from "./script/rules";
       }
     },
     methods: {
+      valueChange(obj) {
+        this.$emit('valueChange', obj);
+      },
       clearFiles() {
         Object.keys(this.$refs).forEach(key => {
           if(this.$refs[key][0] && this.$refs[key][0].clearFiles instanceof Function)
