@@ -162,6 +162,19 @@ export const URL_JSON = {
 
 
 
+
   /* 状态配置 */
+
+
+  /* 短信发送模块 */
+  /* 短信调节 */
+
+  'queryMediationMsg': '/adjust/queryAdjustCaseListByBaseQuery.htm',
+  'sendMediationMsg': '/adjust/sendAdjustSmsByCaseIds.htm',
+  'queryAllMediatorList': '/msgRecorder/queryAllMediatorList.htm',
+  'queryAdjustPaymentQuery': '/msgRecorder/queryAdjustPaymentQuery.htm',
+
+  /* 短信调节 */
+
 
 }

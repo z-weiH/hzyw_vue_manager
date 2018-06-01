@@ -1,6 +1,6 @@
 <template>
   <div class="table">
-    <el-table :data="tableData" :span-method="spanMethod" stripe border>
+    <el-table :data="tableData" :span-method="spanMethod" stripe border @selection-change="slectionChange">
       <el-table-column
         type="selection"
         width="55" v-if="needCheckbox">
@@ -85,7 +85,7 @@ export default {
   computed: {
     columns() {
       let arr = [];
-      console.error(this.columnDefine)
+      // console.error(this.columnDefine)
       this.columnDefine.forEach(it => {
         arr.push(it);
         if (it.children) {
@@ -142,7 +142,7 @@ export default {
       return "--";
     },
     defineHeader(createElement, column) {
-      console.log(column, "column");
+      // console.log(column, "column");
       let col = this.columns.find(it => it.property == column.column.property);
       if (col && col.children && col.children.length) {
         let ele = createElement(
@@ -186,6 +186,11 @@ export default {
       console.log("val===", val, this);
       this.$parent.pager.currentNum = val;
       this.$parent.doQuery(this.$parent.queryUrl, this.$parent.searchItem);
+    },
+
+    //选中行变化
+    slectionChange(selection) {
+      this.$emit('slectionChange', selection);
     }
   },
   watch: {

@@ -10,8 +10,13 @@
 
         </div>
         <div class='item-table'>
-           <table-component  :pager="pager" :needCheckbox="true" :table-data="tableData"  :column-define="columnDefine" ></table-component>
+           <table-component  :pager="pager" :needCheckbox="true" :table-data="tableData"  :column-define="columnDefine" @slectionChange="slectionChange"></table-component>
+          <div class="center mb-20">
+            <el-button type="primary" :disabled="isDisabled" @click="sendInfo">发送调节通知</el-button>
+          </div>
         </div>
+        <send-info :edit-state="editState"></send-info>
+
 </div>
 </template>
 <script type="text/ecmascript-6">
@@ -19,11 +24,13 @@ import { URL_JSON } from "../../../components/script/url_json";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
+import SendInfo from './modules/sendInfo'
 export default {
   name: "mediationMsg",
   extends: Mixins,
   data() {
     return {
+      selection: [],
       item: {},
       queryUrl: "/adjust/queryAdjustCaseListByBaseQuery.htm",
       searchItem: {},
@@ -198,6 +205,12 @@ export default {
       ],
     };
   },
+  computed: {
+    isDisabled() {
+      return false;
+      // return this.selection.length === 0;
+    }
+  },
   mounted() {
     this.doQuery(this.queryUrl, this.item);
   },
@@ -233,6 +246,13 @@ export default {
           console.log(this.searchItem);
         }, 300);
       });
+    },
+    sendInfo() {
+      this.editState = 1;
+    },
+    slectionChange(selection){
+      console.log(selection);
+      this.selection = selection;
     }
 
   },
@@ -242,7 +262,8 @@ export default {
   },
   components: {
     Searchs,
-    TableComponent
+    TableComponent,
+    SendInfo
   }
 };
 </script>
