@@ -16,9 +16,9 @@
           <i class="iconfont icon-rili mr-10"></i>
           {{new Date() | TimeMomentChina}}
           <span class="ml-10 mr-10">|</span>
-          欢迎登录OA系统
+          欢迎登录业务后台管理系统
           <span class="ml-10 mr-10">|</span>
-          系统管理员系统管理员
+          {{userName}}
           <el-button @click="handleSignOut" class="m-btn">
             <i class="iconfont icon-tuichu"></i>
             退出登录
@@ -33,7 +33,8 @@
 export default {
   data() {
     return {
-      time: ""
+      time: "",
+      userName : JSON.parse(localStorage.getItem('loginInfo')).userName,
     };
   },
   mounted() {},

@@ -56,8 +56,12 @@ export default {
     fileSuccess(response, file, fileList) {
       console.log(response,'response');
       // this.$parent.setContent
-      this.$message.success('导入成功');
-      this.$emit('successCBK',response.result);
+      if(response.code !== '0000'){
+        this.$message.warning(response.description);
+      }else{
+        this.$message.success('导入成功');
+        this.$emit('successCBK',response.result);
+      }
     },
     // 文件上传失败
     fileError(err, file, fileList) {

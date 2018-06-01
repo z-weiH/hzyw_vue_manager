@@ -99,7 +99,7 @@
           method : 'post',
           url : '/templatevidence/modifyTemplateEvidence.htm',
           data : {
-            detailId : this.row,
+            detailId : this.row.detailId,
           },
         }).then((res) => {
           this.ruleForm.tableData = res.result;

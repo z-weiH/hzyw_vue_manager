@@ -51,10 +51,10 @@
         </el-table-column>
         <el-table-column label="借款单号">
           <template slot-scope="scope">
-            <el-button @click="handleDetail(scope.row)" type="text">{{scope.row.loanbillno}}</el-button>
+            <a class="fn-a" @click="handleDetail(scope.row)" type="text">{{scope.row.loanBillNo}}</a>
           </template>
         </el-table-column>
-        <el-table-column prop="platname" label="所属平台名称"></el-table-column>
+        <el-table-column prop="platName" label="所属平台名称"></el-table-column>
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column prop="orderStatusCn" label="案件状态"></el-table-column>
         <el-table-column prop="createTime" label="订单提交时间"></el-table-column>
@@ -160,7 +160,7 @@
           method : 'post',
           url :'/ordermanage/submitAgain.htm',
           data : {
-            caseorderId : row.caseorderId
+            caseOrderId : row.caseOrderId
           },
         }).then((res) => {
           this.$message.success('重新提交成功');

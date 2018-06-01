@@ -35,7 +35,7 @@
 
             <tr>
               <td>社会唯一信用号：</td>
-              <td>{{custInfo.merchantCode}}</td>
+              <td>{{custInfo.idcard}}</td>
               <td>帐户：</td>
               <td>{{custInfo.accountNo}}</td>
             </tr>
@@ -59,7 +59,7 @@
             </tr>
 
             <tr>
-              <td rowspan="4">{{item.productName}}</td>
+              <td rowspan="4">{{item.templateName}}</td>
             </tr>
 
             <tr>
@@ -94,7 +94,7 @@
             <tr>
               <td colspan="5">
                 <el-button @click="handleEnable(index)" type="success">
-                  {{item.status === 1 ? '启用' : '停用'}}
+                  {{item.templateStatus === 1 ? '停用' : '启用'}}
                 </el-button>
               </td>
             </tr>
@@ -133,18 +133,17 @@
           // 法定代表人
           legalPerson : '',
           // 社会唯一信用号
-          merchantCode : '',
+          idcard : '',
           // 帐户
           accountNo : '',
         },
         // 产品 list
-        productList : [{productName : '产品1'},{productName : '产品2'}],
+        productList : [{templateName : '产品1'},{templateName : '产品2'}],
       }
     },
     methods : {
       show(row) {
-        // 模板 id
-        this.templateId = row.templateId;
+        this.row = row;
         this.dialogVisible = true;
         this.init();
       },
@@ -154,13 +153,16 @@
           method : 'post',
           url : '/tplsetting/modifyTemplate.htm',
           data : {
-            templateId : this.templateId,
+            templateId : this.row.templateId,
           },
         }).then((res) => {
           // 客户基本信息
-          this.custInfo = res.result.data.custInfo;
+          this.custInfo.merchantName = res.result.merchantName;
+          this.custInfo.legalPerson = res.result.legalPerson;
+          this.custInfo.idcard = res.result.idcard;
+          this.custInfo.accountNo = res.result.accountNo;
           // 产品 list
-          this.productList = res.result.data.list;
+          this.productList = res.result.merchantTemplateDetails;
         });
       },
       // 关闭浮层
@@ -171,9 +173,8 @@
           method : 'post',
           url : '/tplsetting/changeTemplateStatus.htm',
           data : {
-            productId : this.productList[index].productId,
-            status : this.productList[index].status === 1 ? 2 : 1,
-            templateId : this.templateId,
+            detailId : this.productList[index].detailId,
+            templateStatus : this.productList[index].templateStatus,
           },
         }).then((res) => {
           this.$message.success('设置成功');
@@ -196,9 +197,9 @@
         }
         let data = {
           title : title,
-          productId : this.productList[index].productId,
+          detailId : this.productList[index].detailId,
           templateType : templateType,
-          templateId : this.templateId,
+          templateId : this.row.templateId,
         };
         this.$refs.templateSettingDialog.show(data);
       },
@@ -209,8 +210,8 @@
       // 点击 添加新产品
       handleNewProduct() {
         this.$refs.addProduct.show({
-          merchantCode : this.custInfo.merchantCode,
-          templateId : this.templateId,
+          merchantCode : this.row.merchantCode,
+          templateId : this.row.templateId,
         });
       },
       // 添加新产品成功 回调

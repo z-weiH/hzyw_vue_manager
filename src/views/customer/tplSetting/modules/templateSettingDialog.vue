@@ -45,8 +45,7 @@
           method : 'post',
           url : '/tplsetting/getTemplateTextByDetailIdAndType.htm',
           data : {
-            productId : data.productId,
-            templateId : data.templateId,
+            detailId : data.detailId,
             templateType : data.templateType,
           },
         }).then((res) => {
@@ -65,13 +64,11 @@
           this.$message.waning('请填写模板内容');
           return;
         }
-        this.$message.success(template);
         this.$http({
           method : 'post',
           url : '/tplsetting/saveTemplateTextByDetailIdAndType.htm',
           data : {
-            productId : this.data.productId,
-            templateId : this.data.templateId,
+            detailId : this.data.detailId,
             templateText : template,
             templateType : this.data.templateType,
           },
