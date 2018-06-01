@@ -40,13 +40,11 @@ export default {
           // res = Mock.mock(res);
           console.log(res);
           if(res.code === '0000') {
-            if (res.code) {
-              this.tableData = res.result.list;
-              this.pager.count = res.result.count;
-            } else {
-              this.$message.error(res.description);
-            }
-            return res
+            this.tableData = res.result.list;
+            this.pager.count = res.result.count;
+          }
+          else {
+            this.$message.error(res.description);
           }
         })
       return promise;

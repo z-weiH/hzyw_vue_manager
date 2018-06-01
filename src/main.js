@@ -32,6 +32,7 @@ Vue.prototype.$tip = Vtip.tip
 //自定义指令
 import './components/script/directive';
 
+
 // 引入 store
 import store from './store'
 // 引入 filter

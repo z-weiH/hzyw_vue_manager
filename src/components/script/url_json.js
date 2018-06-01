@@ -176,5 +176,10 @@ export const URL_JSON = {
 
   /* 短信调节 */
 
+  /*调节短信设置*/
+  'queryAdjustMediator': '/msgRecorder/queryAdjustMediatorByBaseQuery.htm',
+  'queryAdjustPaymentAccount': '/msgRecorder/queryAdjustPaymentAccountByBaseQuery.htm',
+  /*调节短信设置*/
+
 
 }

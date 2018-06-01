@@ -4,7 +4,7 @@
          <a>所在位置 > </a>
          <router-link :to='$options.name' class='aside_tit'>调解短信</router-link>
         </div>
-        <searchs class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
+        <searchs class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl' @valueChange="getChange">
         </searchs>
         <div class='item-title'>
 
@@ -15,7 +15,7 @@
             <el-button type="primary" :disabled="isDisabled" @click="sendInfo">发送调节通知</el-button>
           </div>
         </div>
-        <send-info :edit-state="editState"></send-info>
+        <send-info ref="sendInfoDlg" :edit-state="editState"></send-info>
 
 </div>
 </template>
@@ -25,6 +25,7 @@ import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
 import SendInfo from './modules/sendInfo'
+import Vue from 'vue'
 export default {
   name: "mediationMsg",
   extends: Mixins,
@@ -195,11 +196,11 @@ export default {
         {label:'申请人',property: 'applicants'},
         {label:'被申请人',property: 'respondents'},
         {label:'被申请人手机',property: 'resPhone',width: '120px'},
-        {label:'案件阶段',property: 'caseProcessDesc'},
-        {label:'案件状态',property: 'caseStatusDesc'},
-        {label:'提交日期',property: 'submitTime'},
+        {label:'案件阶段',property: 'caseProcessDesc', width: '100px'},
+        {label:'案件状态',property: 'caseStatusDesc', width: '100px'},
+        {label:'提交日期',property: 'submitTime', width: '140px'},
         {label:'标的金额',property: 'amtBorrow'},
-        {label:'应裁情况',property: 'decideStatus'},
+        {label:'应裁情况',property: 'decideStatus', width: '100px'},
         {label:'短信送达',property: 'messageDelivery'},
         {label:'短链查看',property: 'shortChainView'},
       ],
@@ -207,12 +208,11 @@ export default {
   },
   computed: {
     isDisabled() {
-      return false;
-      // return this.selection.length === 0;
+      return this.selection.length === 0;
     }
   },
   mounted() {
-    this.doQuery(this.queryUrl, this.item);
+
   },
   methods: {
     getMerchantCode() {
@@ -230,14 +230,12 @@ export default {
     },
     getCaseProcess() {
       this.$http.post(URL_JSON["selectHkCaseStage"]).then(res => {
-        // console.log('selectHkCaseStage:::',res);
-
         this.searchItems[7].options = res.result.list;
       });
     },
     getStatusThree(params) {
       this.$http.post(URL_JSON["selectHkCaseStatus"], params).then(res => {
-        console.error("", res.result.list);
+        // console.error("", res.result.list);
 
         this.searchItems[8].options = res.result.list;
         setTimeout(() => {
@@ -247,8 +245,23 @@ export default {
         }, 300);
       });
     },
+    getChange(obj) {
+      console.log(obj);
+    },
     sendInfo() {
       this.editState = 1;
+      let myDate = new Date();
+      let year = myDate.getFullYear();
+      let month = myDate.getMonth() + 1 >= 10 ? myDate.getMonth() + 1 : '0' + (myDate.getMonth() + 1);
+      let day = myDate.getDate()+1 >= 10 ? myDate.getDate()+1 : '0' + (myDate.getDate()+1);
+      this.$refs['sendInfoDlg'].mediatorId1 = '';
+      this.$refs['sendInfoDlg'].mediatorId2 = '';
+      this.$refs['sendInfoDlg'].date2 = year + '-' + month + '-' + day;
+      this.$refs['sendInfoDlg'].hour2 = 24;
+      this.$refs['sendInfoDlg'].date3 = year + '-' + month + '-' + day;
+      this.$refs['sendInfoDlg'].hour3 = 24;
+      this.$refs['sendInfoDlg'].mediatorId4 = '';
+      this.$refs['sendInfoDlg'].payment4 = '';
     },
     slectionChange(selection){
       console.log(selection);
@@ -259,6 +272,9 @@ export default {
   created() {
     this.getMerchantCode();
     this.getProductCode();
+    this.getCaseProcess();
+    this.getStatusThree();
+    this.doQuery(this.queryUrl, this.item);
   },
   components: {
     Searchs,

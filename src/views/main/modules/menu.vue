@@ -386,6 +386,11 @@
       // 获取menu 树 , 高亮选中
       this.getMeun().then(this.setMuenActive);
     },
+    created() {
+      // let lists = JSON.parse(localStorage.getItem('menuList'));
+      // this.menuList = this.menuList.filter(it => lists.find(i => i.menuTitle === it.label && ));
+
+    },
     methods : {
       // 获取menu 树
       getMeun() {

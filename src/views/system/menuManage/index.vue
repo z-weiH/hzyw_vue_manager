@@ -85,13 +85,15 @@
         })
       },
       doQuery(url,item){
-        this.$http.post(URL_JSON['queryMenuManage'],this.searchItem)
+        let obj = {};
+        this.$http.post(URL_JSON['queryMenuManage'],Object.assign({}, this.searchIte, this.pager))
           .then(res => {
             if(res.code === '0000'){
               res.result.list.forEach(it => {
                 it.menuDegreeCN = it.menuDegree == 1 ? '一级菜单' : '二级菜单';
               });
               this.tableData = res.result.list;
+              this.pager.count = res.result.count;
             }
           })
       },
