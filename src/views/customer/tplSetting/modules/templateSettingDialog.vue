@@ -64,7 +64,6 @@
           this.$message.waning('请填写模板内容');
           return;
         }
-        this.$message.success(template);
         this.$http({
           method : 'post',
           url : '/tplsetting/saveTemplateTextByDetailIdAndType.htm',

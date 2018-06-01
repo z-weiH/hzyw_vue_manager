@@ -20,9 +20,9 @@
                   <el-form-item label=" " prop="detailId">
                     <el-select v-model="ruleForm.detailId" placeholder="请选择产品名称">
                       <el-option label="请选择" value=""></el-option>
-                      <template v-for="(item) in productList">
+                      <template v-for="(item,index) in productList">
                         <el-option 
-                          :key="item.prodId" 
+                          :key="item.prodId + '' + index" 
                           :label="item.prodName" 
                           :value="item.prodId"
                         >
@@ -36,8 +36,8 @@
               <tr>
                 <td>模板名称：</td>
                 <td colspan="2">
-                  <el-form-item label=" " prop="tempateName">
-                    <el-input v-model.trim="ruleForm.tempateName" placeholder="请输入模板名称"></el-input>
+                  <el-form-item label=" " prop="templateName">
+                    <el-input v-model.trim="ruleForm.templateName" placeholder="请输入模板名称"></el-input>
                   </el-form-item>
                 </td>
               </tr>
@@ -72,7 +72,7 @@
           // 产品名称
           detailId : '',
           // 模板名称
-          tempateName : '',
+          templateName : '',
           // 模板编码
           templateCode : '',
         },
@@ -80,7 +80,7 @@
           detailId : [
             {required : true , trigger : 'change' , message : '请选择产品名称'}
           ],
-          tempateName : [
+          templateName : [
             {required : true , trigger : 'blur' , message : '请输入模板名称'}
           ],
           templateCode : [
@@ -119,17 +119,17 @@
       handleSubmit() {
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
-            this.$message.success('添加新产品 成功');
             this.$http({
               method : 'get',
               url : '/tplsetting/saveTemplateDetail.htm',
               params : {
                 busiCode : this.ruleForm.detailId,
-                tempateName : this.ruleForm.tempateName,
+                templateName : this.ruleForm.templateName,
                 templateCode : this.ruleForm.templateCode,
                 templateId : this.data.templateId,
               },
             }).then((res) => {
+              this.$message.success('添加新产品 成功');
               this.$emit('successCBK');
               this.handleClose();
             });
