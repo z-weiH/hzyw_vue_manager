@@ -195,7 +195,11 @@ export const URL_JSON = {
 
   /*调节短信设置*/
   'queryAdjustMediator': '/msgRecorder/queryAdjustMediatorByBaseQuery.htm',
+  'deleteAdjustMediator': '/msgRecorder/deleteAdjustMediatorByPrimaryKey.htm',
+  'saveAdjustMediator': '/msgRecorder/saveAdjustMediatorManage.htm',
   'queryAdjustPaymentAccount': '/msgRecorder/queryAdjustPaymentAccountByBaseQuery.htm',
+  'deleteAdjustPaymentAccount': '/msgRecorder/deleteAdjustPaymentAccountByPrimaryKey.htm',
+  'saveAdjustPaymentAccount': '/msgRecorder/saveAdjustPaymentAccountManage.htm',
   /*调节短信设置*/
 
 

@@ -16,16 +16,32 @@
           <template v-if="!tab">
             <table-component :pager="pager" :table-data="tableData"  :column-define="columnDefine" :actions="actions"></table-component>
             <div class="center mt-20 mb-20">
-              <el-button type="primary">新增调解员</el-button>
+              <el-button type="primary" @click="HandleCreate">新增调解员</el-button>
             </div>
           </template>
           <template v-else>
             <table-component :pager="pager" :table-data="tableData"  :column-define="columnDefine1" :actions="actions"></table-component>
             <div class="center mt-20 mb-20" >
-              <el-button type="primary">新增还款账户</el-button>
+              <el-button type="primary" @click="HandleCreate">新增还款账户</el-button>
             </div>
           </template>
         </div>
+        <el-dialog
+          :visible.sync="showDialog"
+          v-dialogDrag
+          :close-on-click-modal="false"
+          :close-on-press-escape="false"
+          @open="resetForm"
+          :title="title"
+          width="600px"
+          :modal="false"
+          center>
+          <table-edits ref="edits" :editDefines="edtDefines" :item="item"></table-edits>
+          <div slot="footer" class="dialog-footer center mt-30" >
+            <el-button type="primary" @click="HandleSubmit">确  认</el-button>
+            <el-button @click="showDialog = false;">取 消</el-button>
+          </div>
+        </el-dialog>
 </div>
 </template>
 <script type="text/ecmascript-6">
@@ -33,11 +49,15 @@ import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
 import {URL_JSON} from "../../../components/script/url_json";
+import formCheck from '@/components/script/formCheck';
+import TableEdits from '@/components/tableEdits'
 export default {
   name: "mediationMsgSet",
   extends: Mixins,
+  mixins: [formCheck],
   data() {
     return {
+      showDialog: false,
       tab: 0,
       item: {},
       queryUrl: URL_JSON['queryAdjustMediator'],
@@ -78,6 +98,50 @@ export default {
       ],
     };
   },
+  computed: {
+    title() {
+      return this.tab === 0 ? '新增调解员' : '新增还款信息';
+    },
+    edtDefines() {
+      if(!this.tab)
+        return [
+          {
+            content: [
+              {
+                label: "调解员：",
+                type: "text",
+                columns: 2,
+                property: "name",
+                placeholder: '请输入调解员姓名',
+                rule: 'require'
+              },
+              {
+                label: "联系电话：",
+                type: "text",
+                columns: 2,
+                property: "phone",
+                placeholder: '请输入联系电话',
+                rule: 'require'
+              }
+            ]
+          }
+        ]
+      else
+        return [
+          {
+            content: [
+              {label: '代号:', placeholder: '请输入代号', columns: 2, type: 'text', property: 'custName', rule: 'require'},
+              {label: '申请人:', placeholder: '请输入申请人', columns: 2, type: 'text', property: 'applicantName', rule: 'require'},
+              {label: '银行名称:', placeholder: '请输入银行名称', columns: 2, type: 'text', property: 'bankName', rule: 'require'},
+              {label: '户名:', placeholder: '请输入户名', columns: 2, type: 'text', property: 'bankAcct', rule: 'require'},
+              {label: '银行卡号:', placeholder: '请输入银行卡号', columns: 2, type: 'text', property: 'bankCard', rule: 'require'},
+              {label: '开户行:', placeholder: '请输入开户行', columns: 2, type: 'text', property: 'bankOpen', rule: 'require'},
+            ]
+          }
+        ]
+    }
+
+  },
   watch: {
     tab(val, oldval) {
       this.queryUrl = val ? URL_JSON['queryAdjustPaymentAccount'] : URL_JSON['queryAdjustMediator'];
@@ -86,20 +150,47 @@ export default {
     }
   },
   methods: {
+    HandleSubmit() {
+      this.checkbeforeSave().then(() =>{
+        let url = this.tab == 0 ? URL_JSON['saveAdjustMediator'] : URL_JSON['saveAdjustPaymentAccount'];
+        this.$http.post(url,this.item)
+          .then(res => {
+            if(res.code == '0000'){
+              this.showDialog = false;
+              this.doQuery(this.queryUrl,this.pager);
+              this.$message.success(res.description);
+            }
+          })
+      }).catch(() => {})
+    },
+    HandleCreate() {
+      this.showDialog = true;
+      this.item = {};
+    },
     doDelete(row) {
-      this.showConfirm(`确定删除${row.name}`).then(res => {
+      let msg= !this.tab ? `确定删除${row.name}` : `确定删除${row.accountInformation}`;
+      let url = !this.tab ? URL_JSON['deleteAdjustMediator'] : URL_JSON['deleteAdjustPaymentAccount'];
+      this.showConfirm(msg).then(res => {
         if(res){
-
+          this.$http.post(url,{id: row.id})
+            .then(r => {
+              if(r.code === '0000'){
+                this.showDialog = false;
+                this.doQuery(this.queryUrl,this.pager);
+                this.$message.success(r.description);
+              }
+            })
         }
       })
     }
   },
   created() {
-    this.doQuery(this.queryUrl, this.item);
+    this.doQuery(this.queryUrl, this.pager);
   },
   components: {
     Searchs,
-    TableComponent
+    TableComponent,
+    TableEdits
   }
 };
 </script>

@@ -226,6 +226,10 @@ export default {
       this.$http.post(URL_JSON["selectProduct"], params).then(res => {
         // console.log('selectProduct:::',res);
         this.searchItems[5].options = res.result;
+        setTimeout(() => {
+          // this.searchItem.statusThree = '';
+          this.$set(this.searchItem, "productCode", "");
+        }, 300);
       });
     },
     getCaseProcess() {
@@ -241,12 +245,17 @@ export default {
         setTimeout(() => {
           // this.searchItem.statusThree = '';
           this.$set(this.searchItem, "statusThree", "");
-          console.log(this.searchItem);
         }, 300);
       });
     },
     getChange(obj) {
       console.log(obj);
+      if(obj.property === 'merchantCode'){
+        this.getProductCode({merchantCode: obj.value});
+      }
+      if(obj.property === 'caseProcess'){
+        this.getStatusThree({status: obj.value});
+      }
     },
     sendInfo() {
       this.editState = 1;
