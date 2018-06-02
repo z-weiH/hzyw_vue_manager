@@ -7,14 +7,14 @@
     >
       <template v-for="(item) in menuList">
 
-        <el-submenu :key="item.id" :index="item.id + ''">
+        <el-submenu :key="item.menuId" :index="item.menuId + ''">
           <template slot="title">
-            <span>{{item.label}}</span>
+            <span>{{item.menuName}}</span>
           </template>
           <template v-for="(child) in item.children">
-            <el-menu-item :key="child.id" :index="`/main/${child.url}`">
+            <el-menu-item :key="child.menuId" :index="`/main/${child.menuUrl}`">
               <i class="ico_userManage"></i>
-              {{child.label}}
+              {{child.menuName}}
             </el-menu-item>
           </template>
         </el-submenu>
@@ -30,351 +30,351 @@
         // menu list
         menuList : [
           {
-            label : '系统管理',
-            id : 1,
+            menuName : '系统管理',
+            menuId : 1,
             children : [
               {
-                label : '用户查询',
-                id : 2,
-                url : 'userQuery',
+                menuName : '用户查询',
+                menuId : 2,
+                menuUrl : 'userQuery',
               },
               {
-                label : '角色管理',
-                id : 3,
-                url : 'roleManage',
+                menuName : '角色管理',
+                menuId : 3,
+                menuUrl : 'roleManage',
               },
               {
-                label : '用户管理',
-                id : 4,
-                url : 'userControl',
+                menuName : '用户管理',
+                menuId : 4,
+                menuUrl : 'userControl',
               },
               {
-                label : '菜单管理',
-                id : 5,
-                url : 'menuManage',
+                menuName : '菜单管理',
+                menuId : 5,
+                menuUrl : 'menuManage',
               },
               {
-                label : '个人信息',
-                id : 6,
-                url : 'personInfo',
+                menuName : '个人信息',
+                menuId : 6,
+                menuUrl : 'personInfo',
               },
               {
-                label : '修改密码',
-                id : 7,
-                url : 'changePwd',
+                menuName : '修改密码',
+                menuId : 7,
+                menuUrl : 'changePwd',
               }
             ],
           },
           {
-            label: '开户管理',
-            id: 10,
+            menuName : '开户管理',
+            menuId : 10,
             children: [
               {
-                label: '用户查询',
-                id: 11,
-                url: 'userSearch'
+                menuName : '用户查询',
+                menuId : 11,
+                menuUrl : 'userSearch'
               },
               {
-                label: '开户申请',
-                id: 12,
-                url: 'accountApply'
+                menuName : '开户申请',
+                menuId : 12,
+                menuUrl : 'accountApply'
               },
               {
-                label: '开户设置【财务主管】',
-                id: 13,
-                url: 'accountSettingDefault'
+                menuName : '开户设置【财务主管】',
+                menuId : 13,
+                menuUrl : 'accountSettingDefault'
               },
               {
-                label: '开户设置【财务人员】',
-                id: 14,
-                url: 'accountSettingManage'
+                menuName : '开户设置【财务人员】',
+                menuId : 14,
+                menuUrl : 'accountSettingManage'
               },
               {
-                label: '开户确认',
-                id: 15,
-                url: 'accountAffirm'
+                menuName : '开户确认',
+                menuId : 15,
+                menuUrl : 'accountAffirm'
               }
             ]
           },
           {
-            label: '仲裁委管理',
-            id: 150,
+            menuName : '仲裁委管理',
+            menuId : 150,
             children: [
               {
-                label: '仲裁委管理',
-                id: 151,
-                url: 'arbitramentManage',
+                menuName : '仲裁委管理',
+                menuId : 151,
+                menuUrl : 'arbitramentManage',
               },
               {
-                label: '通知邮箱管理',
-                id: 152,
-                url: 'informEmailManage',
+                menuName : '通知邮箱管理',
+                menuId : 152,
+                menuUrl : 'informEmailManage',
               },
             ]
           },
           {
-            label: '官网管理',
-            id: 160,
+            menuName : '官网管理',
+            menuId : 160,
             children: [
               {
-                label: '客户案例',
-                id: 161,
-                url: 'customerCase',
+                menuName : '客户案例',
+                menuId : 161,
+                menuUrl : 'customerCase',
               },
               {
-                label: '咨询管理',
-                id: 162,
-                url: 'advisoryManage',
+                menuName : '咨询管理',
+                menuId : 162,
+                menuUrl : 'advisoryManage',
               },
               {
-                label: '新闻动态',
-                id: 163,
-                url: 'newsDynamicState',
+                menuName : '新闻动态',
+                menuId : 163,
+                menuUrl : 'newsDynamicState',
               },
             ]
           },
           {
-            label : '第三方管理',
-            id : 21,
+            menuName : '第三方管理',
+            menuId : 21,
             children : [
               {
-                label : '邮件发送',
-                id : 22,
-                url : 'mailSend',
+                menuName : '邮件发送',
+                menuId : 22,
+                menuUrl : 'mailSend',
               },
               {
-                label : '短信发送',
-                id : 23,
-                url : 'noteSend',
+                menuName : '短信发送',
+                menuId : 23,
+                menuUrl : 'noteSend',
               },
               {
-                label : '短信渠道管理',
-                id : 24,
-                url : 'channelManage',
+                menuName : '短信渠道管理',
+                menuId : 24,
+                menuUrl : 'channelManage',
               },
               /* {
-                label : '邮件发送日志',
-                id : 24,
-                url : 'mailSendLog',
+                menuName : '邮件发送日志',
+                menuId : 24,
+                menuUrl : 'mailSendLog',
               }, */
               /* {
-                label : '短信发送',
-                id : 25,
-                url : 'noteSend',
+                menuName : '短信发送',
+                menuId : 25,
+                menuUrl : 'noteSend',
               },
               {
-                label : '邮件发送',
-                id : 26,
-                url : 'mailSend',
+                menuName : '邮件发送',
+                menuId : 26,
+                menuUrl : 'mailSend',
               }, */
             ],
           },
           {
-            label : '客户管理',
-            id : 31,
+            menuName : '客户管理',
+            menuId : 31,
             children : [
               {
-                label : '客户管理',
-                id : 32,
-                url : 'clientManagement',
+                menuName : '客户管理',
+                menuId : 32,
+                menuUrl : 'clientManagement',
               },
               {
-                label : '账户余额查询',
-                id : 33,
-                url : 'balanceQuery',
+                menuName : '账户余额查询',
+                menuId : 33,
+                menuUrl : 'balanceQuery',
               },
               {
-                label : '模板设置',
-                id : 34,
-                url : 'tplSetting',
+                menuName : '模板设置',
+                menuId : 34,
+                menuUrl : 'tplSetting',
               },
               {
-                label : '模板证据设置',
-                id : 35,
-                url : 'tplEvidenceSetting',
+                menuName : '模板证据设置',
+                menuId : 35,
+                menuUrl : 'tplEvidenceSetting',
               },
             ],
           },
           {
-            label : '案件订单',
-            id : 41,
+            menuName : '案件订单',
+            menuId : 41,
             children : [
               {
-                label : '仲裁端定时任务管理',
-                id : 42,
-                url : 'arbitramentTimeTaskManage'
+                menuName : '仲裁端定时任务管理',
+                menuId : 42,
+                menuUrl : 'arbitramentTimeTaskManage'
               },
               {
-                label : '客户端定时任务管理',
-                id : 43,
-                url : 'clientTimeTaskManage'
+                menuName : '客户端定时任务管理',
+                menuId : 43,
+                menuUrl : 'clientTimeTaskManage'
               },
               /* {
-                label : '案件提交日志',
-                id : 44,
-                url : 'caseOrderQuery'
+                menuName : '案件提交日志',
+                menuId : 44,
+                menuUrl : 'caseOrderQuery'
               }, */
               {
-                label : '身份证校验',
-                id : 45,
-                url : 'idCardVerfy'
+                menuName : '身份证校验',
+                menuId : 45,
+                menuUrl : 'idCardVerfy'
               },
               {
-                label : '订单管理',
-                id : 46,
-                url : 'orderManagement'
+                menuName : '订单管理',
+                menuId : 46,
+                menuUrl : 'orderManagement'
               },
               {
-                label : '快速通道',
-                id : 47,
-                url : 'fastTrack'
-              },
-            ],
-          },
-          {
-            label : '案件相关',
-            id : 51,
-            children : [
-              {
-                label : '仲裁用户管理',
-                id : 52,
-                url : 'arbitramentUsersManage'
-              },
-              {
-                label : '案件管理',
-                id : 53,
-                url : 'caseManagement'
+                menuName : '快速通道',
+                menuId : 47,
+                menuUrl : 'fastTrack'
               },
             ],
           },
           {
-            label : '财务管理',
-            id : 61,
+            menuName : '案件相关',
+            menuId : 51,
             children : [
               {
-                label : '合同加款【财务人员】',
-                id : 62,
-                url : 'contractAddNewDefault'
+                menuName : '仲裁用户管理',
+                menuId : 52,
+                menuUrl : 'arbitramentUsersManage'
               },
               {
-                label : '合同加款【审核】',
-                id : 63,
-                url : 'contractAddNewManage'
-              },{
-                label : '订单加款【财务人员】',
-                id : 64,
-                url : 'orderAddNewDefault'
-              },{
-                label : '订单加款【审核】',
-                id : 65,
-                url : 'orderAddNewManage'
-              },{
-                label : '受理费日对账',
-                id : 66,
-                url : 'billingDay'
-              },{
-                label : '服务费日对账',
-                id : 67,
-                url : 'serviceChargeDayCheck'
-              },{
-                label : '仲券赠送【销售申请】',
-                id : 671,
-                url : 'zticketDonateGeneral'
-              },{
-                label : '仲券赠送【销售主管初审】',
-                id : 68,
-                url : 'zticketDonateDefault'
-              },{
-                label : '仲券赠送【CEO复审】',
-                id : 69,
-                url : 'zticketDonateManage'
-              },{
-                label : '退款【财务人员】',
-                id : 70,
-                url : 'refundListDefault'
-              },{
-                label : '退款【审核】',
-                id : 711,
-                url : 'refundListManage'
-              },{
-                label : '技术服务费日对账',
-                id : 712,
-                url : 'techServiceDayCheck'
-              },{
-                label : '受理费结算',
-                id : 713,
-                url : 'processingFeeSettle'
-              },{
-                label : '受理费结算复核',
-                id : 714,
-                url : 'processingFeeSettleReview'
+                menuName : '案件管理',
+                menuId : 53,
+                menuUrl : 'caseManagement'
               },
             ],
           },
           {
-            label : '案件信息',
-            id : 71,
+            menuName : '财务管理',
+            menuId : 61,
             children : [
               {
-                label : '案件列表',
-                id : 72,
-                url : 'caseListView'
+                menuName : '合同加款【财务人员】',
+                menuId : 62,
+                menuUrl : 'contractAddNewDefault'
               },
               {
-                label : '被申请人反馈',
-                id : 73,
-                url : 'respondentsFeedback'
+                menuName : '合同加款【审核】',
+                menuId : 63,
+                menuUrl : 'contractAddNewManage'
+              },{
+                menuName : '订单加款【财务人员】',
+                menuId : 64,
+                menuUrl : 'orderAddNewDefault'
+              },{
+                menuName : '订单加款【审核】',
+                menuId : 65,
+                menuUrl : 'orderAddNewManage'
+              },{
+                menuName : '受理费日对账',
+                menuId : 66,
+                menuUrl : 'billingDay'
+              },{
+                menuName : '服务费日对账',
+                menuId : 67,
+                menuUrl : 'serviceChargeDayCheck'
+              },{
+                menuName : '仲券赠送【销售申请】',
+                menuId : 671,
+                menuUrl : 'zticketDonateGeneral'
+              },{
+                menuName : '仲券赠送【销售主管初审】',
+                menuId : 68,
+                menuUrl : 'zticketDonateDefault'
+              },{
+                menuName : '仲券赠送【CEO复审】',
+                menuId : 69,
+                menuUrl : 'zticketDonateManage'
+              },{
+                menuName : '退款【财务人员】',
+                menuId : 70,
+                menuUrl : 'refundListDefault'
+              },{
+                menuName : '退款【审核】',
+                menuId : 711,
+                menuUrl : 'refundListManage'
+              },{
+                menuName : '技术服务费日对账',
+                menuId : 712,
+                menuUrl : 'techServiceDayCheck'
+              },{
+                menuName : '受理费结算',
+                menuId : 713,
+                menuUrl : 'processingFeeSettle'
+              },{
+                menuName : '受理费结算复核',
+                menuId : 714,
+                menuUrl : 'processingFeeSettleReview'
+              },
+            ],
+          },
+          {
+            menuName : '案件信息',
+            menuId : 71,
+            children : [
+              {
+                menuName : '案件列表',
+                menuId : 72,
+                menuUrl : 'caseListView'
               },
               {
-                label : '还款信息',
-                id : 74,
-                url : 'paymentInformation'
+                menuName : '被申请人反馈',
+                menuId : 73,
+                menuUrl : 'respondentsFeedback'
               },
               {
-                label : '被申请人操作记录',
-                id : 75,
-                url : 'respondentsOperateRecord'
+                menuName : '还款信息',
+                menuId : 74,
+                menuUrl : 'paymentInformation'
+              },
+              {
+                menuName : '被申请人操作记录',
+                menuId : 75,
+                menuUrl : 'respondentsOperateRecord'
               }
             ],
           },
            {
-            label : '短信记录',
-            id : 81,
+            menuName : '短信记录',
+            menuId : 81,
             children : [
               {
-                label : '发送记录',
-                id : 82,
-                url : 'esmqLogView'
+                menuName : '发送记录',
+                menuId : 82,
+                menuUrl : 'esmqLogView'
               },
               {
-                label : '接收记录',
-                id : 83,
-                url : 'receiveLog'
+                menuName : '接收记录',
+                menuId : 83,
+                menuUrl : 'receiveLog'
               },
               {
-                label : '调解短信',
-                id: 84,
-                url : 'mediationMsg'
+                menuName : '调解短信',
+                menuId : 84,
+                menuUrl : 'mediationMsg'
               },
               {
-                label : '调解短信设置',
-                id: 85,
-                url : 'mediationMsgSet'
+                menuName : '调解短信设置',
+                menuId : 85,
+                menuUrl : 'mediationMsgSet'
               }
             ],
           }, {
-            label : '状态配置',
-            id : 91,
+            menuName : '状态配置',
+            menuId : 91,
             children : [
               {
-                label : '客户分配',
-                id : 92,
-                url : 'customerAllot'
+                menuName : '客户分配',
+                menuId : 92,
+                menuUrl : 'customerAllot'
               },
               {
-                label : '调解状态设置',
-                id : 93,
-                url : 'mediateStatusSet'
+                menuName : '调解状态设置',
+                menuId : 93,
+                menuUrl : 'mediateStatusSet'
               },
             ],
           },
@@ -384,27 +384,15 @@
       }
     },
     mounted() {
-      console.log('init menu');
-      // 如果当前时 登录也跳转 ， 则默认跳转至 第一个页面
-      this.initPath();
+      // 从 缓存读取 左侧树
+      this.menuList = JSON.parse(localStorage.getItem('menuInfoList'));
       // 获取menu 树 , 高亮选中
       this.getMeun().then(this.setMuenActive);
-    },
-    created() {
-      // let lists = JSON.parse(localStorage.getItem('menuList'));
-      // this.menuList = this.menuList.filter(it => lists.find(i => i.menuTitle === it.label && ));
-
     },
     methods : {
       // 获取menu 树
       getMeun() {
         return new Promise((resove,reject) => {
-          /* this.$http({
-            method : 'get',
-            url : '/json/menu_init.json'
-          }).then((res) => {
-            console.log(res);
-          }); */
           resove();
         });
       },
@@ -414,22 +402,13 @@
         this.menuList.map((v,k) => {
           if(v.children && v.children.length > 0){
             v.children.map((v1,k1) => {
-              if(v1.url.indexOf(routerName) !== -1){
-                this.active = `/main/${v1.url}`;
+              if(v1.menuUrl.indexOf(routerName) !== -1){
+                this.active = `/main/${v1.menuUrl}`;
               }
             });
           }
         });
 
-      },
-      // 初始化 默认跳转
-      initPath() {
-        let routerPath = this.$route.path;
-        if(routerPath === '/main' || routerPath === '/main/'){
-          this.$router.replace({
-            path : '/main/' + this.menuList[0].children[0].url,
-          });
-        }
       },
     },
   }

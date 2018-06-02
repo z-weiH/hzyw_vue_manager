@@ -87,10 +87,18 @@
               .then(res => {
                 if(res.code == '0000'){
                   localStorage.setItem('loginInfo', JSON.stringify(res.result.loginInfoVO));
-                  localStorage.setItem('menuList', JSON.stringify(res.result.menuInfoList));
+                  localStorage.setItem('menuInfoList', JSON.stringify(res.result.menuInfoList));
                   this.$message.success('登录成功');
                   setTimeout(() => {
-                    this.$router.push('/main');
+										let url = '';
+										res.result.menuInfoList.map((v,k) => {
+											v.children.map((v1,k1) => {
+												if(v1.menuUrl){
+													// 默认跳转 第一个页面
+                    			this.$router.push('/main/' + v1.menuUrl);
+												}
+											});
+										});
                   },0);
                 }
               })
