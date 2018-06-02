@@ -127,6 +127,7 @@ export const URL_JSON = {
   // 受理费日对账
   'queryBillingDay': '/amountcheckday/billdaylist.htm', //受理费日对账列表
 
+  // 服务费日对账
   'queryServiceChargeDayCheck': '/amountcheckday/servicedaylist.htm', //服务费日对账列表
 
   // 受理费结算
