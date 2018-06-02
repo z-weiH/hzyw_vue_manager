@@ -10,6 +10,7 @@
           <el-date-picker
             v-model="ruleForm.submitTime"
             type="month"
+            value-format="yyyy-MM"
             placeholder="选择月">
           </el-date-picker>
         </el-form-item>
