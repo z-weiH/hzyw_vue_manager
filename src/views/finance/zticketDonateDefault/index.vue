@@ -99,9 +99,11 @@ export default {
               res => {
                 if (res.code == "0000") {
                   this.item = res.result;
-                    this.$refs.settingDlg.item.resultId = row.resultId;
+                  this.$refs.settingDlg.item = res.result;
+                  this.$refs.settingDlg.item.resultId = row.resultId;
                   console.info('dedededed:::',this.item);
                   this.editState = 9;
+
                 }
               }
             );
@@ -135,6 +137,15 @@ export default {
     };
   },
   methods: {
+    queryCompany(){
+      this.queryDetail(URL_JSON["queryZticketCompany"]).then(res => {
+        if (res.code) {
+          console.log("apply::", res);
+          this.companyList = res.result.list;
+          this.$refs.settingDlg.item = {};
+        }
+      });
+    },
     /**
      * @param row 当前行数据
      * @param type 显示的视图是否可编辑 1:可编辑 9:只读
