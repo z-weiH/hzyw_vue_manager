@@ -15,7 +15,7 @@
       <el-date-picker
         :format="baseFmat"
         :value-format="baseFmat"
-        v-if="searchItem.type == 'date' | searchItem.type == 'month'  "
+        v-if="searchItem.type == 'date' | searchItem.type == 'moment' | searchItem.type == 'month'  "
         v-model="item[searchItem.property]"
         :type="searchItem.type"
         :placeholder="searchItem.placeholder"
