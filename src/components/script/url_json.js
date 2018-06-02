@@ -119,6 +119,12 @@ export const URL_JSON = {
   'updateZticketDetail': '/ticketGift/applicationTicketGift.htm', //保存、修改、提交
 
 
+  // 仲券赠送【销售主管初审】
+  'queryZticketTopheadList': '/ticketGift/queryTicketGiftByManager.htm',//销售主管初审列表
+  'queryZticketZgDetail':'/ticketGift/queryTicketByTicketId.htm',//主管审核详情
+  'updateZticketIsPass': '/ticketGift/aduitTicketGiftByManager.htm', //审核接口
+
+
 
   //仲券赠送【ceo】
   'queryZticketDonateManage': '/ticketGift/queryTicketGiftByCeo.htm',

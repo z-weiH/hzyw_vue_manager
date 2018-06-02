@@ -57,7 +57,7 @@
 
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="handleSubmit">确定</el-button>
-        <el-button type="primary" @click="handleClose">取消</el-button>
+        <el-button @click="handleClose">取消</el-button>
       </span>
     </el-dialog>
   </div>
