@@ -516,7 +516,39 @@ router.beforeEach((to, from, next) => {
   // 返回顶部
   window.scrollTo(0, 0);
   NProgress.start();
-  next();
+
+  let exclude = ['login','404',''];
+  let path = to.path.slice(1);
+  if(exclude.indexOf(path) !== -1){
+    next();
+  }else{
+    try{
+      let treeList = [];
+      let tree = JSON.parse(localStorage.getItem('menuInfoList'));
+      // 递归
+      let fn = (tree) => {
+        tree.map((v,k) => {
+          v.children.map((v1,k1) => {
+            if(v1.children){
+              fn(v1);
+            }else{
+              treeList.push(v1.menuUrl);
+            }
+          });
+        });
+      }
+      fn(tree);
+      // 权限判断
+      if(treeList.indexOf(to.path.slice(6)) !== -1){
+        next();
+      }else{
+        console.log('该用户 没有权限',from);
+        router.push('/404');
+      }
+    }catch(err) {
+      router.push('/404');
+    }
+  }
 });
 
 /* 后置钩子 */

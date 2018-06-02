@@ -47,6 +47,7 @@ export default {
       }).then(() => {
         // this.$http.post("/logout.htm", {}).then(response => {
           localStorage.removeItem("loginInfo");
+          localStorage.removeItem("menuInfoList");
           this.$router.push({ path: "/login" });
         // });
       });
