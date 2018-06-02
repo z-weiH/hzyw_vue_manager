@@ -23,7 +23,7 @@
                 </el-table-column>
            </table-component>
         </div>
-        <setting-dlg ref="settingDlg" :edit-state="editState"  :companyList="companyList"></setting-dlg>
+        <setting-dlg ref="settingDlg" @refresh="refresh" :edit-state="editState"  :companyList="companyList"></setting-dlg>
 </div>
 </template>
 <script type="text/ecmascript-6">
@@ -36,11 +36,11 @@ export default {
   name: "zticketDonateGeneral",
   extends: Mixins,
   data() {
-    return {
-      companyList:[],
-      item:{},
-      merchantCode: '',
-      queryUrl:/*  "/6" +  */URL_JSON["queryZticketDonateGeneral"],
+    return {                                
+      companyList: [],
+      item: {},
+      merchantCode: "",
+      queryUrl: /*  "/6" +  */ URL_JSON["queryZticketDonateGeneral"],
       tableData: [{}],
       searchItem: {},
       searchItems: [
@@ -94,7 +94,18 @@ export default {
       columnDefine: [
         {
           label: "企业名称",
-          property: "merchantName"
+          property: "merchantName",
+          isLink: 1,
+          linkShowPanel: row => {
+            this.queryDetail(URL_JSON["queryZticketDonateGeneralDetail"], { ticketId: row.ticketId }).then(
+              res => {
+                if (res.code == "0000") {
+                  this.item = res.result;
+                  this.editState = 9;
+                }
+              }
+            );
+          }
         },
         {
           label: "企业邮箱（账户）",
@@ -116,7 +127,7 @@ export default {
     };
   },
   methods: {
-    FullListQuery(){
+    FullListQuery() {
       this.doQuery(this.queryUrl, this.item);
     },
     /**
@@ -130,28 +141,28 @@ export default {
         if (res.code) {
           // this.applyZticketView();
           this.editState = type;
+          this.$refs.settingDlg.item = res.result;
           console.log("type::", type);
-          console.info('res::',res);
+          console.info("res::", res);
         }
       });
     },
-    applyZticketView(row, type){
-      this.queryDetail(URL_JSON["queryZticketCompany"])
-      .then(res=>{
-        if(res.code){
-          console.log('apply::',res);
-           this.editState = type;
-           this.companyList = res.result.list;
-           this.$refs.settingDlg.item = {};
+    applyZticketView(row, type) {
+      this.queryDetail(URL_JSON["queryZticketCompany"]).then(res => {
+        if (res.code) {
+          console.log("apply::", res);
+          this.editState = type;
+          this.companyList = res.result.list;
+          this.$refs.settingDlg.item = {};
         }
-      })
+      });
     },
-    searchCompany(){
+    searchCompany() {
       this.queryDetail(URL_JSON["queryZticketCompany"], {
         merchantCode: this.merchantCode
       }).then(res => {
-        if(res.code){
-          console.info('cccc:',res);
+        if (res.code) {
+          console.info("cccc:", res);
         }
       });
     },

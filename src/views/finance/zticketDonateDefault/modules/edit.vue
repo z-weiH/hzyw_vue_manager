@@ -14,12 +14,24 @@
             </tr>
           </tbody>
         </table>
+        <table slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
+          <tbody>
+            <tr class="table-edits">
+              <td colspan="4">审核原因</td>
+            </tr>
+            <tr class="table-edits">
+              <td colspan="4">
+                <el-input type="textarea" v-model="item.apprerResult" placeholder="请输入审核原因" :disabled="$parent.editState == 9"></el-input>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </table-edits>
 
     </div>
     <span slot="footer" class="dialog-footer">
-                <el-button v-if="$parent.editState == 1" type="primary" @click="saveAndcommit(0)">保存</el-button>
-                <el-button v-if="$parent.editState == 1" type="primary" @click="saveAndcommit(1)">提交</el-button>
+                <el-button v-if="$parent.editState == 1" type="primary" @click="saveAndcommit(1)">通过</el-button>
+                <el-button v-if="$parent.editState == 1" type="primary" @click="saveAndcommit(0)">不通过</el-button>
                 <el-button v-if="$parent.editState == 1" @click="$parent.editState = 0">取 消</el-button>
                 <el-button v-if="$parent.editState == 9" type="primary" @click="$parent.editState = 0">返回</el-button>
           </span>
@@ -175,28 +187,25 @@ export default {
       console.info("dialog:::", this.item);
       let _posObj = {
         isCommit: type,
-        merchantCode: this.item.merchantCode,
-        otherInfo: this.item.otherInfo,
-        ticketGift: this.item.ticketGift,
-        ticketId: this.item.ticketId,
-        ticketPeriod: this.item.ticketPeriod
+        apprerResult: this.item.apprerResult,
+        resultId: this.item.resultId,
       };
       switch (type) {
         case 0:
-          this.$http.post(URL_JSON["updateZticketDetail"], _posObj).then(res => {
-            console.info('成功+0 ',res);
+          this.$http.post(URL_JSON["updateZticketIsPass"], _posObj).then(res => {
+            console.info('通过+0 ',res);
             this.$message({
-              message: "保存成功",
-              type:"success"
+              message: "不通过",
+              type:"warning"
             });
-            this.$parent.FullListQuery();
+            this.$emit('refresh');
           });
           break;
         case 1:
-          this.$http.post(URL_JSON["updateZticketDetail"], _posObj).then(res => {
+          this.$http.post(URL_JSON["updateZticketIsPass"], _posObj).then(res => {
             console.info('成功+1 ',res);
-            this.$message({
-              message: "提交成功",
+               this.$message({
+              message: "通过",
               type:"success"
             });
            this.$emit('refresh');
