@@ -1,7 +1,7 @@
 <template>
 <div class="content">
         <div class='wsbodyhead'>
-         <a>所在位置 > </a>
+         <a>所在位置</a>
          <router-link :to='$options.name' class='aside_tit'>调解短信</router-link>
         </div>
         <searchs class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl' @valueChange="getChange">

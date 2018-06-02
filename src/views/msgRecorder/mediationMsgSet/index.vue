@@ -1,7 +1,8 @@
 <template>
 <div class="content">
         <div class='wsbodyhead'>
-         <a>所在位置</a>
+          <a>所在位置</a>
+          <router-link :to='$options.name' class='aside_tit'>调解短信设置</router-link>
 
         </div>
         <div class='item-title'>

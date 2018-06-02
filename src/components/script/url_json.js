@@ -120,6 +120,10 @@ export const URL_JSON = {
 
 
 
+  //仲券赠送【ceo】
+  'queryZticketDonateManage': '/ticketGift/queryTicketGiftByCeo.htm',
+  'editZticketDonateManage': '/ticketGift/queryTicketByTicketId.htm',
+  'saveZticketDonateManage': '/ticketGift/aduitTicketGiftByCeo.htm',
 
 
 
