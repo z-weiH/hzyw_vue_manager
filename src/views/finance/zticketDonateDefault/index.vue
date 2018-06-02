@@ -13,9 +13,8 @@
            <table-component  :pager="pager" :table-data="tableData"  :column-define="columnDefine">
              <el-table-column :resizable="false" label="状态" prop="ticketStatus" slot="defineCol">
                     <template slot-scope="scope">
-                      <el-button size="mini" @click="showDialog(scope.row,1)" v-if="scope.row.ticketStatus == 0">待提交</el-button>
-                      <el-button size="mini" @click="showDialog(scope.row,1)" v-if="scope.row.ticketStatus == 1">待审核</el-button>
-                      <el-button size="mini" @click="showDialog(scope.row,1)" v-if="scope.row.ticketStatus == 2">待复核</el-button>
+                      <el-button size="mini" @click="showDialog(scope.row,2)" v-if="scope.row.ticketStatus == 1">待审核</el-button>
+                      <span v-if="scope.row.ticketStatus == 2">待复核</span>
                       <span v-if="scope.row.ticketStatus == 3">通过</span>
                       <span v-if="scope.row.ticketStatus == 4">未通过</span>
                     </template>

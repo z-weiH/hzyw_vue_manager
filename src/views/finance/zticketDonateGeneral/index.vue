@@ -36,7 +36,7 @@ export default {
   name: "zticketDonateGeneral",
   extends: Mixins,
   data() {
-    return {                                
+    return {
       companyList: [],
       item: {},
       merchantCode: "",
@@ -102,6 +102,7 @@ export default {
                 if (res.code == "0000") {
                   this.item = res.result;
                   this.editState = 9;
+                  this.$refs.settingDlg.item = res.result;
                 }
               }
             );
@@ -130,6 +131,15 @@ export default {
     FullListQuery() {
       this.doQuery(this.queryUrl, this.item);
     },
+    queryCompany(){
+      this.queryDetail(URL_JSON["queryZticketCompany"]).then(res => {
+        if (res.code) {
+          console.log("apply::", res);
+          this.companyList = res.result.list;
+          this.$refs.settingDlg.item = {};
+        }
+      });
+    },
     /**
      * @param row 当前行数据
      * @param type 显示的视图是否可编辑 1:可编辑 9:只读
@@ -157,19 +167,10 @@ export default {
         }
       });
     },
-    searchCompany() {
-      this.queryDetail(URL_JSON["queryZticketCompany"], {
-        merchantCode: this.merchantCode
-      }).then(res => {
-        if (res.code) {
-          console.info("cccc:", res);
-        }
-      });
-    },
     doQuery(url, item) {
       this.query(url, item).then(res => {
-        this.tableData = res.result.list;
-        this.total = res.result.count;
+        // this.tableData = res.result.list;
+        // this.total = res.result.count;
       });
     }
   },

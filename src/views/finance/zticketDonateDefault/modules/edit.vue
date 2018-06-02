@@ -1,7 +1,7 @@
 <template>
   <el-dialog :visible.sync="show" v-dialogDrag :title="title" width="890px" center>
     <div class="dailog-container">
-      <table-edits ref='tableEdits' @valueChange='getChange' :editDefines="edtDefines" :item="item" :companyList="companyList">
+      <table-edits :disabled="$parent.editState == 9 || $parent.editState == 2" ref='tableEdits' @valueChange='getChange' :editDefines="edtDefines" :item="item" :companyList="companyList">
         <table slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
           <tbody>
             <tr class="table-edits">
@@ -9,7 +9,7 @@
             </tr>
             <tr class="table-edits">
               <td colspan="4">
-                <el-input type="textarea" v-model="item.otherInfo" placeholder="请输入附言" :disabled="$parent.editState == 9"></el-input>
+                <el-input  type="textarea" v-model="item.otherInfo" placeholder="请输入附言" :disabled="$parent.editState == 9 || $parent.editState == 2"></el-input>
               </td>
             </tr>
           </tbody>
@@ -30,9 +30,9 @@
 
     </div>
     <span slot="footer" class="dialog-footer">
-                <el-button v-if="$parent.editState == 1" type="primary" @click="saveAndcommit(1)">通过</el-button>
-                <el-button v-if="$parent.editState == 1" type="primary" @click="saveAndcommit(0)">不通过</el-button>
-                <el-button v-if="$parent.editState == 1" @click="$parent.editState = 0">取 消</el-button>
+                <el-button v-if="$parent.editState == 1 || $parent.editState == 2" type="primary" @click="saveAndcommit(1)">通过</el-button>
+                <el-button v-if="$parent.editState == 1 || $parent.editState == 2" type="primary" @click="saveAndcommit(0)">不通过</el-button>
+                <el-button v-if="$parent.editState == 1 || $parent.editState == 2" @click="$parent.editState = 0">取 消</el-button>
                 <el-button v-if="$parent.editState == 9" type="primary" @click="$parent.editState = 0">返回</el-button>
           </span>
   </el-dialog>
@@ -45,7 +45,7 @@ import { URL_JSON } from "../../../../components/script/url_json";
 export default {
   name: "edit",
   props: {
-    editState: Number, // 1:显示 0:隐藏 9:只读
+    editState: Number, // 1:显示 0:隐藏 9:只读-但按钮返回 2:只读-多按钮
     merchantCode: String,
     companyList: Array
   },
@@ -70,35 +70,30 @@ export default {
               label: "企业账户",
               type: "text",
               columns: 1,
-              disabled: "disabled",
               property: "companyAccount"
             },
             {
               label: "企业开户时间",
               type: "date",
               columns: 1,
-              disabled: "disabled",
               property: "companyOpenTime"
             },
             {
               label: "企业累计充值（元）",
               type: "text",
               columns: 1,
-              disabled: "disabled",
               property: "chargeTotal"
             },
             {
               label: "企业年营业额（万元）",
               type: "text",
               columns: 1,
-              disabled: "disabled",
               property: "busiAmount"
             },
             {
               label: "累计赠送（张）",
               type: "text",
               columns: 1,
-              disabled: "disabled",
               property: "giftTotal"
             }
           ]
@@ -235,7 +230,7 @@ export default {
   computed: {
     show: {
       get: function() {
-        return this.editState == 1 || this.editState == 9;
+        return this.editState == 1 || this.editState == 9 || this.editState == 2;
       },
       set: function(v) {
         if (!v) {

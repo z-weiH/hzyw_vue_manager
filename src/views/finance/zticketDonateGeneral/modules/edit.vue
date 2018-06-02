@@ -1,7 +1,7 @@
 <template>
-  <el-dialog :visible.sync="show" v-dialogDrag :title="title" width="890px" center>
+  <el-dialog :visible.sync="show" v-dialogDrag :title="title" width="890px"  @open="resetForm" center>
     <div class="dailog-container">
-      <table-edits ref='tableEdits' @valueChange='getChange' :editDefines="edtDefines" :item="item" :companyList="companyList">
+      <table-edits :disabled="$parent.editState == 9" ref='edits' @valueChange='getChange' :editDefines="edtDefines" :item="item" :companyList="companyList">
         <table slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
           <tbody>
             <tr class="table-edits">
@@ -29,7 +29,7 @@
 <script type="text/ecmascript-6">
 import TableEdits from "@/components/tableEdits";
 import { URL_JSON } from "../../../../components/script/url_json";
-
+import formCheck from "@/components/script/formCheck";
 export default {
   name: "edit",
   props: {
@@ -37,6 +37,7 @@ export default {
     merchantCode: String,
     companyList: Array
   },
+  mixins: [formCheck],
   data() {
     return {
       item: {},
@@ -58,35 +59,30 @@ export default {
               label: "企业账户",
               type: "text",
               columns: 1,
-              disabled: "disabled",
               property: "companyAccount"
             },
             {
               label: "企业开户时间",
               type: "date",
               columns: 1,
-              disabled: "disabled",
               property: "companyOpenTime"
             },
             {
               label: "企业累计充值（元）",
               type: "text",
               columns: 1,
-              disabled: "disabled",
               property: "chargeTotal"
             },
             {
               label: "企业年营业额（万元）",
               type: "text",
               columns: 1,
-              disabled: "disabled",
               property: "busiAmount"
             },
             {
               label: "累计赠送（张）",
               type: "text",
               columns: 1,
-              disabled: "disabled",
               property: "giftTotal"
             }
           ]
@@ -98,7 +94,19 @@ export default {
               label: "本次申请赠送（张）",
               type: "text",
               columns: 1,
-              property: "ticketGift"
+              property: "ticketGift",
+              rule: [
+                { required: true, message: "不能为空", trigger: "blur" },
+                {
+                  validator: (rule, value, callback) => {
+                    if (value.length > 9) {
+                      callback(new Error("输入数量偏大请重新输入"));
+                    } else {
+                      callback();
+                    }
+                  }
+                }
+              ]
             },
             {
               label: "赠券有效期",
@@ -170,41 +178,55 @@ export default {
       if (val) this.edtDefines[0].content[0].options = val;
     }
   },
+  created() {
+    this.$http.post(URL_JSON["queryZticketCompany"]).then(res => {
+      if (res.code === "0000")
+        this.edtDefines[0].content[0].options = res.result.list;
+    });
+  },
   methods: {
     saveAndcommit(type) {
       console.info("dialog:::", this.item);
-      let _posObj = {
-        isCommit: type,
-        merchantCode: this.item.merchantCode,
-        otherInfo: this.item.otherInfo,
-        ticketGift: this.item.ticketGift,
-        ticketId: this.item.ticketId,
-        ticketPeriod: this.item.ticketPeriod
-      };
-      switch (type) {
-        case 0:
-          this.$http.post(URL_JSON["updateZticketDetail"], _posObj).then(res => {
-            console.info('成功+0 ',res);
-            this.$message({
-              message: "保存成功",
-              type:"success"
-            });
-            this.$parent.FullListQuery();
-          });
-          break;
-        case 1:
-          this.$http.post(URL_JSON["updateZticketDetail"], _posObj).then(res => {
-            console.info('成功+1 ',res);
-            this.$message({
-              message: "提交成功",
-              type:"success"
-            });
-           this.$emit('refresh');
-          });
-          break;
-        default:
-          break;
-      }
+      this.checkbeforeSave()
+        .then(() => {
+          let _posObj = {
+            isCommit: type,
+            merchantCode: this.item.merchantCode,
+            otherInfo: this.item.otherInfo,
+            ticketGift: this.item.ticketGift,
+            ticketId: this.item.ticketId,
+            ticketPeriod: this.item.ticketPeriod
+          };
+          switch (type) {
+            case 0:
+              this.$http
+                .post(URL_JSON["updateZticketDetail"], _posObj)
+                .then(res => {
+                  console.info("成功+0 ", res);
+                  this.$message({
+                    message: "保存成功",
+                    type: "success"
+                  });
+                  this.$parent.FullListQuery();
+                });
+              break;
+            case 1:
+              this.$http
+                .post(URL_JSON["updateZticketDetail"], _posObj)
+                .then(res => {
+                  console.info("成功+1 ", res);
+                  this.$message({
+                    message: "提交成功",
+                    type: "success"
+                  });
+                  this.$emit("refresh");
+                });
+              break;
+            default:
+              break;
+          }
+        })
+        .catch(msg => {});
     },
     getChange(obj) {
       if (obj.label === "merchantCode") {

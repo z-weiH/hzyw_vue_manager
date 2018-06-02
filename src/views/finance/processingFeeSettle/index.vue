@@ -11,12 +11,14 @@
     </div>
     <div class='item-table'>
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine">
+        <el-table-column :resizable="false" label="状态" prop="settleStatus" slot="defineCol">
             <template slot-scope="scope">
                 <el-button size="mini" @click="showDialog(scope.row,1)" v-if="scope.row.settleStatus == 0">待处理</el-button>
                 <el-button size="mini" @click="showDialog(scope.row,1)" v-if="scope.row.settleStatus == 1">待结算</el-button>
                 <span v-if="scope.row.settleStatus == 2">已结算</span>
                 <el-button size="mini" @click="showDialog(scope.row,1)" v-if="scope.row.settleStatus == 3">结算不通过</el-button>
             </template>
+        </el-table-column>
       </table-component>
     </div>
 </div>
