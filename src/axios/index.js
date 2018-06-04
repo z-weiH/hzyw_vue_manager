@@ -6,6 +6,7 @@ import {
 } from 'element-ui'
 import Vue from 'vue'
 import router from '../router'
+import host from './host'
 
 
 
@@ -24,6 +25,7 @@ axios.interceptors.request.use((config) => {
   if (config.method === 'post' && config.mheaders !== true) {
     config.data = qs.stringify(config.data);
   }
+  config.url = host.target + config.url;
   return config;
 }, (error) => {
   return Promise.reject(error);
