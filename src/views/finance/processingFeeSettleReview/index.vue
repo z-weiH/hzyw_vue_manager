@@ -6,9 +6,9 @@
           <el-input v-model.trim="ruleForm.arbName" placeholder="请输入结算单号/结算方案名称"></el-input>
         </el-form-item>
 
-        <el-form-item label=" " prop="submitTime">
+        <el-form-item label=" " prop="updateTime">
           <el-date-picker
-            v-model="ruleForm.submitTime"
+            v-model="ruleForm.updateTime"
             type="month"
             value-format="yyyy-MM"
             placeholder="选择月">
@@ -18,9 +18,9 @@
         <el-form-item label=" " prop="resultStatus">
           <el-select clearable v-model="ruleForm.resultStatus" placeholder="请选择状态">
             <el-option label="待处理" :value="0"></el-option>
-            <el-option label="待结算" :value="1"></el-option>
-            <el-option label="已结算" :value="2"></el-option>
-            <el-option label="结算不通过" :value="3"></el-option>
+            <el-option label="待复核" :value="1"></el-option>
+            <el-option label="已复核" :value="2"></el-option>
+            <el-option label="复核不通过" :value="3"></el-option>
           </el-select>
         </el-form-item>
 
@@ -44,7 +44,7 @@
         <el-table-column prop="arbName" label="结算方"></el-table-column>
         <el-table-column prop="settleAmt" label="金额"></el-table-column>
         <el-table-column prop="bankPayno" label="结算单号"></el-table-column>
-        <el-table-column prop="submitTime" label="提交时间"></el-table-column>
+        <el-table-column prop="updateTime" label="提交时间"></el-table-column>
         <el-table-column label="结算状态">
           <template slot-scope="scope">
             <template v-if="scope.row.resultStatus === 1">
@@ -88,7 +88,7 @@
           // 状态 	0待处理1待结算2已结算3结算不通过
           resultStatus : '',
           // 	时间
-          submitTime : '',
+          updateTime : '',
         },
 
         // 表格数据
@@ -132,7 +132,7 @@
             currentNum : this.currentPage,
             arbName : this.ruleForm.arbName,
             resultStatus : this.ruleForm.resultStatus,
-            submitTime : this.ruleForm.submitTime,
+            updateTime : this.ruleForm.updateTime,
           },
         }).then((res) => {
           this.total = res.result.count;
