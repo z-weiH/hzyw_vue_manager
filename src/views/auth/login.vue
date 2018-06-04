@@ -88,7 +88,7 @@
 						}else{
 							localStorage.removeItem('loginName');
 						}
-						this.$http.post('logindo.htm',{loginName: this.ruleForm.loginName, passWord: this.ruleForm.passWord})
+						this.$http.post('/logindo.htm',{loginName: this.ruleForm.loginName, passWord: this.ruleForm.passWord})
               .then(res => {
                 if(res.code == '0000'){
                   localStorage.setItem('loginInfo', JSON.stringify(res.result.loginInfoVO));
