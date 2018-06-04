@@ -18,7 +18,7 @@ axios.interceptors.request.use((config) => {
   // 判断是否是formdata格式
   // post 请求 使用 form Data 请求方式
   let token='';
-  if(JSON.parse(localStorage.getItem('loginInfo')))
+  if(localStorage.getItem('loginInfo'))
     token= JSON.parse(localStorage.getItem('loginInfo')).token;
   config.headers['token'] = token;
   if (config.method === 'post' && config.mheaders !== true) {
