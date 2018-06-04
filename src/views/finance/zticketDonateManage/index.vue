@@ -113,6 +113,7 @@ export default {
      * @param type 显示的视图是否可编辑 1:可编辑 9:只读
      * */
     showDialog(row, type) {
+
       if(!type)
         type = 9;
       this.queryDetail(URL_JSON["editZticketDonateManage"], {
@@ -121,6 +122,8 @@ export default {
         if (res.code === '0000') {
           this.$refs.settingDlg.item = res.result;
           this.$refs.settingDlg.item.resultId = row.resultId;
+          this.$refs.settingDlg.item.managerStatus == 3 ? this.$refs.settingDlg.item.managerStatusCn = "通过" : this.$refs.settingDlg.item.managerStatusCn = "不通过";
+          this.$refs.settingDlg.item.ceoStatus == 3 ? this.$refs.settingDlg.item.ceoStatusCn = "通过" : this.$refs.settingDlg.item.ceoStatusCn = "不通过";
           this.editState = type;
         }
       });

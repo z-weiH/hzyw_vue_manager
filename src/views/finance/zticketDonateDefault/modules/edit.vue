@@ -2,19 +2,7 @@
   <el-dialog :visible.sync="show" v-dialogDrag :title="title" width="890px" center>
     <div class="dailog-container">
       <table-edits :disabled="$parent.editState == 9 || $parent.editState == 2" ref='tableEdits' @valueChange='getChange' :editDefines="edtDefines" :item="item" :companyList="companyList">
-        <table slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
-          <tbody>
-            <tr class="table-edits">
-              <td colspan="4">附言</td>
-            </tr>
-            <tr class="table-edits">
-              <td colspan="4">
-                <el-input  type="textarea" v-model="item.otherInfo" placeholder="请输入附言" :disabled="$parent.editState == 9 || $parent.editState == 2"></el-input>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <table slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
+        <table slot="tablePlus" v-if="item.ticketStatus < 2"  class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
           <tbody>
             <tr class="table-edits">
               <td colspan="4">审核原因</td>
@@ -27,14 +15,13 @@
           </tbody>
         </table>
       </table-edits>
-
     </div>
     <span slot="footer" class="dialog-footer">
-                <el-button v-if="$parent.editState == 1 || $parent.editState == 2" type="primary" @click="saveAndcommit(1)">通过</el-button>
-                <el-button v-if="$parent.editState == 1 || $parent.editState == 2" type="primary" @click="saveAndcommit(0)">不通过</el-button>
-                <el-button v-if="$parent.editState == 1 || $parent.editState == 2" @click="$parent.editState = 0">取 消</el-button>
-                <el-button v-if="$parent.editState == 9" type="primary" @click="$parent.editState = 0">返回</el-button>
-          </span>
+                  <el-button v-if="$parent.editState == 1 || $parent.editState == 2" type="primary" @click="saveAndcommit(1)">通过</el-button>
+                  <el-button v-if="$parent.editState == 1 || $parent.editState == 2" type="primary" @click="saveAndcommit(0)">不通过</el-button>
+                  <el-button v-if="$parent.editState == 1 || $parent.editState == 2" @click="$parent.editState = 0">取 消</el-button>
+                  <el-button v-if="$parent.editState == 9" type="primary" @click="$parent.editState = 0">返回</el-button>
+            </span>
   </el-dialog>
 </template>
 
@@ -166,6 +153,60 @@ export default {
                   value: "12"
                 }
               ]
+            },
+            {
+              label: "附言",
+              type: "textarea",
+              columns: 2,
+              property: "otherInfo"
+            }
+          ]
+        },
+        {
+          title: "主管审批结果",
+          hidden: () => this.item.ticketStatus == 2,
+          content: [
+            {
+              label: "审批状态",
+              type: "text",
+              columns: 1,
+              property: "managerStatusCn"
+            },
+            {
+              label: "审批时间",
+              type: "date",
+              columns: 1,
+              property: "managerTime"
+            },
+            {
+              label: "审批原因",
+              type: "textarea",
+              columns: 2,
+              property: "managerReason"
+            }
+          ]
+        },
+        {
+          title: "ceo审批结果",
+          hidden: () => this.item.ticketStatus > 2,
+          content: [
+            {
+              label: "审批状态",
+              type: "text",
+              columns: 1,
+              property: "ceoStatusCn"
+            },
+            {
+              label: "审批时间",
+              type: "date",
+              columns: 1,
+              property: "ceoTime"
+            },
+            {
+              label: "审批原因",
+              type: "textarea",
+              columns: 2,
+              property: "ceoReason"
             }
           ]
         }
@@ -177,34 +218,44 @@ export default {
       if (val) this.edtDefines[0].content[0].options = val;
     }
   },
+  created() {
+    this.$http.post(URL_JSON["queryZticketCompany"]).then(res => {
+      if (res.code === "0000")
+        this.edtDefines[0].content[0].options = res.result.list;
+    });
+  },
   methods: {
     saveAndcommit(type) {
       console.info("dialog:::", this.item);
       let _posObj = {
         isCommit: type,
         apprerResult: this.item.apprerResult,
-        resultId: this.item.resultId,
+        resultId: this.item.resultId
       };
       switch (type) {
         case 0:
-          this.$http.post(URL_JSON["updateZticketIsPass"], _posObj).then(res => {
-            console.info('通过+0 ',res);
-            this.$message({
-              message: "不通过",
-              type:"warning"
+          this.$http
+            .post(URL_JSON["updateZticketIsPass"], _posObj)
+            .then(res => {
+              console.info("通过+0 ", res);
+              this.$message({
+                message: "不通过",
+                type: "warning"
+              });
+              this.$emit("refresh");
             });
-            this.$emit('refresh');
-          });
           break;
         case 1:
-          this.$http.post(URL_JSON["updateZticketIsPass"], _posObj).then(res => {
-            console.info('成功+1 ',res);
-               this.$message({
-              message: "通过",
-              type:"success"
+          this.$http
+            .post(URL_JSON["updateZticketIsPass"], _posObj)
+            .then(res => {
+              console.info("成功+1 ", res);
+              this.$message({
+                message: "通过",
+                type: "success"
+              });
+              this.$emit("refresh");
             });
-           this.$emit('refresh');
-          });
           break;
         default:
           break;
@@ -230,7 +281,9 @@ export default {
   computed: {
     show: {
       get: function() {
-        return this.editState == 1 || this.editState == 9 || this.editState == 2;
+        return (
+          this.editState == 1 || this.editState == 9 || this.editState == 2
+        );
       },
       set: function(v) {
         if (!v) {

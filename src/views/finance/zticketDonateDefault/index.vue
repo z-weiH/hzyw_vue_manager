@@ -102,6 +102,8 @@ export default {
                   this.$refs.settingDlg.item = res.result;
                   this.$refs.settingDlg.item.resultId = row.resultId;
                   console.info('dedededed:::',this.item);
+                  this.$refs.settingDlg.item.managerStatus == 3 ? this.$refs.settingDlg.item.managerStatusCn = "通过" : this.$refs.settingDlg.item.managerStatusCn = "不通过";
+          this.$refs.settingDlg.item.ceoStatus == 3 ? this.$refs.settingDlg.item.ceoStatusCn = "通过" : this.$refs.settingDlg.item.ceoStatusCn = "不通过";
                   this.editState = 9;
 
                 }
@@ -148,7 +150,7 @@ export default {
     },
     /**
      * @param row 当前行数据
-     * @param type 显示的视图是否可编辑 1:可编辑 9:只读
+     * @param type 显示的视图是否可编辑 1:可编辑 9:只读 2, 3 z
      * */
     showDialog(row, type) {
       this.queryDetail(URL_JSON["queryZticketDonateGeneralDetail"], {
