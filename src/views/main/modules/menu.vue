@@ -13,7 +13,7 @@
           </template>
           <template v-for="(child) in item.children">
             <el-menu-item :key="child.menuId" :index="`/main/${child.menuUrl}`">
-              <i class="ico_userManage"></i>
+              <i class="ico_userManage2"></i>
               {{child.menuName}}
             </el-menu-item>
           </template>
@@ -25,13 +25,6 @@
 
 <script>
   export default {
-
-
-
-
-
-
-
     data() {
       return {
         // menu list
@@ -530,9 +523,7 @@
 <style lang="scss">
 
 .menu-box{
-  .el-menu-item{
-    padding-left: 20px!important;
-  }
+
 }
 
 </style>
