@@ -2,7 +2,7 @@
   <div class="menu-box">
     <el-menu
       router
-      :default-active="active"
+      :default-active="$store.state.menu.menuActive"
       :unique-opened="true"
     >
       <template v-for="(item) in menuList">
@@ -13,7 +13,7 @@
           </template>
           <template v-for="(child) in item.children">
             <el-menu-item :key="child.menuId" :index="`/main/${child.menuUrl}`">
-              <i class="ico_userManage"></i>
+              <i class="ico_userManage2"></i>
               {{child.menuName}}
             </el-menu-item>
           </template>
@@ -403,7 +403,8 @@
           if(v.children && v.children.length > 0){
             v.children.map((v1,k1) => {
               if(v1.menuUrl.indexOf(routerName) !== -1){
-                this.active = `/main/${v1.menuUrl}`;
+                // this.active = `/main/${v1.menuUrl}`;
+                this.$store.commit('menu/setMenuActive',`/main/${v1.menuUrl}`);
               }
             });
           }
@@ -522,9 +523,7 @@
 <style lang="scss">
 
 .menu-box{
-  .el-menu-item{
-    padding-left: 20px!important;
-  }
+
 }
 
 </style>

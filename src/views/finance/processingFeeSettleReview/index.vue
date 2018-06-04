@@ -10,7 +10,8 @@
           <el-date-picker
             v-model="ruleForm.updateTime"
             type="month"
-            value-format="yyyy-MM"
+            value-format="yyyyMM"
+            format="yyyyMM"
             placeholder="选择月">
           </el-date-picker>
         </el-form-item>
@@ -41,6 +42,7 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
+        <el-table-column prop="settleMonth" label="结算月份"></el-table-column>
         <el-table-column prop="arbName" label="结算方"></el-table-column>
         <el-table-column prop="settleAmt" label="金额"></el-table-column>
         <el-table-column prop="bankPayno" label="结算单号"></el-table-column>

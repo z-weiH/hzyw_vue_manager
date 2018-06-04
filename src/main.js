@@ -42,7 +42,7 @@ import './filter'
 Vue.use(ElementUI);
 
 /* eslint-disable no-new */
-new Vue({
+export default new Vue({
   el: '#app',
   router,
   store,

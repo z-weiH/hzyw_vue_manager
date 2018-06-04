@@ -94,6 +94,7 @@ export default {
           this.$http.post(URL_JSON['updateProcessingFeeSettle'],this.item)
           .then(res => {
             this.$message.success('提交成功');
+            this.$parent.editState = 0;
           });
           break;
         default:

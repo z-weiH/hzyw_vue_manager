@@ -78,22 +78,6 @@
         list: []
       }
     },
-    methods: {
-      save() {
-        this.checkbeforeSave().then( () => {
-          this.$http.post(URL_JSON['saveRoleManage'],this.item)
-            .then(res => {
-              this.$message.success(res.description);
-              if(res.code == '0000'){
-                this.$parent.editState = 0;
-                this.$parent.doQuery(this.$parent.queryUrl, this.$parent.searchItem)
-
-              }
-            })
-        }).catch( () => {})
-
-      }
-    },
     computed: {
       title () {
         return this.editState == 1 ? '修改角色信息' : this.editState == 2 ? '新增角色' : ''
@@ -133,9 +117,12 @@
         })
       },
       save() {
+        console.log(this.$refs['tree'].getHalfCheckedKeys().join(','));
         this.$refs['ruleForm'].validate(res => {
           if(res){
             this.item.menus = this.$refs['tree'].getCheckedKeys().join(',');
+            if(this.$refs['tree'].getHalfCheckedKeys().join(','))
+              this.item.menus += ','+this.$refs['tree'].getHalfCheckedKeys().join(',');
             this.$http.post(URL_JSON['saveRoleManage'],this.item)
               .then(res => {
                 this.$message.success(res.description);

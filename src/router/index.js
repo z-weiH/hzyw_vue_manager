@@ -4,6 +4,7 @@ import Router from 'vue-router'
 // 进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
+import main from './../main'
 /* main 子路由 end */
 
 Vue.use(Router)
@@ -541,10 +542,15 @@ router.beforeEach((to, from, next) => {
       fn(tree);
       // 权限判断
       if(treeList.indexOf(to.path.slice(6)) !== -1){
+        // 高亮左侧导航
+        try{
+          main.$store.commit('menu/setMenuActive',`${to.path}`);
+        }catch(err) {
+        }
         next();
       }else{
         console.log('该用户 没有权限',from);
-        router.push('/404');
+        router.replace('/404');
       }
     }catch(err) {
       router.push('/404');
