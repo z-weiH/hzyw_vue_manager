@@ -1,5 +1,9 @@
 <template>
   <div class="contract-add-new-manage">
+    <div class="wsbodyhead">
+      <a>所在位置</a>
+      <a href="javascript:;" class="aside_tit">合同加款【审核】</a>
+    </div>
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
         <el-form-item label=" " prop="keyWords">
