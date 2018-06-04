@@ -385,7 +385,7 @@
     },
     mounted() {
       // 从 缓存读取 左侧树
-      // this.menuList = JSON.parse(localStorage.getItem('menuInfoList'));
+      this.menuList = JSON.parse(localStorage.getItem('menuInfoList'));
       // 获取menu 树 , 高亮选中
       this.getMeun().then(this.setMuenActive);
     },
