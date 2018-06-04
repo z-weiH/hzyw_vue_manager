@@ -91,11 +91,13 @@
                   this.$message.success('登录成功');
                   setTimeout(() => {
 										let url = '';
+										let login = true;
 										res.result.menuInfoList.map((v,k) => {
 											v.children.map((v1,k1) => {
-												if(v1.menuUrl){
+												if(v1.menuUrl && login === true){
 													// 默认跳转 第一个页面
-                    			this.$router.push('/main/' + v1.menuUrl);
+													login = false;
+													this.$router.push('/main/' + v1.menuUrl);
 												}
 											});
 										});
