@@ -138,8 +138,10 @@
             resultId : row.resultId,
           },
         }).then((res) => {
-          this.ruleForm.list = res.result.list;
+          this.ruleForm.list = [res.result];
+          this.detailId = res.result.detailId;
         });
+        this.resultId = row.resultId;
         this.dialogVisible = true;
       },
       // 点击关闭
@@ -157,8 +159,9 @@
               url : '/recharge/review.htm',
               data : {
                 apprerResult : this.ruleForm.list[0].apprerResult,
-                resultId : this.ruleForm.list[0].resultId,
+                resultId : this.resultId,
                 resultStatus : this.ruleForm.list[0].resultStatus2,
+                detailId : this.detailId,
               },
             }).then((res) => {
               this.$message.success('操作成功');

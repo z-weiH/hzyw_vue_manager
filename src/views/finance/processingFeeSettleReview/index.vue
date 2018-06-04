@@ -116,7 +116,6 @@
       },
       // 审核 回调
       successCBK() {
-        this.currentPage = 1;
         this.initTableList();
       },
 
@@ -127,7 +126,7 @@
       initTableList() {
         this.$http({
           method : 'post',
-          url : '/recharge/processingFeeReview.hm',
+          url : '/recharge/processingFeeReview.htm',
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
