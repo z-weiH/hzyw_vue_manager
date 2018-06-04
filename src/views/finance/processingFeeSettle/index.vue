@@ -4,7 +4,7 @@
       <a>所在位置</a>
       <router-link :to='$options.name' class='aside_tit'>受理费结算</router-link>
     </div>
-    <searchs class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
+    <searchs class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
     </searchs>
     <div class='item-title'>
       受理费结算
@@ -21,12 +21,14 @@
         </el-table-column>
       </table-component>
     </div>
+    <setting-dlg ref="settingDlg" @refresh="refresh" :edit-state="editState"  ></setting-dlg>
 </div>
 </template>
 
 <script type="text/ecmascript-6">
 import { URL_JSON } from "../../../components/script/url_json";
 import Searchs from "@/components/searchs";
+import SettingDlg from "./modules/edit";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
 export default {
@@ -98,10 +100,27 @@ export default {
     };
   },
   methods: {
+    /**
+     * @param row 当前行数据
+     * @param type 显示的视图是否可编辑 1:可编辑 9:只读
+     * */
+    showDialog(row, type) {
+      this.queryDetail(URL_JSON["editProcessingFeeSettle"], {
+        settleId: row.settleId
+      }).then(res => {
+        if (res.code) {
+          this.editState = type;
+          this.$refs.settingDlg.item = res.result;
+          this.$refs.settingDlg.item.settleId = row.settleId;
+          console.log("type::", type);
+          console.error(res.result);
+        }
+      });
+    },
     doQuery(url, item) {
       this.query(url, item).then(res => {
-        this.tableData = res.result.list;
-        this.total = res.result.count;
+        // this.tableData = res.result.list;
+        // this.total = res.result.count;
       });
     }
   },
@@ -110,6 +129,7 @@ export default {
   },
   components: {
     Searchs,
+    SettingDlg,
     TableComponent
   }
 };

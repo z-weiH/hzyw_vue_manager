@@ -30,7 +30,7 @@
       </el-form>
 
     </div>
-    
+
     <div class="item-table">
       <el-table
         :data="tableData"
@@ -135,6 +135,7 @@
             updateTime : this.ruleForm.updateTime,
           },
         }).then((res) => {
+          console.info('rrrr::: ',res.result);
           this.total = res.result.count;
           this.tableData = res.result.list;
         });
@@ -147,7 +148,7 @@
       },
       // 分页 change
       handleCurrentChange(val) {
-        this.currentPage = val; 
+        this.currentPage = val;
         this.initTableList();
       },
 

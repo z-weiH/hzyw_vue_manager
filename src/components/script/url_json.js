@@ -142,6 +142,11 @@ export const URL_JSON = {
 
   // 受理费结算
   'queryProcessingFeeSettle': '/recharge/processingFee.htm', //受理费结算列表
+  'editProcessingFeeSettle': '/recharge/settiementDetail.htm', //受理费结算详情
+  'updateProcessingFeeSettle': '/recharge/settlement.htm',//提交
+
+
+
 
 
 
