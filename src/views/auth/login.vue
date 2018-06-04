@@ -64,7 +64,7 @@
 				ruleForm : {
 					loginName : localStorage.getItem('loginName') || '',
 					passWord : '',
-					isAccountNumber : false,
+					isAccountNumber : localStorage.getItem('loginName')? true : false,
 				},
 				rules : {
 					loginName : [
@@ -82,7 +82,12 @@
 			handleSubmit() {
 				this.$refs.ruleForm.validate((valid) => {
 					if (valid) {
-						this.ruleForm.isAccountNumber === true && localStorage.setItem('loginName',this.ruleForm.loginName);
+						// 记住账号
+						if(this.ruleForm.isAccountNumber === true){
+							localStorage.setItem('loginName',this.ruleForm.loginName);
+						}else{
+							localStorage.removeItem('loginName');
+						}
 						this.$http.post('logindo.htm',{loginName: this.ruleForm.loginName, passWord: this.ruleForm.passWord})
               .then(res => {
                 if(res.code == '0000'){
