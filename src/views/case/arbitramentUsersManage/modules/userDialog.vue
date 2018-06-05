@@ -115,7 +115,7 @@
                   <el-form-item  label=" " prop="img01">
                     <el-upload
                       class="upload-demo"
-                      action="/file/upload.htm"
+                      :action="`${$host}/file/upload.htm`"
                       :show-file-list="false"
                       :before-upload="facadeOfIDCardBefore"
                       :on-success="facadeOfIDCardSuccess"
@@ -143,7 +143,7 @@
                   <el-form-item  label=" " prop="img02">
                     <el-upload
                       class="upload-demo"
-                      action="/file/upload.htm"
+                      :action="`${$host}/file/upload.htm`"
                       :show-file-list="false"
                       :before-upload="backsidePhotoOfIDCardBefore"
                       :on-success="backsidePhotoOfIDCardSuccess"
@@ -220,7 +220,7 @@
                   <el-form-item  label=" " prop="img01">
                     <el-upload
                       class="upload-demo"
-                      action="/file/upload.htm"
+                      :action="`${$host}/file/upload.htm`"
                       :show-file-list="false"
                       :before-upload="businessLicenseBefore"
                       :on-success="businessLicenseSuccess"

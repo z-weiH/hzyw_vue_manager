@@ -17,6 +17,9 @@ Vue.prototype.$http = axios;
 // 引入 moment
 import moment from 'moment'
 Vue.prototype.$moment = moment;
+// 线上 host
+import host from './axios/host'
+Vue.prototype.$host = host.target;
 
 import Vtip from 'vtip';
 import 'vtip/lib/index.min.css';

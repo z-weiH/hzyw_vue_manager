@@ -32,7 +32,7 @@
           <el-form-item label="上传证据：" prop="eviFileurl">
             <el-upload
               class="upload-demo"
-              action="/file/upload.htm"
+              :action="`${$host}/file/upload.htm`"
               :show-file-list="false"
               :before-upload="evidenceBefore"
               :on-success="evidenceSuccess"
