@@ -24,7 +24,7 @@
       return {
         searchItems : [
           {type:'text', placeholder: '请输入用户名、真实名字、手机号码', colSpan: 8, property: 'keyWords'},
-          {type:'select', placeholder: '请选择角色', options: [{label:'北京',value:'BJ'}, {label:'上海',value:''}, {label:'杭州',value:'HZ'}], colSpan: 4, property: 'roleId'},
+          {type:'select', placeholder: '请选择角色', options: [], colSpan: 4, property: 'roleId', labelfield: "roleName", valuefield: "roleId"},
         ],
         item : {},
         tableData : [],
@@ -46,10 +46,18 @@
       Edits
     },
     methods: {
-
+      getRole() {
+        this.$http.post(URL_JSON['queryALlRole']).then(res => {
+          console.error(res);
+          if(res.code === '0000'){
+            this.searchItems[1].options = res.result;
+          }
+        })
+      }
     },
     created () {
       this.doQuery(this.queryUrl, this.item);
+      this.getRole();
     }
   }
 </script>
