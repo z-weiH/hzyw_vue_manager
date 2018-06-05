@@ -84,7 +84,7 @@ import {RULES} from "./script/rules";
     },
     data() {
       return {
-        uploadUrl: '/file//upload.htm',
+        uploadUrl: '/file/upload.htm',
         path: '',
         editPro: ''
       }
