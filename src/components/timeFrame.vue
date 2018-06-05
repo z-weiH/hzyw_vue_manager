@@ -10,7 +10,7 @@
       >
       </el-date-picker>
     </el-form-item>
-    <span class="mr-10">-</span>
+    <span class="mr-10 m-span">-</span>
     <el-form-item prop="end">
       <el-date-picker 
         type="date" class="w-133" 
@@ -92,6 +92,11 @@
   vertical-align: top;
   .el-form-item{
     vertical-align: middle;
+  }
+  .m-span{
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 15px;
   }
 }
 
