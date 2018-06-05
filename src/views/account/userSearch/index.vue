@@ -6,7 +6,7 @@
         </searchs>
       </div>
       <div class="item-title">
-        开户申请
+        开户查询
       </div>
       <div class="item-table">
         <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine">
