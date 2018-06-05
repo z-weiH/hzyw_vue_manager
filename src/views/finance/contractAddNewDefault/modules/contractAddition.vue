@@ -716,22 +716,26 @@
             {required : true , message : '请选择客户' , trigger : 'change'}
           ],
           preCaseAmt : [
-            {required : true , message : '请输入预缴受理费' , trigger : 'blur'}
+            {required : true , message : '请输入预缴受理费' , trigger : 'blur'},
+            {pattern : /^\d+(\.\d+)?$/ , message : '格式输入有误' , trigger : 'blur'},
           ],
           preCaseTicket : [
-            {required : true , message : '请输入充值仲券' , trigger : 'blur'}
+            {required : true , message : '请输入充值仲券' , trigger : 'blur'},
+            {pattern : /^(0|[1-9][0-9]*)$/ , message : '格式输入有误' , trigger : 'blur'},
           ],
           /* preTicketAmt : [
             {required : true , message : '请输入仲券金额' , trigger : 'blur'}
           ], */
-          /* preGiftTicket : [
-            {required : true , message : '请输入赠送仲券' , trigger : 'blur'}
-          ], */
+          preGiftTicket : [
+            {required : true , message : '请输入赠送仲券' , trigger : 'blur'},
+            {pattern : /^(0|[1-9][0-9]*)$/ , message : '格式输入有误' , trigger : 'blur'},
+          ],
           preGiftPeriod : [
             {required : true , message : '请选择赠券有效期' , trigger : 'change'}
           ],
           preServiceAmt : [
-            {required : true , message : '请输入技术服务费' , trigger : 'blur'}
+            {required : true , message : '请输入技术服务费' , trigger : 'blur'},
+            {pattern : /^\d+(\.\d+)?$/ , message : '格式输入有误' , trigger : 'blur'},
           ],
 
           // 新增加款 list
@@ -757,20 +761,24 @@
             {required : true , message : '请输入转账摘要' , trigger : 'blur'}
           ],
           addTicket : [
-            {required : true , message : '请输入添加仲券' , trigger : 'blur'}
+            {required : true , message : '请输入添加仲券' , trigger : 'blur'},
+            {pattern : /^(0|[1-9][0-9]*)$/ , message : '格式输入有误' , trigger : 'blur'},
           ],
           /* addTicketAmt : [
             {required : true , message : '请输入仲券金额' , trigger : 'blur'}
           ], */
           addAmt : [
-            {required : true , message : '请输入添加受理费' , trigger : 'blur'}
+            {required : true , message : '请输入添加受理费' , trigger : 'blur'},
+            {pattern : /^\d+(\.\d+)?$/ , message : '格式输入有误' , trigger : 'blur'},
           ],
           addService : [
-            {required : true , message : '请输入技术服务费' , trigger : 'blur'}
+            {required : true , message : '请输入技术服务费' , trigger : 'blur'},
+            {pattern : /^\d+(\.\d+)?$/ , message : '格式输入有误' , trigger : 'blur'},
           ],
-          /* addGiftTicket : [
-            {required : true , message : '请输入赠送仲券' , trigger : 'blur'}
-          ], */
+          addGiftTicket : [
+            {required : true , message : '请输入赠送仲券' , trigger : 'blur'},
+            {pattern : /^(0|[1-9][0-9]*)$/ , message : '格式输入有误' , trigger : 'blur'},
+          ],
           addGiftPeriod : [
             {required : true , message : '请选择赠券有效期' , trigger : 'change'}
           ],
