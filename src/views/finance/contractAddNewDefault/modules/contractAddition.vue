@@ -252,7 +252,7 @@
                       :prop="`orderDetailList[${index}].acctName`"
                       :rules="rules.acctName"
                     >
-                      <el-input v-model="item.acctName" placeholder="请输入充值仲券" />
+                      <el-input v-model="item.acctName" placeholder="请输入客户银行账户名" />
                     </el-form-item>
                   </td>
                 </tr>
@@ -961,7 +961,7 @@
         };
         // 新增
         if(type === 'add'){
-          sendUrl = ' /contractOrder/saveContractOrderInfo.htm';
+          sendUrl = '/contractOrder/saveContractOrderInfo.htm';
           let sendDataArr = [
             'contractDate' , 'contractNo' , 'merchantCode' , 'preCaseAmt',
             'preCaseTicket' , 'preGiftPeriod' , 'preGiftTicket' , 'preServiceAmt' , 'preTicketAmt'

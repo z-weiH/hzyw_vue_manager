@@ -1,9 +1,10 @@
+import host from '@/axios/host'
 export default {
   methods: {
     exportFile(surl) {
       let _userData = JSON.parse(localStorage.getItem('loginInfo'));
       // alert(1);
-      let url = surl + '?';
+      let url = host + surl + '?';
       delete this.searchItem.pageSize;
       delete this.searchItem.currentNum;
       delete this.searchItem.count;
