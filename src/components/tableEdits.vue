@@ -74,6 +74,8 @@
    *@props item 传入的和edit的property属性双向绑定的数据对象
    */
   import axios from 'axios';
+import host from '../axios/host'
+
 import {RULES} from "./script/rules";
   export default {
     name: 'tableEdits',
@@ -84,7 +86,7 @@ import {RULES} from "./script/rules";
     },
     data() {
       return {
-        uploadUrl: '/file/upload.htm',
+        uploadUrl: host.target + '/file/upload.htm',
         path: '',
         editPro: ''
       }
