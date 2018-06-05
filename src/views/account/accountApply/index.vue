@@ -98,7 +98,7 @@
     },
     methods: {
       create () {
-        this.item = {};
+        this.item = {dataUrl: ''};
         this.editState = 2;
       },
       doEdit (row) {

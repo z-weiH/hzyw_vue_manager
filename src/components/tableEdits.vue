@@ -41,7 +41,7 @@
                 <span>{{td.content}}</span>
               </td>
               <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'img'">
-                <img class="table_img" :src="item[td.property]" alt="">
+                <img class="table_img" v-bind:src="item[td.property]" alt="">
               </td>
             </template>
           </template>
@@ -158,7 +158,9 @@ import {RULES} from "./script/rules";
         if(response.code == '0000'){
           this.item[this.editPro] = response.result;
           this.$emit('update:item',this.item);
-          // this.$parent.$set(this.item, this.editPro, response.result);
+          console.log(this.item);
+          // this.item = Object.assign({},this.item);
+          // this.$set(this.item, this.editPro, response.result);
           fileList = [];
         }else {
           this.$message.error('上传文件失败');
