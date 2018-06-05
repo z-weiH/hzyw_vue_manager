@@ -523,8 +523,8 @@ router.beforeEach((to, from, next) => {
   if(exclude.indexOf(path) !== -1){
     next();
   }else{
-    next();
-   /*  try{
+    //next();
+    try{
       let treeList = [];
       let tree = JSON.parse(localStorage.getItem('menuInfoList'));
       // 递归
@@ -553,8 +553,8 @@ router.beforeEach((to, from, next) => {
         router.replace('/404');
       }
     }catch(err) {
-      router.push('/404');
-    } */
+      router.replace('/login');
+    }
   }
 });
 
