@@ -38,8 +38,8 @@
         consultId : 1,
         searchItems: [
           {placeholder: '姓名、手机号', colSpan: 7, property: 'keyWords'},
-          {placeholder: '起始时间', colSpan: 4, property: 'startTime',type: 'date',limit: this.limit1},
-          {placeholder: '结束时间', colSpan: 4, property: 'endTime',type: 'date',limit: this.limit2},
+          {placeholder: '起始时间', colSpan: 4, property: 'startDate',type: 'date',limit: this.limit1},
+          {placeholder: '结束时间', colSpan: 4, property: 'endDate',type: 'date',limit: this.limit2},
           {placeholder: '请选择状态', colSpan: 5, property: 'processed',type: 'select', options: [
               {label:'未处理', value: 0},
               {label:'已处理', value: 1},

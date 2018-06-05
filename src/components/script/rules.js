@@ -19,5 +19,12 @@ export const RULES = {
           callback();
         }
       },
-    trigger: 'blur' }
+    trigger: 'blur' },
+  l18: {validator: (rule, value, callback) => {
+      if (value.length !== 18) {
+        callback(new Error('长度必须是18'));
+      } else {
+        callback();
+      }
+    }}
 };
