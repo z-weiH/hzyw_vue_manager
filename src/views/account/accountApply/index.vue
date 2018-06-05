@@ -110,7 +110,17 @@
             }
           })
       },
-      doDelete () {
+      doDelete (row) {
+        this.showConfirm().then(res => {
+          if(res){
+            this.$http.post('/customer/deleteCustomerByPrimaryKey.htm',{customerId: row.customerId}).then( r => {
+              if(r.code === '0000'){
+                this.$message.success(r.description);
+                this.doQuery(this.queryUrl, this.searchItem);
+              }
+            })
+          }
+        })
 
       },
       disabledDate (time) {

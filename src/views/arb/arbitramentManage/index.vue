@@ -24,6 +24,7 @@
   import TableComponent from "@/components/table";
   import ArbitramentCreate from "./modules/create";
   import {URL_JSON} from "../../../components/script/url_json";
+
   export default {
     name: "roleManame",
     extends: Mixins,
@@ -97,16 +98,6 @@
       },
       sureDelete() {
 
-      },
-      doQuery(url, item) {
-        console.log('doquery');
-        this.query(url, item).then(res => {
-          console.warn("000000000000000000");
-          console.info(res);
-          this.tableData = res[0].result.list;
-          this.total = res[0].result.count;
-          console.log(typeof res[0].result.list);
-        });
       }
     },
     components: {
@@ -117,7 +108,7 @@
     mounted() {
       this.doQuery(this.queryUrl, this.item);
     }
-  };
+  }
 </script>
 
 <style scoped>
