@@ -86,7 +86,7 @@
       },
       doQuery(url,item){
         let obj = {};
-        this.$http.post(URL_JSON['queryMenuManage'],Object.assign({}, this.searchIte, this.pager))
+        this.$http.post(URL_JSON['queryMenuManage'],Object.assign({}, this.searchItem, this.pager))
           .then(res => {
             if(res.code === '0000'){
               res.result.list.forEach(it => {
