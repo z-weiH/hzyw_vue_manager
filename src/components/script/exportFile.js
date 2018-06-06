@@ -4,7 +4,7 @@ export default {
     exportFile(surl) {
       let _userData = JSON.parse(localStorage.getItem('loginInfo'));
       // alert(1);
-      let url = host + surl + '?';
+      let url = host.target + surl + '?';
       delete this.searchItem.pageSize;
       delete this.searchItem.currentNum;
       delete this.searchItem.count;
