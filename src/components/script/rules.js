@@ -1,9 +1,9 @@
 import Regs from '@/assets/js/regexp'
 export const RULES = {
   require: { required : true , message : '不能为空' , trigger : 'blur'},
-  phone: {required : true , pattern : Regs['telOrPhone'] , message : '手机号格式不正确'}, // 固定电话 或 手机号
-  email: {required : true , pattern : Regs['email'] , message : '邮箱格式不正确'},// 邮箱
-  certificate: {required : true , pattern : Regs['certificate'] , message : '身份证格式不正确'},// 身份证
+  phone: {required : true , pattern : /^1[3|4|5|8][0-9]\d{4,8}$/ , message : '手机号格式不正确'}, // 固定电话 或 手机号
+  email: {required : true , pattern : /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ , message : '邮箱格式不正确'},// 邮箱
+  certificate: {required : true , pattern : /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$)/ , message : '身份证格式不正确'},// 身份证
   checkBankCard: {required : true , pattern : Regs['checkBankCard'] , message : '格式不正确'},// 银行卡
   areaCode: {required : true , pattern : Regs['areaCode'] , message : '格式不正确'},// 区号
   mustnum: {required : true , pattern : Regs['mustnum'] , message : '格式不正确'}, // 只能输入数字
