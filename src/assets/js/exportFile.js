@@ -1,4 +1,4 @@
-
+import host from '@/axios/host'
 /**
  * @param {string} url
  *  请求url
@@ -16,7 +16,7 @@ let exportFile = (obj) => {
   for(let key in data) {
     arr.push(`${key}=${data[key]}`);
   };
-  iframe.src = url + '?' + arr.join('&');
+  iframe.src = host.target + url + '?' + arr.join('&');
 
   iframe.onload = function() {
     // 获取 iframe window对象
