@@ -129,7 +129,7 @@
       }
     },
     mounted() {
-      this.initTableList();
+      // this.initTableList();
       // 获取所有 仲裁委
       this.$http({
         method : 'post',
