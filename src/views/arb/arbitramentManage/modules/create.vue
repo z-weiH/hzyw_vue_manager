@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       createItems: [
-        {type: 'text', property:'fullName', label: '仲裁委全称', placeholder: '仲裁委全称',rule:'require'},
+        {type: 'text', property:'arbName', label: '仲裁委全称', placeholder: '仲裁委全称',rule:'require'},
         {type: 'text', property:'shortName', label: '仲裁委简称', placeholder: '仲裁委简称',rule:'require'},
         {type: 'text', property:'linkman', label: '联系人姓名', placeholder: '联系人姓名',rule:'require'},
         {type: 'text', property:'phone', label: '联系人手机', placeholder: '联系人手机',rule:'require'},

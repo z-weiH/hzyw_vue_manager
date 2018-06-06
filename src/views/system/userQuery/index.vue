@@ -1,6 +1,6 @@
 <template>
   <div>
-      <searchs class="item-search" :search-items="searchItems" :item="item" :query-url="queryUrl">
+      <searchs class="item-search" :search-items="searchItems" :item="searchItem" :query-url="queryUrl">
       </searchs>
     <div class="item-title">
       用户列表
@@ -26,7 +26,7 @@
           {type:'text', placeholder: '请输入用户名、真实名字、手机号码', colSpan: 8, property: 'keyWords'},
           {type:'select', placeholder: '请选择角色', options: [], colSpan: 4, property: 'roleId', labelfield: "roleName", valuefield: "roleId"},
         ],
-        item : {},
+        searchItem : {},
         tableData : [],
         columnDefine : [
           {label: '用户名',property: 'loginName'},
@@ -35,7 +35,8 @@
           {label: '所属角色',property: 'roleNames'},
           {label: '创建时间',property: 'createTime',width: 180},
         ],
-        queryUrl:  URL_JSON['queryUserControl']
+        queryUrl:  URL_JSON['queryUserControl'],
+
 
         // fixedSearchItrems: { parent_id: '2', role_id: '3'},//固定的查询条件
       }
@@ -56,7 +57,7 @@
       }
     },
     created () {
-      this.doQuery(this.queryUrl, this.item);
+      this.doQuery(this.queryUrl, this.searchItem);
       this.getRole();
     }
   }
