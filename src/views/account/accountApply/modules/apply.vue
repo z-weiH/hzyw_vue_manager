@@ -58,7 +58,7 @@
           title: '第三部分：联系人信息',
           content: [
             {label: '客户联系人：', type: 'text', placeholder: '请输入客户联系人',columns:1,property: 'contactsName',rule:'require'},
-            {label: '联系电话：', type: 'number', placeholder: '请输入联系电话',columns:1,property: 'contactsPhone',rule:'require,phone'},
+            {label: '联系电话：', type: 'number', placeholder: '请输入联系电话',columns:1,property: 'contactsPhone',rule:'require'},
             {label: '联系邮箱：', type: 'text', placeholder: '请输入联系邮箱',columns:1,property: 'contactsEmail',rule:'require,email'},
             {label: '微信或QQ：', type: 'text', placeholder: '请输入微信或QQ',columns:1,property: 'contactsQq',rule:'require'},
           ]
@@ -154,7 +154,12 @@
           })
       },
       saveApply(num) {
+
         this.checkbeforeSave().then(() => {
+          // "到款金额 = 仲券金额 + 技术服务费 + 添加受理费"
+          if(this.item.preTicketAmt != (+this.item.preCaseTicket) * 10){
+            return this.$message.error('仲券金额必须等于充值仲券 * 10');
+          }
           let obj = Object.assign({isCommit: num}, this.item);
           this.$http.post(URL_JSON['saveAccountApply'], obj, {headers:{token: JSON.parse(localStorage.getItem('loginInfo')).token}})
             .then(res => {

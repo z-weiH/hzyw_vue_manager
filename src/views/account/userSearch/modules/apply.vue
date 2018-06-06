@@ -155,6 +155,9 @@
       },
       saveApply(num) {
         this.checkbeforeSave().then(() => {
+          if(this.item.preTicketAmt != (+this.item.preCaseTicket)*10){
+            return this.$message.error('仲券金额必须等于充值仲券 * 10');
+          }
           let obj = Object.assign({isCommit: num}, this.item);
           this.$http.post(URL_JSON['saveAccountApply'], obj, {headers:{token: JSON.parse(localStorage.getItem('loginInfo')).token}})
             .then(res => {
