@@ -10,7 +10,7 @@
       </div>
       <div class="item-table">
         <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine">
-          <el-table-column label="操作" prop="orderStatusName" slot="defineCol">
+          <el-table-column label="操作" prop="orderStatusName" slot="defineCol"  width="220">
             <template slot-scope="scope">
               <el-button
                 size="mini" v-if="scope.row.custStatus == 10"  @click="doEdit(scope.row)">待提交</el-button>
@@ -103,7 +103,17 @@
             }
           })
       },
-      doDelete () {
+      doDelete (row) {
+        this.showConfirm().then(res => {
+          if(res){
+            this.$http.post('/customer/deleteCustomerByPrimaryKey.htm',{customerId: row.customerId}).then( r => {
+              if(r.code === '0000'){
+                this.$message.success(r.description);
+                this.doQuery(this.queryUrl, this.searchItem);
+              }
+            })
+          }
+        })
 
       },
       disabledDate (time) {
