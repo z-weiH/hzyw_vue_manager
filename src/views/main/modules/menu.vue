@@ -378,6 +378,52 @@
               },
             ],
           },
+          {
+            menuName : '预审系统',
+            menuId : 'ys1',
+            children : [
+              {
+                menuName : '预审案件库',
+                menuId : 'ys2',
+                menuUrl : 'hearCaseList'
+              },
+              {
+                menuName : '证据缺失案件库',
+                menuId : 'ys3',
+                menuUrl : 'hearDropCaseList'
+              },
+              {
+                menuName : '案件初审',
+                menuId : 'ys4',
+                menuUrl : 'initialHearList'
+              },
+              {
+                menuName : '案件复审',
+                menuId : 'ys5',
+                menuUrl : 'redoHearList'
+              },
+              {
+                menuName : '立案申请',
+                menuId : 'ys6',
+                menuUrl : 'initiateApplyList'
+              },
+              {
+                menuName : '推送记录',
+                menuId : 'ys7',
+                menuUrl : 'messagePushList'
+              },
+              {
+                menuName : '数据统计',
+                menuId : 'ys8',
+                menuUrl : 'dataStatisticsView'
+              },
+              {
+                menuName : '预审设置',
+                menuId : 'ys9',
+                menuUrl : 'advanceHearSetsList'
+              },
+            ],
+          },
         ],
         // 当前高亮的 menu
         active : '/main/demo',
