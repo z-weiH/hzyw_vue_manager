@@ -502,6 +502,153 @@ let router = new Router({
           },
         },
         /* 财务管理模块 end */
+
+        /* 预审模块 start */
+        {
+          path: 'hearCaseList',
+          component: () =>
+            import ('@/views/pretrial/hearCaseList'), //预审案件库
+          meta: {
+            name: 'hearCaseList',
+          },
+        },
+        {
+          path: 'hearDropCaseList',
+          component: () =>
+            import ('@/views/pretrial/hearDropCaseList'), //证据缺失案件库
+          meta: {
+            name: 'hearDropCaseList',
+          },
+        },
+        {
+          path: 'hearDropCaseDetail',
+          component: () =>
+            import ('@/views/pretrial/hearDropCaseDetail'), //证据缺失案件库 详情
+          meta: {
+            name: 'hearDropCaseDetail',
+          },
+        },
+        {
+          path: 'initialHearList',
+          component: () =>
+            import ('@/views/pretrial/initialHearList'), //案件初审 列表
+          meta: {
+            name: 'initialHearList',
+          },
+        },
+        {
+          path: 'initialHearDetail',
+          component: () =>
+            import ('@/views/pretrial/initialHearDetail'), //案件初审 审核页面
+          meta: {
+            name: 'initialHearDetail',
+          },
+        },
+        {
+          path: 'idCardHearDetail',
+          component: () =>
+            import ('@/views/pretrial/idCardHearDetail'), //案件初审 身份证审核
+          meta: {
+            name: 'idCardHearDetail',
+          },
+        },
+        {
+          path: 'signatureHearDetail',
+          component: () =>
+            import ('@/views/pretrial/signatureHearDetail'), //案件初审 签名审核
+          meta: {
+            name: 'signatureHearDetail',
+          },
+        },
+        {
+          path: 'evidenceWireHear',
+          component: () =>
+            import ('@/views/pretrial/evidenceWireHear'), //案件初审 证据链审核
+          meta: {
+            name: 'evidenceWireHear',
+          },
+        },
+        {
+          path: 'redoHearList',
+          component: () =>
+            import ('@/views/pretrial/redoHearList'), //案件复审 列表
+          meta: {
+            name: 'redoHearList',
+          },
+        },
+        {
+          path: 'redoHearDetail',
+          component: () =>
+            import ('@/views/pretrial/redoHearDetail'), //案件复审 审核页面
+          meta: {
+            name: 'redoHearDetail',
+          },
+        },
+        {
+          path: 'redoHearChildDetail',
+          component: () =>
+            import ('@/views/pretrial/redoHearChildDetail'), //案件复审 子批次审核
+          meta: {
+            name: 'redoHearChildDetail',
+          },
+        },
+        {
+          path: 'initiateApplyList',
+          component: () =>
+            import ('@/views/pretrial/initiateApplyList'), //立案申请
+          meta: {
+            name: 'initiateApplyList',
+          },
+        },
+        {
+          path: 'messagePushList',
+          component: () =>
+            import ('@/views/pretrial/messagePushList'), //推送记录
+          meta: {
+            name: 'messagePushList',
+          },
+        },
+        {
+          path: 'advanceHearSetsList',
+          component: () =>
+            import ('@/views/pretrial/advanceHearSetsList'), //预审设置 列表
+          meta: {
+            name: 'advanceHearSetsList',
+          },
+        },
+        {
+          path: 'ideaHearOption',
+          component: () =>
+            import ('@/views/pretrial/ideaHearOption'), //预审设置 审核意见维护
+          meta: {
+            name: 'ideaHearOption',
+          },
+        },
+        {
+          path: 'batchNumOption',
+          component: () =>
+            import ('@/views/pretrial/batchNumOption'), //预审设置 批次数量设置
+          meta: {
+            name: 'batchNumOption',
+          },
+        },
+        {
+          path: 'tplTermOption',
+          component: () =>
+            import ('@/views/pretrial/tplTermOption'), //预审设置 模板条件设置
+          meta: {
+            name: 'tplTermOption',
+          },
+        },
+        {
+          path: 'dataStatisticsView',
+          component: () =>
+            import ('@/views/pretrial/dataStatisticsView'), //数据统计
+          meta: {
+            name: 'dataStatisticsView',
+          },
+        },
+        /* 预审模块 end */
       ],
     },
     {
