@@ -118,7 +118,7 @@ export default {
         if(this.item.ticketCount * 10 != +this.item.ticketAmount){
           return this.$message.error("仲券金额 = 添加仲券 * 10")
         }
-        if(this.item.arrivalAmt != (+this.item.ticketAmount) + this.item.caseAmount + this.item.serveAmount){
+        if(+this.item.arrivalAmt != (+this.item.ticketAmount) + this.item.caseAmount + this.item.serveAmount){
           return this.$message.error("到款金额 = 仲券金额 + 技术服务费 + 添加受理费");
         }
         this.$http.post(URL_JSON['saveAccountSettingManage'],Object.assign({isCommit: num},this.item),{headers:{token: JSON.parse(localStorage.getItem('loginInfo')).token}})

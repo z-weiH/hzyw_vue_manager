@@ -18,7 +18,7 @@
                   <el-date-picker  v-if="td.type == 'date' | td.type == 'moment' | td.type == 'month'"  :format="td.baseFmat" :value-format="td.val_baseFmat ? td.val_baseFmat : 'yyyy-MM-dd'" v-model="item[td.property]" :type="td.type" :placeholder="td.placeholder"  :disabled="disabled || td.disabled" :readonly="td.readonly">
                   </el-date-picker>
                   <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :type="td.type" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text' || td.type === 'number'"></el-input>
-                  <el-select @change="valueChange({label:td.property,value:item[td.property]})" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
+                  <el-select clearable  @change="valueChange({label:td.property,value:item[td.property]})" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
                     <el-option
                       v-for="opt in td.options"
                       :key="opt.value"
@@ -118,7 +118,14 @@ import {RULES} from "./script/rules";
           if(it.rule && typeof it.rule === 'string'){
             let ruleKeys = it.rule.split(',');
             let rules = [];
+
             ruleKeys.forEach( ii => {
+              if(it.type === 'select'){
+                RULES[ii].trigger = 'change';
+              }
+              else{
+                RULES[ii].trigger = 'blur';
+              }
               rules.push(RULES[ii]);
             });
             Object.defineProperty(res,it.property,{
@@ -129,6 +136,11 @@ import {RULES} from "./script/rules";
             })
           }
           else if(it.rule && it.rule instanceof Array){
+            if(it.type === 'select'){
+              it.rule.forEach(i => {
+                i.trigger = 'change';
+              })
+            }
             Object.defineProperty(res,it.property,{
               configurable: true,
               enumerable: true,

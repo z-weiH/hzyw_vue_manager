@@ -58,6 +58,12 @@
             let ruleKeys = it.rule.split(',');
             let rules = [];
             ruleKeys.forEach( ii => {
+              if(it.type === 'select'){
+                RULES[ii].trigger = 'change';
+              }
+              else{
+                RULES[ii].trigger = 'blur';
+              }
               rules.push(RULES[ii]);
             });
             Object.defineProperty(res,it.property,{
@@ -68,6 +74,11 @@
             })
           }
           else if(it.rule && it.rule instanceof Array){
+            if(it.type === 'select'){
+              it.rule.forEach(i => {
+                i.trigger = 'change';
+              })
+            }
             Object.defineProperty(res,it.property,{
               configurable: true,
               enumerable: true,
