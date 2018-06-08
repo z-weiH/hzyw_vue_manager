@@ -667,7 +667,7 @@
 
           /* ************************新增加款 list************************************  */
           orderDetailList : [
-            {
+            /* {
               // 客户银行账户名
               acctName : '',
               // 客户银行账号
@@ -701,7 +701,7 @@
               apprerResult : '',
               // 审核状态 2 通过 3不通过
               resultStatus : '',
-            },
+            }, */
           ],
         },
         rules : {
@@ -850,7 +850,7 @@
             }
             return v;
           });
-          this.ruleForm = res.result;
+          this.ruleForm = Object.assign(this.ruleForm,res.result);
         });
       },
       // 详情初始化
@@ -864,7 +864,7 @@
             orderId : row.orderId,
           },
         }).then((res) => {
-          this.ruleForm = res.result;
+          this.ruleForm = Object.assign(this.ruleForm,res.result);
         });
       },
       // 审核初始化
@@ -883,7 +883,7 @@
             v.resultStatus = '';
             return v;
           });
-          this.ruleForm = res.result;
+          this.ruleForm = Object.assign(this.ruleForm,res.result);
         });
       },
       // 审核详情初始化
@@ -897,7 +897,7 @@
             orderId : row.orderId,
           },
         }).then((res) => {
-          this.ruleForm = res.result;
+          this.ruleForm = Object.assign(this.ruleForm,res.result);
         });
       },
 
