@@ -101,6 +101,15 @@
             }
           })
       },
+  // /firstAudit/queryBatchLog.htm
+      getBatchLog(){
+        this.$http.post('/20/firstAudit/queryBatchLog.htm', {batchId: this.batchId})
+          .then(res => {
+            if(res.code === '0000'){
+              this.items = res.result;
+            }
+          })
+      },
       getLabel(value){
         let options= [
           {label: '待初审', value: 0},
@@ -119,6 +128,7 @@
       this.batchId = this.$route.query.batchId
       this.getBatchInfo();
       this.getBatchList();
+      this.getBatchLog();
     }
   }
 </script>
