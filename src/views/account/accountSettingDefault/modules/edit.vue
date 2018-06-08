@@ -91,17 +91,29 @@ export default {
   },
   methods: {
     save(num) {
-      this.$refs['edits'].validate(res => {
-        if(res){
-          this.$http.post(URL_JSON['saveAccountSettingDefault'], {apprerResult: this.item.apprerResult,orderId: this.item.orderId, status:num})
-            .then(res => {
-              if(res.code === '0000'){
-                this.$message.success(res.description);
-                this.$emit('refresh');
-              }
-            })
-        }
-      })
+      if(num === 2){
+        this.$http.post(URL_JSON['saveAccountSettingDefault'], {apprerResult: this.item.apprerResult,orderId: this.item.orderId, status:num})
+          .then(res => {
+            if(res.code === '0000'){
+              this.$message.success(res.description);
+              this.$emit('refresh');
+            }
+          })
+      }
+      else {
+        this.$refs['edits'].validate(res => {
+          if(res){
+            this.$http.post(URL_JSON['saveAccountSettingDefault'], {apprerResult: this.item.apprerResult,orderId: this.item.orderId, status:num})
+              .then(res => {
+                if(res.code === '0000'){
+                  this.$message.success(res.description);
+                  this.$emit('refresh');
+                }
+              })
+          }
+        })
+      }
+
 
     }
   },

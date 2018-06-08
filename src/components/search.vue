@@ -22,7 +22,6 @@
         :picker-options="pickerOptions"
         >
       </el-date-picker>
-
       </el-col>
     </div>
 </template>

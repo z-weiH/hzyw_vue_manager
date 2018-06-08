@@ -179,6 +179,7 @@ export default {
     // 页数 change
     handleSizeChange(val) {
       this.$parent.pager.pageSize = val;
+      this.$parent.doQuery(this.$parent.queryUrl, this.$parent.searchItem)
     },
     // 分页 change
     handleCurrentChange(val) {
