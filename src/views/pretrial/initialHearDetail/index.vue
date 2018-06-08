@@ -51,7 +51,7 @@
       </div>
       <ul class="info_ul">
         <li>
-            <el-button type="primary" class="fr mt-10">审核</el-button>
+            <el-button type="primary" class="fr mt-10" @click="gotoIdCard">审核</el-button>
           <p class="info_title">身份证信息</p>
           <p v-if="info.countIdChecked === 0">审核未开始</p>
           <p v-else-if="info.countIdChecked === 100">审核已完成</p>
@@ -102,7 +102,7 @@
             if(res.code === '0000'){
               res = Mock.mock(res);
               console.log(res);
-              this.items = res.result[0].list;
+              this.items = res.result.list;
             }
           })
       },
@@ -126,6 +126,9 @@
         if(item)
           return item.label;
         return '--';
+      },
+      gotoIdCard() {
+        this.$router.push('/idCardHearDetail')
       }
     },
     mounted() {
