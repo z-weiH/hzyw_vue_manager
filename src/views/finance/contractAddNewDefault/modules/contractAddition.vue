@@ -622,7 +622,7 @@
     watch : {
       // 监听 充值仲券
       ['ruleForm.preCaseTicket'](val) {
-        this.ruleForm.preTicketAmt = val * 10 || '';
+        this.ruleForm.preTicketAmt = val * 10;
       },
       // 监听 赠送仲券
       ['ruleForm.preGiftTicket'](val) {
