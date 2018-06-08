@@ -545,30 +545,6 @@ let router = new Router({
           },
         },
         {
-          path: 'idCardHearDetail',
-          component: () =>
-            import ('@/views/pretrial/idCardHearDetail'), //案件初审 身份证审核
-          meta: {
-            name: 'idCardHearDetail',
-          },
-        },
-        {
-          path: 'signatureHearDetail',
-          component: () =>
-            import ('@/views/pretrial/signatureHearDetail'), //案件初审 签名审核
-          meta: {
-            name: 'signatureHearDetail',
-          },
-        },
-        {
-          path: 'evidenceWireHear',
-          component: () =>
-            import ('@/views/pretrial/evidenceWireHear'), //案件初审 证据链审核
-          meta: {
-            name: 'evidenceWireHear',
-          },
-        },
-        {
           path: 'redoHearList',
           component: () =>
             import ('@/views/pretrial/redoHearList'), //案件复审 列表
@@ -655,6 +631,30 @@ let router = new Router({
       path: '*',
       redirect: '/404',
     },
+    {
+      path: '/idCardHearDetail',
+      component: () =>
+        import ('@/views/pretrial/idCardHearDetail'), //案件初审 身份证审核
+      meta: {
+        name: 'idCardHearDetail',
+      },
+    },
+    {
+      path: '/signatureHearDetail',
+      component: () =>
+        import ('@/views/pretrial/signatureHearDetail'), //案件初审 签名审核
+      meta: {
+        name: 'signatureHearDetail',
+      },
+    },
+    {
+      path: '/evidenceWireHear',
+      component: () =>
+        import ('@/views/pretrial/evidenceWireHear'), //案件初审 证据链审核
+      meta: {
+        name: 'evidenceWireHear',
+      },
+    }
   ]
 })
 
@@ -670,38 +670,38 @@ router.beforeEach((to, from, next) => {
   if(exclude.indexOf(path) !== -1){
     next();
   }else{
-    // next();
-    try{
-      let treeList = [];
-      let tree = JSON.parse(localStorage.getItem('menuInfoList'));
-      // 递归
-      let fn = (tree) => {
-        tree.map((v,k) => {
-          v.children.map((v1,k1) => {
-            if(v1.children){
-              fn(v1);
-            }else{
-              treeList.push(v1.menuUrl);
-            }
-          });
-        });
-      }
-      fn(tree);
-      // 权限判断
-      if(treeList.indexOf(to.path.slice(6)) !== -1){
-        // 高亮左侧导航
-        try{
-          main.$store.commit('menu/setMenuActive',`${to.path}`);
-        }catch(err) {
-        }
-        next();
-      }else{
-        console.log('该用户 没有权限',from);
-        router.replace('/404');
-      }
-    }catch(err) {
-      router.replace('/login');
-    }
+    next();
+    // try{
+    //   let treeList = [];
+    //   let tree = JSON.parse(localStorage.getItem('menuInfoList'));
+    //   // 递归
+    //   let fn = (tree) => {
+    //     tree.map((v,k) => {
+    //       v.children.map((v1,k1) => {
+    //         if(v1.children){
+    //           fn(v1);
+    //         }else{
+    //           treeList.push(v1.menuUrl);
+    //         }
+    //       });
+    //     });
+    //   }
+    //   fn(tree);
+    //   // 权限判断
+    //   if(treeList.indexOf(to.path.slice(6)) !== -1){
+    //     // 高亮左侧导航
+    //     try{
+    //       main.$store.commit('menu/setMenuActive',`${to.path}`);
+    //     }catch(err) {
+    //     }
+    //     next();
+    //   }else{
+    //     console.log('该用户 没有权限',from);
+    //     router.replace('/404');
+    //   }
+    // }catch(err) {
+    //   router.replace('/login');
+    // }
   }
 });
 
