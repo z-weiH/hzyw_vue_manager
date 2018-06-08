@@ -78,6 +78,7 @@
 </template>
 
 <script>
+  import Mock from 'mockjs'
   export default {
     data() {
       return {
@@ -90,6 +91,7 @@
       getBatchInfo() {
         this.$http.post('/20/firstAudit/queryBatchInfo.htm',{batchId: this.batchId}).then(res => {
           if(res.code === '0000'){
+
             this.item = res.result;
           }
         })
@@ -98,7 +100,9 @@
         this.$http.post('/20/firstAudit/querySubBatchList.htm', {batchId: this.batchId})
           .then(res => {
             if(res.code === '0000'){
-              this.items = res.result;
+              res = Mock.mock(res);
+              console.log(res);
+              this.items = res.result[0].list;
             }
           })
       },
@@ -107,7 +111,7 @@
         this.$http.post('/20/firstAudit/queryBatchLog.htm', {batchId: this.batchId})
           .then(res => {
             if(res.code === '0000'){
-              this.items = res.result;
+              // this.items = res.result;
             }
           })
       },
