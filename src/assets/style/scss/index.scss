@@ -175,6 +175,15 @@ body {
   border: 1px solid #E9EDF0;
   border-bottom: none;
 }
+.item-title-sign::before{
+  content : '';
+  display: inline-block;
+  width: 3px;
+  height: 15px;
+  background-color: #0F357F;
+  vertical-align: bottom;
+  margin-right: 10px;
+}
 
 .item-table {
   background-color: #ffffff;
