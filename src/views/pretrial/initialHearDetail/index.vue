@@ -47,28 +47,29 @@
     <div v-for="(info,index) in items" :key="index" class="info">
       <div class="item-title">
         子批次-{{index + 1}}
+        <span>({{info.countCase}})</span>
       </div>
       <ul class="info_ul">
         <li>
             <el-button type="primary" class="fr mt-10">审核</el-button>
           <p class="info_title">身份证信息</p>
-          <p v-if="info.idcardInfo.idcardPos === 0">审核未开始</p>
-          <p v-else-if="info.idcardInfo.idcardPos === 100">审核已完成</p>
-          <p v-else>已审核到第{{info.idcardInfo.idcardPos}}件</p>
+          <p v-if="info.countIdChecked === 0">审核未开始</p>
+          <p v-else-if="info.countIdChecked === 100">审核已完成</p>
+          <p v-else>已审核到第{{info.countIdChecked}}件</p>
         </li>
         <li>
           <el-button type="primary" class="fr mt-10">审核</el-button>
           <p class="info_title">签名信息</p>
-          <p v-if="info.signInfo.signPos === 0">审核未开始</p>
-          <p v-else-if="info.signInfo.signPos === 100">审核已完成</p>
-          <p v-else>已审核到第{{info.signInfo.signPos}}件</p>
+          <p v-if="info.countSignChecked === 0">审核未开始</p>
+          <p v-else-if="info.countSignChecked === 100">审核已完成</p>
+          <p v-else>已审核到第{{info.countSignChecked}}件</p>
         </li>
         <li>
           <el-button type="primary" class="fr mt-10">审核</el-button>
           <p class="info_title">证据链信息</p>
-          <p v-if="info.evidenceInfo.evidencePos === 0">审核未开始</p>
-          <p v-else-if="info.evidenceInfo.evidencePos === 100">审核已完成</p>
-          <p v-else>已审核到第{{info.evidenceInfo.evidencePos}}件</p>
+          <p v-if="info.countEviChecked === 0">审核未开始</p>
+          <p v-else-if="info.countEviChecked === 100">审核已完成</p>
+          <p v-else>已审核到第{{info.countEviChecked}}件</p>
         </li>
       </ul>
 
@@ -124,7 +125,6 @@
       }
     },
     mounted() {
-      // console.log(this.$route.query);
       this.batchId = this.$route.query.batchId
       this.getBatchInfo();
       this.getBatchList();
