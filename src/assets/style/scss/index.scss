@@ -190,6 +190,19 @@ body {
   border: 1px solid #E9EDF0;
   border-top: none;
 }
+.icon-sign::before{
+  content : '';
+  display: inline-block;
+  width: 3px;
+  height: 15px;
+  background-color: #0F357F;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+.icon-sign{
+  font-weight: bold;
+  color: #0F357F;
+}
 
 /* 总体样式 end */
 
@@ -235,7 +248,7 @@ body {
 
 .el-input {
   input:disabled {
-    background: #EEEEEE;
+    background: #EEEEEE!important;
     cursor: not-allowed;
   }
 }
