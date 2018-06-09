@@ -55,7 +55,7 @@ export default {
         .then(res => {
           console.log('query::数据');
           // mock格式转换成正规json格式
-          // res = Mock.mock(res);
+          res = Mock.mock(res);
           console.log(res);
           if(res.code === '0000') {
             this.tableData = res.result.list;

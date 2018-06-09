@@ -219,4 +219,10 @@ export const URL_JSON = {
   /*调节短信设置*/
 
 
+  /*-----预审系统----*/
+  'queryInitiateApplyList': '/caseLibrary/queryApplicationList.htm',//立案申请列表
+
+  /*-----预审系统----*/
+
+
 }
