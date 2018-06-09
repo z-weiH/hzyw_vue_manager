@@ -13,7 +13,16 @@
           <el-button type="text">添加书签</el-button>
           <el-button type="primary" plain @click="HandleShow">审核意见</el-button>
         </div>
-        <span>1/100 的v哦i比把你的妇女i的那</span>
+        <span class="header_title">1/100 的v哦i比把你的妇女i的那</span>
+        <div class="header_img">
+          <img src="@/assets/img/idCard.png" alt="">
+        </div>
+        <div class="header_img">
+          <img src="@/assets/img/signature.png" alt="">
+        </div>
+        <div class="header_img">
+          <img src="@/assets/img/evidence.png" alt="">
+        </div>
       </div>
       <div class="card_body">
         <div class="img zhen">
@@ -119,6 +128,18 @@
         background: #EEF3FF;
         padding-left: 12px;
         padding-right: 10px;
+        .header_title{
+          font-size: 16px;
+          line-height: 50px;
+          color: #13367D;
+        }
+        .header_img{
+          display: inline-block;
+          img{
+            vertical-align: bottom;
+            margin: 0 3px;
+          }
+        }
       }
       .card_body{
         padding: 30px 0 30px 22px;
