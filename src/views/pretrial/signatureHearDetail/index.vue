@@ -13,6 +13,22 @@
           <el-button type="text">添加书签</el-button>
           <el-button type="primary" plain @click="HandleShow">审核意见</el-button>
         </div>
+        <span class="header_title">1/100 的v哦i比把你的妇女i的那</span>
+        <div class="header_img">
+          <img src="@/assets/img/idCard.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" alt="">
+          <img class="icon" src="@/assets/img/error.png" alt="">
+        </div>
+        <div class="header_img">
+          <img src="@/assets/img/signature.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" alt="">
+          <img class="icon" src="@/assets/img/error.png" alt="">
+        </div>
+        <div class="header_img">
+          <img src="@/assets/img/evidence.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" alt="">
+          <img class="icon" src="@/assets/img/error.png" alt="">
+        </div>
       </div>
       <div class="card_body">
         <table class="card_table">
@@ -43,9 +59,18 @@
         </table>
         <div class="img_desc">
           <ul>
-            <li>各签名有效且自签名应用以来文档未被修改</li>
-            <li>被申请人签名已获取</li>
-            <li>被申请人签名时间早于或等于借款开始时间</li>
+            <li>
+              <img class="mr-10" src="@/assets/img/error_tag.png" alt="">
+              各签名有效且自签名应用以来文档未被修改
+            </li>
+            <li>
+              <img class="mr-5" src="@/assets/img/success_tag.png" alt="">
+              被申请人签名已获取
+            </li>
+            <li>
+              <img class="ml-5 mr-10" src="@/assets/img/warning_tag.png" alt="">
+              被申请人签名时间早于或等于借款开始时间
+            </li>
           </ul>
         </div>
         <div class="audit">
@@ -135,6 +160,24 @@
         background: #EEF3FF;
         padding-left: 12px;
         padding-right: 10px;
+        .header_title{
+          font-size: 16px;
+          line-height: 50px;
+          color: #13367D;
+        }
+        .header_img{
+          display: inline-block;
+          position: relative;
+          img{
+            vertical-align: bottom;
+            margin: 0 7px;
+          }
+          .icon{
+            position: absolute;
+            bottom: -7px;
+            right: -7px;
+          }
+        }
       }
       .card_body{
         padding: 30px 0 30px 22px;

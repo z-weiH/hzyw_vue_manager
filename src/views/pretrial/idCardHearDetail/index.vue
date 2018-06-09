@@ -16,12 +16,18 @@
         <span class="header_title">1/100 的v哦i比把你的妇女i的那</span>
         <div class="header_img">
           <img src="@/assets/img/idCard.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" alt="">
+          <img class="icon" src="@/assets/img/error.png" alt="">
         </div>
         <div class="header_img">
           <img src="@/assets/img/signature.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" alt="">
+          <img class="icon" src="@/assets/img/error.png" alt="">
         </div>
         <div class="header_img">
           <img src="@/assets/img/evidence.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" alt="">
+          <img class="icon" src="@/assets/img/error.png" alt="">
         </div>
       </div>
       <div class="card_body">
@@ -33,12 +39,30 @@
         </div>
         <div class="img_desc">
           <ul>
-            <li>万焕昌</li>
-            <li>男</li>
-            <li>汗</li>
-            <li>阿谁都不会覅斌</li>
-            <li>12315641561561</li>
-            <li>(有效期)</li>
+            <li>
+              <img class="mr-10" src="@/assets/img/error_tag.png" alt="">
+              万焕昌
+            </li>
+            <li>
+              <img class="mr-5" src="@/assets/img/success_tag.png" alt="">
+              男
+            </li>
+            <li>
+              <img class="mr-15" src="@/assets/img/warning_tag.png" alt="">
+              汗
+            </li>
+            <li>
+              <img class="mr-10" src="@/assets/img/error_tag.png" alt="">
+              阿谁都不会覅斌
+            </li>
+            <li>
+              <img class="mr-10" src="@/assets/img/error_tag.png" alt="">
+              12315641561561
+            </li>
+            <li>
+              <img class="mr-10" src="@/assets/img/error_tag.png" alt="">
+              (有效期)
+            </li>
           </ul>
         </div>
         <div class="audit">
@@ -135,9 +159,15 @@
         }
         .header_img{
           display: inline-block;
+          position: relative;
           img{
             vertical-align: bottom;
-            margin: 0 3px;
+            margin: 0 7px;
+          }
+          .icon{
+            position: absolute;
+            bottom: -7px;
+            right: -7px;
           }
         }
       }
