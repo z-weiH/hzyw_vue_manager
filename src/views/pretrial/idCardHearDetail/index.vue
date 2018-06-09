@@ -2,7 +2,7 @@
   <div class="body_container">
     <div class="header_container">
       <div class="header">
-        <el-button type="primary" class="fr mr-10 mt-20">审核完成</el-button>
+        <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit">审核完成</el-button>
         <span class="header_title">身份证审核</span>
         <el-checkbox class="header_checkbox" v-model="auditStatus">必要审核</el-checkbox>
       </div>
@@ -11,8 +11,9 @@
       <div class="card_header">
         <div class="fr mt-5">
           <el-button type="text">添加书签</el-button>
-          <el-button type="primary" plain>审核意见</el-button>
+          <el-button type="primary" plain @click="HandleShow">审核意见</el-button>
         </div>
+        <span>1/100 的v哦i比把你的妇女i的那</span>
       </div>
       <div class="card_body">
         <div class="img zhen">
@@ -40,15 +41,47 @@
       </div>
 
     </div>
+
+    <audit></audit>
+
   </div>
 </template>
 
 <script>
+  import audit from './modules/audit'
+  import Mixins from '@/components/script/_mixin'
   export default {
+    extends: Mixins,
     data(){
       return {
-        auditStatus: false
+        auditStatus: false,
+        editState: 0
       }
+    },
+    methods: {
+      HandleShow() {
+        this.editState = 1;
+      },
+      HandleAudit() {
+        const h = this.$createElement;
+        this.$msgbox({
+          title: '提示',
+          message: h('div',null,[
+            h('p',null,'即将提交身份证结果。提交后讲无法修改。'),
+            h('p',null,'确定提交?')
+
+          ]),
+          center: true,
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(res => {
+
+        }).catch(() => {})
+      }
+    },
+    components: {
+      audit
     }
   }
 </script>
