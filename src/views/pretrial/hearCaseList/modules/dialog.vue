@@ -87,7 +87,11 @@
             共找到案件 
             <span class="color-origin">{{totalCount}}</span>
             件，待分配
-            <span class="color-origin">{{undistributeTotalCount}}</span>
+            <span class="color-origin">
+              {{
+                undistributeTotalCount >= 0 ? undistributeTotalCount : ''
+              }}
+            </span>
           </div>
 
           <div>
@@ -102,7 +106,7 @@
                   :prop="`allocationList.${index}.count`"
                   :rules="[
                     
-                    {pattern : /^[0-9]*$/, message : '格式有误' , trigger : 'blur'},
+                    {pattern : /^[0-9]*$/, message : '格式有误' , trigger : 'change'},
                   ]"
                 >
                   <el-input 
@@ -139,7 +143,7 @@
     },
     data() {
       return {
-        dialogVisible : true,
+        dialogVisible : false,
 
         ruleForm : {
           // 互金企业 
@@ -312,15 +316,14 @@
       handleAuditedChange(val,index,item) {
         // 通过校验
         if(/^[0-9]*$/.test(val)){
-
           // 判断用户输入第一位 不能为0
-          if(val == '0'){
+          if(val[0] == '0'){
             val = '';
             setTimeout(() => {
               this.ruleForm.allocationList[index].count = '';
             },0);
           // 如果所填 大于 总数量 默认最大数量值
-          }else if(val > +this.undistributeTotalCountStorage) {
+          }else if(val > (+this.undistributeTotalCount) + (+item.countOld) ) {
             // 如果当前 可分配为 0 ， 重置为 之前数据
             if(this.undistributeTotalCount == '0') {
               val = item.countOld;
@@ -356,8 +359,18 @@
             });
             this.undistributeTotalCount = (+this.undistributeTotalCountStorage) - countMax;
           },0);
+        // 格式有误
         }else{
-          this.$refs.ruleForm.validateField(`allocationList.${index}.count`);
+          setTimeout(() => {
+            // 重置当前输入 为空
+            this.ruleForm.allocationList[index].count = '';
+            // 重新计算 待分配数量
+            let countMax = 0;
+            this.ruleForm.allocationList.map((v) => {
+              countMax = countMax + (+v.count);
+            });
+            this.undistributeTotalCount = (+this.undistributeTotalCountStorage) - countMax;
+          },0);
         }
         this.ruleForm.allocationList[index].countOld = val;
       },
