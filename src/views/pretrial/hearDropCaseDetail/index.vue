@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div class="wsbodyhead">
       <a>所在位置</a>
       <router-link :to="'/main/initialHearList'" class="aside_tit">证据缺失案件库</router-link>
