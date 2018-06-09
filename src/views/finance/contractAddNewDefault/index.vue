@@ -15,6 +15,7 @@
           class="m-timeFrame"
           :startDate.sync="ruleForm.startDate"
           :endDate.sync="ruleForm.endDate"
+          :bar="false"
         >
         </timeFrame>
 

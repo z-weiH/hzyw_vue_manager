@@ -525,7 +525,7 @@ let router = new Router({
           component: () =>
             import ('@/views/pretrial/hearDropCaseDetail'), //证据缺失案件库 详情
           meta: {
-            name: 'hearDropCaseDetail',
+            name: 'hearDropCaseList',
           },
         },
         {
@@ -597,7 +597,7 @@ let router = new Router({
           component: () =>
             import ('@/views/pretrial/ideaHearOption'), //预审设置 审核意见维护
           meta: {
-            name: 'ideaHearOption',
+            name: 'advanceHearSetsList',
           },
         },
         {
@@ -605,7 +605,7 @@ let router = new Router({
           component: () =>
             import ('@/views/pretrial/batchNumOption'), //预审设置 批次数量设置
           meta: {
-            name: 'batchNumOption',
+            name: 'advanceHearSetsList',
           },
         },
         {
@@ -613,7 +613,7 @@ let router = new Router({
           component: () =>
             import ('@/views/pretrial/tplTermOption'), //预审设置 模板条件设置
           meta: {
-            name: 'tplTermOption',
+            name: 'advanceHearSetsList',
           },
         },
         {
