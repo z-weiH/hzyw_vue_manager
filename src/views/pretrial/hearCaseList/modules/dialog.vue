@@ -201,7 +201,7 @@
       // 查询所有运营 人员
       this.$http({
         method : 'post',
-        url : '/caseLibrary/queryUserUnDistributeCaseInfo.htm',
+        url : '/preCaseLib/queryUserAndDistributeCaseInfo.htm',
       }).then((res) => {
         this.ruleForm.allocationList = res.result.list.map((v) => {
           v.count = '';
@@ -245,7 +245,7 @@
         }
         this.$http({
           method : 'post',
-          url : '/caseLibrary/queryUnDistributeCaseInfoByDistributeCaseQueryVO.htm',
+          url : '/precaseLib/queryUnDistributeCaseInfoByCondition.htm',
           data : {
             accountPeriodType : this.ruleForm.accountPeriodType,
             merchantCode : this.ruleForm.merchantCode,
@@ -390,7 +390,7 @@
             data.allocationList = JSON.stringify(data.allocationList);
             this.$http({
               method : 'post',
-              url : '/caseLibrary/distributeCaseByDistributeCaseQuery.htm',
+              url : '/preCaseLib/distributeCaseByDistributeCaseQuery.htm',
               data : data,
             }).then((res) => {
               this.$message.success('分配成功');

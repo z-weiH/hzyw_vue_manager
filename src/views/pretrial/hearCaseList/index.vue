@@ -5,9 +5,9 @@
       <a href="javascript:;" class="aside_tit">预审案件库</a>
     </div>
     <div class="item-search">
-      <el-form :inline="true" ref="ruleForm" :model="ruleForm">
+      <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入互金企业、产品名称、模板号、被申请人姓名、手机"></el-input>
+          <el-input style="width:400px;" v-model.trim="ruleForm.keyWords" placeholder="请输入互金企业、产品名称、模板号、被申请人姓名、手机"></el-input>
         </el-form-item>
 
         <el-form-item label=" " prop="accountAge">
@@ -45,6 +45,7 @@
           :endDate.sync="ruleForm.queryEndDate"
           startPlaceholder="预审开始"
           endPlaceholder="预审结束"
+          class="ml-10"
         >
         </timeFrame>
 
@@ -174,16 +175,20 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCase/caseListQuery',
+          url : '/preCaseLib/queryCaseListByCondition.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
-            startDate : this.ruleForm.startDate,
-            endDate : this.ruleForm.endDate,
+
             keyWords : this.ruleForm.keyWords,
-            merchantCode : this.ruleForm.merchantCode,
-            orderStatus : this.ruleForm.orderStatus,
+            accountAge : this.ruleForm.keyWords,
+            pushStartDate : this.ruleForm.pushStartDate,
+            pushEndDate : this.ruleForm.pushEndDate,
+            queryStartDate : this.ruleForm.queryStartDate,
+            queryEndDate : this.ruleForm.queryEndDate,
+            status : this.ruleForm.status,
+            
           },
         }).then((res) => {
           this.total = res.result.count;
