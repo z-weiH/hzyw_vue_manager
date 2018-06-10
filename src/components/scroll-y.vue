@@ -105,7 +105,7 @@
       
     },
     mounted() {
-
+      this.$options.watch.options.call(this);
     },
     methods : {
       
@@ -113,7 +113,7 @@
         clearInterval(this.timer);
       },
       timerFn(type) {
-        let step = 10;
+        let step = 15;
         this.timer = setInterval(() => {
           if(!this.isRoll){
             return;
