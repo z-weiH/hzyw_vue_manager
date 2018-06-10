@@ -525,7 +525,7 @@ let router = new Router({
           component: () =>
             import ('@/views/pretrial/hearDropCaseDetail'), //证据缺失案件库 详情
           meta: {
-            name: 'hearDropCaseDetail',
+            name: 'hearDropCaseList',
           },
         },
         {
@@ -589,7 +589,7 @@ let router = new Router({
           component: () =>
             import ('@/views/pretrial/ideaHearOption'), //预审设置 审核意见维护
           meta: {
-            name: 'ideaHearOption',
+            name: 'advanceHearSetsList',
           },
         },
         {
@@ -597,7 +597,7 @@ let router = new Router({
           component: () =>
             import ('@/views/pretrial/batchNumOption'), //预审设置 批次数量设置
           meta: {
-            name: 'batchNumOption',
+            name: 'advanceHearSetsList',
           },
         },
         {
@@ -605,7 +605,7 @@ let router = new Router({
           component: () =>
             import ('@/views/pretrial/tplTermOption'), //预审设置 模板条件设置
           meta: {
-            name: 'tplTermOption',
+            name: 'advanceHearSetsList',
           },
         },
         {
@@ -671,37 +671,37 @@ router.beforeEach((to, from, next) => {
     next();
   }else{
     next();
-    /* try{
-      let treeList = [];
-      let tree = JSON.parse(localStorage.getItem('menuInfoList'));
-      // 递归
-      let fn = (tree) => {
-        tree.map((v,k) => {
-          v.children.map((v1,k1) => {
-            if(v1.children){
-              fn(v1);
-            }else{
-              treeList.push(v1.menuUrl);
-            }
-          });
-        });
-      }
-      fn(tree);
-      // 权限判断
-      if(treeList.indexOf(to.path.slice(6)) !== -1){
-        // 高亮左侧导航
-        try{
-          main.$store.commit('menu/setMenuActive',`${to.path}`);
-        }catch(err) {
-        }
-        next();
-      }else{
-        console.log('该用户 没有权限',from);
-        router.replace('/404');
-      }
-    }catch(err) {
-      router.replace('/login');
-    } */
+    // try{
+    //   let treeList = [];
+    //   let tree = JSON.parse(localStorage.getItem('menuInfoList'));
+    //   // 递归
+    //   let fn = (tree) => {
+    //     tree.map((v,k) => {
+    //       v.children.map((v1,k1) => {
+    //         if(v1.children){
+    //           fn(v1);
+    //         }else{
+    //           treeList.push(v1.menuUrl);
+    //         }
+    //       });
+    //     });
+    //   }
+    //   fn(tree);
+    //   // 权限判断
+    //   if(treeList.indexOf(to.path.slice(6)) !== -1){
+    //     // 高亮左侧导航
+    //     try{
+    //       main.$store.commit('menu/setMenuActive',`${to.path}`);
+    //     }catch(err) {
+    //     }
+    //     next();
+    //   }else{
+    //     console.log('该用户 没有权限',from);
+    //     router.replace('/404');
+    //   }
+    // }catch(err) {
+    //   router.replace('/login');
+    // }
   }
 });
 

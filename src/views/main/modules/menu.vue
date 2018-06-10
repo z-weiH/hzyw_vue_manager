@@ -12,10 +12,23 @@
             <span>{{item.menuName}}</span>
           </template>
           <template v-for="(child) in item.children">
-            <el-menu-item :key="child.menuId" :index="`/main/${child.menuUrl}`">
-              <i class="ico_userManage2"></i>
-              {{child.menuName}}
-            </el-menu-item>
+            
+            <!-- 如果当前是 推送记录菜单 特殊处理-->
+            <template v-if="child.menuUrl === 'messagePushList'">
+              <el-menu-item :key="child.menuId" :index="`/main/${child.menuUrl}`">
+                <i class="ico_userManage2"></i>
+                {{child.menuName}}
+                <span style="color:#F1C26B;">（{{$store.state.menu.pushRecordUnread}}）</span>
+                <span class="fn-hide">{{isPushRecord = true}}</span>
+              </el-menu-item>
+            </template>
+
+            <template v-else>
+              <el-menu-item :key="child.menuId" :index="`/main/${child.menuUrl}`">
+                <i class="ico_userManage2"></i>
+                {{child.menuName}}
+              </el-menu-item>
+            </template>
           </template>
         </el-submenu>
       </template>
@@ -27,6 +40,8 @@
   export default {
     data() {
       return {
+        // 是否存在 推送记录
+        isPushRecord : false,
         // menu list
         menuList : [
           {
@@ -427,6 +442,8 @@
         ],
         // 当前高亮的 menu
         active : '/main/demo',
+        // 推送记录 定时器
+        timer : '',
       }
     },
     mounted() {
@@ -434,6 +451,13 @@
       // this.menuList = JSON.parse(localStorage.getItem('menuInfoList'));
       // 获取menu 树 , 高亮选中
       this.getMeun().then(this.setMuenActive);
+      
+      this.$nextTick(() => {
+        if(this.isPushRecord === true){
+          this.timingRecord();
+          this.timer = setInterval(this.timingRecord,1000 * 30);
+        }
+      });
     },
     methods : {
       // 获取menu 树
@@ -457,6 +481,13 @@
         });
 
       },
+      // 更新 推送记录
+      timingRecord() {
+        this.$store.dispatch('menu/upDataPushRecordUnread');
+      },
+    },
+    destroyed() {
+      clearInterval(this.timer);
     },
   }
 </script>

@@ -34,10 +34,16 @@ export default {
   data() {
     return {
       time: "",
-      userName : JSON.parse(localStorage.getItem('loginInfo')).userName,
+      userName : '',
     };
   },
-  mounted() {},
+  mounted() {
+    try{
+      this.userName = JSON.parse(localStorage.getItem('loginInfo')).userName;
+    }catch(err) {
+
+    }
+  },
   methods: {
     handleSignOut() {
       this.$confirm("是否退出客户服务平台?", "提示", {

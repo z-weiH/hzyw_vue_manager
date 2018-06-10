@@ -20,7 +20,7 @@
         </el-col>
         <el-col :span="12">
           <span class="label">账龄</span>
-          <span>{{item.accountAge}}</span>
+          <span>{{item.caseAging}}</span>
         </el-col>
         <el-col :span="12">
           <span class="label">推送日期</span>
@@ -58,14 +58,14 @@
           <p v-else>已审核到第{{info.countIdChecked}}件</p>
         </li>
         <li>
-          <el-button type="primary" class="fr mt-10">审核</el-button>
+          <el-button type="primary" class="fr mt-10" @click="gotoSignature">审核</el-button>
           <p class="info_title">签名信息</p>
           <p v-if="info.countSignChecked === 0">审核未开始</p>
           <p v-else-if="info.countSignChecked === 100">审核已完成</p>
           <p v-else>已审核到第{{info.countSignChecked}}件</p>
         </li>
         <li>
-          <el-button type="primary" class="fr mt-10">审核</el-button>
+          <el-button type="primary" class="fr mt-10" @click="gotoeEidenceWire">审核</el-button>
           <p class="info_title">证据链信息</p>
           <p v-if="info.countEviChecked === 0">审核未开始</p>
           <p v-else-if="info.countEviChecked === 100">审核已完成</p>
@@ -128,7 +128,23 @@
         return '--';
       },
       gotoIdCard() {
-        this.$router.push('/idCardHearDetail')
+        // this.$router.push('/idCardHearDetail')
+        let routeData = this.$router.resolve({
+          path:'/idCardHearDetail',
+        });
+        window.open(routeData.href, '_blank');
+      },
+      gotoSignature() {
+        let routeData = this.$router.resolve({
+          path:'/signatureHearDetail',
+        });
+        window.open(routeData.href, '_blank');
+      },
+      gotoeEidenceWire() {
+        let routeData = this.$router.resolve({
+          path:'/evidenceWireHear',
+        });
+        window.open(routeData.href, '_blank');
       }
     },
     mounted() {

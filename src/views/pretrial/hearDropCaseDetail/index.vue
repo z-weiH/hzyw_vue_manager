@@ -1,15 +1,140 @@
 <template>
   <div>
 
+    <div class="wsbodyhead">
+      <a>所在位置</a>
+      <router-link :to="'/main/initialHearList'" class="aside_tit">证据缺失案件库</router-link>
+      <span class="aside_tit"> > {{item.caseOrderId}}</span>
+    </div>
+    <div class="item-title">
+      <el-button type="primary" class="fr" plain @click="HandleReset">重新整合</el-button>
+      案件订单编号：{{item.caseOrderId}}
+      <el-button type="warning" round class="ml-10">等待处理</el-button>
+    </div>
+    <div class="item-table mt-5">
+      <div class="baseInfo">
+        <div class="baseInfo_title title">
+          基本信息：
+        </div>
+        <el-row class="message" >
+          <el-col :span="12">
+            <span class="label">互金企业</span>
+            <span>{{item.clientName}}</span>
+          </el-col>
+          <el-col :span="12">
+            <span class="label">产品名称</span>
+            <span>{{item.productName}}</span>
+          </el-col>
+          <el-col :span="12">
+            <span class="label">被申请人姓名</span>
+            <span>{{item.respondentName}}</span>
+          </el-col>
+          <el-col :span="12">
+            <span class="label">被申请人手机</span>
+            <span>{{item.resPhone}}</span>
+          </el-col>
+          <el-col :span="12">
+            <span class="label">逾期天数</span>
+            <span>{{item.overdueDate}}</span>
+          </el-col>
+          <el-col :span="12">
+            <span class="label">标的金额</span>
+            <span>{{item.amtBorrow}}</span>
+          </el-col>
+          <el-col :span="12">
+            <span class="label">推送时间</span>
+            <span>{{item.pushDate}}</span>
+          </el-col>
+        </el-row>
+      </div>
+      <div class="ourInfo" v-if="item.ourReason && item.ourReason.length > 0">
+        <div class="baseInfo_title title">
+          非客户原因：
+        </div>
+        <ul>
+          <li v-for="(reason,index) in item.ourReason" :key="index">{{reason.reasonMsg}}</li>
+        </ul>
+      </div>
+      <div class="otherInfo" v-if="item.otherReason && item.otherReason.length > 0">
+        <div class="baseInfo_title title">
+          客户原因：
+        </div>
+        <ul>
+          <li v-for="(reason,index) in item.otherReason" :key="index">{{reason.reasonMsg}}</li>
+        </ul>
+      </div>
+
+    </div>
+
   </div>
 </template>
 
 <script>
+  import Mock from 'mockjs'
   export default {
-    
+    data() {
+      return {
+        item: {},
+      }
+    },
+    methods: {
+      HandleReset() {
+        this.$confirm('确定开始整合？', '提示', {
+          center: true,
+        }).then(res => {
+          this.$http.post('/18/failedReason/oneIntegration.htm',{caseOrderId: this.item.caseOrderId, type:this.$route.query.type}).then(r => {
+            if(r.code === '0000'){
+              this.$message.success(r.description);
+            }
+          })
+        }).catch(() => {});
+      },
+      getEvidenceDetails(caseOrderId, type) {
+        this.$http.post('/18/failedReason/evidenceDetails.htm',{caseOrderId: caseOrderId, type: type})
+          .then(res => {
+            if(res.code === '0000'){
+              this.item = res.result;
+              if(this.item.reasonMsgList){
+                this.item.ourReason = this.item.reasonMsgList.filter(it => it.failedType === 0);
+                this.item.otherReason = this.item.reasonMsgList.filter(it => it.failedType === 1);
+              }
+            }
+          })
+      }
+    },
+    mounted() {
+      this.getEvidenceDetails(this.$route.query.caseOrderId, this.$route.query.type);
+
+    }
   }
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+  .item-title{
+    background: #fff;
+  }
+  .item-table{
+    .title{
+      color: #13367D;
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 50px;
+      margin-top: 20px;
+      padding-left: 20px;
+    }
+  }
+  .message{
+    padding: 0 20px 10px 20px ;
+    background: #fff;
+    font-size: 15px;
+    span {
+      display: inline-block;
+      line-height: 30px;
+    }
+    .label{
+      width: 100px;
+      text-align: left;
+      color: #7A7A7A;
+    }
+  }
 </style>

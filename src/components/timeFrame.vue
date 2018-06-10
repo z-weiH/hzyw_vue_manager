@@ -2,7 +2,7 @@
   <div class="time-frame">
     <el-form-item prop="start">
       <el-date-picker 
-        type="date" class="w-133" 
+        type="date" style="width:144px;" 
         :placeholder="startPlaceholder" 
         v-model="start"
         :picker-options="pickerOptions1"
@@ -10,10 +10,10 @@
       >
       </el-date-picker>
     </el-form-item>
-    <span class="mr-10 m-span">-</span>
+    <span v-if="bar" class="mr-10 m-span">-</span>
     <el-form-item prop="end">
       <el-date-picker 
-        type="date" class="w-133" 
+        type="date" style="width:144px;" 
         :placeholder="endPlaceholder" 
         v-model="end"
         :picker-options="pickerOptions2"
@@ -42,6 +42,11 @@
       endPlaceholder : {
         type : String,
         default : '结束时间',
+      },
+      // 是否显示 横杠
+      bar : {
+        type : Boolean,
+        default : true,
       },
     },
     watch : {
