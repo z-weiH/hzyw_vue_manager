@@ -561,14 +561,6 @@ let router = new Router({
           },
         },
         {
-          path: 'redoHearChildDetail',
-          component: () =>
-            import ('@/views/pretrial/redoHearChildDetail'), //案件复审 子批次审核
-          meta: {
-            name: 'redoHearChildDetail',
-          },
-        },
-        {
           path: 'initiateApplyList',
           component: () =>
             import ('@/views/pretrial/initiateApplyList'), //立案申请
@@ -632,6 +624,14 @@ let router = new Router({
       redirect: '/404',
     },
     {
+      path: '/redoHearChildDetail',
+      component: () =>
+        import('@/views/pretrial/redoHearChildDetail'), //案件复审 子批次审核
+      meta: {
+        name: 'redoHearChildDetail',
+      },
+    },
+    {
       path: '/idCardHearDetail',
       component: () =>
         import ('@/views/pretrial/idCardHearDetail'), //案件初审 身份证审核
@@ -670,8 +670,8 @@ router.beforeEach((to, from, next) => {
   if(exclude.indexOf(path) !== -1){
     next();
   }else{
-    // next();
-    try{
+    next();
+    /* try{
       let treeList = [];
       let tree = JSON.parse(localStorage.getItem('menuInfoList'));
       // 递归
@@ -701,7 +701,7 @@ router.beforeEach((to, from, next) => {
       }
     }catch(err) {
       router.replace('/login');
-    }
+    } */
   }
 });
 

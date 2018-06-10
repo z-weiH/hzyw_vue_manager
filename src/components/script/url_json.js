@@ -222,6 +222,9 @@ export const URL_JSON = {
   /*-----预审系统----*/
   'queryInitiateApplyList': '/caseLibrary/queryApplicationList.htm',//立案申请列表
 
+  'queryRedoHearList': '/againAudit/queryagainAuditByBaseQuery.htm', //案件复审列表
+
+
   /*-----预审系统----*/
 
 

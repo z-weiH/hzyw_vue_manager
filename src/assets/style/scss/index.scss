@@ -54,9 +54,14 @@ body {
   .mt-8{
     margin-top: 8px;
   }
+
   .mt-10{
     margin-top: 10px;
   }
+  .mt-15 {
+    margin-top: 15px;
+  }
+
   .mt-20 {
     margin-top: 20px;
   }
@@ -414,6 +419,13 @@ body {
 }
 .el-message.center{
   top: 50%;
+}
+
+
+.btn_link {
+  color: $themeColor;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 /* end */

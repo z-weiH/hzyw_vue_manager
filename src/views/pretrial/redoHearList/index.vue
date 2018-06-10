@@ -1,15 +1,136 @@
 <template>
-  <div>
+  <div class="content">
+    <div class='wsbodyhead'>
+      <a>所在位置</a>
+      <router-link :to='$options.name' class='aside_tit'>案件复审</router-link>
+    </div>
+    <searchs class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
+    </searchs>
+    <div class='item-title'>
+      案件列表
+    </div>
+    <div class='item-table'>
+      <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine">
+        <!-- slot批次状态 -->
+        <el-table-column label="批次状态"  slot="defineCol">
+            <template slot-scope="scope" >
+              <span v-if="scope.row.batchStatus == 0">初审中</span>
+              <span v-else-if="scope.row.batchStatus == 1">待审核</span>
+              <span v-else-if="scope.row.batchStatus == 2">审核完成</span>
+              <span v-else>--</span>
+            </template>
+          </el-table-column>
+        <!-- ** -->
+        <!-- slot操作 -->
+        <el-table-column label="操作" slot="defineCol">
+            <template slot-scope="scope" >
+              <!-- <el-button
+                size="mini"
+                @click="gotoLargeTs(scope.row)" v-if="scope.row.batchStatus == 0 || scope.row.batchStatus == 2" >查看</el-button>
+                <el-button
+                size="mini"
+                @click="gotoLargeTs(scope.row)" v-if="scope.row.batchStatus == 1" >审核</el-button> -->
+                <el-button
+                size="mini"
+                @click="gotoLargeTs(scope.row)" >查看</el-button>
+                <el-button
+                size="mini"
+                @click="gotoLargeTs(scope.row)"  >审核</el-button>
+            </template>
+          </el-table-column>
+        <!-- ** -->
 
+      </table-component>
+    </div>
   </div>
 </template>
 
-<script>
-  export default {
-    
+<script type="text/ecmascript-6">
+import { URL_JSON } from "../../../components/script/url_json";
+import Searchs from "@/components/searchs";
+import TableComponent from "@/components/table";
+import Mixins from "@/components/script/_mixin";
+export default {
+  name: "redoHearList",
+  extends: Mixins,
+  data() {
+    return {
+      item: {},
+      queryUrl: "/20" + URL_JSON["queryRedoHearList"],
+      tableData: [{}],
+      searchItem: {},
+      searchItems: [
+        {
+          type: "text",
+          placeholder: "互金企业、产品名称、模板号",
+          colSpan: 8,
+          property: "keyWords"
+        },
+        {
+          type: "select",
+          placeholder: "初审人",
+          colSpan: 4,
+          property: "firstAuditUserId"
+        },
+        {
+          type: "select",
+          placeholder: "批次状态",
+          colSpan: 4,
+          property: "batchStatus"
+        }
+      ],
+      columnDefine: [
+        {
+          label: "互金企业",
+          property: "merchantName"
+        },
+        {
+          label: "模版",
+          property: "template"
+        },
+        {
+          label: "案件数量",
+          property: "caseNum"
+        },
+        {
+          label: "子批次数",
+          property: "subBatchNum"
+        },
+        {
+          label: "初审人",
+          property: "firstAuditUsername"
+        }
+      ]
+    };
+  },
+  methods: {
+    doQuery(url, item) {
+      this.query(url, item).then(res => {
+        this.tableData = res.result.list;
+        this.total = res.result.count;
+      });
+    },
+    gotoLargeTs(row) {
+      //大批次审核
+      console.info('row::::',row);
+      this.$router.push({
+        path: '/main/redoHearDetail',
+        query: { batchId : row.batchId}
+      });
+
+
+
+    }
+  },
+  mounted() {
+    this.doQuery(this.queryUrl, this.item);
+  },
+  components: {
+    Searchs,
+    TableComponent
   }
+};
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
 </style>
