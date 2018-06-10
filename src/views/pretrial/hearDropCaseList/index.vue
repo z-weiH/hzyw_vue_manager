@@ -207,7 +207,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 .hear-dropCase-list{
   .item-title{
@@ -217,6 +217,9 @@
   .item-title-sign{
     margin-top: 12px;
     display: inline-block;
+  }
+  .el-form-item{
+    margin-bottom: 0;
   }
 }
 
