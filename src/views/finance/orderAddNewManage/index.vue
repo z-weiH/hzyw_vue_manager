@@ -56,7 +56,7 @@ export default {
           property: "startDate",
           colSpan: 4,
           limit: this.limit1,
-          lt:'startDate',
+          lt:'endDate',
         },
         {
           type: "date",
@@ -64,7 +64,7 @@ export default {
           property: "endDate",
           colSpan: 4,
           limit: this.limit2,
-          gt:'endDate'
+          gt:'startDate'
         },
         {
           type: "select",
@@ -115,6 +115,9 @@ export default {
       }).then(res => {
         if (res.code) {
           this.item = res.result;
+          this.item.orderDetailList.forEach(it => {
+            it.resultStatus === 1 && (it.resultStatus = '')
+          })
           this.editState = type;
           console.log("type::", type);
           console.info("item:::", this.item);
