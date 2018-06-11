@@ -16,12 +16,13 @@
         </el-option>
       </el-select>
       <!--BEGIN 级联select -->
-      <el-cascader clearable v-if="searchItem.type == 'cascader' || !searchItem.type" :options="searchItem.options" v-model="item[searchItem.property]" @change="valueChange">
+      <el-cascader clearable v-if="searchItem.type == 'cascader'" :options="searchItem.options" v-model="item[searchItem.property]" @change="valueChange">
       </el-cascader>
       <!--END 级联select -->
       <el-date-picker :format="baseFmat" :value-format="baseFmat" v-if="searchItem.type == 'date' | searchItem.type == 'moment' | searchItem.type == 'month'  " v-model="item[searchItem.property]" :type="searchItem.type" :placeholder="searchItem.placeholder"
         :picker-options="pickerOptions">
       </el-date-picker>
+
 
     </el-col>
   </div>
@@ -45,9 +46,32 @@ export default {
       return this.searchItem.type == "date" ? "yyyy-MM-dd" : "yyyyMM";
     },
     pickerOptions() {
-      if (this.searchItem && this.searchItem.limit) {
+      if (this.searchItem && this.searchItem.lt ) {
         return {
-          disabledDate: this.searchItem.limit
+          disabledDate: (time) => {
+            if(!this.item[this.searchItem.lt])
+              return false;
+            else if(new Date(time).getTime() > new Date(this.item[this.searchItem.lt]).getTime()){
+              return true
+            }
+            else{
+              return false;
+            }
+          }
+        };
+      }
+      if (this.searchItem && this.searchItem.gt ) {
+        return {
+          disabledDate: (time) => {
+            if(!this.item[this.searchItem.gt])
+              return false;
+            else if(new Date(time).getTime() < new Date(this.item[this.searchItem.gt]).getTime()){
+              return true
+            }
+            else{
+              return false;
+            }
+          }
         };
       }
       return null;
@@ -62,7 +86,7 @@ export default {
   },
   watch: {
     value(val, oldval) {
-      console.log(val, oldval);
+      // console.log(val, oldval);
     }
   },
   mounted() {

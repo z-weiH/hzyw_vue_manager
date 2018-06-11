@@ -28,20 +28,9 @@
         </div>
         <div class="applybook_body">
           <div class="applybook_title of-hidden">
-            <scroll-y class="fr" @handleClick="scrollbarClick" :options="scrollList" :defaultWidth="590"></scroll-y>
-            <div class="tit fl">仲裁申请书</div>
+            <div class="tit fl part_tit f_18">仲裁申请书</div>
             <div class="scroll_toolbar fr">
-              <div class="ac_left"></div>
-              <div class="scrollWrap">
-                <!-- <span class="active">借款协议</span>
-                <span>借款咨询服务协议</span>
-                <span>收款证明单</span>
-                <span>打款凭证</span>
-                <span>债权转让协议</span>
-                <span>债转通知</span> -->
-
-              </div>
-              <div class="ac_right"></div>
+              <scroll-y @handleClick="scrollbarClick" :options="scrollList" :defaultWidth="420"></scroll-y>
             </div>
           </div>
           <div class="applybook_content of-hidden">
@@ -127,6 +116,20 @@
 
 <style lang="scss" scoped>
   $themeColor: #193b8c;
+  .part_tit {
+    color: $themeColor;
+    padding-bottom: 20px;
+    &:before {
+      content: "|";
+      display: inline-block;
+      font-weight: bold;
+      font-size: 16px;
+      vertical-align: baseline;
+      margin-right: 5px;
+      position: relative;
+      top: -2px;
+    }
+  }
   .fix_screen {
     > span {
       display: inline-block;
@@ -185,7 +188,7 @@
         padding-right: 10px;
       }
       .card_body{
-        padding: 30px 0 30px 22px;
+        padding: 30px 30px 30px 22px;
         table, tr, td{
           border: 1px solid #E5EAEE;
           text-align: center;
@@ -240,7 +243,6 @@
     padding: 30px 0 30px 22px;
   }
   .applybook_body {
-    @extend %_themainPadding;
 
     .applybook_title {
       font-size: 17px;
