@@ -118,19 +118,8 @@
       <div class="applybook_body">
         <div class="applybook_title of-hidden">
           <div class="tit fl">仲裁申请书</div>
-          <scroll-y @handleClick="scrollbarClick" :options="scrollList" :defaultWidth="590"></scroll-y>
           <div class="scroll_toolbar fr">
-            <div class="ac_left"></div>
-            <div class="scrollWrap">
-              <!-- <span class="active">借款协议</span>
-              <span>借款咨询服务协议</span>
-              <span>收款证明单</span>
-              <span>打款凭证</span>
-              <span>债权转让协议</span>
-              <span>债转通知</span> -->
-
-            </div>
-            <div class="ac_right"></div>
+            <scroll-y @handleClick="scrollbarClick" :options="scrollList" :defaultWidth="420"></scroll-y>
           </div>
         </div>
         <div class="applybook_content of-hidden">
@@ -485,6 +474,7 @@ $themeColor: #193b8c;
     padding-bottom: 30px;
     .scroll_toolbar {
       font-size: 14px;
+      padding-right: 30px;
       .active {
         border-bottom: 2px solid $themeColor;
       }
@@ -513,6 +503,7 @@ $themeColor: #193b8c;
   }
 
   .applybook_content {
+    padding-right: 30px;
     .article_left,
     .article_right {
       width: 565px;

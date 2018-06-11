@@ -18,7 +18,13 @@
               <el-menu-item :key="child.menuId" :index="`/main/${child.menuUrl}`">
                 <i class="ico_userManage2"></i>
                 {{child.menuName}}
-                <span style="color:#F1C26B;">（{{$store.state.menu.pushRecordUnread}}）</span>
+                <span 
+                  v-if="$store.state.menu.pushRecordUnread !== 0 || 
+                  $store.state.menu.pushRecordUnread !== '0'" 
+                  style="color:#F1C26B;"
+                >
+                  （{{$store.state.menu.pushRecordUnread}}）
+                </span>
                 <span class="fn-hide">{{isPushRecord = true}}</span>
               </el-menu-item>
             </template>
