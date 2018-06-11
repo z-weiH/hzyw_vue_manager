@@ -3,25 +3,27 @@
     <div class="dailog-container">
       <table-edits :editDefines="edtDefines" :item="item.orderVO"></table-edits>
       <table-edits v-for="(orderDetail, index) in item.orderDetailList" :key="index" :disabled="Boolean(orderDetail.orderStatus) || $parent.editState == 9" :editDefines="edtDefines_item" :item="orderDetail">
-        <table v-if="orderDetail.orderStatus > 1" slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
-          <tbody>
+        <table v-if="orderDetail.orderStatus > 1 || editState === 3 " slot="tablePlus" class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
+          <tbody >
             <tr class="table-edits">
               <td colspan="4">审核结果</td>
             </tr>
-            <tr class="table-edits">
-              <td colspan="1">
-                <el-select v-model="orderDetail.resultStatus" placeholder="请选择审核状态" :disabled="editState == 9">
+            <tr class="table-edits" >
+              <td colspan="1" >
+                <el-select  v-model="orderDetail.resultStatus" placeholder="请选择审核状态" :disabled="$parent.editState == 9">
                   <el-option label="通过" :value="2"></el-option>
                   <el-option label="不通过" :value="3"></el-option>
                 </el-select>
               </td>
               <td colspan="3"></td>
             </tr>
-            <tr class="table-edits">
+            <tr class="table-edits" >
               <td colspan="4">
-                <el-input type="textarea" v-model="orderDetail.apprerResult" placeholder="请输入审核说明" :disabled="editState == 9"></el-input>
+                <el-input type="textarea"  v-model="orderDetail.apprerResult" placeholder="请输入审核说明" :disabled="$parent.editState == 9"></el-input>
               </td>
             </tr>
+
+
           </tbody>
         </table>
       </table-edits>
@@ -242,15 +244,32 @@ export default {
   },
   methods: {
     checkUpdate() {
+      console.info('edit:::: ',this.item);
       // 审核
-      this.$http
-        .post(URL_JSON["updateOrderAddNewManage"], {
-          // auditList:
-        })
-        .then(res => {});
+         this.$http({
+          method : 'post',
+          url : URL_JSON["updateOrderAddNewManage"],
+          headers:{
+            "Content-Type":"application/json"
+          },
+          data : {
+            auditList:[
+              {
+                apprerResult:this.item.orderDetailList.apprerResult,
+                detailId:this.item.orderDetailList.detailId,
+                resultStatus:this.item.orderDetailList.resultStatus
+              }
+            ],
+            orderId:this.item.orderId
+          },
+
+        }).then((res) => {
+            console.log('审核：：：：',res);
+        });
     }
   },
-  mounted() {}
+  mounted() {
+  }
 };
 </script>
 
