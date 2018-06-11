@@ -34,7 +34,7 @@ axios.interceptors.request.use((config) => {
 // 响应拦截
 axios.interceptors.response.use((res) => {
   // 联调的时候下面这段开启
-/*   if (res.data.code != '0000') {
+   if (res.data.code != '0000') {
     Message({
       type: 'error',
       message: res.data.description,
@@ -42,7 +42,7 @@ axios.interceptors.response.use((res) => {
       showClose: true
     });
     return Promise.reject(res);
-  } */
+  }
   // end
   return res.data;
 }, (error) => {

@@ -36,13 +36,13 @@ import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 export default {
   name: "orderAddNewManage",
-   mixins: [Mixins, exportFile],
+  mixins: [Mixins, exportFile],
   data() {
     return {
       item: {},
-      queryUrl:  URL_JSON["queryOrderAddNewManage"],
+      queryUrl: URL_JSON["queryOrderAddNewManage"],
       exportUrl: URL_JSON["exportOrderAddNewManage"],
-      searchItem:{},
+      searchItem: {},
       searchItems: [
         {
           type: "text",
@@ -54,13 +54,17 @@ export default {
           type: "date",
           placeholder: "开始时间",
           property: "startDate",
-          colSpan: 4
+          colSpan: 4,
+          limit: this.limit1,
+          lt:'startDate',
         },
         {
           type: "date",
           placeholder: "结束时间",
           property: "endDate",
-          colSpan: 4
+          colSpan: 4,
+          limit: this.limit2,
+          gt:'endDate'
         },
         {
           type: "select",
@@ -101,22 +105,22 @@ export default {
     };
   },
   methods: {
-      /**
+    /**
      * @param row 当前行数据
      * @param type 显示的视图是否可编辑 1:可编辑 9:只读
      * */
     showDialog(row, type) {
-      this.queryDetail( URL_JSON["queryOrderAddNewDefaultDetail"], {
+      this.queryDetail(URL_JSON["queryOrderAddNewDefaultDetail"], {
         orderId: row.orderId
       }).then(res => {
         if (res.code) {
           this.item = res.result;
           this.editState = type;
           console.log("type::", type);
-          console.info("item:::",this.item);
+          console.info("item:::", this.item);
         }
       });
-    },
+    }
   },
   mounted() {
     this.doQuery(this.queryUrl, this.item);
