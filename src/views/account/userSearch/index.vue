@@ -12,10 +12,7 @@
         <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine">
           <el-table-column label="操作" prop="orderStatusName" slot="defineCol"  width="220">
             <template slot-scope="scope">
-              <el-button
-                size="mini" v-if="scope.row.custStatus == 10"  @click="doEdit(scope.row)">待提交</el-button>
-              <el-button
-                size="mini" v-if="scope.row.custStatus == 10"  @click="doDelete">删除</el-button>
+              <span v-if="scope.row.custStatus == 10">待提交</span>
               <span v-if="scope.row.custStatus == 11">待审核</span>
               <span v-if="scope.row.custStatus == 20">待开户设置</span>
               <span v-if="scope.row.custStatus == 30">待确认</span>
