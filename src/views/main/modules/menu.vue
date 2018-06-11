@@ -12,15 +12,15 @@
             <span>{{item.menuName}}</span>
           </template>
           <template v-for="(child) in item.children">
-            
+
             <!-- 如果当前是 推送记录菜单 特殊处理-->
             <template v-if="child.menuUrl === 'messagePushList'">
               <el-menu-item :key="child.menuId" :index="`/main/${child.menuUrl}`">
                 <i class="ico_userManage2"></i>
                 {{child.menuName}}
-                <span 
-                  v-if="$store.state.menu.pushRecordUnread !== 0 || 
-                  $store.state.menu.pushRecordUnread !== '0'" 
+                <span
+                  v-if="$store.state.menu.pushRecordUnread !== 0 ||
+                  $store.state.menu.pushRecordUnread !== '0'"
                   style="color:#F1C26B;"
                 >
                   （{{$store.state.menu.pushRecordUnread}}）
@@ -454,10 +454,10 @@
     },
     mounted() {
       // 从 缓存读取 左侧树
-      this.menuList = JSON.parse(localStorage.getItem('menuInfoList'));
+      // this.menuList = JSON.parse(localStorage.getItem('menuInfoList'));
       // 获取menu 树 , 高亮选中
       this.getMeun().then(this.setMuenActive);
-      
+
       this.$nextTick(() => {
         if(this.isPushRecord === true){
           this.timingRecord();
