@@ -52,8 +52,8 @@
         searchItems : [
           {type: 'text',placeholder: '请输入企业名称、账户', property: 'keyWords', colSpan: 6},
 
-          {type: 'date',placeholder: '请输入开始时间', property: 'startTime', colSpan: 4,limit: this.limit1},
-          {type: 'date',placeholder: '请输入结束时间', property: 'endTime', colSpan: 4,limit: this.limit2},
+          {type: 'date',placeholder: '请输入开始时间', property: 'startTime', colSpan: 4,lt: 'endTime'},
+          {type: 'date',placeholder: '请输入结束时间', property: 'endTime', colSpan: 4,gt: 'startTime'},
           // 10待提交11 待审核20待开户设置30待确认40开户成功41开户失败
           {type: 'select',placeholder: '开户状态',property: 'custStatus', colSpan: 4, options: [
               {label: '全部', value: ''},

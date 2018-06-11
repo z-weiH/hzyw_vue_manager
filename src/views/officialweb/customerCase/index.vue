@@ -91,24 +91,6 @@
             })
           }
         })
-      },
-      limit1(time) {
-        if(!this.searchItem.endTime)
-          return false;
-        else if(new Date(time).getTime() > new Date(this.searchItem.endTime).getTime()){
-          return true
-        }
-        else{
-          return false;
-        }
-      },
-      limit2(time) {
-        if(!this.searchItem.startTime)
-          return false;
-        else if(new Date(time).getTime() < new Date(this.searchItem.startTime).getTime())
-          return true;
-        else
-          return false;
       }
     },
     components: {

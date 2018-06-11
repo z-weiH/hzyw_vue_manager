@@ -28,8 +28,8 @@
       return {
         searchItems: [
           {placeholder: '新闻标题', colSpan: 7, property: 'keyWords'},
-          {placeholder: '起始时间', colSpan: 4, property: 'startDate',type: 'date',limit: this.limit1},
-          {placeholder: '结束时间', colSpan: 4, property: 'endDate',type: 'date',limit: this.limit2},
+          {placeholder: '起始时间', colSpan: 4, property: 'startDate',type: 'date',lt: 'endDate'},
+          {placeholder: '结束时间', colSpan: 4, property: 'endDate',type: 'date',gt: 'startDate'},
           {placeholder: '请选择状态', colSpan: 4, property: 'newsStatus',type: 'select', options: [
               {label:'待上线', value: 0},
               {label:'已上线', value: 1},
@@ -66,24 +66,6 @@
       }
     },
     methods: {
-      limit1(time) {
-        if(!this.searchItem.endTime)
-          return false;
-        else if(new Date(time).getTime() > new Date(this.searchItem.endTime).getTime()){
-          return true
-        }
-        else{
-          return false;
-        }
-      },
-      limit2(time) {
-        if(!this.searchItem.startTime)
-          return false;
-        else if(new Date(time).getTime() < new Date(this.searchItem.startTime).getTime())
-          return true;
-        else
-          return false;
-      },
       doView(row) {
         this.$http.post(URL_JSON['editNewsDynamicState'],{newsId: row.newsId})
           .then(res => {
