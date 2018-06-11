@@ -8,10 +8,15 @@
       </div>
     </div>
     <div class="card">
-      <div class="card_header">
-        <div class="fr mt-5">
-          <el-button type="text">添加书签</el-button>
-          <el-button type="primary" plain @click="HandleShow">审核意见</el-button>
+      <div class="card_header" style="overflow: hidden">
+        <div class="fr mt-5" style="position: relative;">
+          <transition name="addmark">
+            <el-button class="addmark" type="text" v-if="!markflag" @click="HandleAddmark">添加书签</el-button>
+          </transition>
+          <transition name="bookmark" >
+            <img  v-if="markflag" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
+          </transition>
+          <el-button type="primary"  plain @click="HandleShow">审核意见</el-button>
         </div>
         <span class="header_title">1/100 的v哦i比把你的妇女i的那</span>
         <div class="header_img">
@@ -89,7 +94,8 @@
     data(){
       return {
         auditStatus: false,
-        editState: 0
+        editState: 0,
+        markflag: false
       }
     },
     methods: {
@@ -112,6 +118,11 @@
         }).then(res => {
 
         }).catch(() => {})
+      },
+      HandleAddmark () {
+        this.markflag = true;
+        //接口调用
+        this.$message.success('书签添加成功');
       }
     },
     components: {
@@ -122,6 +133,29 @@
 </script>
 
 <style lang="scss" scoped>
+  .bookmark-enter-active,.addmark-enter-active {
+    transition: all 0.6s ease;
+  }
+  .bookmark-leave-active,.addmark-leave-active {
+    transition: all 0.6s ease;
+  }
+  .addmark-enter, .addmark-lwave-to{
+    opacity: 0;
+  }
+  .bookmark-enter, .bookmark-leave-to
+    /* .slide-fade-leave-active for below version 2.1.8 */ {
+    transform: translateY(-45px);
+  }
+  .addmark{
+    position: absolute;
+    right: 110px;
+  }
+  .bookmark{
+    height: 40px;
+    vertical-align: text-top;
+    margin-top: -10px;
+    margin-right: 20px;
+  }
   .body_container{
     background: #F7F7F7;
     height: 100%;

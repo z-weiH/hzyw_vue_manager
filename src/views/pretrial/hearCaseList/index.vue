@@ -50,7 +50,7 @@
         </timeFrame>
 
         <el-form-item label=" " prop="status">
-          <el-select clearable style="width:150px;" v-model="ruleForm.status" placeholder="请选择账龄">
+          <el-select clearable style="width:150px;" v-model="ruleForm.status" placeholder="请选择状态">
             <el-option label="待分配" :value="0"></el-option>
             <el-option label="待初审" :value="1"></el-option>
             <el-option label="待复审" :value="2"></el-option>
