@@ -32,10 +32,10 @@
       </div>
       <div class="card_body">
         <div class="img zhen">
-
+          <pic-zoom url="static/idcard-0.png" :scale="3"></pic-zoom>
         </div>
         <div class="img fan">
-
+          <pic-zoom url="static/idcard-1.png" :scale="3"></pic-zoom>
         </div>
         <div class="img_desc">
           <ul>
@@ -83,6 +83,7 @@
 <script>
   import audit from './modules/audit'
   import Mixins from '@/components/script/_mixin'
+  import PicZoom from "vue-piczoom";
   export default {
     extends: Mixins,
     data(){
@@ -114,7 +115,8 @@
       }
     },
     components: {
-      audit
+      audit,
+      PicZoom
     }
   }
 </script>

@@ -36,8 +36,8 @@
       return {
         searchItems: [
           {placeholder: '请输入企业名称、合同号', colSpan: 7, property: 'keyWords'},
-          {placeholder: '起始时间', colSpan: 4, property: 'startTime',type: 'date',limit: this.limit1},
-          {placeholder: '结束时间', colSpan: 4, property: 'endTime',type: 'date',limit: this.limit2},
+          {placeholder: '起始时间', colSpan: 4, property: 'startTime',type: 'date',lt: 'endTime'},
+          {placeholder: '结束时间', colSpan: 4, property: 'endTime',type: 'date',gt: 'startTime'},
           {placeholder: '开户状态', colSpan: 5, property: 'orderStatus',type: 'select', options: [
               {label:'待处理', value: 0},
               {label:'待审核', value: 1},

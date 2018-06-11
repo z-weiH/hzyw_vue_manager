@@ -37,11 +37,12 @@
               <td>{{index + 1}}</td>
               <td class="m-td">
                 <div class="fl">
-                  <i class="is-read"></i>
-                  <span class="mr-10 m-tit">{{item.merchantName}}</span>  
-                  <el-button type="primary" round size="mini">正在推送</el-button>
-                  <el-button type="info" round size="mini">处理完成</el-button>
-                  <el-button round size="mini">推送完成，正在处理</el-button>
+                  <i :class="{'opacity-0' : item.isRead === 1}" class="is-read"></i>
+                  <span class="mr-10 m-tit">{{item.merchantName}}</span>
+
+                  <el-button v-if="item.status === 0" type="primary" round size="mini">正在推送</el-button>
+                  <el-button v-if="item.status === 2" type="info" round size="mini">处理完成</el-button>
+                  <el-button v-if="item.status === 1" round size="mini">推送完成，正在处理</el-button>
 
                   <p class="m-num">
                     <span>处理总数：{{item.totalNumber}}</span>
@@ -112,6 +113,8 @@
         }).then((res) => {
           this.currentPage = 1;
           this.initTableList();
+          // 更新 未读消息
+          this.$store.dispatch('menu/upDataPushRecordUnread');
         });
       },
 
@@ -157,6 +160,9 @@
 .message-push-list{
   table td{
     width: 100px;
+  }
+  .opacity-0{
+    opacity: 0;
   }
   .is-read{
     display: inline-block;

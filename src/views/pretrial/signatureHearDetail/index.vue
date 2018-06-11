@@ -54,7 +54,7 @@
             <td>借款开始时间</td>
             <td>2017/08/12    09:07:37</td>
             <td>借款合同</td>
-            <td>点击查看</td>
+            <td class="colLink">点击查看</td>
           </tr>
         </table>
         <div class="img_desc">
@@ -96,7 +96,8 @@
     data(){
       return {
         auditStatus: false,
-        editState: 0
+        editState: 0,
+
       }
     },
     methods: {
@@ -128,6 +129,7 @@
 </script>
 
 <style lang="scss" scoped>
+
   .body_container{
     background: #F7F7F7;
     height: 100%;
@@ -193,6 +195,9 @@
           border-collapse: collapse;
           margin-right: 20px;
           tr{
+            &:hover {
+              background-color: #f5f7fa;
+            }
             td{
               &:nth-child(odd){
                 color: #7A7A7A;

@@ -1,11 +1,16 @@
 <template>
   <div class="body_container">
     <div class="header_container">
+
       <div class="header">
         <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit">审核完成</el-button>
         <span class="header_title">证据链审核</span>
         <el-checkbox class="header_checkbox" v-model="auditStatus">必要审核</el-checkbox>
       </div>
+    </div>
+    <div class="fix_screen">
+      <span class="arrow_left"></span>
+      <span class="arrow_right"></span>
     </div>
     <div class="card">
       <div class="card_header">
@@ -21,38 +26,21 @@
             <li>32156156156313514567815631</li>
           </ul>
         </div>
-        <table class="card_table">
-          <tr>
-            <td>签名时间</td>
-            <td>2017/08/12    09:07:37</td>
-            <td>签名实体</td>
-            <td>张三@123456789098765432</td>
-          </tr>
-          <tr>
-            <td>签名时间</td>
-            <td>2017/08/12    09:07:37</td>
-            <td>签名实体</td>
-            <td>张三@123456789098765432</td>
-          </tr>
-          <tr>
-            <td>签名时间</td>
-            <td>2017/08/12    09:07:37</td>
-            <td>签名实体</td>
-            <td>张三@123456789098765432</td>
-          </tr>
-          <tr>
-            <td>借款开始时间</td>
-            <td>2017/08/12    09:07:37</td>
-            <td>借款合同</td>
-            <td>点击查看</td>
-          </tr>
-        </table>
-        <div class="img_desc">
-          <ul>
-            <li>各签名有效且自签名应用以来文档未被修改</li>
-            <li>被申请人签名已获取</li>
-            <li>被申请人签名时间早于或等于借款开始时间</li>
-          </ul>
+        <div class="applybook_body">
+          <div class="applybook_title of-hidden">
+            <div class="tit fl part_tit f_18">仲裁申请书</div>
+            <div class="scroll_toolbar fr">
+              <scroll-y @handleClick="scrollbarClick" :options="scrollList" :defaultWidth="420"></scroll-y>
+            </div>
+          </div>
+          <div class="applybook_content of-hidden">
+            <div class="article_left fl">
+              <img src="./../../../assets/img/pdf-0.png" alt="">
+            </div>
+            <div class="article_right fr">
+              <img src="./../../../assets/img/pdf-1.png" alt="">
+            </div>
+          </div>
         </div>
       </div>
 
@@ -66,12 +54,34 @@
 <script>
   import audit from './modules/audit'
   import Mixins from '@/components/script/_mixin'
+  import scrollY from "@/components/scroll-y";
+
   export default {
     extends: Mixins,
     data(){
       return {
         auditStatus: false,
-        editState: 0
+        editState: 0,
+        scrollList:[
+          {
+            name:'借款协议'
+          },
+          {
+            name:'借款咨询服务协议'
+          },
+          {
+            name:'收款证明单'
+          },
+          {
+            name:'打款凭证'
+          },
+          {
+            name:'债权转让协议'
+          },
+          {
+            name:'债转通知'
+          },
+        ]
       }
     },
     methods: {
@@ -97,12 +107,53 @@
       }
     },
     components: {
-      audit
+      audit,
+      scrollY
+
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  $themeColor: #193b8c;
+  .part_tit {
+    color: $themeColor;
+    padding-bottom: 20px;
+    &:before {
+      content: "|";
+      display: inline-block;
+      font-weight: bold;
+      font-size: 16px;
+      vertical-align: baseline;
+      margin-right: 5px;
+      position: relative;
+      top: -2px;
+    }
+  }
+  .fix_screen {
+    > span {
+      display: inline-block;
+      width: 89px;
+      height: 89px;
+      background-repeat: no-repeat;
+      background-size: 100%;
+      background-position: 100% 100%;
+      position: fixed;
+      top: 20%;
+      cursor: pointer;
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+    .arrow_left {
+      left: 16%;
+      background-image: url(./../../../assets/img/rct_page01.png);
+    }
+    .arrow_right {
+      right: 16%;
+      background-image: url(./../../../assets/img/rct_page02.png);
+    }
+  }
   .body_container{
     background: #F7F7F7;
     height: 100%;
@@ -137,7 +188,7 @@
         padding-right: 10px;
       }
       .card_body{
-        padding: 30px 0 30px 22px;
+        padding: 30px 30px 30px 22px;
         table, tr, td{
           border: 1px solid #E5EAEE;
           text-align: center;
@@ -188,5 +239,54 @@
     }
 
   }
+  %_themainPadding {
+    padding: 30px 0 30px 22px;
+  }
+  .applybook_body {
+
+    .applybook_title {
+      font-size: 17px;
+      color: $themeColor;
+      padding-bottom: 30px;
+      .scroll_toolbar {
+        font-size: 14px;
+        .active {
+          border-bottom: 2px solid $themeColor;
+        }
+        position: relative;
+        .ac_left {
+          position: absolute;
+          left: -20px;
+          top: 0;
+          bottom: 0;
+          margin: auto;
+          width: 8px;
+          height: 13px;
+          background: url(./../../../assets/img/ic20_004.png) no-repeat center;
+        }
+        .ac_right {
+          position: absolute;
+          right: -20px;
+          top: 0;
+          bottom: 0;
+          margin: auto;
+          width: 8px;
+          height: 13px;
+          background: url(./../../../assets/img/ic20_005.png) no-repeat center;
+        }
+      }
+    }
+
+    .applybook_content {
+      .article_left,
+      .article_right {
+        width: 565px;
+        height: 780px;
+        border: 1px solid #9b9b9b;
+        overflow: hidden;
+      }
+    }
+  }
+
 
 </style>

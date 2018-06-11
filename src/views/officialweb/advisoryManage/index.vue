@@ -38,8 +38,8 @@
         consultId : 1,
         searchItems: [
           {placeholder: '姓名、手机号', colSpan: 7, property: 'keyWords'},
-          {placeholder: '起始时间', colSpan: 4, property: 'startDate',type: 'date',limit: this.limit1},
-          {placeholder: '结束时间', colSpan: 4, property: 'endDate',type: 'date',limit: this.limit2},
+          {placeholder: '起始时间', colSpan: 4, property: 'startDate',type: 'date',lt: 'endDate'},
+          {placeholder: '结束时间', colSpan: 4, property: 'endDate',type: 'date',gt: 'startDate'},
           {placeholder: '请选择状态', colSpan: 5, property: 'processed',type: 'select', options: [
               {label:'未处理', value: 0},
               {label:'已处理', value: 1},
@@ -59,24 +59,6 @@
       }
     },
     methods: {
-      limit1(time) {
-        if(!this.searchItem.endTime)
-          return false;
-        else if(new Date(time).getTime() > new Date(this.searchItem.endTime).getTime()){
-          return true
-        }
-        else{
-          return false;
-        }
-      },
-      limit2(time) {
-        if(!this.searchItem.startTime)
-          return false;
-        else if(new Date(time).getTime() < new Date(this.searchItem.startTime).getTime())
-          return true;
-        else
-          return false;
-      },
       doView(row) {
         this.$http.post(URL_JSON['editAdvisoryManage'],{consultId: row.consultId})
           .then(res => {
