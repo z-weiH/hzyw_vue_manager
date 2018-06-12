@@ -4,7 +4,7 @@
       <el-row :gutter="10">
         <div v-for="(search, index) in searchItems" :key="index">
           <!-- <el-form-item :prop="search.property"> -->
-            <search-item :item="item" v-bind:value="item[search.property]" v-bind:search-item="search" @valueChange="valueChange">
+            <search-item class="searchs" :item="item" v-bind:value="item[search.property]" v-bind:search-item="search" @valueChange="valueChange">
             </search-item>
           <!-- </el-form-item> -->
 
@@ -108,7 +108,7 @@ export default {
 </script>
 
 <style>
-  .searchs .el-date-editor.el-input__inner {
+  .searchs .el-date-editor.el-input.el-input--prefix.el-input--suffix.el-date-editor--date {
   width: 100% !important;
 }
 </style>
