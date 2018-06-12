@@ -136,7 +136,7 @@
               conditionId : row.conditionId,
             },
           }).then((res) => {
-            //this.ruleForm = Object.assign(this.ruleForm,res.result);
+            this.ruleForm = Object.assign(this.ruleForm,res.result);
           });
         }
       },

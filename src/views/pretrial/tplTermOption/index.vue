@@ -17,7 +17,7 @@
       <ul>
         <template v-for="(item,index) in list">
           <li @mouseenter="handleMouseenter(item,index)" @mouseleave="handleMouseleave(item,index)" :key="item.conditionId + '' + index">
-            <div class="m-text">{{item.detailMessage}}</div>
+            <div class="m-text">{{index + 1}}.{{item.detailMessage}}</div>
             <div class="fr">
               <template v-if="(index > 5) && (item.active === true)">
                 <el-button @click="handleEdit(item)" type="text">修改</el-button>

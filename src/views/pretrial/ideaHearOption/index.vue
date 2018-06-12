@@ -22,10 +22,10 @@
       <div class="m-talbe-list">
         <ul>
           <template v-for="(item,index) in list">
-            <li :key="item.reasonId + '' + index">
+            <li @mouseenter="handleMouseenter(item,index)" @mouseleave="handleMouseleave(item,index)" :key="item.reasonId + '' + index">
               <span>{{index + 1}}.{{item.postiveReason}}</span>
               <div class="fr">
-                <template v-if="index > 5">
+                <template v-if="(index > 5) && (item.active === true)">
                   <el-button @click="handleEdit(item)" type="text">修改</el-button>
                   <span>|</span>
                   <el-button @click="handleDelete(item)" type="text">删除</el-button>
@@ -120,6 +120,14 @@
       handleTabClick() {
         this.initList();
       },
+      // 鼠标移入
+      handleMouseenter(row,index) {
+        this.$set(row,'active',true);
+      },
+      // 鼠标移出
+      handleMouseleave(row,index) {
+        this.list[index].active = false;
+      },
     },
   }
 </script>
@@ -141,11 +149,15 @@
       z-index: 10;
     }
     .m-talbe-list{
+      padding-bottom: 20px;
       li{
         padding: 15px;
         padding-bottom: 0;
         border-bottom: 1px dotted #ccc;
         overflow: hidden;
+      }
+      li:hover{
+        background-color: #eee;
       }
       li:last-child{
         border-bottom: none;
