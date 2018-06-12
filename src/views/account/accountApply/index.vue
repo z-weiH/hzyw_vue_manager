@@ -148,7 +148,7 @@ export default {
         if (res) {
           this.$http
             .post("/customer/deleteCustomerByPrimaryKey.htm", {
-              customerId: row.customerId
+              custId: row.custId
             })
             .then(r => {
               if (r.code === "0000") {

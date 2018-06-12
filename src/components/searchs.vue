@@ -1,5 +1,5 @@
 <template>
-  <el-form action="" :rules="rules">
+  <el-form action="" :rules="rules" class="searchs">
     <div class="search">
       <el-row :gutter="10">
         <div v-for="(search, index) in searchItems" :key="index">
@@ -108,9 +108,7 @@ export default {
 </script>
 
 <style>
-.el-date-editor.el-input,
-.el-select,
-.el-date-editor.el-input__inner {
-  width: 100%;
+  .searchs .el-date-editor.el-input__inner {
+  width: 100% !important;
 }
 </style>
