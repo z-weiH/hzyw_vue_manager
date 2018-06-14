@@ -2,7 +2,7 @@
   <div class="hear-dropCase-list">
     <div class="wsbodyhead">
       <a>所在位置</a>
-      <a href="javascript:;" class="aside_tit">证据缺失案件库</a>
+      <a>证据缺失案件库</a>
     </div>
 
     <div class="item-search">
@@ -146,7 +146,7 @@
             method : 'post',
             url : '/failedReason/batchIntegration.htm',
             data : {
-              list : JSON.stringify(this.multipleSelection)
+              caseOrderId : JSON.stringify(this.multipleSelection)
             },
           }).then((res) => {
             this.$message.success('提交成功，请稍后查看结果');
@@ -174,7 +174,7 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/evidenceMissing.htm',
+          url : '/failedReason/evidenceMissing.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
