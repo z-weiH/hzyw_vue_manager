@@ -18,12 +18,12 @@ export default {
 	},
 	actions : {
 		upDataPushRecordUnread(context) {
-			/* axios({
+			axios({
 				method : 'post',
 				url : '/pushRecord/queryUnReadMsgNum.htm',
 			}).then((res) => {
-				context.commit('setPushRecordUnread',res.result.unReadMsgNum);
-			}); */
+				context.commit('setPushRecordUnread',res.result);
+			});
 		},
 	},
 }
