@@ -13,6 +13,14 @@
           <el-option label="未通过" value="0"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item class="audit" label="原因(多选)" prop="type" label-width="100px" >
+        <el-checkbox-group v-model="reasonIds">
+          <el-checkbox v-for="(opt,index) in list" :key="index" :label="opt.reasonMsg" name="type">123123</el-checkbox>
+          <!--<el-checkbox label="地推活动" name="type"></el-checkbox>-->
+          <!--<el-checkbox label="线下主题活动" name="type"></el-checkbox>-->
+          <!--<el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>-->
+        </el-checkbox-group>
+      </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
           <el-button type="primary" >确 认</el-button>
@@ -26,7 +34,8 @@ export default {
   name: 'audit',
   data() {
     return {
-      status: 0
+      status: 0,
+      reasonIds: ''
     }
   },
   computed:{
@@ -38,6 +47,9 @@ export default {
         if(!v)
           this.$parent.editState = 0
       }
+    },
+    list() {
+      return this.$parent.auditLists;
     }
   }
 }

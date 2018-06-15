@@ -13,10 +13,8 @@
           <template slot-scope="scope" >
             <el-button
               size="mini"
-              @click="gotoDetail(scope.row)" v-if="scope.row.batch_status === 0 || scope.row.batch_status === 2" >待确认</el-button>
+              @click="gotoDetail(scope.row)" v-if="scope.row.batchStatus === 0 || scope.row.batchStatus === 2" >待确认</el-button>
             <span v-else>--</span>
-            <el-button  size="mini" @click="gotoDetail(scope.row)">test</el-button>
-
           </template>
         </el-table-column>
       </table-component>
@@ -47,7 +45,7 @@
 
        ],
         searchItem: {},
-        queryUrl: '/20/firstAudit/queryFirstAuditList.htm', ///11/case/queryHzCaseInfoByBaseQuery.htm
+        queryUrl: '/firstAudit/queryFirstAuditList.htm', ///11/case/queryHzCaseInfoByBaseQuery.htm
         columnDefine:[
           {label:'互金企业', property: 'clientName'},
           {label:'产品', property: 'productName'},
@@ -67,17 +65,19 @@
     },
     methods: {
       gotoDetail(row) {
+        console.log(row);
+        let batchNo =  row.batchNo;
         this.$router.push({
           path:'/main/initialHearDetail',
-          query: {bacthNo: row.bacthNo}
+          query: {batchNo: batchNo}
         })
       }
     },
     created() {
+      this.doQuery(this.queryUrl, this.searchItem);
 
     },
     mounted() {
-      this.doQuery(this.queryUrl, this.searchItem);
     },
     components: {
       Searchs,

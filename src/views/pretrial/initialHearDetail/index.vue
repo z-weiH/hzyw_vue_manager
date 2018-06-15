@@ -52,7 +52,8 @@
       </div>
       <ul class="info_ul">
         <li>
-            <el-button type="primary" class="fr mt-10" @click="gotoIdCard">审核</el-button>
+            <el-button type="primary" v-if="info.idStatus === 0" class="fr mt-10" @click="gotoIdCard(info)">审核</el-button>
+            <el-button type="primary" v-if="info.idStatus === 1" class="fr mt-10" @click="gotoIdCard(info)">查看</el-button>
             <el-button type="text" class="fr mt-10" v-if="info.idStatus === 1">查看</el-button>
           <p class="info_title">身份证信息</p>
           <p v-if="info.countIdChecked === 0 && info.idStatus === 0">审核未开始</p>
@@ -60,18 +61,20 @@
           <p v-if="info.idStatus === 1">通过{{info.countCase - info.unpassNum}}件，未通过{{info.unpassNum}}</p>
         </li>
         <li>
-          <el-button type="primary" class="fr mt-10" @click="gotoSignature">审核</el-button>
+          <el-button type="primary" v-if="info.signStatus === 0" class="fr mt-10" @click="gotoSignature(info)">审核</el-button>
+          <el-button type="primary" v-if="info.signStatus === 1" class="fr mt-10" @click="gotoSignature(info)">查看</el-button>
           <p class="info_title">签名信息</p>
-          <p v-if="info.countSignChecked === 0">审核未开始</p>
-          <p v-else-if="info.countSignChecked === 100">审核已完成</p>
-          <p v-else>已审核到第{{info.countSignChecked}}件</p>
+          <p v-if="info.countSignChecked === 0 && info.signStatus === 0">审核未开始</p>
+          <p v-if="info.countSignChecked !== 0 && info.signStatus === 0">已审核到第{{info.countSignChecked}}件</p>
+          <p v-else-if="info.signStatus === 1">通过{{info.countCase - info.unpassNum}}件，未通过{{info.unpassNum}}</p>
         </li>
         <li>
-          <el-button type="primary" class="fr mt-10" @click="gotoeEidenceWire">审核</el-button>
+          <el-button type="primary" v-if="info.eviStatus === 0" class="fr mt-10" @click="gotoeEidenceWire(info)">审核</el-button>
+          <el-button type="primary" v-if="info.eviStatus === 1" class="fr mt-10" @click="gotoeEidenceWire(info)">查看</el-button>
           <p class="info_title">证据链信息</p>
-          <p v-if="info.countEviChecked === 0">审核未开始</p>
-          <p v-else-if="info.countEviChecked === 100">审核已完成</p>
-          <p v-else>已审核到第{{info.countEviChecked}}件</p>
+          <p v-if="info.countEviChecked === 0 && info.eviStatus === 0">审核未开始</p>
+          <p v-if="info.countEviChecked !== 0 && info.eviStatus === 0">已审核到第{{info.countEviChecked}}</p>
+          <p v-else-if="info.eviStatus === 1">通过{{info.countCase - info.unpassNum}}件，未通过{{info.unpassNum}}</p>
         </li>
       </ul>
 
@@ -118,7 +121,7 @@
         return '--';
       },
       getBatchInfo() {
-        this.$http.post('/20/firstAudit/queryBatchInfoByBatchNo.htm',{batchNo: this.batchNo}).then(res => {
+        this.$http.post('/firstAudit/queryBatchInfoByBatchNo.htm',{batchNo: this.batchNo}).then(res => {
           if(res.code === '0000'){
 
             this.item = res.result;
@@ -126,18 +129,18 @@
         })
       },
       getBatchList() {
-        this.$http.post('/20/firstAudit/querySubBatchList.htm', {batchNo: this.batchNo})
+        this.$http.post('/firstAudit/querySubBatchList.htm', {batchNo: this.batchNo})
           .then(res => {
             if(res.code === '0000'){
               res = Mock.mock(res);
               console.log(res);
-              this.items = res.result.list;
+              this.items = res.result;
             }
           })
       },
   // /firstAudit/queryBatchLog.htm
       getBatchLog(){
-        this.$http.post('/20/firstAudit/queryBatchLog.htm', {batchNo: this.batchNo})
+        this.$http.post('/firstAudit/queryBatchLog.htm', {batchNo: this.batchNo})
           .then(res => {
             if(res.code === '0000'){
               this.logItems = res.result;
@@ -156,28 +159,32 @@
           return item.label;
         return '--';
       },
-      gotoIdCard() {
+      gotoIdCard(info) {
         // this.$router.push('/idCardHearDetail')
         let routeData = this.$router.resolve({
           path:'/idCardHearDetail',
+          query: {subBatchNo: info.subBatchNo,markflag: info.countIdChecked}
         });
         window.open(routeData.href, '_blank');
       },
-      gotoSignature() {
+      gotoSignature(info) {
         let routeData = this.$router.resolve({
           path:'/signatureHearDetail',
+          query: {subBatchNo: info.subBatchNo}
         });
         window.open(routeData.href, '_blank');
       },
-      gotoeEidenceWire() {
+      gotoeEidenceWire(info) {
         let routeData = this.$router.resolve({
           path:'/evidenceWireHear',
+          query: {subBatchNo: info.subBatchNo}
         });
         window.open(routeData.href, '_blank');
       }
     },
     mounted() {
       this.batchNo = this.$route.query.batchNo
+      console.log(this.$route.query,this.batchNo);
       this.getBatchInfo();
       this.getBatchList();
       this.getBatchLog();
