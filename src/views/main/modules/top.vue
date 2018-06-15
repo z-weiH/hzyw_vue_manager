@@ -46,9 +46,9 @@ export default {
   },
   methods: {
     handleSignOut() {
-      this.$confirm("是否退出客户服务平台?", "提示", {
-        confirmButtonText: "确定",
+      this.$confirm("是否退出-互仲后台管理系统?", "提示", {
         cancelButtonText: "取消",
+        confirmButtonText: "确定",
         center: true
       }).then(() => {
         // this.$http.post("/logout.htm", {}).then(response => {

@@ -3,7 +3,7 @@
     <div class='wsbodyhead'>
       <a>所在位置</a>
       <router-link to='/main/redoHearList'>案件复审</router-link>
-      <router-link to='/main/redoHearDetail' class='aside_tit'>杭州钱米网络科技有限公司</router-link>
+      <router-link to='/main/redoHearDetail' class='aside_tit'>{{clientName}}</router-link>
     </div>
     <div class="item-title clear of-hidden">
       <span class="tit">
@@ -16,7 +16,7 @@
       <el-row class="message">
         <el-col :span="12">
           <span class="label">互金企业</span>
-          <span>{{item.merchantName}}</span>
+          <span>{{item.clientName}}</span>
         </el-col>
         <el-col :span="12">
           <span class="label">模板</span>
@@ -24,46 +24,57 @@
         </el-col>
         <el-col :span="12">
           <span class="label">账龄</span>
-          <span>{{item.accountAge}}</span>
+          <span>{{item.caseAging}}</span>
         </el-col>
         <el-col :span="12">
           <span class="label">推送日期</span>
-          <span>{{item.pushDate}}</span>
+          <span>{{item.pushTime}}</span>
         </el-col>
         <el-col :span="12">
           <span class="label">案件数量</span>
-          <span>{{item.caseNum}}</span>
+          <span>{{item.countCase}}</span>
         </el-col>
         <el-col :span="12">
           <span class="label">子批次数</span>
-          <span>{{item.batchNum}}</span>
+          <span>{{item.countSubBatch}}</span>
         </el-col>
         <el-col :span="12">
           <span class="label">初审人</span>
-          <span>{{item.firstAuditName}}</span>
+          <span>{{item.firstAuditorName}}</span>
         </el-col>
         <el-col :span="12">
           <span class="label">批次状态</span>
-          <span>{{getLabel(item.merchantName)}}</span>
+          <span>{{getLabel(item.batchStatus)}}</span>
         </el-col>
       </el-row>
     </div>
-    <div class="item-title">
-      <i class="fg_ico">|</i>子批次-1（<span>100</span><span>件</span>）
-      <el-button size="medium" round>待复审</el-button>
+
+    <div v-for="(opts,index) in childBatchList" :key="index">
+        <div class="item-title">
+        <i class="fg_ico">|</i>子批次- {{index+1}}（<span>{{opts.countCase}}</span><span>件</span>）
+        <el-button v-if="opts.batchStatus == 0" size="medium" round>待初审</el-button>
+        <el-button v-else-if="opts.batchStatus == 1" size="medium" round>待复审</el-button>
+        <el-button v-else-if="opts.batchStatus == 2" size="medium" round>退回重审</el-button>
+        <el-button v-else-if="opts.batchStatus == 3" size="medium" round>预审完成</el-button>
+        <span v-if="opts.batchStatus == 2" class="btn_link" @click="reasonPanelType = true">查看原因</span>
+      </div>
+      <el-row class="message part">
+        <el-col :span="22">
+          <ul>
+            <li>全部案件</li>
+            <li>通过<span v-if="opts.passNum">{{opts.passNum}}</span><span else>&nbsp;&nbsp;.&nbsp;&nbsp;</span>件，未通过<span v-if="opts.unpassNum">{{opts.unpassNum}}</span><span else>&nbsp;&nbsp;.&nbsp;&nbsp;</span>件</li>
+          </ul>
+        </el-col>
+        <el-col :span="2">
+          <span v-if="opts.batchStatus == 1" class="btn_link" @click="gotoSmallTs(row)">审核</span>
+          <span v-if="opts.batchStatus == 3" class="btn_link" @click="gotoSmallTs(row)">查看</span>
+        </el-col>
+      </el-row>
     </div>
-    <el-row class="message part">
-      <el-col :span="22">
-        <ul>
-          <li>全部案件</li>
-          <li>通过<span>128</span>件，未通过<span>33</span>件</li>
-        </ul>
-      </el-col>
-      <el-col :span="2">
-        <span class="btn_link" @click="gotoSmallTs(row)">审核</span>
-      </el-col>
-    </el-row>
-    <div class="item-title">
+
+
+
+    <!-- <div class="item-title">
       <i class="fg_ico">|</i>子批次-2（<span>100</span><span>件</span>）
       <el-button size="medium" round>预审完成</el-button>
     </div>
@@ -82,6 +93,7 @@
       <i class="fg_ico">|</i>子批次-3（<span>100</span><span>件</span>）
       <el-button size="medium" round>退回重审</el-button> <span class="btn_link" @click="reasonPanelType = true">查看原因</span>
     </div>
+
     <el-row class="message part">
       <el-col :span="22">
         <ul>
@@ -105,47 +117,23 @@
       </el-col>
       <el-col :span="2">
       </el-col>
-    </el-row>
+    </el-row> -->
+
     <div class="item-title">
       <i class="fg_ico">|</i>批次日志
     </div>
     <el-row class="message part">
       <el-col :span="22">
         <ul>
-          <li>
-            <span>2018/03/15   12:34:56</span>
-            <span>分配完成</span>
-            <span></span>
-          </li>
-          <li>
-            <span>2018/03/15   12:34:56</span>
-            <span>子批次-1</span>
-            <span>初审完成</span>
-          </li>
-          <li>
-            <span>2018/03/15   12:34:56</span>
-            <span>子批次-2</span>
-            <span>初审完成</span>
-          </li>
-          <li>
-            <span>2018/03/15   12:34:56</span>
-            <span>子批次-1</span>
-            <span>复审通过，预审完成</span>
-          </li>
-          <li>
-            <span>2018/03/15   12:34:56</span>
-            <span>子批次-2</span>
-            <span>复审退回<i class="btn_link" @click="reasonPanelType = true">查看原因</i></span>
-          </li>
-          <li>
-            <span>2018/03/15   12:34:56</span>
-            <span>初审人变由费玉琳变更为马忠兵，保留案件123件</span>
-            <span></span>
-          </li>
-          <li>
-            <span>2018/03/15   12:34:56</span>
-            <span>初审人变由马忠兵变更为蒋慧芳，移交案件45件</span>
-            <span></span>
+          <li v-for="(opts,index) in batchLogList" :key="index" >
+            <span>{{ opts.logTime }}</span>
+            <span>{{ opts.logMsg }}</span>
+            <!-- <span v-if="opts.logType == 1"></span>
+            <span v-if="opts.logType == 2"></span>
+            <span v-if="opts.logType == 3"></span> -->
+            <span v-if="opts.logType == 4">复审退回<i class="btn_link" @click="reasonPanelType = true">查看原因</i></span>
+            <!-- <span v-if="opts.logType == 5"></span>
+            <span v-if="opts.logType == 6"></span> -->
           </li>
         </ul>
       </el-col>
@@ -208,6 +196,8 @@
 </template>
 
 <script type="text/ecmascript-6">
+import { URL_JSON } from "../../../components/script/url_json";
+import { compileStr, uncompileStr } from "@/assets/js/tool";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
@@ -217,9 +207,12 @@ export default {
     return {
       changeFpeopleType: false,
       reasonPanelType: false,
-      batchId: "",
+      batchNo: "",
+      clientName: "",
+      childBatchList:[],//子批次概要信息
+      batchLogList:[],//批次日志信息
       items: [],
-      item: {},
+      item: {},//批次信息
       queryUrl: "",
       tableData: [{}],
       newFirstPerson: "", //新初审人字段
@@ -257,9 +250,10 @@ export default {
   },
   methods: {
     getBatchInfo() {
+      console.info("asdasd     ", this.batchNo);
       this.$http
-        .post("/20/firstAudit/queryBatchInfo.htm", {
-          batchId: this.batchId
+        .post(URL_JSON["queryBatchInfo"], {
+          batchNo: this.batchNo
         })
         .then(res => {
           if (res.code === "0000") {
@@ -269,16 +263,28 @@ export default {
     },
     getBatchList() {
       this.$http
-        .post("/20/firstAudit/querySubBatchList.htm", {
-          batchId: this.batchId
+        .post(URL_JSON["queryChildBatchInfo"], {
+          batchNo: this.batchNo
         })
         .then(res => {
           if (res.code === "0000") {
-            res = Mock.mock(res);
-            console.log(res);
-            this.items = res.result.list;
+            // res = Mock.mock(res);
+            console.log("zzzzz:::", res);
+            // this.items = res.result.list;
+            this.childBatchList = res.result;
           }
         });
+    },
+    getBatchLog(){
+      this.$http.post(URL_JSON['queryBatchLogs'],{
+        batchNo: this.batchNo
+      })
+      .then(res => {
+        if(res.code === "0000"){
+          console.log("logs::::",res);
+          this.batchLogList = res.result;
+        }
+      });
     },
     getLabel(value) {
       let options = [
@@ -307,14 +313,17 @@ export default {
       // 小批次查看与审核
       let routeData = this.$router.resolve({
         path: "/redoHearChildDetail",
-        query: { id: 'id' }
+        query: { id: "id" }
       });
       window.open(routeData.href, "_blank");
     }
   },
   mounted() {
-    this.batchId = this.$route.query.batchId;
+    this.batchNo = this.$route.query.batchN;
+    this.clientName = uncompileStr(this.$route.query.clientN);
     this.getBatchInfo();
+    this.getBatchList();
+    this.getBatchLog();
   },
   components: {
     Searchs,
@@ -366,8 +375,6 @@ $themeColor: #0f357f;
     }
   }
 }
-
-
 
 .item-title {
   .tit {

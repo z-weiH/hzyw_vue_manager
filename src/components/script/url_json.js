@@ -222,9 +222,23 @@ export const URL_JSON = {
   /*-----预审系统----*/
   'queryInitiateApplyList': '/caseLibrary/queryApplicationList.htm',//立案申请列表
 
-  'queryRedoHearList': '/againAudit/queryagainAuditByBaseQuery.htm', //案件复审列表
+  'queryRedoHearList': '/againAudit/queryBatchInfoByBaseQuery.htm', //案件复审列表
 
+  'queryFPurl': '/user/queryUserListByRoleType.htm', //初审人下拉
 
+  'queryBatchInfo': '/firstAudit/queryBatchInfoByBatchNo.htm',//预审-批次信息
+
+  'queryChildBatchInfo': '/firstAudit/querySubBatchList.htm', //预审详情-子批次概要信息
+
+  'queryBatchLogs': '/firstAudit/queryBatchLog.htm', //批次日志
+
+  'queryHJCompany': '/merchant/queryPreMerchantName.htm',//预审-互金企业
+
+  'queryCpProduct': '/merchant/selectMerchantProductByMerchantCode.htm',//根据企业选择产品
+
+  'queryApplyCaseNum': '/caseLibrary/queryApplicationTicketAndAmt.htm', //申请立案数量信息
+
+  'confirmApplyCase': '/caseLibrary/applicationByPreDistributeQuery.htm', //立案申请确认
   /*-----预审系统----*/
 
 

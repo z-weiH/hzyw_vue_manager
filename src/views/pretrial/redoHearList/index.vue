@@ -24,18 +24,16 @@
         <!-- slot操作 -->
         <el-table-column label="操作" slot="defineCol">
             <template slot-scope="scope" >
-              <!-- <el-button
+              <el-button
                 size="mini"
                 @click="gotoLargeTs(scope.row)" v-if="scope.row.batchStatus == 0 || scope.row.batchStatus == 2" >查看</el-button>
                 <el-button
                 size="mini"
-                @click="gotoLargeTs(scope.row)" v-if="scope.row.batchStatus == 1" >审核</el-button> -->
-                <el-button
+                @click="gotoLargeTs(scope.row)" v-if="scope.row.batchStatus == 1" >审核</el-button>
+                <span v-if="scope.row.batchStatus == 3">预审完成</span>
+                <!-- <el-button
                 size="mini"
-                @click="gotoLargeTs(scope.row)" >查看</el-button>
-                <el-button
-                size="mini"
-                @click="gotoLargeTs(scope.row)"  >审核</el-button>
+                @click="gotoLargeTs(scope.row)" >审核</el-button> -->
             </template>
           </el-table-column>
         <!-- ** -->
@@ -47,6 +45,7 @@
 
 <script type="text/ecmascript-6">
 import { URL_JSON } from "../../../components/script/url_json";
+import {compileStr,uncompileStr} from '@/assets/js/tool';
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
@@ -56,8 +55,13 @@ export default {
   data() {
     return {
       item: {},
-      queryUrl: "/20" + URL_JSON["queryRedoHearList"],
+      queryUrl: /*  "/20" + */ URL_JSON["queryRedoHearList"],
+      queryFirstPersonURL: URL_JSON["queryFPurl"], //初审人api-url
       tableData: [{}],
+      firstPerson: [], //初审人<select>
+      fpersonType: {
+        type: "OPERATOR" //初审人类型
+      },
       searchItem: {},
       searchItems: [
         {
@@ -70,40 +74,71 @@ export default {
           type: "select",
           placeholder: "初审人",
           colSpan: 4,
-          property: "firstAuditUserId"
+          property: "dispatcherId",
+          options: [],
+          labelfield: "userName",
+          valuefield: "userId"
         },
         {
           type: "select",
           placeholder: "批次状态",
           colSpan: 4,
-          property: "batchStatus"
+          property: "batchStatus",
+          options: [
+            {
+              value: "1",
+              label: "待初审"
+            },
+            {
+              value: "2",
+              label: "待复审"
+            },
+            {
+              value: "3",
+              label: "退回重审"
+            },
+            {
+              value: "4",
+              label: "预审通过"
+            },
+            {
+              value: "5",
+              label: "预审未通过"
+            }
+          ]
         }
       ],
       columnDefine: [
         {
           label: "互金企业",
-          property: "merchantName"
+          property: "clientName"
         },
         {
           label: "模版",
-          property: "template"
+          property: "productName"
         },
         {
           label: "案件数量",
-          property: "caseNum"
+          property: "countCase"
         },
         {
           label: "子批次数",
-          property: "subBatchNum"
+          property: "countSubBatch"
         },
         {
           label: "初审人",
-          property: "firstAuditUsername"
+          property: "firstAuditName"
         }
       ]
     };
   },
   methods: {
+    queryFirstPerson(url, item) {
+      this.query(url, item).then(res => {
+        this.searchItems[1].options = res.result;
+        console.log("rererer:::", res.result);
+      });
+    },
     doQuery(url, item) {
       this.query(url, item).then(res => {
         this.tableData = res.result.list;
@@ -112,17 +147,18 @@ export default {
     },
     gotoLargeTs(row) {
       //大批次审核
-      console.info('row::::',row);
+      console.info("row::::", row);
       this.$router.push({
-        path: '/main/redoHearDetail',
-        query: { batchId : row.batchId}
+        path: "/main/redoHearDetail",
+        query: {
+          batchN: row.batchNo,
+          clientN: compileStr(row.clientName)
+        }
       });
-
-
-
     }
   },
   mounted() {
+    this.queryFirstPerson(this.queryFirstPersonURL, this.fpersonType);
     this.doQuery(this.queryUrl, this.item);
   },
   components: {

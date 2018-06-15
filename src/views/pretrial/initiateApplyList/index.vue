@@ -4,16 +4,25 @@
       <a>所在位置</a>
       <router-link :to='$options.name' class='aside_tit'>立案申请</router-link>
     </div>
-    <searchs class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
+    <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
     </searchs>
     <div class='item-title clear of-hidden'>
       <span class="fl mt-10">案件列表</span>
       <el-button class='fr' type='primary' @click='create'>申请立案</el-button>
     </div>
     <div class='item-table'>
-      <table-component :pager="pager" @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData" :column-define="columnDefine"></table-component>
+      <table-component :pager="pager" @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData" :column-define="columnDefine">
+        <el-table-column :resizable="false" label="还款情况" prop="repaymentStatus" slot="defineCol">
+          <template slot-scope="scope">
+             <span v-if="scope.row.repaymentStatus == 1">有还款</span>
+             <span v-if="scope.row.repaymentStatus == 2">无还款</span>
+             <span v-if="scope.row.repaymentStatus == 3">有仲裁后还款</span>
+             <span v-if="scope.row.repaymentStatus == 4">无仲裁后还款</span>
+          </template>
+        </el-table-column>
+      </table-component>
     </div>
-    <apply-case-dialog :editState="editState"></apply-case-dialog>
+    <apply-case-dialog :editState="editState" :pager="pager" :item="item"></apply-case-dialog>
   </div>
 </template>
 
@@ -31,7 +40,8 @@ export default {
     return {
       item: {},
       editState: 0,
-      queryUrl: "/24" + URL_JSON["queryInitiateApplyList"],
+      queryUrl: /* "/24" + */ URL_JSON["queryInitiateApplyList"],
+      merchantOptions: [], //互金企业
       tableData: [{}],
       searchItem: {},
       searchItems: [
@@ -40,13 +50,24 @@ export default {
           type: "select",
           placeholder: "请输入关键字进行搜索",
           colSpan: 6,
-          property: "merchantName"
+          property: "merchantCode",
+          options: [],
+          labelfield: "merchantName",
+          valuefield: "code",
+          remoteMethod: this.companyfinance,
+          filterable: true,
+          reserveKey: true,
+          remote: true
         },
         {
           label: "产品名称",
           type: "select",
           colSpan: 4,
-          property: "productName"
+          property: "templateId",
+          options: [],
+          labelfield: "prodName",
+          valuefield: "prodCode",
+          remoteMethod: this.queryProductList
         },
         {
           label: "账龄",
@@ -117,10 +138,10 @@ export default {
           property: "respondentName"
         },
         {
-          label: "所在地",
+          label: "住所地",
           type: "cascader",
           colSpan: 4,
-          property: "resAdress",
+          property: "resAddress",
           options: rawCitiesData
         },
         {
@@ -195,8 +216,8 @@ export default {
           width: "140px"
         },
         {
-          label: "所在地",
-          property: "resAdress"
+          label: "住所地",
+          property: "resAddress"
         },
         {
           label: "标的金额",
@@ -207,10 +228,6 @@ export default {
           property: "overdueDate"
         },
         {
-          label: "还款情况",
-          property: "repaymentStatus"
-        },
-        {
           label: "推送日期",
           property: "pushDate"
         }
@@ -218,7 +235,22 @@ export default {
     };
   },
   methods: {
+    searchItemChange(item) {
+      // console.error(item);
+      for (let i in item) {
+        switch (item[i]) {
+          case "merchantCode":
+            this.queryProductList(item["value"]);
+            break;
+          default:
+            break;
+        }
+      }
+    },
     doQuery(url, item) {
+      console.log(JSON.stringify(item.resAddress))
+      item["resAddress"] = JSON.stringify(item.resAddress);
+      console.log("搜索因素：：",item);
       let _numMin = this.searchItem.amtBorrowMin,
         _numMax = this.searchItem.amtBorrowMax;
       if ((!_numMin && _numMax) || (_numMin && !_numMax)) {
@@ -257,18 +289,45 @@ export default {
       console.log("start::", this.searchItem.amtBorrowMin);
       console.log("end::", this.searchItem.amtBorrowMax);
     },
+    companyfinance(into) {
+      console.log("互金企业");
+      // 互金企业
+      this.$http
+        .post(URL_JSON["queryHJCompany"], {
+          keyWords: into
+        })
+        .then(res => {
+          console.log("互金：：：", res.result);
+          this.searchItems[0].options = res.result;
+        });
+    },
+    queryProductList(into) {
+      //根据企业选择产品
+      this.$http
+        .post(URL_JSON["queryCpProduct"], {
+          merchantCode: into
+        })
+        .then(res => {
+          console.log("产品：：：", res.result);
+          this.searchItems[1].options = res.result;
+        });
+    },
     cityDataChange() {
       // city数据格式处理成2级结构
       rawCitiesData.forEach(el => {
         console.log(el);
         el.children.forEach(el_child => {
-          delete el_child['children'];
+          delete el_child["children"];
         });
       });
     },
-     create() {
+    create() {
       this.editState = 1;
-    },
+      console.log("create:::",this.item);
+      // this.$http.post(URL_JSON['queryApplyCaseNum'],this.item).then(res=>{
+      //   console.log('申请立案：',res.result);
+      // });
+    }
   },
 
   mounted() {

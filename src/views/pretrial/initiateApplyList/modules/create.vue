@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-dialog :visible.sync="show" :title="title" width="580px" center>
+    <el-dialog :visible.sync="show" @open="open" @close="handleClose" :title="title" width="580px" center>
       <div class="dialog-container">
         <div class="title icon-sign mb-20">
           筛选结果
@@ -10,7 +10,7 @@
             <div>共找到案件</div>
           </el-col>
           <el-col :span="20">
-            <span class="f_orange">123</span>
+            <span class="f_orange">{{pager.count}}</span>
             <span>件</span>
           </el-col>
         </el-row>
@@ -19,7 +19,7 @@
             <div class="mt-8">申请立案</div>
           </el-col>
           <el-col :span="20">
-            <el-input v-model="applyCaseNum" placeholder="请输入内容" class="w200"></el-input>
+            <el-input v-model="applyCaseNum" @input="applycaseNoChange"  placeholder="请输入内容" class="w200"></el-input>
             <span>件</span>
           </el-col>
         </el-row>
@@ -58,23 +58,31 @@
                 <el-button @click="$parent.editState = 0">取 消</el-button>
           </span>
     </el-dialog>
+
+    <create1 :zqdata="zqdata"  :editState1="editState1" :item="item"></create1>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
 import { URL_JSON } from "../../../../components/script/url_json";
 import Mock from "mockjs";
+import create1 from "./create1";
 export default {
   name: "initiateApplyCreate",
   props: {
-    editState: Number
+    editState: Number,
+    pager: Object,
+    item:Object,
   },
   data() {
     return {
-      item: {},
-      type:"",
-      applyCaseNum:"",
-      tpOpts:[//弹屏数据
+      // item: {},
+      zqdata:{},
+      editState1:false,
+      type: "",
+      applyCaseNum: "",
+      tpOpts: [
+        //弹屏数据
         {
           label: "仲裁短信",
           value: "0"
@@ -86,8 +94,8 @@ export default {
         {
           label: "不发送",
           value: "2"
-        },
-      ],
+        }
+      ]
     };
   },
   computed: {
@@ -107,14 +115,44 @@ export default {
   },
   methods: {
     ofCouse() {
-      console.log("xinz::", this.item);
-    }
+      console.log('iiiii::',this.item);
+      this.item.type = this.type;
+      this.item.applicationNum = this.applyCaseNum;
+      this.$http.post(URL_JSON['queryApplyCaseNum'],this.item).then(res=>{
+        console.log('iiiii:--:',this.item);
+        this.zqdata = res.result;
+        console.log('123123',this.zqdata);
+        console.log('rrrrr---',res.result);
+        this.editState1 = true;
+
+      })
+    },
+    applycaseNoChange(el){
+      console.log(el);
+      this.applyCaseNum = el;
+    },
+    open(){
+      this.applyCaseNum = this.pager.count;
+    },
+    handleClose(){
+       this.type="";
+     }
   },
   created() {
     console.info("*******item");
-    console.info(this.item);
   },
-  components: {}
+  mounted () {
+    console.info('mounted::',this.type);
+  },
+  updated () {
+    console.log('-------------',this.pager.count);
+    if(this.applyCaseNum > this.pager.count){
+      this.applyCaseNum = this.pager.count;
+    }
+  },
+  components: {
+    create1
+  }
 };
 </script>
 

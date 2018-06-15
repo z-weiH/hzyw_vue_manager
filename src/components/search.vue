@@ -11,7 +11,7 @@
         <label v-if="searchItem.connectIco" class="cc_Ico">{{searchItem.connectIco}}</label>
       </div>
       <el-input v-if="searchItem.type == 'text' || !searchItem.type" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder"></el-input>
-      <el-select clearable @change="valueChange" v-if="searchItem.type ==  'select'" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder">
+      <el-select clearable :filterable="searchItem.filterable" :remote="searchItem.remote" :reserve-keyword="searchItem.reserveKey" @change="valueChange" v-if="searchItem.type ==  'select'" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder" :remote-method="searchItem.remoteMethod">
         <el-option v-for="(option,index) in searchItem.options" :key="index" :label="searchItem.labelfield ? option[searchItem.labelfield] : option.label" :value="searchItem.valuefield ? option[searchItem.valuefield] : option.value">
         </el-option>
       </el-select>
@@ -86,7 +86,7 @@ export default {
   },
   watch: {
     value(val, oldval) {
-      // console.log(val, oldval);
+      console.log(val, oldval);
     }
   },
   mounted() {
