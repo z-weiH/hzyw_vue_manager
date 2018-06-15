@@ -461,7 +461,7 @@
       this.$nextTick(() => {
         if(this.isPushRecord === true){
           this.timingRecord();
-          this.timer = setInterval(this.timingRecord,1000 * 30);
+          this.timer = setInterval(this.timingRecord,1000 * 60 * 10);
         }
       });
     },
