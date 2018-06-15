@@ -3,16 +3,16 @@
     <div class="wsbodyhead">
       <a>所在位置</a>
       <router-link to="advanceHearSetsList">预审设置</router-link>
-      <a>批次数量设置</a>
+      <a>子批次数量设置</a>
     </div>
 
     <div class="item-title of-hidden">
-      <span class="item-title-sign">批次数量设置</span>
+      <span class="item-title-sign">子批次数量设置</span>
     </div>
 
     <div class="item-table">
       <div class="m-content">
-        <span class="m-text">当前批次数量</span>
+        <span class="m-text">当前子批次数量</span>
         <span class="m-num">{{subBatchCount}}件</span>
         <el-button class="m-btn" @click="handleEdit" type="text">修改</el-button>
       </div>

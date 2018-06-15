@@ -20,7 +20,7 @@
         <li>
           <div @click="handleGo('batchNumOption')" class="sz-pcsl"></div>
           <p>
-            <span>批次数量设置</span>
+            <span>子批次数量设置</span>
           </p>
         </li>
         <li>

@@ -1,7 +1,7 @@
 <template>
   <div class="batch-num-option-dialog">
     <el-dialog
-      title="批次数量设置"
+      title="子批次数量设置"
       :visible.sync="dialogVisible"
       width="500px"
       @close="handleClose"
@@ -9,7 +9,7 @@
       <div class="m-content">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
           
-          <el-form-item label="批次数量：" prop="subBatchCount">
+          <el-form-item label="子批次数量：" prop="subBatchCount">
             <el-input style="width:300px;" v-model="ruleForm.subBatchCount" />件
           </el-form-item>
         </el-form>
@@ -35,7 +35,7 @@
         },
         rules : {
           subBatchCount : [
-            {required :true , message : '请输入批次数量' , trigger : 'blur'},
+            {required :true , message : '请输入子批次数量' , trigger : 'blur'},
             {pattern : /^[1-9]\d*$/ , message : '格式有误' , trigger : 'blur'},
           ],
         },

@@ -22,11 +22,11 @@
 
         <el-form-item label=" " prop="type">
           <el-select clearable style="width:150px;" v-model="ruleForm.type" placeholder="请选择状态">
-            <el-option label="继续处理" :value="1"></el-option>
-            <el-option label="等待处理" :value="2"></el-option>
-            <el-option label="整合中" :value="3"></el-option>
-            <el-option label="已告知" :value="4"></el-option>
-            <el-option label="整合成功" :value="5"></el-option>
+            <el-option label="继续处理" :value="2"></el-option>
+            <el-option label="等待处理" :value="0"></el-option>
+            <el-option label="整合中" :value="1"></el-option>
+            <el-option label="已告知" :value="3"></el-option>
+            <el-option label="整合成功" :value="4"></el-option>
           </el-select>
         </el-form-item>
 
@@ -55,10 +55,10 @@
         <el-table-column prop="amtCase" label="状态">
           <template slot-scope="scope">
             {{
-              scope.row.type === 1 ? '继续处理' :
-              scope.row.type === 2 ? '等待处理' :
-              scope.row.type === 3 ? '整合中' :
-              scope.row.type === 4 ? '已告知' : '整合成功'
+              scope.row.type === 0 ? '等待处理' :
+              scope.row.type === 1 ? '整合中' :
+              scope.row.type === 2 ? '继续处理' :
+              scope.row.type === 3 ? '已告知' : '整合成功'
             }}
           </template>
         </el-table-column>
@@ -99,7 +99,7 @@
           startDate : '',
           // 结束时间
           endDate : '',
-          // 状态 1-继续处理，2-等待处理，3-整合中，4-已告知 5-整合成功
+          // 0-等待处理，1-正在整合，2-继续处理，3-已告知, 4-处理成功
           type : '', 
         },
         rules : {},
@@ -128,7 +128,7 @@
       },
       // 表格 多选框 禁用状态
       selectable(row,index) {
-        return row.type === 2 || row.type === 1;
+        return row.type === 2 || row.type === 0;
       },
       // 点击批量整合
       handleBatchIntegration() {
@@ -145,8 +145,9 @@
           this.$http({
             method : 'post',
             url : '/failedReason/batchIntegration.htm',
+            mheaders : true,
             data : {
-              caseOrderId : JSON.stringify(this.multipleSelection)
+              caseOrderId : (this.multipleSelection)
             },
           }).then((res) => {
             this.$message.success('提交成功，请稍后查看结果');
