@@ -52,7 +52,7 @@ export default {
           {label: '银行账号：', type: 'text', placeholder: '请输入银行账号',columns:1,property: 'acctNo',rule:'require'},
           {label: '开户行名称：', type: 'text', placeholder: '请输入开户行名称',columns:1,property: 'bankName',rule:'require'},
           {label: '银行支付流水号：', type: 'text', placeholder: '请输入银行支付流水号',columns:1,property: 'bankOrderno',columns:2,rule:'require'},
-          {label: '到款金额：', type: 'text', placeholder: '请输入到款金额',columns:1,property: 'arrivalAmt',rule:'require,gt0'},
+          {label: '到款金额：', type: 'text', placeholder: '请输入到款金额',columns:1,property: 'arrivalAmt',rule:'require,gt0', disabled: true},
           {label: '到款时间：', type: 'date', placeholder: '请输入到款时间',columns:1,property: 'payTime',rule:'require'},
           {label: '摘要：', type: 'text', placeholder: '请输入摘要',columns:2,property: 'bankRemark',rule:'require'},
 
@@ -61,7 +61,7 @@ export default {
         title: '第三部分：加款信息',
         content: [
           {label: '添加仲券（张）：', type: 'number', placeholder: '请输入添加仲券',columns:1,property: 'ticketCount',rule:'require,gt0'},
-          {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'ticketAmount',rule:'require,gt0'},
+          {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'ticketAmount',rule:'require,gt0', disabled: true},
           {label: '添加受理费（元）：', type: 'number', placeholder: '请输入添加受理费',columns:1,property: 'caseAmount',rule:'require,gt0'},
           {label: '技术服务费（元）：', type: 'number', placeholder: '请输入技术服务费',columns:1,property: 'serveAmount',rule:'require,gt0'},
           {label: '赠送仲券（张）：', type: 'number', placeholder: '请输入赠送仲券',columns:1,property: 'giftTicket',rule:'require,gt0'},
@@ -95,6 +95,18 @@ export default {
       ]
     }
   },
+  watch:{
+    'item.ticketCount': function(val, oldval){
+      this.handleChange();
+      this.handleArriveChange();
+    },
+    'item.caseAmount': function (val,oldval) {
+      this.handleArriveChange();
+    },
+    'item.serveAmount': function (val,oldval) {
+      this.handleArriveChange();
+    },
+  },
   computed: {
     show :{
       get: function () {
@@ -110,6 +122,14 @@ export default {
     TableEdits
   },
   methods: {
+    handleChange() {
+      this.item.ticketAmount = this.item.ticketCount * 10;
+    },
+    handleArriveChange() {
+      if(this.item.ticketAmount && this.item.caseAmount && this.item.serveAmount ){
+        this.item.arrivalAmt = (+this.item.ticketAmount) + (+this.item.caseAmount) + (+this.item.serveAmount);
+      }
+    },
     save(num) {
       // console.log(this.item);
       this.checkbeforeSave().then(res => {

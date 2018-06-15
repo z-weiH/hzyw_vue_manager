@@ -1,6 +1,10 @@
 <template>
   <div class="time-frame">
-    <el-form-item prop="start">
+    <el-form-item :prop="requiredName[0]"
+      :rules="[
+        {required : required , message : `请输入${startPlaceholder}` , trigger: ['blur', 'change']},
+      ]"
+    >
       <el-date-picker 
         type="date" style="width:144px;" 
         :placeholder="startPlaceholder" 
@@ -11,7 +15,11 @@
       </el-date-picker>
     </el-form-item>
     <span v-if="bar" class="mr-10 m-span">-</span>
-    <el-form-item prop="end">
+    <el-form-item :prop="requiredName[1]"
+      :rules="[
+        {required : required , message : `请输入${endPlaceholder}` , trigger: ['blur', 'change']},
+      ]"
+    >
       <el-date-picker 
         type="date" style="width:144px;" 
         :placeholder="endPlaceholder" 
@@ -48,13 +56,31 @@
         type : Boolean,
         default : true,
       },
+      // 是否必填
+      required : {
+        type : Boolean,
+        default : false,
+      },
+      // 校验别名 (用于校验字段)
+      requiredName : {
+        type : Array,
+        default : () => {
+          return ['startDate','endDate']
+        },
+      },
     },
     watch : {
       start() {
         this.initTime();
       },
       end() {
-        this.initTime();
+        this.initTime2();
+      },
+      startDate(val) {
+        this.start = val;
+      },
+      endDate(val) {
+        this.end = val;
       },
     },
     data() {
@@ -84,6 +110,8 @@
     methods : {
       initTime() {
         this.$emit('update:startDate',this.start);
+      },
+      initTime2() {
         this.$emit('update:endDate',this.end);
       },
     },
@@ -102,6 +130,9 @@
     display: inline-block;
     vertical-align: top;
     margin-top: 15px;
+  }
+  .el-form-item.is-error .el-input__inner{
+    border-color: #f56c6c!important;
   }
 }
 

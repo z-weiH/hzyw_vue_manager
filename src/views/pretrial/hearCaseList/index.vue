@@ -92,7 +92,21 @@
         <el-table-column prop="dayOverDue" label="逾期天数" width="150px"></el-table-column>
         <el-table-column prop="pushTime" label="推送时间" width="150px"></el-table-column>
         <el-table-column prop="finishDate" label="预审完成时间" width="150px"></el-table-column>
-        <el-table-column prop="status" label="状态"></el-table-column>
+        <el-table-column prop="status" label="状态" width="150px">
+          <template slot-scope="scope">
+            {{
+              
+              scope.row.status === 0 ? '待分配' : 
+              scope.row.status === 1 ? '待初审' : 
+              scope.row.status === 2 ? '待复审' : 
+              scope.row.status === 3 ? '退回重审' : 
+              scope.row.status === 4 ? '审核通过' : 
+              scope.row.status === 5 ? '审核未通过' : 
+              scope.row.status === 6 ? '立案申请成功' : 
+              scope.row.status === 7 ? '立案申请失败' : ''
+            }}
+          </template>
+        </el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination

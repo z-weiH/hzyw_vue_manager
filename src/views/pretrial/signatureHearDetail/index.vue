@@ -7,81 +7,65 @@
         <el-checkbox class="header_checkbox" v-model="auditStatus">必要审核</el-checkbox>
       </div>
     </div>
-    <div class="card">
+    <div class="card" v-for="(sign, index) in signatureItems" :key="index">
       <div class="card_header" style="overflow: hidden">
         <div class="fr mt-5" style="position: relative;">
-          <transition name="addmark">
+          <transition name="addmark" >
             <el-button class="addmark" type="text" v-if="!markflag" @click="HandleAddmark">添加书签</el-button>
           </transition>
           <transition name="bookmark" >
             <img  v-if="markflag" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
           </transition>
-          <el-button type="primary"  plain @click="HandleShow">审核意见</el-button>
+          <el-button type="primary"  plain @click="HandleShow(sign)">审核意见</el-button>
         </div>
-        <span class="header_title">1/100 的v哦i比把你的妇女i的那</span>
+        <span class="header_title">{{sign.subSortNo}}/{{count}} {{sign.lender}}与{{sign.respondents}}的借款合同纠纷</span>
         <div class="header_img">
           <img src="@/assets/img/idCard.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" alt="">
-          <img class="icon" src="@/assets/img/error.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="sign.idStatus === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png"  v-if="sign.idStatus === 2" alt="">
         </div>
         <div class="header_img">
           <img src="@/assets/img/signature.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" alt="">
-          <img class="icon" src="@/assets/img/error.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="sign.signStatus === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png" v-if="sign.signStatus === 2" alt="">
         </div>
         <div class="header_img">
           <img src="@/assets/img/evidence.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" alt="">
-          <img class="icon" src="@/assets/img/error.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="sign.eviStatus === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png" v-if="sign.eviStatus === 2" alt="">
         </div>
       </div>
       <div class="card_body">
         <table class="card_table">
-          <tr>
+          <tr v-for="(signopt,idx) in sign.signList" :key="idx">
             <td>签名时间</td>
-            <td>2017/08/12    09:07:37</td>
+            <td>{{signopt.signTime}}</td>
             <td>签名实体</td>
-            <td>张三@123456789098765432</td>
-          </tr>
-          <tr>
-            <td>签名时间</td>
-            <td>2017/08/12    09:07:37</td>
-            <td>签名实体</td>
-            <td>张三@123456789098765432</td>
-          </tr>
-          <tr>
-            <td>签名时间</td>
-            <td>2017/08/12    09:07:37</td>
-            <td>签名实体</td>
-            <td>张三@123456789098765432</td>
+            <td>{{signopt.signDesc}}</td>
           </tr>
           <tr>
             <td>借款开始时间</td>
-            <td>2017/08/12    09:07:37</td>
+            <td>{{sign.borrowStartDate}}</td>
             <td>借款合同</td>
-            <td class="colLink">点击查看</td>
+            <td class="colLink" @click="openWindow(sign.borrowContractUrl)">
+              点击查看
+            </td>
           </tr>
         </table>
         <div class="img_desc">
           <ul>
-            <li>
-              <img class="mr-10" src="@/assets/img/error_tag.png" alt="">
-              各签名有效且自签名应用以来文档未被修改
-            </li>
-            <li>
-              <img class="mr-5" src="@/assets/img/success_tag.png" alt="">
-              被申请人签名已获取
-            </li>
-            <li>
-              <img class="ml-5 mr-10" src="@/assets/img/warning_tag.png" alt="">
-              被申请人签名时间早于或等于借款开始时间
+            <li v-for="(audit,i) in sign.signAuditList" :key="i">
+              <img class="mr-10" src="@/assets/img/error_tag.png" v-if="audit.auditStatus == 0" alt="">
+              <img class="mr-5" src="@/assets/img/success_tag.png" v-if="audit.auditStatus == 1" alt="">
+              <img class="ml-5 mr-10" src="@/assets/img/warning_tag.png" v-if="audit.auditStatus == 2" alt="">
+              {{audit.auditMsg}}
             </li>
           </ul>
         </div>
         <div class="audit">
           <p class="audit_title">审核意见:</p>
           <ul>
-            <li>32156156156313514567815631</li>
+            <li v-for="(check, ii) in sign.checkSignList" :key="ii">{{check.reasonMsg}}</li>
           </ul>
         </div>
       </div>
@@ -102,12 +86,25 @@
       return {
         auditStatus: false,
         editState: 0,
-        markflag: false
+        markflag: false,
+        signatureItems: [],
+        count: 0,
+        auditLists: []
       }
     },
     methods: {
-      HandleShow() {
-        this.editState = 1;
+      HandleShow(sign) {
+        this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: sign.caseId,type: 1})
+          .then(res => {
+            if(res.code === '0000'){
+              console.log(res);
+              this.auditLists = res.result;
+              this.editState = 1;
+            }
+          })
+      },
+      openWindow(url) {
+        window.open(url, "_blank");
       },
       HandleAudit() {
         const h = this.$createElement;
@@ -134,6 +131,17 @@
     },
     components: {
       audit
+    },
+    mounted() {
+      this.subBatchNo = this.$route.query.subBatchNo;
+      this.$http.post('/firstAudit/querySignInfoByBatchNo.htm',{ subBatchNo: this.subBatchNo})
+        .then(res => {
+          console.log(res);
+          if(res.code === '0000'){
+            this.signatureItems = res.result.list;
+            this.count = res.result.count;
+          }
+        })
     }
   }
 </script>
@@ -223,10 +231,10 @@
           color: #363636;
           float: left;
           width: 768px;
-          height: 195px;
           border-collapse: collapse;
           margin-right: 20px;
           tr{
+            height: 49px;
             &:hover {
               background-color: #f5f7fa;
             }

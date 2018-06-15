@@ -65,7 +65,7 @@
         },{
           title: '第四部分：配置信息',
           content: [
-            {label: '选择仲裁委：', type: 'select', options: this.AllArbList,columns:1,property: 'arbId',valuefield: 'arbId', labelfield: 'fullName',rule:'require'},
+            {label: '选择仲裁委：', type: 'select', options: [],columns:1,property: 'arbId',valuefield: 'arbId', labelfield: 'fullName',rule:'require'},
             // 1主账户、2子账户
             {label: '客户类型：', type: 'select', options: [{label: '主账户', value: 1},{label: '子账户', value: 2}],columns:1,property: 'custType',rule:'require'},
             {label: '选择关联的普通客户：', type: 'select', options: [],columns:2,property: 'parentId', valuefield: 'custId', labelfield: 'custName',
@@ -87,7 +87,7 @@
             {label: '预缴仲裁受理费（元）：', type: 'number', placeholder: '请输入预缴仲裁受理费',columns:1,property: 'preCaseAmt',rule:'require,gt0'},
             {label: '技术服务费（元）：', type: 'number', placeholder: '请输入技术服务费',columns:1,property: 'serviceAmt',rule:'require,gt0'},
             {label: '充值仲券（张）：', type: 'number', placeholder: '请输入充值仲券',columns:1,property: 'preCaseTicket',rule:'require,gt0'},
-            {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'preTicketAmt',rule:'require,gt0'},
+            {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'preTicketAmt',rule:'require,gt0',disabled: true},
             {label: '赠送仲券（张）：', type: 'number', placeholder: '请输入赠送仲券',columns:1,property: 'preGiftTicket',rule:'require,gt0'},
             {label: '赠券有效期 ：', type: 'select', placeholder: '请选择赠券有效期',columns:1,property: 'preGiftPeriod',options: [
                 {label: '请选择赠券有效期', value: ''},
@@ -126,6 +126,12 @@
           if(!v)
             this.$parent.editState = 0
         }
+      }
+    },
+    watch: {
+      'item.preCaseTicket':function (val, oldval) {
+        console.log(val,this.item);
+        this.item.preTicketAmt = this.item.preCaseTicket * 10;
       }
     },
     methods: {

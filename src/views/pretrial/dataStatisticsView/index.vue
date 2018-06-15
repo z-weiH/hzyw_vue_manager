@@ -41,14 +41,14 @@
           >
             <el-option
               v-for="(item,index) in productOptions"
-              :key="item.productId + '' + index "
-              :label="item.productName"
-              :value="item.productId">
+              :key="item.prodCode + '' + index "
+              :label="item.prodName"
+              :value="item.prodCode">
             </el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item label="推送日期：" prop="productId">
+        <el-form-item label="推送日期：">
           <timeFrame
             :startDate.sync="ruleForm.pushStartDate"
             :endDate.sync="ruleForm.pushEndDate"
@@ -158,14 +158,14 @@
 
           // 原因分布 list
           list : [
-            {
+            /* {
               // 内容
               name : '',
               // 数量
               num : '',
               // 占比
               percent : '',
-            }
+            } */
           ],
         },
 
@@ -173,15 +173,15 @@
 
         // 互金企业 options
         merchantOptions : [
-          {merchantName : '张三' , code : '张三'}
+          /* {merchantName : '张三' , code : '张三'} */
         ], 
         // 模板 options
         productOptions : [
-          /* {productName : '模板1' , productId : '模板1'} */
+          /* {prodName : '模板1' , prodCode : '模板1'} */
         ],
         // 初审人 options
         operateOptions : [
-          {userName : '初审人a' , userId : '初审人a'}
+          /* {userName : '初审人a' , userId : '初审人a'} */
         ],
       }
     },
@@ -195,7 +195,7 @@
           type : 'OPERATOR',
         },
       }).then((res) => {
-        this.operateOptions = res.result.list;
+        this.operateOptions = res.result;
       });
     },
     methods : {
@@ -225,7 +225,7 @@
             keyWords : query,
           },
         }).then((res) => {
-          this.merchantOptions = res.result.list;
+          this.merchantOptions = res.result;
         });
       },
       // 互金企业change
@@ -243,7 +243,7 @@
             merchantCode : this.ruleForm.merchantCode,
           },
         }).then((res) => {
-          this.productOptions = res.result.list;
+          this.productOptions = res.result;
         });
       },
     },

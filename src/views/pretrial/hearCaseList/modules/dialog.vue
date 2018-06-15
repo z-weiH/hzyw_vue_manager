@@ -128,7 +128,7 @@
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleSubmit">审 核</el-button>
+        <el-button type="primary" @click="handleSubmit">确 定</el-button>
         <el-button @click="handleClose">取 消</el-button>
       </span>
     </el-dialog>
@@ -186,7 +186,7 @@
 
         // 互金企业 options
         merchantOptions : [
-          {merchantName : '张三' , code : '张三'}
+          /* {merchantName : '张三' , code : '张三'} */
         ], 
         // 产品 options
         productOptions : [
@@ -207,7 +207,7 @@
         method : 'post',
         url : '/preCaseLib/queryUserAndDistributeCaseInfo.htm',
       }).then((res) => {
-        this.ruleForm.allocationList = res.result.list.map((v) => {
+        this.ruleForm.allocationList = res.result.map((v) => {
           v.count = '';
           v.disabled = true;
           v.countOld = '';
@@ -220,6 +220,9 @@
         this.handleTimeChange();
       },
       ['ruleForm.pushEndDate']() {
+        this.handleTimeChange();
+      },
+      ['ruleForm.accountPeriodType']() {
         this.handleTimeChange();
       },
     },
@@ -249,7 +252,7 @@
         }
         this.$http({
           method : 'post',
-          url : '/precaseLib/queryUnDistributeCaseInfoByCondition.htm',
+          url : '/preCaseLib/queryUnDistributeCaseInfoByCondition.htm',
           data : {
             accountPeriodType : this.ruleForm.accountPeriodType,
             merchantCode : this.ruleForm.merchantCode,
@@ -278,7 +281,7 @@
             keyWords : query,
           },
         }).then((res) => {
-          this.merchantOptions = res.result.list;
+          this.merchantOptions = res.result;
         });
       },
       // 互金企业change
@@ -300,7 +303,7 @@
             merchantCode : val,
           },
         }).then((res) => {
-          this.productOptions = res.result.list;
+          this.productOptions = res.result;
           this.updateResult();
         });
       },
@@ -388,6 +391,10 @@
         // 重置 总案件数量 和 待分配案件数量
         this.totalCount = 0;
         this.undistributeTotalCount = 0;
+        // 清空下拉框数据
+        this.merchantOptions = [];
+        this.productOptions = [];
+
       },
       // 点击提交
       handleSubmit(submitType) {
@@ -400,11 +407,19 @@
             }
             
             let data = {...this.ruleForm};
-            data.allocationList = JSON.stringify(data.allocationList);
+            // 处理数据
+            data.allocationList = (data.allocationList.map((v) => {
+              return {
+                count : v.count,
+                userId : v.userId,
+                userName : v.userName,
+              }
+            }));
             this.$http({
               method : 'post',
               url : '/preCaseLib/distributeCaseByDistributeCaseQuery.htm',
               data : data,
+              mheaders : true,
             }).then((res) => {
               this.$message.success('分配成功');
               this.handleClose();

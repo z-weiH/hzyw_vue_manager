@@ -9,7 +9,7 @@
     <div class="item-title">
       <el-button type="primary" class="fr" plain @click="HandleReset">重新整合</el-button>
       案件订单编号：{{item.caseOrderId}}
-      <el-button type="warning" round class="ml-10">等待处理</el-button>
+      <el-button type="warning" round class="ml-10" disabled>{{btnName}}</el-button>
     </div>
     <div class="item-table mt-5">
       <div class="baseInfo">
@@ -77,12 +77,27 @@
         item: {},
       }
     },
+    computed: {
+      btnName() {
+        // 1-继续处理，2-等待处理，3-整合中，4-已告知 5-整合成功
+        if(this.$route.query.type === 1)
+          return '继续处理';
+        else if(this.$route.query.type === 2)
+          return '等待处理';
+        else if(this.$route.query.type === 3)
+          return '整合中';
+        else if(this.$route.query.type === 4)
+          return '已告知';
+        else if(this.$route.query.type === 5)
+          return '整合成功';
+      }
+    },
     methods: {
       HandleReset() {
         this.$confirm('确定开始整合？', '提示', {
           center: true,
         }).then(res => {
-          this.$http.post('/18/failedReason/oneIntegration.htm',{caseOrderId: this.item.caseOrderId, type:this.$route.query.type}).then(r => {
+          this.$http.post('/failedReason/oneIntegration.htm',{caseOrderId: this.item.caseOrderId, type:this.$route.query.type}).then(r => {
             if(r.code === '0000'){
               this.$message.success(r.description);
             }
@@ -90,7 +105,7 @@
         }).catch(() => {});
       },
       getEvidenceDetails(caseOrderId, type) {
-        this.$http.post('/18/failedReason/evidenceDetails.htm',{caseOrderId: caseOrderId, type: type})
+        this.$http.post('/failedReason/evidenceDetails.htm',{caseOrderId: caseOrderId, type: type})
           .then(res => {
             if(res.code === '0000'){
               this.item = res.result;
@@ -100,7 +115,8 @@
               }
             }
           })
-      }
+      },
+
     },
     mounted() {
       this.getEvidenceDetails(this.$route.query.caseOrderId, this.$route.query.type);

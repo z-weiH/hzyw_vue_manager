@@ -13,10 +13,8 @@
           <template slot-scope="scope" >
             <el-button
               size="mini"
-              @click="gotoDetail(scope.row)" v-if="scope.row.batch_status === 0 || scope.row.batch_status === 2" >待确认</el-button>
+              @click="gotoDetail(scope.row)" v-if="scope.row.batchStatus === 0 || scope.row.batchStatus === 2" >待确认</el-button>
             <span v-else>--</span>
-            <el-button  size="mini" @click="gotoDetail(scope.row)">test</el-button>
-
           </template>
         </el-table-column>
       </table-component>
@@ -47,15 +45,15 @@
 
        ],
         searchItem: {},
-        queryUrl: '/20/firstAudit/queryFirstAuditList.htm', ///11/case/queryHzCaseInfoByBaseQuery.htm
+        queryUrl: '/firstAudit/queryFirstAuditList.htm', ///11/case/queryHzCaseInfoByBaseQuery.htm
         columnDefine:[
-          {label:'互金企业', property: 'merchantName'},
+          {label:'互金企业', property: 'clientName'},
           {label:'产品', property: 'productName'},
-          {label:'案件数量', property: 'caseNum'},
-          {label:'子批次数', property: 'subBatchNum'},
-          {label:'分配时间', property: 'distributeDate'},
+          {label:'案件数量', property: 'countCase'},
+          {label:'子批次数', property: 'countSubBatch'},
+          {label:'分配时间', property: 'distributeTime'},
           // 0-待初审，1-待复审，2-退回重审，3-预审完成'
-          {label:'批次状态', property: 'batch_status',options: [
+          {label:'批次状态', property: 'batchStatus',options: [
               {label: '待初审', value: 0},
               {label: '待复审', value: 1},
               {label: '退回重审', value: 2},
@@ -67,17 +65,19 @@
     },
     methods: {
       gotoDetail(row) {
+        console.log(row);
+        let batchNo =  row.batchNo;
         this.$router.push({
           path:'/main/initialHearDetail',
-          query: {batchId: row.batchId}
+          query: {batchNo: batchNo}
         })
       }
     },
     created() {
+      this.doQuery(this.queryUrl, this.searchItem);
 
     },
     mounted() {
-      this.doQuery(this.queryUrl, this.searchItem);
     },
     components: {
       Searchs,

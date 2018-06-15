@@ -7,73 +7,87 @@
         <el-checkbox class="header_checkbox" v-model="auditStatus">必要审核</el-checkbox>
       </div>
     </div>
-    <div class="card">
+    <div class="card" v-for="(card, index) in idCardList" :key="index">
       <div class="card_header" style="overflow: hidden">
         <div class="fr mt-5" style="position: relative;">
           <transition name="addmark">
-            <el-button class="addmark" type="text" v-if="!markflag" @click="HandleAddmark">添加书签</el-button>
+            <el-button class="addmark" type="text" v-if="markflag !== index" @click="HandleAddmark">添加书签</el-button>
           </transition>
           <transition name="bookmark" >
-            <img  v-if="markflag" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
+            <img  v-if="markflag === index" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
           </transition>
           <el-button type="primary"  plain @click="HandleShow">审核意见</el-button>
         </div>
-        <span class="header_title">1/100 的v哦i比把你的妇女i的那</span>
+        <span class="header_title">{{card.subSortNo}}/{{card.countCase}} {{card.personWrap.applicant}}与{{card.personWrap.respondent}}的借款合同纠纷</span>
         <div class="header_img">
           <img src="@/assets/img/idCard.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" alt="">
-          <img class="icon" src="@/assets/img/error.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="card.idStatus === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png" v-if="card.idStatus === 2" alt="">
         </div>
         <div class="header_img">
           <img src="@/assets/img/signature.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" alt="">
-          <img class="icon" src="@/assets/img/error.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="card.signStatus === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png" v-if="card.signStatus === 2" alt="">
         </div>
         <div class="header_img">
           <img src="@/assets/img/evidence.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" alt="">
-          <img class="icon" src="@/assets/img/error.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="card.eviStatus === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png" v-if="card.eviStatus === 2" alt="">
         </div>
       </div>
       <div class="card_body">
         <div class="img zhen">
-          <pic-zoom url="static/idcard-0.png" :scale="3"></pic-zoom>
+          <pic-zoom :url="card.respondentInfo.image01" :scale="3"></pic-zoom>
         </div>
         <div class="img fan">
-          <pic-zoom url="static/idcard-1.png" :scale="3"></pic-zoom>
+          <pic-zoom :url="card.respondentInfo.image02" :scale="3"></pic-zoom>
         </div>
         <div class="img_desc">
           <ul>
             <li>
-              <img class="mr-10" src="@/assets/img/error_tag.png" alt="">
-              万焕昌
+              <img class="mr-10" v-if="card.auditInfoWrap.nameStatus === 0"  src="@/assets/img/error_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.nameStatus === 1" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-15" v-if="card.auditInfoWrap.nameStatus === 2" src="@/assets/img/warning_tag.png" alt="">
+              {{card.auditInfoWrap.resName}}
             </li>
             <li>
-              <img class="mr-5" src="@/assets/img/success_tag.png" alt="">
-              男
+              <img class="mr-10" v-if="card.auditInfoWrap.sexStatus === 0"  src="@/assets/img/error_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.sexStatus === 1" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-15" v-if="card.auditInfoWrap.sexStatus === 2" src="@/assets/img/warning_tag.png" alt="">
+              {{card.auditInfoWrap.resSex === 0 ? '女' : '男'}}
             </li>
             <li>
-              <img class="mr-15" src="@/assets/img/warning_tag.png" alt="">
-              汗
+              <img class="mr-10" v-if="card.auditInfoWrap.nationStatus === 0"  src="@/assets/img/error_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.nationStatus === 1" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-15" v-if="card.auditInfoWrap.nationStatus === 2" src="@/assets/img/warning_tag.png" alt="">
+              {{card.auditInfoWrap.resNation}}
             </li>
             <li>
-              <img class="mr-10" src="@/assets/img/error_tag.png" alt="">
-              阿谁都不会覅斌
+              <img class="mr-10" v-if="card.auditInfoWrap.idaddressStatus === 0"  src="@/assets/img/error_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.idaddressStatus === 1" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-15" v-if="card.auditInfoWrap.idaddressStatus === 2" src="@/assets/img/warning_tag.png" alt="">
+              {{card.auditInfoWrap.resIdaddress}}
             </li>
             <li>
-              <img class="mr-10" src="@/assets/img/error_tag.png" alt="">
-              12315641561561
+              <img class="mr-10" v-if="card.auditInfoWrap.idcardStatus === 0"  src="@/assets/img/error_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.idcardStatus === 1" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-15" v-if="card.auditInfoWrap.idcardStatus === 2" src="@/assets/img/warning_tag.png" alt="">
+              {{card.auditInfoWrap.resIdcard}}
             </li>
             <li>
-              <img class="mr-10" src="@/assets/img/error_tag.png" alt="">
-              (有效期)
+              <img class="mr-10" v-if="card.auditInfoWrap.effctDateStatus === 0"  src="@/assets/img/error_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.effctDateStatus === 1" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-15" v-if="card.auditInfoWrap.effctDateStatus === 2" src="@/assets/img/warning_tag.png" alt="">
+              {{card.auditInfoWrap.resEffctDate}}
             </li>
           </ul>
         </div>
-        <div class="audit">
+        <div class="audit" v-if="card.auditListWrap && card.auditListWrap.length > 0">
           <p class="audit_title">审核意见:</p>
           <ul>
-            <li>32156156156313514567815631</li>
+            <li v-for="(msg,index) in card.auditListWrap">
+              {{msg.reasonMsg}}
+            </li>
           </ul>
         </div>
       </div>
@@ -95,7 +109,14 @@
       return {
         auditStatus: false,
         editState: 0,
-        markflag: false
+        markflag: false,
+        subBatchNo: '',
+        idCardList: [],
+        pager: {
+          currentNum: 1,
+          pageSize: 20,
+          count: 0,
+        }
       }
     },
     methods: {
@@ -123,11 +144,25 @@
         this.markflag = true;
         //接口调用
         this.$message.success('书签添加成功');
+      },
+      doQuery() {
+        let item = Object.assign({auditStatus: +this.auditStatus,subBatchNo: this.subBatchNo}, this.pager);
+        this.$http.post('/firstAudit/queryIdcardsBySubBatchNo.htm', item)
+          .then(res => {
+              if(res.code === '0000'){
+                this.idCardList = res.result.list;
+              }
+          })
       }
     },
     components: {
       audit,
       PicZoom
+    },
+    mounted() {
+      this.subBatchNo = this.$route.query.subBatchNo;
+      this.markflag = this.$route.query.markflag;
+      this.doQuery();
     }
   }
 </script>

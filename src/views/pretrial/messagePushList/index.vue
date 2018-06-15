@@ -2,7 +2,7 @@
   <div class="message-push-list">
     <div class="wsbodyhead">
       <a>所在位置</a>
-      <a href="javascript:;" class="aside_tit">推送记录</a>
+      <a>推送记录</a>
     </div>
 
     <div class="item-search">
@@ -44,16 +44,27 @@
                   <el-button v-if="item.status === 2" type="info" round size="mini">处理完成</el-button>
                   <el-button v-if="item.status === 1" round size="mini">推送完成，正在处理</el-button>
 
-                  <p class="m-num">
+                  <p v-if="item.status !== 0" class="m-num">
                     <span>处理总数：{{item.totalNumber}}</span>
-                    <span>处理失败：{{item.failCount}}</span>
+                    <span v-if="item.status !== 2">处理失败：{{item.failCount}}</span>
                   </p>
                 </div>
                 <div class="fr">
                   <div class="fr-box">
-                    <div v-if="item.startTime">推送开始时间   {{item.startTime}}</div>
-                    <div v-if="item.endTime">推送完成时间   {{item.endTime}}</div>
-                    <div v-if="item.finishDisposeTime">处理完成时间   {{item.finishDisposeTime}}</div>
+                    <template v-if="item.status === 0">
+                      <div>推送开始时间   {{item.startTime}}</div>
+                    </template>
+
+                    <template v-if="item.status === 2">
+                      <div>推送开始时间   {{item.startTime}}</div>
+                      <div>推送完成时间   {{item.endTime}}</div>
+                    </template>
+
+                    <template v-if="item.status === 1">
+                      <div>推送开始时间   {{item.startTime}}</div>
+                      <div>推送完成时间   {{item.endTime}}</div>
+                      <div>处理完成时间   {{item.finishDisposeTime}}</div>
+                    </template>
                   </div>
                 </div>
               </td>

@@ -19,7 +19,7 @@
                 <i class="ico_userManage2"></i>
                 {{child.menuName}}
                 <span
-                  v-if="$store.state.menu.pushRecordUnread !== 0 ||
+                  v-if="$store.state.menu.pushRecordUnread !== 0 &&
                   $store.state.menu.pushRecordUnread !== '0'"
                   style="color:#F1C26B;"
                 >
@@ -461,7 +461,7 @@
       this.$nextTick(() => {
         if(this.isPushRecord === true){
           this.timingRecord();
-          this.timer = setInterval(this.timingRecord,1000 * 30);
+          this.timer = setInterval(this.timingRecord,1000 * 60 * 10);
         }
       });
     },
