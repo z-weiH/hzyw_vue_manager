@@ -3,11 +3,12 @@
 
     <div class="wsbodyhead">
       <a>所在位置</a>
-      <router-link :to="'/main/initialHearList'" class="aside_tit">证据缺失案件库</router-link>
+      <router-link :to="'/main/hearDropCaseList'" class="aside_tit">证据缺失案件库</router-link>
       <span class="aside_tit"> > {{item.caseOrderId}}</span>
     </div>
     <div class="item-title">
-      <el-button type="primary" class="fr" plain @click="HandleReset">重新整合</el-button>
+      <el-button type="primary" v-if="showBtn" class="fr" plain @click="HandleReset">重新整合</el-button>
+      <el-button type="primary" v-if="showBtn" class="fr mr-15" plain @click="HandleFetch">告知客户</el-button>
       案件订单编号：{{item.caseOrderId}}
       <el-button type="warning" round class="ml-10" disabled>{{btnName}}</el-button>
     </div>
@@ -90,6 +91,11 @@
           return '已告知';
         else if(this.$route.query.type === 5)
           return '整合成功';
+      },
+      showBtn() {
+        if(this.$route.query.type <= 2)
+          return true;
+        return false;
       }
     },
     methods: {
@@ -103,6 +109,13 @@
             }
           })
         }).catch(() => {});
+      },
+      HandleFetch() {
+        this.$confirm('将现有整合失败原因告知客户？？', '提示', {
+          center: true,
+        }).then(() => {
+
+        }).catch(() => {})
       },
       getEvidenceDetails(caseOrderId, type) {
         this.$http.post('/failedReason/evidenceDetails.htm',{caseOrderId: caseOrderId, type: type})
