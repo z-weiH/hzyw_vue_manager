@@ -62,7 +62,7 @@
         </li>
         <li>
           <el-button type="primary" v-if="info.signStatus === 0" class="fr mt-10" @click="gotoSignature(info)">审核</el-button>
-          <el-button type="primary" v-if="info.signStatus === 1" class="fr mt-10" @click="gotoSignature(info)">查看</el-button>
+          <el-button type="primary" v-if="info.signStatus === 1" class="fr mt-10" @click="gotoSignature(info,true)">查看</el-button>
           <p class="info_title">签名信息</p>
           <p v-if="info.countSignChecked === 0 && info.signStatus === 0">审核未开始</p>
           <p v-if="info.countSignChecked !== 0 && info.signStatus === 0">已审核到第{{info.countSignChecked}}件</p>
@@ -167,10 +167,10 @@
         });
         window.open(routeData.href, '_blank');
       },
-      gotoSignature(info) {
+      gotoSignature(info, disabled) {
         let routeData = this.$router.resolve({
           path:'/signatureHearDetail',
-          query: {subBatchNo: info.subBatchNo,markflag: info.countIdChecked}
+          query: {subBatchNo: info.subBatchNo,markflag: info.countSignChecked,disabled: disabled},
         });
         window.open(routeData.href, '_blank');
       },

@@ -16,7 +16,7 @@
           <transition name="bookmark" >
             <img  v-if="markflag === index" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
           </transition>
-          <el-button type="primary"  plain @click="HandleShow">审核意见</el-button>
+          <el-button type="primary"  plain @click="HandleShow(card)">审核意见</el-button>
         </div>
         <span class="header_title">{{card.subSortNo}}/{{card.countCase}} {{card.personWrap.applicant}}与{{card.personWrap.respondent}}的借款合同纠纷</span>
         <div class="header_img">
@@ -94,13 +94,13 @@
 
     </div>
 
-    <audit></audit>
+    <audit :caseId="currentCaseId" :type="0"></audit>
 
   </div>
 </template>
 
 <script>
-  import audit from './modules/audit'
+  import audit from '../signatureHearDetail/modules/audit'
   import Mixins from '@/components/script/_mixin'
   import PicZoom from "vue-piczoom";
   export default {
@@ -112,6 +112,8 @@
         markflag: false,
         subBatchNo: '',
         idCardList: [],
+        currentCaseId: '',//当前案件
+        auditLists: [],
         pager: {
           currentNum: 1,
           pageSize: 20,
@@ -120,8 +122,15 @@
       }
     },
     methods: {
-      HandleShow() {
-        this.editState = 1;
+      HandleShow(card) {
+        this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: card.caseId,type: 0})
+          .then(res => {
+            if(res.code === '0000'){
+              this.auditLists = res.result;
+              this.editState = 1;
+              this.currentCaseId = card.caseId;
+            }
+          })
       },
       HandleAudit() {
         const h = this.$createElement;

@@ -4,6 +4,7 @@
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     :title="'审核意见'"
+    @open="HandleOpen"
     width="560px"
     center>
     <el-form>
@@ -39,19 +40,30 @@ export default {
     }
   },
   props: {
-    caseId: String
+    caseId: String,
+    type: Number
   },
   methods: {
     //提交
     HandleAuditConfirm() {
+      console.log(this.reasonIds)
+      if(this.status === 0){
+
+      }
       let auditList = this.list.filter(it => this.reasonIds.indexOf(it.reasonMsg) !== -1);
-      this.$http.post('/firstAudit/auditConfirm.htm',{caseId: this.caseId,checkedReasons: auditList, type: 1})
+      this.$http.post('/firstAudit/auditConfirm.htm',{caseId: this.caseId,checkedReasons: auditList,type: this.type},{mheaders: true})
         .then(res => {
           if(res.code === '0000'){
             this.$message.success(res.description);
             console.log(res);
           }
         })
+    },
+
+    HandleOpen() {
+      if(this.list.filter(it => it.reasonType === 1).length == 0 )
+        this.status = 1;
+      this.status = 0;
     }
   },
   computed:{
@@ -69,11 +81,6 @@ export default {
       return this.$parent.auditLists;
     }
   },
-  updated() {
-    if(this.list.filter(it => it.reasonType === 1).length == 0 )
-      this.status = 1;
-    this.status = 0;
-  }
 }
 </script>
 

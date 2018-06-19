@@ -42,15 +42,16 @@
             {label: '社会唯一信用号：', type: 'text', placeholder: '请输入社会唯一信用号',columns:1,property: 'custIdcard',rule:'require,l18'},
             {label: '邮箱(账户)：', type: 'text', placeholder: '请输入邮箱(账户)',columns:1,property: 'loginName',rule:'require,email'},
             {label: '企业注册地址：', type: 'text', placeholder: '请输入企业注册地址',columns:2,property: 'custIdaddress',rule:'require'},
+            {label: '联系地址：', type: 'text', placeholder: '请输入联系地址',columns:2,property: 'custAddress'},
             {label: '网址或应用(名称)：', type: 'text', placeholder: '请输入网址或应用(名称)',columns:2,property: 'custWebsite',rule:'require'},
           ]
         },{
           title: '第二部分：法定代表人信息',
           content: [
             {label: '法定代表人：', type: 'text', placeholder: '请输入法定代表人',columns:1,property: 'legallerName',rule:'require'},
-            {label: '身份证号：', type: 'text', placeholder: '请输入身份证号',columns:1,property: 'legallerIdcard',rule:'require,certificate'},
-            {label: '法定代表人手机：', type: 'number', placeholder: '请输入法定代表人手机',columns:1,property: 'legallerPhone',rule:'require,phone'},
-            {label: '法定代表人邮箱：', type: 'text', placeholder: '请输入法定代表人邮箱',columns:1,property: 'legallerEmail',rule:'require,email'},
+            {label: '身份证号：', type: 'text', placeholder: '请输入身份证号',columns:1,property: 'legallerIdcard',rule:'certificate'},
+            {label: '法定代表人手机：', type: 'number', placeholder: '请输入法定代表人手机',columns:1,property: 'legallerPhone',rule:'phone'},
+            {label: '法定代表人邮箱：', type: 'text', placeholder: '请输入法定代表人邮箱',columns:1,property: 'legallerEmail',rule:'email'},
             {label: '法定代表人职务：', type: 'text', placeholder: '请输入法定代表人职务',columns:2,property: 'legallerPosition',rule:'require'},
             {type: 'info',columns:2,content:'注：法定代表人手机和邮箱将用于接收案件信息，请与客户确认'}
           ]
@@ -166,6 +167,8 @@
           if(this.item.preTicketAmt != (+this.item.preCaseTicket) * 10){
             return this.$message.error('仲券金额必须等于充值仲券 * 10');
           }
+          if(!this.item.custAddress)
+            this.item.custAddress = this.item.custIdaddress;
           let obj = Object.assign({isCommit: num}, this.item);
           this.$http.post(URL_JSON['saveAccountApply'], obj, {headers:{token: JSON.parse(localStorage.getItem('loginInfo')).token}})
             .then(res => {

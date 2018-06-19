@@ -1,85 +1,105 @@
 <template>
-  <div class="body_container">
-    <div class="header_container">
-      <div class="header">
-        <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit">审核完成</el-button>
-        <span class="header_title">签名审核</span>
-        <el-checkbox class="header_checkbox" v-model="auditStatus">必要审核</el-checkbox>
-      </div>
-    </div>
-    <div class="card" v-for="(sign, index) in signatureItems" :key="index">
-      <div class="card_header" style="overflow: hidden">
-        <div class="fr mt-5" style="position: relative;">
-          <transition name="addmark" >
-            <el-button class="addmark" type="text" v-if="mark !== sign.subSortNo" @click="HandleAddmark(sign)">添加书签</el-button>
-          </transition>
-          <transition name="bookmark" >
-            <img  v-if="mark === sign.subSortNo" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
-          </transition>
-          <el-button type="primary"  plain @click="HandleShow(sign)">审核意见</el-button>
-        </div>
-        <span class="header_title">{{sign.subSortNo}}/{{count}} {{sign.lender}}与{{sign.respondents}}的借款合同纠纷</span>
-        <div class="header_img">
-          <img src="@/assets/img/idCard.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" v-if="sign.idStatus === 1" alt="">
-          <img class="icon" src="@/assets/img/error.png"  v-if="sign.idStatus === 2" alt="">
-        </div>
-        <div class="header_img">
-          <img src="@/assets/img/signature.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" v-if="sign.signStatus === 1" alt="">
-          <img class="icon" src="@/assets/img/error.png" v-if="sign.signStatus === 2" alt="">
-        </div>
-        <div class="header_img">
-          <img src="@/assets/img/evidence.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" v-if="sign.eviStatus === 1" alt="">
-          <img class="icon" src="@/assets/img/error.png" v-if="sign.eviStatus === 2" alt="">
+  <div>
+    <div class="body_container">
+      <div class="header_container">
+        <div class="header">
+          <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
+          <span class="header_title">签名审核</span>
+          <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">必要审核</el-checkbox>
+          <template>
+            <el-checkbox v-if="disabled" class="header_checkbox" v-model="auditStatus">已通过</el-checkbox>
+            <el-checkbox v-if="disabled" class="header_checkbox" v-model="auditStatus">未通过</el-checkbox>
+          </template>
         </div>
       </div>
-      <div class="card_body">
-        <table class="card_table">
-          <tr v-for="(signopt,idx) in sign.signList" :key="idx">
-            <td>签名时间</td>
-            <td>{{signopt.signTime}}</td>
-            <td>签名实体</td>
-            <td>{{signopt.signDesc}}</td>
-          </tr>
-          <tr>
-            <td>借款开始时间</td>
-            <td>{{sign.borrowStartDate}}</td>
-            <td>借款合同</td>
-            <td class="colLink" @click="openWindow(sign.borrowContractUrl)">
-              点击查看
-            </td>
-          </tr>
-        </table>
-        <div class="img_desc">
-          <ul>
-            <li v-for="(audit,i) in sign.signAuditList" :key="i">
-              <img class="mr-10" src="@/assets/img/error_tag.png" v-if="audit.auditStatus == 0" alt="">
-              <img class="mr-5" src="@/assets/img/success_tag.png" v-if="audit.auditStatus == 1" alt="">
-              <img class="ml-5 mr-10" src="@/assets/img/warning_tag.png" v-if="audit.auditStatus == 2" alt="">
-              {{audit.auditMsg}}
-            </li>
-          </ul>
+      <div class="card" v-for="(sign, index) in signatureItems" :key="index" ref="sign.subSortNo">
+        <div class="card_header" style="overflow: hidden">
+          <div class="fr mt-5" style="position: relative;" v-if="!disabled">
+            <transition name="addmark" >
+              <el-button class="addmark" type="text" v-if="mark !== sign.subSortNo" @click="HandleAddmark(sign)">添加书签</el-button>
+            </transition>
+            <transition name="bookmark" >
+              <img  v-if="mark === sign.subSortNo" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
+            </transition>
+            <el-button type="primary"  plain @click="HandleShow(sign)">审核意见</el-button>
+          </div>
+          <span class="header_title">{{sign.subSortNo}}/{{count}} {{sign.lender}}与{{sign.respondents}}的借款合同纠纷</span>
+          <div class="header_img">
+            <img src="@/assets/img/idCard.png" alt="">
+            <img class="icon" src="@/assets/img/success.png" v-if="sign.idStatus === 1" alt="">
+            <img class="icon" src="@/assets/img/error.png"  v-if="sign.idStatus === 2" alt="">
+          </div>
+          <div class="header_img">
+            <img src="@/assets/img/signature.png" alt="">
+            <img class="icon" src="@/assets/img/success.png" v-if="sign.signStatus === 1" alt="">
+            <img class="icon" src="@/assets/img/error.png" v-if="sign.signStatus === 2" alt="">
+          </div>
+          <div class="header_img">
+            <img src="@/assets/img/evidence.png" alt="">
+            <img class="icon" src="@/assets/img/success.png" v-if="sign.eviStatus === 1" alt="">
+            <img class="icon" src="@/assets/img/error.png" v-if="sign.eviStatus === 2" alt="">
+          </div>
         </div>
-        <div class="audit">
-          <p class="audit_title">审核意见:</p>
-          <ul>
-            <li v-for="(check, ii) in sign.checkSignList" :key="ii">{{check.reasonMsg}}</li>
-          </ul>
+        <div class="card_body">
+          <table class="card_table">
+            <tr v-for="(signopt,idx) in sign.signList" :key="idx">
+              <td>签名时间</td>
+              <td>{{signopt.signTime}}</td>
+              <td>签名实体</td>
+              <td>{{signopt.signDesc}}</td>
+            </tr>
+            <tr>
+              <td>借款开始时间</td>
+              <td>{{sign.borrowStartDate}}</td>
+              <td>借款合同</td>
+              <td class="colLink" @click="openWindow(sign.borrowContractUrl)">
+                点击查看
+              </td>
+            </tr>
+          </table>
+          <div class="img_desc">
+            <ul>
+              <li v-for="(audit,i) in sign.signAuditList" :key="i">
+                <img class="mr-10" src="@/assets/img/error_tag.png" v-if="audit.auditStatus == 0" alt="">
+                <img class="mr-5" src="@/assets/img/success_tag.png" v-if="audit.auditStatus == 1" alt="">
+                <img class="ml-5 mr-10" src="@/assets/img/warning_tag.png" v-if="audit.auditStatus == 2" alt="">
+                {{audit.auditMsg}}
+              </li>
+            </ul>
+          </div>
+          <div class="audit">
+            <p class="audit_title">审核意见:</p>
+            <ul>
+              <li v-for="(check, ii) in sign.checkSignList" :key="ii">{{check.reasonMsg}}</li>
+            </ul>
+          </div>
         </div>
+
+
       </div>
+
+      <div class="pagination">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :current-page="pager.currentNum"
+          :page-size="20"
+          layout="prev, pager, next, jumper, total"
+          :total="pager.total">
+        </el-pagination>
+      </div>
+      <audit :caseId="currentCaseId" :type="1"></audit>
 
     </div>
 
-    <audit :caseId="currentCaseId"></audit>
-
+    <closeDlg :message="'已完成签名审核，请关闭本页'" v-if="showCloseDlg"></closeDlg>
   </div>
+
 </template>
 
 <script>
   import audit from './modules/audit'
   import Mixins from '@/components/script/_mixin'
+  import closeDlg from '@/components/closeDlg';
   export default {
     extends: Mixins,
     data(){
@@ -91,7 +111,14 @@
         signatureItems: [],
         count: 0,
         auditLists: [],
-        currentCaseId: ''//当前案件
+        currentCaseId: '',//当前案件
+        disabled: false, //控制编辑状态     true为查看， false为审核
+        showCloseDlg: false,
+        pager: {
+          currentNum: 1,
+          total: 1,
+          pageSize: 20
+        }
       }
     },
     computed: {
@@ -133,7 +160,7 @@
           this.$http.post('/firstAudit/idCardFirstAuditFinished.htm',{subBatchNo: this.subBatchNo,type: 1})
             .then(r =>{
               if(r.code === '0000'){
-                console.log(r);
+                this.showCloseDlg = true;
               }
             })
         }).catch(() => {})
@@ -149,22 +176,37 @@
               this.$message.success('书签添加成功');
             }
           })
+      },
+      handleCurrentChange(page) {
+        this.pager.currentNum = page;
+        this.HandleQuery();
+      },
+      HandleQuery() {
+        this.$http.post('/firstAudit/querySignInfoByBatchNo.htm',Object.assign({ subBatchNo: this.subBatchNo,auditPass: 0},{}))
+          .then(res => {
+            console.log(res);
+            if(res.code === '0000'){
+              this.signatureItems = res.result.list;
+              this.count = res.result.totalCount;
+              this.pager.total = res.result.count;
+            }
+          })
       }
     },
     components: {
-      audit
+      audit,
+      closeDlg
     },
     mounted() {
       this.subBatchNo = this.$route.query.subBatchNo;
-      this.markflag = this.$route.query.markflag;
-      this.$http.post('/firstAudit/querySignInfoByBatchNo.htm',{ subBatchNo: this.subBatchNo})
-        .then(res => {
-          console.log(res);
-          if(res.code === '0000'){
-            this.signatureItems = res.result.list;
-            this.count = res.result.count;
-          }
-        })
+      this.markflag = +this.$route.query.markflag;
+      this.disabled = this.$route.query.disabled;
+      this.pager.currentNum = Math.ceil(this.markflag/20);
+      if(this.pager.currentNum === 0)
+        this.pager.currentNum = 1;
+      //查询 和  标签定位
+      this.HandleQuery();
+
     }
   }
 </script>
@@ -296,6 +338,14 @@
           }
         }
       }
+    }
+    .pagination{
+      margin: 20px auto;
+      box-sizing: border-box;
+      border: 1px solid #E5EAEE;
+      width: 1200px;
+      padding: 10px 20px;
+      background: #fff;
     }
 
   }
