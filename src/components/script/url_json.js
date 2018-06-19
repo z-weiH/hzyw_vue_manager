@@ -241,6 +241,8 @@ export const URL_JSON = {
   'confirmApplyCase': '/caseLibrary/applicationByPreDistributeQuery.htm', //立案申请确认
 
   'queryChangeFirstPerson': '/againAudit/changeAuditUserQueryByBatchId.htm',//变更初审人-查询
+
+  'saveChangeFirstPerson': '/againAudit/changeAuditorByBatchId.htm',//变更初审人-保存
   /*-----预审系统----*/
 
 

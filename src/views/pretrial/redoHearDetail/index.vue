@@ -180,7 +180,7 @@
       <el-row  class="mb-20">
         <el-col :span="4">新任初审人：</el-col>
         <el-col :span="20">
-          <el-select clearable v-model="newFirstPerson" placeholder="请选择初审人">
+          <el-select @change="optsValChange" clearable v-model="newFirstPerson" placeholder="请选择初审人">
             <el-option v-for="item in changeFPerson.newAuditors" :key="item.value" :label="item.userName" :value="item.userId">
             </el-option>
           </el-select>
@@ -188,7 +188,8 @@
       </el-row>
 
       <span slot="footer" class="dialog-footer">
-          <el-button @click="changeFpeopleType = false">关闭</el-button>
+          <el-button @click="saveNewFPerson" type="primary">确认</el-button>
+          <el-button @click="changeFpeopleType = false">取消</el-button>
         </span>
     </el-dialog>
     <!-- ** -->
@@ -216,6 +217,7 @@ export default {
       queryUrl: "",
       tableData: [{}],
       changeFPerson:{},//变更初审人obj
+      _newOpts:{},
       newFirstPerson: "", //新初审人字段
       firstPersonOpts: [
         {
@@ -328,6 +330,23 @@ export default {
         console.log('bgsgg11111::',res.result);
         this.changeFPerson = res.result;
       });
+    },
+    saveNewFPerson(){
+      // 更新新初审人
+       this.$http.post(URL_JSON['saveChangeFirstPerson'],this._newOpts).then(res=>{
+        this.changeFpeopleType = false;
+        this.$message.success("修改成功");
+      });
+
+    },
+    optsValChange(_value){
+      console.log(_value);
+     this._newOpts = Object.create(this.changeFPerson);
+      this._newOpts.batchId = this.$route.query.batchN;
+      // delete this._newOpts.newAuditors;
+      this._newOpts.currentAuditId = _value;
+      console.info("vhange:::",this._newOpts);
+
     }
   },
   mounted() {
