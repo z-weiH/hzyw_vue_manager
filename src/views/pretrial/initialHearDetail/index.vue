@@ -53,7 +53,7 @@
       <ul class="info_ul">
         <li>
             <el-button type="primary" v-if="info.idStatus === 0" class="fr mt-10" @click="gotoIdCard(info)">审核</el-button>
-            <el-button type="primary" v-if="info.idStatus === 1" class="fr mt-10" @click="gotoIdCard(info)">查看</el-button>
+            <el-button type="primary" v-if="info.idStatus === 1" class="fr mt-10" @click="gotoIdCard(info,true)">查看</el-button>
             <el-button type="text" class="fr mt-10" v-if="info.idStatus === 1">查看</el-button>
           <p class="info_title">身份证信息</p>
           <p v-if="info.countIdChecked === 0 && info.idStatus === 0">审核未开始</p>
@@ -159,11 +159,11 @@
           return item.label;
         return '--';
       },
-      gotoIdCard(info) {
+      gotoIdCard(info, disabled) {
         // this.$router.push('/idCardHearDetail')
         let routeData = this.$router.resolve({
           path:'/idCardHearDetail',
-          query: {subBatchNo: info.subBatchNo,markflag: info.countIdChecked}
+          query: {subBatchNo: info.subBatchNo,markflag: info.countIdChecked,disabled: disabled}
         });
         window.open(routeData.href, '_blank');
       },

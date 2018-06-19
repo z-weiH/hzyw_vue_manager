@@ -61,9 +61,29 @@ export default {
     },
 
     HandleOpen() {
-      if(this.list.filter(it => it.reasonType === 1).length == 0 )
+        let arr = this.list.filter(it => it.reasonType === this.type);
+      if( arr.length === 0 ){
         this.status = 1;
-      this.status = 0;
+      }else{
+        if(this.type == 0){
+          if(arr[0].idStatus == 1)
+            this.status = 1;
+          else
+            this.status = 0;
+        }
+        else if(this.type == 1){
+          if(arr[0].signStatus == 1)
+            this.status = 1;
+          else
+            this.status = 0;
+        }
+        else if(this.type == 2){
+          if(arr[0].eviStatus == 1)
+            this.status = 1;
+          else
+            this.status = 0;
+        }
+      }
     }
   },
   computed:{

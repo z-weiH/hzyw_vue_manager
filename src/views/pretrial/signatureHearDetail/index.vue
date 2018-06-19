@@ -7,12 +7,13 @@
           <span class="header_title">签名审核</span>
           <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">必要审核</el-checkbox>
           <template>
-            <el-checkbox v-if="disabled" class="header_checkbox" v-model="auditStatus">已通过</el-checkbox>
-            <el-checkbox v-if="disabled" class="header_checkbox" v-model="auditStatus">未通过</el-checkbox>
+            <el-radio v-model="auditStatus" :label="0">全部</el-radio>
+            <el-radio v-model="auditStatus" :label="1">已通过</el-radio>
+            <el-radio v-model="auditStatus" :label="2">未通过</el-radio>
           </template>
         </div>
       </div>
-      <div class="card" v-for="(sign, index) in signatureItems" :key="index" ref="sign.subSortNo">
+      <div class="card" v-for="(sign, index) in signatureItems" :key="index" :ref="sign.subSortNo">
         <div class="card_header" style="overflow: hidden">
           <div class="fr mt-5" style="position: relative;" v-if="!disabled">
             <transition name="addmark" >
@@ -67,7 +68,7 @@
               </li>
             </ul>
           </div>
-          <div class="audit">
+          <div class="audit" v-if="sign.checkSignList.length > 0">
             <p class="audit_title">审核意见:</p>
             <ul>
               <li v-for="(check, ii) in sign.checkSignList" :key="ii">{{check.reasonMsg}}</li>
@@ -104,7 +105,7 @@
     extends: Mixins,
     data(){
       return {
-        auditStatus: false,
+        auditStatus: 0,
         editState: 0,
         markflag: 0,
         selfflag: null,
@@ -181,14 +182,19 @@
         this.pager.currentNum = page;
         this.HandleQuery();
       },
-      HandleQuery() {
-        this.$http.post('/firstAudit/querySignInfoByBatchNo.htm',Object.assign({ subBatchNo: this.subBatchNo,auditPass: 0},{}))
+      HandleQuery(mark) {
+        this.$http.post('/firstAudit/querySignInfoByBatchNo.htm',Object.assign({ subBatchNo: this.subBatchNo,auditPass: this.auditStatus},{}))
           .then(res => {
             console.log(res);
             if(res.code === '0000'){
               this.signatureItems = res.result.list;
               this.count = res.result.totalCount;
               this.pager.total = res.result.count;
+              if(mark){
+                setTimeout(() => {
+                  console.log(this.$refs)
+                },500)
+              }
             }
           })
       }
@@ -205,7 +211,7 @@
       if(this.pager.currentNum === 0)
         this.pager.currentNum = 1;
       //查询 和  标签定位
-      this.HandleQuery();
+      this.HandleQuery(true);
 
     }
   }
