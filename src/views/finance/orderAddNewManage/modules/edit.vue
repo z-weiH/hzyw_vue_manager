@@ -266,6 +266,12 @@ export default {
 
         }).then((res) => {
             console.log('审核：：：：',res);
+            this.$parent.editState = 0;
+            if(res.code === "0000"){
+              this.$message.success("审核成功");
+              this.$emit('refresh');
+            }
+
         });
     }
   },
