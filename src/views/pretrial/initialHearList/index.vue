@@ -3,7 +3,7 @@
     <div class="wsbodyhead">
       <a>所在位置</a><router-link :to="$options.name" class="aside_tit">案件初审</router-link>
     </div>
-    <searchs @valueChange="searchItemChange" class="item-search" :search-items="searchItems" :item="searchItem" :query-url="queryUrl"></searchs>
+    <searchs  class="item-search" :search-items="searchItems" :item="searchItem" :query-url="queryUrl"></searchs>
     <div class="item-title">
       案件列表
     </div>
