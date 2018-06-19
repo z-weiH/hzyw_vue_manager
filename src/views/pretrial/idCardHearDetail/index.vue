@@ -4,12 +4,17 @@
       <div class="header">
         <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit">审核完成</el-button>
         <span class="header_title">身份证审核</span>
-        <el-checkbox class="header_checkbox" v-model="auditStatus">必要审核</el-checkbox>
+        <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">必要审核</el-checkbox>
+        <template v-if="disabled">
+          <el-radio v-model="auditStatus" :label="0">全部</el-radio>
+          <el-radio v-model="auditStatus" :label="1">已通过</el-radio>
+          <el-radio v-model="auditStatus" :label="2">未通过</el-radio>
+        </template>
       </div>
     </div>
     <div class="card" v-for="(card, index) in idCardList" :key="index">
       <div class="card_header" style="overflow: hidden">
-        <div class="fr mt-5" style="position: relative;">
+        <div class="fr mt-5" style="position: relative;" v-if="!disabled">
           <transition name="addmark">
             <el-button class="addmark" type="text" v-if="mark !== card.subSortNo" @click="HandleAddmark(card)">添加书签</el-button>
           </transition>
@@ -117,7 +122,7 @@
     extends: Mixins,
     data(){
       return {
-        auditStatus: false,
+        auditStatus: 0,
         editState: 0,
         markflag: false,
         subBatchNo: '',
@@ -139,6 +144,11 @@
         if(!this.selfflag)
           return this.markflag;
         return this.selfflag;
+      }
+    },
+    watch: {
+      auditStatus(val,oldVal){
+        this.HandleQuery();
       }
     },
     methods: {
@@ -191,7 +201,7 @@
         this.HandleQuery();
       },
       HandleQuery(mark) {
-        this.$http.post('/firstAudit/queryIdcardsBySubBatchNo.htm',Object.assign({ subBatchNo: this.subBatchNo,auditStatus: 0},this.pager))
+        this.$http.post('/firstAudit/queryIdcardsBySubBatchNo.htm',Object.assign({ subBatchNo: this.subBatchNo,auditStatus: this.auditStatus},this.pager))
           .then(res => {
             console.log(res);
             if(res.code === '0000'){

@@ -3,7 +3,7 @@
     <div class="wsbodyhead">
       <a>所在位置</a>
       <router-link :to="'/main/initialHearList'" class="aside_tit">案件初审</router-link>
-      <span class="aside_tit"> > {{item.merchantName}}</span>
+      <span class="aside_tit"> > {{item.clientName}}</span>
     </div>
     <div class="item-title part_tit">
       批次信息
