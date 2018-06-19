@@ -4,8 +4,8 @@
          <a>所在位置</a>
          <router-link :to='$options.name' class='aside_tit'>订单加款【审核】</router-link>
         </div>
-        <searchs class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
-          <template slot='moreBtn'><el-button class='ml-20' type='primary' @click='exportFile(exportUrl)'>导出Excel</el-button></template>
+        <searchs class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
+          <template slot='moreBtn'><el-button class='ml-20' type='primary' @click='handleExport'>导出Excel</el-button></template>
         </searchs>
         <div class='item-title'>
           订单加款列表
@@ -30,13 +30,14 @@
 <script type="text/ecmascript-6">
 import { URL_JSON } from "../../../components/script/url_json";
 import Mixins from "@/components/script/_mixin";
-import exportFile from "@/components/script/exportFile";
+// import exportFile from "@/components/script/exportFile";
+import exportFile from '@/assets/js/exportFile'
 import SettingDlg from "./modules/edit";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 export default {
   name: "orderAddNewManage",
-  mixins: [Mixins, exportFile],
+  mixins: [Mixins],
   data() {
     return {
       item: {},
@@ -123,7 +124,22 @@ export default {
           console.info("item:::", this.item);
         }
       });
-    }
+    },
+    // 点击导出
+      handleExport() {
+        delete this.searchItem.count;
+        delete this.searchItem.currentNum;
+        delete this.searchItem.pageSize;
+        exportFile({
+          url : this.exportUrl,
+          data : {
+            keyWords : this.searchItem.keyWords,
+            startDate: this.searchItem.startDate,
+            endDate: this.searchItem.endDate,
+            orderStatus: this.searchItem.orderStatus
+          },
+        });
+      },
   },
   mounted() {
     this.doQuery(this.queryUrl, this.item);

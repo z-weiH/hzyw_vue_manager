@@ -9,7 +9,7 @@
       <span class="tit">
             <i class="fg_ico">|</i>批次信息
           </span>
-      <el-button class="fr" @click="changeFpeopleType = true">变更初审人</el-button>
+      <el-button class="fr" @click="queryDialogFCperson">变更初审人</el-button>
 
     </div>
     <div>
@@ -319,10 +319,13 @@ export default {
       window.open(routeData.href, "_blank");
     },
     queryDialogFCperson(){
+      this.changeFpeopleType = true;
       // 变更初审人查询
       this.$http.post(URL_JSON['queryChangeFirstPerson'],{
-        batchId: this.batchNo
+        batchId: this.batchNo,
+        type:"OPERATOR"
       }).then(res => {
+        console.log('bgsgg11111::',res.result);
         this.changeFPerson = res.result;
       });
     }

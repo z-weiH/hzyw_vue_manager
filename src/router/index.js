@@ -670,7 +670,7 @@ router.beforeEach((to, from, next) => {
   if(exclude.indexOf(path) !== -1){
     next();
   }else{
-    //next();
+    // next();
     try {
       let treeList = [];
       let tree = JSON.parse(localStorage.getItem('menuInfoList'));
