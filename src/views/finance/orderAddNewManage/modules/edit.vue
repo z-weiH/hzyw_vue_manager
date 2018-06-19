@@ -245,23 +245,24 @@ export default {
   methods: {
     checkUpdate() {
       console.info('edit:::: ',this.item);
+      // 请求参数
+      let shObj = {
+            auditList:[
+              {
+                apprerResult:this.item.orderDetailList[0].apprerResult,
+                detailId:this.item.orderDetailList[0].detailId,
+                resultStatus:this.item.orderDetailList[0].resultStatus
+              }
+            ],
+            orderId:this.item.orderId
+          };
+          console.info('ssssobj::',shObj);
       // 审核
          this.$http({
           method : 'post',
           url : URL_JSON["updateOrderAddNewManage"],
-          headers:{
-            "Content-Type":"application/json"
-          },
-          data : {
-            auditList:[
-              {
-                apprerResult:this.item.orderDetailList.apprerResult,
-                detailId:this.item.orderDetailList.detailId,
-                resultStatus:this.item.orderDetailList.resultStatus
-              }
-            ],
-            orderId:this.item.orderId
-          },
+          mheaders:true,
+          data : shObj,
 
         }).then((res) => {
             console.log('审核：：：：',res);

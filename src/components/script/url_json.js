@@ -239,6 +239,8 @@ export const URL_JSON = {
   'queryApplyCaseNum': '/caseLibrary/queryApplicationTicketAndAmt.htm', //申请立案数量信息
 
   'confirmApplyCase': '/caseLibrary/applicationByPreDistributeQuery.htm', //立案申请确认
+
+  'queryChangeFirstPerson': '/againAudit/changeAuditUserQueryByBatchId.htm',//变更初审人-查询
   /*-----预审系统----*/
 
 
