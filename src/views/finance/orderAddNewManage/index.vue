@@ -24,7 +24,7 @@
               </el-table-column>
             </table-component>
         </div>
-        <setting-dlg :edit-state="editState" :item="item"></setting-dlg>
+        <setting-dlg  @refresh="refresh" :edit-state="editState" :item="item"></setting-dlg>
 </div>
 </template>
 <script type="text/ecmascript-6">

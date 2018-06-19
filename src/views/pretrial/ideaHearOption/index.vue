@@ -23,7 +23,7 @@
         <ul>
           <template v-for="(item,index) in list">
             <li @mouseenter="handleMouseenter(item,index)" @mouseleave="handleMouseleave(item,index)" :key="item.reasonId + '' + index">
-              <span>{{index + 1}}.{{item.postiveReason}}</span>
+              <span>{{index + 1}}.{{item.reasonMsg}}</span>
               <div class="fr">
                 <template v-if="(index > 5) && (item.active === true)">
                   <el-button @click="handleEdit(item)" type="text">修改</el-button>
@@ -54,7 +54,7 @@
         list : [
           {
             // 原因
-            postiveReason : '', 
+            reasonMsg : '', 
             // id
             reasonId : '',
             // 类型 0-身份证意见，1-签名意见，2-证据意见
@@ -75,7 +75,7 @@
           method : 'post',
           url : '/reason/idCardAudit.htm',
         }).then((res) => {
-          this.listDefault = res.result.list;
+          this.listDefault = res.result;
           this.initList();
         });
       },

@@ -162,26 +162,26 @@
       <el-row  class="mb-20">
         <el-col :span="4">保留案件：</el-col>
         <el-col :span="20">
-          <span class="f_orange mr-10">123</span><span>件</span>
+          <span class="f_orange mr-10">{{ changeFPerson.hasAudit }}</span><span>件</span>
         </el-col>
       </el-row>
       <el-row  class="mb-20">
         <el-col :span="4">移交案件：</el-col>
         <el-col :span="20">
-          <span class="f_orange mr-10">223</span><span>件</span>
+          <span class="f_orange mr-10">{{ changeFPerson.handerOver }}</span><span>件</span>
         </el-col>
       </el-row>
       <el-row  class="mb-20">
         <el-col :span="4">现任初审人：</el-col>
         <el-col :span="20">
-          <span class="f_orange">费玉琳</span>
+          <span class="f_orange">{{ changeFPerson.originalAuditName }}</span>
         </el-col>
       </el-row>
       <el-row  class="mb-20">
         <el-col :span="4">新任初审人：</el-col>
         <el-col :span="20">
           <el-select clearable v-model="newFirstPerson" placeholder="请选择初审人">
-            <el-option v-for="item in firstPersonOpts" :key="item.value" :label="item.label" :value="item.value">
+            <el-option v-for="item in changeFPerson.newAuditors" :key="item.value" :label="item.userName" :value="item.userId">
             </el-option>
           </el-select>
         </el-col>
@@ -215,6 +215,7 @@ export default {
       item: {},//批次信息
       queryUrl: "",
       tableData: [{}],
+      changeFPerson:{},//变更初审人obj
       newFirstPerson: "", //新初审人字段
       firstPersonOpts: [
         {
@@ -316,6 +317,14 @@ export default {
         query: { id: "id" }
       });
       window.open(routeData.href, "_blank");
+    },
+    queryDialogFCperson(){
+      // 变更初审人查询
+      this.$http.post(URL_JSON['queryChangeFirstPerson'],{
+        batchId: this.batchNo
+      }).then(res => {
+        this.changeFPerson = res.result;
+      });
     }
   },
   mounted() {
