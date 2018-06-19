@@ -14,7 +14,7 @@ let exportFile = (obj) => {
   let arr = [];
 
   for(let key in data) {
-    arr.push(`${key}=${data[key]}`);
+    data[key] && arr.push(`${key}=${data[key]}`);
   };
   iframe.src = host.target + url + '?' + arr.join('&');
 
