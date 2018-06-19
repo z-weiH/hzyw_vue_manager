@@ -880,6 +880,7 @@
         }).then((res) => {
           // 设置 如果当前是审核状态  初始化为 请选择
           res.result.orderDetailList = res.result.orderDetailList.map((v) => {
+            v.resultStatusDefault = v.resultStatus;
             v.resultStatus = '';
             return v;
           });
@@ -1009,7 +1010,7 @@
               return {
                 apprerResult : v.apprerResult,
                 detailId : v.detailId,
-                resultStatus : v.resultStatus,
+                resultStatus : v.resultStatus || v.resultStatusDefault,
               }
             });
 
