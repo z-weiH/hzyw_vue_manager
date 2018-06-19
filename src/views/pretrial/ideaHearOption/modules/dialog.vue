@@ -16,8 +16,8 @@
             }}
           </el-form-item>
           
-          <el-form-item label="审核意见" prop="postiveReason">
-            <el-input type="textarea" v-model="ruleForm.postiveReason" />
+          <el-form-item label="审核意见" prop="reasonMsg">
+            <el-input type="textarea" v-model="ruleForm.reasonMsg" />
           </el-form-item>
         </el-form>
       </div>
@@ -42,10 +42,10 @@
 
         ruleForm : {
           // 审核意见
-          postiveReason : '',
+          reasonMsg : '',
         },
         rules : {
-          postiveReason : [
+          reasonMsg : [
             {required : true , message : '请输入审核意见' , trigger : 'blur'}
           ],
         },
@@ -58,7 +58,7 @@
         this.dialogVisible = true;
         if(type === 'edit'){
           this.reasonId = row.reasonId;
-          this.ruleForm.postiveReason = row.postiveReason;
+          this.ruleForm.reasonMsg = row.reasonMsg;
         }else{
           this.reasonId = '';
         }
@@ -76,7 +76,7 @@
               method : 'post',
               url : '/reason/addCause.htm',
               data : {
-                postiveReason : this.ruleForm.postiveReason,
+                reasonMsg : this.ruleForm.reasonMsg,
                 reasonType : this.type,
                 reasonId : this.reasonId,
               },
