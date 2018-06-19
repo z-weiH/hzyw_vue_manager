@@ -11,10 +11,10 @@
       <div class="card_header" style="overflow: hidden">
         <div class="fr mt-5" style="position: relative;">
           <transition name="addmark" >
-            <el-button class="addmark" type="text" v-if="!markflag" @click="HandleAddmark">添加书签</el-button>
+            <el-button class="addmark" type="text" v-if="mark !== sign.subSortNo" @click="HandleAddmark(sign)">添加书签</el-button>
           </transition>
           <transition name="bookmark" >
-            <img  v-if="markflag" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
+            <img  v-if="mark === sign.subSortNo" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
           </transition>
           <el-button type="primary"  plain @click="HandleShow(sign)">审核意见</el-button>
         </div>
@@ -72,7 +72,7 @@
 
     </div>
 
-    <audit></audit>
+    <audit :caseId="currentCaseId"></audit>
 
   </div>
 </template>
@@ -86,10 +86,19 @@
       return {
         auditStatus: false,
         editState: 0,
-        markflag: false,
+        markflag: 0,
+        selfflag: null,
         signatureItems: [],
         count: 0,
-        auditLists: []
+        auditLists: [],
+        currentCaseId: ''//当前案件
+      }
+    },
+    computed: {
+      mark() {
+        if(!this.selfflag)
+          return this.markflag;
+        return this.selfflag;
       }
     },
     methods: {
@@ -100,6 +109,7 @@
               console.log(res);
               this.auditLists = res.result;
               this.editState = 1;
+              this.currentCaseId = sign.caseId;
             }
           })
       },
@@ -120,13 +130,25 @@
           confirmButtonText: '确定',
           cancelButtonText: '取消',
         }).then(res => {
-
+          this.$http.post('/firstAudit/idCardFirstAuditFinished.htm',{subBatchNo: this.subBatchNo,type: 1})
+            .then(r =>{
+              if(r.code === '0000'){
+                console.log(r);
+              }
+            })
         }).catch(() => {})
       },
-      HandleAddmark() {
-        this.markflag = true;
+      HandleAddmark(sign) {
         //接口调用
-        this.$message.success('书签添加成功');
+        console.log(this.selfflag,this.mark)
+        this.$http.post('/firstAudit/addMark.htm',{subBatchNo: this.subBatchNo, subSortNo: sign.subSortNo, type: 1})
+          .then(res => {
+            if(res.code === '0000'){
+              console.log(res);
+              this.selfflag = sign.subSortNo;
+              this.$message.success('书签添加成功');
+            }
+          })
       }
     },
     components: {
@@ -134,6 +156,7 @@
     },
     mounted() {
       this.subBatchNo = this.$route.query.subBatchNo;
+      this.markflag = this.$route.query.markflag;
       this.$http.post('/firstAudit/querySignInfoByBatchNo.htm',{ subBatchNo: this.subBatchNo})
         .then(res => {
           console.log(res);

@@ -170,7 +170,7 @@
       gotoSignature(info) {
         let routeData = this.$router.resolve({
           path:'/signatureHearDetail',
-          query: {subBatchNo: info.subBatchNo}
+          query: {subBatchNo: info.subBatchNo,markflag: info.countIdChecked}
         });
         window.open(routeData.href, '_blank');
       },
