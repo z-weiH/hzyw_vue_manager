@@ -7,7 +7,7 @@
       @close="handleClose"
     >
       <div class="m-content">
-        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
+        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
           
           <el-form-item label="子批次数量：" prop="subBatchCount">
             <el-input style="width:300px;" v-model="ruleForm.subBatchCount" />件
