@@ -58,7 +58,13 @@
           </template>
         </el-table-column>
         <el-table-column prop="contractDate" label="合同时间"></el-table-column>
-        <el-table-column prop="merchantName" label="签约客户"></el-table-column>
+        <el-table-column prop="merchantName" label="签约客户" width="95px">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.merchantName" placement="top-start">
+              <span class="ellipsis">{{scope.row.merchantName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="preCaseAmt" label="预加受理费"></el-table-column>
         <el-table-column prop="preCaseTicket" label="预加仲券"></el-table-column>
         <el-table-column prop="preTicketAmt" label="仲券金额"></el-table-column>
@@ -150,8 +156,8 @@
           url : '/contractOrder/exportExcel.htm',
           data : {
             keyWords : this.ruleForm.keyWords,
-            startTime : this.ruleForm.startDate,
-            endTime : this.ruleForm.endDate,
+            startDate : this.ruleForm.startDate,
+            endDate : this.ruleForm.endDate,
             orderStatus : this.ruleForm.orderStatus,
           },
         });
