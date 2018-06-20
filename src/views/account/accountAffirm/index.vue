@@ -74,6 +74,7 @@ export default {
   },
   methods: {
     doView(row) {
+      console.log(123123123123);
       this.$http.post(URL_JSON['editAccountAffirm'],{orderId: row.orderId})
         .then(res => {
           if(res.code == '0000'){

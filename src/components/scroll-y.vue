@@ -9,13 +9,13 @@
         </template>
       </ul>
     </div>
-    
+
     <i class="el-icon-caret-right" @mouseup="stop" @mousedown="handleRight"></i>
   </div>
 </template>
 
 <script>
-  /* 
+  /*
   <scroll-y @handleClick="handleClick" :options="list" :defaultWidth="500" label="name"></scroll-y>
     this.list = [
       {name : '1-'},
@@ -47,7 +47,7 @@
       },
       /* 显示名称 对应的字段 */
       label : {
-        tdype : String,
+        type : String,
         default : 'name',
       },
     },
@@ -102,13 +102,13 @@
       },
     },
     updated() {
-      
+
     },
     mounted() {
       this.$options.watch.options.call(this);
     },
     methods : {
-      
+
       stop() {
         clearInterval(this.timer);
       },
@@ -118,7 +118,7 @@
           if(!this.isRoll){
             return;
           }
-          
+
           if(type === 'left'){
             if(Math.abs(this.position) >= this.width){
               return;
@@ -130,7 +130,7 @@
             }
             this.position += step;
           }
-          
+
         },50);
       },
       handleLeft() {

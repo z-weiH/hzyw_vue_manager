@@ -51,7 +51,7 @@
           <div class="applybook_title of-hidden">
             <div class="tit fl part_tit f_18">仲裁申请书</div>
             <div class="scroll_toolbar fr">
-              <scroll-y @handleClick="scrollbarClick" :options="scrollList" :defaultWidth="420"></scroll-y>
+              <scroll-y label="eviTitle" @handleClick="scrollbarClick" :options="scrollList" :defaultWidth="420"></scroll-y>
             </div>
           </div>
           <div class="applybook_content of-hidden">
