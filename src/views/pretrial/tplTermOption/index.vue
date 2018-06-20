@@ -52,7 +52,7 @@
         ],
       }
     },
-    mounted() {
+      mounted() {
       this.initList();
     },
     methods : {
@@ -127,6 +127,7 @@
       padding-top: 20px;
       padding-bottom: 10px;
       padding-left: 10px;
+      line-height: 20px;
       .m-text{
         width: 730px;
         float: left;

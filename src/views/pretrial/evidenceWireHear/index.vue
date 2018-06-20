@@ -90,7 +90,6 @@
   import audit from '../signatureHearDetail/modules/audit'
   import Mixins from '@/components/script/_mixin'
   import scrollY from "@/components/scroll-y";
-  import pdf from 'vue-pdf'
   export default {
     extends: Mixins,
     data(){
