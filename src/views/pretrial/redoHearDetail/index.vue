@@ -7,9 +7,9 @@
     </div>
     <div class="item-title clear of-hidden">
       <span class="tit">
-            <i class="fg_ico">|</i>批次信息
-          </span>
-      <el-button class="fr" @click="queryDialogFCperson">变更初审人</el-button>
+              <i class="fg_ico">|</i>批次信息
+            </span>
+      <el-button v-if="showBtn" class="fr" @click="queryDialogFCperson">变更初审人</el-button>
 
     </div>
     <div>
@@ -50,19 +50,26 @@
     </div>
 
     <div v-for="(opts,index) in childBatchList" :key="index">
-        <div class="item-title">
+      <div class="item-title">
         <i class="fg_ico">|</i>子批次- {{index+1}}（<span>{{opts.countCase}}</span><span>件</span>）
         <el-button v-if="opts.batchStatus == 0" size="medium" round>待初审</el-button>
         <el-button v-else-if="opts.batchStatus == 1" size="medium" round>待复审</el-button>
-        <el-button v-else-if="opts.batchStatus == 2" size="medium" round>退回重审</el-button>
+        <span v-else-if="opts.batchStatus == 2">
+            <el-button size="medium" round>退回重审</el-button>
+            <a href="javascript:;" class="btn_link" @click="reasonPanelType = true">查看原因</a>
+          </span>
         <el-button v-else-if="opts.batchStatus == 3" size="medium" round>预审完成</el-button>
         <span v-if="opts.batchStatus == 2" class="btn_link" @click="reasonPanelType = true">查看原因</span>
       </div>
       <el-row class="message part">
         <el-col :span="22">
-          <ul>
+          <ul v-if="opts.batchStatus == 1 || opts.batchStatus == 3">
             <li>全部案件</li>
-            <li>通过<span v-if="opts.passNum">{{opts.passNum}}</span><span else>&nbsp;&nbsp;.&nbsp;&nbsp;</span>件，未通过<span v-if="opts.unpassNum">{{opts.unpassNum}}</span><span else>&nbsp;&nbsp;.&nbsp;&nbsp;</span>件</li>
+            <li>通过<span v-if="!opts.passNum">&nbsp;{{opts.passNum}}&nbsp;</span>件，未通过<span v-if="opts.unpassNum">&nbsp;{{opts.unpassNum}}&nbsp;</span>件</li>
+          </ul>
+          <ul v-if="opts.batchStatus == 0 || opts.batchStatus == 2">
+            <li>全部案件</li>
+            <li>身份证已审<span>&nbsp;{{opts.countIdChecked}}&nbsp;</span>件, 签名已审<span>&nbsp;{{opts.countSignChecked}}&nbsp;</span>件,证据链已审<span>&nbsp;{{opts.countEviChecked}}&nbsp;</span>件</li>
           </ul>
         </el-col>
         <el-col :span="2">
@@ -75,49 +82,49 @@
 
 
     <!-- <div class="item-title">
-      <i class="fg_ico">|</i>子批次-2（<span>100</span><span>件</span>）
-      <el-button size="medium" round>预审完成</el-button>
-    </div>
-    <el-row class="message part">
-      <el-col :span="22">
-        <ul>
-          <li>全部案件</li>
-          <li>通过<span>128</span>件，未通过<span>33</span>件</li>
-        </ul>
-      </el-col>
-      <el-col :span="2">
-        <span class="btn_link" @click="gotoSmallTs(row)">查看</span>
-      </el-col>
-    </el-row>
-    <div class="item-title">
-      <i class="fg_ico">|</i>子批次-3（<span>100</span><span>件</span>）
-      <el-button size="medium" round>退回重审</el-button> <span class="btn_link" @click="reasonPanelType = true">查看原因</span>
-    </div>
+        <i class="fg_ico">|</i>子批次-2（<span>100</span><span>件</span>）
+        <el-button size="medium" round>预审完成</el-button>
+      </div>
+      <el-row class="message part">
+        <el-col :span="22">
+          <ul>
+            <li>全部案件</li>
+            <li>通过<span>128</span>件，未通过<span>33</span>件</li>
+          </ul>
+        </el-col>
+        <el-col :span="2">
+          <span class="btn_link" @click="gotoSmallTs(row)">查看</span>
+        </el-col>
+      </el-row>
+      <div class="item-title">
+        <i class="fg_ico">|</i>子批次-3（<span>100</span><span>件</span>）
+        <el-button size="medium" round>退回重审</el-button> <span class="btn_link" @click="reasonPanelType = true">查看原因</span>
+      </div>
 
-    <el-row class="message part">
-      <el-col :span="22">
-        <ul>
-          <li>全部案件</li>
-          <li>通过<span>128</span>件，未通过<span>33</span>件</li>
-        </ul>
-      </el-col>
-      <el-col :span="2">
-      </el-col>
-    </el-row>
-    <div class="item-title">
-      <i class="fg_ico">|</i>子批次-4（<span>100</span><span>件</span>）
-      <el-button size="medium" round>待初审</el-button>
-    </div>
-    <el-row class="message part">
-      <el-col :span="22">
-        <ul>
-          <li>全部案件</li>
-          <li>通过<span>128</span>件，未通过<span>33</span>件</li>
-        </ul>
-      </el-col>
-      <el-col :span="2">
-      </el-col>
-    </el-row> -->
+      <el-row class="message part">
+        <el-col :span="22">
+          <ul>
+            <li>全部案件</li>
+            <li>通过<span>128</span>件，未通过<span>33</span>件</li>
+          </ul>
+        </el-col>
+        <el-col :span="2">
+        </el-col>
+      </el-row>
+      <div class="item-title">
+        <i class="fg_ico">|</i>子批次-4（<span>100</span><span>件</span>）
+        <el-button size="medium" round>待初审</el-button>
+      </div>
+      <el-row class="message part">
+        <el-col :span="22">
+          <ul>
+            <li>全部案件</li>
+            <li>通过<span>128</span>件，未通过<span>33</span>件</li>
+          </ul>
+        </el-col>
+        <el-col :span="2">
+        </el-col>
+      </el-row> -->
 
     <div class="item-title">
       <i class="fg_ico">|</i>批次日志
@@ -125,15 +132,15 @@
     <el-row class="message part">
       <el-col :span="22">
         <ul>
-          <li v-for="(opts,index) in batchLogList" :key="index" >
+          <li v-for="(opts,index) in batchLogList" :key="index">
             <span>{{ opts.logTime }}</span>
             <span>{{ opts.logMsg }}</span>
             <!-- <span v-if="opts.logType == 1"></span>
-            <span v-if="opts.logType == 2"></span>
-            <span v-if="opts.logType == 3"></span> -->
+              <span v-if="opts.logType == 2"></span>
+              <span v-if="opts.logType == 3"></span> -->
             <span v-if="opts.logType == 4">复审退回<i class="btn_link" @click="reasonPanelType = true">查看原因</i></span>
             <!-- <span v-if="opts.logType == 5"></span>
-            <span v-if="opts.logType == 6"></span> -->
+              <span v-if="opts.logType == 6"></span> -->
           </li>
         </ul>
       </el-col>
@@ -152,32 +159,32 @@
         </el-col>
       </el-row>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="reasonPanelType = false">关闭</el-button>
-        </span>
+            <el-button @click="reasonPanelType = false">关闭</el-button>
+          </span>
     </el-dialog>
     <!-- ** -->
 
     <!-- dialog:变更初审人 -->
     <el-dialog title="变更初审人" :visible.sync="changeFpeopleType" width="560px">
-      <el-row  class="mb-20">
+      <el-row class="mb-20">
         <el-col :span="4">保留案件：</el-col>
         <el-col :span="20">
           <span class="f_orange mr-10">{{ changeFPerson.hasAudit }}</span><span>件</span>
         </el-col>
       </el-row>
-      <el-row  class="mb-20">
+      <el-row class="mb-20">
         <el-col :span="4">移交案件：</el-col>
         <el-col :span="20">
           <span class="f_orange mr-10">{{ changeFPerson.handerOver }}</span><span>件</span>
         </el-col>
       </el-row>
-      <el-row  class="mb-20">
+      <el-row class="mb-20">
         <el-col :span="4">现任初审人：</el-col>
         <el-col :span="20">
           <span class="f_orange">{{ changeFPerson.originalAuditName }}</span>
         </el-col>
       </el-row>
-      <el-row  class="mb-20">
+      <el-row class="mb-20">
         <el-col :span="4">新任初审人：</el-col>
         <el-col :span="20">
           <el-select @change="optsValChange" clearable v-model="newFirstPerson" placeholder="请选择初审人">
@@ -188,9 +195,9 @@
       </el-row>
 
       <span slot="footer" class="dialog-footer">
-          <el-button @click="saveNewFPerson" type="primary">确认</el-button>
-          <el-button @click="changeFpeopleType = false">取消</el-button>
-        </span>
+            <el-button @click="saveNewFPerson" type="primary">确认</el-button>
+            <el-button @click="changeFpeopleType = false">取消</el-button>
+          </span>
     </el-dialog>
     <!-- ** -->
   </div>
@@ -210,14 +217,14 @@ export default {
       reasonPanelType: false,
       batchNo: "",
       clientName: "",
-      childBatchList:[],//子批次概要信息
-      batchLogList:[],//批次日志信息
+      childBatchList: [], //子批次概要信息
+      batchLogList: [], //批次日志信息
       items: [],
-      item: {},//批次信息
+      item: {}, //批次信息
       queryUrl: "",
       tableData: [{}],
-      changeFPerson:{},//变更初审人obj
-      _newOpts:{},
+      changeFPerson: {}, //变更初审人obj
+      _newOpts: {},
       newFirstPerson: "", //新初审人字段
       firstPersonOpts: [
         {
@@ -251,6 +258,23 @@ export default {
       ]
     };
   },
+  computed: {
+    showBtn() {
+      let item = this.childBatchList.find(it => {
+        return (
+          (it.batchStatus === 0 || it.batchStatus === 2) &&
+          (it.countEviChecked < it.countCase ||
+            it.countIdChecked < it.countCase ||
+            it.countSignChecked < it.countCase)
+        );
+      });
+      if (item) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
   methods: {
     getBatchInfo() {
       console.info("asdasd     ", this.batchNo);
@@ -275,19 +299,21 @@ export default {
             console.log("zzzzz:::", res);
             // this.items = res.result.list;
             this.childBatchList = res.result;
+            console.log(this.childBatchList);
           }
         });
     },
-    getBatchLog(){
-      this.$http.post(URL_JSON['queryBatchLogs'],{
-        batchNo: this.batchNo
-      })
-      .then(res => {
-        if(res.code === "0000"){
-          console.log("logs::::",res);
-          this.batchLogList = res.result;
-        }
-      });
+    getBatchLog() {
+      this.$http
+        .post(URL_JSON["queryBatchLogs"], {
+          batchNo: this.batchNo
+        })
+        .then(res => {
+          if (res.code === "0000") {
+            console.log("logs::::", res);
+            this.batchLogList = res.result;
+          }
+        });
     },
     getLabel(value) {
       let options = [
@@ -316,37 +342,42 @@ export default {
       // 小批次查看与审核
       let routeData = this.$router.resolve({
         path: "/redoHearChildDetail",
-        query: { id: "id" }
+        query: {
+          id: "id"
+        }
       });
       window.open(routeData.href, "_blank");
     },
-    queryDialogFCperson(){
+    queryDialogFCperson() {
       this.changeFpeopleType = true;
       // 变更初审人查询
-      this.$http.post(URL_JSON['queryChangeFirstPerson'],{
-        batchId: this.batchNo,
-        type:"OPERATOR"
-      }).then(res => {
-        console.log('bgsgg11111::',res.result);
-        this.changeFPerson = res.result;
-      });
+      this.$http
+        .post(URL_JSON["queryChangeFirstPerson"], {
+          batchId: this.batchNo,
+          type: "OPERATOR"
+        })
+        .then(res => {
+          console.log("bgsgg11111::", res.result);
+          this.changeFPerson = res.result;
+        });
     },
-    saveNewFPerson(){
+    saveNewFPerson() {
+      console.info("ssasasasas::", this._newOpts);
       // 更新新初审人
-       this.$http.post(URL_JSON['saveChangeFirstPerson'],this._newOpts).then(res=>{
-        this.changeFpeopleType = false;
-        this.$message.success("修改成功");
-      });
-
+      this.$http
+        .post(URL_JSON["saveChangeFirstPerson"], this._newOpts)
+        .then(res => {
+          this.changeFpeopleType = false;
+          this.$message.success("修改成功");
+        }, 300);
     },
-    optsValChange(_value){
+    optsValChange(_value) {
       console.log(_value);
-     this._newOpts = Object.create(this.changeFPerson);
+      this._newOpts = Object.assign({}, this.changeFPerson);
       this._newOpts.batchId = this.$route.query.batchN;
       // delete this._newOpts.newAuditors;
       this._newOpts.currentAuditId = _value;
-      console.info("vhange:::",this._newOpts);
-
+      console.info("vhange:::", this._newOpts);
     }
   },
   mounted() {
