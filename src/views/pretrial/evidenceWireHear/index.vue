@@ -9,59 +9,98 @@
       </div>
     </div>
     <div class="fix_screen">
-      <span class="arrow_left"></span>
-      <span class="arrow_right"></span>
+      <span class="arrow_left" @click="HandlePrev" :class="{disabled: canPrev}"></span>
+      <span class="arrow_right" @click="HandleNext" :class="{disabled: canNext}"></span>
     </div>
-    <div class="card">
+    <div class="card" v-for="(evidence, index) in evidenceItems" :key="index">
       <div class="card_header">
-        <div class="fr mt-5">
-          <el-button type="text">添加书签</el-button>
-          <el-button type="primary" plain @click="HandleShow">审核意见</el-button>
+        <div class="fr mt-5" style="position: relative;" v-if="!disabled">
+          <transition name="addmark" >
+            <el-button class="addmark" type="text" v-if="mark !== evidence.subSortNo" @click="HandleAddmark(evidence)">添加书签</el-button>
+          </transition>
+          <transition name="bookmark">
+            <img  v-if="mark === evidence.subSortNo" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
+          </transition>
+          <el-button type="primary"  plain @click="HandleShow(evidence)">审核意见</el-button>
+        </div>
+        <span class="header_title">{{evidence.subSortNo}}/{{count}} {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷</span>
+        <div class="header_img">
+          <img src="@/assets/img/idCard.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="evidence.idStatus === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png"  v-if="evidence.idStatus === 2" alt="">
+        </div>
+        <div class="header_img">
+          <img src="@/assets/img/signature.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="evidence.signStatus === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png" v-if="evidence.signStatus === 2" alt="">
+        </div>
+        <div class="header_img">
+          <img src="@/assets/img/evidence.png" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="evidence.eviStatus === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png" v-if="evidence.eviStatus === 2" alt="">
         </div>
       </div>
       <div class="card_body">
-        <div class="audit">
+        <div class="audit" v-if="evidence.checkAuditList && evidence.checkAuditList.length > 0">
           <p class="audit_title">审核意见:</p>
           <ul>
-            <li>32156156156313514567815631</li>
+            <li v-for="(audit, idx) in evidence.checkAuditList" :index="idx">{{audit.reasonMsg}}</li>
           </ul>
         </div>
         <div class="applybook_body">
           <div class="applybook_title of-hidden">
             <div class="tit fl part_tit f_18">仲裁申请书</div>
             <div class="scroll_toolbar fr">
-              <scroll-y @handleClick="scrollbarClick" :options="scrollList" :defaultWidth="420"></scroll-y>
+              <scroll-y label="eviTitle" @handleClick="scrollbarClick" :options="evidence.eviDetailList" :defaultWidth="420"></scroll-y>
             </div>
           </div>
           <div class="applybook_content of-hidden">
             <div class="article_left fl">
-              <img src="./../../../assets/img/pdf-0.png" alt="">
+              <!--<pdf :src="evidence.applicationUrl"></pdf>-->
+              <iframe  :src="evidence.applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
             </div>
             <div class="article_right fr">
-              <img src="./../../../assets/img/pdf-1.png" alt="">
+              <iframe :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
             </div>
           </div>
         </div>
       </div>
 
+
+
     </div>
 
-    <audit></audit>
+
+    <div class="pagination clear">
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page="pager.currentNum"
+        :page-size="20"
+        layout="prev, pager, next, jumper, total"
+        :total="pager.total">
+      </el-pagination>
+    </div>
+    <audit :caseId="currentCaseId" :type="2"></audit>
+
 
   </div>
 </template>
 
 <script>
-  import audit from './modules/audit'
+  import audit from '../signatureHearDetail/modules/audit'
   import Mixins from '@/components/script/_mixin'
   import scrollY from "@/components/scroll-y";
-
+  import pdf from 'vue-pdf'
   export default {
     extends: Mixins,
     data(){
       return {
-        auditStatus: false,
+        auditStatus: 0,
         editState: 0,
+        count: 0,
+        evidenceItems: [],
+        currentCaseId: '', //当前案件
+        auditLists: [], // 可选原因
         scrollList:[
           {
             name:'借款协议'
@@ -81,12 +120,47 @@
           {
             name:'债转通知'
           },
-        ]
+        ],
+        pager: {
+          currentNum: 1,
+          total: 1,
+          pageSize: 1
+        },
+        currentUrl: ''
+      }
+    },
+    computed: {
+      mark() {
+        if(!this.selfflag)
+          return this.markflag;
+        return this.selfflag;
+      },
+      canNext() {
+        if(this.pager.currentNum < this.pager.total)
+          return false;
+        return true;
+      },
+      canPrev() {
+        if(this.pager.currentNum > 1)
+          return false;
+        return true;
       }
     },
     methods: {
-      HandleShow() {
-        this.editState = 1;
+      scrollbarClick(e) {
+        console.log(e);
+        this.currentUrl = e.eviFileurl;
+      },
+      HandleShow(evidence) {
+        this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: evidence.caseId,type: 2})
+          .then(res => {
+            if(res.code === '0000'){
+              console.log(res);
+              this.auditLists = res.result;
+              this.editState = 1;
+              this.currentCaseId = evidence.caseId;
+            }
+          })
       },
       HandleAudit() {
         const h = this.$createElement;
@@ -104,11 +178,62 @@
         }).then(res => {
 
         }).catch(() => {})
+      },
+      HandleAddmark(evidence) {
+        //接口调用
+        console.log(this.selfflag,this.mark)
+        this.$http.post('/firstAudit/addMark.htm',{subBatchNo: this.subBatchNo, subSortNo: evidence.subSortNo, type: 2})
+          .then(res => {
+            if(res.code === '0000'){
+              console.log(res);
+              this.selfflag = evidence.subSortNo;
+              this.$message.success('书签添加成功');
+            }
+          })
+      },
+      HandlePrev() {
+        if(!this.canPrev){
+          this.pager.currentNum-- ;
+          this.HandleQuery();
+        }
+      },
+      HandleNext() {
+        if(!this.canNext){
+          this.pager.currentNum++ ;
+          this.HandleQuery();
+        }
+      },
+      handleCurrentChange(page) {
+        this.pager.currentNum = page;
+        this.HandleQuery();
+      },
+      HandleQuery() {
+        this.$http.post('/firstAudit/queryEviInfoByBatchNo.htm',Object.assign({ subBatchNo: this.subBatchNo,auditStatus: this.auditStatus}, this.pager))
+          .then(res => {
+            console.log(res);
+            if(res.code === '0000'){
+              this.evidenceItems = res.result.list;
+              this.count = res.result.totalCount;
+              this.pager.total = res.result.count;
+              // this.scrollList =
+            }
+          })
       }
     },
     components: {
       audit,
-      scrollY
+      scrollY,
+      pdf
+    },
+    mounted() {
+      this.subBatchNo = this.$route.query.subBatchNo;
+      this.markflag = +this.$route.query.markflag;
+      this.disabled = this.$route.query.disabled;
+      this.pager.currentNum = Math.ceil(this.markflag/20);
+      if(this.pager.currentNum === 0)
+        this.pager.currentNum = 1;
+      //查询 和  标签定位
+      this.HandleQuery();
 
     }
   }
@@ -116,6 +241,29 @@
 
 <style lang="scss" scoped>
   $themeColor: #193b8c;
+  .bookmark-enter-active,.addmark-enter-active {
+    transition: all 0.6s ease;
+  }
+  .bookmark-leave-active,.addmark-leave-active {
+    transition: all 0.6s ease;
+  }
+  .addmark-enter, .addmark-lwave-to{
+    opacity: 0;
+  }
+  .bookmark-enter, .bookmark-leave-to
+    /* .slide-fade-leave-active for below version 2.1.8 */ {
+    transform: translateY(-45px);
+  }
+  .addmark{
+    position: absolute;
+    right: 110px;
+  }
+  .bookmark{
+    height: 40px;
+    vertical-align: text-top;
+    margin-top: -10px;
+    margin-right: 20px;
+  }
   .part_tit {
     color: $themeColor;
     padding-bottom: 20px;
@@ -141,6 +289,7 @@
       position: fixed;
       top: 20%;
       cursor: pointer;
+      z-index: 9999;
       &:hover {
         opacity: 0.8;
       }
@@ -152,6 +301,12 @@
     .arrow_right {
       right: 16%;
       background-image: url(./../../../assets/img/rct_page02.png);
+    }
+    .arrow_left.disabled{
+      cursor: not-allowed;
+    }
+    .arrow_right.disabled{
+      cursor: not-allowed;
     }
   }
   .body_container{
@@ -186,6 +341,24 @@
         background: #EEF3FF;
         padding-left: 12px;
         padding-right: 10px;
+        .header_title{
+          font-size: 16px;
+          line-height: 50px;
+          color: #13367D;
+        }
+        .header_img{
+          display: inline-block;
+          position: relative;
+          img{
+            vertical-align: bottom;
+            margin: 0 7px;
+          }
+          .icon{
+            position: absolute;
+            bottom: -7px;
+            right: -7px;
+          }
+        }
       }
       .card_body{
         padding: 30px 30px 30px 22px;
@@ -263,6 +436,7 @@
           width: 8px;
           height: 13px;
           background: url(./../../../assets/img/ic20_004.png) no-repeat center;
+
         }
         .ac_right {
           position: absolute;
@@ -274,6 +448,7 @@
           height: 13px;
           background: url(./../../../assets/img/ic20_005.png) no-repeat center;
         }
+
       }
     }
 
@@ -286,6 +461,15 @@
         overflow: hidden;
       }
     }
+
+  }
+  .pagination{
+    margin: 20px auto;
+    box-sizing: border-box;
+    border: 1px solid #E5EAEE;
+    width: 1200px;
+    padding: 10px 20px;
+    background: #fff;
   }
 
 

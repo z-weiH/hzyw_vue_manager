@@ -51,7 +51,7 @@
               :endDate.sync="ruleForm.endDate"
               startPlaceholder="禁用开始"
               endPlaceholder="禁用结束"
-              :required="true"
+              required="single"
             >
 
             </timeFrame>
@@ -108,7 +108,7 @@
 
         // 互金企业 options
         merchantOptions : [
-          {merchantName : '张三' , code : '张三'}
+          /* {merchantName : '张三' , code : '张三'} */
         ], 
         // 产品 options
         productOptions : [
@@ -137,6 +137,13 @@
             },
           }).then((res) => {
             this.ruleForm = Object.assign(this.ruleForm,res.result);
+            // 设置默认回显的互金企业 以及 模板
+            this.merchantOptions = [
+              { merchantName : res.result.merchantName , code : res.result.code }
+            ];
+            this.productOptions = [
+              { prodName : res.result.prodName , prodCode : res.result.productId }
+            ];
           });
         }
       },
@@ -150,7 +157,7 @@
             keyWords : query,
           },
         }).then((res) => {
-          this.merchantOptions = res.result.list;
+          this.merchantOptions = res.result;
         });
       },
       // 互金企业change
@@ -172,7 +179,7 @@
             merchantCode : val,
           },
         }).then((res) => {
-          this.productOptions = res.result.list;
+          this.productOptions = res.result;
         });
       },
 
@@ -180,6 +187,9 @@
       handleClose() {
         this.dialogVisible = false;
         this.$refs.ruleForm.resetFields();
+        // 清空下拉框数据
+        this.merchantOptions = [];
+        this.productOptions = [];
       },
       // 点击提交
       handleSubmit(submitType) {

@@ -96,7 +96,7 @@
           </el-col>
           <el-col :span="8">
             未通过案件
-            <span class="pd">{{ruleForm.fail}}&nbsp;/&nbsp;{{ruleForm.failPrecent}}%</span>
+            <span class="pd">{{ruleForm.fail}}&nbsp;/&nbsp;{{ruleForm.failPercent}}%</span>
           </el-col>
         </el-row>
 

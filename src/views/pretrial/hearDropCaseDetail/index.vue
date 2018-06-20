@@ -48,22 +48,15 @@
           </el-col>
         </el-row>
       </div>
-      <div class="ourInfo" v-if="item.ourReason && item.ourReason.length > 0">
+      <div class="ourInfo" v-if="item.reasonMsgList && item.reasonMsgList.length > 0">
         <div class="baseInfo_title title">
-          非客户原因：
+          整合失败原因：
         </div>
         <ul>
-          <li v-for="(reason,index) in item.ourReason" :key="index">{{reason.reasonMsg}}</li>
+          <li v-for="(reason,index) in item.reasonMsgList" :key="index">{{reason.reasonMsg}}</li>
         </ul>
       </div>
-      <div class="otherInfo" v-if="item.otherReason && item.otherReason.length > 0">
-        <div class="baseInfo_title title">
-          客户原因：
-        </div>
-        <ul>
-          <li v-for="(reason,index) in item.otherReason" :key="index">{{reason.reasonMsg}}</li>
-        </ul>
-      </div>
+
 
     </div>
 
@@ -122,10 +115,10 @@
           .then(res => {
             if(res.code === '0000'){
               this.item = res.result;
-              if(this.item.reasonMsgList){
-                this.item.ourReason = this.item.reasonMsgList.filter(it => it.failedType === 0);
-                this.item.otherReason = this.item.reasonMsgList.filter(it => it.failedType === 1);
-              }
+              // if(this.item.reasonMsgList){
+              //   this.item.ourReason = this.item.reasonMsgList.filter(it => it.failedType === 0);
+              //   this.item.otherReason = this.item.reasonMsgList.filter(it => it.failedType === 1);
+              // }
             }
           })
       },

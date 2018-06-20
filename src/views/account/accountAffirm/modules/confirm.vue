@@ -3,6 +3,7 @@
     :visible.sync="show"
     :title="title"
     width="890px"
+    @open="resetForm"
     center>
     <div class="dailog-container">
       <table-edits :editDefines="edtDefines" :item="item" :disabled="true"></table-edits>
@@ -67,6 +68,9 @@
       TableEdits
     },
     methods: {
+      resetForm() {
+        this.$refs['edits'].clearValidate();
+      },
       save () {
         this.$refs['edits'].validate(res => {
           if(res){
@@ -86,7 +90,6 @@
     mounted () {
     },
     updated () {
-      this.$refs['edits'].clearValidate();
     }
   }
 </script>

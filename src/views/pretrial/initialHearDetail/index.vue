@@ -70,7 +70,7 @@
         </li>
         <li>
           <el-button type="primary" v-if="info.eviStatus === 0" class="fr mt-10" @click="gotoeEidenceWire(info)">审核</el-button>
-          <el-button type="primary" v-if="info.eviStatus === 1" class="fr mt-10" @click="gotoeEidenceWire(info)">查看</el-button>
+          <el-button type="primary" v-if="info.eviStatus === 1" class="fr mt-10" @click="gotoeEidenceWire(info,true)">查看</el-button>
           <p class="info_title">证据链信息</p>
           <p v-if="info.countEviChecked === 0 && info.eviStatus === 0">审核未开始</p>
           <p v-if="info.countEviChecked !== 0 && info.eviStatus === 0">已审核到第{{info.countEviChecked}}</p>
@@ -174,10 +174,10 @@
         });
         window.open(routeData.href, '_blank');
       },
-      gotoeEidenceWire(info) {
+      gotoeEidenceWire(info, disabled) {
         let routeData = this.$router.resolve({
           path:'/evidenceWireHear',
-          query: {subBatchNo: info.subBatchNo}
+          query: {subBatchNo: info.subBatchNo,markflag: info.countEviChecked,disabled: disabled}
         });
         window.open(routeData.href, '_blank');
       }
