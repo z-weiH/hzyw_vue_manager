@@ -51,15 +51,16 @@
           <div class="applybook_title of-hidden">
             <div class="tit fl part_tit f_18">仲裁申请书</div>
             <div class="scroll_toolbar fr">
-              <scroll-y label="eviTitle" @handleClick="scrollbarClick" :options="scrollList" :defaultWidth="420"></scroll-y>
+              <scroll-y label="eviTitle" @handleClick="scrollbarClick" :options="evidence.eviDetailList" :defaultWidth="420"></scroll-y>
             </div>
           </div>
           <div class="applybook_content of-hidden">
             <div class="article_left fl">
-              <pdf :src="evidence.applicationUrl"></pdf>
+              <!--<pdf :src="evidence.applicationUrl"></pdf>-->
+              <iframe  :src="evidence.applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
             </div>
             <div class="article_right fr">
-              <img src="./../../../assets/img/pdf-1.png" alt="">
+              <iframe :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
             </div>
           </div>
         </div>
@@ -124,7 +125,8 @@
           currentNum: 1,
           total: 1,
           pageSize: 1
-        }
+        },
+        currentUrl: ''
       }
     },
     computed: {
@@ -145,7 +147,10 @@
       }
     },
     methods: {
-      scrollbarClick() {},
+      scrollbarClick(e) {
+        console.log(e);
+        this.currentUrl = e.eviFileurl;
+      },
       HandleShow(evidence) {
         this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: evidence.caseId,type: 2})
           .then(res => {
@@ -210,6 +215,7 @@
               this.evidenceItems = res.result.list;
               this.count = res.result.totalCount;
               this.pager.total = res.result.count;
+              // this.scrollList =
             }
           })
       }
