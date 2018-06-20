@@ -2,7 +2,14 @@
   <div class="time-frame">
     <el-form-item :prop="requiredName[0]"
       :rules="[
-        {required : required , message : `请输入${startPlaceholder}` , trigger: ['blur', 'change']},
+        {
+          required : required === true ? true : 
+                     required === false ? false :
+                     required === 'single' ? ( !end && !start ? true : !end ? true : false) : 
+                     required.length && required[0] ? required[0] : '', 
+          message : `请输入${startPlaceholder}` , 
+          trigger: ['blur', 'change'],
+        },
       ]"
     >
       <el-date-picker 
@@ -17,7 +24,14 @@
     <span v-if="bar" class="mr-10 m-span">-</span>
     <el-form-item :prop="requiredName[1]"
       :rules="[
-        {required : required , message : `请输入${endPlaceholder}` , trigger: ['blur', 'change']},
+        {
+          required : required === true ? true : 
+                     required === false ? false :
+                     required === 'single' ? ( !end && !start ? false : !start ? true : false) : 
+                     required.length && required[1] ? required[1] : '', 
+          message : `请输入${endPlaceholder}` , 
+          trigger: ['blur', 'change'],
+        },
       ]"
     >
       <el-date-picker 
@@ -56,9 +70,8 @@
         type : Boolean,
         default : true,
       },
-      // 是否必填
+      // 是否必填 // true 全部必填 ， false 全部不必填 ， single 任意一个必填 , [true,false] 单独设置
       required : {
-        type : Boolean,
         default : false,
       },
       // 校验别名 (用于校验字段)
