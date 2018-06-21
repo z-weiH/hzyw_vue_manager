@@ -51,7 +51,7 @@
         <el-table-column prop="caseOrderId" label="案件订单编号"></el-table-column>
         <el-table-column prop="clientName" label="互金企业"></el-table-column>
         <el-table-column prop="productName" label="产品名称"></el-table-column>
-        <el-table-column prop="pushDay" label="推送时间"></el-table-column>
+        <el-table-column prop="pushDay" label="推送时间" width="160px"></el-table-column>
         <el-table-column prop="amtCase" label="状态">
           <template slot-scope="scope">
             {{
