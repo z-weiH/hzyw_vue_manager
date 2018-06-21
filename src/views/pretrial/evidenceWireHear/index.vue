@@ -97,7 +97,6 @@
   import Mixins from '@/components/script/_mixin'
   import scrollY from "@/components/scroll-y";
   import closeDlg from '@/components/closeDlg';
-
   export default {
     extends: Mixins,
     data(){

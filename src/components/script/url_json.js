@@ -243,6 +243,8 @@ export const URL_JSON = {
   'queryChangeFirstPerson': '/againAudit/changeAuditUserQueryByBatchId.htm',//变更初审人-查询
 
   'saveChangeFirstPerson': '/againAudit/changeAuditorByBatchId.htm',//变更初审人-保存
+
+  'queryRedoHearChildDetail': '/againAudit/queryAgainAuditDetailByBatchNo.htm', //案件复审-子批次审核详情页
   /*-----预审系统----*/
 
 
