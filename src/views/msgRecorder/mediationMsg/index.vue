@@ -12,7 +12,7 @@
         <div class='item-table'>
            <table-component  :pager="pager" :needCheckbox="true" :table-data="tableData"  :column-define="columnDefine" @slectionChange="slectionChange"></table-component>
           <div class="center mb-20">
-            <el-button type="primary" :disabled="isDisabled" @click="sendInfo">发送调节通知</el-button>
+            <el-button type="primary" :disabled="isDisabled" @click="sendInfo">发送调解通知</el-button>
           </div>
         </div>
         <send-info ref="sendInfoDlg" :edit-state="editState"></send-info>

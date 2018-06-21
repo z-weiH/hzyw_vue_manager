@@ -81,6 +81,8 @@ export default {
             this.item = res.result;
             this.editState = 9;
           }
+
+
         })
     },
     showDailg(row){

@@ -16,7 +16,7 @@
         <tbody class="left-table">
           <tr>
             <td colspan="2">
-              <el-select style="width: 180px;" placeholder="请选择调节人员" v-model="mediatorId1">
+              <el-select style="width: 180px;" placeholder="请选择调解人员" v-model="mediatorId1">
                 <template  v-for="(opt,idx) in MediatorList">
                   <el-option :key="idx"  :value="opt.id" :label="opt.name" ></el-option>
                 </template>
@@ -28,7 +28,7 @@
           </tr>
           <tr>
             <td colspan="2">
-              <el-select style="width: 150px;" placeholder="请选择调节人员" v-model="mediatorId2">
+              <el-select style="width: 150px;" placeholder="请选择调解人员" v-model="mediatorId2">
                 <template  v-for="(opt,idx) in MediatorList">
                   <el-option :key="idx"  :value="opt.id" :label="opt.name" ></el-option>
                 </template>
@@ -64,7 +64,7 @@
         </tr>
         <tr>
           <td colspan="2">
-            <el-select class="w-160" placeholder="请选择调节人员" v-model="mediatorId4">
+            <el-select class="w-160" placeholder="请选择调解人员" v-model="mediatorId4">
               <template  v-for="(opt,idx) in MediatorList">
                 <el-option :key="idx"  :value="opt.id" :label="opt.name" ></el-option>
               </template>
@@ -191,7 +191,7 @@
           let  mediator = this.MediatorList.find(it => it.id === this.mediatorId4);
           let payment = this.AdjustList.find(it => it.id === this.payment4);
           if(!mediator)
-            return this.$message.error('请选择调节员');
+            return this.$message.error('请选择调解员');
           if(!payment)
             return this.$message.error('请选择还款方式');
           this.confirmMsg = `将对${this.$parent.selection.length}个被申请人发送还款方式告知，短信内容中的调解员是${mediator.name}，还款账户是${payment.accountInformation}账户，确定发送吗？`;

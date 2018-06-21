@@ -201,7 +201,7 @@
         this.HandleQuery();
       },
       HandleQuery(mark) {
-        this.$http.post('/firstAudit/queryIdcardsBySubBatchNo.htm',Object.assign({ subBatchNo: this.subBatchNo,auditStatus: this.auditStatus},this.pager))
+        this.$http.post('/firstAudit/queryIdcardsBySubBatchNo.htm',Object.assign({ subBatchNo: this.subBatchNo,auditStatus: +this.auditStatus},this.pager))
           .then(res => {
             console.log(res);
             if(res.code === '0000'){

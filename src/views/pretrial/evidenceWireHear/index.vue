@@ -3,9 +3,14 @@
     <div class="header_container">
 
       <div class="header">
-        <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit">审核完成</el-button>
+        <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
         <span class="header_title">证据链审核</span>
-        <el-checkbox class="header_checkbox" v-model="auditStatus">必要审核</el-checkbox>
+        <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">必要审核</el-checkbox>
+        <template v-if="disabled">
+          <el-radio v-model="auditStatus" :label="0">全部</el-radio>
+          <el-radio v-model="auditStatus" :label="1">已通过</el-radio>
+          <el-radio v-model="auditStatus" :label="2">未通过</el-radio>
+        </template>
       </div>
     </div>
     <div class="fix_screen">
@@ -44,7 +49,7 @@
         <div class="audit" v-if="evidence.checkAuditList && evidence.checkAuditList.length > 0">
           <p class="audit_title">审核意见:</p>
           <ul>
-            <li v-for="(audit, idx) in evidence.checkAuditList" :index="idx">{{audit.reasonMsg}}</li>
+            <li v-for="(audit, idx) in evidence.checkAuditList" :index="idx">{{index+1}}.{{audit.reasonMsg}}</li>
           </ul>
         </div>
         <div class="applybook_body">
@@ -60,7 +65,7 @@
               <iframe  :src="evidence.applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
             </div>
             <div class="article_right fr">
-              <iframe :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+              <iframe ref="evidence"  :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
             </div>
           </div>
         </div>
@@ -82,6 +87,7 @@
     </div>
     <audit :caseId="currentCaseId" :type="2"></audit>
 
+    <closeDlg :message="'已完成证据链审核，请关闭本页'" v-if="showCloseDlg"></closeDlg>
 
   </div>
 </template>
@@ -90,7 +96,8 @@
   import audit from '../signatureHearDetail/modules/audit'
   import Mixins from '@/components/script/_mixin'
   import scrollY from "@/components/scroll-y";
-  import pdf from 'vue-pdf'
+  import closeDlg from '@/components/closeDlg';
+
   export default {
     extends: Mixins,
     data(){
@@ -101,32 +108,19 @@
         evidenceItems: [],
         currentCaseId: '', //当前案件
         auditLists: [], // 可选原因
-        scrollList:[
-          {
-            name:'借款协议'
-          },
-          {
-            name:'借款咨询服务协议'
-          },
-          {
-            name:'收款证明单'
-          },
-          {
-            name:'打款凭证'
-          },
-          {
-            name:'债权转让协议'
-          },
-          {
-            name:'债转通知'
-          },
-        ],
+        scrollList:[],
+        showCloseDlg: false,
         pager: {
           currentNum: 1,
           total: 1,
           pageSize: 1
         },
         currentUrl: ''
+      }
+    },
+    watch: {
+      auditStatus(val) {
+        this.HandleQuery();
       }
     },
     computed: {
@@ -167,8 +161,7 @@
         this.$msgbox({
           title: '提示',
           message: h('div',null,[
-            h('p',null,'即将提交证据链初审结果。'),
-            h('p',null,'提交后将无法修改。'),
+            h('p',null,'即将提交证据链初审结果。提交后将无法修改。'),
             h('p',null,'确定提交？')
           ]),
           center: true,
@@ -176,7 +169,12 @@
           confirmButtonText: '确定',
           cancelButtonText: '取消',
         }).then(res => {
-
+          this.$http.post('/firstAudit/idCardFirstAuditFinished.htm',{subBatchNo: this.subBatchNo,type: 2})
+            .then(r =>{
+              if(r.code === '0000'){
+                this.showCloseDlg = true;
+              }
+            })
         }).catch(() => {})
       },
       HandleAddmark(evidence) {
@@ -208,7 +206,7 @@
         this.HandleQuery();
       },
       HandleQuery() {
-        this.$http.post('/firstAudit/queryEviInfoByBatchNo.htm',Object.assign({ subBatchNo: this.subBatchNo,auditStatus: this.auditStatus}, this.pager))
+        this.$http.post('/firstAudit/queryEviInfoByBatchNo.htm',Object.assign({ subBatchNo: this.subBatchNo,auditStatus: +this.auditStatus}, this.pager))
           .then(res => {
             console.log(res);
             if(res.code === '0000'){
@@ -216,6 +214,8 @@
               this.count = res.result.totalCount;
               this.pager.total = res.result.count;
               // this.scrollList =
+
+
             }
           })
       }
@@ -223,7 +223,7 @@
     components: {
       audit,
       scrollY,
-      pdf
+      closeDlg
     },
     mounted() {
       this.subBatchNo = this.$route.query.subBatchNo;
@@ -232,9 +232,7 @@
       this.pager.currentNum = Math.ceil(this.markflag/20);
       if(this.pager.currentNum === 0)
         this.pager.currentNum = 1;
-      //查询 和  标签定位
       this.HandleQuery();
-
     }
   }
 </script>

@@ -49,6 +49,7 @@
         子批次-{{index + 1}}
         <span>({{info.countCase}}件)</span>
         <button class="title_btn ml-5" disabled>{{getStatusName(info.batchStatus)}}</button>
+        <span v-if="info.batchStatus == 2" class="btn_link" @click="HandleShowReason">查看原因</span>
       </div>
       <ul class="info_ul">
         <li>
@@ -103,7 +104,12 @@
       }
     },
     methods: {
+      HandleShowReason() {
+        this.$http.post('/againAudit/querysubBatchReturnInfoByBatchNo.htm',)
+
+      },
       //查看退回原因
+
       findReturnReason() {
         this.$http.post('/againAudit/querysubBatchReturnInfoByBatchNo.htm',)
       },
