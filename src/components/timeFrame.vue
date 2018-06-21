@@ -7,7 +7,9 @@
                      required === false ? false :
                      required === 'single' ? ( !end && !start ? true : !end ? true : false) : 
                      required.length && required[0] ? required[0] : '', 
-          message : `请输入${startPlaceholder}` , 
+          message : required === 'single' ? 
+                      (  !end && !start ? `请至少选择一个时间段` : `请输入${startPlaceholder}` ) : 
+                      `请输入${startPlaceholder}`, 
           trigger: ['blur', 'change'],
         },
       ]"
@@ -27,9 +29,11 @@
         {
           required : required === true ? true : 
                      required === false ? false :
-                     required === 'single' ? ( !end && !start ? false : !start ? true : false) : 
+                     required === 'single' ? ( !end && !start ? true : !start ? true : false) : 
                      required.length && required[1] ? required[1] : '', 
-          message : `请输入${endPlaceholder}` , 
+          message : required === 'single' ? 
+                      (  !end && !start ? ` ` : `请输入${endPlaceholder}` ) : 
+                      `请输入${endPlaceholder}`, 
           trigger: ['blur', 'change'],
         },
       ]"
