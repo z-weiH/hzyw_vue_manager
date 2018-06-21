@@ -93,7 +93,30 @@
                 if(res.code == '0000'){
                   localStorage.setItem('loginInfo', JSON.stringify(res.result.loginInfoVO));
                   localStorage.setItem('menuInfoList', JSON.stringify(res.result.menuInfoList));
-                  this.$message.success('登录成功');
+									this.$message.success('登录成功');
+									
+									// 返回上一次 页面
+									if(this.$route.query.returnUrl){
+										let returnUrl = this.$route.query.returnUrl;
+										let ismain = false;
+										if(returnUrl.indexOf('main')){
+											returnUrl = returnUrl.slice(6);
+											ismain = true;
+										}
+										// 判断是否 可以进入
+										let login = true;
+										res.result.menuInfoList.map((v,k) => {
+											v.children.map((v1,k1) => {
+												if(v1.menuUrl === returnUrl && login === true){
+													// 默认跳转 第一个页面
+													login = false;
+													this.$router.push(`${ismain ? '/main' : ''}/${v1.menuUrl}`);
+												}
+											});
+										});
+										if(!login) {return;}
+									}
+
                   setTimeout(() => {
 										let url = '';
 										let login = true;

@@ -33,6 +33,20 @@ axios.interceptors.request.use((config) => {
 
 // 响应拦截
 axios.interceptors.response.use((res) => {
+  // 登录超时 拦截
+  if(res.data.code === '20012') {
+    Message({
+      type: 'error',
+      message: res.data.description,
+      duration: 5000,
+      showClose: true
+    });
+    router.push(`/login?returnUrl=${router.history.current.path}`);
+    // 清除缓存
+    sessionStorage.removeItem('loginInfo');
+    sessionStorage.removeItem('menuInfoList');
+    return Promise.reject(res);
+  }
   // 联调的时候下面这段开启
    if (res.data.code != '0000') {
     Message({
