@@ -32,11 +32,29 @@
           </template>
         </el-table-column>
         <el-table-column prop="code" label="客户号"></el-table-column>
-        <el-table-column prop="loginName" label="登录账号"></el-table-column>
-        <el-table-column prop="merchantName" label="客户名称"></el-table-column>
+        <el-table-column prop="loginName" label="登录账号">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.loginName" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.loginName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column prop="merchantName" label="客户名称">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.merchantName" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.merchantName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="name" label="法定代表人"></el-table-column>
         <el-table-column prop="idcard" label="社会信息代码"></el-table-column>
-        <el-table-column prop="createTime" label="开户时间"></el-table-column>
+        <el-table-column prop="createTime" label="开户时间">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.createTime" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.createTime}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button @click="handleEdit(scope.row)" type="text">修改</el-button>

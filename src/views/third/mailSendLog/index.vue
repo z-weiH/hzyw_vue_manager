@@ -29,11 +29,23 @@
           </template>
         </el-table-column>
         <el-table-column prop="fullName" label="所属仲裁委"></el-table-column>
-        <el-table-column prop="email" label="收件人邮箱"></el-table-column>
+        <el-table-column prop="email" label="收件人邮箱">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.email" placement="top-start">
+              <span class="ellipsis" style="max-width:128px;">{{scope.row.email}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="receiver" label="收件人名称"></el-table-column>
-        <el-table-column prop="title" label="邮件标题"></el-table-column>
+        <el-table-column prop="title" label="邮件标题">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.title" placement="top-start">
+              <span class="ellipsis" style="max-width:128px;">{{scope.row.title}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="result" label="结果"></el-table-column>
-        <el-table-column prop="createTime" label="发送时间"></el-table-column>
+        <el-table-column prop="createTime" label="发送时间" width="160px"></el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination

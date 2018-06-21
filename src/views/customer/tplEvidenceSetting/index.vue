@@ -31,8 +31,20 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-        <el-table-column prop="merchantName" label="客户名称"></el-table-column>
-        <el-table-column prop="templateName" label="模板名称"></el-table-column>
+        <el-table-column prop="merchantName" label="客户名称">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.merchantName" placement="top-start">
+              <span class="ellipsis" style="max-width:162px;">{{scope.row.merchantName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column prop="templateName" label="模板名称">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.templateName" placement="top-start">
+              <span class="ellipsis" style="max-width:162px;">{{scope.row.templateName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="busiCode" label="业务编码"></el-table-column>
         <el-table-column prop="createTime" label="发布时间"></el-table-column>
         <el-table-column label="操作">

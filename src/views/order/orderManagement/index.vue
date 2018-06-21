@@ -51,14 +51,28 @@
         </el-table-column>
         <el-table-column label="借款单号">
           <template slot-scope="scope">
-            <a class="fn-a" @click="handleDetail(scope.row)" type="text">{{scope.row.loanBillNo}}</a>
+            <el-tooltip :content="scope.row.loanBillNo" placement="top-start">
+              <a class="fn-a ellipsis" style="max-width:112px;" @click="handleDetail(scope.row)" type="text">{{scope.row.loanBillNo}}</a>
+            </el-tooltip>
           </template>
         </el-table-column>
         <el-table-column prop="platName" label="所属平台名称"></el-table-column>
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column prop="orderStatusCn" label="案件状态"></el-table-column>
-        <el-table-column prop="createTime" label="订单提交时间"></el-table-column>
-        <el-table-column prop="processResult" label="处理结果"></el-table-column>
+        <el-table-column prop="createTime" label="订单提交时间">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.createTime" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.createTime}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column prop="processResult" label="处理结果">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.processResult" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.processResult}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button @click="handleReset(scope.row)" type="text">重新提交</el-button>

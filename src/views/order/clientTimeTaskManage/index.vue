@@ -56,7 +56,13 @@
           </template>
         </el-table-column>
         <el-table-column prop="busiCode" label="业务编码"></el-table-column>
-        <el-table-column prop="params" label="参数" width="280px"></el-table-column>
+        <el-table-column prop="params" label="参数" width="280px">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.params" placement="top-start">
+              <span class="ellipsis" style="max-width:259px;">{{scope.row.params}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column label="处理状态">
           <template slot-scope="scope">
             {{
@@ -66,7 +72,13 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="requireTime" label="请求时间"></el-table-column>
+        <el-table-column prop="requireTime" label="请求时间">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.requireTime" placement="top-start">
+              <span class="ellipsis" style="max-width:104px;">{{scope.row.requireTime}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <!-- 待处理 or 处理失败有 重发按钮 -->
