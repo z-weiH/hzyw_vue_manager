@@ -13,7 +13,7 @@
       </div>
       <div class="item-table">
         <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine">
-          <el-table-column label="操作" prop="orderStatusName" slot="defineCol" width="220">
+          <el-table-column label="操作" prop="orderStatusName" slot="defineCol" width="210">
             <template slot-scope="scope">
               <el-button
                 v-if="scope.row.custStatus == 10"  @click="doEdit(scope.row)">待提交</el-button>
@@ -95,6 +95,7 @@ export default {
           label: "企业名称",
           property: "custName",
           isLink: 1,
+          width: 100,
           linkShowPanel: row => {
             this.queryDetail(URL_JSON["editAccountApply"], {
               customerId: row.custId
@@ -106,11 +107,11 @@ export default {
             });
           }
         },
-        { label: "账户", property: "loginName" },
-        { label: "法定代表人", property: "legallerName" },
+        { label: "账户", property: "loginName", width: 130},
+        { label: "法定代表人", property: "legallerName" ,width: 110},
         { label: "联系人", property: "contactsName" },
-        { label: "联系电话", property: "contactsPhone" },
-        { label: "申请时间", property: "applicateTime" }
+        { label: "联系电话", property: "contactsPhone", width: 130},
+        { label: "申请时间", property: "applicateTime", width: 150}
       ],
       actions: [
         {

@@ -10,7 +10,7 @@
       </div>
       <div class="item-table">
         <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine">
-          <el-table-column label="操作" prop="orderStatusName" slot="defineCol"  width="220">
+          <el-table-column label="操作" prop="orderStatusName" slot="defineCol" >
             <template slot-scope="scope">
               <span v-if="scope.row.custStatus == 10">待提交</span>
               <span v-if="scope.row.custStatus == 11">待审核</span>
@@ -45,7 +45,6 @@
         queryUrl:  URL_JSON['queryAccountApply'],
         searchItems : [
           {type: 'text',placeholder: '请输入企业名称、账户', property: 'keyWords', colSpan: 6},
-
           {type: 'date',placeholder: '请输入开始时间', property: 'startTime', colSpan: 4, lt: 'endTime'},
           {type: 'date',placeholder: '请输入结束时间', property: 'endTime', colSpan: 4, gt: 'startTime'},
           // 10待提交11 待审核20待开户设置30待确认40开户成功41开户失败
@@ -69,11 +68,11 @@
                 }
               })
             }},
-          {label: '账户',property: 'loginName'},
-          {label: '法定代表人',property: 'legallerName'},
+          {label: '账户',property: 'loginName', width: 140},
+          {label: '法定代表人',property: 'legallerName',width: 120},
           {label: '联系人',property: 'contactsName'},
-          {label: '联系电话',property: 'contactsPhone'},
-          {label: '申请时间',property: 'applicateTime'},
+          {label: '联系电话',property: 'contactsPhone',width: 150},
+          {label: '申请时间',property: 'applicateTime',width: 160},
         ],
         actions: [
           {label: '操作',btns: [

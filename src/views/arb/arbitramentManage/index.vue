@@ -44,7 +44,7 @@
           { label: "仲裁委全称", property: "fullName" },
           { label: "仲裁委简称", property: "shortName" },
           { label: "联系人姓名", property: "linkman" },
-          { label: "接口地址", property: "url" }
+          { label: "接口地址", property: "url", width: 300 }
         ],
         actions: [
           {
