@@ -38,7 +38,7 @@
         searchItem: {},
         columnDefine: [
           {label: '菜单名称',property: 'menuName'},
-          {label: '菜单链接',property: 'menuUrl'},
+          {label: '菜单链接',property: 'menuUrl',width:'180'},
           {label: '父菜单',property: 'pMenuName'},
           {label: '菜单层级',property: 'menuDegreeCN'},
           {label: '菜单排序',property: 'menuSort'},
