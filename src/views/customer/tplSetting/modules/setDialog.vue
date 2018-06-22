@@ -157,7 +157,7 @@
           },
         }).then((res) => {
           // 客户基本信息
-          this.custInfo.merchantName = res.result.merchantName;
+          this.custInfo.merchantName = res.result.clientName;
           this.custInfo.legalPerson = res.result.legalPerson;
           this.custInfo.idcard = res.result.idcard;
           this.custInfo.accountNo = res.result.accountNo;

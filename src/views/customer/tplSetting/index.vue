@@ -29,10 +29,10 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-        <el-table-column prop="merchantName" label="客户名称">
+        <el-table-column prop="clientName" label="客户名称">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.merchantName" placement="top-start">
-              <span class="ellipsis" style="max-width:112px;">{{scope.row.merchantName}}</span>
+            <el-tooltip :content="scope.row.clientName" placement="top-start">
+              <span class="ellipsis" style="max-width:112px;">{{scope.row.clientName}}</span>
             </el-tooltip>
           </template>
         </el-table-column>
