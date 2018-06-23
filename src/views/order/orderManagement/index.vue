@@ -4,7 +4,7 @@
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入客户名称"></el-input>
+          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入借款单号"></el-input>
         </el-form-item>
 
         <el-form-item label=" " prop="merchantCode">
