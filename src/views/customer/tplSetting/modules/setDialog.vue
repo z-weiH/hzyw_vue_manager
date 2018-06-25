@@ -94,7 +94,7 @@
             <tr>
               <td colspan="5">
                 <el-button @click="handleEnable(index)" type="success">
-                  {{item.templateStatus === 1 ? '停用' : '启用'}}
+                  {{item.templateStatus === '1' ? '停用' : '启用'}}
                 </el-button>
               </td>
             </tr>
@@ -210,7 +210,7 @@
       // 点击 添加新产品
       handleNewProduct() {
         this.$refs.addProduct.show({
-          merchantCode : this.row.merchantCode,
+          clientCode : this.row.clientCode,
           templateId : this.row.templateId,
         });
       },

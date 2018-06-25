@@ -22,9 +22,9 @@
                       <el-option label="请选择" value=""></el-option>
                       <template v-for="(item,index) in productList">
                         <el-option 
-                          :key="item.prodId + '' + index" 
+                          :key="item.productId + '' + index" 
                           :label="item.prodName" 
-                          :value="item.prodId"
+                          :value="item.productId"
                         >
                         </el-option>
                       </template>
@@ -90,8 +90,8 @@
 
         // 产品 list
         productList : [
-          {prodName : '产品1' , prodId : '产品1'},
-          {prodName : '产品2' , prodId : '产品2'},
+          {prodName : '产品1' , productId : '产品1'},
+          {prodName : '产品2' , productId : '产品2'},
         ],
       }
     },
@@ -104,7 +104,7 @@
           method : 'post',
           url : '/tplsetting/queryProductInfoByMerchantCode.htm',
           data : {
-            merchantCode : data.merchantCode,
+            clientCode : data.clientCode,
           },
         }).then((res) => {
           this.productList = res.result;
