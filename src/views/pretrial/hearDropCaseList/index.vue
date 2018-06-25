@@ -147,7 +147,7 @@
             url : '/failedReason/batchIntegration.htm',
             mheaders : true,
             data : {
-              caseOrderId : (this.multipleSelection)
+              list : (this.multipleSelection)
             },
           }).then((res) => {
             this.$message.success('提交成功，请稍后查看结果');
