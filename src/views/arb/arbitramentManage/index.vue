@@ -30,7 +30,7 @@
     extends: Mixins,
     data() {
       return {
-        tableData: [{}],
+        tableData: [],
         searchItems: [
           {
             type: "text",

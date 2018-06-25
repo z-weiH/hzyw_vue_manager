@@ -25,9 +25,7 @@
     extends: Mixins,
     data () {
       return {
-        tableData: [
-          {}
-        ],
+        tableData: [],
         searchItems : [
           {type: 'text',placeholder: '请输入仲裁委名称', property: 'keyWords', colSpan: 6}
         ],
