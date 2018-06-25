@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tableEdits">
     <el-form :model="item" ref="tableEdits" :rules="rules">
 
     <table
