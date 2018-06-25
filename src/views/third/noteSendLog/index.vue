@@ -73,7 +73,7 @@
         rules : {},
         
         // 表格数据
-        tableData : [{},{}],
+        tableData : [],
         // 数据总数
         total : 11,
         // 当前页数
