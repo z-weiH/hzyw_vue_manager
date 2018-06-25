@@ -276,6 +276,7 @@
       }
     }
     .card{
+      overflow: hidden;
       width:1200px;
       border:1px solid #E5EAEE;
       background: #fff;

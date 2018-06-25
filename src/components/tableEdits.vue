@@ -17,7 +17,7 @@
                 <el-form-item label="" :prop="td.property">
                   <el-date-picker  v-if="td.type == 'date' | td.type == 'moment' | td.type == 'month'"  :format="td.baseFmat" :value-format="td.val_baseFmat ? td.val_baseFmat : 'yyyy-MM-dd'" v-model="item[td.property]" :type="td.type" :placeholder="td.placeholder"  :disabled="disabled || td.disabled" :readonly="td.readonly">
                   </el-date-picker>
-                  <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :type="td.type" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text' || td.type === 'number'"></el-input>
+                  <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :type="td.type" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text' || td.type === 'number'" @mousewheel='scrollFunc' @DOMMouseScroll="scrollFunc"></el-input>
                   <el-select clearable  @change="valueChange({label:td.property,value:item[td.property]})" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
                     <el-option
                       v-for="opt in td.options"
@@ -153,6 +153,20 @@ import {RULES} from "./script/rules";
       }
     },
     methods: {
+      scrollFunc(evt) { //取消滑轮的默认事件
+        evt = evt || window.event;
+        console.log(123);
+        if(evt.preventDefault) {
+          // Firefox
+          evt.preventDefault();
+          evt.stopPropagation();
+        } else {
+          // IE
+          evt.cancelBubble=true;
+          evt.returnValue = false;
+        }
+        return false;
+      },
       valueChange(obj) {
         this.$emit('valueChange', obj);
       },
