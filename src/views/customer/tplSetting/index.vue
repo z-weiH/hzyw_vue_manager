@@ -29,9 +29,27 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-        <el-table-column prop="merchantName" label="客户名称"></el-table-column>
-        <el-table-column prop="loginName" label="账户"></el-table-column>
-        <el-table-column prop="createTime" label="开户时间"></el-table-column>
+        <el-table-column prop="clientName" label="客户名称">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.clientName" placement="top-start">
+              <span class="ellipsis" style="max-width:112px;">{{scope.row.clientName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column prop="loginName" label="账户">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.loginName" placement="top-start">
+              <span class="ellipsis" style="max-width:112px;">{{scope.row.loginName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column prop="createTime" label="开户时间">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.createTime" placement="top-start">
+              <span class="ellipsis" style="max-width:112px;">{{scope.row.createTime}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="usingCount" label="启用数量"></el-table-column>
         <el-table-column prop="blockCount" label="停用数量"></el-table-column>
         <el-table-column prop="waitingCount" label="待处理数量"></el-table-column>
@@ -79,7 +97,7 @@
         },
 
         // 表格数据
-        tableData : [{},{}],
+        tableData : [],
         // 数据总数
         total : 11,
         // 当前页数

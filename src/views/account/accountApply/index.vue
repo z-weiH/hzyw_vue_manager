@@ -13,18 +13,18 @@
       </div>
       <div class="item-table">
         <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine">
-          <el-table-column label="操作" prop="orderStatusName" slot="defineCol" width="220">
+          <el-table-column label="操作" prop="orderStatusName" slot="defineCol" width="210">
             <template slot-scope="scope">
               <el-button
-                v-if="scope.row.custStatus == 10"  @click="doEdit(scope.row)">待提交</el-button>
+                v-if="scope.row.custStatus == 10" size="mini" @click="doEdit(scope.row)">待提交</el-button>
               <el-button
-                 v-if="scope.row.custStatus == 10"  @click="doDelete(scope.row)">删除</el-button>
+                 v-if="scope.row.custStatus == 10" size="mini" @click="doDelete(scope.row)">删除</el-button>
               <span v-if="scope.row.custStatus == 11">待审核</span>
               <span v-if="scope.row.custStatus == 20">待开户设置</span>
               <span v-if="scope.row.custStatus == 30">待确认</span>
               <span v-if="scope.row.custStatus == 40">开户成功</span>
               <el-button
-                 v-if="scope.row.custStatus == 41"  @click="doEdit(scope.row)">开户失败</el-button>
+                 v-if="scope.row.custStatus == 41" size="mini" @click="doEdit(scope.row)">开户失败</el-button>
               <!--<el-button-->
                 <!--size="mini"-->
                 <!--@click="showDailog(scope.row)" v-if="scope.row.custStatus == 10">{{scope.row.orderStatusName}}</el-button>-->
@@ -95,6 +95,7 @@ export default {
           label: "企业名称",
           property: "custName",
           isLink: 1,
+          width: 100,
           linkShowPanel: row => {
             this.queryDetail(URL_JSON["editAccountApply"], {
               customerId: row.custId
@@ -106,11 +107,11 @@ export default {
             });
           }
         },
-        { label: "账户", property: "loginName" },
-        { label: "法定代表人", property: "legallerName" },
+        { label: "账户", property: "loginName", width: 130},
+        { label: "法定代表人", property: "legallerName" ,width: 110},
         { label: "联系人", property: "contactsName" },
-        { label: "联系电话", property: "contactsPhone" },
-        { label: "申请时间", property: "applicateTime" }
+        { label: "联系电话", property: "contactsPhone", width: 130},
+        { label: "申请时间", property: "applicateTime", width: 150}
       ],
       actions: [
         {

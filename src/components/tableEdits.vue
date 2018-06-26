@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tableEdits">
     <el-form :model="item" ref="tableEdits" :rules="rules">
 
     <table
@@ -17,7 +17,7 @@
                 <el-form-item label="" :prop="td.property">
                   <el-date-picker  v-if="td.type == 'date' | td.type == 'moment' | td.type == 'month'"  :format="td.baseFmat" :value-format="td.val_baseFmat ? td.val_baseFmat : 'yyyy-MM-dd'" v-model="item[td.property]" :type="td.type" :placeholder="td.placeholder"  :disabled="disabled || td.disabled" :readonly="td.readonly">
                   </el-date-picker>
-                  <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" :type="td.type" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text' || td.type === 'number'"></el-input>
+                  <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" type="text" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text' || td.type === 'number'" @mousewheel='scrollFunc' @DOMMouseScroll="scrollFunc"></el-input>
                   <el-select clearable  @change="valueChange({label:td.property,value:item[td.property]})" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
                     <el-option
                       v-for="opt in td.options"
@@ -41,7 +41,7 @@
                 <span>{{td.content}}</span>
               </td>
               <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'img'">
-                <img class="table_img" v-bind:src="item[td.property]" alt="">
+                <img :class="{'img-pointer':item[td.property]}" @click="HandleImgClick(item[td.property])" class="table_img" v-bind:src="item[td.property]" alt="">
               </td>
             </template>
           </template>
@@ -118,7 +118,9 @@ import {RULES} from "./script/rules";
           if(it.rule && typeof it.rule === 'string'){
             let ruleKeys = it.rule.split(',');
             let rules = [];
-
+            if(it.type === 'number'){
+              rules.push({required : false , pattern : /^\d*$/ , message : '必须输入数字',trigger:'blur'});
+            }
             ruleKeys.forEach( ii => {
               if(it.type === 'select'){
                 RULES[ii].trigger = 'change';
@@ -153,6 +155,25 @@ import {RULES} from "./script/rules";
       }
     },
     methods: {
+      HandleImgClick(src) {
+        if(src){
+          window.open(src, "_blank");
+        }
+      },
+      scrollFunc(evt) { //取消滑轮的默认事件
+        evt = evt || window.event;
+        console.log(123);
+        if(evt.preventDefault) {
+          // Firefox
+          evt.preventDefault();
+          evt.stopPropagation();
+        } else {
+          // IE
+          evt.cancelBubble=true;
+          evt.returnValue = false;
+        }
+        return false;
+      },
       valueChange(obj) {
         this.$emit('valueChange', obj);
       },
@@ -202,15 +223,7 @@ import {RULES} from "./script/rules";
 td {
   border: 1px solid #ebeef5;
 }
+  img.img-pointer{
+    cursor: pointer;
+  }
 </style>
-Accept: */*
-Accept-Encoding: gzip, deflate, br
-Accept-Language: zh-CN,zh;q=0.9
-Connection: keep-alive
-Content-Length: 58603
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryT70pcUladrz2THsx
-Cookie: _ga=GA1.1.366899317.1525409895; io=VTcwb0hyQ34ob0svAAAI
-Host: localhost:8080
-Origin: http://localhost:8080
-Referer: http://localhost:8080/
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36

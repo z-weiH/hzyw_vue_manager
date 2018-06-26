@@ -81,7 +81,20 @@ export default {
               {label: '12个月', value: '12'},
             ],hidden: () => {
               return this.item.giftTicket && this.item.giftTicket != 0;
-            }},
+            },
+            rule: [
+              {
+                validator: (rule, value, callback) => {
+                  if(this.item.giftTicket && this.item.giftTicket != 0 && !value){
+                    callback(new Error("不能为空"))
+                  }
+                  else {
+                    callback();
+                  }
+                }
+              }
+            ]
+          },
         ]
       },
         {
@@ -126,7 +139,7 @@ export default {
       this.item.ticketAmount = this.item.ticketCount * 10;
     },
     handleArriveChange() {
-      if(this.item.ticketAmount && this.item.caseAmount && this.item.serveAmount ){
+      if(!isNaN(+this.item.ticketAmount) && !isNaN(+this.item.caseAmount) && !isNaN(+this.item.serveAmount) ){
         this.item.arrivalAmt = (+this.item.ticketAmount) + (+this.item.caseAmount) + (+this.item.serveAmount);
       }
     },

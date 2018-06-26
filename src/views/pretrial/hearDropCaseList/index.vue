@@ -51,7 +51,7 @@
         <el-table-column prop="caseOrderId" label="案件订单编号"></el-table-column>
         <el-table-column prop="clientName" label="互金企业"></el-table-column>
         <el-table-column prop="productName" label="产品名称"></el-table-column>
-        <el-table-column prop="pushDay" label="推送时间"></el-table-column>
+        <el-table-column prop="pushDay" label="推送时间" width="160px"></el-table-column>
         <el-table-column prop="amtCase" label="状态">
           <template slot-scope="scope">
             {{
@@ -108,7 +108,7 @@
         multipleSelection : [],
 
         // 表格数据
-        tableData : [{},{}],
+        tableData : [],
         // 数据总数
         total : 11,
         // 当前页数
@@ -147,7 +147,7 @@
             url : '/failedReason/batchIntegration.htm',
             mheaders : true,
             data : {
-              caseOrderId : (this.multipleSelection)
+              list : (this.multipleSelection)
             },
           }).then((res) => {
             this.$message.success('提交成功，请稍后查看结果');

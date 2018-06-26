@@ -46,13 +46,27 @@
         </el-table-column>
         <el-table-column prop="name" label="客户名称">
           <template slot-scope="scope">
-            <span class="fn-a" @click="handleDetail(scope.row)">{{scope.row.name}}</span>
+            <el-tooltip :content="scope.row.name" placement="top-start">
+              <span class="fn-a ellipsis" style="max-width:108px;" @click="handleDetail(scope.row)">{{scope.row.name}}</span>
+            </el-tooltip>
           </template>
         </el-table-column>
         <el-table-column prop="phone" label="手机号码"></el-table-column>
-        <el-table-column prop="email" label="电子邮件"></el-table-column>
+        <el-table-column prop="email" label="电子邮件">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.email" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.email}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="fullName" label="所属仲裁委"></el-table-column>
-        <el-table-column prop="createTime" label="开户时间"></el-table-column>
+        <el-table-column prop="createTime" label="开户时间">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.createTime" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.createTime}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column label="状态">
           <template slot-scope="scope">
             {{scope.row.isSigned === 0 ? '未签约' : '已签约'}}
@@ -114,7 +128,7 @@
         },
 
         // 表格数据
-        tableData : [{fullName : '张三'}],
+        tableData : [],
         // 数据总数
         total : 11,
         // 当前页数

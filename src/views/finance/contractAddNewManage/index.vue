@@ -55,7 +55,7 @@
         <el-table-column prop="merchantName" label="签约客户" width="95px">
           <template slot-scope="scope">
             <el-tooltip :content="scope.row.merchantName" placement="top-start">
-              <span class="ellipsis">{{scope.row.merchantName}}</span>
+              <span class="ellipsis" style="max-width:74px;">{{scope.row.merchantName}}</span>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -126,7 +126,7 @@
         },
 
         // 表格数据
-        tableData : [{fullName : '张三'}],
+        tableData : [],
         // 数据总数
         total : 11,
         // 当前页数

@@ -48,12 +48,12 @@
           </el-col>
         </el-row>
       </div>
-      <div class="ourInfo" v-if="item.reasonMsgList && item.reasonMsgList.length > 0">
+      <div class="ourInfo" v-if="item.list && item.list.length > 0">
         <div class="baseInfo_title title">
           整合失败原因：
         </div>
-        <ul>
-          <li v-for="(reason,index) in item.reasonMsgList" :key="index">{{reason.reasonMsg}}</li>
+        <ul class="reason_ul">
+          <li v-for="(reason,index) in item.list" :key="index">{{index + 1}}.{{reason.reasonMsg}}</li>
         </ul>
       </div>
 
@@ -96,7 +96,7 @@
         this.$confirm('确定开始整合？', '提示', {
           center: true,
         }).then(res => {
-          this.$http.post('/failedReason/oneIntegration.htm',{caseOrderId: this.item.caseOrderId, type:this.$route.query.type}).then(r => {
+          this.$http.post('failedReason/batchIntegration.htm',{list: [{caseOrderId:this.item.caseOrderId}]},{mheaders: true}).then(r => {
             if(r.code === '0000'){
               this.$message.success(r.description);
             }
@@ -143,6 +143,15 @@
       line-height: 50px;
       margin-top: 20px;
       padding-left: 20px;
+      &::before{
+        content : '';
+        display: inline-block;
+        width: 3px;
+        height: 16px;
+        background-color: #0F357F;
+        margin-right: 1px;
+        line-height: 50px;
+      }
     }
   }
   .message{
@@ -157,6 +166,14 @@
       width: 100px;
       text-align: left;
       color: #7A7A7A;
+    }
+  }
+  .reason_ul{
+    padding: 0 20px 10px 20px;
+    li{
+      color: #666;
+      font-size: 16px;
+      line-height: 24px;
     }
   }
 </style>

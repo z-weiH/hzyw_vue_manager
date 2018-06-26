@@ -65,7 +65,7 @@
                 </td>
                 <td colspan="1">
                   <el-form-item label=" " prop="preCaseAmt">
-                    <el-input type="number" v-model="ruleForm.preCaseAmt" placeholder="请输入预缴受理费" />
+                    <el-input v-model="ruleForm.preCaseAmt" placeholder="请输入预缴受理费" />
                   </el-form-item>
                 </td>
               </tr>
@@ -76,7 +76,7 @@
                 </td>
                 <td colspan="1">
                   <el-form-item label=" " prop="preCaseTicket">
-                    <el-input type="number" v-model="ruleForm.preCaseTicket" placeholder="请输入充值仲券" />
+                    <el-input v-model="ruleForm.preCaseTicket" placeholder="请输入充值仲券" />
                   </el-form-item>
                 </td>
                 <td colspan="1">
@@ -84,7 +84,7 @@
                 </td>
                 <td colspan="1">
                   <el-form-item label=" " prop="preTicketAmt">
-                    <el-input type="number" :disabled="true" v-model="ruleForm.preTicketAmt" placeholder="请输入仲券金额" />
+                    <el-input :disabled="true" v-model="ruleForm.preTicketAmt" placeholder="请输入仲券金额" />
                   </el-form-item>
                 </td>
               </tr>
@@ -95,7 +95,7 @@
                 </td>
                 <td colspan="1">
                   <el-form-item label=" " prop="preGiftTicket">
-                    <el-input type="number" v-model="ruleForm.preGiftTicket" placeholder="请输入赠送仲券" />
+                    <el-input v-model="ruleForm.preGiftTicket" placeholder="请输入赠送仲券" />
                   </el-form-item>
                 </td>
                 <td colspan="1">
@@ -128,7 +128,7 @@
                 </td>
                 <td colspan="1">
                   <el-form-item label=" " prop="preServiceAmt">
-                    <el-input type="number" v-model="ruleForm.preServiceAmt" placeholder="请输入技术服务费" />
+                    <el-input v-model="ruleForm.preServiceAmt" placeholder="请输入技术服务费" />
                   </el-form-item>
                 </td>
                 <td colspan="2"></td>
@@ -340,7 +340,7 @@
                       :prop="`orderDetailList[${index}].addTicket`"
                       :rules="rules.addTicket"
                     >
-                      <el-input type="number" @input.native="handleAddTicket(item,index)" v-model="item.addTicket" placeholder="请输入添加仲券" />
+                      <el-input @input.native="handleAddTicket(item,index)" v-model="item.addTicket" placeholder="请输入添加仲券" />
                     </el-form-item>
                   </td>
                   <td colspan="1">仲券金额（元）：</td>
@@ -361,7 +361,7 @@
                       :prop="`orderDetailList[${index}].addAmt`"
                       :rules="rules.addAmt"
                     >
-                      <el-input type="number" @input.native="handleComputedArrivalAmt(item,index)" v-model="item.addAmt" placeholder="请输入添加受理费" />
+                      <el-input @input.native="handleComputedArrivalAmt(item,index)" v-model="item.addAmt" placeholder="请输入添加受理费" />
                     </el-form-item>
                   </td>
                   <td colspan="1">技术服务费（元）：</td>
@@ -370,7 +370,7 @@
                       :prop="`orderDetailList[${index}].addService`"
                       :rules="rules.addService"
                     >
-                      <el-input type="number" @input.native="handleComputedArrivalAmt(item,index)" v-model="item.addService" placeholder="请输入技术服务费" />
+                      <el-input @input.native="handleComputedArrivalAmt(item,index)" v-model="item.addService" placeholder="请输入技术服务费" />
                     </el-form-item>
                   </td>
                 </tr>
@@ -382,7 +382,7 @@
                       :prop="`orderDetailList[${index}].addGiftTicket`"
                       :rules="rules.addGiftTicket"
                     >
-                      <el-input type="number" @input.native="handleAddGiftTicket(item,index)" v-model="item.addGiftTicket" placeholder="请输入赠送仲券" />
+                      <el-input @input.native="handleAddGiftTicket(item,index)" v-model="item.addGiftTicket" placeholder="请输入赠送仲券" />
                     </el-form-item>
                   </td>
                   <td colspan="1">赠券有效期：</td>

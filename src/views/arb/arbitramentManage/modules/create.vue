@@ -6,7 +6,7 @@
     @open="resetForm"
     width="495px"
     center>
-    <edits ref="edits" :edit-items="createItems" :item="item" :label-width="'100px'"></edits>
+    <edits ref="edits" :edit-items="createItems" :item="item" :label-width="'120px'"></edits>
     <span slot="footer" class="dialog-footer">
           <el-button @click="$parent.editState = 0">取 消</el-button>
           <el-button type="primary"  @click="save">确 定</el-button>
@@ -32,8 +32,8 @@ export default {
         {type: 'text', property:'arbName', label: '仲裁委全称', placeholder: '仲裁委全称',rule:'require'},
         {type: 'text', property:'shortName', label: '仲裁委简称', placeholder: '仲裁委简称',rule:'require'},
         {type: 'text', property:'linkman', label: '联系人姓名', placeholder: '联系人姓名',rule:'require'},
-        {type: 'text', property:'phone', label: '联系人手机', placeholder: '联系人手机',rule:'require'},
-        {type: 'text', property:'email', label: '联系人邮箱', placeholder: '联系人邮箱',rule:'require'},
+        {type: 'text', property:'phone', label: '联系人手机', placeholder: '联系人手机',rule:'require,phone'},
+        {type: 'text', property:'email', label: '联系人邮箱', placeholder: '联系人邮箱',rule:'require,email'},
         {type: 'text', property:'url', label: '接口链接地址', placeholder: '接口链接地址',rule:'require'},
         {type: 'textarea', property:'remark', label: '备注信息', placeholder: '备注信息',rule:'require'},
       ]

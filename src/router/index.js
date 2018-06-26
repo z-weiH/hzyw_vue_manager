@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+import { Message } from 'element-ui'
+
 // 进度条
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
@@ -698,10 +700,15 @@ router.beforeEach((to, from, next) => {
           next();
         } else {
           console.log('该用户 没有权限', from);
+          Message({
+            type : 'warning',
+            message : '没有权限访问',
+          });
           router.replace('/404');
         }
+      // 当前未登录
       } catch (err) {
-        router.replace('/login');
+        router.replace(`/login?returnUrl=${router.history.pending.path}`);
       }
     }
     

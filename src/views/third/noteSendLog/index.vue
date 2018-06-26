@@ -37,7 +37,7 @@
         </el-table-column>
         <el-table-column prop="phone" label="手机号"></el-table-column>
         <el-table-column prop="status" label="发送结果"></el-table-column>
-        <el-table-column prop="createTime" label="发送时间"></el-table-column>
+        <el-table-column prop="createTime" label="发送时间" width="160px"></el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -73,7 +73,7 @@
         rules : {},
         
         // 表格数据
-        tableData : [{},{}],
+        tableData : [],
         // 数据总数
         total : 11,
         // 当前页数

@@ -92,7 +92,7 @@
         <el-table-column prop="dayOverDue" label="逾期天数" width="150px"></el-table-column>
         <el-table-column prop="pushTime" label="推送时间" width="150px"></el-table-column>
         <el-table-column prop="finishDate" label="预审完成时间" width="150px"></el-table-column>
-        <el-table-column prop="status" label="状态" width="150px">
+        <el-table-column fixed="right" align="center" prop="status" label="状态" width="150px">
           <template slot-scope="scope">
             {{
               
@@ -155,7 +155,7 @@
         rules : {},
 
         // 表格数据
-        tableData : [{},{}],
+        tableData : [],
         // 数据总数
         total : 11,
         // 当前页数

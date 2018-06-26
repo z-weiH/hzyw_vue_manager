@@ -94,7 +94,7 @@
             <tr>
               <td colspan="5">
                 <el-button @click="handleEnable(index)" type="success">
-                  {{item.templateStatus === 1 ? '停用' : '启用'}}
+                  {{item.templateStatus === '1' ? '停用' : '启用'}}
                 </el-button>
               </td>
             </tr>
@@ -157,7 +157,7 @@
           },
         }).then((res) => {
           // 客户基本信息
-          this.custInfo.merchantName = res.result.merchantName;
+          this.custInfo.merchantName = res.result.clientName;
           this.custInfo.legalPerson = res.result.legalPerson;
           this.custInfo.idcard = res.result.idcard;
           this.custInfo.accountNo = res.result.accountNo;
@@ -210,7 +210,7 @@
       // 点击 添加新产品
       handleNewProduct() {
         this.$refs.addProduct.show({
-          merchantCode : this.row.merchantCode,
+          clientCode : this.row.clientCode,
           templateId : this.row.templateId,
         });
       },

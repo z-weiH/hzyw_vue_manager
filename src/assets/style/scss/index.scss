@@ -118,7 +118,6 @@ body {
     overflow: hidden!important;
     text-overflow: ellipsis!important;
     white-space: nowrap!important;
-    max-width: 100%;
     display: inline-block;
   }
   /* 隐藏 */
@@ -456,5 +455,17 @@ body{
   .el-date-editor.el-input,
   .el-date-editor.el-input__inner{
     width: 100%;
+  }
+}
+
+
+input{
+  line-height: 1;
+}
+
+
+.tableEdits{
+  .el-form-item{
+    margin-bottom: 0;
   }
 }

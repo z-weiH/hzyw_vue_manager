@@ -253,7 +253,12 @@
                 </td>
                 <td colspan="1">身份证号：</td>
                 <td colspan="1">
-                  <el-form-item label=" " prop="idcard">
+                  <el-form-item label=" " prop="idcard"
+                    :rules="[
+                      {required : true , message : '请输入' , trigger : 'blur'},
+                      {pattern : reg.certificate , message : '身份证号格式有误', trigger : 'blur'},
+                    ]"
+                  >
                     <el-input placeholder="请输入身份证号" v-model="ruleForm.idcard"></el-input>
                   </el-form-item>
                 </td>
@@ -387,12 +392,14 @@
 
 <script>
   import addEvidenceDialog from './addEvidenceDialog.vue'
+  import reg from '@/assets/js/regexp'
 
   export default {
     components : {addEvidenceDialog},
     data() {
       return {
         dialogVisible : false,
+        reg : reg,
 
         ruleForm : {
           // 申请人
@@ -497,10 +504,12 @@
           // 手机号
           phone : [
             {required : true , message : '请输入手机号' , trigger : 'blur'},
+            {pattern : reg.tel , message : '手机号格式有误' , trigger : 'blur'},
           ],
           // 电子邮箱
           email : [
             {required : true , message : '请输入电子邮箱' , trigger : 'blur'},
+            {pattern : reg.email , message : '电子邮箱格式有误' , trigger : 'blur'},
           ],
           // 身份证号 or 社会唯一信用代码
           idcard : [
