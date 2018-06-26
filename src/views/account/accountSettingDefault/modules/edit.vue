@@ -62,6 +62,25 @@ export default {
           {label: '添加受理费（元）：', type: 'text', placeholder: '请输入添加受理费',columns:1,property: 'caseAmount'},
           {label: '技术服务费（元）：', type: 'text', placeholder: '请输入技术服务费',columns:1,property: 'serveAmount'},
           {label: '赠送仲券（张）：', type: 'text', placeholder: '请输入赠送仲券',columns:1,property: 'giftTicket'},
+          {
+            label: '赠券有效期 ：', type: 'select', placeholder: '请选择赠券有效期', columns: 1, property: 'giftPeriod', options: [
+              {label: '请选择赠券有效期', value: ''},
+              {label: '1个月', value: 1},
+              {label: '2个月', value: 2},
+              {label: '3个月', value: 3},
+              {label: '4个月', value: 4},
+              {label: '5个月', value: 5},
+              {label: '6个月', value: 6},
+              {label: '7个月', value: 7},
+              {label: '8个月', value: 8},
+              {label: '9个月', value: 9},
+              {label: '10个月', value:10},
+              {label: '11个月', value: 11},
+              {label: '12个月', value: 12},
+            ], hidden: () => {
+              return this.item.giftTicket && this.item.giftTicket != 0;
+            }
+          }
         ]
       },
         {
