@@ -4,15 +4,20 @@
       <div class="header">
         <el-row>
           <el-col :span="3">
-            <span class="header_title">预审完成</span>
+            <span class="header_title">案件复审</span>
           </el-col>
-          <el-col :span="4">
-            <el-checkbox-group v-model="auditStatusList" class="mt-30">
+          <el-col :span="6">
+            <!-- <el-checkbox-group v-model="auditStatusList" class="mt-30">
               <el-checkbox class="header_checkbox" checked label="已通过"></el-checkbox>
               <el-checkbox class="header_checkbox" checked label="未通过"></el-checkbox>
-            </el-checkbox-group>
+            </el-checkbox-group> -->
+            <el-radio-group v-model="auditStatus" class="mt-30">
+              <el-radio :label="0">全部</el-radio>
+              <el-radio :label="1">已通过</el-radio>
+              <el-radio :label="2">未通过</el-radio>
+            </el-radio-group>
           </el-col>
-          <el-col :span="17">
+          <el-col :span="15">
             <el-button type="primary" class="fr mr-10 mt-20">通过</el-button>
             <el-button class="fr mr-10 mt-20">退回</el-button>
           </el-col>
@@ -27,10 +32,10 @@
               <span class="f_14">1</span>/<span class="f_14">100</span>
               <span>王小二</span>与<span>张三封</span>的借款合同纠纷
               <span class="ico_group">
-                            <i class="ico_idcard right"></i>
-                            <i class="ico_edit wrong"></i>
-                            <i class="ico_computer wrong"></i>
-                          </span>
+                              <i class="ico_idcard right"></i>
+                              <i class="ico_edit wrong"></i>
+                              <i class="ico_computer wrong"></i>
+                            </span>
             </div>
           </el-col>
           <el-col :span="12">
@@ -137,7 +142,7 @@
 
     <!-- 左右分页 tool -->
     <div class="fix_screen">
-      <span class="arrow_left"></span><span class="arrow_right"></span>
+      <span class="arrow_left" @click="gotoPrevPage"></span><span class="arrow_right" @click="gotoNextPage"></span>
     </div>
     <!-- ** -->
   </div>
@@ -146,37 +151,75 @@
 <script>
 import PicZoom from "vue-piczoom";
 import scrollY from "@/components/scroll-y";
+import { URL_JSON } from "../../../components/script/url_json";
 export default {
   data() {
     return {
       auditStatusList: ["1", "2"],
-      scrollList:[
+      auditStatus: 0,
+      subBatchNo: "",
+      currentNum: 1,
+      scrollList: [
         {
-          name:'借款协议'
+          name: "借款协议"
         },
         {
-          name:'借款咨询服务协议'
+          name: "借款咨询服务协议"
         },
         {
-          name:'收款证明单'
+          name: "收款证明单"
         },
         {
-          name:'打款凭证'
+          name: "打款凭证"
         },
         {
-          name:'债权转让协议'
+          name: "债权转让协议"
         },
         {
-          name:'债转通知'
-        },
+          name: "债转通知"
+        }
       ]
     };
   },
   methods: {
-    scrollbarClick(){
-
+    scrollbarClick() {},
+    gotoPrevPage() {
+      if (this.currentNum != 1) {
+        this.currentNum--;
+        this.getRecheckDetail();
+      }else{
+        this.$message.warning('已经是第一条数据了！');
+      }
+    },
+    gotoNextPage() {
+      if (this.currentNum != 100) {
+        //获取分页最大值做比较
+        this.currentNum++;
+        this.getRecheckDetail();
+      }else{
+        this.$message.warning('已经是最后一条数据了！');
+      }
+    },
+    getRecheckDetail() {
+      this.$http
+        .post(URL_JSON["queryRecheckDetailView"], {
+          pageSize: 1,
+          currentNum: this.currentNum,
+          subBatchId: this.subBatchId,
+          auditStatus: this.auditStatus
+        })
+        .then(res => {
+          console.log("detail>>>", res.result);
+        });
     }
   },
+  mounted() {
+    console.log("---", this.$route.query.subBatchId);
+    this.subBatchId = this.$route.query.subBatchId;
+    this.auditStatus = 0;
+    this.getRecheckDetail();
+  },
+  created() {},
   components: {
     PicZoom,
     scrollY
@@ -467,7 +510,6 @@ $themeColor: #193b8c;
 
 .applybook_body {
   @extend %_themainPadding;
-
   .applybook_title {
     font-size: 17px;
     color: $themeColor;
@@ -501,7 +543,6 @@ $themeColor: #193b8c;
       }
     }
   }
-
   .applybook_content {
     padding-right: 30px;
     .article_left,

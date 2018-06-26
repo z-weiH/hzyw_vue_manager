@@ -73,8 +73,8 @@
           </ul>
         </el-col>
         <el-col :span="2">
-          <span v-if="opts.batchStatus == 1" class="btn_link" @click="gotoSmallTs(row)">审核</span>
-          <span v-if="opts.batchStatus == 3" class="btn_link" @click="gotoSmallTs(row)">查看</span>
+          <span v-if="opts.batchStatus == 1" class="btn_link" @click="gotoSmallTs(opts)">审核</span>
+          <span v-if="opts.batchStatus == 3" class="btn_link" @click="gotoSmallTs(opts)">查看</span>
         </el-col>
       </el-row>
     </div>
@@ -338,12 +338,13 @@ export default {
       if (item) return item.label;
       return "--";
     },
-    gotoSmallTs(row) {
+    gotoSmallTs(opts) {
+      console.log('opts::',opts);
       // 小批次查看与审核
       let routeData = this.$router.resolve({
         path: "/redoHearChildDetail",
         query: {
-          id: "id"
+          subBatchId: opts.subBatchNo
         }
       });
       window.open(routeData.href, "_blank");

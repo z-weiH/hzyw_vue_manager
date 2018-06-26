@@ -59,30 +59,35 @@ export default {
               label: "企业账户",
               type: "text",
               columns: 1,
+              disabled: "disabled",
               property: "companyAccount"
             },
             {
               label: "企业开户时间",
               type: "date",
               columns: 1,
+              disabled: "disabled",
               property: "companyOpenTime"
             },
             {
               label: "企业累计充值（元）",
               type: "text",
               columns: 1,
+              disabled: "disabled",
               property: "chargeTotal"
             },
             {
               label: "企业年营业额（万元）",
               type: "text",
               columns: 1,
+              disabled: "disabled",
               property: "busiAmount"
             },
             {
               label: "累计赠送（张）",
               type: "text",
               columns: 1,
+              disabled: "disabled",
               property: "giftTotal"
             }
           ]
