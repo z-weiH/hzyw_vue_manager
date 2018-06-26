@@ -216,8 +216,8 @@
 
     methods: {
       saveAndcommit(type) {
-        if (!this.item.apprerResult && this.item.apprerResult !== 0) {
-          this.$message.error("请输入审批原因");
+        if (!this.item.apprerResult && type === 0) {
+          this.$message.warning("请输入审批原因");
         } else
           this.$http
           .post(URL_JSON["saveZticketDonateManage"], {

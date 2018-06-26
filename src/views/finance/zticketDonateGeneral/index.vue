@@ -150,6 +150,7 @@ export default {
       }).then(res => {
         if (res.code) {
           // this.applyZticketView();
+          res.result.ticketId = row.ticketId;
           this.editState = type;
           this.$refs.settingDlg.item = res.result;
           console.log("type::", type);
