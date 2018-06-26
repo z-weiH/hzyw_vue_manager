@@ -41,7 +41,7 @@
                 <span>{{td.content}}</span>
               </td>
               <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'img'">
-                <img class="table_img" v-bind:src="item[td.property]" alt="">
+                <img :class="{'img-pointer':item[td.property]}" @click="HandleImgClick(item[td.property])" class="table_img" v-bind:src="item[td.property]" alt="">
               </td>
             </template>
           </template>
@@ -153,6 +153,11 @@ import {RULES} from "./script/rules";
       }
     },
     methods: {
+      HandleImgClick(src) {
+        if(src){
+          window.open(src, "_blank");
+        }
+      },
       scrollFunc(evt) { //取消滑轮的默认事件
         evt = evt || window.event;
         console.log(123);
@@ -216,15 +221,7 @@ import {RULES} from "./script/rules";
 td {
   border: 1px solid #ebeef5;
 }
+  img.img-pointer{
+    cursor: pointer;
+  }
 </style>
-Accept: */*
-Accept-Encoding: gzip, deflate, br
-Accept-Language: zh-CN,zh;q=0.9
-Connection: keep-alive
-Content-Length: 58603
-Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryT70pcUladrz2THsx
-Cookie: _ga=GA1.1.366899317.1525409895; io=VTcwb0hyQ34ob0svAAAI
-Host: localhost:8080
-Origin: http://localhost:8080
-Referer: http://localhost:8080/
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36
