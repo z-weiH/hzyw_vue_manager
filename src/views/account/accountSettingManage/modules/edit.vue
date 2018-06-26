@@ -139,7 +139,7 @@ export default {
       this.item.ticketAmount = this.item.ticketCount * 10;
     },
     handleArriveChange() {
-      if(this.item.ticketAmount && this.item.caseAmount && this.item.serveAmount ){
+      if(!isNaN(+this.item.ticketAmount) && !isNaN(+this.item.caseAmount) && !isNaN(+this.item.serveAmount) ){
         this.item.arrivalAmt = (+this.item.ticketAmount) + (+this.item.caseAmount) + (+this.item.serveAmount);
       }
     },
