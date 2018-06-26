@@ -52,7 +52,7 @@
                 </td>
                 <td colspan="1">
                   <el-form-item label=" " prop="merchantCode">
-                    <el-select v-model="ruleForm.merchantCode" placeholder="请选择">
+                    <el-select ref="merchantCode" v-model="ruleForm.merchantCode" placeholder="请选择">
                       <el-option label="请选择" value=""></el-option>
                       <template v-for="(item,index) in merchantOptions">
                         <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
@@ -982,7 +982,7 @@
           });
           sendObj.orderDetailList = (this.ruleForm.orderDetailList);
           sendObj.orderId = '';
-
+          sendObj.merchantName = this.$refs.merchantCode.selectedLabel;
         // 编辑
         }else if(type === 'edit'){
           sendUrl = '/contractOrder/saveContractOrderInfo.htm';
