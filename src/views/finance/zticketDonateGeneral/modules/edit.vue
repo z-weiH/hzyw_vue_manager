@@ -51,7 +51,7 @@ export default {
               type: "select",
               columns: 1,
               property: "merchantCode",
-              options: this.companyList,
+              //options: [{merchantName : '1' ,code : '2'}],
               labelfield: "merchantName",
               valuefield: "code"
             },
