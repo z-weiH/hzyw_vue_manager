@@ -81,7 +81,20 @@ export default {
               {label: '12个月', value: '12'},
             ],hidden: () => {
               return this.item.giftTicket && this.item.giftTicket != 0;
-            }},
+            },
+            rule: [
+              {
+                validator: (rule, value, callback) => {
+                  if(this.item.giftTicket && this.item.giftTicket != 0 && !value){
+                    callback(new Error("不能为空"))
+                  }
+                  else {
+                    callback();
+                  }
+                }
+              }
+            ]
+          },
         ]
       },
         {

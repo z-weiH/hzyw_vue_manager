@@ -16,15 +16,15 @@
           <el-table-column label="操作" prop="orderStatusName" slot="defineCol" width="210">
             <template slot-scope="scope">
               <el-button
-                v-if="scope.row.custStatus == 10"  @click="doEdit(scope.row)">待提交</el-button>
+                v-if="scope.row.custStatus == 10" size="mini" @click="doEdit(scope.row)">待提交</el-button>
               <el-button
-                 v-if="scope.row.custStatus == 10"  @click="doDelete(scope.row)">删除</el-button>
+                 v-if="scope.row.custStatus == 10" size="mini" @click="doDelete(scope.row)">删除</el-button>
               <span v-if="scope.row.custStatus == 11">待审核</span>
               <span v-if="scope.row.custStatus == 20">待开户设置</span>
               <span v-if="scope.row.custStatus == 30">待确认</span>
               <span v-if="scope.row.custStatus == 40">开户成功</span>
               <el-button
-                 v-if="scope.row.custStatus == 41"  @click="doEdit(scope.row)">开户失败</el-button>
+                 v-if="scope.row.custStatus == 41" size="mini" @click="doEdit(scope.row)">开户失败</el-button>
               <!--<el-button-->
                 <!--size="mini"-->
                 <!--@click="showDailog(scope.row)" v-if="scope.row.custStatus == 10">{{scope.row.orderStatusName}}</el-button>-->
