@@ -26,7 +26,7 @@
                   <el-select style="width:100%" v-model="ruleForm.arbId" placeholder="请选择">
                     <el-option label="请选择" value=""></el-option>
                     <template v-for="(item,index) in arbOptions">
-                      <el-option :key="item.arbId + index" :label="item.fullName" :value="item.arbId"></el-option>
+                      <el-option :key="item.arbId + index" :label="item.arbName" :value="item.arbId"></el-option>
                     </template>
                   </el-select>
                 </el-form-item>
@@ -93,7 +93,12 @@
                 </td>
                 <td colspan="1">身份证号：</td>
                 <td colspan="1">
-                  <el-form-item label=" " prop="idcard">
+                  <el-form-item label=" " prop="idcard"
+                    :rules="[
+                      {required : true , message : '请输入' , trigger : 'blur'},
+                      {pattern : reg.certificate , message : '身份证号格式有误', trigger : 'blur'},
+                    ]"
+                  >
                     <el-input placeholder="请输入身份证号" v-model="ruleForm.idcard"></el-input>
                   </el-form-item>
                 </td>
@@ -317,12 +322,14 @@
 </template>
 
 <script>
+  import reg from '@/assets/js/regexp'
   export default {
     data() {
       return {
         dialogVisible : false,
         title : '',
         type : 'add',
+        reg : reg,
 
         ruleForm : {
           // 选择仲裁委
@@ -382,10 +389,12 @@
           // 手机号
           phone : [
             {required : true , message : '请输入手机号' , trigger : 'blur'},
+            {pattern : reg.tel , message : '手机号格式有误' , trigger : 'blur'},
           ],
           // 电子邮箱
           email : [
             {required : true , message : '请输入电子邮箱' , trigger : 'blur'},
+            {pattern : reg.email , message : '电子邮箱格式有误' , trigger : 'blur'},
           ],
           // 身份证号 or 社会唯一信用代码
           idcard : [
@@ -429,7 +438,7 @@
 
         // 仲裁委 options
         arbOptions : [
-          {fullName : '张三' , arbId : '张三'},
+          {arbName : '张三' , arbId : '张三'},
         ],
         // 客户类型 disabled
         typeDisabled : false,
