@@ -16,9 +16,10 @@
                 <template slot-scope="scope">
                       <el-button size="mini"
                         @click="showDialog(scope.row,3)" v-if="scope.row.orderStatus == 1">待复核</el-button>
-                      <el-button size="mini"
+                      <!-- <el-button size="mini"
                         @click="showDialog(scope.row,3)"
-                        v-if="scope.row.orderStatus == 2">已加款</el-button>
+                        v-if="scope.row.orderStatus == 2">已加款</el-button> -->
+                        <span v-if="scope.row.orderStatus == 2">已加款</span>
                       <span v-if="scope.row.orderStatus == 3">未通过</span>
                 </template>
               </el-table-column>
@@ -31,7 +32,7 @@
 import { URL_JSON } from "../../../components/script/url_json";
 import Mixins from "@/components/script/_mixin";
 // import exportFile from "@/components/script/exportFile";
-import exportFile from '@/assets/js/exportFile'
+import exportFile from "@/assets/js/exportFile";
 import SettingDlg from "./modules/edit";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
@@ -57,7 +58,7 @@ export default {
           property: "startDate",
           colSpan: 4,
           limit: this.limit1,
-          lt:'endDate',
+          lt: "endDate"
         },
         {
           type: "date",
@@ -65,7 +66,7 @@ export default {
           property: "endDate",
           colSpan: 4,
           limit: this.limit2,
-          gt:'startDate'
+          gt: "startDate"
         },
         {
           type: "select",
@@ -117,8 +118,8 @@ export default {
         if (res.code) {
           this.item = res.result;
           this.item.orderDetailList.forEach(it => {
-            it.resultStatus === 1 && (it.resultStatus = '')
-          })
+            it.resultStatus === 1 && (it.resultStatus = "");
+          });
           this.editState = type;
           console.log("type::", type);
           console.info("item:::", this.item);
@@ -126,20 +127,20 @@ export default {
       });
     },
     // 点击导出
-      handleExport() {
-        delete this.searchItem.count;
-        delete this.searchItem.currentNum;
-        delete this.searchItem.pageSize;
-        exportFile({
-          url : this.exportUrl,
-          data : {
-            keyWords : this.searchItem.keyWords,
-            startDate: this.searchItem.startDate,
-            endDate: this.searchItem.endDate,
-            orderStatus: this.searchItem.orderStatus
-          },
-        });
-      },
+    handleExport() {
+      delete this.searchItem.count;
+      delete this.searchItem.currentNum;
+      delete this.searchItem.pageSize;
+      exportFile({
+        url: this.exportUrl,
+        data: {
+          keyWords: this.searchItem.keyWords,
+          startDate: this.searchItem.startDate,
+          endDate: this.searchItem.endDate,
+          orderStatus: this.searchItem.orderStatus
+        }
+      });
+    }
   },
   mounted() {
     this.doQuery(this.queryUrl, this.item);

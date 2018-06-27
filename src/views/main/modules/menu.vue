@@ -453,10 +453,10 @@
       }
     },
     mounted() {
-      if(process.env.NODE_ENV !== 'development'){
+      // if(process.env.NODE_ENV !== 'development'){
         // 从 缓存读取 左侧树
         this.menuList = JSON.parse(localStorage.getItem('menuInfoList'));
-      }
+      // }
       // 获取menu 树 , 高亮选中
       this.getMeun().then(this.setMuenActive);
 
