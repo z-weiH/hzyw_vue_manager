@@ -247,13 +247,15 @@ export default {
       console.info('edit:::: ',this.item);
       // 请求参数
       let shObj = {
-            auditList:[
-              {
-                apprerResult:this.item.orderDetailList[0].apprerResult,
-                detailId:this.item.orderDetailList[0].detailId,
-                resultStatus:this.item.orderDetailList[0].resultStatus
-              }
-            ],
+            auditList:
+            this.item.orderDetailList.filter(it => it._resultStatus === 1),
+            // [
+            //   {
+            //     apprerResult:this.item.orderDetailList[0].apprerResult,
+            //     detailId:this.item.orderDetailList[0].detailId,
+            //     resultStatus:this.item.orderDetailList[0].resultStatus
+            //   }
+            // ],
             orderId:this.item.orderId
           };
           console.info('ssssobj::',shObj);

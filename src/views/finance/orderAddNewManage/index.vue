@@ -118,6 +118,7 @@ export default {
         if (res.code) {
           this.item = res.result;
           this.item.orderDetailList.forEach(it => {
+            it._resultStatus = it.resultStatus;
             it.resultStatus === 1 && (it.resultStatus = "");
           });
           this.editState = type;
