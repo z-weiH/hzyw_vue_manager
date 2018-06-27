@@ -38,9 +38,9 @@
             >
               <el-option
                 v-for="(item,index) in productOptions"
-                :key="item.prodCode + '' + index "
+                :key="item.productId + '' + index "
                 :label="item.prodName"
-                :value="item.prodCode">
+                :value="item.productId">
               </el-option>
             </el-select>
           </el-form-item>
@@ -112,7 +112,7 @@
         ], 
         // 产品 options
         productOptions : [
-          /* {prodName : '产品' , prodCode : '产品'} */
+          /* {prodName : '产品' , productId : '产品'} */
         ],
         type : '',
       }
@@ -142,7 +142,7 @@
               { merchantName : res.result.merchantName , code : res.result.code }
             ];
             this.productOptions = [
-              { prodName : res.result.prodName , prodCode : res.result.productId }
+              { prodName : res.result.prodName , productId : res.result.productId }
             ];
           });
         }
