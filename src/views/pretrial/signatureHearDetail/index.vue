@@ -24,7 +24,7 @@
             </transition>
             <el-button type="primary"  plain @click="HandleShow(sign)">审核意见</el-button>
           </div>
-          <span class="header_title">{{sign.subSortNo}}/{{count}} {{sign.lender}}与{{sign.respondents}}的借款合同纠纷</span>
+          <span class="header_title">{{sign.subSortNo}}/{{sign.totalCount}} {{sign.lender}}与{{sign.respondents}}的借款合同纠纷</span>
           <div class="header_img">
             <img src="@/assets/img/idCard.png" alt="">
             <img class="icon" src="@/assets/img/success.png" v-if="sign.idStatus === 1" alt="">
@@ -268,6 +268,7 @@
       }
     }
     .card{
+      overflow: hidden;
       width:1200px;
       border:1px solid #E5EAEE;
       background: #fff;

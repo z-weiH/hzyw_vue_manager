@@ -18,8 +18,8 @@
       <span class="arrow_right" @click="HandleNext" :class="{disabled: canNext}"></span>
     </div>
     <div class="card" v-for="(evidence, index) in evidenceItems" :key="index">
-      <div class="card_header">
-        <div class="fr mt-5" style="position: relative;" v-if="!disabled">
+      <div class="card_header" style="overflow: hidden">
+        <div class="fr mt-5" style="position: relative" v-if="!disabled">
           <transition name="addmark" >
             <el-button class="addmark" type="text" v-if="mark !== evidence.subSortNo" @click="HandleAddmark(evidence)">添加书签</el-button>
           </transition>
@@ -28,7 +28,7 @@
           </transition>
           <el-button type="primary"  plain @click="HandleShow(evidence)">审核意见</el-button>
         </div>
-        <span class="header_title">{{evidence.subSortNo}}/{{count}} {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷</span>
+        <span class="header_title">{{evidence.subSortNo}}/{{evidence.totalCount}} {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷</span>
         <div class="header_img">
           <img src="@/assets/img/idCard.png" alt="">
           <img class="icon" src="@/assets/img/success.png" v-if="evidence.idStatus === 1" alt="">
@@ -114,7 +114,8 @@
           total: 1,
           pageSize: 1
         },
-        currentUrl: ''
+        currentUrl: '',
+        selfflag: 0
       }
     },
     watch: {
@@ -182,7 +183,7 @@
         this.$http.post('/firstAudit/addMark.htm',{subBatchNo: this.subBatchNo, subSortNo: evidence.subSortNo, type: 2})
           .then(res => {
             if(res.code === '0000'){
-              console.log(res);
+              console.log(res,evidence);
               this.selfflag = evidence.subSortNo;
               this.$message.success('书签添加成功');
             }

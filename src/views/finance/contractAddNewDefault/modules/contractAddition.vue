@@ -10,8 +10,8 @@
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules">
           <!-- 加款信息 -->
           <table
-            class="m-primordial-table 
-              el-table el-table--fit el-table--border 
+            class="m-primordial-table
+              el-table el-table--fit el-table--border
               el-table--enable-row-hover"
           >
             <!-- 编辑 -->
@@ -35,9 +35,9 @@
                 </td>
                 <td colspan="1">
                   <el-form-item label=" " prop="contractDate">
-                    <el-date-picker 
-                      type="date" placeholder="选择日期" 
-                      v-model="ruleForm.contractDate" 
+                    <el-date-picker
+                      type="date" placeholder="选择日期"
+                      v-model="ruleForm.contractDate"
                       style="width: 100%;"
                       value-format="yyyy-MM-dd"
                     >
@@ -234,7 +234,7 @@
               <table
                 :key="index"
                 class="m-primordial-table mt-10
-                  el-table el-table--fit el-table--border 
+                  el-table el-table--fit el-table--border
                   el-table--enable-row-hover"
               >
                 <tr>
@@ -308,9 +308,9 @@
                       :prop="`orderDetailList[${index}].payTime`"
                       :rules="rules.payTime"
                     >
-                      <el-date-picker 
-                        type="date" placeholder="选择日期" 
-                        v-model="item.payTime" 
+                      <el-date-picker
+                        type="date" placeholder="选择日期"
+                        v-model="item.payTime"
                         style="width: 100%;"
                         value-format="yyyy-MM-dd"
                       >
@@ -418,7 +418,7 @@
               <table
                 :key="index"
                 class="m-primordial-table mt-10
-                  el-table el-table--fit el-table--border 
+                  el-table el-table--fit el-table--border
                   el-table--enable-row-hover"
               >
                 <tr>
@@ -548,7 +548,7 @@
 
                   <tr>
                     <td colspan="1">
-                      <el-form-item label=" " 
+                      <el-form-item label=" "
                         :prop="`orderDetailList[${index}].resultStatus`"
                         :rules="rules.resultStatus"
                       >
@@ -564,18 +564,18 @@
 
                   <tr>
                     <td colspan="4">
-                      <el-form-item label=" " 
+                      <el-form-item label=" "
                         :prop="`orderDetailList[${index}].apprerResult`"
                         :rules="{
-                          required: item.resultStatus === 3 ? true : false, 
-                          message: '请输入审核说明', 
+                          required: item.resultStatus === 3 ? true : false,
+                          message: '请输入审核说明',
                           trigger: 'blur',
                         }"
                       >
-                        <el-input 
-                          type="textarea" 
-                          v-model="item.apprerResult" 
-                          placeholder="请输入审核说明" 
+                        <el-input
+                          type="textarea"
+                          v-model="item.apprerResult"
+                          placeholder="请输入审核说明"
                           :autosize="{ minRows: 3}"
                         />
                       </el-form-item>
@@ -589,7 +589,7 @@
           </template>
         </el-form>
 
-        <el-button v-if="type === 'add' || type === 'edit'" 
+        <el-button v-if="type === 'add' || type === 'edit'"
           type="primary" @click="handleAdditionalMoney" class="mt-20"
         >
           新增加款
@@ -608,7 +608,7 @@
         </template>
 
         <template v-else-if="type === 'examine'">
-          <el-button type="primary" @click="handleExamine">审 核</el-button>
+          <el-button type="primary" :disabled="canExamine" @click="handleExamine">审 核</el-button>
           <el-button @click="handleClose">取 消</el-button>
         </template>
       </span>
@@ -645,7 +645,8 @@
         row : '',
         // 充值仲券 和 仲券金额的倍数
         multiple : 10,
-
+        //能否审核
+        canExamine: false,
         ruleForm : {
           /* ************************加款信息************************************  */
           // 合同编号
@@ -1006,6 +1007,9 @@
       },
       // 点击审核
       handleExamine() {
+        this.canExamine = true;
+        if(this.canExamine)
+          return ;
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
             let auditList = this.ruleForm.orderDetailList.map((v) => {
@@ -1027,6 +1031,7 @@
             }).then((res) => {
               this.$message.success('操作成功');
               this.handleClose();
+              this.canExamine=false;
               this.$emit('successCBK');
             });
           }
