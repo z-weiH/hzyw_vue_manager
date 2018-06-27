@@ -235,18 +235,27 @@ export default {
     },
     getChange(obj) {
       if (obj.label === "merchantCode") {
-        this.$http
-          .post(URL_JSON["queryZticketCompanyInfo"], {
-            merchantCode: obj["value"]
-          })
-          .then(res => {
-            if (res.code) {
-              // Object.assign(this.item, res.result);
-              Object.keys(res.result).forEach(key => {
-                this.$set(this.item, key, res.result[key]);
-              });
-            }
-          });
+        // console.log('if --- obj.label:::',obj.label);
+        console.log('itemiiiiddd::',this.item);
+        if (!obj.value) {
+          console.log("没有 --- obj.value::", obj.value);
+          this.item = {};
+          console.log('还原：：',this.item);
+        } else {
+          this.$http
+            .post(URL_JSON["queryZticketCompanyInfo"], {
+              merchantCode: obj["value"]
+            })
+            .then(res => {
+              if (res.code) {
+                // Object.assign(this.item, res.result);
+                console.log('itttttt:::',this.item);
+                Object.keys(res.result).forEach(key => {
+                  this.$set(this.item, key, res.result[key]);
+                });
+              }
+            });
+        }
       }
     }
   },
