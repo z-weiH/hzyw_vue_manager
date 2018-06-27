@@ -37,7 +37,7 @@
     <div class="item-title of-hidden">
       <span class="item-title-sign">案件列表</span>
       <div class="fr">
-        <el-button @click="handleBatchIntegration" type="primary">批量整合</el-button>
+        <el-button :disabled="multipleSelection.length === 0 ? true : false" @click="handleBatchIntegration" type="primary">批量整合</el-button>
       </div>
     </div>
 
