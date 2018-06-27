@@ -257,7 +257,11 @@ export default {
     },
     saveAndcommit(type) {
       console.log("***saveAndcommit***:", this.item);
-      let _thatObj = this.item.orderDetailList.filter(it => !it.detailId);
+      let _thatObj = this.item.orderDetailList.filter(
+        it => !it.detailId || it.orderStatus === 0
+      );
+      console.log("item:::: ", this.item);
+      console.log("_thatObj:::: ", _thatObj);
       let _sUrl = URL_JSON["saveOrderAddNewDefaultDetail"];
       switch (type) {
         case 0:
@@ -276,6 +280,7 @@ export default {
             .then(res => {
               console.log(res);
               if (res.code == "0000") {
+                this.$parent.editState = 0;
                 this.$message({
                   message: "保存成功",
                   type: "success"
@@ -310,6 +315,8 @@ export default {
         default:
           break;
       }
+      console.log("default");
+      this.$emit("refresh");
     }
   },
   mounted() {}
