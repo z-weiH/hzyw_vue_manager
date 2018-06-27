@@ -10,7 +10,7 @@
             </tr>
             <tr class="table-edits" >
               <td colspan="1" >
-                <el-select  v-model="orderDetail.resultStatus" placeholder="请选择审核状态" :disabled="$parent.editState == 9">
+                <el-select  v-model="orderDetail.resultStatus" placeholder="请选择审核状态" :disabled="$parent.editState == 9 || orderDetail.orderStatus > 1">
                   <el-option label="通过" :value="2"></el-option>
                   <el-option label="不通过" :value="3"></el-option>
                 </el-select>
@@ -19,7 +19,7 @@
             </tr>
             <tr class="table-edits" >
               <td colspan="4">
-                <el-input type="textarea"  v-model="orderDetail.apprerResult" placeholder="请输入审核说明" :disabled="$parent.editState == 9"></el-input>
+                <el-input type="textarea"  v-model="orderDetail.apprerResult" placeholder="请输入审核说明" :disabled="$parent.editState == 9 || orderDetail.orderStatus > 1"></el-input>
               </td>
             </tr>
 
