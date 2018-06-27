@@ -144,6 +144,9 @@ export default {
           this.item = res.result;
           this.editState = type;
           console.log("type::", type);
+          if(row.orderStatus === 0){
+             this.item.orderDetailList.push({}); //创建一个observer的新对象
+          }
         }
       });
     },

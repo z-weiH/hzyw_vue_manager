@@ -280,6 +280,7 @@ export default {
             .then(res => {
               console.log(res);
               if (res.code == "0000") {
+                this.$emit("refresh");
                 this.$parent.editState = 0;
                 this.$message({
                   message: "保存成功",
@@ -304,6 +305,7 @@ export default {
             .then(res => {
               console.log(res);
               if (res.code == "0000") {
+                this.$emit("refresh");
                 this.$parent.editState = 0;
                 this.$message({
                   message: "提交成功",
@@ -316,9 +318,14 @@ export default {
           break;
       }
       console.log("default");
-      this.$emit("refresh");
+
     }
   },
-  mounted() {}
+  mounted() {
+    // this.newCurrentTpl();
+  },
+  created () {
+
+  }
 };
 </script>

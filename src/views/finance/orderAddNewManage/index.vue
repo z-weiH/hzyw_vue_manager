@@ -25,7 +25,7 @@
               </el-table-column>
             </table-component>
         </div>
-        <setting-dlg  @refresh="refresh" :edit-state="editState" :item="item"></setting-dlg>
+        <setting-dlg :edit-state="editState" :item="item" @refresh="doQuery(queryUrl,searchItem)"></setting-dlg>
 </div>
 </template>
 <script type="text/ecmascript-6">
