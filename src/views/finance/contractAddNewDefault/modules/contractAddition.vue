@@ -52,7 +52,7 @@
                 </td>
                 <td colspan="1">
                   <el-form-item label=" " prop="merchantCode">
-                    <el-select v-model="ruleForm.merchantCode" placeholder="请选择">
+                    <el-select ref="merchantCode" v-model="ruleForm.merchantCode" placeholder="请选择">
                       <el-option label="请选择" value=""></el-option>
                       <template v-for="(item,index) in merchantOptions">
                         <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
@@ -622,7 +622,7 @@
     watch : {
       // 监听 充值仲券
       ['ruleForm.preCaseTicket'](val) {
-        this.ruleForm.preTicketAmt = val * 10;
+        this.ruleForm.preTicketAmt = val * this.multiple;
       },
       // 监听 赠送仲券
       ['ruleForm.preGiftTicket'](val) {
@@ -643,6 +643,8 @@
         additionalInformationType : 'detail',
         // 保存 当前table tr 数据
         row : '',
+        // 充值仲券 和 仲券金额的倍数
+        multiple : 10,
 
         ruleForm : {
           /* ************************加款信息************************************  */
@@ -918,7 +920,7 @@
       },
       // 新增加款 list 添加仲券
       handleAddTicket(item,index) {
-        this.ruleForm.orderDetailList[index].addTicketAmt = item.addTicket * 10;
+        this.ruleForm.orderDetailList[index].addTicketAmt = item.addTicket * this.multiple;
 
         this.$nextTick(() => {
           this.handleComputedArrivalAmt(item,index);
@@ -980,7 +982,7 @@
           });
           sendObj.orderDetailList = (this.ruleForm.orderDetailList);
           sendObj.orderId = '';
-
+          sendObj.merchantName = this.$refs.merchantCode.selectedLabel;
         // 编辑
         }else if(type === 'edit'){
           sendUrl = '/contractOrder/saveContractOrderInfo.htm';

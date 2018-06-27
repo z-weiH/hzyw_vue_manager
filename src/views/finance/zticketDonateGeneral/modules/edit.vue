@@ -51,7 +51,7 @@ export default {
               type: "select",
               columns: 1,
               property: "merchantCode",
-              options: this.companyList,
+              //options: [{merchantName : '1' ,code : '2'}],
               labelfield: "merchantName",
               valuefield: "code"
             },
@@ -192,6 +192,10 @@ export default {
   methods: {
     saveAndcommit(type) {
       console.info("dialog:::", this.item);
+      if(!this.item.otherInfo){
+        this.$message.warning('附言不能为空');
+        return;
+      }
       this.checkbeforeSave()
         .then(() => {
           let _posObj = {
@@ -212,6 +216,7 @@ export default {
                     message: "保存成功",
                     type: "success"
                   });
+                  this.$emit("refresh");
                   this.$parent.FullListQuery();
                 });
               break;

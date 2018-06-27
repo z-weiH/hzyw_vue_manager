@@ -162,7 +162,7 @@
 
               <tr class="division"></tr>
 
-              <tr>
+              <!-- <tr>
                 <td colspan="4">第四部分：对接接口信息</td>
               </tr>
 
@@ -205,7 +205,7 @@
                     </el-select>
                   </el-form-item>
                 </td>
-              </tr>
+              </tr> -->
 
             </tbody>
           </table>

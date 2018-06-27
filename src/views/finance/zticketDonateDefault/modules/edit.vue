@@ -227,6 +227,10 @@ export default {
   methods: {
     saveAndcommit(type) {
       console.info("dialog:::", this.item);
+      if(type === 0 && !this.item.apprerResult) {
+        this.$message.warning("审核原因不能为空");
+        return;
+      };
       let _posObj = {
         isCommit: type,
         apprerResult: this.item.apprerResult,
