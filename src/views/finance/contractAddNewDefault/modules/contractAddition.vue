@@ -974,47 +974,47 @@
       submit(submitType) {
         this.submitDisabled = true;
         let type = this.type;
-          // 请求url
-          let sendUrl  = '';
-          // 请求数据
-          let sendObj = {
-            isCommit : submitType === 'save' ? 0 : 1,
-          };
-          // 新增
-          if(type === 'add'){
-            sendUrl = '/contractOrder/saveContractOrderInfo.htm';
-            let sendDataArr = [
-              'contractDate' , 'contractNo' , 'merchantCode' , 'preCaseAmt',
-              'preCaseTicket' , 'preGiftPeriod' , 'preGiftTicket' , 'preServiceAmt' , 'preTicketAmt'
-            ];
-            sendDataArr.map((v,k) => {
-              sendObj[v] = this.ruleForm[v];
-            });
-            sendObj.orderDetailList = (this.ruleForm.orderDetailList);
-            sendObj.orderId = '';
-            sendObj.merchantName = this.$refs.merchantCode.selectedLabel;
-          // 编辑
-          }else if(type === 'edit'){
-            sendUrl = '/contractOrder/saveContractOrderInfo.htm';
-            sendObj.orderId = this.ruleForm.orderId;
-            sendObj.orderDetailList = (this.ruleForm.orderDetailList.filter((v) => {
-              return v.orderStatus === 0;
-            }));
-
-          }
-
-          this.$http({
-            method : 'post',
-            url : sendUrl,
-            data : sendObj,
-            mheaders : true,
-          }).then((res) => {
-            this.$message.success('操作成功');
-            this.handleClose();
-            this.$emit('successCBK');
-          }).catch(() => {
-            this.submitDisabled = false;
+        // 请求url
+        let sendUrl  = '';
+        // 请求数据
+        let sendObj = {
+          isCommit : submitType === 'save' ? 0 : 1,
+        };
+        // 新增
+        if(type === 'add'){
+          sendUrl = '/contractOrder/saveContractOrderInfo.htm';
+          let sendDataArr = [
+            'contractDate' , 'contractNo' , 'merchantCode' , 'preCaseAmt',
+            'preCaseTicket' , 'preGiftPeriod' , 'preGiftTicket' , 'preServiceAmt' , 'preTicketAmt'
+          ];
+          sendDataArr.map((v,k) => {
+            sendObj[v] = this.ruleForm[v];
           });
+          sendObj.orderDetailList = (this.ruleForm.orderDetailList);
+          sendObj.orderId = '';
+          sendObj.merchantName = this.$refs.merchantCode.selectedLabel;
+        // 编辑
+        }else if(type === 'edit'){
+          sendUrl = '/contractOrder/saveContractOrderInfo.htm';
+          sendObj.orderId = this.ruleForm.orderId;
+          sendObj.orderDetailList = (this.ruleForm.orderDetailList.filter((v) => {
+            return v.orderStatus === 0;
+          }));
+
+        }
+
+        this.$http({
+          method : 'post',
+          url : sendUrl,
+          data : sendObj,
+          mheaders : true,
+        }).then((res) => {
+          this.$message.success('操作成功');
+          this.handleClose();
+          this.$emit('successCBK');
+        }).catch(() => {
+          this.submitDisabled = false;
+        });
       },
       // 点击审核
       handleExamine() {
