@@ -193,12 +193,14 @@
                 <td colspan="1">
                   {{ruleForm.preGiftTicket}}
                 </td>
-                <td colspan="1">
-                  赠券有效期：
-                </td>
-                <td colspan="1">
-                  {{ruleForm.preGiftPeriod}}个月
-                </td>
+                <template v-if="ruleForm.preGiftTicket > 0">
+                  <td colspan="1">
+                    赠券有效期：
+                  </td>
+                  <td colspan="1">
+                    {{ruleForm.preGiftPeriod}}个月
+                  </td>
+                </template>
               </tr>
 
               <tr>
@@ -503,10 +505,12 @@
                   <td colspan="1">
                     {{item.addGiftTicket}}
                   </td>
-                  <td colspan="1">赠券有效期：</td>
-                  <td colspan="1">
-                    {{item.addGiftPeriod}}个月
-                  </td>
+                  <template v-if="item.addGiftTicket > 0">
+                    <td colspan="1">赠券有效期：</td>
+                    <td colspan="1">
+                      {{item.addGiftPeriod}}个月
+                    </td>
+                  </template>
                 </tr>
 
                 <!-- 如果当前审核完成 显示审核 结果 -->
@@ -602,13 +606,13 @@
         </template>
 
         <template v-else-if="type === 'add' || type === 'edit'">
-          <el-button type="primary" @click="handleSubmit('save')">保 存</el-button>
-          <el-button @click="handleSubmit('submit')">提 交</el-button>
+          <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit('save')">保 存</el-button>
+          <el-button :disabled="submitDisabled" @click="handleSubmit('submit')">提 交</el-button>
           <el-button @click="handleClose">取 消</el-button>
         </template>
 
         <template v-else-if="type === 'examine'">
-          <el-button type="primary" :disabled="canExamine" @click="handleExamine">审 核</el-button>
+          <el-button :disabled="submitDisabled" type="primary" @click="handleExamine">审 核</el-button>
           <el-button @click="handleClose">取 消</el-button>
         </template>
       </span>
@@ -645,8 +649,8 @@
         row : '',
         // 充值仲券 和 仲券金额的倍数
         multiple : 10,
-        //能否审核
-        canExamine: false,
+        // 提交按钮禁用状态
+        submitDisabled : false,
         ruleForm : {
           /* ************************加款信息************************************  */
           // 合同编号
@@ -873,7 +877,7 @@
       // 审核初始化
       initExamine(row) {
         this.additionalInformationType = 'detail';
-        this.title = '订单加款审核';
+        this.title = '合同加款审核';
         this.$http({
           url : '/contractOrder/queryOrderDetailByOrderId.htm',
           method : 'post',
@@ -893,7 +897,7 @@
       // 审核详情初始化
       initExamineDetail(row) {
         this.additionalInformationType = 'detail';
-        this.title = '订单加款审核详情';
+        this.title = '合同加款审核详情';
         this.$http({
           url : '/contractOrder/queryOrderDetailByOrderId.htm',
           method : 'post',
@@ -938,6 +942,10 @@
       // 关闭浮层
       handleClose() {
         this.dialogVisible = false;
+        // 取消按钮禁用
+        setTimeout(() => {
+          this.submitDisabled = false;
+        },500);
 
         //this.ruleForm = {};
         this.ruleForm.orderDetailList = [{}];
@@ -964,61 +972,64 @@
       },
       // 处理提交 逻辑
       submit(submitType) {
+        this.submitDisabled = true;
         let type = this.type;
-        // 请求url
-        let sendUrl  = '';
-        // 请求数据
-        let sendObj = {
-          isCommit : submitType === 'save' ? 0 : 1,
-        };
-        // 新增
-        if(type === 'add'){
-          sendUrl = '/contractOrder/saveContractOrderInfo.htm';
-          let sendDataArr = [
-            'contractDate' , 'contractNo' , 'merchantCode' , 'preCaseAmt',
-            'preCaseTicket' , 'preGiftPeriod' , 'preGiftTicket' , 'preServiceAmt' , 'preTicketAmt'
-          ];
-          sendDataArr.map((v,k) => {
-            sendObj[v] = this.ruleForm[v];
+          // 请求url
+          let sendUrl  = '';
+          // 请求数据
+          let sendObj = {
+            isCommit : submitType === 'save' ? 0 : 1,
+          };
+          // 新增
+          if(type === 'add'){
+            sendUrl = '/contractOrder/saveContractOrderInfo.htm';
+            let sendDataArr = [
+              'contractDate' , 'contractNo' , 'merchantCode' , 'preCaseAmt',
+              'preCaseTicket' , 'preGiftPeriod' , 'preGiftTicket' , 'preServiceAmt' , 'preTicketAmt'
+            ];
+            sendDataArr.map((v,k) => {
+              sendObj[v] = this.ruleForm[v];
+            });
+            sendObj.orderDetailList = (this.ruleForm.orderDetailList);
+            sendObj.orderId = '';
+            sendObj.merchantName = this.$refs.merchantCode.selectedLabel;
+          // 编辑
+          }else if(type === 'edit'){
+            sendUrl = '/contractOrder/saveContractOrderInfo.htm';
+            sendObj.orderId = this.ruleForm.orderId;
+            sendObj.orderDetailList = (this.ruleForm.orderDetailList.filter((v) => {
+              return v.orderStatus === 0;
+            }));
+
+          }
+
+          this.$http({
+            method : 'post',
+            url : sendUrl,
+            data : sendObj,
+            mheaders : true,
+          }).then((res) => {
+            this.$message.success('操作成功');
+            this.handleClose();
+            this.$emit('successCBK');
+          }).catch(() => {
+            this.submitDisabled = false;
           });
-          sendObj.orderDetailList = (this.ruleForm.orderDetailList);
-          sendObj.orderId = '';
-          sendObj.merchantName = this.$refs.merchantCode.selectedLabel;
-        // 编辑
-        }else if(type === 'edit'){
-          sendUrl = '/contractOrder/saveContractOrderInfo.htm';
-          sendObj.orderId = this.ruleForm.orderId;
-          sendObj.orderDetailList = (this.ruleForm.orderDetailList.filter((v) => {
-            return v.orderStatus === 0;
-          }));
-
-        }
-
-        this.$http({
-          method : 'post',
-          url : sendUrl,
-          data : sendObj,
-          mheaders : true,
-        }).then((res) => {
-          this.$message.success('操作成功');
-          this.handleClose();
-          this.$emit('successCBK');
-        });
       },
       // 点击审核
       handleExamine() {
-        this.canExamine = true;
-        if(this.canExamine)
-          return ;
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
+            this.submitDisabled = true;
             let auditList = this.ruleForm.orderDetailList.map((v) => {
               return {
                 apprerResult : v.apprerResult,
                 detailId : v.detailId,
                 resultStatus : v.resultStatus || v.resultStatusDefault,
+                orderStatus : v.orderStatus,
               }
             });
+            auditList = auditList.filter(v => v.orderStatus === 1);
 
             this.$http({
               method : 'post',
@@ -1031,8 +1042,9 @@
             }).then((res) => {
               this.$message.success('操作成功');
               this.handleClose();
-              this.canExamine=false;
               this.$emit('successCBK');
+            }).catch(() => {
+              this.submitDisabled = false;
             });
           }
         });
