@@ -229,6 +229,8 @@
     methods : {
       show() {
         this.dialogVisible = true;
+        // 初始化 查询全部互金企业
+        this.remoteMethod('');
       },
 
       // 更新筛选结果

@@ -197,6 +197,8 @@
       }).then((res) => {
         this.operateOptions = res.result;
       });
+      // 初始化 查询全部互金企业
+      this.remoteMethod('');
     },
     methods : {
       // 点击查询

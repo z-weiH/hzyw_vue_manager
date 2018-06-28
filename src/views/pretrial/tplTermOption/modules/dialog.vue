@@ -124,6 +124,8 @@
       show(type,row) {
         this.dialogVisible = true;
         this.type = type;
+        // 初始化 查询全部互金企业
+        this.remoteMethod('');
 
         if(type === 'edit'){
           this.conditionId = row.conditionId;
