@@ -27,18 +27,18 @@
           <span class="header_title">{{sign.subSortNo}}/{{sign.totalCount}} {{sign.lender}}与{{sign.respondents}}的借款合同纠纷</span>
           <div class="header_img">
             <img src="@/assets/img/idCard.png" alt="">
-            <img class="icon" src="@/assets/img/success.png" v-if="sign.idStatus === 1" alt="">
-            <img class="icon" src="@/assets/img/error.png"  v-if="sign.idStatus === 2" alt="">
+            <img class="icon" src="@/assets/img/success.png" v-if="sign.status1 === 1" alt="">
+            <img class="icon" src="@/assets/img/error.png"  v-if="sign.status1 === 2" alt="">
           </div>
           <div class="header_img">
             <img src="@/assets/img/signature.png" alt="">
-            <img class="icon" src="@/assets/img/success.png" v-if="sign.signStatus === 1" alt="">
-            <img class="icon" src="@/assets/img/error.png" v-if="sign.signStatus === 2" alt="">
+            <img class="icon" src="@/assets/img/success.png" v-if="sign.status2 === 1" alt="">
+            <img class="icon" src="@/assets/img/error.png" v-if="sign.status2 === 2" alt="">
           </div>
           <div class="header_img">
             <img src="@/assets/img/evidence.png" alt="">
-            <img class="icon" src="@/assets/img/success.png" v-if="sign.eviStatus === 1" alt="">
-            <img class="icon" src="@/assets/img/error.png" v-if="sign.eviStatus === 2" alt="">
+            <img class="icon" src="@/assets/img/success.png" v-if="sign.status3 === 1" alt="">
+            <img class="icon" src="@/assets/img/error.png" v-if="sign.status3 === 2" alt="">
           </div>
         </div>
         <div class="card_body">
@@ -68,7 +68,7 @@
               </li>
             </ul>
           </div>
-          <div class="audit" v-if="sign.checkSignList.length > 0">
+          <div class="audit clear " v-if="sign.checkSignList.length > 0">
             <p class="audit_title">审核意见:</p>
             <ul>
               <li v-for="(check, ii) in sign.checkSignList" :key="ii">{{check.reasonMsg}}</li>
@@ -88,7 +88,7 @@
           :total="pager.total">
         </el-pagination>
       </div>
-      <audit :caseId="currentCaseId" :type="1"></audit>
+      <audit :selValue="selValue" :caseId="currentCaseId" :type="1"></audit>
 
     </div>
 
@@ -120,7 +120,8 @@
           currentNum: 1,
           total: 1,
           pageSize: 20
-        }
+        },
+        selValue: null
       }
     },
     computed: {
@@ -136,6 +137,7 @@
       }
     },
     methods: {
+      //意见审核
       HandleShow(sign) {
         this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: sign.caseId,type: 1})
           .then(res => {
@@ -144,7 +146,7 @@
               this.auditLists = res.result;
               this.editState = 1;
               this.currentCaseId = sign.caseId;
-            }
+              this.selValue = sign.eviStatus;            }
           })
       },
       openWindow(url) {
@@ -338,7 +340,7 @@
 
       }
       .audit{
-        margin-top: 28px;
+        padding-top: 28px;
         .audit_title{
           font-size: 17px;
           color: #193B8C;

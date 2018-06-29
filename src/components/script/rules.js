@@ -26,5 +26,13 @@ export const RULES = {
       } else {
         callback();
       }
-    }}
+    }},
+  gt1:{ validator: (rule, value, callback) => {
+      if (value <= 0) {
+        callback(new Error('必须大于0'));
+      } else {
+        callback();
+      }
+    },
+    trigger: 'blur' },
 };

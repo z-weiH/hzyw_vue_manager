@@ -31,18 +31,18 @@
         <span class="header_title">{{evidence.subSortNo}}/{{evidence.totalCount}} {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷</span>
         <div class="header_img">
           <img src="@/assets/img/idCard.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" v-if="evidence.idStatus === 1" alt="">
-          <img class="icon" src="@/assets/img/error.png"  v-if="evidence.idStatus === 2" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="evidence.status1 === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png"  v-if="evidence.status1 === 2" alt="">
         </div>
         <div class="header_img">
           <img src="@/assets/img/signature.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" v-if="evidence.signStatus === 1" alt="">
-          <img class="icon" src="@/assets/img/error.png" v-if="evidence.signStatus === 2" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="evidence.status2 === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png" v-if="evidence.status2 === 2" alt="">
         </div>
         <div class="header_img">
           <img src="@/assets/img/evidence.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" v-if="evidence.eviStatus === 1" alt="">
-          <img class="icon" src="@/assets/img/error.png" v-if="evidence.eviStatus === 2" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="evidence.status3 === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png" v-if="evidence.status3 === 2" alt="">
         </div>
       </div>
       <div class="card_body">
@@ -87,7 +87,7 @@
     </div>
     <audit :caseId="currentCaseId" :type="2"></audit>
 
-    <closeDlg :message="'已完成证据链审核，请关闭本页'" v-if="showCloseDlg"></closeDlg>
+    <closeDlg :message="'已完成证据链审核，请关闭本页'"  v-if="showCloseDlg"></closeDlg>
 
   </div>
 </template>

@@ -41,7 +41,8 @@ export default {
   },
   props: {
     caseId: String,
-    type: Number
+    type: Number,
+    selValue: null
   },
   methods: {
     //提交
@@ -62,28 +63,14 @@ export default {
 
     HandleOpen() {
         let arr = this.list.filter(it => it.reasonType === this.type);
-      if( arr.length === 0 ){
-        this.status = 1;
-      }else{
-        if(this.type == 0){
-          if(arr[0].idStatus == 1)
-            this.status = 1;
-          else
-            this.status = 0;
+        if(this.type === 2){
+          this.status = 0;
         }
-        else if(this.type == 1){
-          if(arr[0].signStatus == 1)
-            this.status = 1;
-          else
-            this.status = 0;
+        else if(this.type === 0){
+          this.status = this.selValue === 2 ? 0 : 1;
+        }else if(this.type === 1){
+          this.status = this.selValue === 2 ? 0 : 1;
         }
-        else if(this.type == 2){
-          if(arr[0].eviStatus == 1)
-            this.status = 1;
-          else
-            this.status = 0;
-        }
-      }
     }
   },
   computed:{

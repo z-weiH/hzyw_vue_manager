@@ -63,7 +63,7 @@ export default {
           {label: '添加仲券（张）：', type: 'number', placeholder: '请输入添加仲券',columns:1,property: 'ticketCount',rule:'require,gt0'},
           {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'ticketAmount',rule:'require,gt0', disabled: true},
           {label: '添加受理费（元）：', type: 'number', placeholder: '请输入添加受理费',columns:1,property: 'caseAmount',rule:'require,gt0'},
-          {label: '技术服务费（元）：', type: 'number', placeholder: '请输入技术服务费',columns:1,property: 'serveAmount',rule:'require,gt0'},
+          {label: '技术服务费（元）：', type: 'number', placeholder: '请输入技术服务费',columns:1,property: 'serveAmount',rule:'require,gt1'},
           {label: '赠送仲券（张）：', type: 'number', placeholder: '请输入赠送仲券',columns:1,property: 'giftTicket',rule:'require,gt0'},
           {label: '赠券有效期 ：', type: 'select', placeholder: '请选择赠券有效期',columns:1,property: 'giftPeriod',options: [
               {label: '请选择赠券有效期', value: ''},

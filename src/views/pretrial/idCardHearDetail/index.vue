@@ -26,18 +26,18 @@
         <span class="header_title">{{card.subSortNo}}/{{card.countCase}} {{card.personWrap.applicant}}与{{card.personWrap.respondent}}的借款合同纠纷</span>
         <div class="header_img">
           <img src="@/assets/img/idCard.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" v-if="card.idStatus === 1" alt="">
-          <img class="icon" src="@/assets/img/error.png" v-if="card.idStatus === 2" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="card.status1 === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png" v-if="card.status1 === 2" alt="">
         </div>
         <div class="header_img">
           <img src="@/assets/img/signature.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" v-if="card.signStatus === 1" alt="">
-          <img class="icon" src="@/assets/img/error.png" v-if="card.signStatus === 2" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="card.status2 === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png" v-if="card.status2 === 2" alt="">
         </div>
         <div class="header_img">
           <img src="@/assets/img/evidence.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" v-if="card.eviStatus === 1" alt="">
-          <img class="icon" src="@/assets/img/error.png" v-if="card.eviStatus === 2" alt="">
+          <img class="icon" src="@/assets/img/success.png" v-if="card.status3 === 1" alt="">
+          <img class="icon" src="@/assets/img/error.png" v-if="card.status3 === 2" alt="">
         </div>
       </div>
       <div class="card_body">
@@ -87,7 +87,7 @@
             </li>
           </ul>
         </div>
-        <div class="audit" v-if="card.auditListWrap && card.auditListWrap.length > 0">
+        <div class="audit clear" v-if="card.auditListWrap && card.auditListWrap.length > 0">
           <p class="audit_title">审核意见:</p>
           <ul>
             <li v-for="(msg,index) in card.auditListWrap">
@@ -108,7 +108,7 @@
       </el-pagination>
     </div>
 
-    <audit :caseId="currentCaseId" :type="0"></audit>
+    <audit :caseId="currentCaseId" :selValue="selValue" :type="0"></audit>
     <closeDlg :message="'已完成身份证审核，请关闭本页'" v-if="showCloseDlg"></closeDlg>
   </div>
 </template>
@@ -137,7 +137,8 @@
           currentNum: 1,
           pageSize: 20,
           count: 0,
-        }
+        },
+        selValue: null
       }
     },
     computed: {
@@ -153,6 +154,7 @@
       }
     },
     methods: {
+      //审核意见
       HandleShow(card) {
         this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: card.caseId,type: 0})
           .then(res => {
@@ -160,6 +162,7 @@
               this.auditLists = res.result;
               this.editState = 1;
               this.currentCaseId = card.caseId;
+              this.selValue = card.idStatus;
             }
           })
       },
