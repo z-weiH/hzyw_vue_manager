@@ -695,7 +695,7 @@ router.beforeEach((to, from, next) => {
         }
         fn(tree);
         // 权限判断
-        if ( (treeList.indexOf(to.path.slice(6)) !== -1) || (jurisdictionExclude.indexOf(to.path.slice(6)) !== -1) ) {
+        if ( (treeList.indexOf(to.path.slice(6)) !== -1) || (jurisdictionExclude.indexOf(to.path) !== -1) ) {
           // 高亮左侧导航
           try {
             main.$store.commit('menu/setMenuActive', `${to.path}`);
