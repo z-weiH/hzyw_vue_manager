@@ -74,6 +74,7 @@
               :endDate.sync="ruleForm.pushEndDate"
               startPlaceholder="推送开始"
               endPlaceholder="推送结束"
+              :requiredName="['pushStartDate','pushEndDate']"
             >
 
             </timeFrame>
@@ -159,7 +160,7 @@
 
           // 运营人员 列表
           allocationList : [
-            {
+            /* {
               // 运营人员 姓名
               userName : '啦啦啦方法',
               // 运营人员 id
@@ -172,7 +173,7 @@
               disabled : false,
               // 保存案件分配 上次输入的数据
               countOld : '',
-            },
+            }, */
           ],
         },
         rules : {
@@ -202,18 +203,7 @@
       }
     },
     mounted() {
-      // 查询所有运营 人员
-      this.$http({
-        method : 'post',
-        url : '/preCaseLib/queryUserAndDistributeCaseInfo.htm',
-      }).then((res) => {
-        this.ruleForm.allocationList = res.result.map((v) => {
-          v.count = '';
-          v.disabled = true;
-          v.countOld = '';
-          return v;
-        });
-      });
+      
     },
     watch : {
       ['ruleForm.pushStartDate']() {
@@ -231,6 +221,18 @@
         this.dialogVisible = true;
         // 初始化 查询全部互金企业
         this.remoteMethod('');
+        // 查询所有运营 人员
+        this.$http({
+          method : 'post',
+          url : '/preCaseLib/queryUserAndDistributeCaseInfo.htm',
+        }).then((res) => {
+          this.ruleForm.allocationList = res.result.map((v) => {
+            v.count = '';
+            v.disabled = true;
+            v.countOld = '';
+            return v;
+          });
+        });
       },
 
       // 更新筛选结果
