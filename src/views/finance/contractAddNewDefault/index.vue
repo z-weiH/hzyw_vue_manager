@@ -54,7 +54,9 @@
         </el-table-column>
         <el-table-column label="合同号">
           <template slot-scope="scope">
-            <span class="fn-a" @click="handleDetail(scope.row)">{{scope.row.contractNo}}</span>
+            <el-tooltip :content="scope.row.contractNo" placement="top-start">
+              <span class="fn-a ellipsis" style="max-width:95px;" @click="handleDetail(scope.row)">{{scope.row.contractNo}}</span>
+            </el-tooltip>
           </template>
         </el-table-column>
         <el-table-column prop="contractDate" label="合同时间"></el-table-column>
