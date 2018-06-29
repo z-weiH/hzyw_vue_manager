@@ -98,7 +98,7 @@
                     <el-input v-model="ruleForm.preGiftTicket" placeholder="请输入赠送仲券" />
                   </el-form-item>
                 </td>
-                <td colspan="1">
+                <td v-if="preGiftPeriodIsShow" colspan="1">
                   赠券有效期：
                 </td>
                 <td colspan="1">
@@ -387,7 +387,7 @@
                       <el-input @input.native="handleAddGiftTicket(item,index)" v-model="item.addGiftTicket" placeholder="请输入赠送仲券" />
                     </el-form-item>
                   </td>
-                  <td colspan="1">赠券有效期：</td>
+                  <td v-if="item.addGiftPeriodStatus" colspan="1">赠券有效期：</td>
                   <td colspan="1">
                     <el-form-item label=" "
                       :prop="`orderDetailList[${index}].addGiftPeriod`"
@@ -858,6 +858,11 @@
             return v;
           });
           this.ruleForm = Object.assign(this.ruleForm,res.result);
+
+          // 如果当前被驳回 或者 已加款 默认增加一条加款
+          if(res.result.orderStatus === 3 || res.result.orderStatus === 2) {
+            this.handleAdditionalMoney();
+          }
         });
       },
       // 详情初始化
