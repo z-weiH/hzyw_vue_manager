@@ -106,7 +106,7 @@ export default {
                   validator: (rule, value, callback) => {
                     if (value.length > 9) {
                       callback(new Error("输入数量偏大请重新输入"));
-                    }else if(!/^[1-9]*$/.test(value)){
+                    }else if(!/^[1-9]\d*$/.test(value)){
                       callback(new Error("不能输入0或者非数字内容"));
                     }else {
                       callback();
