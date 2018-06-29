@@ -2,7 +2,7 @@
   <div class="body_container">
     <div class="header_container">
       <div class="header">
-        <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit">审核完成</el-button>
+        <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
         <span class="header_title">身份证审核</span>
         <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">必要审核</el-checkbox>
         <template v-if="disabled">
@@ -127,6 +127,7 @@
         markflag: false,
         subBatchNo: '',
         idCardList: [],
+        batchNo: '',
         currentCaseId: '',//当前案件
         disabled: false,//能否编辑
         selfflag: 0, //新书签
@@ -180,6 +181,7 @@
             .then(r =>{
               if(r.code === '0000'){
                 this.showCloseDlg = true;
+                this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
               }
             })
         }).catch(() => {})
@@ -225,6 +227,8 @@
     mounted() {
       this.subBatchNo = this.$route.query.subBatchNo;
       this.markflag = this.$route.query.markflag;
+      this.disabled = this.$route.query.disabled;
+      this.batchNo = this.$route.query.batchNo;
       this.HandleQuery(true);
     }
   }

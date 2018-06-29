@@ -111,6 +111,7 @@
         selfflag: null,
         signatureItems: [],
         count: 0,
+        batchNo: '',
         auditLists: [],
         currentCaseId: '',//当前案件
         disabled: false, //控制编辑状态     true为查看， false为审核
@@ -167,6 +168,7 @@
             .then(r =>{
               if(r.code === '0000'){
                 this.showCloseDlg = true;
+                this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
               }
             })
         }).catch(() => {})
@@ -212,6 +214,7 @@
       this.subBatchNo = this.$route.query.subBatchNo;
       this.markflag = +this.$route.query.markflag;
       this.disabled = this.$route.query.disabled;
+      this.batchNo = this.$route.query.batchNo;
       this.pager.currentNum = Math.ceil(this.markflag/20);
       if(this.pager.currentNum === 0)
         this.pager.currentNum = 1;

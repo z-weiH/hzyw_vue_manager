@@ -46,16 +46,17 @@
     </div>
     <div v-for="(info,index) in items" :key="index" class="info">
       <div class="item-title part_tit">
+        <el-button type="warning" class="fr" style="margin-right: 18px;" v-if="info.idStatus === 1 && info.signStatus === 1 && info.eviStatus === 1 && info.batchStatus%2 === 0" @click="HandleSubmit(info)">提交</el-button>
         子批次-{{index + 1}}
         <span>({{info.countCase}}件)</span>
         <button class="title_btn ml-5" disabled>{{getStatusName(info.batchStatus)}}</button>
-        <span v-if="info.batchStatus == 2" class="btn_link" @click="HandleShowReason">查看原因</span>
+        <!---->
+        <el-button v-if="info.batchStatus == 2" round type="primary"   @click="HandleShowReason(info)">查看原因</el-button>
       </div>
       <ul class="info_ul">
         <li>
             <el-button type="primary" v-if="info.idStatus === 0" class="fr mt-10" @click="gotoIdCard(info)">审核</el-button>
             <el-button type="primary" v-if="info.idStatus === 1" class="fr mt-10" @click="gotoIdCard(info,true)">查看</el-button>
-            <el-button type="text" class="fr mt-10" v-if="info.idStatus === 1">查看</el-button>
           <p class="info_title">身份证信息</p>
           <p v-if="info.countIdChecked === 0 && info.idStatus === 0">审核未开始</p>
           <p v-if="info.countIdChecked !== 0 && info.idStatus === 0">已审核到第{{info.countIdChecked}}件</p>
@@ -89,30 +90,97 @@
         <span class="log_info_desc">{{log.logMsg}}</span>
       </li>
     </ul>
+    <el-dialog
+      :visible.sync="showReason"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      title="退回原因"
+      width="690px"
+      center>
+
+      <div class="fl">
+        退回原因：
+      </div>
+      <div class="fl">
+        <ul>
+          <li></li>
+        </ul>
+      </div>
+      <span slot="footer" class="dialog-footer">
+          <el-button type="primary"  @click="$parent.editState = 0">确  认</el-button>
+          <el-button @click="$parent.editState = 0" >取 消</el-button>
+        </span>
+    </el-dialog>
+
+
   </div>
+
 </template>
 
 <script>
   import Mock from 'mockjs'
+  import {mapGetters} from 'vuex'
   export default {
     data() {
       return {
+        //批次号
         batchNo: '',
+        //批次信息
         item: {},
-        items: [],
-        logItems: []
+        //日志信息
+        logItems: [],
+
+        showReason: false
       }
     },
+    computed: {
+      ...mapGetters(['items'])
+    },
     methods: {
-      HandleShowReason() {
-        this.$http.post('/againAudit/querysubBatchReturnInfoByBatchNo.htm',)
-
+      //提交案件
+      HandleSubmit(info){
+        const h = this.$createElement;
+        this.$msgbox({
+          title: '提示',
+          message: h('div',null,[
+            h('p',null,[
+              h('span', null, '共计提交'),
+              h('span',{style:{color: '#EEA823'}},1000),
+              h('span', null, '件案件初审结果，')
+            ]),
+            h('p',null,[
+              h('span', null, '其中通过'),
+              h('span',{style:{color: '#EEA823'}},982),
+              h('span', null, '件，未通过'),
+              h('span', {style:{color: '#EEA823'}}, 18),
+              h('span', {style:{color: '#EEA823'}}, '件。')
+            ]),
+            h('p', null, '确定提交？')
+          ]),
+          center: true,
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(res =>{
+          this.$http.post('/firstAudit/submitFirstAudit.htm',{subBatchNo: info.subBatchNo})
+            .then(r => {
+              if(r.code === '0000'){
+                this.$message.success(r.description);
+              }
+            })
+        }).catch(()=>{});
       },
       //查看退回原因
+      HandleShowReason(info) {
+        this.$http.post('/againAudit/querysubBatchReturnInfoByBatchNo.htm',{batchNo: info.subBatchNo})
+          .then(res => {
+            if(res.code === '0000'){
+              this.showReason = true;
+            }
+          })
 
-      findReturnReason() {
-        this.$http.post('/againAudit/querysubBatchReturnInfoByBatchNo.htm',)
       },
+      //获得状态值的中文
       getStatusName(str) {
         let options = [
           // 0-待初审，1-待复审，2-退回重审，3-预审完成
@@ -126,6 +194,8 @@
           return item.label;
         return '--';
       },
+
+      //获取日志信息
       getBatchInfo() {
         this.$http.post('/firstAudit/queryBatchInfoByBatchNo.htm',{batchNo: this.batchNo}).then(res => {
           if(res.code === '0000'){
@@ -134,16 +204,16 @@
           }
         })
       },
-      getBatchList() {
-        this.$http.post('/firstAudit/querySubBatchList.htm', {batchNo: this.batchNo})
-          .then(res => {
-            if(res.code === '0000'){
-              res = Mock.mock(res);
-              console.log(res);
-              this.items = res.result;
-            }
-          })
-      },
+      // getBatchList() {
+      //   this.$http.post('/firstAudit/querySubBatchList.htm', {batchNo: this.batchNo})
+      //     .then(res => {
+      //       if(res.code === '0000'){
+      //         res = Mock.mock(res);
+      //         console.log(res);
+      //         this.items = res.result;
+      //       }
+      //     })
+      // },
   // /firstAudit/queryBatchLog.htm
       getBatchLog(){
         this.$http.post('/firstAudit/queryBatchLog.htm', {batchNo: this.batchNo})
@@ -169,31 +239,30 @@
         // this.$router.push('/idCardHearDetail')
         let routeData = this.$router.resolve({
           path:'/idCardHearDetail',
-          query: {subBatchNo: info.subBatchNo,markflag: info.countIdChecked,disabled: disabled}
+          query: {batchNo: this.batchNo,subBatchNo: info.subBatchNo,markflag: info.countIdChecked,disabled: disabled}
         });
         window.open(routeData.href, '_blank');
       },
       gotoSignature(info, disabled) {
         let routeData = this.$router.resolve({
           path:'/signatureHearDetail',
-          query: {subBatchNo: info.subBatchNo,markflag: info.countSignChecked,disabled: disabled},
+          query: {batchNo: this.batchNo,subBatchNo: info.subBatchNo,markflag: info.countSignChecked,disabled: disabled},
         });
         window.open(routeData.href, '_blank');
       },
       gotoeEidenceWire(info, disabled) {
         let routeData = this.$router.resolve({
           path:'/evidenceWireHear',
-          query: {subBatchNo: info.subBatchNo,markflag: info.countEviChecked,disabled: disabled}
+          query: {batchNo: this.batchNo,subBatchNo: info.subBatchNo,markflag: info.countEviChecked,disabled: disabled}
         });
         window.open(routeData.href, '_blank');
       }
     },
     mounted() {
-      this.batchNo = this.$route.query.batchNo
-      console.log(this.$route.query,this.batchNo);
+      this.batchNo = this.$route.query.batchNo;
       this.getBatchInfo();
-      this.getBatchList();
       this.getBatchLog();
+      this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
     }
   }
 </script>

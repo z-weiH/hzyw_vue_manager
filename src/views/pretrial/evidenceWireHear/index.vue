@@ -109,6 +109,7 @@
         auditLists: [], // 可选原因
         scrollList:[],
         showCloseDlg: false,
+        batchNo: '',
         pager: {
           currentNum: 1,
           total: 1,
@@ -173,6 +174,7 @@
             .then(r =>{
               if(r.code === '0000'){
                 this.showCloseDlg = true;
+                this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
               }
             })
         }).catch(() => {})
@@ -229,6 +231,7 @@
       this.subBatchNo = this.$route.query.subBatchNo;
       this.markflag = +this.$route.query.markflag;
       this.disabled = this.$route.query.disabled;
+      this.batchNo = this.$route.query.batchNo;
       this.pager.currentNum = Math.ceil(this.markflag/20);
       if(this.pager.currentNum === 0)
         this.pager.currentNum = 1;
