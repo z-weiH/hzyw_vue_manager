@@ -858,6 +858,11 @@
             return v;
           });
           this.ruleForm = Object.assign(this.ruleForm,res.result);
+
+          // 如果当前被驳回 默认增加一条加款
+          if(res.result.orderStatus === 3) {
+            this.handleAdditionalMoney();
+          }
         });
       },
       // 详情初始化
