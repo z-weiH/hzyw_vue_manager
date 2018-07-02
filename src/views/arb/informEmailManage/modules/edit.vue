@@ -61,7 +61,7 @@ export default {
                   currentItem[key] = this.item[key];
                 })
               }
-              this.$parent.editState = 0;
+              this.$emit('refresh');
             }
             this.$message({
               message: res.description,

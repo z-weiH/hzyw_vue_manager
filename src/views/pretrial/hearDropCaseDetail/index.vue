@@ -44,7 +44,7 @@
           </el-col>
           <el-col :span="12">
             <span class="label">推送时间</span>
-            <span>{{item.pushDate}}</span>
+            <span>{{item.pushDay}}</span>
           </el-col>
         </el-row>
       </div>

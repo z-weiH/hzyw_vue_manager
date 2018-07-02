@@ -147,6 +147,7 @@
         this.currentUrl = e.eviFileurl;
       },
       HandleShow(evidence) {
+        this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
         this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: evidence.caseId,type: 2})
           .then(res => {
             if(res.code === '0000'){

@@ -14,7 +14,7 @@
     <div class="item-table">
       <table-component  :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
     </div>
-    <arbitrament-create :item="item" :edit-state="editState"></arbitrament-create>
+    <arbitrament-create :item="item" :edit-state="editState" @refresh="refresh"></arbitrament-create>
   </div>
 </template>
 

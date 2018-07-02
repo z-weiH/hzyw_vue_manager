@@ -233,6 +233,7 @@
       this.disabled = this.$route.query.disabled;
       this.batchNo = this.$route.query.batchNo;
       this.HandleQuery(true);
+      console.log(window.opener);
     }
   }
 </script>

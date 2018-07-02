@@ -10,7 +10,7 @@
     <div class="item-table">
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
     </div>
-    <inform-email-edit :item="item" :edit-state="editState"></inform-email-edit>
+    <inform-email-edit :item="item" :edit-state="editState" @refresh="refresh"></inform-email-edit>
   </div>
 </template>
 

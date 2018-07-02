@@ -51,15 +51,14 @@ export default {
                   Object.keys(this.item).forEach(key => {
                     currentItem[key] = this.item[key];
                   });
-                  this.$parent.editState = 0;
+                  this.$emit('refresh');
                   console.log(this.$parent.tableData);
                 }
               }
               else{
                 Object.assign(this.item, res.result);
                 console.log(this.item);
-                this.$parent.tableData.unshift(this.item);
-                this.$parent.editState = 0;
+                this.$emit('refresh');
               }
             }
             this.$message({

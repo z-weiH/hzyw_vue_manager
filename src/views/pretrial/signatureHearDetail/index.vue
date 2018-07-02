@@ -171,6 +171,7 @@
             .then(r =>{
               if(r.code === '0000'){
                 this.showCloseDlg = true;
+                console.error("updateAuditItems");
                 this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
               }
             })
@@ -320,7 +321,6 @@
           float: left;
           width: 768px;
           border-collapse: collapse;
-          margin-right: 20px;
           tr{
             height: 49px;
             &:hover {
