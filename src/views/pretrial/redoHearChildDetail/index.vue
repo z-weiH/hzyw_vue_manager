@@ -7,10 +7,6 @@
             <span class="header_title">案件复审</span>
           </el-col>
           <el-col :span="6">
-            <!-- <el-checkbox-group v-model="auditStatusList" class="mt-30">
-              <el-checkbox class="header_checkbox" checked label="已通过"></el-checkbox>
-              <el-checkbox class="header_checkbox" checked label="未通过"></el-checkbox>
-            </el-checkbox-group> -->
             <el-radio-group v-model="auditStatus" class="mt-30">
               <el-radio :label="0">全部</el-radio>
               <el-radio :label="1">已通过</el-radio>
@@ -18,24 +14,31 @@
             </el-radio-group>
           </el-col>
           <el-col :span="15">
-            <el-button type="primary" class="fr mr-10 mt-20">通过</el-button>
-            <el-button class="fr mr-10 mt-20">退回</el-button>
+            <el-button type="primary" class="fr mr-10 mt-20" @click="FooPassCheck">通过</el-button>
+            <el-button class="fr mr-10 mt-20" @click="FooRebak">退回</el-button>
           </el-col>
         </el-row>
       </div>
     </div>
-    <div class="card">
+    <div class="card" v-for="(card, index) in idCardList" :key="index">
       <div class="card_header">
         <el-row>
           <el-col :span="12">
             <div class="smallBatch_title mt-10 f_18">
-              <span class="f_14">1</span>/<span class="f_14">100</span>
-              <span>王小二</span>与<span>张三封</span>的借款合同纠纷
+              <span class="f_14">{{card.subSortNo}}</span>/<span class="f_14">{{card.totalCount}}</span>
+              <span>{{card.lender}}</span>与<span>{{card.respondents}}</span>的借款合同纠纷
               <span class="ico_group">
-                              <i class="ico_idcard right"></i>
-                              <i class="ico_edit wrong"></i>
-                              <i class="ico_computer wrong"></i>
-                            </span>
+                  <i class="ico_idcard" v-if="card.idStatus === 0"></i>
+                  <i class="ico_idcard right" v-if="card.idStatus === 1"></i>
+                  <i class="ico_idcard wrong" v-if="card.idStatus === 2"></i>
+                  <i class="ico_edit" v-if="card.signStatus === 0"></i>
+                  <i class="ico_edit right" v-if="card.signStatus === 1"></i>
+                  <i class="ico_edit wrong" v-if="card.signStatus === 2"></i>
+                  <i class="ico_computer" v-if="card.eviStatus === 0"></i>
+                  <i class="ico_computer right" v-if="card.eviStatus === 1"></i>
+                  <i class="ico_computer wrong" v-if="card.eviStatus === 2"></i>
+                </span>
+
             </div>
           </el-col>
           <el-col :span="12">
@@ -50,26 +53,49 @@
       <div class="card_body">
         <div class="part_tit f_18">身份证信息</div>
         <div class="img zhen">
-          <pic-zoom url="static/idcard-0.png" :scale="3"></pic-zoom>
+          <pic-zoom :url="card.idCard.image02" :scale="3"></pic-zoom>
         </div>
         <div class="img fan">
-          <pic-zoom url="static/idcard-1.png" :scale="3"></pic-zoom>
+          <pic-zoom :url="card.idCard.image01" :scale="3"></pic-zoom>
         </div>
         <div class="img_desc">
           <ul>
-            <li><i class="i_nopass"></i>万焕昌</li>
-            <li><i class="i_pass"></i>男</li>
-            <li><i class="i_pass"></i>汗</li>
-            <li><i class="i_pass"></i>阿谁都不会覅斌</li>
-            <li><i class="i_pass"></i>12315641561561</li>
-            <li><i class="i_pass"></i>(有效期)</li>
+            <li>
+              <i v-if="card.idCard.nameStatus === 0" class="i_nopass"></i>
+              <i v-if="card.idCard.nameStatus === 1" class="i_pass"></i>
+              <i v-if="card.idCard.nameStatus === 2" class="i_warn"></i> {{card.idCard.resName}}
+            </li>
+            <li>
+              <i v-if="card.idCard.sexStatus === 0" class="i_nopass"></i>
+              <i v-if="card.idCard.sexStatus === 1" class="i_pass"></i>
+              <i v-if="card.idCard.sexStatus === 2" class="i_warn"></i> {{card.idCard.resSex === 0 ? '女':'男'}}
+            </li>
+            <li>
+              <i v-if="card.idCard.nationStatus === 0" class="i_nopass"></i>
+              <i v-if="card.idCard.nationStatus === 1" class="i_pass"></i>
+              <i v-if="card.idCard.nationStatus === 2" class="i_warn"></i> {{card.idCard.resNation}}
+            </li>
+            <li>
+              <i v-if="card.idCard.idaddressStatus === 0" class="i_nopass"></i>
+              <i v-if="card.idCard.idaddressStatus === 1" class="i_pass"></i>
+              <i v-if="card.idCard.idaddressStatus === 2" class="i_warn"></i> {{card.idCard.resIdaddress}}
+            </li>
+            <li>
+              <i v-if="card.idCard.idcardStatus === 0" class="i_nopass"></i>
+              <i v-if="card.idCard.idcardStatus === 1" class="i_pass"></i>
+              <i v-if="card.idCard.idcardStatus === 2" class="i_warn"></i> {{card.idCard.resIdcard}}
+            </li>
+            <li>
+              <i v-if="card.idCard.effctDateStatus === 0" class="i_nopass"></i>
+              <i v-if="card.idCard.effctDateStatus === 1" class="i_pass"></i>
+              <i v-if="card.idCard.effctDateStatus === 2" class="i_warn"></i> {{card.idCard.resEffctDate}}
+            </li>
           </ul>
         </div>
         <div class="audit">
           <p class="audit_title">审核意见:</p>
           <ul>
-            <li>1.被申请人姓名与身份证不一致 </li>
-            <li>2.被申请人身份证有效期已过期或即将过期</li>
+            <li v-for="(msg, index) in card.idCard.failReasonList">{{index + 1}}.{{msg.reasonMsg}}</li>
           </ul>
         </div>
       </div>
@@ -78,44 +104,33 @@
         <div class="part_tit f_18">签名信息</div>
         <div class="of-hidden">
           <div class="mockTable fl">
-            <div class="cellTr">
+            <div class="cellTr" v-for="(cellTr,index) in card.sign.signList">
               <div class="cell">签名时间</div>
-              <div class="cell">2018-02-05 15:00:14</div>
+              <div class="cell">{{cellTr.signTime}}</div>
               <div class="cell">签名实体</div>
-              <div class="cell">2018-02-05 15:00:14</div>
-            </div>
-            <div class="cellTr">
-              <div class="cell">签名时间</div>
-              <div class="cell">2018-02-05 15:00:14</div>
-              <div class="cell">签名实体</div>
-              <div class="cell">2018-02-05 15:00:14</div>
-            </div>
-            <div class="cellTr">
-              <div class="cell">签名时间</div>
-              <div class="cell">2018-02-05 15:00:14</div>
-              <div class="cell">签名实体</div>
-              <div class="cell">2018-02-05 15:00:14</div>
+              <div class="cell">{{cellTr.signDesc}}</div>
             </div>
             <div class="cellTr">
               <div class="cell">借款开始时间</div>
-              <div class="cell">2018-02-05 15:00:14</div>
+              <div class="cell">{{card.sign.borrowStartDate}}</div>
               <div class="cell">借款合同</div>
-              <div class="cell"><span class="btn_link">点击查看</span></div>
+              <div class="cell"><a class="btn_link" :href="card.sign.borrowContractUrl" target="_blank">点击查看</a></div>
             </div>
           </div>
           <div class="sign_info fl">
             <ul>
-              <li><i class="i_nopass"></i>万焕昌</li>
-              <li><i class="i_pass"></i>男</li>
-              <li><i class="i_pass"></i>汗</li>
+              <li v-for="(msg,idx) in card.sign.signAuditList">
+                <i v-if="msg.auditStatus == 0" class="i_nopass"></i>
+                <i v-if="msg.auditStatus == 1" class="i_pass"></i>
+                <i v-if="msg.auditStatus == 2" class="i_warn"></i> {{msg.auditMsg}}
+              </li>
             </ul>
           </div>
         </div>
         <div class="audit">
           <p class="audit_title">审核意见:</p>
           <ul>
-            <li>1.被申请人姓名与身份证不一致 </li>
-            <li>2.被申请人身份证有效期已过期或即将过期</li>
+            <li v-for="(line,idx) in card.sign.checkSignList">{{idx + 1}}.{{line.reasonMsg}}</li>
           </ul>
         </div>
       </div>
@@ -124,27 +139,51 @@
         <div class="applybook_title of-hidden">
           <div class="tit fl">仲裁申请书</div>
           <div class="scroll_toolbar fr">
-            <scroll-y @handleClick="scrollbarClick" :options="scrollList" :defaultWidth="420"></scroll-y>
+            <scroll-y @handleClick="scrollbarClick" :options="card.evi.eviDetailList" label="eviTitle" :defaultWidth="420"></scroll-y>
           </div>
         </div>
         <div class="applybook_content of-hidden">
           <div class="article_left fl">
-            <img src="./../../../assets/img/pdf-0.png" alt="">
+            <object :data="card.evi.applicationUrl" type="application/pdf" width="100%" height="100%">
+                <iframe :src="card.evi.applicationUrl" width="100%" height="100%" style="border: none;">
+                     <a :href="card.evi.applicationUrl"></a>
+                </iframe>
+              </object>
           </div>
           <div class="article_right fr">
-            <img src="./../../../assets/img/pdf-1.png" alt="">
+            <object :data="currentUrl" type="application/pdf" width="100%" height="100%">
+                <iframe :src="currentUrl" width="100%" height="100%" style="border: none;">
+                     <a :href="currentUrl"></a>
+                </iframe>
+              </object>
           </div>
         </div>
       </div>
-
+      <!-- 传统分页 -->
+      <!-- <div class="pagination clear">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :current-page="pager.currentNum"
+          :page-size="20"
+          layout="prev, pager, next, jumper, total"
+          :total="pager.total">
+        </el-pagination>
+        </div> -->
+      <!-- end -->
 
     </div>
+
 
     <!-- 左右分页 tool -->
     <div class="fix_screen">
       <span class="arrow_left" @click="gotoPrevPage"></span><span class="arrow_right" @click="gotoNextPage"></span>
     </div>
     <!-- ** -->
+
+    <audit :editState="audit_state"></audit>
+    <passview :editState="pview_state"></passview>
+    <reback :editState="rb_state"></reback>
+
   </div>
 </template>
 
@@ -152,6 +191,9 @@
 import PicZoom from "vue-piczoom";
 import scrollY from "@/components/scroll-y";
 import { URL_JSON } from "../../../components/script/url_json";
+import audit from "./modules/audit";
+import passview from "./modules/passview";
+import reback from "./modules/reback";
 export default {
   data() {
     return {
@@ -159,6 +201,16 @@ export default {
       auditStatus: 0,
       subBatchNo: "",
       currentNum: 1,
+      idCardList: [], //身份证信息
+      currentUrl: "",
+      audit_state:0,
+      pview_state:0,
+      rb_state:0,
+      pager: {
+        currentNum: 1,
+        pageSize: 20,
+        count: 0
+      },
       scrollList: [
         {
           name: "借款协议"
@@ -181,14 +233,48 @@ export default {
       ]
     };
   },
+  watch: {
+    auditStatus(val) {
+      console.log("cur:: ", val);
+      this.HandleQuery(val);
+    }
+  },
   methods: {
-    scrollbarClick() {},
+    scrollbarClick(e) {
+      console.log(e);
+      this.currentUrl = e.eviFileurl;
+    },
+    FooPassCheck(){
+      // 批量通过
+    },
+    FooRebak(){
+      // 批量退回
+    },
+    HandleQuery(_val) {
+      if (_val != 0) {
+        this.$http
+          .post(URL_JSON["queryRecheckDetailView"], {
+            pageSize: 1,
+            currentNum: this.currentNum,
+            subBatchNo: this.subBatchNo,
+            auditStatus: _val
+          })
+          .then(res => {
+            console.log("newQuery>>>", res.result);
+            this.idCardList = res.result.list;
+            this.count = res.result.count;
+            this.pager.total = res.result.count;
+          });
+      } else {
+        this.getRecheckDetail();
+      }
+    },
     gotoPrevPage() {
       if (this.currentNum != 1) {
         this.currentNum--;
         this.getRecheckDetail();
-      }else{
-        this.$message.warning('已经是第一条数据了！');
+      } else {
+        this.$message.warning("已经是第一条数据了！");
       }
     },
     gotoNextPage() {
@@ -196,8 +282,8 @@ export default {
         //获取分页最大值做比较
         this.currentNum++;
         this.getRecheckDetail();
-      }else{
-        this.$message.warning('已经是最后一条数据了！');
+      } else {
+        this.$message.warning("已经是最后一条数据了！");
       }
     },
     getRecheckDetail() {
@@ -205,11 +291,14 @@ export default {
         .post(URL_JSON["queryRecheckDetailView"], {
           pageSize: 1,
           currentNum: this.currentNum,
-          subBatchId: this.subBatchId,
+          subBatchNo: this.subBatchId,
           auditStatus: this.auditStatus
         })
         .then(res => {
           console.log("detail>>>", res.result);
+          this.idCardList = res.result.list;
+          this.count = res.result.count;
+          this.pager.total = res.result.count;
         });
     }
   },
@@ -222,7 +311,10 @@ export default {
   created() {},
   components: {
     PicZoom,
-    scrollY
+    scrollY,
+    audit,
+    passview,
+    reback
   }
 };
 </script>
@@ -244,6 +336,19 @@ $themeColor: #193b8c;
         color: #193b8c;
         line-height: 76px;
         font-weight: 500;
+      }
+      .header_img {
+        display: inline-block;
+        position: relative;
+        img {
+          vertical-align: bottom;
+          margin: 0 7px;
+        }
+        .icon {
+          position: absolute;
+          bottom: -7px;
+          right: -7px;
+        }
       }
       .header_checkbox {
         margin-left: 20px;
@@ -395,6 +500,16 @@ $themeColor: #193b8c;
   margin-right: 5px;
 }
 
+.i_warn {
+  display: inline-block;
+  width: 14px;
+  height: 10px;
+  background-image: url(./../../../assets/img/warning_tag.png);
+  background-repeat: no-repeat;
+  background-position: 100%;
+  margin-right: 5px;
+}
+
 .i_nopass {
   display: inline-block;
   width: 14px;
@@ -484,9 +599,11 @@ $themeColor: #193b8c;
     }
   }
   .cell {
+    vertical-align: middle;
     display: table-cell;
     height: 50px;
-    line-height: 50px;
+    line-height: 1.6;
+    padding: 2px 5px;
     width: 220px;
     text-indent: 20px;
     border-left-width: 1px;
@@ -555,11 +672,3 @@ $themeColor: #193b8c;
   }
 }
 </style>
-
-<scroll-y @handleClick="handleClick" :options="list" :defaultWidth="500" label="name"></scroll-y>
-    this.list = [
-      {name : '1-'},
-      {name : '2-1'},
-      {name : '张三啦啦啦-2'},
-      {name : '张三啦啦啦-'},
-    ]
