@@ -137,42 +137,50 @@
       ...mapGetters(['items'])
     },
     methods: {
+      //获取提交信息
+      HandleBeforeSubmit(info) {
+        return this.$http.post('/firstAudit/subBatchPassQueryByBatchId.htm',{subBatchNo: info.subBatchNo}).then(res => {
+          return res;
+        })
+      },
       //提交案件
       HandleSubmit(info){
-        // this.$http.post('/fristAudit/subBatchPassQueryByBatchId.htm',{subBatchNo: info.subBatchNo}).then(res => {
-        //
-        // })
-        // console.log(res);
-        const h = this.$createElement;
-        this.$msgbox({
-          title: '提示',
-          message: h('div',null,[
-            h('p',null,[
-              h('span', null, '共计提交'),
-              h('span',{style:{color: '#EEA823'}},1000),
-              h('span', null, '件案件初审结果，')
-            ]),
-            h('p',null,[
-              h('span', null, '其中通过'),
-              h('span',{style:{color: '#EEA823'}},982),
-              h('span', null, '件，未通过'),
-              h('span', {style:{color: '#EEA823'}}, 18),
-              h('span', {style:{color: '#EEA823'}}, '件。')
-            ]),
-            h('p', null, '确定提交？')
-          ]),
-          center: true,
-          showCancelButton: true,
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-        }).then(res =>{
-          this.$http.post('/firstAudit/submitFirstAudit.htm',{subBatchNo: info.subBatchNo})
-            .then(r => {
-              if(r.code === '0000'){
-                this.$message.success(r.description);
-              }
-            })
-        }).catch(()=>{});
+        this.HandleBeforeSubmit(info).then(r => {
+          console.log(r);
+          if(r.code === '0000'){
+            const h = this.$createElement;
+            this.$msgbox({
+              title: '提示',
+              message: h('div',null,[
+                h('p',null,[
+                  h('span', null, '共计提交'),
+                  h('span',{style:{color: '#EEA823'}},r.result.totalCount),
+                  h('span', null, '件案件初审结果，')
+                ]),
+                h('p',null,[
+                  h('span', null, '其中通过'),
+                  h('span',{style:{color: '#EEA823'}},r.result.passCount),
+                  h('span', null, '件，未通过'),
+                  h('span', {style:{color: '#EEA823'}}, r.result.notPassCount),
+                  h('span', {style:{color: '#EEA823'}}, '件。')
+                ]),
+                h('p', null, '确定提交？')
+              ]),
+              center: true,
+              showCancelButton: true,
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+            }).then(res =>{
+              this.$http.post('/firstAudit/submitFirstAudit.htm',{subBatchNo: info.subBatchNo})
+                .then(r => {
+                  if(r.code === '0000'){
+                    this.$message.success(r.description);
+                  }
+                })
+            }).catch(()=>{});
+          }
+        });
+
       },
       //查看退回原因
       HandleShowReason(info) {
