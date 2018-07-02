@@ -139,6 +139,10 @@
     methods: {
       //提交案件
       HandleSubmit(info){
+        // this.$http.post('/fristAudit/subBatchPassQueryByBatchId.htm',{subBatchNo: info.subBatchNo}).then(res => {
+        //
+        // })
+        // console.log(res);
         const h = this.$createElement;
         this.$msgbox({
           title: '提示',

@@ -172,7 +172,8 @@
               if(r.code === '0000'){
                 this.showCloseDlg = true;
                 console.error("updateAuditItems");
-                this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
+                window.opener.history.go(0);
+                // this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
               }
             })
         }).catch(() => {})

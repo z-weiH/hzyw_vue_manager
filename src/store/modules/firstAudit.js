@@ -21,6 +21,10 @@ export default {
       .then(res => {
         console.error('api',res);
           if(res.code === '0000'){
+            res.result.forEach(it => {
+              !it.passNum && (it.passNum = 0);
+              !it.unpassNum && (it.unpassNum = 0);
+            })
             context.commit('setItems',res.result);
           }
       })
