@@ -115,7 +115,7 @@
                     @input.native="handleAuditedChange(item.count,index,item)" 
                     style="width:200px;"
                     v-model="item.count" placeholder="请输入" 
-                  />件
+                  /><span class="ml-10">件</span>
                   （
                   <span class="color-origin">{{item.unDealCount}}</span>
                   件待审核）
