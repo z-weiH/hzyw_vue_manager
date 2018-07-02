@@ -29,7 +29,7 @@ export default {
   data () {
     return {
       createItems: [
-        {type: 'text', property:'emailUsername', label: '邮箱账号', placeholder: '邮箱账号',rule:'require'},
+        {type: 'text', property:'emailUsername', label: '邮箱账号', placeholder: '邮箱账号',rule:'require,email'},
         {type: 'text', property:'emailPassword', label: '邮箱密码', placeholder: '邮箱密码',rule:'require'},
         {type: 'text', property:'emailSmtp', label: '邮件smtp', placeholder: '邮件smtp',rule:'require'},
         {type: 'text', property:'senderName', label: '发送人名称', placeholder: '发送人名称',rule:'require'},

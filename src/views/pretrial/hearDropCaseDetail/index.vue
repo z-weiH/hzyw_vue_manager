@@ -73,14 +73,14 @@
     },
     computed: {
       btnName() {
-        // 1-继续处理，2-等待处理，3-整合中，4-已告知 5-整合成功
-        if(this.$route.query.type === 1)
+        // 0-等待处理，1-正在整合，2-继续处理，3-已告知5-整合成功
+        if(this.$route.query.type === 0)
           return '继续处理';
-        else if(this.$route.query.type === 2)
+        else if(this.$route.query.type === 1)
           return '等待处理';
-        else if(this.$route.query.type === 3)
+        else if(this.$route.query.type === 2)
           return '整合中';
-        else if(this.$route.query.type === 4)
+        else if(this.$route.query.type === 3)
           return '已告知';
         else if(this.$route.query.type === 5)
           return '整合成功';

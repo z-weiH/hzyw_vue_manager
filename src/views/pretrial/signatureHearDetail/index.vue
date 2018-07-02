@@ -42,7 +42,7 @@
           </div>
         </div>
         <div class="card_body">
-          <table class="card_table">
+          <table class="card_table fl">
             <tr v-for="(signopt,idx) in sign.signList" :key="idx">
               <td>签名时间</td>
               <td>{{signopt.signTime}}</td>
@@ -58,7 +58,7 @@
               </td>
             </tr>
           </table>
-          <div class="img_desc">
+          <div class="img_desc fr">
             <ul>
               <li v-for="(audit,i) in sign.signAuditList" :key="i">
                 <img class="mr-10" src="@/assets/img/error_tag.png" v-if="audit.auditStatus == 0" alt="">
@@ -146,7 +146,8 @@
               this.auditLists = res.result;
               this.editState = 1;
               this.currentCaseId = sign.caseId;
-              this.selValue = sign.eviStatus;            }
+              this.selValue = sign.signStatus;
+            }
           })
       },
       openWindow(url) {
@@ -254,6 +255,11 @@
   .body_container{
     background: #F7F7F7;
     height: 100%;
+    &::after{
+      content: '';
+      display: block;
+      clear:both;
+    }
     .header_container{
       height: 76px;
       background: #fff;

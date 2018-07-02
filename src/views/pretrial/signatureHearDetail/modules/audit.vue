@@ -16,7 +16,7 @@
       </el-form-item>
       <el-form-item class="audit" label="原因(多选)" prop="type" label-width="100px" v-if="status === 0">
         <el-checkbox-group v-model="reasonIds">
-          <el-checkbox :checked="Boolean(opt.reasonType)" v-for="(opt,index) in list" :key="index" :label="opt.reasonMsg" name="type"></el-checkbox>
+          <el-checkbox  v-for="(opt,index) in list" :key="index" :label="opt.reasonMsg" name="type"></el-checkbox>
           <!--<el-checkbox label="地推活动" name="type"></el-checkbox>-->
           <!--<el-checkbox label="线下主题活动" name="type"></el-checkbox>-->
           <!--<el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>-->
@@ -36,7 +36,8 @@ export default {
   data() {
     return {
       status: 0,
-      reasonIds: []
+      reasonIds: [],
+      list: []
     }
   },
   props: {
@@ -56,19 +57,40 @@ export default {
         .then(res => {
           if(res.code === '0000'){
             this.$message.success(res.description);
-            console.log(res);
+            //刷新审核结果
+            let keyStr= '';
+            if(this.type === 0){
+              keyStr = 'idCardList.auditListWrap';
+            }
+            else if(this.type === 1){
+              keyStr = 'signatureItems.checkSignList';
+            }
+            else if(this.type === 2){
+              keyStr = 'evidenceItems.checkAuditList';
+            }
+            let keyArray = keyStr.split('.');
+            let item = this.$parent[keyArray[0]].find(it => it.caseId === this.$parent.currentCaseId);
+            if(item)
+              item[keyArray[1]] = auditList;
+            this.$parent.editState = 0;
           }
         })
     },
 
     HandleOpen() {
+      this.list = this.$parent.auditLists;
+      this.reasonIds = [];
+      this.list.forEach(it => {
+        if(it.reasonType === 1){
+          this.reasonIds.push(it.reasonMsg);
+        }
+      })
+      console.log(this.reasonIds);
         let arr = this.list.filter(it => it.reasonType === this.type);
         if(this.type === 2){
           this.status = 0;
         }
-        else if(this.type === 0){
-          this.status = this.selValue === 2 ? 0 : 1;
-        }else if(this.type === 1){
+        else{
           this.status = this.selValue === 2 ? 0 : 1;
         }
     }
@@ -83,10 +105,7 @@ export default {
           this.$parent.editState = 0
       }
     },
-    //获取父页面的审核原因
-    list() {
-      return this.$parent.auditLists;
-    }
+
   },
 }
 </script>

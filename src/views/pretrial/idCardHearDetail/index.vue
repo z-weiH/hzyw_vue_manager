@@ -264,6 +264,11 @@
   .body_container{
     background: #F7F7F7;
     height: 100%;
+    &::after{
+      content: '';
+      display: block;
+      clear:both;
+    }
     .header_container{
       height: 76px;
       background: #fff;
@@ -288,6 +293,7 @@
       border:1px solid #E5EAEE;
       background: #fff;
       margin: 16px auto;
+      padding-bottom: 20px;
       .card_header{
         height: 49px;
         border-bottom: 1px solid #E5EAEE;
@@ -314,7 +320,7 @@
         }
       }
       .card_body{
-        padding: 30px 0 30px 22px;
+        padding: 30px 0 0 22px;
         .img{
           float: left;
           width: 370px;
@@ -340,7 +346,7 @@
 
       }
       .audit{
-        margin-top: 28px;
+        padding-top: 28px;
         .audit_title{
           font-size: 17px;
           color: #193B8C;
