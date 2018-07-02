@@ -6,8 +6,6 @@ import router from './router'
 
 Vue.config.productionTip = false
 
-// 引入 element-ui
-import ElementUI from 'element-ui'
 // 添加 主题色
 import './assets/style/element/index.css'
 // 引入 axios
@@ -41,8 +39,13 @@ import store from './store'
 // 引入 filter
 import './filter'
 
-// 装载 element ui
-Vue.use(ElementUI);
+if(process.env.NODE_ENV === 'development') {
+  // 引入 element-ui
+  let ElementUI = require('element-ui');
+  // 装载 element ui
+  Vue.use(ElementUI);
+}
+
 
 /* eslint-disable no-new */
 export default new Vue({
