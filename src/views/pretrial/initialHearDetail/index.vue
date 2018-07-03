@@ -60,7 +60,7 @@
           <p class="info_title">身份证信息</p>
           <p v-if="info.countIdChecked === 0 && info.idStatus === 0">审核未开始</p>
           <p v-if="info.countIdChecked !== 0 && info.idStatus === 0">已审核到第{{info.countIdChecked}}件</p>
-          <p v-if="info.idStatus === 1">通过{{info.countCase - info.unpassNum}}件，未通过{{info.unpassNum}}</p>
+          <p v-if="info.idStatus === 1">通过{{info.passNum}}件，未通过{{info.unpassNum}}</p>
         </li>
         <li>
           <el-button type="primary" v-if="info.signStatus === 0" class="fr mt-10" @click="gotoSignature(info)">审核</el-button>
@@ -68,7 +68,7 @@
           <p class="info_title">签名信息</p>
           <p v-if="info.countSignChecked === 0 && info.signStatus === 0">审核未开始</p>
           <p v-if="info.countSignChecked !== 0 && info.signStatus === 0">已审核到第{{info.countSignChecked}}件</p>
-          <p v-else-if="info.signStatus === 1">通过{{info.countCase - info.unpassNum}}件，未通过{{info.unpassNum}}</p>
+          <p v-else-if="info.signStatus === 1">通过{{info.passNum}}件，未通过{{info.unpassNum}}</p>
         </li>
         <li>
           <el-button type="primary" v-if="info.eviStatus === 0" class="fr mt-10" @click="gotoeEidenceWire(info)">审核</el-button>
@@ -76,7 +76,7 @@
           <p class="info_title">证据链信息</p>
           <p v-if="info.countEviChecked === 0 && info.eviStatus === 0">审核未开始</p>
           <p v-if="info.countEviChecked !== 0 && info.eviStatus === 0">已审核到第{{info.countEviChecked}}</p>
-          <p v-else-if="info.eviStatus === 1">通过{{info.countCase - info.unpassNum}}件，未通过{{info.unpassNum}}</p>
+          <p v-else-if="info.eviStatus === 1">通过{{info.passNum}}件，未通过{{info.unpassNum}}</p>
         </li>
       </ul>
 
@@ -88,6 +88,7 @@
       <li v-for="(log,index) in logItems" :key="index">
         <span class="log_info_time">{{log.logTime}}</span>
         <span class="log_info_desc">{{log.logMsg}}</span>
+        <span class="colLink" style="font-size: 16px; padding-left: 10px;" @click="HandleShowReason">查看原因</span>
       </li>
     </ul>
     <el-dialog
@@ -107,8 +108,7 @@
         </ul>
       </div>
       <span slot="footer" class="dialog-footer">
-          <el-button type="primary"  @click="$parent.editState = 0">确  认</el-button>
-          <el-button @click="$parent.editState = 0" >取 消</el-button>
+          <el-button type="primary"  @click="$parent.editState = 0">关  闭</el-button>
         </span>
     </el-dialog>
 

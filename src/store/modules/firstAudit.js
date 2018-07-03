@@ -11,15 +11,12 @@ export default {
   mutations : {
     setItems(state, data) {
       state.items = data;
-      console.error(data);
     },
   },
   actions : {
     updateAuditItems(context,data) {
-      console.error('updateAuditItems');
       axios.post('/firstAudit/querySubBatchList.htm', data)
       .then(res => {
-        console.error('api',res);
           if(res.code === '0000'){
             res.result.forEach(it => {
               !it.passNum && (it.passNum = 0);
