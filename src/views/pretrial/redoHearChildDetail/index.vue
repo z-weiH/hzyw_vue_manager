@@ -184,10 +184,12 @@
     <passview :subBatchNo="subBatchId"></passview>
     <reback :subBatchNo="subBatchId"></reback>
 
+    <closeDig v-if="isSubmit" message="复审结果已提交，请关闭本页面"></closeDig>
   </div>
 </template>
 
 <script>
+import closeDig from '@/components/closeDlg.vue'
 import PicZoom from "vue-piczoom";
 import scrollY from "@/components/scroll-y";
 import { URL_JSON } from "../../../components/script/url_json";
@@ -197,6 +199,7 @@ import reback from "./modules/reback";
 export default {
   data() {
     return {
+      isSubmit : false,
       auditStatusList: ["1", "2"],
       auditStatus: 0,
       subBatchNo: "",
@@ -251,6 +254,9 @@ export default {
     FooPassCheck() {
       // 批量通过
       this.pview_state = 1;
+    },
+    FooPassCheckCBK() {
+      this.isSubmit = true;
     },
     FooRebak() {
       // 批量退回
@@ -350,7 +356,8 @@ export default {
     scrollY,
     audit,
     passview,
-    reback
+    reback,
+    closeDig,
   }
 };
 </script>
