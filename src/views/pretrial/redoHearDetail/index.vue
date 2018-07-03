@@ -344,7 +344,8 @@ export default {
       let routeData = this.$router.resolve({
         path: "/redoHearChildDetail",
         query: {
-          subBatchId: opts.subBatchNo
+          subBatchId: opts.subBatchNo,
+          subViewType:opts.batchStatus
         }
       });
       window.open(routeData.href, "_blank");

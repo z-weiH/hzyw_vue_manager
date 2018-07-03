@@ -14,8 +14,8 @@
             </el-radio-group>
           </el-col>
           <el-col :span="15">
-            <el-button type="primary" class="fr mr-10 mt-20" @click="FooPassCheck">通过</el-button>
-            <el-button class="fr mr-10 mt-20" @click="FooRebak">退回</el-button>
+            <el-button v-if="subViewType == 1" type="primary" class="fr mr-10 mt-20" @click="FooPassCheck">通过</el-button>
+            <el-button v-if="subViewType == 1" class="fr mr-10 mt-20" @click="FooRebak">退回</el-button>
           </el-col>
         </el-row>
       </div>
@@ -43,7 +43,7 @@
           </el-col>
           <el-col :span="12">
             <div class="fr mt-5">
-              <el-button @click="FooAuditReason(card)">审核意见</el-button>
+              <el-button v-if="subViewType == 1"  @click="FooAuditReason(card)">审核意见</el-button>
             </div>
           </el-col>
         </el-row>
@@ -180,7 +180,7 @@
     </div>
     <!-- ** -->
 
-    <audit :subBatchNo="subBatchId"></audit>
+    <audit ref="audit" :subBatchNo="subBatchId"></audit>
     <passview :subBatchNo="subBatchId"></passview>
     <reback :subBatchNo="subBatchId"></reback>
 
@@ -201,7 +201,10 @@ export default {
       auditStatus: 0,
       subBatchNo: "",
       subBatchId: "",
+      subViewType:"",
+      btnRecheckType:"",
       currentNum: 1,
+      auditLists:[],
       idCardList: [], //身份证信息
       currentUrl: "",
       audit_state: 0,
@@ -287,7 +290,15 @@ export default {
           if (res.code === "0000") {
             console.log('所有审核原因',res);
             this.audit_state = 1;
-
+            this.auditLists = res.result.suggestions;
+            console.log("auditLists:",this.auditLists);
+            let reasonIds = res.result.suggestions.filter((v) => {
+              return v.isChecked === 1;
+            }).map((v) => {
+              return v.reasonId;
+            });
+            console.log(reasonIds);
+            this.$refs.audit.reasonIds = reasonIds;
           }
         });
     },
@@ -321,12 +332,15 @@ export default {
           this.idCardList = res.result.list;
           this.count = res.result.count;
           this.pager.total = res.result.count;
+
+
         });
     }
   },
   mounted() {
     console.log("---", this.$route.query.subBatchId);
     this.subBatchId = this.$route.query.subBatchId;
+    this.subViewType = this.$route.query.subViewType;
     this.auditStatus = 0;
     this.getRecheckDetail();
   },

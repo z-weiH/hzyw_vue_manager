@@ -4,7 +4,7 @@
        <el-col :span="24">
          <div>您即将对本批案件执行复审通过操作。</div>
          <div>操作执行后，客户将接收到本批案件的预审结果。</div>
-         <div>其中，预审通过<span class="f_orange"></span>件，未通过<span class="f_orange"></span>件，共计<span class="f_orange"></span>件。</div>
+         <div>其中，预审通过<span class="f_orange">{{item.passCount}}</span>件，未通过<span class="f_orange">{{item.passCount}}</span>件，共计<span class="f_orange">{{item.totalCount}}</span>件。</div>
           <div>确定通过？</div>
        </el-col>
      </el-row>
@@ -23,7 +23,9 @@ export default {
     subBatchNo: String
   },
   data() {
-    return {};
+    return {
+      item:{}
+    };
   },
   methods: {
     passAllCase() {
@@ -40,11 +42,12 @@ export default {
     },
     queryCaseNum() {
       this.$http
-        .post(URL_JSON["queryNumberBatchList"], {
-          batchNo: this.subBatchNo
+        .post(URL_JSON["queryNumberBatchList1"], {
+          subBatchNo: this.subBatchNo
         })
         .then(res => {
           console.log(res.result);
+          this.item = res.result;
         });
     },
     closeFoo() {}

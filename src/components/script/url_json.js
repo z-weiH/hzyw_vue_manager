@@ -254,6 +254,9 @@ export const URL_JSON = {
 
   'queryNumberBatchList': '/againAudit/subBatchPassQueryByBatchId.htm',//查询子批次数量信息
 
+  'queryNumberBatchList1': '/firstAudit/subBatchPassQueryByBatchId.htm', //查询子批次数量信息bak
+
+
   'queryAllReasonList': '/againAudit/queryAuditOpinionByCaseId.htm',//所有审核不通过原因
   /*-----预审系统----*/
 

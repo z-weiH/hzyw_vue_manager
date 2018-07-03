@@ -9,7 +9,7 @@
       </el-form-item>
       <el-form-item class="audit" label="原因(多选)" prop="type" label-width="100px" v-if="status === 0">
         <el-checkbox-group v-model="reasonIds">
-          <el-checkbox v-for="(opt,index) in list" :key="index" :label="opt.reasonMsg" name="type"></el-checkbox>
+          <el-checkbox v-for="(opt,index) in list" :key="index" :label="opt.reasonId" name="type" >{{opt.reasonMsg}}</el-checkbox>
           <!--<el-checkbox label="地推活动" name="type"></el-checkbox>-->
           <!--<el-checkbox label="线下主题活动" name="type"></el-checkbox>-->
           <!--<el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>-->
@@ -28,18 +28,21 @@
     data() {
       return {
         status:0,
-        reasonIds:"",
-        list:[]
+        reasonIds:[],
       };
     },
     methods: {
-      HandleOpen() {},
+      HandleOpen() {
+      },
       HandleAuditConfirm(){
 
       },
       closeFoo() {}
     },
     computed: {
+      list(){
+          return this.$parent.auditLists;
+      },
       show: {
         get: function() {
           return this.$parent.audit_state === 1;
