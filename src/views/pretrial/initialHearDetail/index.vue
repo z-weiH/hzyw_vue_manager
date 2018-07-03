@@ -88,7 +88,7 @@
       <li v-for="(log,index) in logItems" :key="index">
         <span class="log_info_time">{{log.logTime}}</span>
         <span class="log_info_desc">{{log.logMsg}}</span>
-        <span class="colLink" style="font-size: 16px; padding-left: 10px;" @click="HandleShowReason">查看原因</span>
+        <span class="colLink" style="font-size: 16px; padding-left: 10px;" v-if="log.logType === 4" @click="HandleShowReason">查看原因</span>
       </li>
     </ul>
     <el-dialog
@@ -175,6 +175,7 @@
                 .then(r => {
                   if(r.code === '0000'){
                     this.$message.success(r.description);
+                    this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
                   }
                 })
             }).catch(()=>{});
@@ -341,9 +342,8 @@
   }
   .log_info{
     height: 54px;
-    background: #fff;
-
     li{
+      background: #fff;
       border-bottom: 1px dotted #ccc;
       &:last-child{
         border-bottom: none;

@@ -35,7 +35,6 @@
 
 .main{
   background-color: #F1F2F7;
-  overflow: hidden;
   min-height: 100%;
   .box{
     width: 1200px;
