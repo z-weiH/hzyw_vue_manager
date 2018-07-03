@@ -43,7 +43,7 @@
           </el-col>
           <el-col :span="12">
             <div class="fr mt-5">
-              <el-button>审核意见</el-button>
+              <el-button @click="FooAuditReason(card)">审核意见</el-button>
             </div>
           </el-col>
         </el-row>
@@ -180,9 +180,9 @@
     </div>
     <!-- ** -->
 
-    <audit :editState="audit_state"></audit>
-    <passview :editState="pview_state"></passview>
-    <reback :editState="rb_state"></reback>
+    <audit :subBatchNo="subBatchId"></audit>
+    <passview :subBatchNo="subBatchId"></passview>
+    <reback :subBatchNo="subBatchId"></reback>
 
   </div>
 </template>
@@ -200,12 +200,13 @@ export default {
       auditStatusList: ["1", "2"],
       auditStatus: 0,
       subBatchNo: "",
+      subBatchId: "",
       currentNum: 1,
       idCardList: [], //身份证信息
       currentUrl: "",
-      audit_state:0,
-      pview_state:0,
-      rb_state:0,
+      audit_state: 0,
+      pview_state: 0,
+      rb_state: 0,
       pager: {
         currentNum: 1,
         pageSize: 20,
@@ -244,11 +245,18 @@ export default {
       console.log(e);
       this.currentUrl = e.eviFileurl;
     },
-    FooPassCheck(){
+    FooPassCheck() {
       // 批量通过
+      this.pview_state = 1;
     },
-    FooRebak(){
+    FooRebak() {
       // 批量退回
+      this.rb_state = 1;
+    },
+    FooAuditReason(card) {
+      // 审核意见
+      this.audit_state = 1;
+      this.HandleShow(card);
     },
     HandleQuery(_val) {
       if (_val != 0) {
@@ -268,6 +276,20 @@ export default {
       } else {
         this.getRecheckDetail();
       }
+    },
+    HandleShow(card) {
+      //意见审核
+      this.$http
+        .post(URL_JSON['queryAllReasonList'], {
+          caseId: card.caseId
+        })
+        .then(res => {
+          if (res.code === "0000") {
+            console.log('所有审核原因',res);
+            this.audit_state = 1;
+
+          }
+        });
     },
     gotoPrevPage() {
       if (this.currentNum != 1) {
@@ -506,7 +528,7 @@ $themeColor: #193b8c;
   height: 10px;
   background-image: url(./../../../assets/img/warning_tag.png);
   background-repeat: no-repeat;
-  background-position: 100%;
+  background-position: center;
   margin-right: 5px;
 }
 
@@ -603,9 +625,10 @@ $themeColor: #193b8c;
     display: table-cell;
     height: 50px;
     line-height: 1.6;
-    padding: 2px 5px;
+    padding: 2px 8px;
+    text-align: center;
     width: 220px;
-    text-indent: 20px;
+    // text-indent: 20px;
     border-left-width: 1px;
     border-right-width: 1px;
     border-bottom-width: 1px;

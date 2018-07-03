@@ -247,6 +247,14 @@ export const URL_JSON = {
   'queryRedoHearChildDetail': '/againAudit/queryAgainAuditDetailByBatchNo.htm', //案件复审-子批次审核详情页
 
   'queryRecheckDetailView':'/againAudit/queryAgainAuditDetailByBatchNo.htm',//案件复审3合一详情
+
+  'savecaseReback': '/againAudit/subBatchReturnByBatchId.htm',//3合一自批次退回
+
+  'savePassBatchId':'/againAudit/subBatchPassByBatchId.htm',//通过3合一子批次
+
+  'queryNumberBatchList': '/againAudit/subBatchPassQueryByBatchId.htm',//查询子批次数量信息
+
+  'queryAllReasonList': '/againAudit/queryAuditOpinionByCaseId.htm',//所有审核不通过原因
   /*-----预审系统----*/
 
 
