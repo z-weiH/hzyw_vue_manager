@@ -110,7 +110,7 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" align="center" prop="status" label="状态" width="150px">
+        <el-table-column align="center" prop="status" label="状态" width="150px">
           <template slot-scope="scope">
             {{
               
