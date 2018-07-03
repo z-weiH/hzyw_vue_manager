@@ -171,7 +171,6 @@
             .then(r =>{
               if(r.code === '0000'){
                 this.showCloseDlg = true;
-                console.error("updateAuditItems");
                 window.opener.history.go(0);
                 // this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
               }

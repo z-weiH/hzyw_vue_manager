@@ -84,15 +84,33 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-        <el-table-column prop="platName" label="互金企业" width="150px" align="center"></el-table-column>
+        <el-table-column prop="platName" label="互金企业" width="150px" align="center">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.platName" placement="top-start">
+              <span class="ellipsis" style="max-width:129px;">{{scope.row.platName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="productName" label="模板" width="150px"></el-table-column>
         <el-table-column prop="respondents" label="被申请人" width="150px"></el-table-column>
         <el-table-column prop="resPhone" label="被申请人手机" width="150px"></el-table-column>
         <el-table-column prop="amtCase" label="标的金额" width="150px"></el-table-column>
         <el-table-column prop="dayOverDue" label="逾期天数" width="150px"></el-table-column>
-        <el-table-column prop="pushTime" label="推送时间" width="150px"></el-table-column>
-        <el-table-column prop="finishDate" label="预审完成时间" width="150px"></el-table-column>
-        <el-table-column fixed="right" align="center" prop="status" label="状态" width="150px">
+        <el-table-column prop="pushTime" label="推送时间" width="150px">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.pushTime" placement="top-start">
+              <span class="ellipsis" style="max-width:129px;">{{scope.row.pushTime}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column prop="finishDate" label="预审完成时间" width="150px">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.finishDate" placement="top-start">
+              <span class="ellipsis" style="max-width:129px;">{{scope.row.finishDate}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column align="center" prop="status" label="状态" width="150px">
           <template slot-scope="scope">
             {{
               

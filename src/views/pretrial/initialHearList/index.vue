@@ -13,7 +13,7 @@
           <template slot-scope="scope" >
             <el-button
               size="mini"
-              @click="gotoDetail(scope.row)" v-if="scope.row.batchStatus === 0 || scope.row.batchStatus === 2" >待确认</el-button>
+              @click="gotoDetail(scope.row)" v-if="scope.row.batchStatus === 0 || scope.row.batchStatus === 2" >审核</el-button>
             <span v-else>--</span>
           </template>
         </el-table-column>
@@ -36,7 +36,7 @@
          {type: 'text', placeholder: '互金企业、产品名称、模板号', colSpan: 6, property: 'keyWords'},
          {type: 'date', placeholder: '分配开始时间', colSpan: 5, property: 'startDate'},
          {type: 'date', placeholder: '分配截至时间', colSpan: 5, property: 'endDate'},
-         {type: 'select', placeholder: '批次状态', colSpan: 4, property: 'batch_status',options: [
+         {type: 'select', placeholder: '批次状态', colSpan: 4, property: 'batchStatus',options: [
              {label: '待初审', value: 0},
              {label: '待复审', value: 1},
              {label: '退回重审', value: 2},
