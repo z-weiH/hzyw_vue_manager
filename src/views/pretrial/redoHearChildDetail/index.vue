@@ -20,6 +20,12 @@
         </el-row>
       </div>
     </div>
+    <!-- 无匹配案件区域 -->
+    <div class="noCase_panel" v-if="idCardList.length == 0">
+      <div class="search_ico"></div>
+      <div>没有符合要求的案件</div>
+    </div>
+    <!-- end -->
     <div class="card" v-for="(card, index) in idCardList" :key="index">
       <div class="card_header">
         <el-row>
@@ -28,16 +34,16 @@
               <span class="f_14">{{card.subSortNo}}</span>/<span class="f_14">{{card.totalCount}}</span>
               <span>{{card.lender}}</span>与<span>{{card.respondents}}</span>的借款合同纠纷
               <span class="ico_group">
-                    <i class="ico_idcard" v-if="card.idStatus === 0"></i>
-                    <i class="ico_idcard right" v-if="card.idStatus === 1"></i>
-                    <i class="ico_idcard wrong" v-if="card.idStatus === 2"></i>
-                    <i class="ico_edit" v-if="card.signStatus === 0"></i>
-                    <i class="ico_edit right" v-if="card.signStatus === 1"></i>
-                    <i class="ico_edit wrong" v-if="card.signStatus === 2"></i>
-                    <i class="ico_computer" v-if="card.eviStatus === 0"></i>
-                    <i class="ico_computer right" v-if="card.eviStatus === 1"></i>
-                    <i class="ico_computer wrong" v-if="card.eviStatus === 2"></i>
-                  </span>
+                      <i class="ico_idcard" v-if="card.idStatus === 0"></i>
+                      <i class="ico_idcard right" v-if="card.idStatus === 1"></i>
+                      <i class="ico_idcard wrong" v-if="card.idStatus === 2"></i>
+                      <i class="ico_edit" v-if="card.signStatus === 0"></i>
+                      <i class="ico_edit right" v-if="card.signStatus === 1"></i>
+                      <i class="ico_edit wrong" v-if="card.signStatus === 2"></i>
+                      <i class="ico_computer" v-if="card.eviStatus === 0"></i>
+                      <i class="ico_computer right" v-if="card.eviStatus === 1"></i>
+                      <i class="ico_computer wrong" v-if="card.eviStatus === 2"></i>
+                    </span>
 
             </div>
           </el-col>
@@ -145,39 +151,40 @@
         <div class="applybook_content of-hidden">
           <div class="article_left fl">
             <object :data="card.evi.applicationUrl" type="application/pdf" width="100%" height="100%">
-                  <iframe :src="card.evi.applicationUrl" width="100%" height="100%" style="border: none;">
-                       <a :href="card.evi.applicationUrl"></a>
-                  </iframe>
-                </object>
+                    <iframe :src="card.evi.applicationUrl" width="100%" height="100%" style="border: none;">
+                         <a :href="card.evi.applicationUrl"></a>
+                    </iframe>
+                  </object>
           </div>
           <div class="article_right fr">
             <object :data="currentUrl" type="application/pdf" width="100%" height="100%">
-                  <iframe :src="currentUrl" width="100%" height="100%" style="border: none;">
-                       <a :href="currentUrl"></a>
-                  </iframe>
-                </object>
+                    <iframe :src="currentUrl" width="100%" height="100%" style="border: none;">
+                         <a :href="currentUrl"></a>
+                    </iframe>
+                  </object>
           </div>
         </div>
       </div>
       <!-- 传统分页 -->
       <!-- <div class="pagination clear">
-          <el-pagination
-            @current-change="handleCurrentChange"
-            :current-page="pager.currentNum"
-            :page-size="20"
-            layout="prev, pager, next, jumper, total"
-            :total="pager.total">
-          </el-pagination>
-          </div> -->
+            <el-pagination
+              @current-change="handleCurrentChange"
+              :current-page="pager.currentNum"
+              :page-size="20"
+              layout="prev, pager, next, jumper, total"
+              :total="pager.total">
+            </el-pagination>
+            </div> -->
       <!-- end -->
       <!-- 左右分页 tool -->
-      <div class="fix_screen">
+      <div class="fix_screen" v-if="idCardList.length != 0">
         <span class="arrow_left" @click="gotoPrevPage(card)"></span><span class="arrow_right" @click="gotoNextPage(card)"></span>
       </div>
       <!-- ** -->
 
 
     </div>
+
 
 
 
@@ -322,7 +329,8 @@
       },
       gotoNextPage(card) {
         //@2018-07-04 wait-fixed todo bug
-        if (card.totalCount != 0 && this.currentNum != card.totalCount) {
+        // card.totalCount != 0
+        if (this.currentNum != 0 && this.currentNum != card.totalCount) {
           console.log("currentNum:: ", this.currentNum);
           //获取分页最大值做比较
           this.currentNum++;
@@ -342,6 +350,7 @@
           .then(res => {
             console.log("detail>>>", res.result);
             this.idCardList = res.result.list;
+            console.log("len-idCardList.length:: ", this.idCardList.length);
             this.count = res.result.count;
             this.pager.total = res.result.count;
           });
@@ -370,7 +379,8 @@
   $themeColor: #193b8c;
   .body_container {
     background: #f7f7f7;
-    // height: 100%;
+    height: 100%;
+    padding-bottom: 20px;
     .header_container {
       height: 76px;
       background: #fff;
@@ -716,6 +726,27 @@
         border: 1px solid #9b9b9b;
         overflow: hidden;
       }
+    }
+  }
+  html,body{
+    height: 100%;
+  }
+
+  .noCase_panel {
+    width: 382px;
+    font-size: 30px;
+    color: #858585;
+    margin: 186px auto 0;
+    .search_ico {
+      width: 112px;
+      height: 73px;
+      background-size: 100%;
+      background-image: url(./../../../assets/img/nocase.png);
+      background-repeat: no-repeat;
+    }
+    >div {
+      display: table-cell;
+      vertical-align: middle;
     }
   }
 </style>
