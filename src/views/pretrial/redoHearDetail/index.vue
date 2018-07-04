@@ -56,10 +56,10 @@
         <el-button v-else-if="opts.batchStatus == 1" size="medium" round>待复审</el-button>
         <span v-else-if="opts.batchStatus == 2">
             <el-button size="medium" round>退回重审</el-button>
-            <a href="javascript:;" class="btn_link" @click="reasonPanelType = true">查看原因</a>
+            <a href="javascript:;" class="btn_link" style="margin-left:15px;" @click="reasonPanelType = true">查看原因</a>
           </span>
         <el-button v-else-if="opts.batchStatus == 3" size="medium" round>预审完成</el-button>
-        <span v-if="opts.batchStatus == 2" class="btn_link" @click="reasonPanelType = true">查看原因</span>
+        <span v-if="opts.batchStatus == 2" class="btn_link" style="margin-left:15px;" @click="reasonPanelType = true">查看原因</span>
       </div>
       <el-row class="message part">
         <el-col :span="22">
@@ -72,8 +72,9 @@
             <li>身份证已审<span>&nbsp;{{opts.countIdChecked}}&nbsp;</span>件, 签名已审<span>&nbsp;{{opts.countSignChecked}}&nbsp;</span>件,证据链已审<span>&nbsp;{{opts.countEviChecked}}&nbsp;</span>件</li>
           </ul>
         </el-col>
-        <el-col :span="2">
-          <span v-if="opts.batchStatus == 1" class="btn_link" @click="gotoSmallTs(opts)">审核</span>
+        <el-col :span="2" style="text-align:center;">
+          <!-- <span v-if="opts.batchStatus == 1" class="btn_link" @click="gotoSmallTs(opts)">审核</span> -->
+          <el-button v-if="opts.batchStatus == 1" type="primary" size="medium" round @click="gotoSmallTs(opts)">审核</el-button>
           <span v-if="opts.batchStatus == 3" class="btn_link" @click="gotoSmallTs(opts)">查看</span>
         </el-col>
       </el-row>
@@ -129,25 +130,21 @@
     <div class="item-title">
       <i class="fg_ico">|</i>批次日志
     </div>
-    <el-row class="message part">
-      <el-col :span="22">
-        <ul>
+
+  <div class="logsItemWrap">
+      <ul>
           <li v-for="(opts,index) in batchLogList" :key="index">
             <span>{{ opts.logTime }}</span>
             <span>{{ opts.logMsg }}</span>
             <!-- <span v-if="opts.logType == 1"></span>
               <span v-if="opts.logType == 2"></span>
               <span v-if="opts.logType == 3"></span> -->
-            <span v-if="opts.logType == 4">复审退回<i class="btn_link" @click="showViewReason(opts)">查看原因</i></span>
+            <span v-if="opts.logType == 4">复审退回<i class="btn_link" style="margin-left:15px;" @click="showViewReason(opts)">查看原因</i></span>
             <!-- <span v-if="opts.logType == 5"></span>
               <span v-if="opts.logType == 6"></span> -->
           </li>
         </ul>
-      </el-col>
-      <el-col :span="2">
-      </el-col>
-    </el-row>
-
+  </div>
 
     <!-- dialog:查看原因 -->
     <el-dialog title="退回原因" :visible.sync="reasonPanelType" width="600px">
@@ -418,6 +415,28 @@ $themeColor: #0f357f;
 }
 
 .content {
+  .logsItemWrap{
+    background-color: #ffffff;
+
+    li{
+      padding-left: 20px;
+      padding-top:26px;
+      padding-bottom:16px;
+      font-size:14px;
+      border-top:1px dotted #A3A3A3;
+      &:first-child{
+         border-top:0;
+      }
+      span{
+        &:first-child{
+          color:#A3A3A3;
+        }
+        &+span{
+          font-size: 16px;
+        }
+      }
+    }
+  }
   .message {
     padding: 10px 20px;
     background: #fff;
@@ -426,6 +445,7 @@ $themeColor: #0f357f;
       display: inline-block;
       // vertical-align: middle;
       margin-top: 22px;
+
     }
     span {
       display: inline-block;
