@@ -272,8 +272,10 @@ export default {
         );
       });
       if (item) {
+        console.log('*真*');
         return true;
       } else {
+        console.log('*假*');
         return false;
       }
     }
@@ -315,7 +317,7 @@ export default {
             console.log("zzzzz:::", res);
             // this.items = res.result.list;
             this.childBatchList = res.result;
-            console.log(this.childBatchList);
+            console.log('SECOND:: ',this.childBatchList);
           }
         });
     },
