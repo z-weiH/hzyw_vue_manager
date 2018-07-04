@@ -32,10 +32,13 @@
 </script>
 
 <style lang="scss" scoped>
-
+@import '@/assets/style/scss/helper/_mixin.scss';
 .main{
   background-color: #F1F2F7;
+  overflow: auto;
+  height: 100%;
   min-height: 100%;
+   @include customScrollBar;
   padding-bottom:50px;
   .box{
     width: 1200px;
