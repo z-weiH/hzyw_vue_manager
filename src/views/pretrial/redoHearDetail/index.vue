@@ -52,13 +52,17 @@
     <div v-for="(opts,index) in childBatchList" :key="index">
       <div class="item-title">
         <i class="fg_ico">|</i>子批次- {{index+1}}（<span>{{opts.countCase}}</span><span>件</span>）
-        <el-button v-if="opts.batchStatus == 0" size="medium" round>待初审</el-button>
-        <el-button v-else-if="opts.batchStatus == 1" size="medium" round>待复审</el-button>
+        <!-- <el-button v-if="opts.batchStatus == 0" size="medium" round>待初审</el-button> -->
+        <button v-if="opts.batchStatus == 0" class="title_btn ml-5" disabled>待初审</button>
+        <!-- <el-button v-else-if="opts.batchStatus == 1" size="medium" round>待复审</el-button> -->
+        <button v-else-if="opts.batchStatus == 1" class="title_btn ml-5" disabled>待复审</button>
         <span v-else-if="opts.batchStatus == 2">
-            <el-button size="medium" round>退回重审</el-button>
+            <!-- <el-button size="medium" round>退回重审</el-button> -->
+            <button class="title_btn ml-5" disabled>退回重审</button>
             <a href="javascript:;" class="btn_link" style="margin-left:15px;" @click="reasonPanelType = true">查看原因</a>
           </span>
-        <el-button v-else-if="opts.batchStatus == 3" size="medium" round>预审完成</el-button>
+        <!-- <el-button v-else-if="opts.batchStatus == 3" size="medium" round>预审完成</el-button> -->
+        <button  v-else-if="opts.batchStatus == 3" class="title_btn ml-5" disabled>预审完成</button>
         <span v-if="opts.batchStatus == 2" class="btn_link" style="margin-left:15px;" @click="reasonPanelType = true">查看原因</span>
       </div>
       <el-row class="message part">
@@ -224,7 +228,7 @@ export default {
       changeFPerson: {}, //变更初审人obj
       _newOpts: {},
       newFirstPerson: "", //新初审人字段
-      backReasonObj:'',//退回原因
+      backReasonObj: "", //退回原因
       firstPersonOpts: [
         {
           value: "1",
@@ -275,16 +279,17 @@ export default {
     }
   },
   methods: {
-    showViewReason(opts){
+    showViewReason(opts) {
       this.reasonPanelType = true;
-      console.log('opts.logId: ',opts.logId);
-      this.$http.post(URL_JSON['queryBackReason1'],{
-       logId:opts.logId
-      }).then(res=>{
-
-        console.log('退回原因：',res);
-        this.backReasonObj = res.result.returnMsg;
-      })
+      console.log("opts.logId: ", opts.logId);
+      this.$http
+        .post(URL_JSON["queryBackReason1"], {
+          logId: opts.logId
+        })
+        .then(res => {
+          console.log("退回原因：", res);
+          this.backReasonObj = res.result.returnMsg;
+        });
     },
     getBatchInfo() {
       console.info("asdasd     ", this.batchNo);
@@ -301,7 +306,8 @@ export default {
     getBatchList() {
       this.$http
         .post(URL_JSON["queryChildBatchInfo"], {
-          batchNo: this.batchNo
+          batchNo: this.batchNo,
+          type:'SECOND'
         })
         .then(res => {
           if (res.code === "0000") {
@@ -349,13 +355,13 @@ export default {
       return "--";
     },
     gotoSmallTs(opts) {
-      console.log('opts::',opts);
+      console.log("opts::", opts);
       // 小批次查看与审核
       let routeData = this.$router.resolve({
         path: "/redoHearChildDetail",
         query: {
           subBatchId: opts.subBatchNo,
-          subViewType:opts.batchStatus
+          subViewType: opts.batchStatus
         }
       });
       window.open(routeData.href, "_blank");
@@ -414,24 +420,33 @@ $themeColor: #0f357f;
   margin-right: 5px;
 }
 
+.title_btn {
+  color: $themeColor;
+  border: 1px solid #193b8c;
+  padding: 7px 12px;
+  border-radius: 10px;
+  font-size: 16px;
+  background: #fff;
+}
+
 .content {
-  .logsItemWrap{
+  .logsItemWrap {
     background-color: #ffffff;
 
-    li{
+    li {
       padding-left: 20px;
-      padding-top:26px;
-      padding-bottom:16px;
-      font-size:14px;
-      border-top:1px dotted #A3A3A3;
-      &:first-child{
-         border-top:0;
+      padding-top: 26px;
+      padding-bottom: 16px;
+      font-size: 14px;
+      border-top: 1px dotted #a3a3a3;
+      &:first-child {
+        border-top: 0;
       }
-      span{
-        &:first-child{
-          color:#A3A3A3;
+      span {
+        &:first-child {
+          color: #a3a3a3;
         }
-        &+span{
+        & + span {
           font-size: 16px;
         }
       }
@@ -445,7 +460,6 @@ $themeColor: #0f357f;
       display: inline-block;
       // vertical-align: middle;
       margin-top: 22px;
-
     }
     span {
       display: inline-block;
