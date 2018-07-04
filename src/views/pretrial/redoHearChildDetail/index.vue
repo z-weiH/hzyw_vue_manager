@@ -195,7 +195,7 @@
 
 
 
-    <audit ref="audit" :subBatchNo="subBatchId"></audit>
+    <audit ref="audit" :subBatchNo="subBatchId" :curCardObj="curCardObj"></audit>
     <passview :subBatchNo="subBatchId"></passview>
     <reback :subBatchNo="subBatchId"></reback>
 
@@ -204,564 +204,574 @@
 </template>
 
 <script>
-  import closeDig from "@/components/closeDlg.vue";
-  import PicZoom from "vue-piczoom";
-  import scrollY from "@/components/scroll-y";
-  import {
-    URL_JSON
-  } from "../../../components/script/url_json";
-  import audit from "./modules/audit";
-  import passview from "./modules/passview";
-  import reback from "./modules/reback";
-  export default {
-    data() {
-      return {
-        isSubmit: false,
-        auditStatusList: ["1", "2"],
-        auditStatus: 0,
-        subBatchNo: "",
-        subBatchId: "",
-        subViewType: "",
-        btnRecheckType: "",
+import closeDig from "@/components/closeDlg.vue";
+import PicZoom from "vue-piczoom";
+import scrollY from "@/components/scroll-y";
+import { URL_JSON } from "../../../components/script/url_json";
+import audit from "./modules/audit";
+import passview from "./modules/passview";
+import reback from "./modules/reback";
+export default {
+  data() {
+    return {
+      isSubmit: false,
+      auditStatusList: ["1", "2"],
+      auditStatus: 0,
+      subBatchNo: "",
+      subBatchId: "",
+      subViewType: "",
+      btnRecheckType: "",
+      currentNum: 1,
+      auditLists: [],
+      idCardList: [], //身份证信息
+      curCardObj:{},//当前分页的合同数据
+      currentUrl: "",
+      audit_state: 0,
+      pview_state: 0,
+      rb_state: 0,
+      pager: {
         currentNum: 1,
-        auditLists: [],
-        idCardList: [], //身份证信息
-        currentUrl: "",
-        audit_state: 0,
-        pview_state: 0,
-        rb_state: 0,
-        pager: {
-          currentNum: 1,
-          pageSize: 20,
-          count: 0
+        pageSize: 20,
+        count: 0
+      },
+      scrollList: [
+        {
+          name: "借款协议"
         },
-        scrollList: [{
-            name: "借款协议"
-          },
-          {
-            name: "借款咨询服务协议"
-          },
-          {
-            name: "收款证明单"
-          },
-          {
-            name: "打款凭证"
-          },
-          {
-            name: "债权转让协议"
-          },
-          {
-            name: "债转通知"
-          }
-        ]
-      };
+        {
+          name: "借款咨询服务协议"
+        },
+        {
+          name: "收款证明单"
+        },
+        {
+          name: "打款凭证"
+        },
+        {
+          name: "债权转让协议"
+        },
+        {
+          name: "债转通知"
+        }
+      ]
+    };
+  },
+  watch: {
+    auditStatus(val) {
+      console.log("cur:: ", val);
+      this.HandleQuery(val);
+    }
+  },
+  methods: {
+    scrollbarClick(e) {
+      console.log(e);
+      this.currentUrl = e.eviFileurl;
     },
-    watch: {
-      auditStatus(val) {
-        console.log("cur:: ", val);
-        this.HandleQuery(val);
-      }
+    FooPassCheck() {
+      // 批量通过
+      this.pview_state = 1;
     },
-    methods: {
-      scrollbarClick(e) {
-        console.log(e);
-        this.currentUrl = e.eviFileurl;
-      },
-      FooPassCheck() {
-        // 批量通过
-        this.pview_state = 1;
-      },
-      FooPassCheckCBK() {
-        this.isSubmit = true;
-      },
-      FooRebak() {
-        // 批量退回
-        this.rb_state = 1;
-      },
-      FooAuditReason(card) {
-        // 审核意见
-        this.audit_state = 1;
-        this.HandleShow(card);
-      },
-      HandleQuery(_val) {
-        if (_val != 0) {
-          this.$http
-            .post(URL_JSON["queryRecheckDetailView"], {
-              pageSize: 1,
-              currentNum: this.currentNum,
-              subBatchNo: this.subBatchNo,
-              auditStatus: _val
-            })
-            .then(res => {
-              console.log("newQuery>>>", res.result);
-              this.idCardList = res.result.list;
-              this.count = res.result.count;
-              this.pager.total = res.result.count;
-            });
-        } else {
-          this.getRecheckDetail();
-        }
-      },
-      HandleShow(card) {
-        //意见审核
-        this.$http
-          .post(URL_JSON["queryAllReasonList"], {
-            caseId: card.caseId
-          })
-          .then(res => {
-            if (res.code === "0000") {
-              console.log("所有审核原因", res);
-              this.audit_state = 1;
-              this.auditLists = res.result.suggestions;
-              console.log("auditLists:", this.auditLists);
-              let reasonIds = res.result.suggestions
-                .filter(v => {
-                  return v.isChecked === 1;
-                })
-                .map(v => {
-                  return v.reasonId;
-                });
-              console.log(reasonIds);
-              this.$refs.audit.reasonIds = reasonIds;
-              // 人审-审核意见
-              // card.evi.checkAuditList//证据链
-              // card.sign.checkSignList//签名
-              // card.idCard.failReasonList//身份证
-              let _person = card.evi.checkAuditList.length;
-              let _csign = card.sign.checkSignList.length;
-              let _idcard = card.idCard.failReasonList.length;
-              (_person === 0 && _csign === 0 && _idcard === 0) ? this.$refs.audit.status = 1 : "";
-            }
-          });
-      },
-      gotoPrevPage(card) {
-        if (this.currentNum != 1) {
-          this.currentNum--;
-          this.getRecheckDetail();
-        } else {
-          this.$message.warning("已经是第一条数据了！");
-        }
-      },
-      gotoNextPage(card) {
-        //@2018-07-04 wait-fixed todo bug
-        // card.totalCount != 0
-        if (this.currentNum != 0 && this.currentNum != card.totalCount) {
-          console.log("currentNum:: ", this.currentNum);
-          //获取分页最大值做比较
-          this.currentNum++;
-          this.getRecheckDetail();
-        } else {
-          this.$message.warning("已经是最后一条数据了！");
-        }
-      },
-      getRecheckDetail() {
+    FooPassCheckCBK() {
+      this.isSubmit = true;
+    },
+    FooRebak() {
+      // 批量退回
+      this.rb_state = 1;
+    },
+    FooAuditReason(card) {
+      // 审核意见
+      this.audit_state = 1;
+      this.HandleShow(card);
+    },
+    HandleQuery(_val) {
+      if (_val != 0) {
         this.$http
           .post(URL_JSON["queryRecheckDetailView"], {
             pageSize: 1,
             currentNum: this.currentNum,
-            subBatchNo: this.subBatchId,
-            auditStatus: this.auditStatus
+            subBatchNo: this.subBatchNo,
+            auditStatus: _val
           })
           .then(res => {
-            console.log("detail>>>", res.result);
+            console.log("newQuery>>>", res.result);
             this.idCardList = res.result.list;
-            console.log("len-idCardList.length:: ", this.idCardList.length);
             this.count = res.result.count;
             this.pager.total = res.result.count;
           });
+      } else {
+        this.getRecheckDetail();
       }
     },
-    mounted() {
-      console.log("---", this.$route.query.subBatchId);
-      this.subBatchId = this.$route.query.subBatchId;
-      this.subViewType = this.$route.query.subViewType;
-      this.auditStatus = 0;
-      this.getRecheckDetail();
+    HandleShow(card) {
+      //意见审核
+      this.$http
+        .post(URL_JSON["queryAllReasonList"], {
+          caseId: card.caseId
+        })
+        .then(res => {
+          if (res.code === "0000") {
+            console.log("所有审核原因", res);
+            this.audit_state = 1;
+            this.auditLists = res.result.suggestions;
+            console.log("auditLists:", this.auditLists);
+            let reasonIds = res.result.suggestions
+              .filter(v => {
+                return v.isChecked === 1;
+              })
+              .map(v => {
+                return v.reasonId;
+              });
+            console.log(reasonIds);
+            this.$refs.audit.reasonIds = reasonIds;
+            // 人审-审核意见
+            // card.evi.checkAuditList//证据链
+            // card.sign.checkSignList//签名
+            // card.idCard.failReasonList//身份证
+            let _person = card.evi.checkAuditList.length;
+            let _csign = card.sign.checkSignList.length;
+            let _idcard = card.idCard.failReasonList.length;
+            _person === 0 && _csign === 0 && _idcard === 0
+              ? (this.$refs.audit.status = 1)
+              : "";
+              // 传入当前页数据card-对象
+              this.curCardObj = card;
+          }
+        });
     },
-    created() {},
-    components: {
-      PicZoom,
-      scrollY,
-      audit,
-      passview,
-      reback,
-      closeDig
+    gotoPrevPage(card) {
+      if (this.currentNum != 1) {
+        this.currentNum--;
+        this.getRecheckDetail();
+      } else {
+        this.$message.warning("已经是第一条数据了！");
+      }
+    },
+    gotoNextPage(card) {
+      //@2018-07-04 wait-fixed todo bug
+      // card.totalCount != 0
+      if (this.currentNum != 0 && this.currentNum != card.totalCount) {
+        console.log("currentNum:: ", this.currentNum);
+        //获取分页最大值做比较
+        this.currentNum++;
+        this.getRecheckDetail();
+      } else {
+        this.$message.warning("已经是最后一条数据了！");
+      }
+    },
+    getRecheckDetail() {
+      this.$http
+        .post(URL_JSON["queryRecheckDetailView"], {
+          pageSize: 1,
+          currentNum: this.currentNum,
+          subBatchNo: this.subBatchId,
+          auditStatus: this.auditStatus
+        })
+        .then(res => {
+          console.log("detail>>>", res.result);
+          this.idCardList = res.result.list;
+          console.log("len-idCardList.length:: ", this.idCardList.length);
+          this.count = res.result.count;
+          this.pager.total = res.result.count;
+        });
     }
-  };
+  },
+  mounted() {
+    console.log("---", this.$route.query.subBatchId);
+    this.subBatchId = this.$route.query.subBatchId;
+    this.subViewType = this.$route.query.subViewType;
+    this.auditStatus = 0;
+    this.getRecheckDetail();
+  },
+  created() {},
+  components: {
+    PicZoom,
+    scrollY,
+    audit,
+    passview,
+    reback,
+    closeDig
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-  $themeColor: #193b8c;
-  .body_container {
-    background: #f7f7f7;
-    height: 100%;
-    padding-bottom: 20px;
-    .header_container {
-      height: 76px;
-      background: #fff;
-      .header {
-        width: 1200px;
-        margin: 0 auto;
-        height: 76px;
-        .header_title {
-          font-size: 28px;
-          color: #193b8c;
-          line-height: 76px;
-          font-weight: 500;
-        }
-        .header_img {
-          display: inline-block;
-          position: relative;
-          img {
-            vertical-align: bottom;
-            margin: 0 7px;
-          }
-          .icon {
-            position: absolute;
-            bottom: -7px;
-            right: -7px;
-          }
-        }
-        .header_checkbox {
-          margin-left: 20px;
-        }
-      }
-    }
-    .card {
+@import "@/assets/style/scss/helper/_mixin.scss";
+$themeColor: #193b8c;
+.body_container {
+  background: #f7f7f7;
+  overflow: auto;
+  height: 100%;
+  min-height: 100%;
+  @include customScrollBar;
+  padding-bottom: 20px;
+  .header_container {
+    height: 76px;
+    background: #fff;
+    .header {
       width: 1200px;
-      border: 1px solid #e5eaee;
-      background: #fff;
-      margin: 16px auto;
-      .card_header {
-        height: 49px;
-        border-bottom: 1px solid #e5eaee;
-        background: #eef3ff;
-        padding-left: 12px;
-        padding-right: 10px;
+      margin: 0 auto;
+      height: 76px;
+      .header_title {
+        font-size: 28px;
+        color: #193b8c;
+        line-height: 76px;
+        font-weight: 500;
       }
-      .card_body {
-        padding: 30px 0 30px 22px;
-        .img {
-          float: left;
-          width: 370px;
-          height: 225px;
-          border: 1px solid #e5eaee;
-          border-radius: 10px;
-          overflow: hidden;
-          &.zhen {
-            margin-right: 17px;
-          }
-          &.fan {
-            margin-right: 28px;
-          }
-        }
-        .img_desc {
-          ul {
-            li {
-              line-height: 38px;
-              font-size: 14px;
-              color: #363636;
-            }
-          }
-        }
-      }
-      .audit {
-        margin-top: 28px;
-        .audit_title {
-          font-size: 17px;
-          color: #193b8c;
-          margin-bottom: 10px;
-        }
-        ul {
-          padding-left: 15px;
-          li {
-            font-size: 14px;
-            line-height: 24px;
-            color: #444;
-          }
-        }
-      }
-    }
-    .smallBatch_title {
-      color: $themeColor;
-    }
-  }
-
-  // fonts size style
-  .f_14 {
-    font-size: 14px !important;
-  }
-
-  .f_18 {
-    font-size: 18px !important;
-  }
-
-  // small ico style
-  .ico_group {
-    position: relative;
-    top: 4px;
-    padding-left: 20px;
-    i {
-      margin-right: 10px;
-    }
-  }
-
-  %_circle_border {
-    border-radius: 50%;
-  }
-
-  .ico_idcard {
-    display: inline-block;
-    width: 26px;
-    height: 18px;
-    background: url(./../../../assets/img/ic20_001.png) no-repeat 100%;
-  }
-
-  .ico_edit {
-    display: inline-block;
-    width: 30px;
-    height: 23px;
-    background: url(./../../../assets/img/ic20_002.png) no-repeat 100%;
-  }
-
-  .ico_computer {
-    display: inline-block;
-    width: 24px;
-    height: 19px;
-    background: url(./../../../assets/img/ic20_003.png) no-repeat 100%;
-  }
-
-  // right or wrong
-  %fix_rw_ico {
-    @extend %_circle_border;
-    position: absolute;
-    content: "";
-    display: block;
-    right: -5px;
-    bottom: -5px;
-    width: 15px;
-    height: 15px;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-color: #fff;
-  }
-
-  .right {
-    position: relative;
-    &:after {
-      @extend %fix_rw_ico;
-      background-image: url(./../../../assets/img/ic20_009.png);
-    }
-  }
-
-  .wrong {
-    position: relative;
-    &:after {
-      @extend %fix_rw_ico;
-      background-image: url(./../../../assets/img/ic20_008.png);
-    }
-  }
-
-  .i_pass {
-    display: inline-block;
-    width: 14px;
-    height: 10px;
-    background-image: url(./../../../assets/img/ic20_006.png);
-    background-repeat: no-repeat;
-    background-position: 100%;
-    margin-right: 5px;
-  }
-
-  .i_warn {
-    display: inline-block;
-    width: 14px;
-    height: 10px;
-    background-image: url(./../../../assets/img/warning_tag.png);
-    background-repeat: no-repeat;
-    background-position: center;
-    margin-right: 5px;
-  }
-
-  .i_nopass {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    background-image: url(./../../../assets/img/ic20_007.png);
-    background-repeat: no-repeat;
-    background-position: 0 center;
-    margin-right: 5px;
-  }
-
-  .part_tit {
-    color: $themeColor;
-    padding-bottom: 20px;
-    &:before {
-      content: "|";
-      display: inline-block;
-      font-weight: bold;
-      font-size: 16px;
-      vertical-align: baseline;
-      margin-right: 5px;
-      position: relative;
-      top: -2px;
-    }
-  }
-
-  // 左右分页ui
-  .fix_screen {
-    >span {
-      display: inline-block;
-      width: 89px;
-      height: 89px;
-      background-repeat: no-repeat;
-      background-size: 100%;
-      background-position: 100% 100%;
-      position: fixed;
-      top: 20%;
-      cursor: pointer;
-      &:hover {
-        opacity: 0.8;
-      }
-    }
-    .arrow_left {
-      left: 16%;
-      background-image: url(./../../../assets/img/rct_page01.png);
-    }
-    .arrow_right {
-      right: 16%;
-      background-image: url(./../../../assets/img/rct_page02.png);
-    }
-  }
-
-  // 内容主体面板固定内padding
-  %_themainPadding {
-    padding: 30px 0 30px 22px;
-  }
-
-  // 上边框
-  .sTopborder {
-    border-top: 1px solid #e5eaee;
-  }
-
-  // 签名信息
-  .sign_body {
-    @extend %_themainPadding;
-  }
-
-  // 小表格样式
-  .mockTable {
-    // width: 762px;
-    display: table;
-    border-collapse: collapse;
-    // table-layout: fixed;
-    border-spacing: 0;
-    .cellTr {
-      border-collapse: collapse;
-      width: 100%;
-      &:hover {
-        background-color: #f5f7fa;
-      }
-      .cell:nth-child(odd) {
-        width: 130px;
-      }
-      &:first-child {
-        .cell {
-          border: 1px solid #e5eaee;
-        }
-      }
-    }
-    .cell {
-      vertical-align: middle;
-      display: table-cell;
-      height: 50px;
-      line-height: 1.6;
-      padding: 2px 8px;
-      text-align: center;
-      width: 220px;
-      // text-indent: 20px;
-      border-left-width: 1px;
-      border-right-width: 1px;
-      border-bottom-width: 1px;
-      border-top-width: 0;
-      border-style: solid;
-      border-color: #e5eaee;
-    }
-  }
-
-  .sign_info {
-    margin-top: 57px;
-    margin-left: 22px;
-    ul {}
-    li {
-      padding-bottom: 20px;
-    }
-  }
-
-  .applybook_body {
-    @extend %_themainPadding;
-    .applybook_title {
-      font-size: 17px;
-      color: $themeColor;
-      padding-bottom: 30px;
-      .scroll_toolbar {
-        font-size: 14px;
-        padding-right: 30px;
-        .active {
-          border-bottom: 2px solid $themeColor;
-        }
+      .header_img {
+        display: inline-block;
         position: relative;
-        .ac_left {
-          position: absolute;
-          left: -20px;
-          top: 0;
-          bottom: 0;
-          margin: auto;
-          width: 8px;
-          height: 13px;
-          background: url(./../../../assets/img/ic20_004.png) no-repeat center;
+        img {
+          vertical-align: bottom;
+          margin: 0 7px;
         }
-        .ac_right {
+        .icon {
           position: absolute;
-          right: -20px;
-          top: 0;
-          bottom: 0;
-          margin: auto;
-          width: 8px;
-          height: 13px;
-          background: url(./../../../assets/img/ic20_005.png) no-repeat center;
+          bottom: -7px;
+          right: -7px;
         }
       }
+      .header_checkbox {
+        margin-left: 20px;
+      }
     }
-    .applybook_content {
-      padding-right: 30px;
-      .article_left,
-      .article_right {
-        width: 565px;
-        height: 780px;
-        border: 1px solid #9b9b9b;
+  }
+  .card {
+    width: 1200px;
+    border: 1px solid #e5eaee;
+    background: #fff;
+    margin: 16px auto;
+    .card_header {
+      height: 49px;
+      border-bottom: 1px solid #e5eaee;
+      background: #eef3ff;
+      padding-left: 12px;
+      padding-right: 10px;
+    }
+    .card_body {
+      padding: 30px 0 30px 22px;
+      .img {
+        float: left;
+        width: 370px;
+        height: 225px;
+        border: 1px solid #e5eaee;
+        border-radius: 10px;
         overflow: hidden;
+        &.zhen {
+          margin-right: 17px;
+        }
+        &.fan {
+          margin-right: 28px;
+        }
+      }
+      .img_desc {
+        ul {
+          li {
+            line-height: 38px;
+            font-size: 14px;
+            color: #363636;
+          }
+        }
+      }
+    }
+    .audit {
+      margin-top: 28px;
+      .audit_title {
+        font-size: 17px;
+        color: #193b8c;
+        margin-bottom: 10px;
+      }
+      ul {
+        padding-left: 15px;
+        li {
+          font-size: 14px;
+          line-height: 24px;
+          color: #444;
+        }
       }
     }
   }
-  html,body{
-    height: 100%;
+  .smallBatch_title {
+    color: $themeColor;
   }
+}
 
-  .noCase_panel {
-    width: 382px;
-    font-size: 30px;
-    color: #858585;
-    margin: 186px auto 0;
-    .search_ico {
-      width: 112px;
-      height: 73px;
-      background-size: 100%;
-      background-image: url(./../../../assets/img/nocase.png);
-      background-repeat: no-repeat;
-    }
-    >div {
-      display: table-cell;
-      vertical-align: middle;
+// fonts size style
+.f_14 {
+  font-size: 14px !important;
+}
+
+.f_18 {
+  font-size: 18px !important;
+}
+
+// small ico style
+.ico_group {
+  position: relative;
+  top: 4px;
+  padding-left: 20px;
+  i {
+    margin-right: 10px;
+  }
+}
+
+%_circle_border {
+  border-radius: 50%;
+}
+
+.ico_idcard {
+  display: inline-block;
+  width: 26px;
+  height: 18px;
+  background: url(./../../../assets/img/ic20_001.png) no-repeat 100%;
+}
+
+.ico_edit {
+  display: inline-block;
+  width: 30px;
+  height: 23px;
+  background: url(./../../../assets/img/ic20_002.png) no-repeat 100%;
+}
+
+.ico_computer {
+  display: inline-block;
+  width: 24px;
+  height: 19px;
+  background: url(./../../../assets/img/ic20_003.png) no-repeat 100%;
+}
+
+// right or wrong
+%fix_rw_ico {
+  @extend %_circle_border;
+  position: absolute;
+  content: "";
+  display: block;
+  right: -5px;
+  bottom: -5px;
+  width: 15px;
+  height: 15px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-color: #fff;
+}
+
+.right {
+  position: relative;
+  &:after {
+    @extend %fix_rw_ico;
+    background-image: url(./../../../assets/img/ic20_009.png);
+  }
+}
+
+.wrong {
+  position: relative;
+  &:after {
+    @extend %fix_rw_ico;
+    background-image: url(./../../../assets/img/ic20_008.png);
+  }
+}
+
+.i_pass {
+  display: inline-block;
+  width: 14px;
+  height: 10px;
+  background-image: url(./../../../assets/img/ic20_006.png);
+  background-repeat: no-repeat;
+  background-position: 100%;
+  margin-right: 5px;
+}
+
+.i_warn {
+  display: inline-block;
+  width: 14px;
+  height: 10px;
+  background-image: url(./../../../assets/img/warning_tag.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  margin-right: 5px;
+}
+
+.i_nopass {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-image: url(./../../../assets/img/ic20_007.png);
+  background-repeat: no-repeat;
+  background-position: 0 center;
+  margin-right: 5px;
+}
+
+.part_tit {
+  color: $themeColor;
+  padding-bottom: 20px;
+  &:before {
+    content: "|";
+    display: inline-block;
+    font-weight: bold;
+    font-size: 16px;
+    vertical-align: baseline;
+    margin-right: 5px;
+    position: relative;
+    top: -2px;
+  }
+}
+
+// 左右分页ui
+.fix_screen {
+  > span {
+    display: inline-block;
+    width: 89px;
+    height: 89px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: 100% 100%;
+    position: fixed;
+    top: 20%;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
     }
   }
+  .arrow_left {
+    left: 16%;
+    background-image: url(./../../../assets/img/rct_page01.png);
+  }
+  .arrow_right {
+    right: 16%;
+    background-image: url(./../../../assets/img/rct_page02.png);
+  }
+}
+
+// 内容主体面板固定内padding
+%_themainPadding {
+  padding: 30px 0 30px 22px;
+}
+
+// 上边框
+.sTopborder {
+  border-top: 1px solid #e5eaee;
+}
+
+// 签名信息
+.sign_body {
+  @extend %_themainPadding;
+}
+
+// 小表格样式
+.mockTable {
+  // width: 762px;
+  display: table;
+  border-collapse: collapse;
+  // table-layout: fixed;
+  border-spacing: 0;
+  .cellTr {
+    border-collapse: collapse;
+    width: 100%;
+    &:hover {
+      background-color: #f5f7fa;
+    }
+    .cell:nth-child(odd) {
+      width: 130px;
+    }
+    &:first-child {
+      .cell {
+        border: 1px solid #e5eaee;
+      }
+    }
+  }
+  .cell {
+    vertical-align: middle;
+    display: table-cell;
+    height: 50px;
+    line-height: 1.6;
+    padding: 2px 8px;
+    text-align: center;
+    width: 220px;
+    // text-indent: 20px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-top-width: 0;
+    border-style: solid;
+    border-color: #e5eaee;
+  }
+}
+
+.sign_info {
+  margin-top: 57px;
+  margin-left: 22px;
+  ul {
+  }
+  li {
+    padding-bottom: 20px;
+  }
+}
+
+.applybook_body {
+  @extend %_themainPadding;
+  .applybook_title {
+    font-size: 17px;
+    color: $themeColor;
+    padding-bottom: 30px;
+    .scroll_toolbar {
+      font-size: 14px;
+      padding-right: 30px;
+      .active {
+        border-bottom: 2px solid $themeColor;
+      }
+      position: relative;
+      .ac_left {
+        position: absolute;
+        left: -20px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 8px;
+        height: 13px;
+        background: url(./../../../assets/img/ic20_004.png) no-repeat center;
+      }
+      .ac_right {
+        position: absolute;
+        right: -20px;
+        top: 0;
+        bottom: 0;
+        margin: auto;
+        width: 8px;
+        height: 13px;
+        background: url(./../../../assets/img/ic20_005.png) no-repeat center;
+      }
+    }
+  }
+  .applybook_content {
+    padding-right: 30px;
+    .article_left,
+    .article_right {
+      width: 565px;
+      height: 780px;
+      border: 1px solid #9b9b9b;
+      overflow: hidden;
+    }
+  }
+}
+html,
+body {
+  height: 100%;
+}
+
+.noCase_panel {
+  width: 382px;
+  font-size: 30px;
+  color: #858585;
+  margin: 186px auto 0;
+  .search_ico {
+    width: 112px;
+    height: 73px;
+    background-size: 100%;
+    background-image: url(./../../../assets/img/nocase.png);
+    background-repeat: no-repeat;
+  }
+  > div {
+    display: table-cell;
+    vertical-align: middle;
+  }
+}
 </style>
