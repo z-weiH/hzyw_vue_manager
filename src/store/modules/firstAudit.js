@@ -18,11 +18,9 @@ export default {
       axios.post('/firstAudit/querySubBatchList.htm', data)
       .then(res => {
           if(res.code === '0000'){
-            res.result.forEach(it => {
-              !it.passNum && (it.passNum = 0);
-              !it.unpassNum && (it.unpassNum = 0);
-            })
             context.commit('setItems',res.result);
+          }else{
+            context.commit('setItems',[]);
           }
       })
     },
