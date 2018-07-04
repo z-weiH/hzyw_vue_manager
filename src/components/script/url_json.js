@@ -256,8 +256,10 @@ export const URL_JSON = {
 
   'queryNumberBatchList1': '/firstAudit/subBatchPassQueryByBatchId.htm', //查询子批次数量信息bak
 
-
   'queryAllReasonList': '/againAudit/queryAuditOpinionByCaseId.htm',//所有审核不通过原因
+
+  'queryBackReason': '/againAudit/querysubBatchReturnInfoByBatchNo.htm',//查看退回原因
+  'queryBackReason1': '/firstAudit/queryReturnMsg.htm', //复审-查看退回原因
   /*-----预审系统----*/
 
 

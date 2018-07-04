@@ -138,7 +138,7 @@
             <!-- <span v-if="opts.logType == 1"></span>
               <span v-if="opts.logType == 2"></span>
               <span v-if="opts.logType == 3"></span> -->
-            <span v-if="opts.logType == 4">复审退回<i class="btn_link" @click="reasonPanelType = true">查看原因</i></span>
+            <span v-if="opts.logType == 4">复审退回<i class="btn_link" @click="showViewReason(opts)">查看原因</i></span>
             <!-- <span v-if="opts.logType == 5"></span>
               <span v-if="opts.logType == 6"></span> -->
           </li>
@@ -154,8 +154,9 @@
       <el-row>
         <el-col :span="6">退回原因：</el-col>
         <el-col :span="18">
-          <div>1.初审错误率过高</div>
-          <div>2.下次注意点</div>
+          <pre>
+            {{backReasonObj}}
+          </pre>
         </el-col>
       </el-row>
       <span slot="footer" class="dialog-footer">
@@ -226,6 +227,7 @@ export default {
       changeFPerson: {}, //变更初审人obj
       _newOpts: {},
       newFirstPerson: "", //新初审人字段
+      backReasonObj:'',//退回原因
       firstPersonOpts: [
         {
           value: "1",
@@ -276,6 +278,17 @@ export default {
     }
   },
   methods: {
+    showViewReason(opts){
+      this.reasonPanelType = true;
+      console.log('opts.logId: ',opts.logId);
+      this.$http.post(URL_JSON['queryBackReason1'],{
+       logId:opts.logId
+      }).then(res=>{
+
+        console.log('退回原因：',res);
+        this.backReasonObj = res.result.returnMsg;
+      })
+    },
     getBatchInfo() {
       console.info("asdasd     ", this.batchNo);
       this.$http
