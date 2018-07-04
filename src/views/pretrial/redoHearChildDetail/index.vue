@@ -141,7 +141,14 @@
         </div>
       </div>
 
-      <div class="applybook_body">
+      <div class="applybook_body sTopborder">
+        <div class="part_tit f_18">证据链信息</div>
+        <div class="audit">
+          <p class="audit_title">审核意见:</p>
+          <ul class="mb-30">
+            <li v-for="(msg, index) in card.idCard.failReasonList">{{index + 1}}.{{msg.reasonMsg}}</li>
+          </ul>
+        </div>
         <div class="applybook_title of-hidden">
           <div class="tit fl">仲裁申请书</div>
           <div class="scroll_toolbar fr">
@@ -316,6 +323,14 @@
                 });
               console.log(reasonIds);
               this.$refs.audit.reasonIds = reasonIds;
+              // 人审-审核意见
+              // card.evi.checkAuditList//证据链
+              // card.sign.checkSignList//签名
+              // card.idCard.failReasonList//身份证
+              let _person = card.evi.checkAuditList.length;
+              let _csign = card.sign.checkSignList.length;
+              let _idcard = card.idCard.failReasonList.length;
+              (_person === 0 && _csign === 0 && _idcard === 0) ? this.$refs.audit.status = 1 : "";
             }
           });
       },
