@@ -69,7 +69,7 @@
         <el-col :span="22">
           <ul v-if="opts.batchStatus == 1 || opts.batchStatus == 3">
             <li>全部案件</li>
-            <li>通过<span v-if="!opts.passNum">&nbsp;{{opts.passNum}}&nbsp;</span>件，未通过<span v-if="opts.unpassNum">&nbsp;{{opts.unpassNum}}&nbsp;</span>件</li>
+            <li>通过<span v-if="opts.passNum!=null">&nbsp;{{opts.passNum}}&nbsp;</span>件，未通过<span v-if="opts.unpassNum!=null">&nbsp;{{opts.unpassNum}}&nbsp;</span>件</li>
           </ul>
           <ul v-if="opts.batchStatus == 0 || opts.batchStatus == 2">
             <li>全部案件</li>

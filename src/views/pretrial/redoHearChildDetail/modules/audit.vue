@@ -24,18 +24,28 @@
 </template>
 
 <script type="text/ecmascript-6">
+import { URL_JSON } from "./../../../../components/script/url_json";
   export default {
+    props:{
+      curCardObj:Object
+    },
     data() {
       return {
         status:0,
         reasonIds:[],
+        // curCardObj:{}
       };
     },
     methods: {
       HandleOpen() {
       },
       HandleAuditConfirm(){
-
+        console.log("curCardObj::",this.curCardObj);
+        this.$http.post(URL_JSON['saveChangeResReason'],{
+          caseId:this.curCardObj.caseId
+        }).then(res=>{
+          console.log(res.result);
+        });
       },
       closeFoo() {}
     },

@@ -260,6 +260,8 @@ export const URL_JSON = {
 
   'queryBackReason': '/againAudit/querysubBatchReturnInfoByBatchNo.htm',//查看退回原因
   'queryBackReason1': '/firstAudit/queryReturnMsg.htm', //复审-查看退回原因
+
+  'saveChangeResReason': '/againAudit/saveAuditSuggestion.htm',//案件复审-变更审核原因
   /*-----预审系统----*/
 
 
