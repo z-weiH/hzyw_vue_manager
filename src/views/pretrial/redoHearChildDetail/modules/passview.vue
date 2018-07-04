@@ -37,6 +37,7 @@ export default {
           if(res.code === "0000"){
             this.$parent.pview_state = 0;
             this.$message.success('批量通过完成');
+            this.$parent.FooPassCheckCBK && this.$parent.FooPassCheckCBK();
           }
         });
     },

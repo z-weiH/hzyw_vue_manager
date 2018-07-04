@@ -212,7 +212,7 @@
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleSubmit">确 定</el-button>
+        <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit">确 定</el-button>
         <el-button @click="handleClose">取 消</el-button>
       </span>
     </el-dialog>
@@ -225,6 +225,8 @@
       return {
         dialogVisible : false,
         tableData : [{},{}],
+        // 提交按钮禁用状态
+        submitDisabled : false,
 
         ruleForm : {
           // 客户名称
@@ -369,6 +371,10 @@
       // 关闭浮层 调用
       handleClose() {
         this.dialogVisible = false;
+        // 取消按钮禁用
+        setTimeout(() => {
+          this.submitDisabled = false;
+        },500);
         this.$nextTick(() => {
           this.$refs.ruleForm.resetFields();
         });
@@ -377,6 +383,7 @@
       handleSubmit() {
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
+            this.submitDisabled = true;
             this.$http({
               method : 'post',
               url : '/merchant/saveMerchantInfo.htm',
@@ -385,6 +392,8 @@
               this.$message.success('修改成功');
               this.$emit('successCBK');
               this.handleClose();
+            }).catch(() => {
+              this.submitDisabled = false;
             });
           }
         });

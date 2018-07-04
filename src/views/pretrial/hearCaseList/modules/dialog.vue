@@ -129,7 +129,7 @@
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleSubmit">确 定</el-button>
+        <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit">确 定</el-button>
         <el-button @click="handleClose">取 消</el-button>
       </span>
     </el-dialog>
@@ -145,6 +145,8 @@
     data() {
       return {
         dialogVisible : false,
+        // 提交按钮禁用状态
+        submitDisabled : false,
 
         ruleForm : {
           // 互金企业 
@@ -385,6 +387,10 @@
       // 关闭浮层
       handleClose() {
         this.dialogVisible = false;
+        // 取消按钮禁用
+        setTimeout(() => {
+          this.submitDisabled = false;
+        },500);
         this.$refs.ruleForm.resetFields();
 
         // 禁止 运营人员输入
@@ -419,6 +425,7 @@
                 userName : v.userName,
               }
             }));
+            this.submitDisabled = true;
             this.$http({
               method : 'post',
               url : '/preCaseLib/distributeCaseByDistributeCaseQuery.htm',
@@ -428,6 +435,8 @@
               this.$message.success('分配成功');
               this.handleClose();
               this.$emit('successCBK');
+            }).catch(() => {
+              this.submitDisabled = false;
             });
           }
         });

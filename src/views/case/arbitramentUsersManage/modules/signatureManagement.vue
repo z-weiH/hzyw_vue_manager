@@ -34,7 +34,7 @@
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleSubmit">修 改</el-button>
+        <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit">修 改</el-button>
         <el-button @click="handleClose">取 消</el-button>
       </span>
     </el-dialog>
@@ -46,7 +46,8 @@
     data() {
       return {
         dialogVisible : false,
-
+        // 提交按钮禁用状态
+        submitDisabled : false,
         imgUrl : '',
       }
     },
@@ -68,7 +69,10 @@
       // 关闭 浮层
       handleClose() {
         this.dialogVisible = false;
-        
+        // 取消按钮禁用
+        setTimeout(() => {
+          this.submitDisabled = false;
+        },500);
         // 清空数据
         this.imgUrl = '';
         this.sendImgUrl = '';
@@ -83,6 +87,7 @@
         let formDate = new FormData();
         formDate.append('file',this.sendImgUrl);
         formDate.append('userId',this.userId);
+        this.submitDisabled = true;
         this.$http({
           method : 'post',
           url : '/hzuser/saveSign.htm',
@@ -92,6 +97,8 @@
           this.$message.success('修改成功');
           this.handleClose();
           this.$emit('successCBK');
+        }).catch(() => {
+          this.submitDisabled = false;
         });
       },
 

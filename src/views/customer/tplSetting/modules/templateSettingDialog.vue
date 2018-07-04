@@ -13,7 +13,7 @@
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleSubmit">确定</el-button>
+        <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit">确定</el-button>
         <el-button type="primary" @click="handleClose">取消</el-button>
       </span>
     </el-dialog>
@@ -30,6 +30,8 @@
       return {
         title : '模板设置',
         dialogVisible : false,
+        // 提交按钮禁用状态
+        submitDisabled : false,
       }
     },
     mounted() {
@@ -55,6 +57,10 @@
       // 关闭浮层
       handleClose() {
         this.dialogVisible = false;
+        // 取消按钮禁用
+        setTimeout(() => {
+          this.submitDisabled = false;
+        },500);
         this.$refs.tinymce.setContent('');  
       },
       // 点击确定
@@ -64,6 +70,7 @@
           this.$message.waning('请填写模板内容');
           return;
         }
+        this.submitDisabled = true;
         this.$http({
           method : 'post',
           url : '/tplsetting/saveTemplateTextByDetailIdAndType.htm',
@@ -76,6 +83,8 @@
           this.$message.success('模板设置成功');
           this.$emit('successCBK');
           this.handleClose();
+        }).catch(() => {
+          this.submitDisabled = false;
         });
       },
     },
