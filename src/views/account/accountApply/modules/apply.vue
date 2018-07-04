@@ -40,7 +40,36 @@
             {label: '客户全称：', type: 'text', placeholder: '请输入客户全称',columns:1,property: 'custName',rule:'require'},
             {label: '年营业额（万元）：', type: 'number', placeholder: '请输入年营业额',columns:1,property: 'busiAmount',rule:'require,gt0'},
             {label: '社会唯一信用号：', type: 'text', placeholder: '请输入社会唯一信用号',columns:1,property: 'custIdcard',rule:'require,l18'},
-            {label: '邮箱(账户)：', type: 'text', placeholder: '请输入邮箱(账户)',columns:1,property: 'loginName',rule:'require,email'},
+            {label: '邮箱(账户)：', type: 'text', placeholder: '请输入邮箱(账户)',columns:1,property: 'loginName',
+              rule: [
+                { required: true, message: "不能为空", trigger: "blur" },
+                {required : false , pattern : /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ , message : '邮箱格式不正确'},
+                {
+                  validator: (rule, value, callback) => {
+                    if(this.editState === 9)
+                      return ;
+                    if(!value)
+                      return callback(new Error("不能为空"));
+                    this.$http.post('/customer/validateEmailExist.htm',{email: value}).then(res => {
+                      if(res.code === '0000'){
+                        if(res.result.exist){
+                          callback(new Error("该邮箱(账号)已存在"));
+                        }
+                      }else{
+                        callback(new Error(res.description));
+                      }
+                    })
+                    // if(this.item.loginName && this.item.loginName != 0 && !value){
+                    //   callback(new Error("不能为空"))
+                    // }
+                    // else {
+                    //   callback();
+                    // }
+                  }
+                }
+              ]
+              // rule:'require,email'
+            },
             {label: '企业注册地址：', type: 'text', placeholder: '请输入企业注册地址',columns:2,property: 'custIdaddress',rule:'require'},
             {label: '联系地址：', type: 'text', placeholder: '请输入联系地址',columns:2,property: 'custAddress'},
             {label: '网址或应用(名称)：', type: 'text', placeholder: '请输入网址或应用(名称)',columns:2,property: 'custWebsite',rule:'require'},
