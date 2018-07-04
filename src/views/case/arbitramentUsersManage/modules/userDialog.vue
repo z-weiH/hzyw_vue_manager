@@ -314,7 +314,7 @@
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleSubmit">确 定</el-button>
+        <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit">确 定</el-button>
         <el-button @click="handleClose">取 消</el-button>
       </span>
     </el-dialog>
@@ -330,6 +330,8 @@
         title : '',
         type : 'add',
         reg : reg,
+        // 提交按钮禁用状态
+        submitDisabled : false,
 
         ruleForm : {
           // 选择仲裁委
@@ -504,6 +506,10 @@
       handleClose() {
         this.typeDisabled = false;
         this.dialogVisible = false;
+        // 取消按钮禁用
+        setTimeout(() => {
+          this.submitDisabled = false;
+        },500);
 
         // 由于 dom 切换问题 form无法完全重置 ， 手动清空表单元素数据
         for(let key in this.ruleForm) {
@@ -526,6 +532,7 @@
       handleSubmit() {
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
+            this.submitDisabled = true;
             this.$http({
               method : 'post',
               url : '/hzuser/saveUser.htm',
@@ -535,6 +542,8 @@
               this.$message.success(message);
               this.handleClose();
               this.$emit('successCBK');
+            }).catch(() => {
+              this.submitDisabled = false;
             });
           }
         });

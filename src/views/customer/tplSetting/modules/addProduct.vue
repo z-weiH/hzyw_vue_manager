@@ -56,7 +56,7 @@
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleSubmit">确定</el-button>
+        <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit">确定</el-button>
         <el-button @click="handleClose">取消</el-button>
       </span>
     </el-dialog>
@@ -68,6 +68,8 @@
     data() {
       return {
         dialogVisible : false,
+        // 提交按钮禁用状态
+        submitDisabled : false,
         ruleForm : {
           // 产品名称
           detailId : '',
@@ -113,12 +115,17 @@
       // 点击 关闭
       handleClose() {
         this.dialogVisible = false;
+        // 取消按钮禁用
+        setTimeout(() => {
+          this.submitDisabled = false;
+        },500);
         this.$refs.ruleForm.resetFields();
       },
       // 点击提交
       handleSubmit() {
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
+            this.submitDisabled = true;
             this.$http({
               method : 'get',
               url : '/tplsetting/saveTemplateDetail.htm',
@@ -132,6 +139,8 @@
               this.$message.success('添加新产品 成功');
               this.$emit('successCBK');
               this.handleClose();
+            }).catch(() => {
+              this.submitDisabled = false;
             });
           }
         });
