@@ -48,11 +48,15 @@ export default {
   methods: {
     //提交
     HandleAuditConfirm() {
-      console.log(this.reasonIds)
-      if(this.status === 0){
+      // console.log(this.reasonIds)
 
-      }
       let auditList = this.list.filter(it => this.reasonIds.indexOf(it.reasonMsg) !== -1);
+      if(this.status === 0 && auditList.length === 0){
+        return this.$message.error('请选择不通过原因');
+      }
+      if(this.status === 1){ //通过的话
+        auditList = [];
+      }
       this.$http.post('/firstAudit/auditConfirm.htm',{caseId: this.caseId,checkedReasons: auditList,type: this.type},{mheaders: true})
         .then(res => {
           if(res.code === '0000'){
@@ -88,7 +92,7 @@ export default {
       console.log(this.reasonIds);
         let arr = this.list.filter(it => it.reasonType === this.type);
         if(this.type === 2){
-          this.status = 0;
+          this.status = 1;
         }
         else{
           this.status = this.selValue === 2 ? 0 : 1;
