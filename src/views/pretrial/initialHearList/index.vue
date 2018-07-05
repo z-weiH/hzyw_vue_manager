@@ -36,7 +36,6 @@
          {type: 'date', placeholder: '分配开始时间', colSpan: 5, property: 'startDate'},
          {type: 'date', placeholder: '分配截至时间', colSpan: 5, property: 'endDate'},
          {type: 'select', placeholder: '批次状态', colSpan: 4, property: 'batchStatus',options: [
-             {label: '初审中', value: 0},
              {label: '待审核', value: 1},
              {label: '审核完成', value: 2},
            ]},
@@ -52,7 +51,7 @@
           {label:'分配时间', property: 'distributeTime'},
           {label:'批次状态', property: 'batchStatus',options: [
               // 0-初审中，1-待审核，2-审核完成
-              {label: '初审中', value: 0},
+              {label: '待审核', value: 0},
               {label: '待审核', value: 1},
               {label: '审核完成', value: 2},
             ],
