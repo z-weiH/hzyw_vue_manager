@@ -19,7 +19,7 @@
           <li @mouseenter="handleMouseenter(item,index)" @mouseleave="handleMouseleave(item,index)" :key="item.conditionId + '' + index">
             <div class="m-text">{{index + 1}}.{{item.detailMessage}}</div>
             <div class="fr">
-              <template v-if="(index > 5) && (item.active === true)">
+              <template v-if="(item.active === true)">
                 <el-button @click="handleEdit(item)" type="text">修改</el-button>
                 <span>|</span>
                 <el-button @click="handleDelete(item)" type="text">删除</el-button>
@@ -43,12 +43,12 @@
     data() {
       return {
         list : [
-          {
+          /* {
             // id
             conditionId : '',
             // 文案
             detailMessage : '',
-          }
+          } */
         ],
       }
     },

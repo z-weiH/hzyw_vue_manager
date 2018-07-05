@@ -28,7 +28,7 @@
           <div class="header_img">
             <img src="@/assets/img/idCard.png" alt="">
             <img class="icon" src="@/assets/img/success.png" v-if="sign.status1 === 1" alt="">
-            <img class="icon" src="@/assets/img/error.png"  v-if="sign.status1 === 2" alt="">
+            <img class="icon" src="@/assets/img/error.png"  v-if="sign.status1 === 2 " alt="">
           </div>
           <div class="header_img">
             <img src="@/assets/img/signature.png" alt="">
