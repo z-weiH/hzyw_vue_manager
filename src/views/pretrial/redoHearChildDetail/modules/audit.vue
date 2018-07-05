@@ -17,9 +17,6 @@
             )}`"></el-checkbox>
             <el-checkbox :key="index" :label="opt.reasonId" name="type" >{{opt.reasonMsg}}</el-checkbox>
           </template>
-          <!--<el-checkbox label="地推活动" name="type"></el-checkbox>-->
-          <!--<el-checkbox label="线下主题活动" name="type"></el-checkbox>-->
-          <!--<el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>-->
         </el-checkbox-group>
       </el-form-item>
     </el-form>
@@ -32,95 +29,165 @@
 
 <script type="text/ecmascript-6">
 import { URL_JSON } from "./../../../../components/script/url_json";
-  export default {
-    props:{
-      curCardObj:Object,
-      auditOptsByCase:Object
+export default {
+  props: {
+    curCardObj: Object,
+    auditOptsByCase: Object
+  },
+  data() {
+    return {
+      list2: [],
+      status: 0,
+      reasonIds: [],
+      arrReasonIds: []
+    };
+  },
+  methods: {
+    getReasonIds(list) {
+      let arr = [];
+      this.auditOptsByCase.suggestions.map((v, k) => {
+        list.map((v1, k1) => {
+          if (v.reasonId === v1) {
+            v.reasonId && arr.push(v);
+          }
+        });
+      });
+      this.arrReasonIds = arr;
+      console.log("list--", arr);
     },
-    data() {
-      return {
-        list2 : [],
-        status:0,
-        reasonIds:[],
-        arrReasonIds:[]
-      };
-    },
-    methods: {
-      getReasonIds(list){
-        let arr = [];
-        this.auditOptsByCase.suggestions.map((v,k)=>{
-          list.map((v1,k1) => {
-            if(v.reasonId === v1) {
-              v.reasonId && arr.push(v);
+    HandleOpen() {},
+    notpassReasonView(el) {
+      let _failReasonArr = this.curCardObj.idCard.failReasonList;
+      console.log("_failReasonArr: ",_failReasonArr);
+      if (_failReasonArr != 0) {
+        _failReasonArr.map((v, k) => {
+          el.map((v1, k1) => {
+            if (v.reasonMsg !== v1.reasonMsg) {
+              let _obj = Object.assign({}, { reasonMsg: v1.reasonMsg });
+              console.log("_obj: ", _obj);
+              // this.curCardObj.idCard.failReasonList.push(_obj);
+            } else {
+              return false;
             }
           });
         });
-        this.arrReasonIds = arr;
-        console.log('list--',arr);
-      },
-      HandleOpen() {
-      },
-      HandleAuditConfirm(){
-        console.log("curCardObj::",this.curCardObj);
-        this.$http({
-          method : 'post',
-          url : URL_JSON['saveChangeResReason'],
-          mheaders : true,
-          data : {
-            caseId:this.curCardObj.caseId,
-            suggestions:this.arrReasonIds,
-          },
-        }).then((res) => {
-          console.log('提交审核原因内容：：：：',res.result);
-        });
-      },
-      closeFoo() {
-        this.$parent.auditLists = [];
+      }else{
+        let _obj = Object.assign({},{ reasonMsg: el.reasonMsg });
+        console.log("_obj: ", _obj);
+        // this.curCardObj.idCard.failReasonList.push(_obj);
+
       }
     },
-    watch : {
-      ['$parent.auditLists']() {
-        let list = this.$parent.auditLists;
-        let arr1 = list.filter(v => v.reasonType === 0);
-        let arr2 = list.filter(v => v.reasonType === 1);
-        let arr3 = list.filter(v => v.reasonType === 2);
-        arr1[0] && (arr1[0].mText = arr1[0].reasonType);
-        arr2[0] && (arr2[0].mText = arr2[0].reasonType);
-        arr3[0] && (arr3[0].mText = arr3[0].reasonType);
-        list = [].concat(arr1,arr2,arr3);
-        this.list2 = list;
-        console.log('非健康的减肥',list);
-      },
+    HandleAuditConfirm() {
+      console.log("curCardObj::", this.curCardObj);
+      let _auditBj = {
+        caseId: this.curCardObj.caseId,
+        suggestions: this.arrReasonIds
+      };
+
+      let arr_idcard = _auditBj["suggestions"].filter(v => v.reasonType === 0);
+      let arr_sign = _auditBj["suggestions"].filter(v => v.reasonType === 1);
+      console.log("arr_idcard: ", arr_idcard);
+      console.log("arr_sign: ", arr_sign);
+      arr_idcard.forEach(el => {
+        console.log(el);
+        let _key = el.code;
+        switch (_key) {
+          case "ADDRESS":
+            this.curCardObj.idCard.idaddressStatus = 0;
+            console.log("ADDRESS");
+            this.notpassReasonView(el);
+            break;
+          case "NAME":
+            this.curCardObj.idCard.nameStatus = 0;
+            break;
+          case "NATION":
+            this.curCardObj.idCard.nationStatus = 0;
+            break;
+          case "IDCARD":
+            this.curCardObj.idCard.idcardStatus = 0;
+            break;
+          case "GENDER":
+            this.curCardObj.idCard.sexStatus = 0;
+          case "EFFECT":
+            this.curCardObj.idCard.effctDateStatus = 0;
+            break;
+          default:
+            break;
+        }
+      });
+      // ADDRESS(住址和身份证),
+      // SIGN,NAME(姓名和身份证),
+      // GENDER(性别和身份证),
+      // NATION(民族与身份证),
+      // IDCARD(身份证号与身份证)
+      // let base_address = arr_idcard.filter(v => v.code === "ADDRESS");
+      // let base_gender = arr_idcard.filter(v => v.code === "GENDER");
+      // let base_sign = arr_sign.filter(v => v.code === "SIGN");
+
+      this.$http({
+        method: "post",
+        url: URL_JSON["saveChangeResReason"],
+        mheaders: true,
+        data: _auditBj
+      }).then(res => {
+        if (res.code === "0000") {
+        } else {
+          console.log("提交审核原因内容：：：：", res.result);
+        }
+      });
     },
-    computed: {
-      // list(){
-      //   return this.$parent.auditLists;
-      // },
-      show: {
-        get: function() {
-          return this.$parent.audit_state === 1;
-        },
-        set: function(v) {
-          console.log(v);
-          if (!v) {
-            this.$parent.audit_state = 0;
-          }
+    closeFoo() {
+      this.$parent.auditLists = [];
+    }
+  },
+  watch: {
+    ["$parent.auditLists"]() {
+      let list = this.$parent.auditLists;
+      let arr1 = list.filter(v => v.reasonType === 0);
+      let arr2 = list.filter(v => v.reasonType === 1);
+      let arr3 = list.filter(v => v.reasonType === 2);
+      arr1[0] && (arr1[0].mText = arr1[0].reasonType);
+      arr2[0] && (arr2[0].mText = arr2[0].reasonType);
+      arr3[0] && (arr3[0].mText = arr3[0].reasonType);
+      list = [].concat(arr1, arr2, arr3);
+      this.list2 = list;
+      console.log("非健康的减肥", list);
+
+      let _readyReasons = this.list2.filter(v=>{
+        v.isChecked === 1
+      });
+
+      console.log("_readyReasons: ",_readyReasons);
+    }
+  },
+  computed: {
+    // list(){
+    //   return this.$parent.auditLists;
+    // },
+    show: {
+      get: function() {
+        return this.$parent.audit_state === 1;
+      },
+      set: function(v) {
+        console.log(v);
+        if (!v) {
+          this.$parent.audit_state = 0;
         }
       }
-    },
-    components: {}
-  };
+    }
+  },
+  components: {}
+};
 </script>
 
 <style lang="scss">
-
-.tit-label .el-checkbox__input{
+.tit-label .el-checkbox__input {
   display: none;
 }
-.tit-label .el-checkbox__label{
+.tit-label .el-checkbox__label {
   font-size: 16px;
-  color: #606266!important;
-  cursor: initial!important;
+  color: #606266 !important;
+  cursor: initial !important;
 }
-
 </style>
