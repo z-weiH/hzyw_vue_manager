@@ -74,8 +74,26 @@ export default {
             }
             let keyArray = keyStr.split('.');
             let item = this.$parent[keyArray[0]].find(it => it.caseId === this.$parent.currentCaseId);
-            if(item)
+
+            if(item){
+              if(this.type === 0){
+                let arr = ['effctDateStatus','idaddressStatus','idcardStatus','nameStatus','nationStatus','sexStatus'];
+                arr.map(key => {
+                  item.auditInfoWrap[key] = 1;
+                })
+              }
+              else if(this.type === 1){
+                item.signAuditList.forEach(it => {
+                  it.auditStatus = 1;
+                  if(it.code && auditList.find(i => i.code === it.code)){
+                    it.auditStatus = 0;
+                  }
+                })
+              }
               item[keyArray[1]] = auditList;
+
+            }
+            console.log(this.$parent[keyArray[0]]);
             this.$parent.editState = 0;
           }
         })

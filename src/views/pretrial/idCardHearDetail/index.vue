@@ -50,39 +50,39 @@
         <div class="img_desc">
           <ul>
             <li>
-              <img class="mr-10" v-if="card.auditInfoWrap.nameStatus === 0"  src="@/assets/img/error_tag.png" alt="">
-              <img class="mr-5" v-if="card.auditInfoWrap.nameStatus === 1" src="@/assets/img/success_tag.png" alt="">
-              <img class="mr-15" v-if="card.auditInfoWrap.nameStatus === 2" src="@/assets/img/warning_tag.png" alt="">
+              <img class="mr-10" v-if="card.auditInfoWrap.nameStatus === 0 || card.checkName"  src="@/assets/img/error_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.nameStatus === 1 && !card.checkName" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-15" v-if="card.auditInfoWrap.nameStatus === 2 && !card.checkName" src="@/assets/img/warning_tag.png" alt="">
               {{card.auditInfoWrap.resName}}
             </li>
             <li>
-              <img class="mr-10" v-if="card.auditInfoWrap.sexStatus === 0"  src="@/assets/img/error_tag.png" alt="">
-              <img class="mr-5" v-if="card.auditInfoWrap.sexStatus === 1" src="@/assets/img/success_tag.png" alt="">
-              <img class="mr-15" v-if="card.auditInfoWrap.sexStatus === 2" src="@/assets/img/warning_tag.png" alt="">
+              <img class="mr-10" v-if="card.auditInfoWrap.sexStatus === 0 || card.checkGENDER"  src="@/assets/img/error_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.sexStatus === 1 && !card.checkGENDER" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-15" v-if="card.auditInfoWrap.sexStatus === 2 && !card.checkGENDER" src="@/assets/img/warning_tag.png" alt="">
               {{card.auditInfoWrap.resSex === 0 ? '女' : '男'}}
             </li>
             <li>
-              <img class="mr-10" v-if="card.auditInfoWrap.nationStatus === 0"  src="@/assets/img/error_tag.png" alt="">
-              <img class="mr-5" v-if="card.auditInfoWrap.nationStatus === 1" src="@/assets/img/success_tag.png" alt="">
-              <img class="mr-15" v-if="card.auditInfoWrap.nationStatus === 2" src="@/assets/img/warning_tag.png" alt="">
+              <img class="mr-10" v-if="card.auditInfoWrap.nationStatus === 0 || card.checkNATION"  src="@/assets/img/error_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.nationStatus === 1 && !card.checkNATION" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-15" v-if="card.auditInfoWrap.nationStatus === 2 && !card.checkNATION" src="@/assets/img/warning_tag.png" alt="">
               {{card.auditInfoWrap.resNation}}
             </li>
             <li>
-              <img class="mr-10" v-if="card.auditInfoWrap.idaddressStatus === 0"  src="@/assets/img/error_tag.png" alt="">
-              <img class="mr-5" v-if="card.auditInfoWrap.idaddressStatus === 1" src="@/assets/img/success_tag.png" alt="">
-              <img class="mr-15" v-if="card.auditInfoWrap.idaddressStatus === 2" src="@/assets/img/warning_tag.png" alt="">
+              <img class="mr-10" v-if="card.auditInfoWrap.idaddressStatus === 0 || card.checkADDRESS"  src="@/assets/img/error_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.idaddressStatus === 1 && !card.checkADDRESS" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-15" v-if="card.auditInfoWrap.idaddressStatus === 2 && !card.checkADDRESS" src="@/assets/img/warning_tag.png" alt="">
               {{card.auditInfoWrap.resIdaddress}}
             </li>
             <li>
-              <img class="mr-10" v-if="card.auditInfoWrap.idcardStatus === 0"  src="@/assets/img/error_tag.png" alt="">
-              <img class="mr-5" v-if="card.auditInfoWrap.idcardStatus === 1" src="@/assets/img/success_tag.png" alt="">
-              <img class="mr-15" v-if="card.auditInfoWrap.idcardStatus === 2" src="@/assets/img/warning_tag.png" alt="">
+              <img class="mr-10" v-if="card.auditInfoWrap.idcardStatus === 0 || card.checkIDCARD"  src="@/assets/img/error_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.idcardStatus === 1 && !card.checkIDCARD" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-15" v-if="card.auditInfoWrap.idcardStatus === 2 && !card.checkIDCARD" src="@/assets/img/warning_tag.png" alt="">
               {{card.auditInfoWrap.resIdcard}}
             </li>
             <li>
-              <img class="mr-10" v-if="card.auditInfoWrap.effctDateStatus === 0"  src="@/assets/img/error_tag.png" alt="">
-              <img class="mr-5" v-if="card.auditInfoWrap.effctDateStatus === 1" src="@/assets/img/success_tag.png" alt="">
-              <img class="mr-15" v-if="card.auditInfoWrap.effctDateStatus === 2" src="@/assets/img/warning_tag.png" alt="">
+              <img class="mr-10" v-if="card.auditInfoWrap.effctDateStatus === 0 || card.checkEFFECT"  src="@/assets/img/error_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.effctDateStatus === 1 && !card.checkEFFECT" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-15" v-if="card.auditInfoWrap.effctDateStatus === 2 && !card.checkEFFECT" src="@/assets/img/warning_tag.png" alt="">
               {{card.auditInfoWrap.resEffctDate}}
             </li>
           </ul>
@@ -214,6 +214,48 @@
               this.idCardList = res.result.list;
               this.count = res.result.count;
               this.pager.total = res.result.count;
+              this.idCardList.forEach(item => {
+                Object.defineProperty(item, "checkName",{
+                  get: () => {
+                    return !!item.auditListWrap.find(it => it.code === 'NAME');
+                  }
+                });
+                Object.defineProperty(item, "checkNATION",{
+                  get: () => {
+                    return !!item.auditListWrap.find(it => it.code === 'NATION');
+                  }
+                });
+                Object.defineProperty(item, "checkGENDER",{
+                  get: () => {
+                    return !!item.auditListWrap.find(it => it.code === 'GENDER');
+                  }
+                });
+                Object.defineProperty(item, "checkADDRESS",{
+                  get: () => {
+                    return !!item.auditListWrap.find(it => it.code === 'ADDRESS');
+                  }
+                });
+                Object.defineProperty(item, "checkIDCARD",{
+                  get: () => {
+                    return !!item.auditListWrap.find(it => it.code === 'IDCARD');
+                  }
+                });
+                Object.defineProperty(item, "checkEFFECT",{
+                  get: () => {
+                    return !!item.auditListWrap.find(it => it.code === 'EFFECT');
+                  }
+                });
+                // Object.defineProperty(item, "checkSign",{
+                //   get: () => {
+                //     return !!item.checkSignList.find(it => it.code === 'SIGN');
+                //   }
+                // });
+                // Object.defineProperty(item, "checkSignTime",{
+                //   get: () => {
+                //     return !!item.checkSignList.find(it => it.code === 'SIGNTIME');
+                //   }
+                // })
+              });
               if(mark){
                 setTimeout(() => {
                   console.log(this.$refs[this.markflag])
