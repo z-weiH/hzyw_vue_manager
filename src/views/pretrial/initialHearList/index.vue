@@ -37,10 +37,9 @@
          {type: 'date', placeholder: '分配开始时间', colSpan: 5, property: 'startDate'},
          {type: 'date', placeholder: '分配截至时间', colSpan: 5, property: 'endDate'},
          {type: 'select', placeholder: '批次状态', colSpan: 4, property: 'batchStatus',options: [
-             {label: '待初审', value: 0},
-             {label: '待复审', value: 1},
-             {label: '退回重审', value: 2},
-             {label: '预审完成', value: 3},
+             {label: '初审中', value: 0},
+             {label: '待审核', value: 1},
+             {label: '审核完成', value: 2},
            ]},
 
        ],
@@ -52,12 +51,11 @@
           {label:'案件数量', property: 'countCase'},
           {label:'子批次数', property: 'countSubBatch'},
           {label:'分配时间', property: 'distributeTime'},
-          // 0-待初审，1-待复审，2-退回重审，3-预审完成'
           {label:'批次状态', property: 'batchStatus',options: [
-              {label: '待初审', value: 0},
-              {label: '待复审', value: 1},
-              {label: '退回重审', value: 2},
-              {label: '预审完成', value: 3},
+              // 0-初审中，1-待审核，2-审核完成
+              {label: '初审中', value: 0},
+              {label: '待审核', value: 1},
+              {label: '审核完成', value: 2},
             ],
             type: 'select'}
         ]
