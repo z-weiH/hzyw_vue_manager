@@ -58,14 +58,8 @@
                       }else{
                         callback(new Error(res.description));
                       }
-                    })
-                    // if(this.item.loginName && this.item.loginName != 0 && !value){
-                    //   callback(new Error("不能为空"))
-                    // }
-                    // else {
-                    //   callback();
-                    // }
-                  }
+                    })},
+                  trigger: 'blur'
                 }
               ]
               // rule:'require,email'
