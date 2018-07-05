@@ -91,7 +91,13 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="productName" label="模板" width="150px"></el-table-column>
+        <el-table-column prop="productName" label="模板" width="150px">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.productName" placement="top-start">
+              <span class="ellipsis" style="max-width:129px;">{{scope.row.productName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="respondents" label="被申请人" width="150px"></el-table-column>
         <el-table-column prop="resPhone" label="被申请人手机" width="150px"></el-table-column>
         <el-table-column prop="amtCase" label="标的金额" width="150px"></el-table-column>
