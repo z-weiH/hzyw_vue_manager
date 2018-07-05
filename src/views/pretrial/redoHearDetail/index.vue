@@ -63,7 +63,7 @@
           </span>
         <!-- <el-button v-else-if="opts.batchStatus == 3" size="medium" round>预审完成</el-button> -->
         <button  v-else-if="opts.batchStatus == 3" class="title_btn ml-5" disabled>预审完成</button>
-        <span v-if="opts.batchStatus == 2" class="btn_link" style="margin-left:15px;" @click="reasonPanelType = true">查看原因</span>
+        <!-- <span v-if="opts.batchStatus == 2" class="btn_link" style="margin-left:15px;" @click="reasonPanelType = true">查看原因</span> -->
       </div>
       <el-row class="message part">
         <el-col :span="22">

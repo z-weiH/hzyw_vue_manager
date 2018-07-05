@@ -195,7 +195,7 @@
 
 
 
-    <audit ref="audit" :subBatchNo="subBatchId" :curCardObj="curCardObj"></audit>
+    <audit ref="audit" :subBatchNo="subBatchId" :curCardObj="curCardObj" :auditOptsByCase="auditOptsByCase"></audit>
     <passview :subBatchNo="subBatchId"></passview>
     <reback :subBatchNo="subBatchId"></reback>
 
@@ -225,6 +225,7 @@ export default {
       auditLists: [],
       idCardList: [], //身份证信息
       curCardObj:{},//当前分页的合同数据
+      auditOptsByCase:{},
       currentUrl: "",
       audit_state: 0,
       pview_state: 0,
@@ -309,6 +310,7 @@ export default {
           caseId: card.caseId
         })
         .then(res => {
+          console.log("queryAllReasonList:: ",res.result);
           if (res.code === "0000") {
             console.log("所有审核原因", res);
             this.audit_state = 1;
@@ -335,6 +337,8 @@ export default {
               : "";
               // 传入当前页数据card-对象
               this.curCardObj = card;
+              this.auditOptsByCase = res.result;
+              console.log("auditOptsByCase:: ",this.auditOptsByCase);
           }
         });
     },
@@ -367,7 +371,7 @@ export default {
           auditStatus: this.auditStatus
         })
         .then(res => {
-          console.log("detail>>>", res.result);
+          console.log("detail>->", res.result);
           this.idCardList = res.result.list;
           console.log("len-idCardList.length:: ", this.idCardList.length);
           this.count = res.result.count;

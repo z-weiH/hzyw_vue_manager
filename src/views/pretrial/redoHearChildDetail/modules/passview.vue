@@ -37,6 +37,8 @@ export default {
           if(res.code === "0000"){
             this.$parent.pview_state = 0;
             this.$message.success('批量通过完成');
+            // 刷新上一张页面
+            window.opener.history.go(0);
             this.$parent.FooPassCheckCBK && this.$parent.FooPassCheckCBK();
           }
         });
