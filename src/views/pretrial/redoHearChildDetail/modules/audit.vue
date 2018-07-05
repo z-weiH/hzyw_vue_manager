@@ -55,7 +55,7 @@ import { URL_JSON } from "./../../../../components/script/url_json";
             }
           });
         });
-        this.arrReasonIds = (arr);
+        this.arrReasonIds = arr;
         console.log('list--',arr);
       },
       HandleOpen() {

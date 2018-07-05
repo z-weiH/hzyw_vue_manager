@@ -146,7 +146,7 @@
         <div class="audit">
           <p class="audit_title">审核意见:</p>
           <ul class="mb-30">
-            <li v-for="(msg, index) in card.idCard.failReasonList">{{index + 1}}.{{msg.reasonMsg}}</li>
+            <li v-for="(msg, index) in card.evi.checkAuditList">{{index + 1}}.{{msg.reasonMsg}}</li>
           </ul>
         </div>
         <div class="applybook_title of-hidden">
