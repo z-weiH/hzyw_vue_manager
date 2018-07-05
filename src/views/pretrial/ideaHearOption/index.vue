@@ -55,14 +55,14 @@
       return {
         activeName : '0',
         list : [
-          {
+          /* {
             // 原因
             reasonMsg : '', 
             // id
             reasonId : '',
             // 类型 0-身份证意见，1-签名意见，2-证据意见
             reasonType : '',
-          }
+          } */
         ],
         listDefault : [],
       }
