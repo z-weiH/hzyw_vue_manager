@@ -42,10 +42,10 @@
       </div>
       <div class="card_body">
         <div class="img zhen">
-          <pic-zoom :url="card.respondentInfo.image02" :scale="3" :scroll="true"></pic-zoom>
+          <pic-zoom ref="picZoom" :url="card.respondentInfo.image02" :scale="3" :scroll="true"></pic-zoom>
         </div>
         <div class="img fan">
-          <pic-zoom :url="card.respondentInfo.image01" :scale="3" :scroll="true"></pic-zoom>
+          <pic-zoom ref="picZoom" :url="card.respondentInfo.image01" :scale="3" :scroll="true"></pic-zoom>
         </div>
         <div class="img_desc">
           <ul>
@@ -283,6 +283,12 @@ export default {
             }
           }
         });
+    },
+    scrollFunc() {
+      console.log(document.documentElement.scrollTop)
+      this.$refs.picZoom.forEach(it => {
+        it.initTime()
+      })
     }
   },
   components: {
@@ -297,6 +303,12 @@ export default {
     this.batchNo = this.$route.query.batchNo;
     this.HandleQuery(true);
     console.log(window.opener);
+    // window.onscroll = this.scrollFunc
+    if(document.addEventListener){
+      document.addEventListener('DOMMouseScroll',this.scrollFunc,);
+    }
+//IE及其他浏览器
+    window.onmousewheel = document.onmousewheel=this.scrollFunc;
   }
 };
 </script>

@@ -86,7 +86,7 @@ import {RULES} from "./script/rules";
     },
     data() {
       return {
-        uploadUrl: host.target + '/file/upload.htm',
+        uploadUrl: host.target + '/file/upload.htm'+'?token='+JSON.parse(localStorage.getItem('loginInfo')).token,
         path: '',
         editPro: ''
       }
