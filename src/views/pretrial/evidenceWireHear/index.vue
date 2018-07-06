@@ -104,6 +104,7 @@
         auditStatus: 0,
         editState: 0,
         count: 0,
+        disabled: false,
         evidenceItems: [],
         currentCaseId: '', //当前案件
         auditLists: [], // 可选原因
