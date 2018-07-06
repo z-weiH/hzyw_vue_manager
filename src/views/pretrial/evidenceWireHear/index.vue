@@ -13,7 +13,13 @@
         </template>
       </div>
     </div>
-    <div class="fix_screen">
+    <!-- 无匹配案件区域 -->
+    <div class="noCase_panel" v-if="evidenceItems.length === 0">
+      <div class="search_ico"></div>
+      <div>没有符合要求的案件</div>
+    </div>
+    <!-- end -->
+    <div class="fix_screen" v-if="evidenceItems.length > 0">
       <span class="arrow_left" @click="HandlePrev" :class="{disabled: canPrev}"></span>
       <span class="arrow_right" @click="HandleNext" :class="{disabled: canNext}"></span>
     </div>
@@ -76,7 +82,7 @@
     </div>
 
 
-    <div class="pagination clear">
+    <div class="pagination clear" v-if="evidenceItems.length > 0">
       <el-pagination
         @current-change="handleCurrentChange"
         :current-page="pager.currentNum"
@@ -474,6 +480,22 @@
     padding: 10px 20px;
     background: #fff;
   }
-
+  .noCase_panel {
+    width: 382px;
+    font-size: 30px;
+    color: #858585;
+    margin: 186px auto 0;
+    .search_ico {
+      width: 112px;
+      height: 73px;
+      background-size: 100%;
+      background-image: url(./../../../assets/img/nocase.png);
+      background-repeat: no-repeat;
+    }
+    > div {
+      display: table-cell;
+      vertical-align: middle;
+    }
+  }
 
 </style>

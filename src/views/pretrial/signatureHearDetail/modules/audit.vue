@@ -57,7 +57,7 @@ export default {
       if(this.status === 1){ //通过的话
         auditList = [];
       }
-      this.$http.post('/firstAudit/auditConfirm.htm',{caseId: this.caseId,checkedReasons: auditList,type: this.type},{mheaders: true})
+      this.$http.post('/firstAudit/auditConfirm.htm',{caseId: this.caseId,isPass: 1 - this.status,reasonIdList:auditList,type: this.type},{mheaders: true})
         .then(res => {
           if(res.code === '0000'){
             this.$message.success(res.description);
@@ -77,12 +77,14 @@ export default {
 
             if(item){
               if(this.type === 0){
+                item.idStatus = this.status === 0 ? 2 : 1;
                 let arr = ['effctDateStatus','idaddressStatus','idcardStatus','nameStatus','nationStatus','sexStatus'];
                 arr.map(key => {
                   item.auditInfoWrap[key] = 1;
                 })
               }
               else if(this.type === 1){
+                item.signStatus = this.status === 0 ? 2 : 1;
                 item.signAuditList.forEach(it => {
                   it.auditStatus = 1;
                   if(it.code && auditList.find(i => i.code === it.code)){
