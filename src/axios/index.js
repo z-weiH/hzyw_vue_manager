@@ -35,7 +35,7 @@ axios.interceptors.request.use((config) => {
 // 响应拦截
 axios.interceptors.response.use((res) => {
   // 登录超时 拦截
-  if(res.data.code === '20012') {
+  if(res.data.code === '8888') {
     Message({
       type: 'error',
       message: res.data.description,
@@ -46,6 +46,7 @@ axios.interceptors.response.use((res) => {
     // 清除缓存
     sessionStorage.removeItem('loginInfo');
     sessionStorage.removeItem('menuInfoList');
+    res.data.description = '用户登录超时';
     return Promise.reject(res);
   }
   // 联调的时候下面这段开启

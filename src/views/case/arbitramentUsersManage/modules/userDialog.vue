@@ -126,7 +126,8 @@
                       :on-success="facadeOfIDCardSuccess"
                       :on-error="fileError"
                       :data="{
-                        path : 'hzuser/idcard'
+                        path : 'hzuser/idcard',
+                        token : token,
                       }"
                     >
                       <el-button size="mini" icon='el-icon-upload'>
@@ -154,7 +155,8 @@
                       :on-success="backsidePhotoOfIDCardSuccess"
                       :on-error="fileError"
                       :data="{
-                        path : 'hzuser/idcard'
+                        path : 'hzuser/idcard',
+                        token : token,
                       }"
                     >
                       <el-button size="mini" icon='el-icon-upload'>
@@ -231,7 +233,8 @@
                       :on-success="businessLicenseSuccess"
                       :on-error="fileError"
                       :data="{
-                        path : 'hzuser/idcard'
+                        path : 'hzuser/idcard',
+                        token : token,
                       }"
                     >
                       <el-button size="mini" icon='el-icon-upload'>
@@ -332,6 +335,8 @@
         reg : reg,
         // 提交按钮禁用状态
         submitDisabled : false,
+        // 用户token
+        token : JSON.parse(localStorage.getItem('loginInfo')).token,
 
         ruleForm : {
           // 选择仲裁委

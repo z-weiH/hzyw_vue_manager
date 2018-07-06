@@ -33,7 +33,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="产品" prop="productId">
+          <el-form-item label="模版" prop="productId">
             <el-select
               style="width:200px"
               v-model="ruleForm.productId"
@@ -85,7 +85,7 @@
           </div>
 
           <div class="screening-results">
-            共找到案件 
+            共找到案件
             <span class="color-origin">{{totalCount}}</span>
             件，待分配
             <span class="color-origin">
@@ -106,15 +106,15 @@
                 <el-form-item :label="item.userName"
                   :prop="`allocationList.${index}.count`"
                   :rules="[
-                    
+
                     {pattern : /^[0-9]*$/, message : '格式有误' , trigger : 'change'},
                   ]"
                 >
-                  <el-input 
+                  <el-input
                     :disabled="item.disabled === true ? true : false"
-                    @input.native="handleAuditedChange(item.count,index,item)" 
+                    @input.native="handleAuditedChange(item.count,index,item)"
                     style="width:200px;"
-                    v-model="item.count" placeholder="请输入" 
+                    v-model="item.count" placeholder="请输入"
                   /><span class="ml-10">件</span>
                   （
                   <span class="color-origin">{{item.unDealCount}}</span>
@@ -149,7 +149,7 @@
         submitDisabled : false,
 
         ruleForm : {
-          // 互金企业 
+          // 互金企业
           merchantCode : '',
           // 产品
           productId : '',
@@ -190,7 +190,7 @@
         // 互金企业 options
         merchantOptions : [
           /* {merchantName : '张三' , code : '张三'} */
-        ], 
+        ],
         // 产品 options
         productOptions : [
           /* {prodName : '产品' , prodCode : '产品'} */
@@ -205,7 +205,7 @@
       }
     },
     mounted() {
-      
+
     },
     watch : {
       ['ruleForm.pushStartDate']() {
@@ -268,7 +268,7 @@
           },
         }).then((res) => {
           this.totalCount = res.result.totalCount;
-          this.undistributeTotalCount = res.result.undistributeTotalCount; 
+          this.undistributeTotalCount = res.result.undistributeTotalCount;
           this.undistributeTotalCountStorage = res.result.undistributeTotalCount;
           // 开启 运营人员输入
           this.ruleForm.allocationList = this.ruleForm.allocationList.map((v) => {
@@ -358,7 +358,7 @@
               }
             }
           }
-          
+
           // 更新 待分配数量
           setTimeout(() => {
             // 当前案件分配 已分配数量
@@ -415,7 +415,7 @@
               this.$message.warning('请至少分配一件案件');
               return;
             }
-            
+
             let data = {...this.ruleForm};
             // 处理数据
             data.allocationList = (data.allocationList.map((v) => {

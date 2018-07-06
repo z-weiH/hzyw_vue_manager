@@ -469,3 +469,12 @@ input{
     margin-bottom: 0;
   }
 }
+
+body{
+  .body_container{
+ @include customScrollBar;
+  height: 100%;
+  overflow: auto;
+  min-height: 100%;
+  }
+}

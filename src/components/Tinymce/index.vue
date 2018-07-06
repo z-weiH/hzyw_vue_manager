@@ -92,6 +92,7 @@ export default {
           let fd = new FormData();
           fd.append('file',blobInfo.blob());
           fd.append('path',this.path);
+          fd.append('token',JSON.parse(localStorage.getItem('loginInfo')).token);
           this.$http.post('/file/upload.htm',fd,{mheaders: true,header: {'Content-Type': 'multipart/form-data'}})
             .then(res => {
               if(res.code == '0000'){

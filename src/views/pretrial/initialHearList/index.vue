@@ -45,7 +45,7 @@
         queryUrl: '/firstAudit/queryFirstAuditList.htm', ///11/case/queryHzCaseInfoByBaseQuery.htm
         columnDefine:[
           {label:'互金企业', property: 'clientName'},
-          {label:'产品', property: 'productName'},
+          {label:'模版', property: 'productName'},
           {label:'案件数量', property: 'countCase'},
           {label:'子批次数', property: 'countSubBatch'},
           {label:'分配时间', property: 'distributeTime'},

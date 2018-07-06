@@ -1,6 +1,7 @@
 <template>
   <div class="idea-hear-option-dialog">
     <el-dialog
+      ref="dialog"
       :title="status === 'add' ? '添加审核意见' : '修改审核意见'"
       :visible.sync="dialogVisible"
       width="500px"
@@ -51,6 +52,10 @@
         },
         reasonId : '',
       }
+    },
+    mounted() {
+      // 解决 dialog初始化问题
+      this.$refs.dialog.rendered = true;
     },
     methods : {
       show(type,row) {
