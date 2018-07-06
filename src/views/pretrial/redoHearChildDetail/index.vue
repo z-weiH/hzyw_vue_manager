@@ -207,7 +207,7 @@
 
 <script>
 import closeDig from "@/components/closeDlg.vue";
-import PicZoom from "vue-piczoom";
+import PicZoom from "@/components/Piczoom";
 import scrollY from "@/components/scroll-y";
 import { URL_JSON } from "../../../components/script/url_json";
 import audit from "./modules/audit";
