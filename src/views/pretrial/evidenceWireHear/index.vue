@@ -233,7 +233,7 @@
       this.markflag = +this.$route.query.markflag;
       this.disabled = this.$route.query.disabled;
       this.batchNo = this.$route.query.batchNo;
-      this.pager.currentNum = Math.ceil(this.markflag/20);
+      this.pager.currentNum = Math.ceil(this.markflag/1);
       if(this.pager.currentNum === 0)
         this.pager.currentNum = 1;
       this.HandleQuery();
