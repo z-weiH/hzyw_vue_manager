@@ -104,7 +104,7 @@
                 }else{
                     imgsrc=this.imgUrl
                 }
-                
+
                 this.img=new Image()
                 this.img.src=imgsrc
                 this.img.onload=()=>{
@@ -123,7 +123,7 @@
                 this.canvas.className='mouse-cover-canvas'
                 this.canvas.style.position='absolute'
                 this.canvas.style.left=this.imgbox.offsetLeft+this.imgbox.offsetWidth+10+'px'
-                this.canvas.style.top=this.imgbox.offsetTop+'px'
+                this.canvas.style.top=this.imgbox.offsetTop - document.documentElement.querySelector('.body_container').scrollTop +'px'
                 this.canvas.style.border='1px solid #eee'
                 this.canvas.style.zIndex='99999'
                 this.canvas.height=this.imgbox.offsetHeight
@@ -142,7 +142,7 @@
                     imgsrc=this.bigImgUrl
                 }else{
                     imgsrc=this.imgUrl
-                    
+
                 }
                 this.img=new Image()
                 this.img.src=imgsrc
@@ -155,7 +155,7 @@
                         this.rectTimesY=(this.imgbox.offsetHeight/this.scale)/box.querySelector('img').offsetHeight
                     }, 20);
                 }
-                
+
             },
             mousemove(e){
                 if(!this.init){
@@ -175,13 +175,13 @@
                         totalLeft+=par.clientLeft;
                         totalTop+=par.clientTop
                         }
-                        
+
                         //累加父级参照物本身的偏移
                         totalLeft+=par.offsetLeft;
                         totalTop+=par.offsetTop
                         par = par.offsetParent;
                     }
-                
+
                     return{
                         left:totalLeft,
                         top:totalTop
@@ -191,17 +191,18 @@
                 function getXY(eve) {
                     return {
                         x : eve.clientX -(_this.cover.offsetWidth/2),
-                        y : eve.clientY-(_this.cover.offsetHeight/2) 
+                        y : eve.clientY-(_this.cover.offsetHeight/2)
                     };
                 }
                 let oEvent = e || event;
                 let pos = getXY(oEvent);
                 let imgwrap=offset(this.imgwrap)
+                console.log(document.documentElement.querySelector('.body_container').scrollTop)
                 let range={
                     minX:imgwrap.left,
                     maxX:imgwrap.left+this.imgwrap.offsetWidth-this.cover.offsetWidth,
-                    minY:imgwrap.top-document.documentElement.scrollTop,
-                    maxY:imgwrap.top-document.documentElement.scrollTop+this.imgwrap.offsetHeight-this.cover.offsetHeight,
+                    minY:imgwrap.top-document.documentElement.querySelector('.body_container').scrollTop,
+                    maxY:imgwrap.top-document.documentElement.querySelector('.body_container').scrollTop+this.imgwrap.offsetHeight-this.cover.offsetHeight,
                 }
                 if(pos.x>range.maxX){
                     pos.x=range.maxX
@@ -215,13 +216,14 @@
                 if(pos.y<range.minY){
                     pos.y=range.minY
                 }
-                this.cover.style.left=pos.x+'px'
+              console.log(range,pos);
+              this.cover.style.left=pos.x+'px'
                 this.cover.style.top=pos.y+'px'
                 this.ctx.clearRect(0,0,this.imgwrap.offsetWidth,this.imgwrap.offsetHeight);
-                let startX=pos.x-(imgwrap.left-document.documentElement.scrollLeft),
-                startY=pos.y-(imgwrap.top-document.documentElement.scrollTop)
+                let startX=pos.x-(imgwrap.left-document.documentElement.querySelector('.body_container').scrollLeft),
+                startY=pos.y-(imgwrap.top-document.documentElement.querySelector('.body_container').scrollTop)
                 this.ctx.drawImage(this.img,startX*this.imgTimesX,startY*this.imgTimesY,this.img.width*this.rectTimesX,this.img.height*this.rectTimesY,0,0,this.imgbox.offsetWidth,this.imgbox.offsetHeight);
-                
+
             },
             mouseover(e){
                 if(!this.init){
@@ -237,7 +239,7 @@
                         ev.preventDefault();
                     },false);
                 }
-                
+
                 this.cover.style.display='block'
                 this.canvas.style.display='block'
             },
@@ -263,30 +265,30 @@
                         this.rotateImg(bigOrginImg,direction,this.bigStep,true)
                     }
                 }
-                
+
             },
             rotateImg(img,direction,step,isBig=false){
                 var min_step = 0;
                 var max_step = 3;
                 if (img == null) return;
-                //img的高度和宽度不能在img元素隐藏后获取，否则会出错    
+                //img的高度和宽度不能在img元素隐藏后获取，否则会出错
                 var height = img.height;
                 var width = img.width;
-                
+
                 if (step == null) {
                     step = min_step;
                 }
                 if (direction == 'right') {
                     step++;
-                    //旋转到原位置，即超过最大值    
+                    //旋转到原位置，即超过最大值
                     step > max_step && (step = min_step);
                 } else {
                     step--;
                     step < min_step && (step = max_step);
-                }   
-                var canvas = document.createElement('canvas')  
-                
-                //旋转角度以弧度值为参数    
+                }
+                var canvas = document.createElement('canvas')
+
+                //旋转角度以弧度值为参数
                 var degree = step * 90 * Math.PI / 180;
                 var ctx = canvas.getContext('2d');
                 canvas.width = height;
@@ -319,7 +321,7 @@
                         break;
                 }
                 var newImg=canvas.toDataURL()
-                
+
                 if(isBig){
                     this.bigImgUrl=newImg
                     this.bigStep=step
@@ -358,7 +360,7 @@
                 cursor: pointer;
                 width: 16px;
                 height: 16px;
-                background: url(../rotate.png);
+                background: url(../assets/img/rotate.png);
                 background-size: 100% 100%;
                 -moz-transform:scaleX(-1);
                 -webkit-transform:scaleX(-1);
@@ -373,7 +375,7 @@
                 display: inline-block;
                 width: 16px;
                 height: 16px;
-                background: url(../rotate.png);
+                background: url(../assets/img/rotate.png);
                 background-size: 100% 100%;
             }
         }

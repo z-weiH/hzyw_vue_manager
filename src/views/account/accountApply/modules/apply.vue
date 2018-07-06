@@ -55,6 +55,9 @@
                         if(res.result.exist){
                           callback(new Error("该邮箱(账号)已存在"));
                         }
+                        else {
+                          callback();
+                        }
                       }else{
                         callback(new Error(res.description));
                       }
@@ -216,7 +219,7 @@
                 this.$emit('refresh');
               }
             })
-        }).catch(()=>{})
+        }).catch((err)=>{console.log(err)})
 
       }
     },

@@ -116,7 +116,7 @@
 <script>
 import audit from "../signatureHearDetail/modules/audit";
 import Mixins from "@/components/script/_mixin";
-import PicZoom from "vue-piczoom";
+import PicZoom from "@/components/Piczoom";
 import closeDlg from "@/components/closeDlg";
 export default {
   extends: Mixins,
@@ -285,9 +285,12 @@ export default {
         });
     },
     scrollFunc() {
-      console.log(document.documentElement.scrollTop)
       this.$refs.picZoom.forEach(it => {
-        it.initTime()
+        // console.log(document.documentElement.scrollTop);
+        console.log(document.documentElement.querySelector('.body_container').scrollTop);
+        setTimeout(()=> {
+          it.initTime()
+        },300)
       })
     }
   },
