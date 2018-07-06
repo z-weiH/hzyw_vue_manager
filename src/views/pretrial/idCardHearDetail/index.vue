@@ -302,7 +302,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/style/scss/helper/_mixin.scss";
 .bookmark-enter-active,
 .addmark-enter-active {
   transition: all 0.6s ease;
@@ -330,11 +329,7 @@ export default {
   margin-right: 20px;
 }
 .body_container {
-  @include customScrollBar;
   background: #f7f7f7;
-  height: 100%;
-  overflow: auto;
-  min-height: 100%;
   &::after {
     content: "";
     display: block;
