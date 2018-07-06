@@ -38,7 +38,8 @@
               :on-success="evidenceSuccess"
               :on-error="fileError"
               :data="{
-                path : 'case/evidence'
+                path : 'case/evidence',
+                token : token,
               }"
             >
               <el-button size="mini" icon='el-icon-upload'>
@@ -70,6 +71,8 @@
     data() {
       return {
         dialogVisible : false,
+        // 用户token
+        token : JSON.parse(localStorage.getItem('loginInfo')).token,
 
         ruleForm : {
           // 证据名称

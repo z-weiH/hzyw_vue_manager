@@ -8,6 +8,9 @@
       :before-upload="beforeAvatarUpload"
       :on-success="fileSuccess"
       :on-error="fileError"
+      :data="{
+        token : token,
+      }"
     >
       <el-button size="mini" icon='el-icon-upload' type="primary">
         导入 word
@@ -29,7 +32,8 @@ export default {
   },
   data() {
     return {
-
+      // 用户token
+      token : JSON.parse(localStorage.getItem('loginInfo')).token,
     }
   },
   methods: {
