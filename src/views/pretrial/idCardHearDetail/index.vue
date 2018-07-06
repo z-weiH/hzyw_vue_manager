@@ -42,10 +42,10 @@
       </div>
       <div class="card_body">
         <div class="img zhen">
-          <pic-zoom :url="card.respondentInfo.image02" :scale="3"></pic-zoom>
+          <pic-zoom :url="card.respondentInfo.image02" :scale="3" :scroll="true"></pic-zoom>
         </div>
         <div class="img fan">
-          <pic-zoom :url="card.respondentInfo.image01" :scale="3"></pic-zoom>
+          <pic-zoom :url="card.respondentInfo.image01" :scale="3" :scroll="true"></pic-zoom>
         </div>
         <div class="img_desc">
           <ul>
