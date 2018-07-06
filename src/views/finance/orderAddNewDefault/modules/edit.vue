@@ -1,5 +1,5 @@
 <template>
-  <el-dialog :visible.sync="show" v-dialogDrag :title="title" width="890px" center>
+  <el-dialog :visible.sync="show" v-dialogDrag :title="title" width="890px" center @close="closeFoo">
     <div class="dailog-container">
       <table-edits :editDefines="edtDefines" :item="item.orderVO"></table-edits>
       <table-edits v-for="(orderDetail, index) in item.orderDetailList" :key="index" :disabled="Boolean(orderDetail.orderStatus) || $parent.editState == 9" :editDefines="edtDefines_item" :item="orderDetail">
@@ -26,7 +26,7 @@
             </table>
       </table-edits>
     </div>
-    <el-button v-if="$parent.editState == 1" type="primary" @click="newCurrentTpl">新增加款</el-button>
+    <el-button v-if="addDollerBtn && ($parent.editState == 1 && currentLine.orderStatus === 2)" type="primary" @click="newCurrentTpl">新增加款</el-button>
     <span slot="footer" class="dialog-footer">
               <el-button v-if="$parent.editState == 1" type="primary" @click="saveAndcommit(0)">保存</el-button>
               <el-button v-if="$parent.editState == 1" type="primary" @click="saveAndcommit(1)">提交</el-button>
@@ -47,7 +47,8 @@ export default {
   extends: dataHandle,
   props: {
     editState: Number, // 1:显示 0:隐藏 9:只读
-    item: Object
+    item: Object,
+    currentLine:Object
   },
   data() {
     return {
@@ -234,7 +235,8 @@ export default {
             }
           ]
         }
-      ]
+      ],
+      addDollerBtn:1
     };
   },
   computed: {
@@ -251,8 +253,12 @@ export default {
     TableEdits
   },
   methods: {
+    closeFoo(){
+      this.addDollerBtn = 1;
+    },
     newCurrentTpl() {
       this.item.orderDetailList.push({}); //创建一个observer的新对象
+      this.addDollerBtn = 0;
       console.info(this.item.orderDetailList);
     },
     saveAndcommit(type) {
