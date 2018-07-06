@@ -74,15 +74,16 @@ export default {
       }else{
         let _obj = Object.assign({},{ reasonMsg: el.reasonMsg });
         console.log("_obj: ", _obj);
-        // this.curCardObj.idCard.failReasonList.push(_obj);
+        this.curCardObj.idCard.failReasonList.push(_obj);
 
       }
     },
     HandleAuditConfirm() {
       console.log("curCardObj::", this.curCardObj);
+      let _rids = this.arrReasonIds;
       let _auditBj = {
         caseId: this.curCardObj.caseId,
-        suggestions: this.arrReasonIds
+        suggestions: this.status === 1 ? [] : _rids,
       };
 
       let arr_idcard = _auditBj["suggestions"].filter(v => v.reasonType === 0);
@@ -132,6 +133,8 @@ export default {
         data: _auditBj
       }).then(res => {
         if (res.code === "0000") {
+          this.$parent.audit_state = 0;
+          this.$message.success('保存成功');
         } else {
           console.log("提交审核原因内容：：：：", res.result);
         }

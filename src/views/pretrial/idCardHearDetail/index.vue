@@ -114,307 +114,331 @@
 </template>
 
 <script>
-  import audit from '../signatureHearDetail/modules/audit'
-  import Mixins from '@/components/script/_mixin'
-  import PicZoom from "vue-piczoom";
-  import closeDlg from '@/components/closeDlg';
-  export default {
-    extends: Mixins,
-    data(){
-      return {
-        auditStatus: 0,
-        editState: 0,
-        markflag: false,
-        subBatchNo: '',
-        idCardList: [],
-        batchNo: '',
-        currentCaseId: '',//当前案件
-        disabled: false,//能否编辑
-        selfflag: 0, //新书签
-        showCloseDlg: false,//
-        auditLists: [],
-        pager: {
-          currentNum: 1,
-          pageSize: 20,
-          count: 0,
-        },
-        selValue: null
-      }
-    },
-    computed: {
-      mark() {
-        if(!this.selfflag)
-          return this.markflag;
-        return this.selfflag;
-      }
-    },
-    watch: {
-      auditStatus(val,oldVal){
-        this.HandleQuery();
-      }
-    },
-    methods: {
-      //审核意见
-      HandleShow(card) {
-        this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: card.caseId,type: 0})
-          .then(res => {
-            if(res.code === '0000'){
-              this.auditLists = res.result;
-              this.editState = 1;
-              this.currentCaseId = card.caseId;
-              this.selValue = card.idStatus;
-            }
-          })
+import audit from "../signatureHearDetail/modules/audit";
+import Mixins from "@/components/script/_mixin";
+import PicZoom from "vue-piczoom";
+import closeDlg from "@/components/closeDlg";
+export default {
+  extends: Mixins,
+  data() {
+    return {
+      auditStatus: 0,
+      editState: 0,
+      markflag: false,
+      subBatchNo: "",
+      idCardList: [],
+      batchNo: "",
+      currentCaseId: "", //当前案件
+      disabled: false, //能否编辑
+      selfflag: 0, //新书签
+      showCloseDlg: false, //
+      auditLists: [],
+      pager: {
+        currentNum: 1,
+        pageSize: 20,
+        count: 0
       },
-      HandleAudit() {
-        const h = this.$createElement;
-        this.$msgbox({
-          title: '提示',
-          message: h('div',null,[
-            h('p',null,'即将提交身份证结果。提交后讲无法修改。'),
-            h('p',null,'确定提交?')
-
-          ]),
-          center: true,
-          showCancelButton: true,
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-        }).then(res => {
-          this.$http.post('/firstAudit/idCardFirstAuditFinished.htm',{subBatchNo: this.subBatchNo,type: 0})
-            .then(r =>{
-              if(r.code === '0000'){
+      selValue: null
+    };
+  },
+  computed: {
+    mark() {
+      if (!this.selfflag) return this.markflag;
+      return this.selfflag;
+    }
+  },
+  watch: {
+    auditStatus(val, oldVal) {
+      this.HandleQuery();
+    }
+  },
+  methods: {
+    //审核意见
+    HandleShow(card) {
+      this.$http
+        .post("/firstAudit/queryAuditInfoByCaseId.htm", {
+          caseId: card.caseId,
+          type: 0
+        })
+        .then(res => {
+          if (res.code === "0000") {
+            this.auditLists = res.result;
+            this.editState = 1;
+            this.currentCaseId = card.caseId;
+            this.selValue = card.idStatus;
+          }
+        });
+    },
+    HandleAudit() {
+      const h = this.$createElement;
+      this.$msgbox({
+        title: "提示",
+        message: h("div", null, [
+          h("p", null, "即将提交身份证结果。提交后讲无法修改。"),
+          h("p", null, "确定提交?")
+        ]),
+        center: true,
+        showCancelButton: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消"
+      })
+        .then(res => {
+          this.$http
+            .post("/firstAudit/idCardFirstAuditFinished.htm", {
+              subBatchNo: this.subBatchNo,
+              type: 0
+            })
+            .then(r => {
+              if (r.code === "0000") {
                 this.showCloseDlg = true;
                 window.opener.history.go(0);
                 // this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
               }
-            })
-        }).catch(() => {})
-      },
-      HandleAddmark(card) {
-        //接口调用
-        console.log(this.selfflag,this.mark)
-        this.$http.post('/firstAudit/addMark.htm',{subBatchNo: this.subBatchNo, subSortNo: card.subSortNo, type: 0})
-          .then(res => {
-            if(res.code === '0000'){
-              console.log(res);
-              this.selfflag = card.subSortNo;
-              this.$message.success('书签添加成功');
-            }
-          })
-      },
-      handleCurrentChange(page) {
-        this.pager.currentNum = page;
-        this.HandleQuery();
-      },
-      HandleQuery(mark) {
-        this.$http.post('/firstAudit/queryIdcardsBySubBatchNo.htm',Object.assign({ subBatchNo: this.subBatchNo,auditStatus: +this.auditStatus},this.pager))
-          .then(res => {
+            });
+        })
+        .catch(() => {});
+    },
+    HandleAddmark(card) {
+      //接口调用
+      console.log(this.selfflag, this.mark);
+      this.$http
+        .post("/firstAudit/addMark.htm", {
+          subBatchNo: this.subBatchNo,
+          subSortNo: card.subSortNo,
+          type: 0
+        })
+        .then(res => {
+          if (res.code === "0000") {
             console.log(res);
-            if(res.code === '0000'){
-              this.idCardList = res.result.list;
-              this.count = res.result.count;
-              this.pager.total = res.result.count;
-              this.idCardList.forEach(item => {
-                Object.defineProperty(item, "checkName",{
-                  get: () => {
-                    return !!item.auditListWrap.find(it => it.code === 'NAME');
-                  }
-                });
-                Object.defineProperty(item, "checkNATION",{
-                  get: () => {
-                    return !!item.auditListWrap.find(it => it.code === 'NATION');
-                  }
-                });
-                Object.defineProperty(item, "checkGENDER",{
-                  get: () => {
-                    return !!item.auditListWrap.find(it => it.code === 'GENDER');
-                  }
-                });
-                Object.defineProperty(item, "checkADDRESS",{
-                  get: () => {
-                    return !!item.auditListWrap.find(it => it.code === 'ADDRESS');
-                  }
-                });
-                Object.defineProperty(item, "checkIDCARD",{
-                  get: () => {
-                    return !!item.auditListWrap.find(it => it.code === 'IDCARD');
-                  }
-                });
-                Object.defineProperty(item, "checkEFFECT",{
-                  get: () => {
-                    return !!item.auditListWrap.find(it => it.code === 'EFFECT');
-                  }
-                });
-                // Object.defineProperty(item, "checkSign",{
-                //   get: () => {
-                //     return !!item.checkSignList.find(it => it.code === 'SIGN');
-                //   }
-                // });
-                // Object.defineProperty(item, "checkSignTime",{
-                //   get: () => {
-                //     return !!item.checkSignList.find(it => it.code === 'SIGNTIME');
-                //   }
-                // })
+            this.selfflag = card.subSortNo;
+            this.$message.success("书签添加成功");
+          }
+        });
+    },
+    handleCurrentChange(page) {
+      this.pager.currentNum = page;
+      this.HandleQuery();
+    },
+    HandleQuery(mark) {
+      this.$http
+        .post(
+          "/firstAudit/queryIdcardsBySubBatchNo.htm",
+          Object.assign(
+            { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus },
+            this.pager
+          )
+        )
+        .then(res => {
+          console.log(res);
+          if (res.code === "0000") {
+            this.idCardList = res.result.list;
+            this.count = res.result.count;
+            this.pager.total = res.result.count;
+            this.idCardList.forEach(item => {
+              Object.defineProperty(item, "checkName", {
+                get: () => {
+                  return !!item.auditListWrap.find(it => it.code === "NAME");
+                }
               });
-              if(mark){
-                setTimeout(() => {
-                  console.log(this.$refs[this.markflag])
-                },500)
-              }
+              Object.defineProperty(item, "checkNATION", {
+                get: () => {
+                  return !!item.auditListWrap.find(it => it.code === "NATION");
+                }
+              });
+              Object.defineProperty(item, "checkGENDER", {
+                get: () => {
+                  return !!item.auditListWrap.find(it => it.code === "GENDER");
+                }
+              });
+              Object.defineProperty(item, "checkADDRESS", {
+                get: () => {
+                  return !!item.auditListWrap.find(it => it.code === "ADDRESS");
+                }
+              });
+              Object.defineProperty(item, "checkIDCARD", {
+                get: () => {
+                  return !!item.auditListWrap.find(it => it.code === "IDCARD");
+                }
+              });
+              Object.defineProperty(item, "checkEFFECT", {
+                get: () => {
+                  return !!item.auditListWrap.find(it => it.code === "EFFECT");
+                }
+              });
+              // Object.defineProperty(item, "checkSign",{
+              //   get: () => {
+              //     return !!item.checkSignList.find(it => it.code === 'SIGN');
+              //   }
+              // });
+              // Object.defineProperty(item, "checkSignTime",{
+              //   get: () => {
+              //     return !!item.checkSignList.find(it => it.code === 'SIGNTIME');
+              //   }
+              // })
+            });
+            if (mark) {
+              setTimeout(() => {
+                console.log(this.$refs[this.markflag]);
+              }, 500);
             }
-          })
-      }
-    },
-    components: {
-      audit,
-      PicZoom,
-      closeDlg
-    },
-    mounted() {
-      this.subBatchNo = this.$route.query.subBatchNo;
-      this.markflag = this.$route.query.markflag;
-      this.disabled = this.$route.query.disabled;
-      this.batchNo = this.$route.query.batchNo;
-      this.HandleQuery(true);
-      console.log(window.opener);
+          }
+        });
     }
+  },
+  components: {
+    audit,
+    PicZoom,
+    closeDlg
+  },
+  mounted() {
+    this.subBatchNo = this.$route.query.subBatchNo;
+    this.markflag = this.$route.query.markflag;
+    this.disabled = this.$route.query.disabled;
+    this.batchNo = this.$route.query.batchNo;
+    this.HandleQuery(true);
+    console.log(window.opener);
   }
+};
 </script>
 
 <style lang="scss" scoped>
-  .bookmark-enter-active,.addmark-enter-active {
-    transition: all 0.6s ease;
-  }
-  .bookmark-leave-active,.addmark-leave-active {
-    transition: all 0.6s ease;
-  }
-  .addmark-enter, .addmark-lwave-to{
-    opacity: 0;
-  }
-  .bookmark-enter, .bookmark-leave-to
+@import "@/assets/style/scss/helper/_mixin.scss";
+.bookmark-enter-active,
+.addmark-enter-active {
+  transition: all 0.6s ease;
+}
+.bookmark-leave-active,
+.addmark-leave-active {
+  transition: all 0.6s ease;
+}
+.addmark-enter,
+.addmark-lwave-to {
+  opacity: 0;
+}
+.bookmark-enter, .bookmark-leave-to
     /* .slide-fade-leave-active for below version 2.1.8 */ {
-    transform: translateY(-45px);
+  transform: translateY(-45px);
+}
+.addmark {
+  position: absolute;
+  right: 110px;
+}
+.bookmark {
+  height: 40px;
+  vertical-align: text-top;
+  margin-top: -10px;
+  margin-right: 20px;
+}
+.body_container {
+  @include customScrollBar;
+  background: #f7f7f7;
+  height: 100%;
+  overflow: auto;
+  min-height: 100%;
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
   }
-  .addmark{
-    position: absolute;
-    right: 110px;
-  }
-  .bookmark{
-    height: 40px;
-    vertical-align: text-top;
-    margin-top: -10px;
-    margin-right: 20px;
-  }
-  .body_container{
-    background: #F7F7F7;
-    height: 100%;
-    &::after{
-      content: '';
-      display: block;
-      clear:both;
-    }
-    .header_container{
-      height: 76px;
-      background: #fff;
-      .header{
-        width: 1200px;
-        margin: 0 auto;
-        height: 76px;
-        .header_title{
-          font-size: 28px;
-          color: #193B8C;
-          line-height: 76px;
-          font-weight: 500;
-        }
-        .header_checkbox {
-          margin-left: 20px;
-        }
-      }
-    }
-    .card{
-      overflow: hidden;
-      width:1200px;
-      border:1px solid #E5EAEE;
-      background: #fff;
-      margin: 16px auto;
-      padding-bottom: 20px;
-      .card_header{
-        height: 49px;
-        border-bottom: 1px solid #E5EAEE;
-        background: #EEF3FF;
-        padding-left: 12px;
-        padding-right: 10px;
-        .header_title{
-          font-size: 16px;
-          line-height: 50px;
-          color: #13367D;
-        }
-        .header_img{
-          display: inline-block;
-          position: relative;
-          img{
-            vertical-align: bottom;
-            margin: 0 7px;
-          }
-          .icon{
-            position: absolute;
-            bottom: -7px;
-            right: -7px;
-          }
-        }
-      }
-      .card_body{
-        padding: 30px 0 0 22px;
-        .img{
-          float: left;
-          width: 370px;
-          height: 225px;
-          border: 1px solid #E5EAEE;
-          border-radius: 5px;
-          &.zhen{
-            margin-right: 17px;
-          }
-          &.fan{
-            margin-right: 28px;
-          }
-        }
-        .img_desc{
-          ul{
-            li{
-              line-height: 38px;
-              font-size: 14px;
-              color: #363636;
-            }
-          }
-        }
-
-      }
-      .audit{
-        padding-top: 28px;
-        .audit_title{
-          font-size: 17px;
-          color: #193B8C;
-          margin-bottom: 10px;
-        }
-        ul{
-          padding-left: 15px;
-          li{
-            font-size: 14px;
-            line-height: 24px;
-            color: #444;
-          }
-        }
-      }
-    }
-    .pagination{
-      margin: 20px auto;
-      box-sizing: border-box;
-      border: 1px solid #E5EAEE;
+  .header_container {
+    height: 76px;
+    background: #fff;
+    .header {
       width: 1200px;
-      padding: 10px 20px;
-      background: #fff;
+      margin: 0 auto;
+      height: 76px;
+      .header_title {
+        font-size: 28px;
+        color: #193b8c;
+        line-height: 76px;
+        font-weight: 500;
+      }
+      .header_checkbox {
+        margin-left: 20px;
+      }
     }
-
   }
-
+  .card {
+    overflow: hidden;
+    width: 1200px;
+    border: 1px solid #e5eaee;
+    background: #fff;
+    margin: 16px auto;
+    padding-bottom: 20px;
+    .card_header {
+      height: 49px;
+      border-bottom: 1px solid #e5eaee;
+      background: #eef3ff;
+      padding-left: 12px;
+      padding-right: 10px;
+      .header_title {
+        font-size: 16px;
+        line-height: 50px;
+        color: #13367d;
+      }
+      .header_img {
+        display: inline-block;
+        position: relative;
+        img {
+          vertical-align: bottom;
+          margin: 0 7px;
+        }
+        .icon {
+          position: absolute;
+          bottom: -7px;
+          right: -7px;
+        }
+      }
+    }
+    .card_body {
+      padding: 30px 0 0 22px;
+      .img {
+        float: left;
+        width: 370px;
+        height: 225px;
+        border: 1px solid #e5eaee;
+        border-radius: 5px;
+        &.zhen {
+          margin-right: 17px;
+        }
+        &.fan {
+          margin-right: 28px;
+        }
+      }
+      .img_desc {
+        ul {
+          li {
+            line-height: 38px;
+            font-size: 14px;
+            color: #363636;
+          }
+        }
+      }
+    }
+    .audit {
+      padding-top: 28px;
+      .audit_title {
+        font-size: 17px;
+        color: #193b8c;
+        margin-bottom: 10px;
+      }
+      ul {
+        padding-left: 15px;
+        li {
+          font-size: 14px;
+          line-height: 24px;
+          color: #444;
+        }
+      }
+    }
+  }
+  .pagination {
+    margin: 20px auto;
+    box-sizing: border-box;
+    border: 1px solid #e5eaee;
+    width: 1200px;
+    padding: 10px 20px;
+    background: #fff;
+  }
+}
 </style>
