@@ -12,6 +12,13 @@
         </template>
       </div>
     </div>
+    <!-- 无匹配案件区域 -->
+    <div class="noCase_panel" v-if="idCardList.length == 0">
+      <div class="search_ico"></div>
+      <div>没有符合要求的案件</div>
+    </div>
+    <!-- end -->
+
     <div class="card" v-for="(card, index) in idCardList" :key="index">
       <div class="card_header" style="overflow: hidden">
         <div class="fr mt-5" style="position: relative;" v-if="!disabled">
@@ -98,7 +105,7 @@
       </div>
 
     </div>
-    <div class="pagination">
+    <div class="pagination" v-if="idCardList.length > 0">
       <el-pagination
         @current-change="handleCurrentChange"
         :current-page="pager.currentNum"
@@ -449,6 +456,23 @@ export default {
     width: 1200px;
     padding: 10px 20px;
     background: #fff;
+  }
+}
+.noCase_panel {
+  width: 382px;
+  font-size: 30px;
+  color: #858585;
+  margin: 186px auto 0;
+  .search_ico {
+    width: 112px;
+    height: 73px;
+    background-size: 100%;
+    background-image: url(./../../../assets/img/nocase.png);
+    background-repeat: no-repeat;
+  }
+  > div {
+    display: table-cell;
+    vertical-align: middle;
   }
 }
 </style>

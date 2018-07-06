@@ -19,9 +19,14 @@ axios.interceptors.request.use((config) => {
   // 判断是否是formdata格式
   // post 请求 使用 form Data 请求方式
   let token='';
-  if(localStorage.getItem('loginInfo'))
-    token= JSON.parse(localStorage.getItem('loginInfo')).token;
-  config.headers['token'] = token;
+  if(localStorage.getItem('loginInfo')){
+    try{
+      token= JSON.parse(localStorage.getItem('loginInfo')).token;
+      config.headers['token'] = token;
+    }catch(err) {
+      router.push(`/login`);
+    }
+  }
   // 默认以 form表单提交 ， 增加 mheaders = true 表示以 json格式提交 ， 使用 let form = new FormData() 格式则以 FormData 格式提交
   if (config.method === 'post' && config.mheaders !== true) {
     config.data = qs.stringify(config.data);
