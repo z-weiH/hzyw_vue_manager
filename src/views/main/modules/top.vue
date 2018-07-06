@@ -51,11 +51,11 @@ export default {
         confirmButtonText: "确定",
         center: true
       }).then(() => {
-        // this.$http.post("/logout.htm", {}).then(response => {
+        this.$http("/logout.htm").then((res) => {
           localStorage.removeItem("loginInfo");
           localStorage.removeItem("menuInfoList");
           this.$router.push({ path: "/login" });
-        // });
+        });
       });
     }
   }

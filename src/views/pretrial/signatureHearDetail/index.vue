@@ -1,5 +1,4 @@
 <template>
-  <div>
     <div class="body_container">
       <div class="header_container">
         <div class="header">
@@ -89,288 +88,304 @@
         </el-pagination>
       </div>
       <audit :selValue="selValue" :caseId="currentCaseId" :type="1"></audit>
-
-    </div>
-
     <closeDlg :message="'已完成签名审核，请关闭本页'" v-if="showCloseDlg"></closeDlg>
-  </div>
-
+    </div>
 </template>
 
 <script>
-  import audit from './modules/audit'
-  import Mixins from '@/components/script/_mixin'
-  import closeDlg from '@/components/closeDlg';
-  export default {
-    extends: Mixins,
-    data(){
-      return {
-        auditStatus: 0,
-        editState: 0,
-        markflag: 0,
-        selfflag: null,
-        signatureItems: [],
-        count: 0,
-        batchNo: '',
-        auditLists: [],
-        currentCaseId: '',//当前案件
-        disabled: false, //控制编辑状态     true为查看， false为审核
-        showCloseDlg: false,
-        pager: {
-          currentNum: 1,
-          total: 1,
-          pageSize: 20
-        },
-        selValue: null
-      }
-    },
-    computed: {
-      mark() {
-        if(!this.selfflag)
-          return this.markflag;
-        return this.selfflag;
-      }
-    },
-    watch: {
-      auditStatus(val,oldVal){
-        this.HandleQuery();
-      }
-    },
-    methods: {
-      //意见审核
-      HandleShow(sign) {
-        this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: sign.caseId,type: 1})
-          .then(res => {
-            if(res.code === '0000'){
-              console.log(res);
-              this.auditLists = res.result;
-              this.editState = 1;
-              this.currentCaseId = sign.caseId;
-              this.selValue = sign.signStatus;
-            }
-          })
+import audit from "./modules/audit";
+import Mixins from "@/components/script/_mixin";
+import closeDlg from "@/components/closeDlg";
+export default {
+  extends: Mixins,
+  data() {
+    return {
+      auditStatus: 0,
+      editState: 0,
+      markflag: 0,
+      selfflag: null,
+      signatureItems: [],
+      count: 0,
+      batchNo: "",
+      auditLists: [],
+      currentCaseId: "", //当前案件
+      disabled: false, //控制编辑状态     true为查看， false为审核
+      showCloseDlg: false,
+      pager: {
+        currentNum: 1,
+        total: 1,
+        pageSize: 20
       },
-      openWindow(url) {
-        window.open(url, "_blank");
-      },
-      HandleAudit() {
-        const h = this.$createElement;
-        this.$msgbox({
-          title: '提示',
-          message: h('div',null,[
-            h('p',null,'即将提交身份证结果。提交后讲无法修改。'),
-            h('p',null,'确定提交?')
-
-          ]),
-          center: true,
-          showCancelButton: true,
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-        }).then(res => {
-          this.$http.post('/firstAudit/idCardFirstAuditFinished.htm',{subBatchNo: this.subBatchNo,type: 1})
-            .then(r =>{
-              if(r.code === '0000'){
+      selValue: null
+    };
+  },
+  computed: {
+    mark() {
+      if (!this.selfflag) return this.markflag;
+      return this.selfflag;
+    }
+  },
+  watch: {
+    auditStatus(val, oldVal) {
+      this.HandleQuery();
+    }
+  },
+  methods: {
+    //意见审核
+    HandleShow(sign) {
+      this.$http
+        .post("/firstAudit/queryAuditInfoByCaseId.htm", {
+          caseId: sign.caseId,
+          type: 1
+        })
+        .then(res => {
+          if (res.code === "0000") {
+            console.log(res);
+            this.auditLists = res.result;
+            this.editState = 1;
+            this.currentCaseId = sign.caseId;
+            this.selValue = sign.signStatus;
+          }
+        });
+    },
+    openWindow(url) {
+      window.open(url, "_blank");
+    },
+    HandleAudit() {
+      const h = this.$createElement;
+      this.$msgbox({
+        title: "提示",
+        message: h("div", null, [
+          h("p", null, "即将提交身份证结果。提交后讲无法修改。"),
+          h("p", null, "确定提交?")
+        ]),
+        center: true,
+        showCancelButton: true,
+        confirmButtonText: "确定",
+        cancelButtonText: "取消"
+      })
+        .then(res => {
+          this.$http
+            .post("/firstAudit/idCardFirstAuditFinished.htm", {
+              subBatchNo: this.subBatchNo,
+              type: 1
+            })
+            .then(r => {
+              if (r.code === "0000") {
                 this.showCloseDlg = true;
                 window.opener.history.go(0);
                 // this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
               }
-            })
-        }).catch(() => {})
-      },
-      HandleAddmark(sign) {
-        //接口调用
-        console.log(this.selfflag,this.mark)
-        this.$http.post('/firstAudit/addMark.htm',{subBatchNo: this.subBatchNo, subSortNo: sign.subSortNo, type: 1})
-          .then(res => {
-            if(res.code === '0000'){
-              console.log(res);
-              this.selfflag = sign.subSortNo;
-              this.$message.success('书签添加成功');
-            }
-          })
-      },
-      handleCurrentChange(page) {
-        this.pager.currentNum = page;
-        this.HandleQuery();
-      },
-      HandleQuery(mark) {
-        this.$http.post('/firstAudit/querySignInfoByBatchNo.htm',Object.assign({ subBatchNo: this.subBatchNo,auditStatus: +this.auditStatus},{}))
-          .then(res => {
+            });
+        })
+        .catch(() => {});
+    },
+    HandleAddmark(sign) {
+      //接口调用
+      console.log(this.selfflag, this.mark);
+      this.$http
+        .post("/firstAudit/addMark.htm", {
+          subBatchNo: this.subBatchNo,
+          subSortNo: sign.subSortNo,
+          type: 1
+        })
+        .then(res => {
+          if (res.code === "0000") {
             console.log(res);
-            if(res.code === '0000'){
-              this.signatureItems = res.result.list;
-              this.count = res.result.totalCount;
-              this.pager.total = res.result.count;
-              if(mark){
-                setTimeout(() => {
-                  console.log(this.$refs)
-                },500)
-              }
+            this.selfflag = sign.subSortNo;
+            this.$message.success("书签添加成功");
+          }
+        });
+    },
+    handleCurrentChange(page) {
+      this.pager.currentNum = page;
+      this.HandleQuery();
+    },
+    HandleQuery(mark) {
+      this.$http
+        .post(
+          "/firstAudit/querySignInfoByBatchNo.htm",
+          Object.assign(
+            { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus },
+            {}
+          )
+        )
+        .then(res => {
+          console.log(res);
+          if (res.code === "0000") {
+            this.signatureItems = res.result.list;
+            this.count = res.result.totalCount;
+            this.pager.total = res.result.count;
+            if (mark) {
+              setTimeout(() => {
+                console.log(this.$refs);
+              }, 500);
             }
-          })
-      }
-    },
-    components: {
-      audit,
-      closeDlg
-    },
-    mounted() {
-      this.subBatchNo = this.$route.query.subBatchNo;
-      this.markflag = +this.$route.query.markflag;
-      this.disabled = this.$route.query.disabled;
-      this.batchNo = this.$route.query.batchNo;
-      this.pager.currentNum = Math.ceil(this.markflag/20);
-      if(this.pager.currentNum === 0)
-        this.pager.currentNum = 1;
-      //查询 和  标签定位
-      this.HandleQuery(true);
-
+          }
+        });
     }
+  },
+  components: {
+    audit,
+    closeDlg
+  },
+  mounted() {
+    this.subBatchNo = this.$route.query.subBatchNo;
+    this.markflag = +this.$route.query.markflag;
+    this.disabled = this.$route.query.disabled;
+    this.batchNo = this.$route.query.batchNo;
+    this.pager.currentNum = Math.ceil(this.markflag / 20);
+    if (this.pager.currentNum === 0) this.pager.currentNum = 1;
+    //查询 和  标签定位
+    this.HandleQuery(true);
   }
+};
 </script>
 
 <style lang="scss" scoped>
-  .bookmark-enter-active,.addmark-enter-active {
-    transition: all 0.6s ease;
-  }
-  .bookmark-leave-active,.addmark-leave-active {
-    transition: all 0.6s ease;
-  }
-  .addmark-enter, .addmark-lwave-to{
-    opacity: 0;
-  }
-  .bookmark-enter, .bookmark-leave-to
+.bookmark-enter-active,
+.addmark-enter-active {
+  transition: all 0.6s ease;
+}
+.bookmark-leave-active,
+.addmark-leave-active {
+  transition: all 0.6s ease;
+}
+.addmark-enter,
+.addmark-lwave-to {
+  opacity: 0;
+}
+.bookmark-enter, .bookmark-leave-to
     /* .slide-fade-leave-active for below version 2.1.8 */ {
-    transform: translateY(-45px);
+  transform: translateY(-45px);
+}
+.addmark {
+  position: absolute;
+  right: 110px;
+}
+.bookmark {
+  height: 40px;
+  vertical-align: text-top;
+  margin-top: -10px;
+  margin-right: 20px;
+}
+.body_container {
+  background: #f7f7f7;
+  height: 100%;
+  &::after {
+    content: "";
+    display: block;
+    clear: both;
   }
-  .addmark{
-    position: absolute;
-    right: 110px;
-  }
-  .bookmark{
-    height: 40px;
-    vertical-align: text-top;
-    margin-top: -10px;
-    margin-right: 20px;
-  }
-  .body_container{
-    background: #F7F7F7;
-    height: 100%;
-    &::after{
-      content: '';
-      display: block;
-      clear:both;
-    }
-    .header_container{
-      height: 76px;
-      background: #fff;
-      .header{
-        width: 1200px;
-        margin: 0 auto;
-        height: 76px;
-        .header_title{
-          font-size: 28px;
-          color: #193B8C;
-          line-height: 76px;
-          font-weight: 500;
-        }
-        .header_checkbox {
-          margin-left: 20px;
-        }
-      }
-    }
-    .card{
-      overflow: hidden;
-      width:1200px;
-      border:1px solid #E5EAEE;
-      background: #fff;
-      margin: 16px auto;
-      .card_header{
-        height: 49px;
-        border-bottom: 1px solid #E5EAEE;
-        background: #EEF3FF;
-        padding-left: 12px;
-        padding-right: 10px;
-        .header_title{
-          font-size: 16px;
-          line-height: 50px;
-          color: #13367D;
-        }
-        .header_img{
-          display: inline-block;
-          position: relative;
-          img{
-            vertical-align: bottom;
-            margin: 0 7px;
-          }
-          .icon{
-            position: absolute;
-            bottom: -7px;
-            right: -7px;
-          }
-        }
-      }
-      .card_body{
-        padding: 30px 0 30px 22px;
-        table, tr, td{
-          border: 1px solid #E5EAEE;
-          text-align: center;
-        }
-        .card_table{
-          color: #363636;
-          float: left;
-          width: 768px;
-          border-collapse: collapse;
-          tr{
-            height: 49px;
-            &:hover {
-              background-color: #f5f7fa;
-            }
-            td{
-              &:nth-child(odd){
-                color: #7A7A7A;
-              }
-            }
-          }
-        }
-        .img_desc{
-          margin: 50px;
-          ul{
-            li{
-              line-height: 38px;
-              font-size: 14px;
-              color: #363636;
-            }
-          }
-        }
-
-      }
-      .audit{
-        padding-top: 28px;
-        .audit_title{
-          font-size: 17px;
-          color: #193B8C;
-          margin-bottom: 10px;
-        }
-        ul{
-          padding-left: 15px;
-          li{
-            font-size: 14px;
-            line-height: 24px;
-            color: #444;
-          }
-        }
-      }
-    }
-    .pagination{
-      margin: 20px auto;
-      box-sizing: border-box;
-      border: 1px solid #E5EAEE;
+  .header_container {
+    height: 76px;
+    background: #fff;
+    .header {
       width: 1200px;
-      padding: 10px 20px;
-      background: #fff;
+      margin: 0 auto;
+      height: 76px;
+      .header_title {
+        font-size: 28px;
+        color: #193b8c;
+        line-height: 76px;
+        font-weight: 500;
+      }
+      .header_checkbox {
+        margin-left: 20px;
+      }
     }
-
   }
-
+  .card {
+    overflow: hidden;
+    width: 1200px;
+    border: 1px solid #e5eaee;
+    background: #fff;
+    margin: 16px auto;
+    .card_header {
+      height: 49px;
+      border-bottom: 1px solid #e5eaee;
+      background: #eef3ff;
+      padding-left: 12px;
+      padding-right: 10px;
+      .header_title {
+        font-size: 16px;
+        line-height: 50px;
+        color: #13367d;
+      }
+      .header_img {
+        display: inline-block;
+        position: relative;
+        img {
+          vertical-align: bottom;
+          margin: 0 7px;
+        }
+        .icon {
+          position: absolute;
+          bottom: -7px;
+          right: -7px;
+        }
+      }
+    }
+    .card_body {
+      padding: 30px 0 30px 22px;
+      table,
+      tr,
+      td {
+        border: 1px solid #e5eaee;
+        text-align: center;
+      }
+      .card_table {
+        color: #363636;
+        float: left;
+        width: 768px;
+        border-collapse: collapse;
+        tr {
+          height: 49px;
+          &:hover {
+            background-color: #f5f7fa;
+          }
+          td {
+            &:nth-child(odd) {
+              color: #7a7a7a;
+            }
+          }
+        }
+      }
+      .img_desc {
+        margin: 50px;
+        ul {
+          li {
+            line-height: 38px;
+            font-size: 14px;
+            color: #363636;
+          }
+        }
+      }
+    }
+    .audit {
+      padding-top: 28px;
+      .audit_title {
+        font-size: 17px;
+        color: #193b8c;
+        margin-bottom: 10px;
+      }
+      ul {
+        padding-left: 15px;
+        li {
+          font-size: 14px;
+          line-height: 24px;
+          color: #444;
+        }
+      }
+    }
+  }
+  .pagination {
+    margin: 20px auto;
+    box-sizing: border-box;
+    border: 1px solid #e5eaee;
+    width: 1200px;
+    padding: 10px 20px;
+    background: #fff;
+  }
+}
 </style>

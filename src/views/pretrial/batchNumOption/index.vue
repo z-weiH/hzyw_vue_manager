@@ -29,7 +29,7 @@
     data() {
       return {
         // 数量 
-        subBatchCount : '1000',
+        subBatchCount : '',
         // 主键 id
         batchId : '',
       }
