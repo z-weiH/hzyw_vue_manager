@@ -30,18 +30,18 @@
           <span class="header_title">{{sign.subSortNo}}/{{sign.totalCount}} {{sign.lender}}与{{sign.respondents}}的借款合同纠纷</span>
           <div class="header_img">
             <img src="@/assets/img/idCard.png" alt="">
-            <img class="icon" src="@/assets/img/success.png" v-if="sign.status1 === 1" alt="">
-            <img class="icon" src="@/assets/img/error.png"  v-if="sign.status1 === 2 " alt="">
+            <img class="icon" src="@/assets/img/success.png" v-if="sign.idStatus === 1" alt="">
+            <img class="icon" src="@/assets/img/error.png"  v-if="sign.idStatus === 2 " alt="">
           </div>
           <div class="header_img">
             <img src="@/assets/img/signature.png" alt="">
-            <img class="icon" src="@/assets/img/success.png" v-if="sign.status2 === 1" alt="">
-            <img class="icon" src="@/assets/img/error.png" v-if="sign.status2 === 2" alt="">
+            <img class="icon" src="@/assets/img/success.png" v-if="sign.signStatus === 1" alt="">
+            <img class="icon" src="@/assets/img/error.png" v-if="sign.signStatus === 2" alt="">
           </div>
           <div class="header_img">
             <img src="@/assets/img/evidence.png" alt="">
-            <img class="icon" src="@/assets/img/success.png" v-if="sign.status3 === 1" alt="">
-            <img class="icon" src="@/assets/img/error.png" v-if="sign.status3 === 2" alt="">
+            <img class="icon" src="@/assets/img/success.png" v-if="sign.eviStatus === 1" alt="">
+            <img class="icon" src="@/assets/img/error.png" v-if="sign.eviStatus === 2" alt="">
           </div>
         </div>
         <div class="card_body">
