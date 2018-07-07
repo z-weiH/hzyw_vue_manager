@@ -52,7 +52,7 @@
           {label:'批次状态', property: 'batchStatus',options: [
               // 0-初审中，1-待审核，2-审核完成
               {label: '待审核', value: 0},
-              {label: '待审核', value: 1},
+              {label: '审核完成', value: 1},
               {label: '审核完成', value: 2},
             ],
             type: 'select'}
