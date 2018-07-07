@@ -212,7 +212,7 @@ export default {
           "/firstAudit/querySignInfoByBatchNo.htm",
           Object.assign(
             { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus },
-            {}
+            this.pager
           )
         )
         .then(res => {
