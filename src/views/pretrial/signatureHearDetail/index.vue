@@ -144,6 +144,7 @@ export default {
         })
         .then(res => {
           if (res.code === "0000") {
+            this.activeItem = {mmmType : 'qm' , ...sign};
             console.log(res);
             this.auditLists = res.result;
             this.editState = 1;

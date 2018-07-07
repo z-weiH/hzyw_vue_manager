@@ -169,6 +169,7 @@ export default {
         })
         .then(res => {
           if (res.code === "0000") {
+            this.activeItem = {mmmType : 'sfz' , ...card};
             this.auditLists = res.result;
             this.editState = 1;
             this.currentCaseId = card.caseId;

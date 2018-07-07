@@ -157,6 +157,7 @@
         this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: evidence.caseId,type: 2})
           .then(res => {
             if(res.code === '0000'){
+              this.activeItem = {mmmType : 'zjl' , ...evidence};
               console.log(res);
               this.auditLists = res.result;
               this.editState = 1;
