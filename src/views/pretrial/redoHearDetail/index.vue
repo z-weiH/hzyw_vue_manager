@@ -344,21 +344,17 @@ export default {
     getLabel(value) {
       let options = [
         {
-          label: "待初审",
+          label: "初审中",
           value: 0
         },
         {
-          label: "待复审",
+          label: "待审核",
           value: 1
         },
         {
-          label: "退回重审",
+          label: "审核完成",
           value: 2
         },
-        {
-          label: "预审完成",
-          value: 3
-        }
       ];
       let item = options.find(it => it.value === value);
       if (item) return item.label;
