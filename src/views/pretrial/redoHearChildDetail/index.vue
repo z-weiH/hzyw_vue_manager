@@ -59,11 +59,11 @@
       <div class="card_body">
         <div class="part_tit f_18">身份证信息</div>
         <div class="img zhen">
-          <pic-zoom v-if="card.idCard.image021" :url="card.idCard.image02" :scale="3"></pic-zoom>
+          <pic-zoom v-if="card.idCard.image02" :url="card.idCard.image02" :scale="3"></pic-zoom>
           <img v-else src="./../../../assets/img/imgerr.png" alt="">
         </div>
         <div class="img fan">
-          <pic-zoom v-if="card.idCard.image021" :url="card.idCard.image01" :scale="3"></pic-zoom>
+          <pic-zoom v-if="card.idCard.image01" :url="card.idCard.image01" :scale="3"></pic-zoom>
           <img v-else src="./../../../assets/img/imgerr.png" alt="">
         </div>
         <div class="img_desc">

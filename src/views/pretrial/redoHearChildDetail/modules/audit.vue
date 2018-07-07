@@ -135,6 +135,7 @@ export default {
         if (res.code === "0000") {
           this.$parent.audit_state = 0;
           this.$message.success('保存成功');
+          this.$parent.getRecheckDetail();
         } else {
           console.log("提交审核原因内容：：：：", res.result);
         }
