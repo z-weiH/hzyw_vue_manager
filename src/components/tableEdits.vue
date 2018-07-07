@@ -27,7 +27,7 @@
                     </el-option>
                   </el-select>
                   <el-input type="textarea" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly"  v-if="td.type == 'textarea'"></el-input>
-                  <el-upload :ref="td.property" :on-success="uploadSucc"	 class="upload-demo" :data="{path: td.path}" :action="uploadUrl"   :limit="1"  v-if="td.type == 'file' && !(disabled || td.disabled)" >
+                  <el-upload :ref="td.property" :on-success="uploadSucc"	 class="upload-demo" :data="{path: td.path , token : token}" :action="uploadUrl"   :limit="1"  v-if="td.type == 'file' && !(disabled || td.disabled)" >
                     <el-button size="small" type="info" plain @click="startUpload(td)">点击这里上传文件</el-button>
                   </el-upload>
                   <template v-else>
@@ -86,6 +86,7 @@ import {RULES} from "./script/rules";
     },
     data() {
       return {
+        token : JSON.parse(localStorage.getItem('loginInfo')).token,
         uploadUrl: host.target + '/file/upload.htm'+'?token='+JSON.parse(localStorage.getItem('loginInfo')).token,
         path: '',
         editPro: ''
