@@ -13,7 +13,7 @@
           <template slot-scope="scope" >
             <el-button
               size="mini"
-              @click="gotoDetail(scope.row)" >{{scope.row.batchStatus < 2 ? "审核" : "查看"}}</el-button>
+              @click="gotoDetail(scope.row)" >{{scope.row.batchStatus === 0 ? "审核" : "查看"}}</el-button>
           </template>
         </el-table-column>
       </table-component>
