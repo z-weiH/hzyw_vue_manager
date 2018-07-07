@@ -159,7 +159,10 @@ export default {
   },
   mounted() {
     this.queryFirstPerson(this.queryFirstPersonURL, this.fpersonType);
-    this.doQuery(this.queryUrl, this.item);
+    
+    setTimeout(() => {
+      this.doQuery(this.queryUrl, this.item);
+    },500);
   },
   components: {
     Searchs,
