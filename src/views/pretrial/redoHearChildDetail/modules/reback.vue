@@ -52,6 +52,7 @@ export default {
             console.log(res);
             this.$parent.rb_state = 0;
             this.$message.success('退回成功');
+            this.$parent.isSubmit = true;
           });
 
         } else {
