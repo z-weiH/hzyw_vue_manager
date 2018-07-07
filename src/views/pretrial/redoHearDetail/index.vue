@@ -59,7 +59,7 @@
         <span v-else-if="opts.batchStatus == 2">
             <!-- <el-button size="medium" round>退回重审</el-button> -->
             <button class="title_btn ml-5" disabled>退回重审</button>
-            <a href="javascript:;" class="btn_link" style="margin-left:15px;" @click="reasonPanelType = true">查看原因</a>
+            <a href="javascript:;" class="btn_link" style="margin-left:15px;" @click="handleResult(opts)">查看原因</a>
           </span>
         <!-- <el-button v-else-if="opts.batchStatus == 3" size="medium" round>预审完成</el-button> -->
         <button  v-else-if="opts.batchStatus == 3" class="title_btn ml-5" disabled>预审完成</button>
@@ -153,12 +153,16 @@
     <!-- dialog:查看原因 -->
     <el-dialog title="退回原因" :visible.sync="reasonPanelType" width="600px">
       <el-row>
-        <el-col :span="6">退回原因：</el-col>
-        <el-col :span="18">
+        <div>
+          <span>退回原因：</span>
+          <span>{{backReasonObj}}</span>
+        </div>
+        <!-- <el-col :span="3">退回原因：</el-col>
+        <el-col :span="21">
           <pre>
             {{backReasonObj}}
           </pre>
-        </el-col>
+        </el-col> -->
       </el-row>
       <span slot="footer" class="dialog-footer">
             <el-button @click="reasonPanelType = false">关闭</el-button>
@@ -281,6 +285,10 @@ export default {
     }
   },
   methods: {
+    handleResult(item) {
+      this.reasonPanelType = true;
+      this.backReasonObj = item.returnMsg;
+    },
     showViewReason(opts) {
       this.reasonPanelType = true;
       console.log("opts.logId: ", opts.logId);
