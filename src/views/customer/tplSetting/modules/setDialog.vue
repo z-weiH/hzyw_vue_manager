@@ -5,6 +5,7 @@
       :visible.sync="dialogVisible"
       width="880px"
       @close="handleClose"
+      ref="dialog"
     >
       <div class="m-content">
         <table
@@ -146,6 +147,10 @@
         this.row = row;
         this.dialogVisible = true;
         this.init();
+        // dialog 返回顶部
+        this.$nextTick(() => {
+          this.$refs.dialog.$el.scrollTop = 0;
+        });
       },
       // 初始化 数据
       init() {

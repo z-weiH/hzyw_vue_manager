@@ -5,6 +5,7 @@
       :visible.sync="dialogVisible"
       width="700px"
       @close="handleClose"
+      ref="dialog"
     >
       <div class="m-content">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules">
@@ -572,6 +573,10 @@
     methods : {
       show(row) {
         this.dialogVisible = true;
+        // dialog 返回顶部
+        this.$nextTick(() => {
+          this.$refs.dialog.$el.scrollTop = 0;
+        });
       },
       // 被申请人 change
       handleTypeChange(val) {

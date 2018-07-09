@@ -5,6 +5,7 @@
       :visible.sync="dialogVisible"
       width="860px"
       @close="handleClose"
+      ref="dialog"
     >
       <div class="content-body-box">
         <el-form
@@ -367,6 +368,10 @@
       show(data) {
         this.dialogVisible = true;
         this.ruleForm = data;
+        // dialog 返回顶部
+        this.$nextTick(() => {
+          this.$refs.dialog.$el.scrollTop = 0;
+        });
       },
       // 关闭浮层 调用
       handleClose() {
