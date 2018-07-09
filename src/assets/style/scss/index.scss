@@ -488,14 +488,12 @@ body {
 
 // 所有弹窗下的input、textarea@禁用属性的样式全部清空
 .el-dialog {
-  .el-input__inner{
-    border:0 !important;
-    color:#606266 !important;
-  }
   input[disabled="disabled"] {
     &.el-input__inner {
       border-color: transparent;
       background-color: #fff !important;
+       border:0 !important;
+       color:#606266 !important;
     }
     &+.el-input__suffix {
       .el-input__suffix-inner {
@@ -518,6 +516,7 @@ body {
       border-color: transparent;
       background-color: #fff !important;
       color:#606266 !important;
+      border:0 !important;
     }
   }
 }

@@ -101,7 +101,25 @@ export default {
               type: "select",
               disabled: "disabled",
               columns: 1,
-              property: "orderStatus"
+              property: "orderStatus",
+              options:[
+                {
+                  label:"待提交",
+                  value:0
+                },
+                {
+                  label:"待复核",
+                  value:1
+                },
+                {
+                  label:"已加款",
+                  value:2
+                },
+                {
+                  label:"未通过",
+                  value:3
+                },
+              ]
             }
           ]
         }
