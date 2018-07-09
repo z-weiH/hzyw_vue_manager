@@ -5,6 +5,7 @@
       :visible.sync="dialogVisible"
       width="800px"
       @close="handleClose"
+      ref="dialog"
     >
       <div class="m-content">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules">
@@ -832,6 +833,10 @@
         }else if(type === 'examineDetail'){
           this.initExamineDetail(row);
         }
+        // dialog 返回顶部
+        this.$nextTick(() => {
+          this.$refs.dialog.$el.scrollTop = 0;
+        });
       },
       // 新增初始化
       initAdd() {

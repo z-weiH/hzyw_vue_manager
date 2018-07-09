@@ -5,6 +5,7 @@
       :visible.sync="dialogVisible"
       width="700px"
       @close="handleClose"
+      ref="dialog"
     >
       <div class="m-content">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules">
@@ -485,6 +486,10 @@
             this.typeDisabled = true;
           });
         }
+        // dialog 返回顶部
+        this.$nextTick(() => {
+          this.$refs.dialog.$el.scrollTop = 0;
+        });
       },
       // 客户类型 change
       handleTypeChange(val) {

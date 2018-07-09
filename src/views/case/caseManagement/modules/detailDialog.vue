@@ -5,6 +5,7 @@
       :visible.sync="dialogVisible"
       width="800px"
       @close="handleClose"
+      ref="dialog"
     >
       <div class="m-content">
         <!-- 第一部分：案件基本信息 -->
@@ -373,6 +374,10 @@
         this.ruleForm.hzCaseInfoVO = row.hzCaseInfoVO;
         this.ruleForm.litigants = row.litigants;
         this.ruleForm.evidences = row.evidences;
+        // dialog 返回顶部
+        this.$nextTick(() => {
+          this.$refs.dialog.$el.scrollTop = 0;
+        });
       },
       // 关闭浮层
       handleClose() {

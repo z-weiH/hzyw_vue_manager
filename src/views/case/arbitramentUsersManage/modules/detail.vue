@@ -5,6 +5,7 @@
       :visible.sync="dialogVisible"
       width="700px"
       @close="handleClose"
+      ref="dialog"
     >
       <div class="m-content">
         <table
@@ -199,6 +200,10 @@
           },
         }).then((res) => {
           this.ruleForm = res.result;
+        });
+        // dialog 返回顶部
+        this.$nextTick(() => {
+          this.$refs.dialog.$el.scrollTop = 0;
         });
       },
       //关闭浮层
