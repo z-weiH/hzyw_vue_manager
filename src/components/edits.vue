@@ -2,6 +2,7 @@
     <div>
         <el-form :model="item" :ref="formname ? formname : 'editsform'"  :rules="rules" :label-width="labelWidth ? labelWidth : '80px'" label-position="left">
           <form-edit :item="item" :edit-item="item1" v-for="(item1,index) in editItems" :key="index"></form-edit>
+          <slot name="addEdits"></slot>
         </el-form>
     </div>
 </template>
