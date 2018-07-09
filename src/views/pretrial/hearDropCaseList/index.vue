@@ -49,8 +49,20 @@
       >
         <el-table-column :selectable="selectable" prop="date" type="selection" width="50px"></el-table-column>
         <el-table-column prop="caseOrderId" label="案件订单编号"></el-table-column>
-        <el-table-column prop="clientName" label="互金企业"></el-table-column>
-        <el-table-column prop="productName" label="产品名称"></el-table-column>
+        <el-table-column prop="clientName" label="互金企业">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.clientName" placement="top-start">
+              <span class="ellipsis" style="max-width:128px;">{{scope.row.clientName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column prop="productName" label="产品名称">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.productName" placement="top-start">
+              <span class="ellipsis" style="max-width:128px;">{{scope.row.productName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="pushDay" label="推送时间" width="160px"></el-table-column>
         <el-table-column prop="amtCase" label="状态">
           <template slot-scope="scope">
