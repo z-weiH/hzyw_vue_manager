@@ -97,31 +97,38 @@ export default {
           linkShowPanel: el => {
             console.info("orderNo:::", el, this);
             this.showDialog(el, 9);
-          }
+          },
+          width:"120px"
         },
         {
           label: "申请时间",
-          property: "orderDate"
+          property: "orderDate",
+          width:"120px"
         },
         {
           label: "客户名称",
-          property: "merchantName"
+          property: "merchantName",
+          width:"100px"
         },
         {
           label: "联系电话",
-          property: "orderPhone"
+          property: "orderPhone",
+          width:"120px"
         },
         {
           label: "订单金额",
-          property: "orderAmt"
+          property: "orderAmt",
+          width:"120px"
         },
         {
           label: "已到账",
-          property: "factAmt"
+          property: "factAmt",
+          width:"110px"
         },
         {
           label: "未到账金额",
-          property: "unArriveAmt"
+          property: "unArriveAmt",
+          width:"110px"
         }
       ],
       editItems: [

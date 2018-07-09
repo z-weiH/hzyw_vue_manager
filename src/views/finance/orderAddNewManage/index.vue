@@ -95,14 +95,15 @@ export default {
           linkShowPanel: el => {
             console.info("orderNo:::", el, this);
             this.showDialog(el, 9);
-          }
+          },
+          width: "120px"
         },
-        { label: "申请时间", property: "orderDate" },
-        { label: "客户名称", property: "merchantName" },
-        { label: "联系电话", property: "orderPhone" },
-        { label: "订单金额", property: "orderAmt" },
-        { label: "已到账", property: "factAmt" },
-        { label: "未到账金额", property: "unArriveAmt" }
+        { label: "申请时间", property: "orderDate", width:"150px" },
+        { label: "客户名称", property: "merchantName" , width:"120px"},
+        { label: "联系电话", property: "orderPhone" , width:"110px"},
+        { label: "订单金额", property: "orderAmt" , width:"100px"},
+        { label: "已到账", property: "factAmt" , width:"100px"},
+        { label: "未到账金额", property: "unArriveAmt" , width:"100px"}
       ]
     };
   },
