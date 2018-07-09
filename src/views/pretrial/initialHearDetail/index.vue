@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="wsbodyhead">
+  <div >
+    <div class="wsbodyhead" >
       <a>所在位置</a>
       <router-link :to="'/main/initialHearList'" class="aside_tit">案件初审</router-link>
       <span class="aside_tit"> > {{item.clientName}}</span>
@@ -84,7 +84,7 @@
     <div class="item-title part_tit">
       批次日志
     </div>
-    <ul class="log_info">
+    <ul class="log_info" >
       <li v-for="(log,index) in logItems" :key="index">
         <span class="log_info_time">{{log.logTime}}</span>
         <span class="log_info_desc">{{log.logMsg}}</span>

@@ -42,7 +42,6 @@
   .box{
     width: 1200px;
     margin: 0 auto;
-    overflow: hidden;
     margin-bottom:50px;
     .menu{
       width: 230px;
