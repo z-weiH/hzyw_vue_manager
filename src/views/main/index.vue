@@ -39,14 +39,14 @@
   height: 100%;
   min-height: 100%;
    @include customScrollBar;
-  padding-bottom:50px;
   .box{
     width: 1200px;
     margin: 0 auto;
+    overflow: hidden;
+    margin-bottom:50px;
     .menu{
       width: 230px;
       margin-right: 10px;
-      padding-bottom: 50px;
     }
     .page-content{
       width: 960px;
