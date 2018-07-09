@@ -12,14 +12,14 @@
     </div>
     <div class='item-table'>
       <table-component :pager="pager" @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData" :column-define="columnDefine">
-        <el-table-column :resizable="false" label="还款情况" prop="repaymentStatus" slot="defineCol">
+        <!-- <el-table-column :resizable="false" label="还款情况" prop="repaymentStatus" slot="defineCol">
           <template slot-scope="scope">
              <span v-if="scope.row.repaymentStatus == 1">有还款</span>
              <span v-if="scope.row.repaymentStatus == 2">无还款</span>
              <span v-if="scope.row.repaymentStatus == 3">有仲裁后还款</span>
              <span v-if="scope.row.repaymentStatus == 4">无仲裁后还款</span>
           </template>
-        </el-table-column>
+        </el-table-column> -->
       </table-component>
     </div>
     <apply-case-dialog :editState="editState" :pager="pager" :item="item"></apply-case-dialog>
@@ -200,7 +200,7 @@ export default {
       columnDefine: [
         {
           label: "互金企业",
-          property: "merchantName"
+          property: "clientName"
         },
         {
           label: "产品名称",
@@ -217,11 +217,11 @@ export default {
         },
         {
           label: "住所地",
-          property: "resAddress"
+          property: "address"
         },
         {
           label: "标的金额",
-          property: "amtBorrow"
+          property: "amtCase"
         },
         {
           label: "逾期天数",
@@ -230,6 +230,10 @@ export default {
         {
           label: "推送日期",
           property: "pushDate"
+        },
+        {
+          label: "还款情况",
+          property:"repayment"
         }
       ]
     };

@@ -44,7 +44,7 @@
         </el-col>
         <el-col :span="12">
           <span class="label">批次状态</span>
-          <span>{{getLabel(item.batchStatus)}}</span>
+          <span>{{getLabel(item.reviewStatus)}}</span>
         </el-col>
       </el-row>
     </div>

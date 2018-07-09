@@ -72,13 +72,13 @@ export default {
   props: {
     editState: Number,
     pager: Object,
-    item:Object,
+    item: Object
   },
   data() {
     return {
       // item: {},
-      zqdata:{},
-      editState1:false,
+      zqdata: {},
+      editState1: false,
       type: "",
       applyCaseNum: "",
       tpOpts: [
@@ -115,38 +115,43 @@ export default {
   },
   methods: {
     ofCouse() {
-      console.log('iiiii::',this.item);
+      console.log("iiiii::", this.item);
       this.item.type = this.type;
       this.item.applicationNum = this.applyCaseNum;
-      this.$http.post(URL_JSON['queryApplyCaseNum'],this.item).then(res=>{
-        console.log('iiiii:--:',this.item);
+      this.$http.post(URL_JSON["queryApplyCaseNum"], this.item).then(res => {
+        console.log("iiiii:--:", this.item);
         this.zqdata = res.result;
-        console.log('123123',this.zqdata);
-        console.log('rrrrr---',res.result);
+        console.log("123123", this.zqdata);
+        console.log("rrrrr---", res.result);
         this.editState1 = true;
-
-      })
+      });
     },
-    applycaseNoChange(el){
+    applycaseNoChange(el) {
       console.log(el);
       this.applyCaseNum = el;
     },
-    open(){
-      this.applyCaseNum = this.pager.count;
+    open() {
+      // this.applyCaseNum = this.pager.count;
+      this.$http.post(URL_JSON["querySetCaseNum"]).then(res => {
+        if(res.code === "0000"){
+          console.log('立案数量： ',res.result);
+          this.applyCaseNum = res.result;
+        }
+      });
     },
-    handleClose(){
-       this.type="";
-     }
+    handleClose() {
+      this.type = "";
+    }
   },
   created() {
     console.info("*******item");
   },
-  mounted () {
-    console.info('mounted::',this.type);
+  mounted() {
+    console.info("mounted::", this.type);
   },
-  updated () {
-    console.log('-------------',this.pager.count);
-    if(this.applyCaseNum > this.pager.count){
+  updated() {
+    console.log("-------------", this.pager.count);
+    if (this.applyCaseNum > this.pager.count) {
       this.applyCaseNum = this.pager.count;
     }
   },

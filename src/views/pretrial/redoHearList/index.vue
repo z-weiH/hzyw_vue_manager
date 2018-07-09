@@ -14,9 +14,9 @@
         <!-- slot批次状态 -->
         <el-table-column label="批次状态"  slot="defineCol" width="100px">
             <template slot-scope="scope" >
-              <span v-if="scope.row.batchStatus == 0">初审中</span>
-              <span v-else-if="scope.row.batchStatus == 1">待审核</span>
-              <span v-else-if="scope.row.batchStatus == 2">审核完成</span>
+              <span v-if="scope.row.reviewStatus == 0">初审中</span>
+              <span v-else-if="scope.row.reviewStatus == 1">待审核</span>
+              <span v-else-if="scope.row.reviewStatus == 2">审核完成</span>
               <span v-else>--</span>
             </template>
           </el-table-column>
@@ -26,11 +26,11 @@
             <template slot-scope="scope" >
               <el-button
                 size="mini"
-                @click="gotoLargeTs(scope.row)" v-if="scope.row.batchStatus == 0 || scope.row.batchStatus == 2" >查看</el-button>
+                @click="gotoLargeTs(scope.row)" v-if="scope.row.reviewStatus == 0 || scope.row.reviewStatus == 2" >查看</el-button>
                 <el-button
                 size="mini"
-                @click="gotoLargeTs(scope.row)" v-if="scope.row.batchStatus == 1" >审核</el-button>
-                <span v-if="scope.row.batchStatus == 3">预审完成</span>
+                @click="gotoLargeTs(scope.row)" v-if="scope.row.reviewStatus == 1" >审核</el-button>
+                <span v-if="scope.row.reviewStatus == 3">预审完成</span>
                 <!-- <el-button
                 size="mini"
                 @click="gotoLargeTs(scope.row)" >审核</el-button> -->
@@ -83,7 +83,7 @@ export default {
           type: "select",
           placeholder: "批次状态",
           colSpan: 4,
-          property: "batchStatus",
+          property: "reviewStatus",
           options: [
             {
               value: "1",

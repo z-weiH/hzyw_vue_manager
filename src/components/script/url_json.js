@@ -220,7 +220,7 @@ export const URL_JSON = {
 
 
   /*-----预审系统----*/
-  'queryInitiateApplyList': '/caseLibrary/queryApplicationList.htm',//立案申请列表
+  'queryInitiateApplyList': '/caseApply/queryApplicationList.htm', //立案申请列表
 
   'queryRedoHearList': '/againAudit/queryBatchInfoByBaseQuery.htm', //案件复审列表
 
@@ -262,6 +262,8 @@ export const URL_JSON = {
   'queryBackReason1': '/firstAudit/queryReturnMsg.htm', //复审-查看退回原因
 
   'saveChangeResReason': '/againAudit/saveAuditSuggestion.htm',//案件复审-变更审核原因
+
+  'querySetCaseNum': '/caseApply/countAbleApplicationCaseByBaseQuery.htm', //立案申请总数查询
   /*-----预审系统----*/
 
 
