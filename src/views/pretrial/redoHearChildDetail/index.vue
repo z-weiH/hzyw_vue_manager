@@ -202,6 +202,8 @@
     <reback :subBatchNo="subBatchId"></reback>
 
     <closeDig v-if="isSubmit" message="复审结果已提交，请关闭本页面"></closeDig>
+
+    <backTop></backTop>
   </div>
 </template>
 
@@ -213,6 +215,7 @@ import { URL_JSON } from "../../../components/script/url_json";
 import audit from "./modules/audit";
 import passview from "./modules/passview";
 import reback from "./modules/reback";
+import backTop from '@/components/backTop.vue'
 export default {
   data() {
     return {
@@ -287,7 +290,8 @@ export default {
       this.HandleShow(card);
     },
     HandleQuery(_val) {
-      if (_val != 0) {
+      // if (_val != 0) {
+        this.currentNum = 1;
         this.$http
           .post(URL_JSON["queryRecheckDetailView"], {
             pageSize: 1,
@@ -301,9 +305,9 @@ export default {
             this.count = res.result.count;
             this.pager.total = res.result.count;
           });
-      } else {
-        this.getRecheckDetail();
-      }
+      // } else {
+      //   this.getRecheckDetail();
+      // }
     },
     HandleShow(card) {
       //意见审核
@@ -395,7 +399,8 @@ export default {
     audit,
     passview,
     reback,
-    closeDig
+    closeDig,
+    backTop
   }
 };
 </script>

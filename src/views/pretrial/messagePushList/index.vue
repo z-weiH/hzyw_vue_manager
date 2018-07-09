@@ -27,15 +27,11 @@
           el-table--enable-row-hover"
           style="table-layout:fixed;"
       >
-        <colgroup>
-          <col style="width:50px;"></col>
-          <col></col>
-        </colgroup>
         <tbody>
           <template v-for="(item,index) in tableData">
             <tr :Key="item.batchNo + '' + index">
-              <td>{{index + 1}}</td>
-              <td class="m-td">
+              <td colspan="1">{{index + 1}}</td>
+              <td colspan="18" class="m-td">
                 <div class="fl">
                   <i :class="{'opacity-0' : item.isRead === 1}" class="is-read"></i>
                   <span class="mr-10 m-tit">{{item.merchantName}}</span>
