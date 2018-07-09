@@ -290,7 +290,8 @@ export default {
       this.HandleShow(card);
     },
     HandleQuery(_val) {
-      if (_val != 0) {
+      // if (_val != 0) {
+        this.currentNum = 1;
         this.$http
           .post(URL_JSON["queryRecheckDetailView"], {
             pageSize: 1,
@@ -304,9 +305,9 @@ export default {
             this.count = res.result.count;
             this.pager.total = res.result.count;
           });
-      } else {
-        this.getRecheckDetail();
-      }
+      // } else {
+      //   this.getRecheckDetail();
+      // }
     },
     HandleShow(card) {
       //意见审核
