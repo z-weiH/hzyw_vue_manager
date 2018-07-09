@@ -109,31 +109,33 @@ export default {
                 }
               }
             );
-          }
+          },
+          width:135
         },
         {
           label: "企业邮箱（账户）",
           property: "loginName",
-          width:'150px'
+          width:140
         },
         {
           label: "企业累计充值（元）",
           property: "totalRecharge",
-          width:'150px'
+          width:148
         },
         {
           label: "累计赠送（张）",
           property: "totalGift",
-          width:'150px'
+          width:130
         },
         {
           label: "本次赠送（张）",
           property: "ticketGift",
-          width:'150px'
+          width:130
         },
         {
           label: "申请时间",
-          property: "submitTime"
+          property: "submitTime",
+          width:130
         }
       ]
     };

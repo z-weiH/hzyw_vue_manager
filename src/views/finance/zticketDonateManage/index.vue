@@ -83,23 +83,28 @@ export default {
         {
           label: "企业名称",
           property: "merchantName",
-          isLink: true, linkShowPanel: this.showDialog
+          isLink: true, linkShowPanel: this.showDialog,
+          width:140
         },
         {
           label: "企业邮箱（账户）",
-          property: "loginName"
+          property: "loginName",
+          width:140
         },
         {
           label: "企业累计充值（元）",
-          property: "totalRecharge"
+          property: "totalRecharge",
+          width:148
         },
         {
           label: "累计赠送（张）",
-          property: "totalGift"
+          property: "totalGift",
+          width:140
         },
         {
           label: "申请时间",
-          property: "submitTime"
+          property: "submitTime",
+          width:150
         }
       ]
     };
