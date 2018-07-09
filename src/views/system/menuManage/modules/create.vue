@@ -10,8 +10,8 @@
     center>
     <edits formname="createMenu" ref="edits" :edit-items="createItems" :item="item" :label-width="'110px'"></edits>
     <span slot="footer" class="dialog-footer">
-          <el-button @click="$parent.editState = 0">取 消</el-button>
           <el-button type="primary" @click="save">确 定</el-button>
+                <el-button @click="$parent.editState = 0">取 消</el-button>
         </span>
   </el-dialog>
 </template>

@@ -21,8 +21,9 @@
 
     <edits ref="edits2" :formname="'editsform2'" :edit-items="createItems1" :item="createItem"  :label-width="'90px'"></edits>
     <span slot="footer" class="dialog-footer">
-          <el-button @click="$parent.editState = 0">取 消</el-button>
           <el-button type="primary" @click="save" >确 定</el-button>
+                <el-button @click="$parent.editState = 0">取 消</el-button>
+
         </span>
   </el-dialog>
 </template>

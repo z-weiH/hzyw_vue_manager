@@ -44,7 +44,7 @@
             </td>
           </tr>
         <tr>
-          <td colspan="1">otherInfo：</td>
+          <td colspan="1">其他信息：</td>
           <td colspan="1">
             <el-form-item label=" " prop="contractNo">
               <el-input type="textarea" v-model="item.otherInfo" placeholder="请输入其它信息" />
@@ -54,8 +54,9 @@
       </table>
     </el-form>
     <span slot="footer" class="dialog-footer">
-          <el-button @click="$parent.editState = 0">取 消</el-button>
           <el-button type="primary" @click="save">确 定</el-button>
+                <el-button @click="$parent.editState = 0">取 消</el-button>
+
         </span>
   </el-dialog>
 </template>
