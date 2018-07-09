@@ -206,6 +206,9 @@ export default {
         })
         .catch(() => {});
     },
+
+
+    //添加书签
     HandleAddmark(card) {
       //接口调用
       console.log(this.selfflag, this.mark);
@@ -220,6 +223,10 @@ export default {
             console.log(res);
             this.selfflag = card.subSortNo;
             this.$message.success("书签添加成功");
+
+            //改变query条件
+            this.$route.query.markflag = card.subSortNo;
+            console.log(this.$route.query.markflag);
           }
         });
     },
