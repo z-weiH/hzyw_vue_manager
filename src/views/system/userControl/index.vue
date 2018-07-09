@@ -12,7 +12,7 @@
     <div class="item-table">
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" :actions="actions"></table-component>
     </div>
-    <user-create ref="create" :editState.sync="editState" :create-item="createItem" @refresh="refresh" ></user-create>
+    <user-create ref="create" :editState.sync="editState"  @refresh="refresh" ></user-create>
     <user-edit ref="edit" :editState.sync="editState"  @refresh="refresh" ></user-edit>
     <user-update-psd :editState.sync="editState" :psd-item="psdItem"></user-update-psd>
   </div>
@@ -46,7 +46,6 @@
           {label: '创建时间',property: 'createTime',width: '160'},
         ],
         // fixedSearchItrems: { parent_id: '2', role_id: '3'},//固定的查询条件
-        createItem: {},
         editItem: {},
         actions: [
           {
@@ -77,8 +76,10 @@
     },
     methods: {
       create() {
-        this.createItem = {};
-        this.$refs['create'].roleids= [];
+        this.$refs['create'].createItem = {};
+        if(!this.$refs['create'].createItem.roleids){
+          this.$set(this.$refs['create'].createItem, 'roleids', []);
+        }
         this.editState = 2;
       },
       editInfo (row) {
