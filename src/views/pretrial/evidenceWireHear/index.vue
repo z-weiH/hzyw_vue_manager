@@ -197,6 +197,11 @@
               console.log(res,evidence);
               this.selfflag = evidence.subSortNo;
               this.$message.success('书签添加成功');
+              //改变url
+              let baseUrl = this.$router.currentRoute.fullPath.split('markflag')[0] + 'markflag='+evidence.subSortNo;
+              console.log(baseUrl);
+              this.$router.push(baseUrl);
+              window.opener.history.go(0);
             }
           })
       },

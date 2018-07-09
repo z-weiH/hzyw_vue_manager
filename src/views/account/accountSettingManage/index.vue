@@ -48,12 +48,12 @@
         searchItem: {},
         queryUrl: URL_JSON['queryAccountSettingManage'],
         columnDefine: [
-          {label: '企业名称', property: 'custName'},
-          {label: '合同号', property: 'contactNo',isLink: true, linkShowPanel: this.doView},
-          {label: '技术服务费(元)', property: 'serveAmount'},
-          {label: '开户仲券(张)', property: 'ticketCount'},
-          {label: '开户受理费(元)', property: 'caseAmount', width: 140},
-          {label: '申请时间', property: 'submitTime', width: 150},
+          {label: '企业名称', property: 'custName', width: 160 },
+          {label: '合同号', property: 'contactNo',isLink: true, linkShowPanel: this.doView,width: 160},
+          {label: '技术服务费(元)', property: 'serveAmount',width: 120},
+          {label: '开户仲券(张)', property: 'ticketCount',width: 120},
+          {label: '开户受理费(元)', property: 'caseAmount', width: 120},
+          {label: '申请时间', property: 'submitTime',width: 140},
         ],
         item: {}
       }

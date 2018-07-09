@@ -206,9 +206,11 @@ export default {
         })
         .catch(() => {});
     },
+
+
+    //添加书签
     HandleAddmark(card) {
       //接口调用
-      console.log(this.selfflag, this.mark);
       this.$http
         .post("/firstAudit/addMark.htm", {
           subBatchNo: this.subBatchNo,
@@ -220,6 +222,12 @@ export default {
             console.log(res);
             this.selfflag = card.subSortNo;
             this.$message.success("书签添加成功");
+
+            //改变url
+            let baseUrl = this.$router.currentRoute.fullPath.split('markflag')[0] + 'markflag='+card.subSortNo;
+            console.log(baseUrl);
+            this.$router.push(baseUrl);
+            window.opener.history.go(0);
           }
         });
     },

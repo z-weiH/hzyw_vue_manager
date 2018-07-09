@@ -249,6 +249,9 @@ body {
 }
 
 /* 重置 element ui */
+.el-date-table td.today span{
+  color: #3172f3!important;
+}
 
 .el-table__header-wrapper th div {
   text-align: center;

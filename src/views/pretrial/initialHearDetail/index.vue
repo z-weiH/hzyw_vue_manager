@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <div class="wsbodyhead">
+  <div >
+    <div class="wsbodyhead" >
       <a>所在位置</a>
       <router-link :to="'/main/initialHearList'" class="aside_tit">案件初审</router-link>
       <span class="aside_tit"> > {{item.clientName}}</span>
@@ -60,7 +60,7 @@
           <p class="info_title">身份证信息</p>
           <p v-if="info.countIdChecked === 0 && info.idStatus === 0">审核未开始</p>
           <p v-if="info.countIdChecked !== 0 && info.idStatus === 0">已审核到第{{info.countIdChecked}}件</p>
-          <p v-if="info.batchStatus !== 0">通过{{info.idCheck.passNum}}件，未通过{{info.idCheck.unPassNum}}件</p>
+          <p v-if="info.idStatus !== 0">通过{{info.idCheck.passNum}}件，未通过{{info.idCheck.unPassNum}}件</p>
         </li>
         <li>
           <el-button type="primary" v-if="info.signStatus === 0" class="fr mt-10" @click="gotoSignature(info)">审核</el-button>
@@ -68,7 +68,7 @@
           <p class="info_title">签名信息</p>
           <p v-if="info.countSignChecked === 0 && info.signStatus === 0">审核未开始</p>
           <p v-if="info.countSignChecked !== 0 && info.signStatus === 0">已审核到第{{info.countSignChecked}}件</p>
-          <p v-else-if="info.batchStatus !== 0">通过{{info.signCheck.passNum}}件，未通过{{info.signCheck.unPassNum}}件</p>
+          <p v-else-if="info.signStatus !== 0">通过{{info.signCheck.passNum}}件，未通过{{info.signCheck.unPassNum}}件</p>
         </li>
         <li>
           <el-button type="primary" v-if="info.eviStatus === 0" class="fr mt-10" @click="gotoeEidenceWire(info)">审核</el-button>
@@ -76,7 +76,7 @@
           <p class="info_title">证据链信息</p>
           <p v-if="info.countEviChecked === 0 && info.eviStatus === 0">审核未开始</p>
           <p v-if="info.countEviChecked !== 0 && info.eviStatus === 0">已审核到第{{info.countEviChecked}}</p>
-          <p v-else-if="info.batchStatus !== 0">通过{{info.eviCheck.passNum}}件，未通过{{info.eviCheck.unPassNum}}件</p>
+          <p v-else-if="info.eviStatus !== 0">通过{{info.eviCheck.passNum}}件，未通过{{info.eviCheck.unPassNum}}件</p>
         </li>
       </ul>
 
@@ -84,7 +84,7 @@
     <div class="item-title part_tit">
       批次日志
     </div>
-    <ul class="log_info">
+    <ul class="log_info" >
       <li v-for="(log,index) in logItems" :key="index">
         <span class="log_info_time">{{log.logTime}}</span>
         <span class="log_info_desc">{{log.logMsg}}</span>
@@ -175,6 +175,8 @@
                   if(r.code === '0000'){
                     this.$message.success(r.description);
                     this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo, type: 'FIRST'});
+                    this.getBatchInfo();
+                    this.getBatchLog();
                   }
                 })
             }).catch(()=>{});
