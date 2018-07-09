@@ -60,11 +60,11 @@
         <div class="part_tit f_18">身份证信息</div>
         <div class="img zhen">
           <pic-zoom v-if="card.idCard.image02" :url="card.idCard.image02" :scale="3"></pic-zoom>
-          <img v-else src="./../../../assets/img/imgerr.png" alt="">
+          <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
         </div>
         <div class="img fan">
-          <pic-zoom v-if="card.idCard.image01" :url="card.idCard.image01" :scale="3"></pic-zoom>
-          <img v-else src="./../../../assets/img/imgerr.png" alt="">
+          <pic-zoom v-if="card.idCard.image02" :url="card.idCard.image01" :scale="3"></pic-zoom>
+          <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
         </div>
         <div class="img_desc">
           <ul>
@@ -457,8 +457,8 @@ $themeColor: #193b8c;
         border: 1px solid #e5eaee;
         border-radius: 10px;
         overflow: hidden;
-        position: relative;
-        img{
+        // position: relative;
+        .errImg{
           position: absolute;
           margin:auto;
           top: 0;

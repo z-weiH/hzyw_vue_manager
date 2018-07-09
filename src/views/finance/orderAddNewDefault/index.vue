@@ -24,7 +24,7 @@
         </el-table-column>
       </table-component>
     </div>
-    <setting-dlg :edit-state="editState" :item="item" @refresh="doQuery(queryUrl,searchItem)"></setting-dlg>
+    <setting-dlg :edit-state="editState" :item="item" :currentLine="currentLine" @refresh="doQuery(queryUrl,searchItem)"></setting-dlg>
   </div>
 </template>
 
@@ -85,6 +85,7 @@ export default {
         }
       ],
       item: {},
+      currentLine:{},//当前row行数据
       queryUrl: URL_JSON["queryOrderAddNewDefault"],
       exportUrl: URL_JSON["exportOrderAddNewDefault"],
       searchItem:{},
@@ -143,6 +144,7 @@ export default {
         if (res.code) {
           this.item = res.result;
           this.editState = type;
+          this.currentLine = row;
           console.log("type::", type);
           if(row.orderStatus === 0){
              this.item.orderDetailList.push({}); //创建一个observer的新对象
