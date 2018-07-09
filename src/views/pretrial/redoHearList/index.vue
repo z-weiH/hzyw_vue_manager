@@ -112,27 +112,27 @@ export default {
         {
           label: "互金企业",
           property: "clientName",
-          width:"150px"
+          width:150
         },
         {
           label: "模版",
           property: "productName",
-          width:"216px"
+          width:216
         },
         {
           label: "案件数量",
           property: "countCase",
-          width:"89px"
+          width:89
         },
         {
           label: "子批次数",
           property: "countSubBatch",
-          width:"92px"
+          width:92
         },
         {
           label: "初审人",
           property: "firstAuditName",
-          width:"120px"
+          width:120
         }
       ]
     };

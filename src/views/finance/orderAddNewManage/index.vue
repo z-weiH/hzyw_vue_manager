@@ -96,14 +96,14 @@ export default {
             console.info("orderNo:::", el, this);
             this.showDialog(el, 9);
           },
-          width: "120px"
+          width: 120
         },
-        { label: "申请时间", property: "orderDate", width:"150px" },
-        { label: "客户名称", property: "merchantName" , width:"120px"},
-        { label: "联系电话", property: "orderPhone" , width:"110px"},
-        { label: "订单金额", property: "orderAmt" , width:"100px"},
-        { label: "已到账", property: "factAmt" , width:"100px"},
-        { label: "未到账金额", property: "unArriveAmt" , width:"100px"}
+        { label: "申请时间", property: "orderDate", width:150 },
+        { label: "客户名称", property: "merchantName" , width:120},
+        { label: "联系电话", property: "orderPhone" , width:110},
+        { label: "订单金额", property: "orderAmt" , width:100},
+        { label: "已到账", property: "factAmt" , width:100},
+        { label: "未到账金额", property: "unArriveAmt" , width:100}
       ]
     };
   },
