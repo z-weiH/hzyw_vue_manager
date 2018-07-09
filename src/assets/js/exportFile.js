@@ -16,20 +16,23 @@ let exportFile = (obj) => {
   for(let key in data) {
     data[key] && arr.push(`${key}=${data[key]}`);
   };
-  iframe.src = host.target + url + '?' + arr.join('&');
+  try{
+    arr.push(`token=${JSON.parse(localStorage.getItem('loginInfo')).token}`);
+    iframe.src = host.target + url + '?' + arr.join('&');
+    iframe.onload = function() {
+      // 获取 iframe window对象
+      let i_window = window.frames[name];
+      // 获得body
+      let body = i_window.document.body;
+      // 获得body后台返回的参数
+      let html = body.innerText;
+      console.log(html,'iframe导出-后台返回值');
+    };
 
-  iframe.onload = function() {
-    // 获取 iframe window对象
-    let i_window = window.frames[name];
-    // 获得body
-    let body = i_window.document.body;
-    // 获得body后台返回的参数
-    let html = body.innerText;
-    console.log(html,'iframe导出-后台返回值');
-  };
+    document.body.appendChild(iframe);
+  }catch(err) {
 
-  document.body.appendChild(iframe);
-
+  }
 }
 
 export default exportFile;

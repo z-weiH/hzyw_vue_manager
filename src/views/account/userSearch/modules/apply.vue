@@ -187,7 +187,6 @@
 
 <style scoped lang="scss">
   .dailog-container{
-    height: 542px;
-    overflow-y: scroll;
+
   }
 </style>

@@ -55,7 +55,19 @@ export default {
       this.arrReasonIds = arr;
       console.log("list--", arr);
     },
-    HandleOpen() {},
+    HandleOpen() {
+      this.status = 1;
+      let data = this.$parent.idCardList[0];
+      if(
+        data.idCard.failReasonList === 0 &&
+        data.sign.signAuditList === 0 &&
+        data.sign.checkSignList === 0
+      ){
+        this.status = 1;
+      }else{
+        this.status = 0
+      }
+    },
     notpassReasonView(el) {
       let _failReasonArr = this.curCardObj.idCard.failReasonList;
       console.log("_failReasonArr: ",_failReasonArr);
@@ -135,6 +147,7 @@ export default {
         if (res.code === "0000") {
           this.$parent.audit_state = 0;
           this.$message.success('保存成功');
+          this.$parent.getRecheckDetail();
         } else {
           console.log("提交审核原因内容：：：：", res.result);
         }

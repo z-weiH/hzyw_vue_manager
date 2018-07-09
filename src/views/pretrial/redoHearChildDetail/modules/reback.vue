@@ -52,6 +52,9 @@ export default {
             console.log(res);
             this.$parent.rb_state = 0;
             this.$message.success('退回成功');
+            // 刷新上一张页面
+            window.opener.history.go(0);
+            this.$parent.isSubmit = true;
           });
 
         } else {

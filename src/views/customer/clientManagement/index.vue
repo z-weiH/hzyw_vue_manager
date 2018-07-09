@@ -47,7 +47,13 @@
           </template>
         </el-table-column>
         <el-table-column prop="name" label="法定代表人"></el-table-column>
-        <el-table-column prop="idcard" label="社会信息代码"></el-table-column>
+        <el-table-column prop="idCard" label="社会信息代码">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.idCard" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.idCard}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="createTime" label="开户时间">
           <template slot-scope="scope">
             <el-tooltip :content="scope.row.createTime" placement="top-start">

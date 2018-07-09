@@ -111,11 +111,20 @@ export default {
       })
       console.log(this.reasonIds);
         let arr = this.list.filter(it => it.reasonType === this.type);
-        if(this.type === 2){
+        /* if(this.type === 2){
           this.status = 1;
         }
         else{
           this.status = this.selValue === 2 ? 0 : 1;
+        } */
+        if(this.$parent.activeItem.mmmType === 'sfz' && this.$parent.activeItem.auditListWrap && this.$parent.activeItem.auditListWrap.length === 0) {
+          this.status = 1;
+        }else if(this.$parent.activeItem.mmmType === 'qm' && this.$parent.activeItem.checkSignList && this.$parent.activeItem.checkSignList.length === 0) {
+          this.status = 1;
+        }else if(this.$parent.activeItem.mmmType === 'zjl' && this.$parent.activeItem.checkAuditList && this.$parent.activeItem.checkAuditList.length === 0) {
+          this.status = 1;
+        }else{
+          this.status = 0;
         }
     }
   },

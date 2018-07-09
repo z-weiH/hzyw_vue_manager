@@ -292,7 +292,7 @@ export default {
           .post(URL_JSON["queryRecheckDetailView"], {
             pageSize: 1,
             currentNum: this.currentNum,
-            subBatchNo: this.subBatchNo,
+            subBatchNo: this.subBatchId,
             auditStatus: _val
           })
           .then(res => {

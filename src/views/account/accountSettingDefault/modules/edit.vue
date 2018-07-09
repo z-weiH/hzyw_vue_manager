@@ -144,7 +144,6 @@ export default {
 
 <style scoped>
   .dailog-container{
-    height: 542px;
-    overflow-y: scroll;
+
   }
 </style>
