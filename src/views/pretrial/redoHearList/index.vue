@@ -12,7 +12,7 @@
     <div class='item-table'>
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine">
         <!-- slot批次状态 -->
-        <el-table-column label="批次状态"  slot="defineCol">
+        <el-table-column label="批次状态"  slot="defineCol" width="100px">
             <template slot-scope="scope" >
               <span v-if="scope.row.batchStatus == 0">初审中</span>
               <span v-else-if="scope.row.batchStatus == 1">待审核</span>
@@ -22,7 +22,7 @@
           </el-table-column>
         <!-- ** -->
         <!-- slot操作 -->
-        <el-table-column label="操作" slot="defineCol">
+        <el-table-column label="操作" slot="defineCol" width="140px">
             <template slot-scope="scope" >
               <el-button
                 size="mini"
@@ -68,7 +68,7 @@ export default {
           type: "text",
           placeholder: "互金企业、产品名称、模板号",
           colSpan: 8,
-          property: "keyWords"
+          property: "keyWords",
         },
         {
           type: "select",
@@ -111,23 +111,28 @@ export default {
       columnDefine: [
         {
           label: "互金企业",
-          property: "clientName"
+          property: "clientName",
+          width:"150px"
         },
         {
           label: "模版",
-          property: "productName"
+          property: "productName",
+          width:"216px"
         },
         {
           label: "案件数量",
-          property: "countCase"
+          property: "countCase",
+          width:"89px"
         },
         {
           label: "子批次数",
-          property: "countSubBatch"
+          property: "countSubBatch",
+          width:"92px"
         },
         {
           label: "初审人",
-          property: "firstAuditName"
+          property: "firstAuditName",
+          width:"120px"
         }
       ]
     };
@@ -159,7 +164,7 @@ export default {
   },
   mounted() {
     this.queryFirstPerson(this.queryFirstPersonURL, this.fpersonType);
-    
+
     setTimeout(() => {
       this.doQuery(this.queryUrl, this.item);
     },500);
