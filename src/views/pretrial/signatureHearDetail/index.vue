@@ -4,7 +4,7 @@
         <div class="header">
           <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
           <span class="header_title">签名审核</span>
-          <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">必要审核</el-checkbox>
+          <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>
           <template v-if="disabled">
             <el-radio v-model="auditStatus" :label="0">全部</el-radio>
             <el-radio v-model="auditStatus" :label="1">已通过</el-radio>
@@ -16,7 +16,7 @@
         <div class="search_ico"></div>
         <div>没有符合要求的案件</div>
       </div>
-      <div class="card" v-for="(sign, index) in signatureItems" :key="index" :ref="sign.subSortNo">
+      <div class="card"  v-for="(sign, index) in signatureItems" :key="index" :ref="sign.subSortNo">
         <div class="card_header" style="overflow: hidden">
           <div class="fr mt-5" style="position: relative;" v-if="!disabled">
             <transition name="addmark" >
@@ -223,8 +223,11 @@ export default {
             this.pager.total = res.result.count;
             if (mark) {
               setTimeout(() => {
-                console.log(this.$refs);
+                console.log(this.$refs[this.markflag][0].offsetTop);
+                document.documentElement.querySelector('.body_container').scrollTo(0,this.$refs[this.markflag][0].offsetTop)
               }, 500);
+            }else{
+              document.documentElement.querySelector('.body_container').scrollTo(0,0);
             }
           }
         });
@@ -239,9 +242,10 @@ export default {
     this.markflag = +this.$route.query.markflag;
     this.disabled = this.$route.query.disabled;
     this.batchNo = this.$route.query.batchNo;
-    this.pager.currentNum = Math.ceil(this.markflag / 20);
-    if (this.pager.currentNum === 0) this.pager.currentNum = 1;
     //查询 和  标签定位
+    this.pager.currentNum = Math.ceil(this.markflag/20);
+    if(this.pager.currentNum === 0)
+      this.pager.currentNum = 1;
     this.HandleQuery(true);
   }
 };

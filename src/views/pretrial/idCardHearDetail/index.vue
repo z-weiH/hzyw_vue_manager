@@ -4,7 +4,7 @@
       <div class="header">
         <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
         <span class="header_title">身份证审核</span>
-        <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">必要审核</el-checkbox>
+        <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>
         <template v-if="disabled">
           <el-radio v-model="auditStatus" :label="0">全部</el-radio>
           <el-radio v-model="auditStatus" :label="1">已通过</el-radio>
@@ -19,7 +19,7 @@
     </div>
     <!-- end -->
 
-    <div class="card" v-for="(card, index) in idCardList" :key="index">
+    <div class="card" :ref="card.subSortNo" v-for="(card, index) in idCardList" :key="index">
       <div class="card_header" style="overflow: hidden">
         <div class="fr mt-5" style="position: relative;" v-if="!disabled">
           <transition name="addmark">
@@ -286,8 +286,11 @@ export default {
             });
             if (mark) {
               setTimeout(() => {
-                console.log(this.$refs[this.markflag]);
+                console.log(this.$refs[this.markflag][0].offsetTop);
+                document.documentElement.querySelector('.body_container').scrollTo(0,this.$refs[this.markflag][0].offsetTop)
               }, 500);
+            }else{
+              document.documentElement.querySelector('.body_container').scrollTo(0,0);
             }
           }
         });
@@ -296,6 +299,9 @@ export default {
       this.$refs.picZoom.forEach(it => {
         // console.log(document.documentElement.scrollTop);
         console.log(document.documentElement.querySelector('.body_container').scrollTop);
+        this.pager.currentNum = Math.ceil(this.markflag/20);
+        if(this.pager.currentNum === 0)
+          this.pager.currentNum = 1;
         setTimeout(()=> {
           it.initTime()
         },300)
@@ -312,6 +318,9 @@ export default {
     this.markflag = this.$route.query.markflag;
     this.disabled = this.$route.query.disabled;
     this.batchNo = this.$route.query.batchNo;
+    this.pager.currentNum = Math.ceil(this.markflag/1);
+    if(this.pager.currentNum === 0)
+      this.pager.currentNum = 1;
     this.HandleQuery(true);
     console.log(window.opener);
     // window.onscroll = this.scrollFunc
