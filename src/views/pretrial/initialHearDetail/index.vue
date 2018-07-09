@@ -175,6 +175,8 @@
                   if(r.code === '0000'){
                     this.$message.success(r.description);
                     this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo, type: 'FIRST'});
+                    this.getBatchInfo();
+                    this.getBatchLog();
                   }
                 })
             }).catch(()=>{});

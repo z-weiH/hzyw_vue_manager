@@ -199,6 +199,12 @@ export default {
             console.log(res);
             this.selfflag = sign.subSortNo;
             this.$message.success("书签添加成功");
+
+            //改变url
+            let baseUrl = this.$router.currentRoute.fullPath.split('markflag')[0] + 'markflag='+sign.subSortNo;
+            console.log(baseUrl);
+            this.$router.push(baseUrl);
+            window.opener.history.go(0);
           }
         });
     },

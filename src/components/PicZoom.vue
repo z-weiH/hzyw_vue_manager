@@ -197,7 +197,6 @@
                 let oEvent = e || event;
                 let pos = getXY(oEvent);
                 let imgwrap=offset(this.imgwrap)
-                console.log(document.documentElement.querySelector('.body_container').scrollTop)
                 let range={
                     minX:imgwrap.left,
                     maxX:imgwrap.left+this.imgwrap.offsetWidth-this.cover.offsetWidth,
@@ -216,7 +215,6 @@
                 if(pos.y<range.minY){
                     pos.y=range.minY
                 }
-              console.log(range,pos);
               this.cover.style.left=pos.x+'px'
                 this.cover.style.top=pos.y+'px'
                 this.ctx.clearRect(0,0,this.imgwrap.offsetWidth,this.imgwrap.offsetHeight);
