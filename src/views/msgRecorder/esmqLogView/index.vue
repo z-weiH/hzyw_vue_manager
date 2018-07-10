@@ -102,44 +102,53 @@ export default {
       columnDefine: [
         {
           label: "案件编号",
-          property: "caseNum"
+          property: "caseNum",
+          width: 100
         },
         {
           label: "申请人",
-          property: "applicants"
+          property: "applicants",
+          width: 100
         },
         {
           label: "被申请人",
-          property: "respondents"
+          property: "respondents",
+          width: 100
         },
         {
           label: "发送手机号",
           property: "sendPhone",
-          width: "130"
+          width: 130
         },
         {
           label: "发送时间",
-          property: "sendTimeDate"
+          property: "sendTimeDate",
+          width: 100
         },
         {
           label: "发送结果",
-          property: "sendResult"
+          property: "sendResult",
+          width: 100
         },
         {
           label: "接收结果",
-          property: "receiveResult"
+          property: "receiveResult",
+          width: 100
         },
         {
           label: "短信类型",
-          property: "messageType"
+          property: "messageType",
+          width: 100
         },
         {
           label: "返回详情",
-          property: "returnDetails"
+          property: "returnDetails",
+          width: 100
         },
         {
           label: "短信内容",
-          property: "messageContent"
+          property: "messageContent",
+          width: 100
         }
       ]
     };
