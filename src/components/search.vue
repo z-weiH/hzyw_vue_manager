@@ -11,12 +11,12 @@
         <label v-if="searchItem.connectIco" class="cc_Ico">{{searchItem.connectIco}}</label>
       </div>
       <el-input v-if="searchItem.type == 'text' || !searchItem.type" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder"></el-input>
-      <el-select clearable :filterable="searchItem.filterable" :remote="searchItem.remote" :reserve-keyword="searchItem.reserveKey" @change="valueChange" v-if="searchItem.type ==  'select'" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder" :remote-method="searchItem.remoteMethod">
+      <el-select  clearable :filterable="searchItem.filterable" :remote="searchItem.remote" :reserve-keyword="searchItem.reserveKey" @change="valueChange" v-if="searchItem.type ==  'select'" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder" :remote-method="searchItem.remoteMethod">
         <el-option v-for="(option,index) in searchItem.options" :key="index" :label="searchItem.labelfield ? option[searchItem.labelfield] : option.label" :value="searchItem.valuefield ? option[searchItem.valuefield] : option.value">
         </el-option>
       </el-select>
       <!--BEGIN 级联select -->
-      <el-cascader clearable v-if="searchItem.type == 'cascader'" :options="searchItem.options" v-model="item[searchItem.property]" @change="valueChange">
+      <el-cascader :data-hk="searchItem.cusClass" clearable v-if="searchItem.type == 'cascader'" :options="searchItem.options" v-model="item[searchItem.property]" @change="valueChange">
       </el-cascader>
       <!--END 级联select -->
       <el-date-picker :format="baseFmat" :value-format="baseFmat" v-if="searchItem.type == 'date' | searchItem.type == 'moment' | searchItem.type == 'month'  " v-model="item[searchItem.property]" :type="searchItem.type" :placeholder="searchItem.placeholder"

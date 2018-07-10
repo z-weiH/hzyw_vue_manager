@@ -8,7 +8,7 @@
     </searchs>
     <div class='item-title clear of-hidden'>
       <span class="fl mt-10">案件列表</span>
-      <el-button class='fr' type='primary' @click='create'>申请立案</el-button>
+      <el-button class='fr' type='primary' @click='create' :disabled="dfBtnStatus">申请立案</el-button>
     </div>
     <div class='item-table'>
       <table-component :pager="pager" @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData" :column-define="columnDefine">
@@ -27,12 +27,14 @@
 </template>
 
 <script type="text/ecmascript-6">
+import $ from "jquery";
 import { URL_JSON } from "../../../components/script/url_json";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
 import { rawCitiesData } from "@/assets/js/city";
 import applyCaseDialog from "./modules/create";
+
 export default {
   name: "initiateApplyList",
   mixins: [Mixins],
@@ -43,6 +45,7 @@ export default {
       queryUrl: /* "/24" + */ URL_JSON["queryInitiateApplyList"],
       merchantOptions: [], //互金企业
       tableData: [{}],
+      dfBtnStatus: true,
       searchItem: {},
       searchItems: [
         {
@@ -142,7 +145,8 @@ export default {
           type: "cascader",
           colSpan: 4,
           property: "resAddress",
-          options: rawCitiesData
+          options: rawCitiesData,
+          cusClass: "c_place"
         },
         {
           label: "还款情况",
@@ -233,28 +237,49 @@ export default {
         },
         {
           label: "还款情况",
-          property:"repayment"
+          property: "repayment"
         }
       ]
     };
   },
+  watch: {
+    value(val, oldval) {
+      console.error(val, oldval);
+    }
+  },
   methods: {
     searchItemChange(item) {
-      // console.error(item);
+      console.error(item);
+      console.error(this.item);
       for (let i in item) {
         switch (item[i]) {
           case "merchantCode":
             this.queryProductList(item["value"]);
+            this.defaultButtonStatus();
             break;
           default:
             break;
         }
       }
     },
+    defaultButtonStatus() {
+      console.log("df::", this.searchItem.merchantCode);
+      if (this.searchItem.merchantCode === "") {
+        console.log("zzzzzz");
+        this.dfBtnStatus = true;
+      } else {
+        console.log("jjjjjj");
+        this.dfBtnStatus = false;
+      }
+    },
     doQuery(url, item) {
-      console.log(JSON.stringify(item.resAddress))
-      item["resAddress"] = JSON.stringify(item.resAddress);
-      console.log("搜索因素：：",item);
+      console.log(JSON.stringify(item.resAddress));
+      let place = $('[data-hk="c_place"]').find('input')[0].defaultValue;
+      // console.log($('[data-hk="c_place"]').find('input')[0].defaultValue);
+      // item["resAddress"] = JSON.stringify(item.resAddress);
+      let _idx = place.indexOf('/');
+      item["resAddress"] = place.slice(_idx+1);
+      console.log("搜索因素：：", item);
       let _numMin = this.searchItem.amtBorrowMin,
         _numMax = this.searchItem.amtBorrowMax;
       if ((!_numMin && _numMax) || (_numMin && !_numMax)) {
@@ -327,7 +352,7 @@ export default {
     },
     create() {
       this.editState = 1;
-      console.log("create:::",this.item);
+      console.log("create:::", this.item);
       // this.$http.post(URL_JSON['queryApplyCaseNum'],this.item).then(res=>{
       //   console.log('申请立案：',res.result);
       // });
@@ -336,6 +361,8 @@ export default {
 
   mounted() {
     this.doQuery(this.queryUrl, this.searchItem);
+    this.companyfinance("");
+    // this.defaultButtonStatus();
     this.cityDataChange();
   },
   components: {
