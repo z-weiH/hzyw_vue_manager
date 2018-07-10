@@ -77,7 +77,7 @@
                 <td colspan="1">电子邮箱：</td>
                 <td colspan="1">
                   <el-form-item label=" " prop="email">
-                    <el-input placeholder="请输入电子邮箱" v-model="ruleForm.email"></el-input>
+                    <el-input :disabled="isSignedDisabled" placeholder="请输入电子邮箱" v-model="ruleForm.email"></el-input>
                   </el-form-item>
                 </td>
               </tr>
@@ -285,7 +285,7 @@
                 <td colspan="1">电子邮箱：</td>
                 <td colspan="1">
                   <el-form-item label=" " prop="email">
-                    <el-input placeholder="请输入电子邮箱" v-model="ruleForm.email"></el-input>
+                    <el-input :disabled="isSignedDisabled" placeholder="请输入电子邮箱" v-model="ruleForm.email"></el-input>
                   </el-form-item>
                 </td>
               </tr>
@@ -383,6 +383,8 @@
 
           // 用户id
           userId : '',
+          // 签约状态
+          isSigned : '',
         },
         rules : {
           // 仲裁委
@@ -451,6 +453,12 @@
         // 客户类型 disabled
         typeDisabled : false,
       }
+    },
+    computed : {
+      // 根据当前签约状态 禁用
+      isSignedDisabled() {
+        return this.ruleForm.isSigned === 1;
+      },
     },
     mounted() {
       // 获取 所有仲裁委
