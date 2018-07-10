@@ -77,7 +77,7 @@
                 <td colspan="1">电子邮箱：</td>
                 <td colspan="1">
                   <el-form-item label=" " prop="email">
-                    <el-input :disabled="isSignedDisabled" placeholder="请输入电子邮箱" v-model="ruleForm.email"></el-input>
+                    <el-input placeholder="请输入电子邮箱" v-model="ruleForm.email"></el-input>
                   </el-form-item>
                 </td>
               </tr>
@@ -285,7 +285,7 @@
                 <td colspan="1">电子邮箱：</td>
                 <td colspan="1">
                   <el-form-item label=" " prop="email">
-                    <el-input :disabled="isSignedDisabled" placeholder="请输入电子邮箱" v-model="ruleForm.email"></el-input>
+                    <el-input placeholder="请输入电子邮箱" v-model="ruleForm.email"></el-input>
                   </el-form-item>
                 </td>
               </tr>
