@@ -48,7 +48,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="推送日期：">
+        <el-form-item label="推送日期：" class="no-bd">
           <timeFrame
             :startDate.sync="ruleForm.pushStartDate"
             :endDate.sync="ruleForm.pushEndDate"
@@ -255,6 +255,9 @@
 <style lang="scss">
 
 .data-statistics-view{
+  .no-bd input{
+    border: 1px solid #dcdfe6!important;
+  }
   .m-tit{
     font-size: 17px;
     color: #0F357F;

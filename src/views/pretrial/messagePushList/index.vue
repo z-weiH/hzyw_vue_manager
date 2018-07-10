@@ -40,9 +40,17 @@
                   <el-button v-if="item.status === 2" type="info" round size="mini">处理完成</el-button>
                   <el-button v-if="item.status === 1" round size="mini">推送完成，正在处理</el-button>
 
-                  <p v-if="item.status !== 0" class="m-num">
-                    <span>处理总数：{{item.totalNumber}}</span>
-                    <span v-if="item.status !== 2">处理失败：{{item.failCount}}</span>
+                  <p class="m-num">
+                    <template v-if="item.status === 0">
+                      <span>已推送：{{item.totalCount}}</span>
+                    </template>
+                    <template v-if="item.status === 2">
+                      <span>处理总数：{{item.totalCount}}</span>
+                      <span>处理失败：{{item.failCount}}</span>
+                    </template>
+                    <template v-if="item.status === 1">
+                      <span>处理总数：{{item.totalCount}}</span>
+                    </template>
                   </p>
                 </div>
                 <div class="fr">
@@ -54,17 +62,22 @@
                     <template v-if="item.status === 2">
                       <div>推送开始时间   {{item.startTime}}</div>
                       <div>推送完成时间   {{item.endTime}}</div>
+                      <div>处理完成时间   {{item.finishDisposeTime}}</div>
                     </template>
 
                     <template v-if="item.status === 1">
                       <div>推送开始时间   {{item.startTime}}</div>
                       <div>推送完成时间   {{item.endTime}}</div>
-                      <div>处理完成时间   {{item.finishDisposeTime}}</div>
                     </template>
                   </div>
                 </div>
               </td>
             </tr>
+          </template>
+          <template v-if="tableData.length === 0">
+            <div class="no-data">
+              暂无数据
+            </div>
           </template>
         </tbody>
       </table>
@@ -165,6 +178,11 @@
 <style lang="scss" scoped>
 
 .message-push-list{
+  .no-data{
+    min-height: 60px;
+    text-align: center;
+    line-height: 60px;
+  }
   table td{
     width: 100px;
   }

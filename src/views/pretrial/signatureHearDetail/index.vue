@@ -6,9 +6,9 @@
           <span class="header_title">签名审核</span>
           <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>
           <template v-if="disabled">
-            <el-radio v-model="auditStatus" :label="0">全部</el-radio>
-            <el-radio v-model="auditStatus" :label="1">已通过</el-radio>
-            <el-radio v-model="auditStatus" :label="2">未通过</el-radio>
+            <el-radio v-model="passStatus" :label="0">全部</el-radio>
+            <el-radio v-model="passStatus" :label="1">已通过</el-radio>
+            <el-radio v-model="passStatus" :label="2">未通过</el-radio>
           </template>
         </div>
       </div>
@@ -105,6 +105,7 @@ export default {
   data() {
     return {
       auditStatus: 0,
+      passStatus: 0,//查看状态
       editState: 0,
       markflag: 0,
       selfflag: null,
@@ -132,7 +133,11 @@ export default {
   watch: {
     auditStatus(val, oldVal) {
       this.HandleQuery();
+    },
+    passStatus(val, oldVal){
+      this.HandleQuery();
     }
+
   },
   methods: {
     //意见审核
@@ -178,7 +183,9 @@ export default {
             .then(r => {
               if (r.code === "0000") {
                 this.showCloseDlg = true;
-                window.opener.history.go(0);
+                // window.opener.history.go(0);
+                window.opener.location.reload();
+
                 // this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
               }
             });
@@ -204,7 +211,9 @@ export default {
             let baseUrl = this.$router.currentRoute.fullPath.split('markflag')[0] + 'markflag='+sign.subSortNo;
             console.log(baseUrl);
             this.$router.push(baseUrl);
-            window.opener.history.go(0);
+            // window.opener.history.go(0);
+            window.opener.location.reload();
+
           }
         });
     },
@@ -213,13 +222,22 @@ export default {
       this.HandleQuery();
     },
     HandleQuery(mark) {
+      let obj={};
+      if(!this.disabled){
+        Object.assign(obj,
+          { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus },
+          this.pager
+        )
+      }else{
+        Object.assign(obj,
+          { subBatchNo: this.subBatchNo, passStatus: +this.passStatus },
+          this.pager
+        )
+      }
       this.$http
         .post(
           "/firstAudit/querySignInfoByBatchNo.htm",
-          Object.assign(
-            { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus },
-            this.pager
-          )
+         obj
         )
         .then(res => {
           console.log(res);

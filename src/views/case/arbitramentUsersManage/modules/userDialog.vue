@@ -383,6 +383,8 @@
 
           // 用户id
           userId : '',
+          // 签约状态
+          isSigned : '',
         },
         rules : {
           // 仲裁委
@@ -451,6 +453,12 @@
         // 客户类型 disabled
         typeDisabled : false,
       }
+    },
+    computed : {
+      // 根据当前签约状态 禁用
+      isSignedDisabled() {
+        return this.ruleForm.isSigned === 1;
+      },
     },
     mounted() {
       // 获取 所有仲裁委
