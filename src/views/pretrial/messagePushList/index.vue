@@ -74,6 +74,11 @@
               </td>
             </tr>
           </template>
+          <template v-if="tableData.length === 0">
+            <div class="no-data">
+              暂无数据
+            </div>
+          </template>
         </tbody>
       </table>
       <!-- 分页 -->
@@ -173,6 +178,11 @@
 <style lang="scss" scoped>
 
 .message-push-list{
+  .no-data{
+    min-height: 60px;
+    text-align: center;
+    line-height: 60px;
+  }
   table td{
     width: 100px;
   }
