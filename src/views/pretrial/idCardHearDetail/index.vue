@@ -162,6 +162,9 @@ export default {
   methods: {
     //审核意见
     HandleShow(card) {
+      console.log(window.opener)
+      // window.opener.location.href=window.opener.location.href;
+
       this.$http
         .post("/firstAudit/queryAuditInfoByCaseId.htm", {
           caseId: card.caseId,
@@ -199,7 +202,9 @@ export default {
             .then(r => {
               if (r.code === "0000") {
                 this.showCloseDlg = true;
-                window.opener.history.go(0);
+                // window.opener.history.go(0);
+                window.opener.location.reload();
+
                 // this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
               }
             });
@@ -227,7 +232,9 @@ export default {
             let baseUrl = this.$router.currentRoute.fullPath.split('markflag')[0] + 'markflag='+card.subSortNo;
             console.log(baseUrl);
             this.$router.push(baseUrl);
-            window.opener.history.go(0);
+            // window.opener.history.go(0);
+            window.opener.location.reload();
+
           }
         });
     },

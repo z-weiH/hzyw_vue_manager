@@ -182,7 +182,8 @@
             .then(r =>{
               if(r.code === '0000'){
                 this.showCloseDlg = true;
-                window.opener.history.go(0);
+                window.opener.location.reload();
+
                 // this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
               }
             })
@@ -201,7 +202,9 @@
               let baseUrl = this.$router.currentRoute.fullPath.split('markflag')[0] + 'markflag='+evidence.subSortNo;
               console.log(baseUrl);
               this.$router.push(baseUrl);
-              window.opener.history.go(0);
+              // window.opener.history.go(0);
+              window.opener.location.reload();
+
             }
           })
       },

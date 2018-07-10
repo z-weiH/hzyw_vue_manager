@@ -53,7 +53,9 @@ export default {
             this.$parent.rb_state = 0;
             this.$message.success('退回成功');
             // 刷新上一张页面
-            window.opener.history.go(0);
+            // window.opener.history.go(0);
+            window.opener.location.reload();
+
             this.$parent.isSubmit = true;
           });
 
