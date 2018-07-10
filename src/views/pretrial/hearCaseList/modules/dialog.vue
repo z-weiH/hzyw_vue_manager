@@ -390,6 +390,7 @@
         // 取消按钮禁用
         setTimeout(() => {
           this.submitDisabled = false;
+          this.$refs.ruleForm.resetFields();
         },500);
 
         // 禁止 运营人员输入
@@ -404,9 +405,6 @@
         this.merchantOptions = [];
         this.productOptions = [];
 
-        this.$nextTick(() => {
-          this.$refs.ruleForm.resetFields();
-        });
       },
       // 点击提交
       handleSubmit(submitType) {
