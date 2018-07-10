@@ -121,48 +121,58 @@ export default {
       columnDefine: [
         {
           label: "被申请人",
-          property: "respondents"
+          property: "respondents",
+          width: 100
         },
         {
           label: "被申请人手机",
           property: "resPhone",
-          width: "150"
+          width: 150
         },
         {
           label: "案件编号",
-          property: "caseNo"
+          property: "caseNo",
+          width: 100
         },
         {
           label: "互金企业",
-          property: "merchantName"
+          property: "merchantName",
+          width: 100
         },
         {
           label: "产品名称",
-          property: "productName"
+          property: "productName",
+          width: 100
         },
         {
           label: "申请人",
-          property: "applicants"
+          property: "applicants",
+          width: 100
         },
         {
           label: "案件阶段",
-          property: "caseProcessCn"
+          property: "caseProcessCn",
+          width: 100
         },
         {
           label: "案件状态",
-          property: "statusThreeCn"
+          property: "statusThreeCn",
+          width: 100
         },
         {
           label: "操作类型",
-          property: "operTypeCn"
+          property: "operTypeCn",
+          width: 100
         },
         {
           label: "操作对象",
-          property: "operObjectCn"
+          property: "operObjectCn",
+          width: 100
         },
         {
           label: "操作时间",
-          property: "operTime"
+          property: "operTime",
+          width: 100
         }
       ]
     };
@@ -198,20 +208,20 @@ export default {
     optsCompanyListView() {
       this.$http.post(URL_JSON["selectCompany"]).then(res => {
         console.log("selectCompany:::", res);
-        res.result.unshift({
-          merchantName: "请选择",
-          code: ""
-        });
+        // res.result.unshift({
+        //   merchantName: "请选择",
+        //   code: ""
+        // });
         this.searchItems[3].options = res.result;
         // console.log('list:',res.result);
       });
     },
     optsPduListView(params) {
       this.$http.post(URL_JSON["selectProduct"], params).then(res => {
-        res.result.unshift({
-          prodName: "请选择",
-          prodCode: ""
-        });
+        // res.result.unshift({
+        //   prodName: "请选择",
+        //   prodCode: ""
+        // });
         // console.log('selectProduct:::',res);
         this.searchItems[4].options = res.result;
       });
@@ -219,20 +229,20 @@ export default {
     optsHkCaseStageView() {
       this.$http.post(URL_JSON["selectHkCaseStage"]).then(res => {
         // console.log('selectHkCaseStage:::',res);
-        res.result.list.unshift({
-          desc: "请选择",
-          status: ""
-        });
+        // res.result.list.unshift({
+        //   desc: "请选择",
+        //   status: ""
+        // });
         this.searchItems[5].options = res.result.list;
       });
     },
     optsHkCaseStatusView(params) {
       this.$http.post(URL_JSON["selectHkCaseStatus"], params).then(res => {
-        console.error('',res.result.list);
-        res.result.list.unshift({
-          desc: "请选择",
-          status: ""
-        });
+        console.warn('\n',res.result.list);
+        // res.result.list.unshift({
+        //   desc: "请选择",
+        //   status: ""
+        // });
         this.searchItems[6].options = res.result.list;
         setTimeout(()=> {
           // this.searchItem.statusThree = '';
@@ -244,20 +254,20 @@ export default {
     optsTypeListView() {
       this.$http.post(URL_JSON["queryOperType"]).then(res => {
         console.info("type::::", res);
-        res.result.list.unshift({
-          desc: "请选择",
-          status: ""
-        });
+        // res.result.list.unshift({
+        //   desc: "请选择",
+        //   status: ""
+        // });
         this.searchItems[7].options = res.result.list;
       });
     },
     optsObjListView(params) {
       this.$http.post(URL_JSON["queryOperObject"],params).then(res => {
         console.info("obj:::::", res);
-        res.result.list.unshift({
-          desc: "请选择",
-          status: ""
-        });
+        // res.result.list.unshift({
+        //   desc: "请选择",
+        //   status: ""
+        // });
         this.searchItems[8].options = res.result.list;
         setTimeout(() => {
            this.$set(this.searchItem,'operObject', '')

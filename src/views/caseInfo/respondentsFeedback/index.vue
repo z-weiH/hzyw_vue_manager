@@ -208,17 +208,17 @@ export default {
       pageSize: 10,
       tableData: [{}],
       columnDefine: [
-        { label: "案件编号", property: "arbCaseId" },
-        { label: "互金企业", property: "platName" },
-        { label: "产品名称", property: "productName" },
-        { label: "申请人", property: "applicants" },
-        { label: "被申请人", property: "respondents" },
+        { label: "案件编号", property: "arbCaseId" , width: 100},
+        { label: "互金企业", property: "platName" , width: 100},
+        { label: "产品名称", property: "productName" , width: 100},
+        { label: "申请人", property: "applicants" , width: 100},
+        { label: "被申请人", property: "respondents" , width: 100},
         { label: "被申请人手机", property: "resPhone", width: 150 },
-        { label: "提交日期", property: "submitTime" },
-        { label: "仲裁还款", property: "arbitrationRepayment" },
-        { label: "案件阶段", property: "caseProcess" },
-        { label: "应裁情况", property: "decideStatus" },
-        { label: "应裁时间", property: "takeTime" },
+        { label: "提交日期", property: "submitTime" , width: 100},
+        { label: "仲裁还款", property: "arbitrationRepayment" , width: 100},
+        { label: "案件阶段", property: "caseProcess" , width: 100},
+        { label: "应裁情况", property: "decideStatus" , width: 100},
+        { label: "应裁时间", property: "takeTime" , width: 100},
         {
           label: "短信送达",
           property: "messageDelivery",
@@ -226,19 +226,23 @@ export default {
           children: [
             {
               label: "提交短信",
-              property: "submitMessageTime"
+              property: "submitMessageTime",
+              width: 100
             },
             {
               label: "应裁短信",
-              property: "takeMessageTime"
+              property: "takeMessageTime",
+              width: 100
             },
             {
               label: "组庭短信",
-              property: "buildMessageTime"
+              property: "buildMessageTime",
+              width: 100
             },
             {
               label: "裁决短信",
-              property: "judgeMessageTime"
+              property: "judgeMessageTime",
+              width: 100
             }
           ]
         },
@@ -247,10 +251,10 @@ export default {
           property: "shortChainView",
           width: 150,
           children: [
-            { label: "提交短链", property: "submitMessageTime" },
-            { label: "应裁短链", property: "takeShortChainTime" },
-            { label: "裁决短链", property: "judgeShortChainTime" },
-            { label: "最近登录", property: "recentLoginTime" }
+            { label: "提交短链", property: "submitMessageTime" , width: 100},
+            { label: "应裁短链", property: "takeShortChainTime" , width: 100},
+            { label: "裁决短链", property: "judgeShortChainTime" , width: 100},
+            { label: "最近登录", property: "recentLoginTime" , width: 100}
           ]
         }
       ]
