@@ -75,7 +75,7 @@
           <el-button type="primary" v-if="info.eviStatus === 1" class="fr mt-10" @click="gotoeEidenceWire(info,true)">查看</el-button>
           <p class="info_title">证据链信息</p>
           <p v-if="info.countEviChecked === 0 && info.eviStatus === 0">审核未开始</p>
-          <p v-if="info.countEviChecked !== 0 && info.eviStatus === 0">已审核到第{{info.countEviChecked}}</p>
+          <p v-if="info.countEviChecked !== 0 && info.eviStatus === 0">已审核到第{{info.countEviChecked}}件</p>
           <p v-else-if="info.eviStatus !== 0">通过{{info.eviCheck.passNum}}件，未通过{{info.eviCheck.unPassNum}}件</p>
         </li>
       </ul>
