@@ -390,8 +390,8 @@
         // 取消按钮禁用
         setTimeout(() => {
           this.submitDisabled = false;
+          this.$refs.ruleForm.resetFields();
         },500);
-        this.$refs.ruleForm.resetFields();
 
         // 禁止 运营人员输入
         this.ruleForm.allocationList = this.ruleForm.allocationList.map((v) => {

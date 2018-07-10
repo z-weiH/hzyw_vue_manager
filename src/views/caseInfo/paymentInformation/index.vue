@@ -141,75 +141,85 @@ export default {
       columnDefine: [
         {
           label: "案件编号",
-          property: "caseNo"
+          property: "caseNo",
+          width: 100
         },
         {
           label: "互金企业",
-          property: "merchantName"
+          property: "merchantName",
+          width: 100
         },
         {
           label: "产品名称",
-          property: "productName"
+          property: "productName",
+          width: 100
         },
         {
           label: "申请人",
-          property: "applicants"
+          property: "applicants",
+          width: 100
         },
         {
           label: "被申请人",
-          property: "respondents"
+          property: "respondents",
+          width: 100
         },
         {
           label: "被申请人手机",
           property: "resPhone",
-          width: "150"
+          width: 150
         },
         {
           label: "还款金额",
-          property: "repaymentAmt"
+          property: "repaymentAmt",
+          width: 100
         },
         {
           label: "还款时间",
-          property: "repaymentTime"
+          property: "repaymentTime",
+          width: 100
         },
         {
           label: "还款案件阶段",
           property: "caseProcessCn",
-          width: "150"
+          width: 150
         },
         {
           label: "还款案件状态",
           property: "statusThreeCn",
-          width: "150"
+          width: 150
         },
         {
           label: "提交后天数",
           property: "submitDate",
-          width: "150"
+          width: 150
         },
         {
           label: "标的金额",
-          property: "amtBorrow"
+          property: "amtBorrow",
+          width: 100
         },
         {
           label: "逾期天数",
-          property: "overdueDate"
+          property: "overdueDate",
+          width: 100
         },
         {
           label: "已还款总额",
           property: "reimbursementAmt",
-          width: "150"
+          width: 150
         },
         {
           label: "打款金额",
-          property: "payAmt"
+          property: "payAmt",
+          width: 100
         }
       ]
     };
   },
   methods: {
     searchItemChange(item) {
-      console.error(item);
+      // console.error(item);
       for (var i in item) {
         switch (item[i]) {
           case "merchantCode":
@@ -233,41 +243,41 @@ export default {
     optsCompanyListView() {
       this.$http.post(URL_JSON["selectCompany"]).then(res => {
         console.log("selectCompany:::", res);
-        res.result.unshift({
-          merchantName: "请选择",
-          code: ""
-        });
+        // res.result.unshift({
+        //   merchantName: "请选择",
+        //   code: ""
+        // });
         this.searchItems[4].options = res.result;
-        // console.log('list:',res.result);
+        console.log('list:',res.result);
       });
     },
     optsPduListView(params) {
       this.$http.post(URL_JSON["selectProduct"], params).then(res => {
-        res.result.unshift({
-          prodName: "请选择",
-          prodCode: ""
-        });
-        // console.log('selectProduct:::',res);
+        // res.result.unshift({
+        //   prodName: "请选择",
+        //   prodCode: ""
+        // });
         this.searchItems[5].options = res.result;
+        console.log('selectProduct:::',res);
       });
     },
     optsHkCaseStageView() {
       this.$http.post(URL_JSON["selectHkCaseStage"]).then(res => {
         // console.log('selectHkCaseStage:::',res);
-        res.result.list.unshift({
-          desc: "请选择",
-          status: ""
-        });
+        // res.result.list.unshift({
+        //   desc: "请选择",
+        //   status: ""
+        // });
         this.searchItems[6].options = res.result.list;
       });
     },
     optsHkCaseStatusView(params) {
       this.$http.post(URL_JSON["selectHkCaseStatus"], params).then(res => {
-        console.error('',res.result.list);
-        res.result.list.unshift({
-          desc: "请选择",
-          status: ""
-        });
+        console.warn('\n',res.result.list);
+        // res.result.list.unshift({
+        //   desc: "请选择",
+        //   status: ""
+        // });
         this.searchItems[7].options = res.result.list;
         setTimeout(()=> {
           // this.searchItem.statusThree = '';

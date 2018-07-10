@@ -243,31 +243,38 @@ export default {
           children: [
             {
               label: "逾期天数",
-              property: "overdueDate"
+              property: "overdueDate",
+              width: 100
             },
             {
               label: "处理天数",
-              property: "dealDate"
+              property: "dealDate",
+              width: 100
             },
             {
               label: "立案日期",
-              property: "startTime"
+              property: "startTime",
+              width: 100
             },
             {
               label: "组庭日期",
-              property: "buildTime"
+              property: "buildTime",
+              width: 100
             },
             {
               label: "结案日期",
-              property: "closeTime"
+              property: "closeTime",
+              width: 100
             },
             {
               label: "应裁日期",
-              property: "takeTime"
+              property: "takeTime",
+              width: 100
             },
             {
               label: "借款日期",
-              property: "borrowingDate"
+              property: "borrowingDate",
+              width: 100
             },
             {
               label: "应还款日期",
@@ -276,11 +283,13 @@ export default {
             },
             {
               label: "冻结日期",
-              property: "freezeDate"
+              property: "freezeDate",
+              width: 100
             },
             {
               label: "解冻日期",
-              property: "unfreezeDate"
+              property: "unfreezeDate",
+              width: 100
             }
           ]
         },
@@ -341,11 +350,13 @@ export default {
             },
             {
               label: "处理费",
-              property: "handFee"
+              property: "handFee",
+              width: 100
             },
             {
               label: "仲券",
-              property: "caseTicket"
+              property: "caseTicket",
+              width: 100
             }
           ]
         }
@@ -363,7 +374,7 @@ export default {
       });
     },
     searchItemChange(item) {
-      console.error(item);
+      // console.warn(item);
       for (var i in item) {
         switch (item[i]) {
           case "merchantCode":
@@ -411,7 +422,7 @@ export default {
     },
     optsHkCaseStatusView(params) {
       this.$http.post(URL_JSON["selectHkCaseStatus"], params).then(res => {
-        console.error("", res.result.list);
+        console.warn("\n", res.result.list);
 
         this.searchItems[9].options = res.result.list;
         setTimeout(() => {
