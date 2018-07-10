@@ -391,7 +391,6 @@
         setTimeout(() => {
           this.submitDisabled = false;
         },500);
-        this.$refs.ruleForm.resetFields();
 
         // 禁止 运营人员输入
         this.ruleForm.allocationList = this.ruleForm.allocationList.map((v) => {
@@ -405,6 +404,9 @@
         this.merchantOptions = [];
         this.productOptions = [];
 
+        this.$nextTick(() => {
+          this.$refs.ruleForm.resetFields();
+        });
       },
       // 点击提交
       handleSubmit(submitType) {
