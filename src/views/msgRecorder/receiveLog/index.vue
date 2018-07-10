@@ -55,32 +55,40 @@ export default {
       columnDefine: [
         {
           label: "手机号",
-          property: "sendPhone"
+          property: "sendPhone",
+          width: 120
         },{
           label: "被申请人",
-          property: "respondents"
+          property: "respondents",
+          width: 100
         },{
           label: "疑似案件编号",
           property: "case_num",
-          width:"130"
+          width:130
         },{
           label: "互金企业",
-          property: "platName"
+          property: "platName",
+          width: 100
         },{
           label: "产品名称",
-          property: "productName"
+          property: "productName",
+          width: 100
         },{
           label: "申请人",
-          property: "applicants"
+          property: "applicants",
+          width: 100
         },{
           label: "案件阶段",
-          property: "caseProcess"
+          property: "caseProcess",
+          width: 100
         },{
           label: "接收时间",
-          property: "receiveTime"
+          property: "receiveTime",
+          width: 100
         },{
           label: "短信内容",
-          property: "messageContent"
+          property: "messageContent",
+          width: 100
         }
       ]
     };

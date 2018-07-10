@@ -209,7 +209,7 @@ export const URL_JSON = {
 
   /* 短信调节 */
 
-  /*调节短信设置*/
+  /*设置*/
   'queryAdjustMediator': '/msgRecorder/queryAdjustMediatorByBaseQuery.htm',
   'deleteAdjustMediator': '/msgRecorder/deleteAdjustMediatorByPrimaryKey.htm',
   'saveAdjustMediator': '/msgRecorder/saveAdjustMediatorManage.htm',
