@@ -6,9 +6,9 @@
         <span class="header_title">身份证审核</span>
         <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>
         <template v-if="disabled">
-          <el-radio v-model="auditStatus" :label="0">全部</el-radio>
-          <el-radio v-model="auditStatus" :label="1">已通过</el-radio>
-          <el-radio v-model="auditStatus" :label="2">未通过</el-radio>
+          <el-radio v-model="passStatus" :label="0">全部</el-radio>
+          <el-radio v-model="passStatus" :label="1">已通过</el-radio>
+          <el-radio v-model="passStatus" :label="2">未通过</el-radio>
         </template>
       </div>
     </div>
@@ -130,6 +130,7 @@ export default {
   data() {
     return {
       auditStatus: 0,
+      passStatus:0,//查看状态
       editState: 0,
       markflag: false,
       subBatchNo: "",
@@ -156,6 +157,9 @@ export default {
   },
   watch: {
     auditStatus(val, oldVal) {
+      this.HandleQuery();
+    },
+    passStatus(val,oldVal){
       this.HandleQuery();
     }
   },
@@ -243,13 +247,22 @@ export default {
       this.HandleQuery();
     },
     HandleQuery(mark) {
+      let obj={};
+      if(!this.disabled){
+        Object.assign(obj,
+          { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus },
+          this.pager
+        )
+      }else{
+        Object.assign(obj,
+          { subBatchNo: this.subBatchNo, passStatus: +this.passStatus },
+          this.pager
+        )
+      }
       this.$http
         .post(
           "/firstAudit/queryIdcardsBySubBatchNo.htm",
-          Object.assign(
-            { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus },
-            this.pager
-          )
+          obj
         )
         .then(res => {
           console.log(res);
