@@ -329,10 +329,12 @@
       }
     }
     .arrow_left {
+      top:50%;
       left: 16%;
       background-image: url(./../../../assets/img/rct_page01.png);
     }
     .arrow_right {
+      top:50%;
       right: 16%;
       background-image: url(./../../../assets/img/rct_page02.png);
     }

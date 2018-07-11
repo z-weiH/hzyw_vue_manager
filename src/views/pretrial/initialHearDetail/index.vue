@@ -189,7 +189,7 @@
 
       //查看退回原因
       HandleShowReason(log) {
-        this.$http.post('firstAudit/queryReturnMsg.htm',{logId: log.logId})
+        this.$http.post('/firstAudit/queryReturnMsg.htm',{logId: log.logId})
           .then(res => {
             if(res.code === '0000'){
               this.showReason = true;

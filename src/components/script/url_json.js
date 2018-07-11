@@ -236,7 +236,7 @@ export const URL_JSON = {
 
   'queryCpProduct': '/merchant/selectMerchantProductByMerchantCode.htm',//根据企业选择产品
 
-  'queryApplyCaseNum': '/caseLibrary/queryApplicationTicketAndAmt.htm', //申请立案数量信息
+  'queryApplyCaseNum': '/caseApply/queryApplicationTicketAndAmt.htm', //申请立案数量信息
 
   'confirmApplyCase': '/caseLibrary/applicationByPreDistributeQuery.htm', //立案申请确认
 

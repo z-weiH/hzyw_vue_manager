@@ -118,6 +118,8 @@ export default {
       console.log("iiiii::", this.item);
       this.item.type = this.type;
       this.item.applicationNum = this.applyCaseNum;
+      let _newItem = Object.assign(this.item,this.$parent.searchItem);
+      console.log("_newItem: ",_newItem);
       this.$http.post(URL_JSON["queryApplyCaseNum"], this.item).then(res => {
         console.log("iiiii:--:", this.item);
         this.zqdata = res.result;

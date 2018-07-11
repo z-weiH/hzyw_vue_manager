@@ -707,7 +707,7 @@ router.beforeEach((to, from, next) => {
             type : 'warning',
             message : '没有权限访问',
           });
-          router.replace('/404');
+          router.replace('/login');
         }
       // 当前未登录
       } catch (err) {

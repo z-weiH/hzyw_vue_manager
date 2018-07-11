@@ -267,7 +267,8 @@
             pushStartDate : this.ruleForm.pushStartDate,
           },
         }).then((res) => {
-          this.totalCount = res.result.totalCount;
+          // 需求修改 初始化时 总案件数 一定等于 待分配件数 
+          this.totalCount = res.result.undistributeTotalCount;
           this.undistributeTotalCount = res.result.undistributeTotalCount;
           this.undistributeTotalCountStorage = res.result.undistributeTotalCount;
           // 开启 运营人员输入
