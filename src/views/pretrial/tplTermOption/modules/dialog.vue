@@ -124,8 +124,6 @@
       show(type,row) {
         this.dialogVisible = true;
         this.type = type;
-        // 初始化 查询全部互金企业
-        this.remoteMethod('');
 
         if(type === 'edit'){
           this.conditionId = row.conditionId;
@@ -147,6 +145,9 @@
               { prodName : res.result.prodName , productId : res.result.productId }
             ];
           });
+        }else{
+          // 初始化 查询全部互金企业
+          this.remoteMethod('');
         }
       },
 
@@ -156,7 +157,7 @@
           method : 'post',
           url : '/merchant/queryPreMerchantName.htm',
           data : {
-            keyWords : query,
+            keyWords : query.trim(),
           },
         }).then((res) => {
           this.merchantOptions = res.result;
