@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+    ref="dialog"
     :visible.sync="show"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
