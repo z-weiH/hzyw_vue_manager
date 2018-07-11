@@ -149,6 +149,14 @@
         delete R.active;
         this.$emit('handleClick',R);
       },
+      next(index) {
+        if(index <= 0) {
+          index = 0;
+        }else if(index >= this.moptions.length) {
+          index = this.moptions.length - 1;
+        }
+        this.handleClick(this.moptions[index],index);
+      },
     },
   }
 </script>

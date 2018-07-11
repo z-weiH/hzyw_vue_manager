@@ -238,15 +238,15 @@ export default {
           width:100
         },
         {
+          label: "还款情况",
+          property: "repayment",
+          width:100
+        },
+        {
           label: "推送日期",
           property: "pushDate",
           width:120
         },
-        {
-          label: "还款情况",
-          property: "repayment",
-          width:100
-        }
       ]
     };
   },
@@ -360,7 +360,7 @@ export default {
     },
     create() {
       this.editState = 1;
-      console.log("create:::", this.item);
+      // console.log("create:::", this.item);
       // this.$http.post(URL_JSON['queryApplyCaseNum'],this.item).then(res=>{
       //   console.log('申请立案：',res.result);
       // });

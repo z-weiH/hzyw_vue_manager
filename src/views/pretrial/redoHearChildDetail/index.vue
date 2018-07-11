@@ -159,18 +159,12 @@
         </div>
         <div class="applybook_content of-hidden">
           <div class="article_left fl">
-            <object :data="card.evi.applicationUrl" type="application/pdf" width="100%" height="100%">
-                    <iframe :src="card.evi.applicationUrl" width="100%" height="100%" style="border: none;">
-                         <a :href="card.evi.applicationUrl"></a>
+                    <iframe :src="card.evi.applicationUrl" width="100%" height="100%" >
                     </iframe>
-                  </object>
           </div>
           <div class="article_right fr">
-            <object :data="currentUrl" type="application/pdf" width="100%" height="100%">
-                    <iframe :src="currentUrl" width="100%" height="100%" style="border: none;">
-                         <a :href="currentUrl"></a>
+                    <iframe :src="currentUrl" width="100%" height="100%" >
                     </iframe>
-                  </object>
           </div>
         </div>
       </div>
