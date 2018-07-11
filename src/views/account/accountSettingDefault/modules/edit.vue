@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+    ref="dialog"
     :visible.sync="show"
     :title="title"
     width="890px"
@@ -24,6 +25,7 @@
 <script>
 import TableEdits from '@/components/tableEdits'
 import {URL_JSON} from "../../../../components/script/url_json";
+
 export default {
   name: 'edit',
   props: {
@@ -94,6 +96,12 @@ export default {
       ]
     }
   },
+  watch: {
+    '$parent.editState': function(val,oldval){
+      this.$refs.dialog && (this.$refs.dialog.$el.scrollTop = 0);
+      this.$refs['edits'] && this.$refs['edits'].clearValidate();
+    },
+  },
   computed: {
     show :{
       get: function () {
@@ -109,6 +117,9 @@ export default {
     TableEdits
   },
   methods: {
+    // updated () {
+    //   this.$refs['edits'].clearValidate();
+    // },
     save(num) {
       if(num === 2){
         this.$http.post(URL_JSON['saveAccountSettingDefault'], {apprerResult: this.item.apprerResult,orderId: this.item.orderId, status:num})
@@ -136,9 +147,7 @@ export default {
 
     }
   },
-  updated () {
-    this.$refs['edits'].clearValidate();
-  }
+
 }
 </script>
 

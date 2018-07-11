@@ -1,5 +1,6 @@
 <template>
   <el-dialog
+    ref="dialog"
     :visible.sync="show"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
@@ -171,6 +172,9 @@
       }
     },
     watch: {
+      '$parent.editState': function(val,oldval){
+        this.resetForm();
+      },
       'item.preCaseTicket':function (val, oldval) {
         console.log(val,this.item);
         this.item.preTicketAmt = this.item.preCaseTicket * 10;

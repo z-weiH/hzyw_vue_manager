@@ -55,7 +55,7 @@
         <div class="audit" v-if="evidence.checkAuditList && evidence.checkAuditList.length > 0">
           <p class="audit_title">审核意见:</p>
           <ul>
-            <li v-for="(audit, idx) in evidence.checkAuditList" :index="idx">{{index+1}}.{{audit.reasonMsg}}</li>
+            <li v-for="(audit, idx) in evidence.checkAuditList" :index="idx">{{idx+1}}.{{audit.reasonMsg}}</li>
           </ul>
         </div>
         <div class="applybook_body">

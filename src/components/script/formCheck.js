@@ -5,7 +5,12 @@ export default  {
       _refForms: []
     }
   },
-
+  watch: {
+    '$parent.editState': function(val,oldval){
+      this.resetForm();
+        this.$refs.dialog && (this.$refs.dialog.$el.scrollTop = 0);
+    },
+  },
   methods: {
     resetForm () {
       console.log(this);
