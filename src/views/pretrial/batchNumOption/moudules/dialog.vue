@@ -36,7 +36,7 @@
         rules : {
           subBatchCount : [
             {required :true , message : '请输入子批次数量' , trigger : 'blur'},
-            {pattern : /^[1-9]\d*$/ , message : '格式有误' , trigger : 'blur'},
+            {pattern : /^([1-9]\d{0,2}|1000)$/ , message : '请输入1-1000的数字' , trigger : 'blur'},
           ],
         },
 
