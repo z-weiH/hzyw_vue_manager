@@ -46,6 +46,7 @@
     .menu{
       width: 230px;
       margin-right: 10px;
+      margin-bottom: 100px;
     }
     .page-content{
       width: 960px;
