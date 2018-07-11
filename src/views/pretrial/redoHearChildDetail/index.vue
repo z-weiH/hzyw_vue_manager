@@ -101,7 +101,7 @@
           </ul>
         </div>
         <div class="audit">
-          <p class="audit_title">审核意见:</p>
+          <p class="audit_title" v-if="card.idCard.failReasonList.length != 0">审核意见:</p>
           <ul>
             <li v-for="(msg, index) in card.idCard.failReasonList">{{index + 1}}.{{msg.reasonMsg}}</li>
           </ul>
@@ -136,7 +136,7 @@
           </div>
         </div>
         <div class="audit">
-          <p class="audit_title">审核意见:</p>
+          <p class="audit_title" v-if="card.sign.checkSignList.length != 0">审核意见:</p>
           <ul>
             <li v-for="(line,idx) in card.sign.checkSignList">{{idx + 1}}.{{line.reasonMsg}}</li>
           </ul>
@@ -146,7 +146,7 @@
       <div class="applybook_body sTopborder">
         <div class="part_tit f_18">证据链信息</div>
         <div class="audit">
-          <p class="audit_title">审核意见:</p>
+          <p class="audit_title" v-if="card.evi.checkAuditList.length != 0">审核意见:</p>
           <ul class="mb-30">
             <li v-for="(msg, index) in card.evi.checkAuditList">{{index + 1}}.{{msg.reasonMsg}}</li>
           </ul>
@@ -154,7 +154,7 @@
         <div class="applybook_title of-hidden">
           <div class="tit fl">仲裁申请书</div>
           <div class="scroll_toolbar fr">
-            <scroll-y @handleClick="scrollbarClick" :options="card.evi.eviDetailList" label="eviTitle" :defaultWidth="420"></scroll-y>
+            <scroll-y @handleClick="scrollbarClick" :options="card.evi.eviDetailList" label="eviTitle" :defaultWidth="520"></scroll-y>
           </div>
         </div>
         <div class="applybook_content of-hidden">
@@ -215,7 +215,7 @@ import { URL_JSON } from "../../../components/script/url_json";
 import audit from "./modules/audit";
 import passview from "./modules/passview";
 import reback from "./modules/reback";
-import backTop from '@/components/backTop.vue'
+import backTop from "@/components/backTop.vue";
 export default {
   data() {
     return {
@@ -229,8 +229,8 @@ export default {
       currentNum: 1,
       auditLists: [],
       idCardList: [], //身份证信息
-      curCardObj:{},//当前分页的合同数据
-      auditOptsByCase:{},
+      curCardObj: {}, //当前分页的合同数据
+      auditOptsByCase: {},
       currentUrl: "",
       audit_state: 0,
       pview_state: 0,
@@ -291,20 +291,20 @@ export default {
     },
     HandleQuery(_val) {
       // if (_val != 0) {
-        this.currentNum = 1;
-        this.$http
-          .post(URL_JSON["queryRecheckDetailView"], {
-            pageSize: 1,
-            currentNum: this.currentNum,
-            subBatchNo: this.subBatchId,
-            auditStatus: _val
-          })
-          .then(res => {
-            console.log("newQuery>>>", res.result);
-            this.idCardList = res.result.list;
-            this.count = res.result.count;
-            this.pager.total = res.result.count;
-          });
+      this.currentNum = 1;
+      this.$http
+        .post(URL_JSON["queryRecheckDetailView"], {
+          pageSize: 1,
+          currentNum: this.currentNum,
+          subBatchNo: this.subBatchId,
+          auditStatus: _val
+        })
+        .then(res => {
+          console.log("newQuery>>>", res.result);
+          this.idCardList = res.result.list;
+          this.count = res.result.count;
+          this.pager.total = res.result.count;
+        });
       // } else {
       //   this.getRecheckDetail();
       // }
@@ -316,7 +316,7 @@ export default {
           caseId: card.caseId
         })
         .then(res => {
-          console.log("queryAllReasonList:: ",res.result);
+          console.log("queryAllReasonList:: ", res.result);
           if (res.code === "0000") {
             console.log("所有审核原因", res);
             this.audit_state = 1;
@@ -341,10 +341,10 @@ export default {
             _person === 0 && _csign === 0 && _idcard === 0
               ? (this.$refs.audit.status = 1)
               : "";
-              // 传入当前页数据card-对象
-              this.curCardObj = card;
-              this.auditOptsByCase = res.result;
-              console.log("auditOptsByCase:: ",this.auditOptsByCase);
+            // 传入当前页数据card-对象
+            this.curCardObj = card;
+            this.auditOptsByCase = res.result;
+            console.log("auditOptsByCase:: ", this.auditOptsByCase);
           }
         });
     },
@@ -463,9 +463,9 @@ $themeColor: #193b8c;
         border-radius: 10px;
         overflow: hidden;
         // position: relative;
-        .errImg{
+        .errImg {
           position: absolute;
-          margin:auto;
+          margin: auto;
           top: 0;
           left: 0;
           right: 0;
@@ -647,12 +647,44 @@ $themeColor: #193b8c;
     }
   }
   .arrow_left {
+    top: 50%;
     left: 16%;
-    background-image: url(./../../../assets/img/rct_page01.png);
+    width: 120px;
+    height: 120px;
+    &:after {
+      margin: 16px 0 0 16px;
+      content: "";
+      display: block;
+      opacity: 0.1;
+      width: 89px;
+      height: 89px;
+      background-image: url(./../../../assets/img/rct_page01.png);
+    }
+    &:hover {
+      &:after {
+        opacity: 1;
+      }
+    }
   }
   .arrow_right {
+    top: 50%;
     right: 16%;
-    background-image: url(./../../../assets/img/rct_page02.png);
+    width: 120px;
+    height: 120px;
+    &:after {
+      margin: 16px 0 0 16px;
+      content: "";
+      display: block;
+      opacity: 0.1;
+      width: 89px;
+      height: 89px;
+      background-image: url(./../../../assets/img/rct_page02.png);
+    }
+    &:hover {
+      &:after {
+        opacity: 1;
+      }
+    }
   }
 }
 

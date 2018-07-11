@@ -113,7 +113,7 @@
         clearInterval(this.timer);
       },
       timerFn(type) {
-        let step = 15;
+        let step = 40;//15
         this.timer = setInterval(() => {
           if(!this.isRoll){
             return;

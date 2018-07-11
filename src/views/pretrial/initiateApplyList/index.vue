@@ -204,40 +204,48 @@ export default {
       columnDefine: [
         {
           label: "互金企业",
-          property: "clientName"
+          property: "clientName",
+          width:100
         },
         {
           label: "产品名称",
-          property: "productName"
+          property: "productName",
+          width:100
         },
         {
           label: "被申请人",
-          property: "respondentName"
+          property: "respondentName",
+          width:100
         },
         {
           label: "被申请人手机",
           property: "resPhone",
-          width: "140px"
+          width:140
         },
         {
           label: "住所地",
-          property: "address"
+          property: "address",
+          width:100
         },
         {
           label: "标的金额",
-          property: "amtCase"
+          property: "amtCase",
+          width:100
         },
         {
           label: "逾期天数",
-          property: "overdueDate"
+          property: "overdueDate",
+          width:100
         },
         {
           label: "推送日期",
-          property: "pushDate"
+          property: "pushDate",
+          width:120
         },
         {
           label: "还款情况",
-          property: "repayment"
+          property: "repayment",
+          width:100
         }
       ]
     };
