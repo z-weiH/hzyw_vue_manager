@@ -98,7 +98,7 @@
           <p class="audit_title">审核意见:</p>
           <ul>
             <li v-for="(msg,index) in card.auditListWrap">
-              {{msg.reasonMsg}}
+              {{index +1 +"."+msg.reasonMsg}}
             </li>
           </ul>
         </div>
@@ -189,7 +189,7 @@ export default {
       this.$msgbox({
         title: "提示",
         message: h("div", null, [
-          h("p", null, "即将提交身份证结果。提交后讲无法修改。"),
+          h("p", null, "即将提交身份证结果。提交后将无法修改。"),
           h("p", null, "确定提交?")
         ]),
         center: true,

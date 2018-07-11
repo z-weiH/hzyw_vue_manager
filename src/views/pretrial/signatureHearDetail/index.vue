@@ -74,7 +74,7 @@
           <div class="audit clear " v-if="sign.checkSignList.length > 0">
             <p class="audit_title">审核意见:</p>
             <ul>
-              <li v-for="(check, ii) in sign.checkSignList" :key="ii">{{check.reasonMsg}}</li>
+              <li v-for="(check, ii) in sign.checkSignList" :key="ii">{{ii+1+"."+check.reasonMsg}}</li>
             </ul>
           </div>
         </div>
@@ -166,7 +166,7 @@ export default {
       this.$msgbox({
         title: "提示",
         message: h("div", null, [
-          h("p", null, "即将提交身份证结果。提交后讲无法修改。"),
+          h("p", null, "即将提交身份证结果。提交后将无法修改。"),
           h("p", null, "确定提交?")
         ]),
         center: true,

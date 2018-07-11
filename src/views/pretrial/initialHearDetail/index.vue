@@ -56,7 +56,7 @@
       <ul class="info_ul">
         <li>
             <el-button type="primary" v-if="info.idStatus === 0" class="fr mt-10" @click="gotoIdCard(info)">审核</el-button>
-            <el-button type="primary" v-if="info.idStatus === 1" class="fr mt-10" @click="gotoIdCard(info,true)">查看</el-button>
+            <span  v-if="info.idStatus === 1"  style="font-size: 15px;" class="fr colLink mt-20" @click="gotoIdCard(info,true)">查看</span>
           <p class="info_title">身份证信息</p>
           <p v-if="info.countIdChecked === 0 && info.idStatus === 0">审核未开始</p>
           <p v-if="info.countIdChecked !== 0 && info.idStatus === 0">已审核到第{{info.countIdChecked}}件</p>
@@ -64,7 +64,7 @@
         </li>
         <li>
           <el-button type="primary" v-if="info.signStatus === 0" class="fr mt-10" @click="gotoSignature(info)">审核</el-button>
-          <el-button type="primary" v-if="info.signStatus === 1" class="fr mt-10" @click="gotoSignature(info,true)">查看</el-button>
+          <span  v-if="info.signStatus === 1" style="font-size: 15px;" class="colLink fr mt-20" @click="gotoSignature(info,true)">查看</span>
           <p class="info_title">签名信息</p>
           <p v-if="info.countSignChecked === 0 && info.signStatus === 0">审核未开始</p>
           <p v-if="info.countSignChecked !== 0 && info.signStatus === 0">已审核到第{{info.countSignChecked}}件</p>
@@ -72,7 +72,7 @@
         </li>
         <li>
           <el-button type="primary" v-if="info.eviStatus === 0" class="fr mt-10" @click="gotoeEidenceWire(info)">审核</el-button>
-          <el-button type="primary" v-if="info.eviStatus === 1" class="fr mt-10" @click="gotoeEidenceWire(info,true)">查看</el-button>
+          <span v-if="info.eviStatus === 1" style="font-size: 15px;" class="colLink fr mt-20" @click="gotoeEidenceWire(info,true)">查看</span>
           <p class="info_title">证据链信息</p>
           <p v-if="info.countEviChecked === 0 && info.eviStatus === 0">审核未开始</p>
           <p v-if="info.countEviChecked !== 0 && info.eviStatus === 0">已审核到第{{info.countEviChecked}}件</p>
@@ -99,13 +99,15 @@
       width="560px"
       center>
 
-      <div class="fl">
+      <div class="fl" style="padding-left: 80px;">
         退回原因：
       </div>
-      <div class="fl">
-        <span>{{logReason}}</span>
+      <div class="fl" style="padding-left: 50px;">
+        <ul>
+          <li v-for="log in logReasonList">{{log}}</li>
+        </ul>
       </div>
-      <span slot="footer" class="dialog-footer">
+      <span slot="footer" class="dialog-footer clear">
           <el-button type="primary"  @click="showReason = 0">关  闭</el-button>
         </span>
     </el-dialog>
@@ -129,7 +131,7 @@
         logItems: [],
 
         showReason: false,
-        logReason: ''
+        logReasonList: ''
       }
     },
     computed: {
@@ -184,17 +186,14 @@
         });
 
       },
-      handleResult(info) {
-        this.showReason = true;
-        this.logReason = info.returnMsg;
-      },
+
       //查看退回原因
       HandleShowReason(log) {
         this.$http.post('firstAudit/queryReturnMsg.htm',{logId: log.logId})
           .then(res => {
             if(res.code === '0000'){
               this.showReason = true;
-              this.logReason = res.result.returnMsg;
+              this.logReasonList = res.result.returnMsg.split('\n');
             }
           })
 
