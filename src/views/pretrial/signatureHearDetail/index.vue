@@ -63,7 +63,7 @@
           </table>
           <div class="img_desc fr">
             <ul>
-              <li v-for="(audit,i) in sign.signAuditList" :key="i">
+              <li v-for="(audit,i) in sign.signAuditList.reverse()" :key="i">
                 <img class="mr-10" src="@/assets/img/error_tag.png" v-if="audit.auditStatus == 0" alt="">
                 <img class="mr-5" src="@/assets/img/success_tag.png" v-if="audit.auditStatus == 1" alt="">
                 <img class="ml-5 mr-10" src="@/assets/img/warning_tag.png" v-if="audit.auditStatus == 2" alt="">
