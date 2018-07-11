@@ -58,7 +58,7 @@
       }
     },
     mounted() {
-      console.log("ddddd: ", zqdata);
+      console.log("ddddd: ", this.zqdata);
     },
     components: {}
   };
