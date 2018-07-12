@@ -295,9 +295,16 @@ export default {
         })
         .then(res => {
           console.log("newQuery>>>", res.result);
-          this.idCardList = res.result.list;
-          this.count = res.result.count;
-          this.pager.total = res.result.count;
+          if(res.code === "0000"){
+            this.idCardList = res.result.list;
+            this.count = res.result.count;
+            this.pager.total = res.result.count;
+            // console.log('this.idCardList: ',this.idCardList);
+            // this.idCardList.forEach(it => {
+            //   console.log('-----');
+            //   it.sign.signList.reverse();
+            // });
+          }
         });
       // } else {
       //   this.getRecheckDetail();
@@ -372,10 +379,17 @@ export default {
         })
         .then(res => {
           console.log("detail>->", res.result);
-          this.idCardList = res.result.list;
-          console.log("len-idCardList.length:: ", this.idCardList.length);
-          this.count = res.result.count;
-          this.pager.total = res.result.count;
+          if(res.code === "0000"){
+            this.idCardList = res.result.list;
+            console.log("len-idCardList.length:: ", this.idCardList.length);
+            this.count = res.result.count;
+            this.pager.total = res.result.count;
+
+            this.idCardList.forEach(it => {
+              console.log(it);
+              it.sign.signAuditList.reverse();
+            });
+          }
         });
     }
   },
