@@ -12,14 +12,6 @@
     </div>
     <div class='item-table'>
       <table-component :pager="pager" @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData" :column-define="columnDefine">
-        <!-- <el-table-column :resizable="false" label="还款情况" prop="repaymentStatus" slot="defineCol">
-          <template slot-scope="scope">
-             <span v-if="scope.row.repaymentStatus == 1">有还款</span>
-             <span v-if="scope.row.repaymentStatus == 2">无还款</span>
-             <span v-if="scope.row.repaymentStatus == 3">有仲裁后还款</span>
-             <span v-if="scope.row.repaymentStatus == 4">无仲裁后还款</span>
-          </template>
-        </el-table-column> -->
       </table-component>
     </div>
     <apply-case-dialog :editState="editState" :pager="pager" :item="item"></apply-case-dialog>
@@ -144,7 +136,7 @@ export default {
           label: "住所地",
           type: "cascader",
           colSpan: 4,
-          property: "resAddress",
+          property: "resAddress1",
           options: rawCitiesData,
           cusClass: "c_place"
         },
@@ -250,11 +242,11 @@ export default {
       ]
     };
   },
-  watch: {
-    value(val, oldval) {
-      console.error(val, oldval);
-    }
-  },
+  // watch: {
+  //   value(val, oldval) {
+  //     console.error(val, oldval);
+  //   }
+  // },
   methods: {
     searchItemChange(item) {
       console.error(item);
@@ -283,8 +275,7 @@ export default {
     doQuery(url, item) {
       console.log(JSON.stringify(item.resAddress));
       let place = $('[data-hk="c_place"]').find('input')[0].defaultValue;
-      // console.log($('[data-hk="c_place"]').find('input')[0].defaultValue);
-      // item["resAddress"] = JSON.stringify(item.resAddress);
+
       let _idx = place.indexOf('/');
       item["resAddress"] = place.slice(_idx+1);
       console.log("搜索因素：：", item);
