@@ -60,7 +60,7 @@
           <p class="info_title">身份证信息</p>
           <p v-if="info.countIdChecked === 0 && info.idStatus === 0">审核未开始</p>
           <p v-if="info.countIdChecked !== 0 && info.idStatus === 0">已审核到第{{info.countIdChecked}}件</p>
-          <p v-if="info.idStatus !== 0">通过{{info.idCheck.passNum}}件，未通过{{info.idCheck.unPassNum}}件</p>
+          <p v-if="info.idStatus !== 0">通过{{info.idCheck && info.idCheck.passNum}}件，未通过{{info.idCheck && info.idCheck.unPassNum}}件</p>
         </li>
         <li>
           <el-button type="primary" v-if="info.signStatus === 0" class="fr mt-10" @click="gotoSignature(info)">审核</el-button>
@@ -68,7 +68,7 @@
           <p class="info_title">签名信息</p>
           <p v-if="info.countSignChecked === 0 && info.signStatus === 0">审核未开始</p>
           <p v-if="info.countSignChecked !== 0 && info.signStatus === 0">已审核到第{{info.countSignChecked}}件</p>
-          <p v-else-if="info.signStatus !== 0">通过{{info.signCheck.passNum}}件，未通过{{info.signCheck.unPassNum}}件</p>
+          <p v-else-if="info.signStatus !== 0">通过{{info.signCheck&& info.signCheck.passNum}}件，未通过{{ info.signCheck && info.signCheck.unPassNum}}件</p>
         </li>
         <li>
           <el-button type="primary" v-if="info.eviStatus === 0" class="fr mt-10" @click="gotoeEidenceWire(info)">审核</el-button>
@@ -76,7 +76,7 @@
           <p class="info_title">证据链信息</p>
           <p v-if="info.countEviChecked === 0 && info.eviStatus === 0">审核未开始</p>
           <p v-if="info.countEviChecked !== 0 && info.eviStatus === 0">已审核到第{{info.countEviChecked}}件</p>
-          <p v-else-if="info.eviStatus !== 0">通过{{info.eviCheck.passNum}}件，未通过{{info.eviCheck.unPassNum}}件</p>
+          <p v-else-if="info.eviStatus !== 0">通过{{info.eviCheck && info.eviCheck.passNum}}件，未通过{{info.eviCheck && info.eviCheck.unPassNum}}件</p>
         </li>
       </ul>
 
