@@ -693,7 +693,7 @@ router.beforeEach((to, from, next) => {
             });
           });
         }
-        fn(tree);0
+        fn(tree);
 
         // 权限判断
         if ( (treeList.indexOf(to.path.slice(6)) !== -1) || (jurisdictionExclude.indexOf(to.path) !== -1) ) {
