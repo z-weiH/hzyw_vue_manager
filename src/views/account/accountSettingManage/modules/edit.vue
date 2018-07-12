@@ -14,7 +14,10 @@
           <el-button type="primary" @click="save(0)">保 存</el-button>
           <el-button type="primary" @click="save(1)">确认提交</el-button>
           <el-button @click="$parent.editState = 0">取 消</el-button>
-        </span>
+    </span>
+    <span slot="footer" class="dialog-footer" v-if="editState == 9 ">
+          <el-button @click="$parent.editState = 0">返  回</el-button>
+    </span>
   </el-dialog>
 </template>
 

@@ -48,13 +48,13 @@
         </div>
       </div>
       <div class="card_body">
-        <div class="img zhen">
+        <div class="img zhen fl">
           <pic-zoom ref="picZoom" :url="card.respondentInfo.image02" :scale="3" :scroll="true"></pic-zoom>
         </div>
-        <div class="img fan">
+        <div class="img fan fl">
           <pic-zoom ref="picZoom" :url="card.respondentInfo.image01" :scale="3" :scroll="true"></pic-zoom>
         </div>
-        <div class="img_desc">
+        <div class="img_desc fl" style="max-width: 380px">
           <ul>
             <li>
               <img class="mr-10" v-if="card.auditInfoWrap.nameStatus === 0 || card.checkName"  src="@/assets/img/error_tag.png" alt="">
@@ -161,6 +161,10 @@ export default {
     },
     passStatus(val,oldVal){
       this.HandleQuery();
+    },
+    'pager.currentNum':function(val,oldval){
+      console.log(val);
+      this.$set(this.pager,'currentNum',val);
     }
   },
   methods: {
@@ -320,16 +324,15 @@ export default {
             }else{
               document.documentElement.querySelector('.body_container').scrollTo(0,0);
             }
+            console.error(this.pager);
           }
         });
     },
     scrollFunc() {
       this.$refs.picZoom.forEach(it => {
-        // console.log(document.documentElement.scrollTop);
-        console.log(document.documentElement.querySelector('.body_container').scrollTop);
-        this.pager.currentNum = Math.ceil(this.markflag/20);
-        if(this.pager.currentNum === 0)
-          this.pager.currentNum = 1;
+        // this.pager.currentNum = Math.ceil(this.markflag/20);
+        // if(this.pager.currentNum === 0)
+        //   this.pager.currentNum = 1;
         setTimeout(()=> {
           it.initTime()
         },300)
@@ -346,7 +349,7 @@ export default {
     this.markflag = this.$route.query.markflag;
     this.disabled = this.$route.query.disabled;
     this.batchNo = this.$route.query.batchNo;
-    this.pager.currentNum = Math.ceil(this.markflag/1);
+    this.pager.currentNum = Math.ceil(this.markflag/20);
     if(this.pager.currentNum === 0)
       this.pager.currentNum = 1;
     this.HandleQuery(true);
