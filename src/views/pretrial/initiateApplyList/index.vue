@@ -255,8 +255,10 @@ export default {
         switch (item[i]) {
           case "merchantCode":
             this.queryProductList(item["value"]);
-            this.defaultButtonStatus();
             break;
+          case "templateId":
+          // this.defaultButtonStatus();
+           break;
           default:
             break;
         }
@@ -309,6 +311,18 @@ export default {
             this.query(url, item).then(res => {
               this.tableData = res.result.list;
               this.total = res.result.count;
+              console.log('love***8: ',item);
+              for(let i in item){
+                // console.log(i);
+                if(i == "templateId"){
+                  // console.log(item[i]);
+                  if(item[i] != ""){
+                    if(this.tableData.length != 0){
+                      this.defaultButtonStatus();
+                    }
+                  }
+                }
+              }
             });
           }
         }
@@ -355,6 +369,22 @@ export default {
       // this.$http.post(URL_JSON['queryApplyCaseNum'],this.item).then(res=>{
       //   console.log('申请立案：',res.result);
       // });
+    },
+    queryList(url,item){
+      Object.assign(item, this.pager, this.fixedSearchItrems);
+      let promise = this.$http.post(url,item).then(res=>{
+        if(res.code === "0000"){
+            this.tableData = res.result.list;
+            this.pager.count = res.result.count;
+            if(this.tableData.length === 0){
+
+            }else{}
+        }else{
+            this.$message.error(res.description);
+        }
+        return res;
+      });
+      return promise;
     }
   },
 
