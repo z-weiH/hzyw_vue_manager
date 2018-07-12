@@ -12,19 +12,19 @@
 
         <el-form-item label=" " prop="accountAge">
           <el-select clearable style="width:120px;" v-model="ruleForm.accountAge" placeholder="请选择账龄">
-            <el-option label="1~30天" value="M1"></el-option>
-            <el-option label="31~60天" value="M2"></el-option>
-            <el-option label="61~90天" value="M3"></el-option>
-            <el-option label="91~120天" value="M4"></el-option>
-            <el-option label="121~150天" value="M5"></el-option>
-            <el-option label="151~180天" value="M6"></el-option>
-            <el-option label="181~210天" value="M7"></el-option>
-            <el-option label="211~240天" value="M8"></el-option>
-            <el-option label="241~270天" value="M9"></el-option>
-            <el-option label="271~300天" value="M10"></el-option>
-            <el-option label="301~330天" value="M11"></el-option>
-            <el-option label="331~360天" value="M12"></el-option>
-            <el-option label="360天以上" value="M12以上"></el-option>
+            <el-option label="1~30天" value="M0"></el-option>
+            <el-option label="31~60天" value="M1"></el-option>
+            <el-option label="61~90天" value="M2"></el-option>
+            <el-option label="91~120天" value="M3"></el-option>
+            <el-option label="121~150天" value="M4"></el-option>
+            <el-option label="151~180天" value="M5"></el-option>
+            <el-option label="181~210天" value="M6"></el-option>
+            <el-option label="211~240天" value="M7"></el-option>
+            <el-option label="241~270天" value="M8"></el-option>
+            <el-option label="271~300天" value="M9"></el-option>
+            <el-option label="301~330天" value="M10"></el-option>
+            <el-option label="331~360天" value="M11"></el-option>
+            <el-option label="360天以上" value="M12"></el-option>
           </el-select>
         </el-form-item>
 
@@ -119,7 +119,6 @@
         <el-table-column align="center" prop="status" label="状态" width="150px">
           <template slot-scope="scope">
             {{
-              
               scope.row.status === 0 ? '待分配' : 
               scope.row.status === 1 ? '待初审' : 
               scope.row.status === 2 ? '待复审' : 
@@ -220,7 +219,7 @@
             currentNum : this.currentPage,
 
             keyWords : this.ruleForm.keyWords,
-            accountAge : this.ruleForm.keyWords,
+            accountAge : this.ruleForm.accountAge,
             pushStartDate : this.ruleForm.pushStartDate,
             pushEndDate : this.ruleForm.pushEndDate,
             queryStartDate : this.ruleForm.queryStartDate,

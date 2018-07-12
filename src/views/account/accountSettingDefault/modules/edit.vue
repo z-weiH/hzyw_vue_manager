@@ -18,7 +18,10 @@
           <el-button type="primary" @click="save(2)">通 过</el-button>
           <el-button @click="save(3)">不通过</el-button>
           <el-button @click="$parent.editState = 0">取 消</el-button>
-        </span>
+    </span>
+    <span slot="footer" class="dialog-footer" v-if="editState == 9 ">
+          <el-button @click="$parent.editState = 0">返  回</el-button>
+    </span>
   </el-dialog>
 </template>
 
