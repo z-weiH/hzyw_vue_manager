@@ -257,7 +257,6 @@ export default {
             this.queryProductList(item["value"]);
             break;
           case "templateId":
-          // this.defaultButtonStatus();
            break;
           default:
             break;
@@ -370,28 +369,11 @@ export default {
       //   console.log('申请立案：',res.result);
       // });
     },
-    queryList(url,item){
-      Object.assign(item, this.pager, this.fixedSearchItrems);
-      let promise = this.$http.post(url,item).then(res=>{
-        if(res.code === "0000"){
-            this.tableData = res.result.list;
-            this.pager.count = res.result.count;
-            if(this.tableData.length === 0){
-
-            }else{}
-        }else{
-            this.$message.error(res.description);
-        }
-        return res;
-      });
-      return promise;
-    }
   },
 
   mounted() {
     this.doQuery(this.queryUrl, this.searchItem);
     this.companyfinance("");
-    // this.defaultButtonStatus();
     this.cityDataChange();
   },
   components: {
