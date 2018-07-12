@@ -63,7 +63,7 @@
           </table>
           <div class="img_desc fr">
             <ul>
-              <li v-for="(audit,i) in sign.signAuditList.reverse()" :key="i">
+              <li v-for="(audit,i) in sign.signAuditList" :key="i">
                 <img class="mr-10" src="@/assets/img/error_tag.png" v-if="audit.auditStatus == 0" alt="">
                 <img class="mr-5" src="@/assets/img/success_tag.png" v-if="audit.auditStatus == 1" alt="">
                 <img class="ml-5 mr-10" src="@/assets/img/warning_tag.png" v-if="audit.auditStatus == 2" alt="">
@@ -240,15 +240,18 @@ export default {
          obj
         )
         .then(res => {
-          console.log(res);
           if (res.code === "0000") {
             this.signatureItems = res.result.list;
+            this.signatureItems.forEach(it => {
+              it.signAuditList.reverse();
+            });
+            console.log(this.signatureItems);
             this.count = res.result.totalCount;
             this.pager.total = res.result.count;
             if (mark) {
               setTimeout(() => {
-                console.log(this.$refs[this.markflag][0].offsetTop);
-                document.documentElement.querySelector('.body_container').scrollTo(0,this.$refs[this.markflag][0].offsetTop)
+                if(this.$refs[this.markflag])
+                  document.documentElement.querySelector('.body_container').scrollTo(0,this.$refs[this.markflag][0].offsetTop)
               }, 500);
             }else{
               document.documentElement.querySelector('.body_container').scrollTo(0,0);

@@ -693,7 +693,8 @@ router.beforeEach((to, from, next) => {
             });
           });
         }
-        fn(tree);
+        fn(tree);0
+
         // 权限判断
         if ( (treeList.indexOf(to.path.slice(6)) !== -1) || (jurisdictionExclude.indexOf(to.path) !== -1) ) {
           // 高亮左侧导航
@@ -714,7 +715,7 @@ router.beforeEach((to, from, next) => {
         router.replace(`/login?returnUrl=${router.history.pending.path}`);
       }
     }
-    
+
   }
 });
 
