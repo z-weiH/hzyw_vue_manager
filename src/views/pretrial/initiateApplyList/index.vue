@@ -72,55 +72,55 @@ export default {
           options: [
             {
               label: "1-30天 M1",
-              value: "m0"
+              value: "M0"
             },
             {
               label: "31-60天 M2",
-              value: "m1"
+              value: "M1"
             },
             {
               label: "61-90天 M3",
-              value: "m2"
+              value: "M2"
             },
             {
               label: "91-120天 M4",
-              value: "m3"
+              value: "M3"
             },
             {
               label: "121天-150天 M5",
-              value: "m4"
+              value: "M4"
             },
             {
               label: "151天-180天 M6",
-              value: "m5"
+              value: "M5"
             },
             {
               label: "181天-210天 M7",
-              value: "m6"
+              value: "M6"
             },
             {
               label: "211天-240天 M8",
-              value: "m7"
+              value: "M7"
             },
             {
               label: "241天-270天 M9",
-              value: "m8"
+              value: "M8"
             },
             {
               label: "271天-300天 M10",
-              value: "m9"
+              value: "M9"
             },
             {
               label: "301天-330天 M11",
-              value: "m10"
+              value: "M10"
             },
             {
               label: "331天-360天 M12",
-              value: "m11"
+              value: "M11"
             },
             {
               label: "360天以上 M12以上",
-              value: "m12"
+              value: "M12"
             }
           ]
         },
@@ -254,6 +254,8 @@ export default {
       for (let i in item) {
         switch (item[i]) {
           case "merchantCode":
+          console.log("value---",item["value"]);
+          !item["value"] && (this.searchItem.templateId = "");
             this.queryProductList(item["value"]);
             break;
           case "templateId":

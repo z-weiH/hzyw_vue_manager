@@ -180,16 +180,18 @@ export default {
   methods: {
     searchItemChange(item) {
       console.error(item);
-      for (var i in item) {
+      for (let i in item) {
         switch (item[i]) {
           case "merchantCode":
-            console.log(item["value"]);
+            console.log('1---',item["value"]);
             this.optsPduListView({ merchantCode: item["value"] });
             break;
           case "caseProcess":
+          console.log('2----',item["value"]);
             this.optsHkCaseStatusView({ status: item["value"] });
             break;
           case "operType":
+          console.log('3----',item["value"]);
             this.optsObjListView({ operType: item["value"] });
             break;
           default:
