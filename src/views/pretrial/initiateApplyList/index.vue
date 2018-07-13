@@ -12,14 +12,6 @@
     </div>
     <div class='item-table'>
       <table-component :pager="pager" @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData" :column-define="columnDefine">
-        <!-- <el-table-column :resizable="false" label="还款情况" prop="repaymentStatus" slot="defineCol">
-          <template slot-scope="scope">
-             <span v-if="scope.row.repaymentStatus == 1">有还款</span>
-             <span v-if="scope.row.repaymentStatus == 2">无还款</span>
-             <span v-if="scope.row.repaymentStatus == 3">有仲裁后还款</span>
-             <span v-if="scope.row.repaymentStatus == 4">无仲裁后还款</span>
-          </template>
-        </el-table-column> -->
       </table-component>
     </div>
     <apply-case-dialog :editState="editState" :pager="pager" :item="item"></apply-case-dialog>
@@ -80,55 +72,55 @@ export default {
           options: [
             {
               label: "1-30天 M1",
-              value: "m0"
+              value: "M0"
             },
             {
               label: "31-60天 M2",
-              value: "m1"
+              value: "M1"
             },
             {
               label: "61-90天 M3",
-              value: "m2"
+              value: "M2"
             },
             {
               label: "91-120天 M4",
-              value: "m3"
+              value: "M3"
             },
             {
               label: "121天-150天 M5",
-              value: "m4"
+              value: "M4"
             },
             {
               label: "151天-180天 M6",
-              value: "m5"
+              value: "M5"
             },
             {
               label: "181天-210天 M7",
-              value: "m6"
+              value: "M6"
             },
             {
               label: "211天-240天 M8",
-              value: "m7"
+              value: "M7"
             },
             {
               label: "241天-270天 M9",
-              value: "m8"
+              value: "M8"
             },
             {
               label: "271天-300天 M10",
-              value: "m9"
+              value: "M9"
             },
             {
               label: "301天-330天 M11",
-              value: "m10"
+              value: "M10"
             },
             {
               label: "331天-360天 M12",
-              value: "m11"
+              value: "M11"
             },
             {
               label: "360天以上 M12以上",
-              value: "m12"
+              value: "M12"
             }
           ]
         },
@@ -144,7 +136,7 @@ export default {
           label: "住所地",
           type: "cascader",
           colSpan: 4,
-          property: "resAddress",
+          property: "resAddress1",
           options: rawCitiesData,
           cusClass: "c_place"
         },
@@ -250,11 +242,11 @@ export default {
       ]
     };
   },
-  watch: {
-    value(val, oldval) {
-      console.error(val, oldval);
-    }
-  },
+  // watch: {
+  //   value(val, oldval) {
+  //     console.error(val, oldval);
+  //   }
+  // },
   methods: {
     searchItemChange(item) {
       console.error(item);
@@ -262,9 +254,12 @@ export default {
       for (let i in item) {
         switch (item[i]) {
           case "merchantCode":
+          console.log("value---",item["value"]);
+          !item["value"] && (this.searchItem.templateId = "");
             this.queryProductList(item["value"]);
-            this.defaultButtonStatus();
             break;
+          case "templateId":
+           break;
           default:
             break;
         }
@@ -283,8 +278,7 @@ export default {
     doQuery(url, item) {
       console.log(JSON.stringify(item.resAddress));
       let place = $('[data-hk="c_place"]').find('input')[0].defaultValue;
-      // console.log($('[data-hk="c_place"]').find('input')[0].defaultValue);
-      // item["resAddress"] = JSON.stringify(item.resAddress);
+
       let _idx = place.indexOf('/');
       item["resAddress"] = place.slice(_idx+1);
       console.log("搜索因素：：", item);
@@ -318,6 +312,18 @@ export default {
             this.query(url, item).then(res => {
               this.tableData = res.result.list;
               this.total = res.result.count;
+              console.log('love***8: ',item);
+              for(let i in item){
+                // console.log(i);
+                if(i == "templateId"){
+                  // console.log(item[i]);
+                  if(item[i] != ""){
+                    if(this.tableData.length != 0){
+                      this.defaultButtonStatus();
+                    }
+                  }
+                }
+              }
             });
           }
         }
@@ -364,13 +370,12 @@ export default {
       // this.$http.post(URL_JSON['queryApplyCaseNum'],this.item).then(res=>{
       //   console.log('申请立案：',res.result);
       // });
-    }
+    },
   },
 
   mounted() {
     this.doQuery(this.queryUrl, this.searchItem);
     this.companyfinance("");
-    // this.defaultButtonStatus();
     this.cityDataChange();
   },
   components: {

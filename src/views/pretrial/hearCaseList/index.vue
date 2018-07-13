@@ -10,8 +10,8 @@
           <el-input style="width:400px;" v-model.trim="ruleForm.keyWords" placeholder="请输入互金企业、产品名称、模板号、被申请人姓名、手机"></el-input>
         </el-form-item>
 
-        <el-form-item label=" " prop="accountAge">
-          <el-select clearable style="width:120px;" v-model="ruleForm.accountAge" placeholder="请选择账龄">
+        <el-form-item label=" " prop="accountPeriodType">
+          <el-select clearable style="width:120px;" v-model="ruleForm.accountPeriodType" placeholder="请选择账龄">
             <el-option label="1~30天" value="M0"></el-option>
             <el-option label="31~60天" value="M1"></el-option>
             <el-option label="61~90天" value="M2"></el-option>
@@ -163,7 +163,7 @@
           // 互金企业
           keyWords : '',
           // 账龄
-          accountAge : '',
+          accountPeriodType : '',
           // 推送开始时间
           pushStartDate : '',
           // 推送结束时间
@@ -219,7 +219,7 @@
             currentNum : this.currentPage,
 
             keyWords : this.ruleForm.keyWords,
-            accountAge : this.ruleForm.accountAge,
+            accountPeriodType : this.ruleForm.accountPeriodType,
             pushStartDate : this.ruleForm.pushStartDate,
             pushEndDate : this.ruleForm.pushEndDate,
             queryStartDate : this.ruleForm.queryStartDate,

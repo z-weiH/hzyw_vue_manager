@@ -7,7 +7,7 @@
         <ul>
           <li>申请<span class="f_orange">{{zqdata.totalCase}}</span>件案件，共需消耗仲券<span class="f_orange">{{zqdata.needTicketCount}}</span>张，受理费<span>{{zqdata.totalAmt}}</span>元。</li>
           <li>该平台账户仲券及受理费充足，可以申请立案。</li>
-          <li>确定对<span class="f_orange">{{zqdata.factCaseCount}}</span>件案件申请立案？</li>
+          <li>确定对<span class="f_orange">{{zqdata.totalCase}}</span>件案件申请立案？</li>
         </ul>
       </div>
       <div v-if="zqdata.resultType === 2">
