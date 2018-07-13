@@ -277,6 +277,8 @@
       }
     },
     mounted() {
+      console.log(12313123123);
+      this.$store.commit('menu/setMenuActive','/main/initialHearList');
       this.batchNo = this.$route.query.batchNo;
       this.getBatchInfo();
       this.getBatchLog();

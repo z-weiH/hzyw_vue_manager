@@ -546,7 +546,7 @@ let router = new Router({
           component: () =>
             import ('@/views/pretrial/initialHearDetail'), //案件初审 审核页面
           meta: {
-            name: 'initialHearDetail',
+            name: 'initialHearList',
           },
         },
         {
@@ -562,7 +562,7 @@ let router = new Router({
           component: () =>
             import ('@/views/pretrial/redoHearDetail'), //案件复审 审核页面
           meta: {
-            name: 'redoHearDetail',
+            name: 'redoHearList',
           },
         },
         {
