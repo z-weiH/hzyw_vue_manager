@@ -86,25 +86,17 @@ export default {
           property: "reviewStatus",
           options: [
             {
+              value: "0",
+              label: "待审核"
+            },
+            {
               value: "1",
-              label: "待初审"
+              label: "初审中"
             },
             {
               value: "2",
-              label: "待复审"
+              label: "审核完成"
             },
-            {
-              value: "3",
-              label: "退回重审"
-            },
-            {
-              value: "4",
-              label: "预审通过"
-            },
-            {
-              value: "5",
-              label: "预审未通过"
-            }
           ]
         }
       ],
