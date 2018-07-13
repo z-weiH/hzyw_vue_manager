@@ -87,11 +87,11 @@ export default {
           options: [
             {
               value: "0",
-              label: "待审核"
+              label: "初审中"
             },
             {
               value: "1",
-              label: "初审中"
+              label: "待审核"
             },
             {
               value: "2",
