@@ -162,6 +162,7 @@ export default {
       window.open(url, "_blank");
     },
     HandleAudit() {
+      console.log( window.opener);
       const h = this.$createElement;
       this.$msgbox({
         title: "提示",
