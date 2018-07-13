@@ -154,14 +154,6 @@ export default {
               label: "无还款",
               value: "2"
             },
-            {
-              label: "有仲裁后还款",
-              value: "3"
-            },
-            {
-              label: "无仲裁后还款",
-              value: "4"
-            }
           ]
         },
         {
