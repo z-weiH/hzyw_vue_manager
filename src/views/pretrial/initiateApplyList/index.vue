@@ -163,7 +163,8 @@ export default {
           newline: 1,
           unit: "元",
           connectIco: "-",
-          property: "amtBorrowMin"
+          property: "amtBorrowMin",
+          format: /[^0-9]/g
         },
         {
           type: "rangeText",
@@ -242,7 +243,7 @@ export default {
   methods: {
     searchItemChange(item) {
       console.error(item);
-      console.error(this.item);
+      console.error(this.searchItem);
       for (let i in item) {
         switch (item[i]) {
           case "merchantCode":
@@ -252,6 +253,7 @@ export default {
             break;
           case "templateId":
            break;
+
           default:
             break;
         }

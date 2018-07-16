@@ -5,7 +5,7 @@
     <el-col class="mb-10" :span="searchItem.colSpan ? searchItem.colSpan : 6">
       <div v-if="searchItem.type == 'rangeText'" class="group_labels">
         <label :for="searchItem.labTid && searchItem.labTid()" class="groupIpt_lab">
-              <el-input :id="searchItem.labTid && searchItem.labTid()" v-if="searchItem.type == 'rangeText' || !searchItem.type" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder"></el-input>
+              <el-input :id="searchItem.labTid && searchItem.labTid()" v-if="searchItem.type == 'rangeText' || !searchItem.type" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder" @input.native="valueChange"></el-input>
               <span class="unit">{{searchItem.unit}}</span>
             </label>
         <label v-if="searchItem.connectIco" class="cc_Ico">{{searchItem.connectIco}}</label>
@@ -81,7 +81,13 @@ export default {
     valueChange() {
       let newObj = Object.create({});
       // newObj[this.searchItem.property] = val;
-      this.$emit("valueChange", this.searchItem.property);
+      this.$nextTick(() => {
+        console.log(this);
+        if(this.searchItem.format){
+          this.item[this.searchItem.property] = this.item[this.searchItem.property].replace(this.searchItem.format,'');
+          this.$emit("valueChange", this.searchItem.property);
+        }
+      })
     }
   },
   watch: {
