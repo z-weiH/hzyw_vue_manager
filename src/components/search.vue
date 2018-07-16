@@ -5,7 +5,11 @@
     <el-col class="mb-10" :span="searchItem.colSpan ? searchItem.colSpan : 6">
       <div v-if="searchItem.type == 'rangeText'" class="group_labels">
         <label :for="searchItem.labTid && searchItem.labTid()" class="groupIpt_lab">
+<<<<<<< HEAD
               <el-input type="number" :id="searchItem.labTid && searchItem.labTid()" v-if="searchItem.type == 'rangeText' || !searchItem.type" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder" @input.native="valueChange"></el-input>
+=======
+              <el-input :id="searchItem.labTid && searchItem.labTid()" v-if="searchItem.type == 'rangeText' || !searchItem.type" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder" @change="valueChange" @input.native="valueChange"></el-input>
+>>>>>>> eff7baf623239cb7fd7cafc4b07fae4fe45666cd
               <span class="unit">{{searchItem.unit}}</span>
             </label>
         <label v-if="searchItem.connectIco" class="cc_Ico">{{searchItem.connectIco}}</label>

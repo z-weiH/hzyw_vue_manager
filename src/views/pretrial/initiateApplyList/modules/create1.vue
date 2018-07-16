@@ -51,9 +51,11 @@
       confirmApCase() {
         this.$http.post(URL_JSON["confirmApplyCase"], this.item).then(res => {
           console.log("成功！", res.result);
+          this.$parent.$parent.initQuery(this.$parent.$parent.queryUrl, this.$parent.$parent.searchItem);
           this.$parent.editState1 = false;
           this.$parent.$parent.editState = 0;
           this.$message.success("立案成功");
+
         });
       }
     },
