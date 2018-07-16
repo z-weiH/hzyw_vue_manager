@@ -153,7 +153,7 @@ export default {
             {
               label: "无还款",
               value: "2"
-            },
+            }
           ]
         },
         {
@@ -190,48 +190,48 @@ export default {
         {
           label: "互金企业",
           property: "clientName",
-          width:100
+          width: 100
         },
         {
           label: "产品名称",
           property: "productName",
-          width:100
+          width: 100
         },
         {
           label: "被申请人",
           property: "respondentName",
-          width:100
+          width: 100
         },
         {
           label: "被申请人手机",
           property: "resPhone",
-          width:140
+          width: 140
         },
         {
           label: "住所地",
           property: "address",
-          width:100
+          width: 100
         },
         {
           label: "标的金额",
           property: "amtCase",
-          width:100
+          width: 100
         },
         {
           label: "逾期天数",
           property: "overdueDate",
-          width:100
+          width: 100
         },
         {
           label: "还款情况",
           property: "repayment",
-          width:100
+          width: 100
         },
         {
           label: "推送日期",
           property: "pushDate",
-          width:120
-        },
+          width: 120
+        }
       ]
     };
   },
@@ -247,12 +247,12 @@ export default {
       for (let i in item) {
         switch (item[i]) {
           case "merchantCode":
-          console.log("value---",item["value"]);
-          !item["value"] && (this.searchItem.templateId = "");
+            console.log("value---", item["value"]);
+            !item["value"] && (this.searchItem.templateId = "");
             this.queryProductList(item["value"]);
             break;
           case "templateId":
-           break;
+            break;
 
           default:
             break;
@@ -271,10 +271,10 @@ export default {
     },
     doQuery(url, item) {
       console.log(JSON.stringify(item.resAddress));
-      let place = $('[data-hk="c_place"]').find('input')[0].defaultValue;
+      let place = $('[data-hk="c_place"]').find("input")[0].defaultValue;
 
-      let _idx = place.indexOf('/');
-      item["resAddress"] = place.slice(_idx+1);
+      let _idx = place.indexOf("/");
+      item["resAddress"] = place.slice(_idx + 1);
       console.log("搜索因素：：", item);
       let _numMin = this.searchItem.amtBorrowMin,
         _numMax = this.searchItem.amtBorrowMax;
@@ -303,28 +303,44 @@ export default {
               center: true
             }).then(() => {});
           } else {
-            this.query(url, item).then(res => {
-              this.tableData = res.result.list;
-              this.total = res.result.count;
-              console.log('love***8: ',item);
-              for(let i in item){
-                // console.log(i);
-                if(i == "templateId"){
-                  // console.log(item[i]);
-                  if(item[i] != ""){
-                    if(this.tableData.length != 0){
-                      this.defaultButtonStatus();
-                    }
-                  }
-                }
-              }
-            });
+            this.initQuery(url, item);
           }
         }
       }
 
       console.log("start::", this.searchItem.amtBorrowMin);
       console.log("end::", this.searchItem.amtBorrowMax);
+    },
+    initQuery(url, item) {
+      this.query(url, item).then(res => {
+        this.tableData = res.result.list;
+        this.total = res.result.count;
+
+        let _lbNum_arr = [];
+        let _lbNum = "";
+        let loanNos_data = this.tableData.filter((el, idx, self) => {
+          console.log(el);
+          console.log(idx);
+          console.log(self);
+          console.log(self[idx]["loanBillNo"]);
+          _lbNum_arr.push(self[idx]["loanBillNo"]);
+          _lbNum = _lbNum_arr.join();
+        });
+        console.log("_lbNum: ", _lbNum);
+        console.log("love***8: ", item);
+        item.loanBillNos = _lbNum;
+        for (let i in item) {
+          // console.log(i);
+          if (i == "templateId") {
+            // console.log(item[i]);
+            if (item[i] != "") {
+              if (this.tableData.length != 0) {
+                this.defaultButtonStatus();
+              }
+            }
+          }
+        }
+      });
     },
     companyfinance(into) {
       console.log("互金企业");
@@ -364,7 +380,7 @@ export default {
       // this.$http.post(URL_JSON['queryApplyCaseNum'],this.item).then(res=>{
       //   console.log('申请立案：',res.result);
       // });
-    },
+    }
   },
 
   mounted() {
