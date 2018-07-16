@@ -36,7 +36,7 @@ export default {
       editState: 0,
       queryUrl: /* "/24" + */ URL_JSON["queryInitiateApplyList"],
       merchantOptions: [], //互金企业
-      tableData: [{}],
+      tableData: [],
       dfBtnStatus: true,
       searchItem: {},
       searchItems: [

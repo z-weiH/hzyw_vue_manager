@@ -57,7 +57,7 @@ export default {
       item: {},
       queryUrl: /*  "/20" + */ URL_JSON["queryRedoHearList"],
       queryFirstPersonURL: URL_JSON["queryFPurl"], //初审人api-url
-      tableData: [{}],
+      tableData: [],
       firstPerson: [], //初审人<select>
       fpersonType: {
         type: "OPERATOR" //初审人类型
