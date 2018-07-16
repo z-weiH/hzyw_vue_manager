@@ -59,11 +59,11 @@
       <div class="card_body">
         <div class="part_tit f_18">身份证信息</div>
         <div class="img zhen">
-          <pic-zoom v-if="card.idCard.image02" :url="card.idCard.image02" :scale="3"></pic-zoom>
+          <pic-zoom ref="picZoom" v-if="card.idCard.image02" :url="card.idCard.image02" :scale="3"></pic-zoom>
           <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
         </div>
         <div class="img fan">
-          <pic-zoom v-if="card.idCard.image02" :url="card.idCard.image01" :scale="3"></pic-zoom>
+          <pic-zoom ref="picZoom" v-if="card.idCard.image02" :url="card.idCard.image01" :scale="3"></pic-zoom>
           <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
         </div>
         <div class="img_desc">
@@ -295,7 +295,7 @@ export default {
         })
         .then(res => {
           console.log("newQuery>>>", res.result);
-          if(res.code === "0000"){
+          if (res.code === "0000") {
             this.idCardList = res.result.list;
             this.count = res.result.count;
             this.pager.total = res.result.count;
@@ -379,11 +379,19 @@ export default {
         })
         .then(res => {
           console.log("detail>->", res.result);
-          if(res.code === "0000"){
+          if (res.code === "0000") {
             this.idCardList = res.result.list;
             console.log("len-idCardList.length:: ", this.idCardList.length);
             this.count = res.result.count;
             this.pager.total = res.result.count;
+            this.$nextTick(() => {
+              console.log("piczoom :", this.$refs.picZoom);
+              setTimeout(() => {
+                this.$refs.picZoom.forEach(it => {
+                  it.initTime();
+                });
+              }, 300);
+            });
 
             this.idCardList.forEach(it => {
               console.log(it);
@@ -391,6 +399,13 @@ export default {
             });
           }
         });
+    },
+    scrollFunc() {
+      this.$refs.picZoom.forEach(it => {
+        setTimeout(() => {
+          it.initTime();
+        }, 300);
+      });
     }
   },
   mounted() {
@@ -399,6 +414,11 @@ export default {
     this.subViewType = this.$route.query.subViewType;
     this.auditStatus = 0;
     this.getRecheckDetail();
+    if (document.addEventListener) {
+      document.addEventListener("DOMMouseScroll", this.scrollFunc);
+    }
+    //IE及其他浏览器
+    window.onmousewheel = document.onmousewheel = this.scrollFunc;
   },
   created() {},
   components: {
