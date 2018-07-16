@@ -15,6 +15,10 @@
       </table>
       <table-edits :editDefines="editDefines" :item="audit" v-for="(audit,index) in item.auditList" :key="index" :disabled="true"></table-edits>
     </div>
+
+    <span slot="footer" class="dialog-footer">
+      <el-button @click="$parent.editState = 0">返回</el-button>
+    </span>
   </el-dialog>
 </template>
 
