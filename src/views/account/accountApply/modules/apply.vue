@@ -44,7 +44,7 @@
             {label: '邮箱(账户)：', type: 'text', placeholder: '请输入邮箱(账户)',columns:1,property: 'loginName',
               rule: [
                 { required: true, message: "不能为空", trigger: "blur" },
-                {required : false , pattern : /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ , message : '邮箱格式不正确'},
+                {required : false , pattern : /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ , message : '邮箱格式不正确' , trigger : 'blur'},
                 {
                   validator: (rule, value, callback) => {
                     if(this.editState === 9)
