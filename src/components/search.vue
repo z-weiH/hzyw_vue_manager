@@ -2,7 +2,7 @@
   <div>
     <div class="clear" v-if="searchItem.newline"></div>
     <div class="fl search-label" v-if="searchItem.label">{{searchItem.label+'：'}}</div>
-    <el-col class="mb-10" :span="searchItem.colSpan ? searchItem.colSpan : 6">
+    <el-col class="mb-10" :span="searchItem.colSpan ? searchItem.colSpan : 6" :style="{width : searchItem.width + 'px'}">
       <div v-if="searchItem.type == 'rangeText'" class="group_labels">
         <label :for="searchItem.labTid && searchItem.labTid()" class="groupIpt_lab">
               <el-input :id="searchItem.labTid && searchItem.labTid()" v-if="searchItem.type == 'rangeText' || !searchItem.type" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder" @keyup.native="valueChange"></el-input>

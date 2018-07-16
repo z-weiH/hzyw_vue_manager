@@ -164,13 +164,15 @@ export default {
           unit: "元",
           connectIco: "-",
           property: "amtBorrowMin",
-          format: /[^0-9]/g
+          format: /[^0-9]/g,
+          width:140
         },
         {
           type: "rangeText",
           colSpan: 3,
           unit: "元",
-          property: "amtBorrowMax"
+          property: "amtBorrowMax",
+          width:140
         },
         {
           label: "推送日期",
