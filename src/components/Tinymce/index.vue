@@ -138,6 +138,10 @@ export default {
       //console.log(tinymce.get(this.tinymceId).getContent({format: 'html'}));
       return window.tinymce.get(this.tinymceId).getContent()
     },
+    // 在光标处 设置数据
+    execCommand(value) {
+      window.tinymce.execCommand("mceInsertContent", false, value);
+    },
     // 导入word 成功回调
     imageSuccessCBK(res) {
       this.setContent(res);
