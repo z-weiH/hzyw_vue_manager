@@ -47,29 +47,31 @@ export default {
       return this.searchItem.type == "date" ? "yyyy-MM-dd" : "yyyyMM";
     },
     pickerOptions() {
-      if (this.searchItem && this.searchItem.lt ) {
+      if (this.searchItem && this.searchItem.lt) {
         return {
-          disabledDate: (time) => {
-            if(!this.item[this.searchItem.lt])
-              return false;
-            else if(new Date(time).getTime() > new Date(this.item[this.searchItem.lt]).getTime()){
-              return true
-            }
-            else{
+          disabledDate: time => {
+            if (!this.item[this.searchItem.lt]) return false;
+            else if (
+              new Date(time).getTime() >
+              new Date(this.item[this.searchItem.lt]).getTime()
+            ) {
+              return true;
+            } else {
               return false;
             }
           }
         };
       }
-      if (this.searchItem && this.searchItem.gt ) {
+      if (this.searchItem && this.searchItem.gt) {
         return {
-          disabledDate: (time) => {
-            if(!this.item[this.searchItem.gt])
-              return false;
-            else if(new Date(time).getTime() < new Date(this.item[this.searchItem.gt]).getTime()){
-              return true
-            }
-            else{
+          disabledDate: time => {
+            if (!this.item[this.searchItem.gt]) return false;
+            else if (
+              new Date(time).getTime() <
+              new Date(this.item[this.searchItem.gt]).getTime()
+            ) {
+              return true;
+            } else {
               return false;
             }
           }
@@ -83,13 +85,15 @@ export default {
       let newObj = Object.create({});
       // newObj[this.searchItem.property] = val;
       this.$nextTick(() => {
-        console.log(this);
-        if(this.searchItem.format){
-          if(this.item[this.searchItem.property])
-            this.item[this.searchItem.property] = this.item[this.searchItem.property].replace(this.searchItem.format,'');
-          this.$emit("valueChange", this.searchItem.property);
+        // console.log(this);
+        if (this.searchItem.format) {
+          if (this.item[this.searchItem.property])
+            this.item[this.searchItem.property] = this.item[
+              this.searchItem.property
+            ].replace(this.searchItem.format, "");
         }
-      })
+        this.$emit("valueChange", this.searchItem.property);
+      });
     }
   },
   watch: {

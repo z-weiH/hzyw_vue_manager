@@ -318,19 +318,24 @@ export default {
         this.tableData = res.result.list;
         this.total = res.result.count;
 
-        let _lbNum_arr = [];
-        let _lbNum = "";
+        let _lbNum_arr = [];//借款单号id数组
+        let _lbNum = "";//借款单号id字符串
+        let _caseNum_arr = [];//案件No数组
+        let _caseNum = "";//案件No字符串
         let loanNos_data = this.tableData.filter((el, idx, self) => {
-          console.log(el);
-          console.log(idx);
-          console.log(self);
-          console.log(self[idx]["loanBillNo"]);
+          // console.log(el);
+          // console.log(idx);
+          // console.log(self);
+          // console.log(self[idx]["loanBillNo"]);
           _lbNum_arr.push(self[idx]["loanBillNo"]);
           _lbNum = _lbNum_arr.join();
+          _caseNum_arr.push(self[idx]["caseId"]);
+          _caseNum = _caseNum_arr.join();
         });
         console.log("_lbNum: ", _lbNum);
         console.log("love***8: ", item);
         item.loanBillNos = _lbNum;
+        item.caseId = _caseNum;
         for (let i in item) {
           // console.log(i);
           if (i == "templateId") {
