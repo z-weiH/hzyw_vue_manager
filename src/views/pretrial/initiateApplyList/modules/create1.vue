@@ -2,7 +2,7 @@
   <div>
 
 
-    <el-dialog title="提示" :visible.sync="editState1" width="30%">
+    <el-dialog title="提示" :visible.sync="$parent.editState1" width="30%">
       <div v-if="zqdata.resultType === 1">
         <ul>
           <li>申请<span class="f_orange">{{zqdata.totalCase}}</span>件案件，共需消耗仲券<span class="f_orange">{{zqdata.needTicketCount}}</span>张，受理费<span>{{zqdata.totalAmt}}</span>元。</li>
@@ -39,7 +39,6 @@
     name: "initiateApplyCreate1",
     props: {
       zqdata: Object,
-      editState1: [Number, Boolean],
       item: Object
     },
     data() {
