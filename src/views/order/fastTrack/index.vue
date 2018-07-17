@@ -16,7 +16,7 @@
         <el-form-item style="display:inline-block;" label=" " prop="arbId">
           <el-select filterable clearable class="mr-10" style="width:150px;" v-model="ruleForm.arbId" placeholder="请选择仲裁委">
             <template v-for="(item,index) in arbOptions">
-              <el-option :key="item.arbId + index" :label="item.fullName" :value="item.arbId"></el-option>
+              <el-option :key="item.arbId + index" :label="item.arbName" :value="item.arbId"></el-option>
             </template>
           </el-select>
         </el-form-item>
@@ -115,7 +115,7 @@
 
         // 仲裁委options 
         arbOptions : [
-          {fullName : '张三' , arbId : '张三'}
+          {arbName : '张三' , arbId : '张三'}
         ],
         // 商户options
         merchantOptions : [
