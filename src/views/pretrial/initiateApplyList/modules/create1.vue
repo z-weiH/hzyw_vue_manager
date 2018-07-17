@@ -44,11 +44,14 @@
     data() {
       return {
         //  editState1:0
+        itsObj:{}
       };
     },
     methods: {
       confirmApCase() {
-        this.$http.post(URL_JSON["confirmApplyCase"], this.item).then(res => {
+        this.itsObj = this.item;
+        this.itsObj.loanBillNos = this.zqdata.loanBillNos;
+        this.$http.post(URL_JSON["confirmApplyCase"], this.itsObj).then(res => {
           console.log("成功！", res.result);
           this.$parent.$parent.initQuery(this.$parent.$parent.queryUrl, this.$parent.$parent.searchItem);
           this.$parent.editState1 = false;
