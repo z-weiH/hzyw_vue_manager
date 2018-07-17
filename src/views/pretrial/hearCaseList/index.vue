@@ -145,20 +145,17 @@
 
       <!-- 分配案件 dialog -->
       <CaseDialog @successCBK="successCBK" ref="CaseDialog"></CaseDialog>
-      <umeditor></umeditor>
     </div>
   </div>
 </template>
 
 <script>
   import timeFrame from '@/components/timeFrame.vue'
-  import umeditor from '@/components/umeditor'
   import CaseDialog from './modules/dialog.vue'
   export default {
     components : {
       timeFrame,
       CaseDialog,
-      umeditor,
     },
     data() {
       return {
