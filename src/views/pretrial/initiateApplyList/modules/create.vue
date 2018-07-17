@@ -116,7 +116,7 @@ export default {
   methods: {
     ofCouse() {
       console.log("iiiii::", this.item);
-      this.item.type = this.type;
+      this.item.type = (this.type === "" ? 2 : this.type);
       this.item.applicationNum = this.applyCaseNum;
       let _newItem = Object.assign(this.item,this.$parent.searchItem);
       console.log("_newItem: ",_newItem);
