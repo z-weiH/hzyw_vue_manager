@@ -321,6 +321,30 @@ let router = new Router({
             name: 'tplEvidenceSetting',
           },
         },
+        {
+          path: 'businessTypeSetting',
+          component: () =>
+            import ('@/views/customer/businessTypeSetting'), // 业务类型设置
+          meta: {
+            name: 'businessTypeSetting',
+          },
+        },
+        {
+          path: 'templateList',
+          component: () =>
+            import ('@/views/customer/templateList'), // 模板列表
+          meta: {
+            name: 'templateList',
+          },
+        },
+        {
+          path: 'dataManagement',
+          component: () =>
+            import ('@/views/customer/dataManagement'), // 数据管理
+          meta: {
+            name: 'dataManagement',
+          },
+        },
         /* 客户管理模块 end */
 
         /* 案件订单模块 start */

@@ -209,10 +209,25 @@
                 menuId : 34,
                 menuUrl : 'tplSetting',
               },
-              {
+              /* {
                 menuName : '模板证据设置',
                 menuId : 35,
                 menuUrl : 'tplEvidenceSetting',
+              }, */
+              {
+                menuName : '业务类型设置',
+                menuId : 36,
+                menuUrl : 'businessTypeSetting',
+              },
+              {
+                menuName : '模板列表',
+                menuId : 37,
+                menuUrl : 'templateList',
+              },
+              {
+                menuName : '数据管理',
+                menuId : 38,
+                menuUrl : 'dataManagement',
               },
             ],
           },
