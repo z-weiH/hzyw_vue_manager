@@ -215,6 +215,7 @@ export default {
     return {
       isSubmit: false,
       auditStatusList: ["1", "2"],
+      waiter: null, // 数据加载前显示动画
       auditStatus: 0,
       subBatchNo: "",
       subBatchId: "",
@@ -296,6 +297,8 @@ export default {
         .then(res => {
           console.log("newQuery>>>", res.result);
           if (res.code === "0000") {
+            // console.log('waiter:::',this.waiter);
+
             this.idCardList = res.result.list;
             this.count = res.result.count;
             this.pager.total = res.result.count;
@@ -380,10 +383,13 @@ export default {
         .then(res => {
           console.log("detail>->", res.result);
           if (res.code === "0000") {
+            this.waiter.close();
+
             this.idCardList = res.result.list;
             console.log("len-idCardList.length:: ", this.idCardList.length);
             this.count = res.result.count;
             this.pager.total = res.result.count;
+
             this.$nextTick(() => {
               console.log("piczoom :", this.$refs.picZoom);
               setTimeout(() => {
@@ -406,10 +412,20 @@ export default {
           it.initTime();
         }, 300);
       });
+    },
+    screenLoader() {
+      this.waiter = this.$loading({
+        lock: true,
+        text: "拼命加载中",
+        spinner: "el-icon-loading",
+        background: "hsla(0,0%,100%,.9)",
+        target: document.querySelector("#app")
+      });
     }
   },
   mounted() {
     console.log("---", this.$route.query.subBatchId);
+    this.screenLoader();
     this.subBatchId = this.$route.query.subBatchId;
     this.subViewType = this.$route.query.subViewType;
     this.auditStatus = 0;
@@ -435,6 +451,7 @@ export default {
 
 <style lang="scss" scoped>
 $themeColor: #193b8c;
+
 .body_container {
   background: #f7f7f7;
   padding-bottom: 20px;
