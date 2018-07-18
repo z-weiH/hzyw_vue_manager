@@ -263,8 +263,9 @@ export default {
             }else{
               document.documentElement.querySelector('.body_container').scrollTo(0,0);
             }
-            loading.close();
           }
+          loading.close();
+
         });
     }
   },
