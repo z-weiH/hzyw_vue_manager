@@ -51,10 +51,12 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 .umeditor-box{
-
+  .edui-btn-image{
+    display: none;
+  }
 }
 
 </style>

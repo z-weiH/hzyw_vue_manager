@@ -324,7 +324,9 @@ export default {
             }else{
               document.documentElement.querySelector('.body_container').scrollTo(0,0);
             }
-            console.error(this.pager);
+            setTimeout(()=>{
+              this.scrollFunc();
+            },300)
           }
         });
     },
