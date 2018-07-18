@@ -257,7 +257,6 @@ export default {
         lock: true,
         text: '拼命加载中',
         fullscreen: true,
-        lock: true,
         background: "hsla(0,0%,100%,.9)"
       });
       let obj={};

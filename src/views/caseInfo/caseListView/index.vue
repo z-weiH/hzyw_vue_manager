@@ -234,8 +234,8 @@ export default {
         { label: "申请人", property: "applicants", width: 100 },
         { label: "被申请人", property: "respondents", width: 100 },
         { label: "被申请人手机", property: "resPhone", width: 150 },
-        { label: "案件阶段", property: "caseProcess" },
-        { label: "案件状态", property: "caseStatus" },
+        { label: "案件阶段", property: "caseProcessDesc" },
+        { label: "案件状态", property: "caseStatusDesc" },
         {
           label: "提交日期",
           property: "submitTime",
