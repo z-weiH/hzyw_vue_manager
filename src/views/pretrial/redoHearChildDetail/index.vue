@@ -21,7 +21,7 @@
       </div>
     </div>
     <!-- 无匹配案件区域 -->
-    <div class="noCase_panel" v-if="idCardList.length == 0">
+    <div class="noCase_panel" v-if="screenWaitType && idCardList.length == 0">
       <div class="search_ico"></div>
       <div>没有符合要求的案件</div>
     </div>
@@ -215,6 +215,8 @@ export default {
     return {
       isSubmit: false,
       auditStatusList: ["1", "2"],
+      waiter: null, // 数据加载前显示动画
+      screenWaitType: false,
       auditStatus: 0,
       subBatchNo: "",
       subBatchId: "",
@@ -284,7 +286,7 @@ export default {
       this.HandleShow(card);
     },
     HandleQuery(_val) {
-      // if (_val != 0) {
+      this.screenLoader();
       this.currentNum = 1;
       this.$http
         .post(URL_JSON["queryRecheckDetailView"], {
@@ -296,19 +298,16 @@ export default {
         .then(res => {
           console.log("newQuery>>>", res.result);
           if (res.code === "0000") {
+            this.waiter.close(); //关闭loader-screen
             this.idCardList = res.result.list;
             this.count = res.result.count;
             this.pager.total = res.result.count;
-            // console.log('this.idCardList: ',this.idCardList);
-            // this.idCardList.forEach(it => {
-            //   console.log('-----');
-            //   it.sign.signList.reverse();
-            // });
+            // 明细请求过后再去改变-无数据模版状态
+            this.idCardList.length === 0
+              ? (this.screenWaitType = true)
+              : (this.screenWaitType = false);
           }
         });
-      // } else {
-      //   this.getRecheckDetail();
-      // }
     },
     HandleShow(card) {
       //意见审核
@@ -370,6 +369,7 @@ export default {
       }
     },
     getRecheckDetail() {
+      this.screenLoader();
       this.$http
         .post(URL_JSON["queryRecheckDetailView"], {
           pageSize: 1,
@@ -380,10 +380,16 @@ export default {
         .then(res => {
           console.log("detail>->", res.result);
           if (res.code === "0000") {
+            this.waiter.close(); //关闭loader-screen
             this.idCardList = res.result.list;
             console.log("len-idCardList.length:: ", this.idCardList.length);
             this.count = res.result.count;
             this.pager.total = res.result.count;
+            // 明细请求过后再去改变-无数据模版状态
+            this.idCardList.length === 0
+              ? (this.screenWaitType = true)
+              : (this.screenWaitType = false);
+
             this.$nextTick(() => {
               console.log("piczoom :", this.$refs.picZoom);
               setTimeout(() => {
@@ -406,10 +412,20 @@ export default {
           it.initTime();
         }, 300);
       });
+    },
+    screenLoader() {
+      this.waiter = this.$loading({
+        lock: true,
+        text: "拼命加载中",
+        fullscreen: true,
+        background: "hsla(0,0%,100%,.9)",
+        target: document.querySelector("#app")
+      });
     }
   },
   mounted() {
     console.log("---", this.$route.query.subBatchId);
+
     this.subBatchId = this.$route.query.subBatchId;
     this.subViewType = this.$route.query.subViewType;
     this.auditStatus = 0;
@@ -435,6 +451,7 @@ export default {
 
 <style lang="scss" scoped>
 $themeColor: #193b8c;
+
 .body_container {
   background: #f7f7f7;
   padding-bottom: 20px;

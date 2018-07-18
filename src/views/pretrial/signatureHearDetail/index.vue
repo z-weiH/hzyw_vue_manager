@@ -223,6 +223,12 @@ export default {
       this.HandleQuery();
     },
     HandleQuery(mark) {
+      const loading =this.$loading({
+        lock: true,
+        text: '拼命加载中',
+        fullscreen: true,
+        background: "hsla(0,0%,100%,.9)"
+      });
       let obj={};
       if(!this.disabled){
         Object.assign(obj,
@@ -257,6 +263,7 @@ export default {
             }else{
               document.documentElement.querySelector('.body_container').scrollTo(0,0);
             }
+            loading.close();
           }
         });
     }

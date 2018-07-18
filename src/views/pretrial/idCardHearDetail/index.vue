@@ -1,5 +1,7 @@
 <template>
-  <div class="body_container">
+  <div
+    class="body_container"
+  >
     <div class="header_container">
       <div class="header">
         <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
@@ -146,7 +148,7 @@ export default {
         pageSize: 20,
         count: 0
       },
-      selValue: null
+      selValue: null,
     };
   },
   computed: {
@@ -251,6 +253,12 @@ export default {
       this.HandleQuery();
     },
     HandleQuery(mark) {
+      const loading =this.$loading({
+        lock: true,
+        text: '拼命加载中',
+        fullscreen: true,
+        background: "hsla(0,0%,100%,.9)"
+      });
       let obj={};
       if(!this.disabled){
         Object.assign(obj,
@@ -305,16 +313,7 @@ export default {
                   return !!item.auditListWrap.find(it => it.code === "EFFECT");
                 }
               });
-              // Object.defineProperty(item, "checkSign",{
-              //   get: () => {
-              //     return !!item.checkSignList.find(it => it.code === 'SIGN');
-              //   }
-              // });
-              // Object.defineProperty(item, "checkSignTime",{
-              //   get: () => {
-              //     return !!item.checkSignList.find(it => it.code === 'SIGNTIME');
-              //   }
-              // })
+
             });
             if (mark) {
               setTimeout(() => {
@@ -324,7 +323,10 @@ export default {
             }else{
               document.documentElement.querySelector('.body_container').scrollTo(0,0);
             }
-            console.error(this.pager);
+            setTimeout(()=>{
+              this.scrollFunc();
+              loading.close();
+            },300)
           }
         });
     },

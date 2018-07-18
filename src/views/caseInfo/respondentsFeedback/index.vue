@@ -97,7 +97,7 @@ export default {
         {
           label: "案件阶段",
           type: "select",
-          property: "hearStatus",
+          property: "caseProcess",//hearStatus
           colSpan: 3,
           options: this.opHkCaseStage,
           labelfield: "desc",
