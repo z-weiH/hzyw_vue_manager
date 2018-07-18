@@ -74,7 +74,7 @@
         dialogVisible : false,
         
         ruleForm : {
-          tableData : [{
+          tableData : [/* {
             // 证据id
             eviId : '1',
             // 证据序号
@@ -83,7 +83,7 @@
             eviObject : '',
             // 证明对象详情
             eviList : '[{"evi_code":"AGREEMENT","evi_title":"借款协议","sort_no":1,"evi_format":"借款协议.pdf","isCheck":1}]',
-          }],
+          } */],
         },
       }
     },
@@ -125,6 +125,7 @@
       // 关闭浮层 调用
       handleClose() {
         this.dialogVisible = false;
+        this.ruleForm.tableData = [];
         this.$nextTick(() => {
           this.$refs.ruleForm.resetFields();
         });
