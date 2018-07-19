@@ -117,7 +117,8 @@
       },
       // 点击设置
       handleClick(row) {
-        this.$refs.setDialog.show(row);
+        // this.$refs.setDialog.show(row);
+        this.$router.push('tplSettingList');
       },
 
       // 表格相关 start
