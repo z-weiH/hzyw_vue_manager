@@ -308,7 +308,23 @@ let router = new Router({
         {
           path: 'tplSetting',
           component: () =>
-            import ('@/views/customer/tplSetting'), // 模板设置
+            import ('@/views/customer/tplSetting'), // 模板设置 - 列表
+          meta: {
+            name: 'tplSetting',
+          },
+        },
+        {
+          path: 'tplSettingList',
+          component: () =>
+            import ('@/views/customer/tplSettingList'), // 模板设置 - 子列表
+          meta: {
+            name: 'tplSetting',
+          },
+        },
+        {
+          path: 'tplSettingEdit',
+          component: () =>
+            import ('@/views/customer/tplSettingEdit'), // 模板设置 - 编辑
           meta: {
             name: 'tplSetting',
           },
@@ -683,7 +699,15 @@ let router = new Router({
       meta: {
         name: 'evidenceWireHear',
       },
-    }
+    },
+    {
+      path: '/webpageEditor',
+      component: () =>
+        import ('@/views/customer/webpageEditor'), // 模板设置 - 网页编辑
+      meta: {
+        name: 'webpageEditor',
+      },
+    },
   ]
 })
 
