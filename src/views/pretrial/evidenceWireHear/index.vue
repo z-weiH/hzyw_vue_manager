@@ -256,9 +256,10 @@
               this.count = res.result.totalCount;
               this.pager.total = res.result.count;
               // this.scrollList =
-              loading.close();
+
 
             }
+            loading.close();
           })
       }
     },

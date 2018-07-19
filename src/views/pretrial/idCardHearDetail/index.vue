@@ -325,9 +325,10 @@ export default {
             }
             setTimeout(()=>{
               this.scrollFunc();
-              loading.close();
             },300)
           }
+          loading.close();
+
         });
     },
     scrollFunc() {

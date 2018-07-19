@@ -54,7 +54,7 @@
                     <el-select v-model="ruleForm.arbId" placeholder="所属仲裁委">
                       <el-option label="请选择" value=""></el-option>
                       <template v-for="(item) in arbIdOptions">
-                        <el-option :key="item.arbId" :label="item.fullName" :value="item.arbId"></el-option>
+                        <el-option :key="item.arbId" :label="item.arbName" :value="item.arbId"></el-option>
                       </template>
                     </el-select>
                   </el-form-item>
