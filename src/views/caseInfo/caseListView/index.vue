@@ -359,7 +359,33 @@ export default {
               width: 100
             }
           ]
+        },
+        {
+          label: '预测裁决额',
+          property: "forecastJudgeAmt",
+          width: 130,
+        },
+        {
+          label: '仲裁还款',
+          property: "arbitrationRepayment",
+          width: 100,
+        },
+        {
+          label: '应裁情况',
+          property: "decideStatus",
+          width: 100,
+        },
+        {
+          label: '短信送达',
+          property: "messageDelivery",
+          width: 100,
+        },
+        {
+          label: '短链查看',
+          property: "shortChainView",
+          width: 100,
         }
+
       ]
     };
   },
