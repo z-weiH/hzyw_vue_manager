@@ -27,6 +27,9 @@
         <el-button @click="handleCancel" class="mr-30">取消</el-button>
       </div>
     </div>
+
+    <!-- 预览 dialog -->
+    <previewDialog ref="previewDialog"></previewDialog>
   </div>
 </template>
 
@@ -44,9 +47,11 @@
   */
   import umeditor from '@/components/umeditor'
   import previewDialog from './modules/previewDialog.vue'
+  import copy from '@/assets/js/copy.js'
   export default {
     components : {
       umeditor,
+      previewDialog,
     },
     data() {
       return {
@@ -54,7 +59,8 @@
         boxShow : false,
       }
     },
-    mounted() {},
+    mounted() {
+    },
     methods : {
       // 点击叶子 图片
       handleImg() {
@@ -83,7 +89,12 @@
       },
       // 预览
       handlePreview() {
-
+        let content = this.$refs.umeditor.getContent();
+        if(!content) {
+          this.$message.warning('模板内容不能为空');
+          return;
+        }
+        this.$refs.previewDialog.show(content);
       },
       // 保存
       handleSubmit() {
@@ -126,6 +137,7 @@
       cursor: pointer;
       position: absolute;
       left: -30px;
+      top: -15px;
     }
     .operation{
       width: 150px;
