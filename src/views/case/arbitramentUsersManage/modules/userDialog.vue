@@ -35,6 +35,20 @@
             </tr>
 
             <tr>
+              <td colspan="1">企业名称：</td>
+              <td colspan="3">
+                <el-form-item label=" " prop="clientCode">
+                  <el-select style="width:100%" v-model="ruleForm.clientCode" placeholder="请选择">
+                    <el-option label="请选择" value=""></el-option>
+                    <template v-for="(item,index) in merchantOptions">
+                      <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
+                    </template>
+                  </el-select>
+                </el-form-item>
+              </td>
+            </tr>
+
+            <tr>
               <td colspan="1">客户名称：</td>
               <td colspan="1">
                 <el-form-item label=" " prop="name">
@@ -342,6 +356,8 @@
         ruleForm : {
           // 选择仲裁委
           arbId : '',
+          // 商户Code
+          clientCode : '',
           // 客户名称
           name : '',
           // 客户类型 0自然人 1企业
@@ -450,6 +466,10 @@
         arbOptions : [
           {arbName : '张三' , arbId : '张三'},
         ],
+        // 商户 options
+        merchantOptions : [
+          {merchantName : '李四' , code : '李四'},
+        ],
         // 客户类型 disabled
         typeDisabled : false,
       }
@@ -467,6 +487,14 @@
         url : "/arb/queryAllArbList.htm",
       }).then((res) => {
         this.arbOptions = res.result;
+      });
+
+      // 获取所有 商户
+      this.$http({
+        method : 'post',
+        url : '/merchant/queryMerchants.htm',
+      }).then((res) => {
+        this.merchantOptions = res.result.list;
       });
     },
     methods : {
