@@ -17,7 +17,9 @@
                 <el-form-item label="" :prop="td.property">
                   <el-date-picker  v-if="td.type == 'date' | td.type == 'moment' | td.type == 'month'"  :format="td.baseFmat" :value-format="td.val_baseFmat ? td.val_baseFmat : 'yyyy-MM-dd'" v-model="item[td.property]" :type="td.type" :placeholder="td.placeholder"  :disabled="disabled || td.disabled" :readonly="td.readonly">
                   </el-date-picker>
-                  <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" type="text" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text' || td.type === 'number'" @mousewheel='scrollFunc' @DOMMouseScroll="scrollFunc"></el-input>
+                  <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" type="text" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text' " @mousewheel='scrollFunc' @DOMMouseScroll="scrollFunc"></el-input>
+
+                  <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" type="text" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if=" td.type === 'number'" @mousewheel='scrollFunc' @DOMMouseScroll="scrollFunc" @keyup.native="HandleNumberCheck(td)"></el-input>
                   <el-select clearable  @change="valueChange({label:td.property,value:item[td.property]})" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
                     <el-option
                       v-for="opt in td.options"
@@ -156,6 +158,13 @@ import {RULES} from "./script/rules";
       }
     },
     methods: {
+      HandleNumberCheck(td){
+        console.log(td)
+        let reg = /[^0-9]/g;
+        this.item[td.property] = this.item[td.property].replace(reg,'');
+
+
+      },
       HandleImgClick(src) {
         if(src){
           window.open(src, "_blank");
