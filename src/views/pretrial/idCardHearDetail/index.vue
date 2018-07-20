@@ -143,6 +143,7 @@ export default {
       selfflag: 0, //新书签
       showCloseDlg: false, //
       auditLists: [],
+      timer: null,
       pager: {
         currentNum: 1,
         pageSize: 20,

@@ -104,7 +104,7 @@
         },{
           title: '第五部分：客户资料',
           content: [
-            {label: '营业执照(jpg，png)', type: 'file',path : 'customer', placeholder: '请输入客户联系人',columns:1,property: 'dataUrl',disabledLabel: '点击查看营业执照', accept: 'image/jpeg,image/png'},
+            {label: '营业执照(jpg，png)', type: 'file',path : 'customer', placeholder: '请输入客户联系人',columns:1,property: 'dataUrl',disabledLabel: '点击查看营业执照', accept: 'image/jpeg,image/png',rule:'require'},
             {type: 'img',columns:1,property:'dataUrl'},
           ]
         },{
