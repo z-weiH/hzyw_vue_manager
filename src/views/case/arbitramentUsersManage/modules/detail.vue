@@ -18,6 +18,11 @@
           </tr>
 
           <tr>
+            <td colspan="1">企业名称：</td>
+            <td colspan="3">{{ruleForm.merchantName}}</td>
+          </tr>
+
+          <tr>
             <td colspan="1">客户名称：</td>
             <td colspan="1">{{ruleForm.name}}</td>
             <td colspan="1">所属商户：</td>
