@@ -4,7 +4,7 @@
       <a>所在位置</a>
       <a href="javascript:;" class="aside_tit">模板设置</a>
     </div>
-    
+
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
@@ -22,6 +22,10 @@
         <el-button @click="handleSearch" type="warning">查询</el-button>
 
       </el-form>
+    </div>
+
+    <div class="item-title of-hidden">
+      <span class="item-title-sign">客户列表</span>
     </div>
 
     <div class="item-table">
