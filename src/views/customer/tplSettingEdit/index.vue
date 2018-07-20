@@ -62,7 +62,7 @@
             <el-row>
               <el-col :span="18">
                 <span class="is-required list-text">证据设置：</span>
-                <el-button type="text">设置</el-button>
+                <el-button @click="handleEvidenceSetting" type="text">设置</el-button>
                 <span class="m-time ml-20">2012-11-11 06:00:30</span>
               </el-col>
               <el-col :span="6">
@@ -180,6 +180,10 @@
       // 点击网页编辑
       handleWebpage() {
         this.$router.push('/webpageEditor');
+      },
+      // 点击证据设置
+      handleEvidenceSetting() {
+        this.$router.push('evidenceSetting');
       },
 
       // 文件上传前 回调

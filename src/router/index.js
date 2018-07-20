@@ -330,6 +330,14 @@ let router = new Router({
           },
         },
         {
+          path: 'evidenceSetting',
+          component: () =>
+            import ('@/views/customer/evidenceSetting'), // 模板设置 - 证据设置
+          meta: {
+            name: 'tplSetting',
+          },
+        },
+        {
           path: 'tplEvidenceSetting',
           component: () =>
             import ('@/views/customer/tplEvidenceSetting'), // 模板证据设置
