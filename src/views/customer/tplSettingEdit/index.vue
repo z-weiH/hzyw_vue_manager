@@ -36,8 +36,20 @@
           <el-col :span="12">
             <div>
               <span class="is-required list-text">申请书：</span>
-              <el-button type="text">word上传</el-button>
-              <el-button @click="handleWebpage" type="text">网页编辑</el-button>
+              <el-upload
+                  class="upload-demo"
+                  :action="`${$host}/file/upload.htm`"
+                  :show-file-list="false"
+                  :before-upload="beforeAvatarUpload"
+                  :on-error="fileError"
+                  :data="{
+                    path : 'demo',
+                    token : token,
+                  }"
+                >
+                <el-button type="text">word上传</el-button>
+              </el-upload>
+              <el-button @click="handleWebpage" type="text" class="ml-10">网页编辑</el-button>
               <span class="m-time ml-10">2012-11-11 06:00:30</span>
             </div>
             <div>
@@ -65,8 +77,20 @@
         <el-col :span="12">
             <div>
               <span class="list-text">裁决书：</span>
-              <el-button type="text">word上传</el-button>
-              <el-button @click="handleWebpage" type="text">网页编辑</el-button>
+              <el-upload
+                  class="upload-demo"
+                  :action="`${$host}/file/upload.htm`"
+                  :show-file-list="false"
+                  :before-upload="beforeAvatarUpload"
+                  :on-error="fileError"
+                  :data="{
+                    path : 'demo',
+                    token : token,
+                  }"
+                >
+                <el-button type="text">word上传</el-button>
+              </el-upload>
+              <el-button @click="handleWebpage" type="text" class="ml-10">网页编辑</el-button>
               <span class="m-time ml-10">2012-11-11 06:00:30</span>
             </div>
           </el-col>
@@ -88,8 +112,20 @@
         <el-col :span="12">
             <div>
               <span class="list-text">强制申请书：</span>
-              <el-button type="text">word上传</el-button>
-              <el-button @click="handleWebpage" type="text">网页编辑</el-button>
+              <el-upload
+                  class="upload-demo"
+                  :action="`${$host}/file/upload.htm`"
+                  :show-file-list="false"
+                  :before-upload="beforeAvatarUpload"
+                  :on-error="fileError"
+                  :data="{
+                    path : 'demo',
+                    token : token,
+                  }"
+                >
+                <el-button type="text">word上传</el-button>
+              </el-upload>
+              <el-button @click="handleWebpage" type="text" class="ml-10">网页编辑</el-button>
               <span class="m-time ml-10">2012-11-11 06:00:30</span>
             </div>
           </el-col>
@@ -121,6 +157,9 @@
     },
     data() {
       return {
+        // 用户token
+        token : JSON.parse(localStorage.getItem('loginInfo')).token,
+
         ruleForm : {
           // 仲裁服务费
           aaaa : '',
@@ -141,6 +180,21 @@
       // 点击网页编辑
       handleWebpage() {
         this.$router.push('/webpageEditor');
+      },
+
+      // 文件上传前 回调
+      beforeAvatarUpload(file) {
+        let fileType = file.name.split('.').pop().toLowerCase();
+        let arr = ['doc','docx'];
+        if(arr.indexOf(fileType) === -1){
+          this.$message.error('文件格式有误');
+          return false;
+        }
+        return true;
+      },
+      /* 文件上传失败 回调 */
+      fileError() {
+        this.$message.error('文件上传失败，请稍后重试');
       },
     },
   }
@@ -178,6 +232,9 @@
       overflow: hidden;
       .list-text{
         width: 110px;
+        display: inline-block;
+      }
+      .upload-demo{
         display: inline-block;
       }
     }
