@@ -627,7 +627,12 @@
     watch : {
       // 监听 充值仲券
       ['ruleForm.preCaseTicket'](val) {
-        this.ruleForm.preTicketAmt = val * this.multiple;
+        let type = val > 0 ? true : false;
+        if(type === false) {
+          this.ruleForm.preTicketAmt = '';
+        }else{
+          this.ruleForm.preTicketAmt = val * this.multiple;
+        }
       },
       // 监听 赠送仲券
       ['ruleForm.preGiftTicket'](val) {
@@ -665,7 +670,7 @@
           // 充值仲券
           preCaseTicket : '',
           // 仲券金额
-          preTicketAmt : '0',
+          preTicketAmt : '',
           // 赠送仲券
           preGiftTicket : '',
           // 赠券有效期
@@ -935,7 +940,12 @@
       },
       // 新增加款 list 添加仲券
       handleAddTicket(item,index) {
-        this.ruleForm.orderDetailList[index].addTicketAmt = item.addTicket * this.multiple;
+        let type = item.addTicket > 0 ? true : false;
+        if(type === false) {
+          this.ruleForm.orderDetailList[index].addTicketAmt = '';
+        }else{
+          this.ruleForm.orderDetailList[index].addTicketAmt = item.addTicket * this.multiple;
+        }
 
         this.$nextTick(() => {
           this.handleComputedArrivalAmt(item,index);
@@ -946,7 +956,7 @@
         let addTicketAmt = +item.addTicketAmt || 0;
         let addAmt = +item.addAmt || 0;
         let addService = +item.addService || 0;
-        this.ruleForm.orderDetailList[index].arrivalAmt = addTicketAmt + addAmt + addService;
+        this.ruleForm.orderDetailList[index].arrivalAmt = (addTicketAmt + addAmt + addService) || '';
       },
 
       // 关闭浮层
