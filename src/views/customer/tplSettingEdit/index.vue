@@ -1,6 +1,6 @@
 <template>
   <div class="tpl-setting-edit">
-
+    模板设置
   </div>
 </template>
 

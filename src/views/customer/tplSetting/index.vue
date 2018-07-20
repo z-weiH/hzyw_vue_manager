@@ -1,5 +1,10 @@
 <template>
   <div class="tpl-setting">
+    <div class="wsbodyhead">
+      <a>所在位置</a>
+      <a href="javascript:;" class="aside_tit">模板设置</a>
+    </div>
+    
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
