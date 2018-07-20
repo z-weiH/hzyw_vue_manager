@@ -10,8 +10,8 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
           
-					<el-form-item label="请选择数据" prop="accountPeriodType">
-            <el-select clearable style="width:300px;" v-model="ruleForm.accountPeriodType" placeholder="请选择账龄">
+					<el-form-item label="数据模板" prop="accountPeriodType">
+            <el-select clearable style="width:300px;" v-model="ruleForm.accountPeriodType" placeholder="请选择数据模板">
               <el-option v-for="(item,index) in dataOptions" :label="item.name" :value="item.value" :key="index"></el-option>
             </el-select>
           </el-form-item>
@@ -32,7 +32,7 @@
   export default {
     data() {
       return {
-        dialogVisible : true,
+        dialogVisible : false,
         // 富文本内容
         textarea : '',
         // 预览数据 options

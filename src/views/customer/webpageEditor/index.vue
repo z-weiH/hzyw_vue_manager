@@ -84,25 +84,46 @@
         }else if(type === 3) {
           message = '&lt;@tableCol3 colNames=[用户名,昵称] colProperties=[${userName},${nickName}]&gt;&lt;/@tableCol3&gt;';
         }
-        console.log(message);
         this.$refs.umeditor.insertHtml(message);
       },
-      // 预览
-      handlePreview() {
+      // 校验 富文本所填数据
+      verify(callback) {
         let content = this.$refs.umeditor.getContent();
         if(!content) {
           this.$message.warning('模板内容不能为空');
-          return;
+          callback(false);
+        }else{
+          callback(content);
         }
-        this.$refs.previewDialog.show(content);
+      },
+      // 预览
+      handlePreview() {
+        this.verify((content) => {
+          if(content) {
+            this.$refs.previewDialog.show(content);
+          }
+        });
       },
       // 保存
       handleSubmit() {
-
+        this.verify((content) => {
+          if(content) {
+            // 提交数据
+          }
+        });
       },
       // 取消
       handleCancel() {
-
+        this.$confirm('确认退出吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          cancelButtonClass: 'cancel',
+          confirmButtonClass: 'confirm',
+          center: true,
+        }).then(() => {
+          this.$router.push(`/main/tplSettingEdit?id=20`);
+        },() => {
+        });
       },
     },
   }
