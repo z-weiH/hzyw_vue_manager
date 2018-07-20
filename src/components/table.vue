@@ -5,7 +5,7 @@
         type="selection"
         width="55" v-if="needCheckbox">
       </el-table-column>
-      <el-table-column :resizable="false" type="index" label="序号" width="50"></el-table-column>
+      <el-table-column v-if="!noSerial" :resizable="false" type="index" label="序号" width="50"></el-table-column>
       <template v-for="(col, index) of columns" >
           <el-table-column  :resizable="false" :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type == 'img'" :width="col.width ? col.width : 'auto'">
               <template slot-scope="scope" v-if="col.type == 'img'">
@@ -36,7 +36,7 @@
       <slot name="defineCol"></slot>
     </el-table>
     <!-- 分页 -->
-    <div class="ctable_foot">
+    <div class="ctable_foot"       v-if="!noPager">
       <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -74,12 +74,14 @@ import Tip from "@/components/tip";
 export default {
   name: "mineTable",
   props: {
+    noSerial: Boolean,
     tableData: Array,
     columnDefine: Array,
     spanMethod: Function,
     actions: Array,
     pager: Object,
-    needCheckbox:Boolean
+    needCheckbox:Boolean,
+    noPager: Boolean
   },
   computed: {
     columns() {
