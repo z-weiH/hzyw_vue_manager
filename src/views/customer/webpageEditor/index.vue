@@ -1,30 +1,37 @@
 <template>
   <div class="webpage-editor-box">
-    <div class="webpage-editor">
-      <!-- 富文本编辑器 -->
-      <div class="fl umeditor-b">
-        <umeditor ref="umeditor" height="800px"></umeditor>
+    <div class="webpage-editor-title">
+      <div class="width-1200">
+        <span>网页版编辑模板</span>
       </div>
-      <!-- 参数 -->
-      <div class="fl parameter-box"></div>
-      <!-- 悬浮操作 -->
-      <div class="operation-box">
-        <img v-if="imgShow" @click="handleImg" src="@/assets/img/webpageEditorCircular.png" />
-        <transition name="fade" mode="out-in">
-          <div class="operation" v-if="boxShow">
-            <span @click="handleBox">x</span>
-            <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
-            <el-button @click="handleInsertGrammar(2)">插入判断条件</el-button>
-            <el-button @click="handleInsertGrammar(3)">插入表格</el-button>
-          </div>
-        </transition>
-      </div>
+    </div>
+    <div class="webpage-editor-content">
+      <div class="webpage-editor">
+        <!-- 富文本编辑器 -->
+        <div class="fl umeditor-b">
+          <umeditor ref="umeditor" height="800px"></umeditor>
+        </div>
+        <!-- 参数 -->
+        <div class="fl parameter-box"></div>
+        <!-- 悬浮操作 -->
+        <div class="operation-box">
+          <img v-if="imgShow" @click="handleImg" src="@/assets/img/webpageEditorCircular.png" />
+          <transition name="fade" mode="out-in">
+            <div class="operation" v-if="boxShow">
+              <span @click="handleBox">x</span>
+              <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
+              <el-button @click="handleInsertGrammar(2)">插入判断条件</el-button>
+              <el-button @click="handleInsertGrammar(3)">插入表格</el-button>
+            </div>
+          </transition>
+        </div>
 
-      <div class="clear"></div>
-      <div class="mt-20 btn-box">
-        <el-button @click="handlePreview" class="mr-30">预览</el-button>
-        <el-button @click="handleSubmit" class="mr-30">保存</el-button>
-        <el-button @click="handleCancel" class="mr-30">取消</el-button>
+        <div class="clear"></div>
+        <div class="mt-20 btn-box mb-20">
+          <el-button @click="handlePreview" class="mr-30">预览</el-button>
+          <el-button @click="handleSubmit" type="primary" class="mr-30">保存</el-button>
+          <el-button @click="handleCancel" class="mr-30">取消</el-button>
+        </div>
       </div>
     </div>
 
@@ -136,6 +143,22 @@
   overflow: auto;
   height: 100%;
 }
+.webpage-editor-title{
+  height: 75px;
+  background-color: #fff;
+  box-sizing: border-box;
+  .width-1200{
+    width: 1200px;
+    margin: 0 auto;
+    font-size: 30px;
+    color: #0f357f;
+    padding-top: 21px;
+  }
+}
+.webpage-editor-content{
+  background-color: #F1F2F7;
+  min-height: calc(100% - 75px);
+}
 .webpage-editor{
   width: 1200px;
   margin: 0 auto;
@@ -145,9 +168,10 @@
   }
   .parameter-box{
     box-sizing: border-box;
-    width: 300px;
-    border: 1px solid red;
+    width: 290px;
+    border: 1px solid #ddd;
     height: 860px;
+    margin-left: 10px;
   }
   .operation-box{
     position: fixed;
