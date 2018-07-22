@@ -13,7 +13,7 @@
         </div>
         <!-- 参数 -->
         <div class="fl parameter-box">
-          <parameter></parameter>
+          <parameter @copy="handleCopy"></parameter>
         </div>
         <!-- 悬浮操作 -->
         <div class="operation-box">
@@ -73,6 +73,10 @@
     mounted() {
     },
     methods : {
+      // copy 参数
+      handleCopy(data) {
+        this.$refs.umeditor.insertHtml(data);
+      },
       // 点击叶子 图片
       handleImg() {
         this.imgShow = false;

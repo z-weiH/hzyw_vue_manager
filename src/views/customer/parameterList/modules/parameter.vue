@@ -64,9 +64,9 @@
         }
         this.initList();
       },
-      // 表格 row 点击
+      // 表格 col 点击
       handleRow(row, column, cell, event) {
-        // 点击参数 col
+        this.$emit('copy',row.paramCode);
         if(cell.querySelector('.parameter-text')) {
           copy(row.paramCode,() => {
             this.$message.success('复制成功');
