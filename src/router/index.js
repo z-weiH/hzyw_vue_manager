@@ -716,6 +716,14 @@ let router = new Router({
         name: 'webpageEditor',
       },
     },
+    {
+      path: '/parameterList',
+      component: () =>
+        import ('@/views/customer/parameterList'), // 模板设置 - 参数列表
+      meta: {
+        name: 'parameterList',
+      },
+    },
   ]
 })
 

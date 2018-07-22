@@ -12,7 +12,9 @@
           <umeditor ref="umeditor" height="800px"></umeditor>
         </div>
         <!-- 参数 -->
-        <div class="fl parameter-box"></div>
+        <div class="fl parameter-box">
+          <parameter></parameter>
+        </div>
         <!-- 悬浮操作 -->
         <div class="operation-box">
           <img v-if="imgShow" @click="handleImg" src="@/assets/img/webpageEditorCircular.png" />
@@ -54,11 +56,13 @@
   */
   import umeditor from '@/components/umeditor'
   import previewDialog from './modules/previewDialog.vue'
-  import copy from '@/assets/js/copy.js'
+  import parameter from '../parameterList/modules/parameter.vue'
+  
   export default {
     components : {
       umeditor,
       previewDialog,
+      parameter,
     },
     data() {
       return {
@@ -172,6 +176,7 @@
     border: 1px solid #ddd;
     height: 860px;
     margin-left: 10px;
+    overflow: auto;
   }
   .operation-box{
     position: fixed;

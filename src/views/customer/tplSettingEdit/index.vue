@@ -9,7 +9,7 @@
       <span class="item-title-sign">模板设置</span>
 
       <div class="fr">
-        <el-button type="primary" round class="mr-10">参数列表</el-button>
+        <el-button @click="handleParameterList" type="primary" round class="mr-10">参数列表</el-button>
         <el-button type="text" @click="handleGoBack">返回&gt;&gt;</el-button>
       </div>
     </div>
@@ -171,7 +171,11 @@
     methods : {
       // 点击返回
       handleGoBack() {
-        this.$router.push('tplSettingList');
+        this.$router.push(location + host + '/parameterList');
+      },
+      //点击参数列表
+      handleParameterList() {
+        window.open(`//${window.location.host}/#/parameterList`,'_blank');
       },
       // 点击设置
       handleSet(type) {
