@@ -76,6 +76,14 @@ export default {
             {
               value: "7",
               label: "调解短信"
+            },
+            // ,8仲裁闪信，9调解闪信',
+            {
+              value: "8",
+              label: "仲裁闪信"
+            }, {
+              value: "9",
+              label: "调解闪信"
             }
           ]
         },
