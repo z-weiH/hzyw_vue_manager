@@ -13,7 +13,7 @@
       </div>
       <div class="item-table">
         <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine">
-          <el-table-column label="操作" prop="orderStatusName" slot="defineCol" width="210">
+          <el-table-column label="操作" prop="orderStatusName" slot="defineCol" width="196">
             <template slot-scope="scope">
               <el-button
                 v-if="scope.row.custStatus == 10" size="mini" @click="doEdit(scope.row)">待提交</el-button>

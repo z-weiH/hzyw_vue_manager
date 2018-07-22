@@ -7,7 +7,7 @@
       </div>
       <div class="item-table">
         <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine">
-          <el-table-column label="操作" prop="orderStatusName" slot="defineCol">
+          <el-table-column label="操作" prop="orderStatusName" slot="defineCol" width="126">
             <template slot-scope="scope">
               <el-button
                 size="mini"
@@ -55,7 +55,7 @@ export default {
         {label: '技术服务费(元)', property: 'serveAmount',width: 120},
         {label: '开户仲券(张)', property: 'ticketCount',width: 120},
         {label: '开户受理费(元)', property: 'caseAmount',width: 120},
-        {label: '申请时间', property: 'submitTime',width: 140},
+        {label: '申请时间', property: 'submitTime',width: 100},
       ],
       item: {}
     }

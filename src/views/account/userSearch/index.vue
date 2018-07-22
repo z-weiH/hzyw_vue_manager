@@ -9,8 +9,8 @@
         开户查询
       </div>
       <div class="item-table">
-        <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine">
-          <el-table-column label="操作" prop="orderStatusName" slot="defineCol"  >
+        <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine" >
+          <el-table-column label="操作" prop="orderStatusName" slot="defineCol"  width="90">
             <template slot-scope="scope">
               <span v-if="scope.row.custStatus == 10">待提交</span>
               <span v-if="scope.row.custStatus == 11">待审核</span>
@@ -67,7 +67,7 @@
                   this.editState = 9;
                 }
               })
-            }},
+            },width: 126},
           {label: '账户',property: 'loginName', width: 140},
           {label: '法定代表人',property: 'legallerName',width: 120},
           {label: '联系人',property: 'contactsName',width: 120},
