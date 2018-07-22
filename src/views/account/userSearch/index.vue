@@ -10,7 +10,7 @@
       </div>
       <div class="item-table">
         <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine">
-          <el-table-column label="操作" prop="orderStatusName" slot="defineCol" >
+          <el-table-column label="操作" prop="orderStatusName" slot="defineCol"  >
             <template slot-scope="scope">
               <span v-if="scope.row.custStatus == 10">待提交</span>
               <span v-if="scope.row.custStatus == 11">待审核</span>
@@ -70,7 +70,7 @@
             }},
           {label: '账户',property: 'loginName', width: 140},
           {label: '法定代表人',property: 'legallerName',width: 120},
-          {label: '联系人',property: 'contactsName'},
+          {label: '联系人',property: 'contactsName',width: 120},
           {label: '联系电话',property: 'contactsPhone',width: 150},
           {label: '申请时间',property: 'applicateTime',width: 160},
         ],
