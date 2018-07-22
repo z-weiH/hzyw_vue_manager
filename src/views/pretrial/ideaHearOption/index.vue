@@ -14,9 +14,9 @@
       <el-button @click="handleAdd" class="add-button" size="small">添加</el-button>
       <div class="tabs-box">
         <el-tabs v-model="activeName" @tab-click="handleTabClick">
-          <el-tab-pane label="身份证意见" name="0"></el-tab-pane>
-          <el-tab-pane label="签名意见" name="1"></el-tab-pane>
-          <el-tab-pane label="证据意见" name="2"></el-tab-pane>
+          <el-tab-pane label="身份证审核" name="0"></el-tab-pane>
+          <el-tab-pane label="签名审核" name="1"></el-tab-pane>
+          <el-tab-pane label="证据链审核" name="2"></el-tab-pane>
         </el-tabs>
       </div>
       <div class="m-talbe-list">
