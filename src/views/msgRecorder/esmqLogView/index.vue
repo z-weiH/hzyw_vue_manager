@@ -122,7 +122,7 @@ export default {
         },
         {
           label: "发送时间",
-          property: "sendTimeDate",
+          property: "sendTime",
           width: 100
         },
         {
