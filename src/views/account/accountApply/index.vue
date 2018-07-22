@@ -109,7 +109,7 @@ export default {
         },
         { label: "账户", property: "loginName", width: 130},
         { label: "法定代表人", property: "legallerName" ,width: 110},
-        { label: "联系人", property: "contactsName" },
+        { label: "联系人", property: "contactsName" ,width: 90},
         { label: "联系电话", property: "contactsPhone", width: 130},
         { label: "申请时间", property: "applicateTime", width: 150}
       ],

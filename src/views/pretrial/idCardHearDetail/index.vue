@@ -196,7 +196,7 @@ export default {
       this.$msgbox({
         title: "提示",
         message: h("div", null, [
-          h("p", null, "即将提交身份证结果。提交后将无法修改。"),
+          h("p", null, "即将提交身份证初审结果。提交后将无法修改。"),
           h("p", null, "确定提交?")
         ]),
         center: true,

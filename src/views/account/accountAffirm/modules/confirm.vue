@@ -25,8 +25,11 @@
 <script>
   import TableEdits from '@/components/tableEdits'
   import {URL_JSON} from "../../../../components/script/url_json";
+  import formCheck from '@/components/script/formCheck'
+
   export default {
     name: 'apply',
+    mixins:[formCheck],
     props: {
       editState: Number,
       item: Object
