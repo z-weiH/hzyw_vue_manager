@@ -215,7 +215,7 @@ export default {
       searchItem: {},
       item: {},
       currentItem: {},
-      exportUrl: "http://192.168.30.15:8999" + URL_JSON["exportCaseListView"],
+      exportUrl: /* "http://192.168.30.18:7777" + */ URL_JSON["exportCaseListView"],
       queryUrl: URL_JSON["queryCaseListView"], ///11/case/queryHzCaseInfoByBaseQuery.htm
       // 数据总数
       total: 11,
