@@ -5,7 +5,7 @@
 				互仲科技 | 业务后台管理系统
 			</div>
 			<div class="fr">
-				<a target="_blank" href="http://www.arbexpress.cn" class="el-button el-button--default">仲裁通官网</a>
+				<a target="_blank" href="http://www.arbexpress.cn" class="el-button el-button--default">仲财通官网</a>
 			</div>
 		</div>
 		<div class="content">

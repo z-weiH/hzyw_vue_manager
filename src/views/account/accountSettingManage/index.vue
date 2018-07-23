@@ -7,7 +7,7 @@
     </div>
     <div class="item-table">
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine">
-        <el-table-column label="操作" prop="orderStatusName" slot="defineCol">
+        <el-table-column label="操作" prop="orderStatusName" slot="defineCol" width="126">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -20,10 +20,12 @@
       </table-component>
     </div>
     <edit :item="item" :edit-state="editState" @refresh="refresh"></edit>
+    <account-apply :edit-state="editState" :item="item" @refresh="refresh"></account-apply>
   </div>
 </template>
 
 <script>
+  import AccountApply from '../userSearch/modules/apply'
   import Searchs from '@/components/searchs'
   import Mixins from '@/components/script/_mixin'
   import {URL_JSON} from "../../../components/script/url_json";
@@ -48,12 +50,18 @@
         searchItem: {},
         queryUrl: URL_JSON['queryAccountSettingManage'],
         columnDefine: [
-          {label: '企业名称', property: 'custName', width: 160 },
+          {label: '企业名称', property: 'custName', width: 160,isLink: 1, linkShowPanel: (row) => {
+              this.queryDetail(URL_JSON['editAccountApply'],{customerId: row.custId}).then(res => {
+                if(res.code == '0000'){
+                  this.item = res.result;
+                  this.editState = 9;
+                }
+              })} },
           {label: '合同号', property: 'contactNo',isLink: true, linkShowPanel: this.doView,width: 160},
           {label: '技术服务费(元)', property: 'serveAmount',width: 120},
           {label: '开户仲券(张)', property: 'ticketCount',width: 120},
           {label: '开户受理费(元)', property: 'caseAmount', width: 120},
-          {label: '申请时间', property: 'submitTime',width: 140},
+          {label: '申请时间', property: 'submitTime',width: 100},
         ],
         item: {}
       }
@@ -64,7 +72,7 @@
           .then(res => {
             if(res.code === '0000'){
               this.item = res.result;
-              this.editState = 9;
+              this.editState = 8;
             }
           })
       },
@@ -82,7 +90,9 @@
     components: {
       Searchs,
       TableComponent,
-      edit
+      edit,
+      AccountApply
+
     },
     created() {
       this.doQuery(this.queryUrl,this.searchItem);

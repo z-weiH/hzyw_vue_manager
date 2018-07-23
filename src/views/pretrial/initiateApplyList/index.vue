@@ -315,6 +315,9 @@ export default {
     },
     initQuery(url, item) {
       this.query(url, item).then(res => {
+        res.result.list.forEach(it => {
+          it.resPhone = it.resPhone.substr(0,3) + "****" + it.resPhone.substr(7);
+        })
         this.tableData = res.result.list;
         this.total = res.result.count;
 

@@ -24,7 +24,7 @@
         </ul>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="confirmApCase">确 定</el-button>
+        <el-button type="primary" @click="confirmApCase" :disabled = "zqdata.resultType === 3">确 定</el-button>
         <el-button @click="$parent.editState1 = false">取 消</el-button>
       </span>
     </el-dialog>

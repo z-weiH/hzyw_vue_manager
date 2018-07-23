@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     :visible.sync="show"
+    ref="dialog"
     :title="title"
     width="890px"
     center>
@@ -25,8 +26,11 @@
 <script>
 import TableEdits from '@/components/tableEdits'
 import {URL_JSON} from "../../../../components/script/url_json";
+import formCheck from '@/components/script/formCheck'
+
 export default {
   name: 'edit',
+  mixins:[formCheck],
   props: {
     editState: Number,
     item: Object

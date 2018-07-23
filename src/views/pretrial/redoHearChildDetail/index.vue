@@ -26,7 +26,10 @@
       <div>没有符合要求的案件</div>
     </div>
     <!-- end -->
-    <div class="card" v-for="(card, index) in idCardList" :key="index">
+    <div class="card" style="position: relative" v-for="(card, index) in idCardList" :key="index">
+      <div class="fix_screen" v-if="idCardList.length != 0">
+        <span class="arrow_left" @click="gotoPrevPage(card)"></span><span class="arrow_right" @click="gotoNextPage(card)"></span>
+      </div>
       <div class="card_header">
         <el-row>
           <el-col :span="12">
@@ -180,9 +183,7 @@
             </div> -->
       <!-- end -->
       <!-- 左右分页 tool -->
-      <div class="fix_screen" v-if="idCardList.length != 0">
-        <span class="arrow_left" @click="gotoPrevPage(card)"></span><span class="arrow_right" @click="gotoNextPage(card)"></span>
-      </div>
+
       <!-- ** -->
 
 
@@ -684,7 +685,7 @@ $themeColor: #193b8c;
     background-repeat: no-repeat;
     background-size: 100%;
     background-position: 100% 100%;
-    position: fixed;
+    position: absolute;
     top: 20%;
     cursor: pointer;
     &:hover {
@@ -692,8 +693,8 @@ $themeColor: #193b8c;
     }
   }
   .arrow_left {
-    top: 50%;
-    left: 16%;
+    top: 20%;
+    left: -90px;
     width: 120px;
     height: 120px;
     &:after {
@@ -712,8 +713,8 @@ $themeColor: #193b8c;
     }
   }
   .arrow_right {
-    top: 50%;
-    right: 16%;
+    top: 20%;
+    right: -90px;
     width: 120px;
     height: 120px;
     &:after {

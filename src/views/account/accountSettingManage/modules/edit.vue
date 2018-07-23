@@ -10,12 +10,12 @@
       <table-edits :editDefines="edtDefines1" :item="item" :disabled="true"></table-edits>
       <table-edits ref="edits" :editDefines="edtDefines" :item="item" :disabled="editState != 1"></table-edits>
     </div>
-    <span slot="footer" class="dialog-footer" v-if="editState !== 9">
+    <span slot="footer" class="dialog-footer" v-if="editState !== 8 ">
           <el-button type="primary" @click="save(0)">保 存</el-button>
           <el-button type="primary" @click="save(1)">确认提交</el-button>
           <el-button @click="$parent.editState = 0">取 消</el-button>
     </span>
-    <span slot="footer" class="dialog-footer" v-if="editState == 9 ">
+    <span slot="footer" class="dialog-footer" v-if="editState == 8 ">
           <el-button @click="$parent.editState = 0">返  回</el-button>
     </span>
   </el-dialog>
@@ -127,7 +127,7 @@ export default {
   computed: {
     show :{
       get: function () {
-        return this.editState === 1 || this.editState === 9;
+        return this.editState === 1 || this.editState === 8;
       },
       set: function (v) {
         if(!v)
