@@ -10,12 +10,12 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="130px">
           
-					<el-form-item :label="labelKey + '：'" prop="demo"
+					<el-form-item :label="labelKey + '：'" prop="keyWords"
             :rules="[
               {required : true , message : '请输入' + labelKey , trigger : 'blur'},
             ]"
           >
-						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
+						<el-input style="width:400px;" v-model.trim="ruleForm.keyWords" placeholder="请输入"></el-input>
 					</el-form-item>
 
         </el-form>
@@ -36,21 +36,26 @@
         dialogVisible : false,
         // 提交按钮禁用状态
         submitDisabled : false,
-        // 字段 label
-        labelKey : '',
+        // 当前状态
+        currentType : '',
 
         ruleForm : {
-
+          // input 输入
+          keyWords : '',
         },
         rules : {
 
         },
-
-        // 产品 options
-        productOptions : [
-          {label : '产品1' , value : '产品1'}
-        ],
       }
+    },
+    computed : {
+      labelKey() {
+        return (
+          this.currentType === 1 ? '标的金额' :
+          this.currentType === 2 ? '预测仲裁金额' :
+          this.currentType === 3 ? '执行标的' : ''
+        )
+      },
     },
     mounted() {
 
@@ -62,14 +67,18 @@
         this.$nextTick(() => {
           this.$refs.dialog.$el.scrollTop = 0;
         });
-
-        if(type === 1) {
-          this.labelKey = '标的金额';
-        }else if(type === 2) {
-          this.labelKey = '预测仲裁金额';
-        }else if(type === 3) {
-          this.labelKey = '执行标的';
-        }
+        this.currentType = type;
+        console.log(data);
+        // 回显输入
+        this.$nextTick(() => {
+          if(this.currentType === 1) {
+            this.ruleForm.keyWords = data.bidAmt;
+          }else if(this.currentType === 2) {
+            this.ruleForm.keyWords = data.forecastAmt;
+          }else if(this.currentType === 3) {
+            this.ruleForm.keyWords = data.executeAmt;
+          }
+        });
       },
 
       // 关闭浮层
@@ -87,13 +96,26 @@
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
 						// 提交数据
-						this.submitDisabled = true;
+            this.submitDisabled = true;
+            let data = {
+              prodTempId : this.$route.query.prodTempId,
+            };
+            // 根据不同状态 提交不同参数数据
+            if(this.currentType === 1) {
+              data.bidAmt = this.ruleForm.keyWords;
+            }else if(this.currentType === 2) {
+              data.forecastAmt = this.ruleForm.keyWords;
+            }else if(this.currentType === 3) {
+              data.executeAmt = this.ruleForm.keyWords;
+            }
 						this.$http({
               method : 'post',
-              url : '/preCaseLib/distributeCaseByDistributeCaseQuery.htm',
+              url : '/templateSetting/updateTemplateDetailByProdTempId.htm',
               data : data,
             }).then((res) => {
-              this.$message.success('分配成功');
+              this.$message.success('设置成功');
+              this.$emit('successCBK');
+              this.handleClose();
             }).catch(() => {
               this.submitDisabled = false;
             });

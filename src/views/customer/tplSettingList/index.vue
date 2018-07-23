@@ -16,10 +16,10 @@
         >
         </timeFrame>
 
-        <el-form-item label=" " prop="accountAge">
-          <el-select clearable v-model="ruleForm.accountAge" placeholder="是否启用">
-            <el-option label="是" value="M1"></el-option>
-            <el-option label="否" value="M2"></el-option>
+        <el-form-item label=" " prop="templateStatus">
+          <el-select clearable v-model="ruleForm.templateStatus" placeholder="是否启用">
+            <el-option label="启用" value="1"></el-option>
+            <el-option label="停用" value="0"></el-option>
           </el-select>
         </el-form-item>
 
@@ -51,15 +51,50 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-        <el-table-column prop="respondents" label="客户"></el-table-column>
-				<el-table-column prop="respondents" label="产品"></el-table-column>
-        <el-table-column prop="respondents" label="模板"></el-table-column>
-        <el-table-column prop="respondents" label="启用状态"></el-table-column>
-        <el-table-column prop="respondents" label="申请书"></el-table-column>
-        <el-table-column prop="respondents" label="裁决书"></el-table-column>
-        <el-table-column prop="respondents" label="强执申请书"></el-table-column>
-        <el-table-column prop="respondents" label="初次启用日期" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="备注"></el-table-column>
+        <el-table-column prop="clientName" label="客户"></el-table-column>
+				<el-table-column prop="productName" label="产品"></el-table-column>
+        <el-table-column prop="templateCode" label="模板"></el-table-column>
+        <el-table-column prop="templateStatus" label="启用状态">
+          <template slot-scope="scope">
+            {{ 
+              
+              scope.row.templateStatus === 0 ? '停用' :
+              scope.row.templateStatus === 1 ? '启用' : ''
+            }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="applyStatus" label="申请书">
+          <template slot-scope="scope">
+            {{ 
+              
+              scope.row.applyStatus === 0 ? '待设置' :
+              scope.row.applyStatus === 1 ? '启用' : 
+              scope.row.applyStatus === 2 ? '停用' : ''
+            }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="adjudeStatus" label="裁决书">
+          <template slot-scope="scope">
+            {{ 
+              
+              scope.row.adjudeStatus === 0 ? '待设置' :
+              scope.row.adjudeStatus === 1 ? '启用' : 
+              scope.row.adjudeStatus === 2 ? '停用' : ''
+            }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="enforceStatus" label="强执申请书">
+          <template slot-scope="scope">
+            {{ 
+              
+              scope.row.enforceStatus === 0 ? '待设置' :
+              scope.row.enforceStatus === 1 ? '启用' : 
+              scope.row.enforceStatus === 2 ? '停用' : ''
+            }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="firstTime" label="初次启用日期" width="120px"></el-table-column>
+        <el-table-column prop="remark" label="备注"></el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -95,7 +130,7 @@
 					// 结束时间
           endDate : '',
           // 是否启用
-          accountAge : '',
+          templateStatus : '',
 				},
 				rules : {},
 
@@ -109,7 +144,10 @@
 				pageSize : 10,
 				
 			}
-		},
+    },
+    mounted() {
+      this.initTableList();
+    },
 		methods : {
 			// 点击搜索
 			handleSearch() {
@@ -122,7 +160,7 @@
       },
       // table行 点击
       tableRowClick(row, event, column) {
-        this.$router.push('tplSettingEdit');
+        this.$router.push(`tplSettingEdit?clientCode=${this.$route.query.clientCode}&prodTempId=${row.prodTempId}`);
       },
       // 添加新模板
       handleAddTemplate() {
@@ -138,11 +176,12 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
+          url : '/templateList/queryTemplateListByBaseQuery.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
+            clientCode : this.$route.query.clientCode,
 
             ...this.ruleForm,
           },

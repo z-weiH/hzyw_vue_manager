@@ -127,7 +127,7 @@
       // 点击设置
       handleClick(row) {
         // this.$refs.setDialog.show(row);
-        this.$router.push('tplSettingList');
+        this.$router.push(`tplSettingList?clientCode=${row.clientCode}`);
       },
 
       // 表格相关 start
@@ -136,7 +136,7 @@
       initTableList() {
         this.$http({
           method : 'post',
-          url : '/tplsetting/queryMerchantTemplateInfoByBaseQuery.htm',
+          url : '/templateSetting/queryTemplateListByBaseQuery.htm',
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
