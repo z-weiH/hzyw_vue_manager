@@ -138,6 +138,10 @@
       ...mapGetters(['items'])
     },
     methods: {
+      handleResult(item) {
+        this.showReason = true;
+        this.logReasonList = item.returnMsg.split('\n');;
+      },
       //获取提交信息
       HandleBeforeSubmit(info) {
         return this.$http.post('/firstAudit/subBatchPassQueryByBatchId.htm',{subBatchNo: info.subBatchNo}).then(res => {

@@ -44,8 +44,8 @@ export default {
           colSpan: 4,
           property: "merchantCode",
           options: this.opCompany,
-          labelfield: "merchantName",
-          valuefield: "code"
+          labelfield: "clientName",
+          valuefield: "clientCode"
         },
         {
           label: "运营人员",
@@ -109,6 +109,7 @@ export default {
     },
     operatorListView(){
       this.$http.post(URL_JSON["queryUserListByRoleType"],{ type: 'OPERATOR'}).then(res => {
+        console.log("运营人员：",res);
           this.searchItems[1].options = res.result;
       });
     },

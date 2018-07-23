@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       item: {},
-      queryUrl: "/13/distribution/queryDistributionByBaseQuery.htm",
+      queryUrl: /* "/13"+ */"/distribution/queryDistributionByBaseQuery.htm",
       tableData: [{}],
       searchItems: [
         {

@@ -77,7 +77,32 @@
           content: [
             {label: '法定代表人：', type: 'text', placeholder: '请输入法定代表人',columns:1,property: 'legallerName',rule:'require'},
             {label: '身份证号：', type: 'text', placeholder: '请输入身份证号',columns:1,property: 'legallerIdcard',rule:'certificate'},
-            {label: '法定代表人手机：', type: 'number', placeholder: '请输入法定代表人手机',columns:1,property: 'legallerPhone',rule:'require,phone'},
+            {label: '法定代表人手机：', type: 'number', placeholder: '请输入法定代表人手机',columns:1,property: 'legallerPhone',
+              rule: [
+                { required: true, message: "不能为空", trigger: "blur" },
+                {required : false , pattern : /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/ , message : '手机号格式不正确'},
+                {
+                  validator: (rule, value, callback) => {
+                    if(this.editState === 9)
+                      return ;
+                    if(!value)
+                      return callback(new Error("不能为空"));
+                    this.$http.post('/customer/validatePhoneExist.htm',{phone: value}).then(res => {
+                      if(res.code === '0000'){
+                        if(res.result.exist){
+                          callback(new Error("该手机号已存在"));
+                        }
+                        else {
+                          callback();
+                        }
+                      }else{
+                        callback(new Error(res.description));
+                      }
+                    })},
+                  trigger: 'blur'
+                }
+              ]
+            },
             {label: '法定代表人邮箱：', type: 'text', placeholder: '请输入法定代表人邮箱',columns:1,property: 'legallerEmail',rule:'email'},
             {label: '法定代表人职务：', type: 'text', placeholder: '请输入法定代表人职务',columns:2,property: 'legallerPosition',rule:'require'},
             {type: 'info',columns:2,content:'注：法定代表人手机和邮箱将用于接收案件信息，请与客户确认'}
@@ -104,7 +129,7 @@
         },{
           title: '第五部分：客户资料',
           content: [
-            {label: '营业执照(jpg，png)', type: 'file',path : 'customer', placeholder: '请输入客户联系人',columns:1,property: 'dataUrl',disabledLabel: '点击查看营业执照', accept: 'image/jpeg,image/png'},
+            {label: '营业执照(jpg，png)', type: 'file',path : 'customer', placeholder: '请输入客户联系人',columns:1,property: 'dataUrl',disabledLabel: '点击查看营业执照', accept: 'image/jpeg,image/png',rule:'require'},
             {type: 'img',columns:1,property:'dataUrl'},
           ]
         },{

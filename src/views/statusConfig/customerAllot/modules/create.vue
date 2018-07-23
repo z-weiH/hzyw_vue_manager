@@ -31,8 +31,8 @@ export default {
           property: "code",
           label: "互金企业",
           options: [],
-          optValue: "code",
-          optLabel: "merchantName"
+          optValue: "clientCode",
+          optLabel: "clientName"
         },
         {
           type: "select",

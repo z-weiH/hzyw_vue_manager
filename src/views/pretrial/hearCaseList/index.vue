@@ -63,7 +63,7 @@
         </el-form-item>
 
         <el-button @click="handleSearch" type="warning">查询</el-button>
-        
+
       </el-form>
     </div>
 
@@ -119,13 +119,13 @@
         <el-table-column align="center" prop="status" label="状态" width="150px">
           <template slot-scope="scope">
             {{
-              scope.row.status === 0 ? '待分配' : 
-              scope.row.status === 1 ? '待初审' : 
-              scope.row.status === 2 ? '待复审' : 
-              scope.row.status === 3 ? '退回重审' : 
-              scope.row.status === 4 ? '审核通过' : 
-              scope.row.status === 5 ? '审核未通过' : 
-              scope.row.status === 6 ? '立案申请成功' : 
+              scope.row.status === 0 ? '待分配' :
+              scope.row.status === 1 ? '待初审' :
+              scope.row.status === 2 ? '待复审' :
+              scope.row.status === 3 ? '退回重审' :
+              scope.row.status === 4 ? '审核通过' :
+              scope.row.status === 5 ? '审核未通过' :
+              scope.row.status === 6 ? '立案申请成功' :
               scope.row.status === 7 ? '立案申请失败' : ''
             }}
           </template>
@@ -225,10 +225,13 @@
             queryStartDate : this.ruleForm.queryStartDate,
             queryEndDate : this.ruleForm.queryEndDate,
             status : this.ruleForm.status,
-            
+
           },
         }).then((res) => {
           this.total = res.result.count;
+          res.result.list.forEach(it => {
+            it.resPhone = it.resPhone.substr(0,3) + "****" + it.resPhone.substr(7);
+          })
           this.tableData = res.result.list;
         });
       },
@@ -240,7 +243,7 @@
       },
       // 分页 change
       handleCurrentChange(val) {
-        this.currentPage = val; 
+        this.currentPage = val;
         this.initTableList();
       },
 

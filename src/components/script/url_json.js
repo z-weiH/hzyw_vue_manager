@@ -163,7 +163,7 @@ export const URL_JSON = {
   'queryCaseListView': '/case/queryHzCaseInfoByBaseQuery.htm', //案件列表
   'exportCaseListView': '/case/exportFileHzCaseInfoByBaseQuery.htm', //导出
   'queryRespondentsFeedback': '/feedback/queryRespondentFeedbackByBaseQuery.htm', //被申请人反馈
-  'exportRespondentsFeedback': ' /feedback/exportExcel.htm', //导出
+  'exportRespondentsFeedback': '/feedback/exportExcel.htm', //导出
   'queryPaymentInformation': '/repayment/queryRepaymentList.htm',//还款信息
   'selectCompany': '/case/queryCustomerList.htm',//选择-互金公司
   'selectProduct': '/case/queryProducts.htm',//选择-产品
