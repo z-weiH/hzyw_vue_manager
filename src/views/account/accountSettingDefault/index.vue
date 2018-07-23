@@ -86,7 +86,7 @@ export default {
   components: {
     Searchs,
     TableComponent,
-    SettingDlg
+    SettingDlg,
   },
   created() {
       this.doQuery(this.queryUrl,this.searchItem);
