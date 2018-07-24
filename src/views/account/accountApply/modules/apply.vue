@@ -138,7 +138,7 @@
             {label: '合同编号：', type: 'text', placeholder: '请输入合同编号',columns:1,property: 'contractNo',rule:'require'},
             {label: '合同时间：', type: 'date', placeholder: '请输入合同时间',columns:1,property: 'contractDate',rule:'require'},
             {label: '预缴仲裁受理费（元）：', type: 'number', placeholder: '请输入预缴仲裁受理费',columns:1,property: 'preCaseAmt',rule:'require,gt0'},
-            {label: '技术服务费（元）：', type: 'number', placeholder: '请输入技术服务费',columns:1,property: 'serviceAmt',rule:'require,gt1'},
+            {label: '技术服务费（元）：', type: 'number', placeholder: '请输入技术服务费',columns:1,property: 'serviceAmt',rule:'gt0'},
             {label: '充值仲券（张）：', type: 'number', placeholder: '请输入充值仲券',columns:1,property: 'preCaseTicket',rule:'require,gt0'},
             {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'preTicketAmt',rule:'require,gt0',disabled: true},
             {label: '赠送仲券（张）：', type: 'number', placeholder: '请输入赠送仲券',columns:1,property: 'preGiftTicket',rule:'require,gt0'},
@@ -231,7 +231,11 @@
           })
       },
       saveApply(num) {
+        if(!this.item.serviceAmt){
+          this.$set(this.item,'serviceAmt', 0);
+          // this.item.serviceAmt = 0;
 
+        }
         this.checkbeforeSave().then(() => {
           // "到款金额 = 仲券金额 + 技术服务费 + 添加受理费"
           if(this.item.preTicketAmt != (+this.item.preCaseTicket) * 10){
