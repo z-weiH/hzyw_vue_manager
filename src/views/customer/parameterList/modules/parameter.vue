@@ -66,16 +66,18 @@
       },
       // 表格 col 点击
       handleRow(row, column, cell, event) {
-        //this.$emit('copy',row.paramCode);
-        if(cell.querySelector('.parameter-text')) {
+        copy('${'+ row.paramCode +'}',() => {
+          this.$message.success('已复制${'+ row.paramCode +'}');
+        });
+        /* if(cell.querySelector('.parameter-text')) {
           copy(row.paramCode,() => {
-            this.$message.success('复制成功');
+            this.$message.success('已复制');
           });
         }else{
           copy(row.paramCode,() => {
             this.$message.success('复制成功');
           });
-        }
+        } */
       },
     },
   }
