@@ -298,6 +298,14 @@ let router = new Router({
           },
         },
         {
+          path: 'productList',
+          component: () =>
+            import ('@/views/customer/productList'), // 客户管理 - 产品列表
+          meta: {
+            name: 'clientManagement',
+          },
+        },
+        {
           path: 'balanceQuery',
           component: () =>
             import ('@/views/customer/balanceQuery'), // 账户余额查询
