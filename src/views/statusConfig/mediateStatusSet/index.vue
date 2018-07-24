@@ -11,7 +11,7 @@
           调解状态设置列表
         </div>
         <div class='item-table'>
-           <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData"  :column-define="columnDefine"  :actions="actions"></table-component>
+           <table-component  :needCheckbox="true" @slectionChange="slectionChange" :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData"  :column-define="columnDefine"  :actions="actions"></table-component>
         </div>
 </div>
 </template>
@@ -25,6 +25,7 @@ export default {
 	extends: Mixins,
 	data() {
 		return {
+      selection: [],
 			item: {},
 			queryUrl: URL_JSON['queryFreezeCaseList'],
 			tableData: [{}],
@@ -274,7 +275,11 @@ export default {
         console.warn('状态：', res.result.list)
 
 			})
-		},
+    },
+    slectionChange(selection){
+      console.log(selection);
+      this.selection = selection;
+    }
 	},
 	created() {
 		this.optsCompanyListView() //互金企业
