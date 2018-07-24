@@ -79,14 +79,13 @@
             {label: '身份证号：', type: 'text', placeholder: '请输入身份证号',columns:1,property: 'legallerIdcard',rule:'certificate'},
             {label: '法定代表人手机：', type: 'number', placeholder: '请输入法定代表人手机',columns:1,property: 'legallerPhone',
               rule: [
-                { required: true, message: "不能为空", trigger: "blur" },
                 {required : false , pattern : /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/ , message : '手机号格式不正确'},
                 {
                   validator: (rule, value, callback) => {
                     if(this.editState === 9)
                       return ;
-                    if(!value)
-                      return callback(new Error("不能为空"));
+                    if(!value && value != 0)
+                      return ;
                     this.$http.post('/customer/validatePhoneExist.htm',{phone: value}).then(res => {
                       if(res.code === '0000'){
                         if(res.result.exist){
