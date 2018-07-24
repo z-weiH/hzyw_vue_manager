@@ -12,7 +12,7 @@
           
 					<el-form-item label="产品名称" prop="productId">
             <el-select clearable style="width:260px;" v-model="ruleForm.productId" placeholder="请选择账龄">
-              <el-option :label="item.label" :value="item.value" v-for="(item,index) in productOptions" :key="index"></el-option>
+              <el-option :label="item.productName + ' ' + item.prodCode" :value="item.productId" v-for="(item,index) in productOptions" :key="index"></el-option>
             </el-select>
           </el-form-item>
 
@@ -40,7 +40,6 @@
     data() {
       // 校验模板编号
       let verifyCode = (rule, value, callback) => {
-        console.log('校验模板编号');
         callback();
       }
       return {
@@ -62,18 +61,25 @@
           ],
           templateCode : [
             {required : true , message : '输入模板编号' , trigger : 'blur'},
+            {pattern : /^\d{2}$/ , message : '请输入两位数字' , trigger : 'blur'},
             { validator: verifyCode, trigger: 'blur' }
           ],
         },
 
         // 产品 options
         productOptions : [
-          {label : '产品1' , value : '产品1'}
+          {productName : '产品' , prodCode : '10' , productId : '产品1'}
         ],
       }
     },
     mounted() {
-
+      // 获取 产品 options
+      this.$http({
+        url : '/templateList/queryTemplateList.htm',
+        method : 'post',
+      }).then((res) => {
+        this.productOptions = res.result.list;
+      });
     },
     methods : {
       show(data,type) {
@@ -102,7 +108,7 @@
 						this.submitDisabled = true;
 						this.$http({
               method : 'post',
-              url : '/preCaseLib/distributeCaseByDistributeCaseQuery.htm',
+              url : '/eviConfigure/saveProductTemplate.htm',
               data : {
                 productId : this.ruleForm.productId,
                 remark : this.ruleForm.remark,
@@ -110,7 +116,9 @@
                 templateId : this.$route.query.templateId,
               },
             }).then((res) => {
-              this.$message.success('分配成功');
+              this.$message.success('新增成功');
+              this.$emit('successCBK');
+              this.handleClose();
             }).catch(() => {
               this.submitDisabled = false;
             });
