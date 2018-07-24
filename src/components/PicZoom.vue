@@ -132,7 +132,6 @@ import $ from "jquery";
                 this.canvas.width=this.imgbox.offsetWidth
                 this.canvas.style.display='none'
                 // document.body.append(this.canvas)
-                console.log('imgwrap:: ',this.imgwrap);
                 $(this.canvas).appendTo(document.body)
                 this.ctx=this.canvas.getContext("2d");
                 this.ctx.clearRect(0,0,this.canvas.width,this.canvas.height);
