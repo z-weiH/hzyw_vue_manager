@@ -71,6 +71,21 @@
       }
     },
     mounted() {
+      // 回显数据
+      this.$http({
+        url : '/templateSetting/queryRichTextContentByIdAndType.htm',
+        method : 'post',
+        data : {
+          prodTempId : this.$route.query.prodTempId,
+          type : (
+            this.$route.query.type === 'applyContent' ? 1 :
+            this.$route.query.type === 'judgeContent' ? 2 :
+            this.$route.query.type === 'enforceContent' ? 3 : ''
+          ),
+        },
+      }).then((res) => {
+        this.$refs.umeditor.setContent(res.result[this.$route.query.type]);
+      });
     },
     methods : {
       // copy 参数
@@ -97,7 +112,7 @@
         }else if(type === 2) {
           message = '&lt;#if userName=admin&gt;a&lt;#else&gt;b&lt;/#if&gt;';
         }else if(type === 3) {
-          message = '&lt;@tableCol3 colNames=[用户名,昵称] colProperties=[${userName},${nickName}]&gt;&lt;/@tableCol3&gt;';
+          message = '&lt;@tableCol3 colNames=[用户名,昵称] colProperties=[userName,nickName]&gt;&lt;/@tableCol3&gt;';
         }
         this.$refs.umeditor.insertHtml(message);
       },
@@ -124,6 +139,15 @@
         this.verify((content) => {
           if(content) {
             // 提交数据
+            this.$http({
+              url : '/templateSetting/updateTemplateDetailByProdTempId.htm',
+              method : 'post',
+              data : {
+                [this.$route.query.type] : content,
+              },
+            }).then((res) => {
+              this.$message.success('保存成功');
+            });
           }
         });
       },

@@ -10,9 +10,9 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
           
-					<el-form-item label="数据模板" prop="accountPeriodType">
-            <el-select clearable style="width:300px;" v-model="ruleForm.accountPeriodType" placeholder="请选择数据模板">
-              <el-option v-for="(item,index) in dataOptions" :label="item.name" :value="item.value" :key="index"></el-option>
+					<el-form-item label="数据模板" prop="dataId">
+            <el-select clearable style="width:300px;" v-model="ruleForm.dataId" placeholder="请选择数据模板">
+              <el-option v-for="(item,index) in dataOptions" :label="item.dataName" :value="item.dataId" :key="index"></el-option>
             </el-select>
           </el-form-item>
 
@@ -37,21 +37,29 @@
         textarea : '',
         // 预览数据 options
         dataOptions : [
-          {name : '张三' , value : '张三'}
+          {dataName : '张三' , dataId : '张三'}
         ],
         loading : '',
 
         ruleForm : {
-
+          // 模板数据 
+          dataId : '',
         },
         rules : {
-          accountPeriodType : [
+          dataId : [
             {required : true , message : '请选择数据模板' , trigger : 'change'},
           ],
         },
       }
     },
     mounted() {
+      // 获取 模板数据options
+      this.$http({
+        url : '/templateData/queryTemplateDataByDataIdList',
+        method : 'post',
+      }).then((res) => {
+        this.dataOptions = res.result.list;
+      });
     },
     methods : {
       show(data) {
@@ -93,13 +101,22 @@
 						// 提交数据
 						this.$http({
               method : 'post',
-              url : '/preCaseLib/distributeCaseByDistributeCaseQuery.htm',
-              data : {},
+              url : '/templateSetting/reviewTemplateContent.htm',
+              data : {
+                dataId : this.ruleForm.dataId,
+                prodTempId : this.$route.query.prodTempId,
+                type : (
+                  this.$route.query.type === 'applyContent' ? 1 :
+                  this.$route.query.type === 'judgeContent' ? 2 :
+                  this.$route.query.type === 'enforceContent' ? 3 : ''
+                )
+              },
             }).then((res) => {
               this.loading.close();
-              win.location.href = 'http://filetest.arbexpress.cn/case/evidence/2018-07-19/7253E188E25273F91798210247806E30.pdf';
+              win.location.href = res.result;
             }).catch(() => {
               this.loading.close();
+              win.close();
             });
           }
         });

@@ -53,7 +53,7 @@
                 >
                 <el-button type="text">word上传</el-button>
               </el-upload>
-              <el-button @click="handleWebpage" type="text" class="ml-10">网页编辑</el-button>
+              <el-button @click="handleWebpage('applyContent')" type="text" class="ml-10">网页编辑</el-button>
               <span class="m-time ml-10">
                 {{ruleForm.applyUpdateTime || '待设置'}}
               </span>
@@ -102,7 +102,7 @@
                 >
                 <el-button type="text">word上传</el-button>
               </el-upload>
-              <el-button @click="handleWebpage" type="text" class="ml-10">网页编辑</el-button>
+              <el-button @click="handleWebpage('judgeContent')" type="text" class="ml-10">网页编辑</el-button>
               <span class="m-time ml-10">
                 {{ruleForm.judgeUpdateTime || '待设置'}}
               </span>
@@ -143,7 +143,7 @@
                 >
                 <el-button type="text">word上传</el-button>
               </el-upload>
-              <el-button @click="handleWebpage" type="text" class="ml-10">网页编辑</el-button>
+              <el-button @click="handleWebpage('enforceContent')" type="text" class="ml-10">网页编辑</el-button>
               <span class="m-time ml-10">
                 {{ruleForm.enforceUpdateTime || '待设置'}}
               </span>
@@ -262,8 +262,8 @@
         this.init();
       },
       // 点击网页编辑
-      handleWebpage() {
-        this.$router.push(`/webpageEditor?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}`);
+      handleWebpage(type) {
+        this.$router.push(`/webpageEditor?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}&type=${type}`);
       },
       // 点击证据设置
       handleEvidenceSetting() {

@@ -58,6 +58,12 @@
   .edui-btn-image{
     display: none;
   }
+  .edui-toolbar{
+    position: relative!important;
+  }
+  .edui-container >div[style*=height]{
+    display: none;
+  }
 }
 
 </style>
