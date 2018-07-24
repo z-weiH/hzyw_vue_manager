@@ -42,13 +42,15 @@
               <span class="is-required list-text">申请书：</span>
               <el-upload
                   class="upload-demo"
-                  :action="`${$host}/file/upload.htm`"
+                  :action="`${$host}/templateSetting/uploadTemplateContent.htm`"
                   :show-file-list="false"
                   :before-upload="beforeAvatarUpload"
+                  :on-success="handleAvatarSuccess"
                   :on-error="fileError"
                   :data="{
                     path : 'demo',
                     token : token,
+                    type : '1',
                   }"
                 >
                 <el-button type="text">word上传</el-button>
@@ -91,13 +93,15 @@
               <span class="list-text">裁决书：</span>
               <el-upload
                   class="upload-demo"
-                  :action="`${$host}/file/upload.htm`"
+                  :action="`${$host}/templateSetting/uploadTemplateContent.htm`"
                   :show-file-list="false"
                   :before-upload="beforeAvatarUpload"
+                  :on-success="handleAvatarSuccess"
                   :on-error="fileError"
                   :data="{
                     path : 'demo',
                     token : token,
+                    type : '2',
                   }"
                 >
                 <el-button type="text">word上传</el-button>
@@ -132,13 +136,15 @@
               <span class="list-text">强制申请书：</span>
               <el-upload
                   class="upload-demo"
-                  :action="`${$host}/file/upload.htm`"
+                  :action="`${$host}/templateSetting/uploadTemplateContent.htm`"
                   :show-file-list="false"
                   :before-upload="beforeAvatarUpload"
+                  :on-success="handleAvatarSuccess"
                   :on-error="fileError"
                   :data="{
                     path : 'demo',
                     token : token,
+                    type : '3',
                   }"
                 >
                 <el-button type="text">word上传</el-button>
@@ -345,6 +351,10 @@
           return false;
         }
         return true;
+      },
+      // 文件上传成功
+      handleAvatarSuccess(response, file, fileList) {
+        this.$message.success('上传成功');
       },
       /* 文件上传失败 回调 */
       fileError() {
