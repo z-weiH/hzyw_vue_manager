@@ -32,42 +32,44 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import {
-    URL_JSON
-  } from "../../../../components/script/url_json";
-  export default {
-    name: "initiateApplyCreate1",
-    props: {
-      zqdata: Object,
-      item: Object
-    },
-    data() {
-      return {
-        //  editState1:0
-        itsObj:{}
-      };
-    },
-    methods: {
-      confirmApCase() {
-        this.itsObj = this.item;
-        this.itsObj.loanBillNos = this.zqdata.loanBillNos;
-        this.$http.post(URL_JSON["confirmApplyCase"], this.itsObj).then(res => {
-          console.log("成功！", res.result);
-          this.$parent.$parent.initQuery(this.$parent.$parent.queryUrl, this.$parent.$parent.searchItem);
-          this.$parent.editState1 = false;
-          this.$parent.$parent.editState = 0;
-          this.$message.success("立案成功");
-
-        });
-      }
-    },
-    mounted() {
-      console.log("ddddd: ", this.zqdata);
-    },
-    components: {}
-  };
+import { URL_JSON } from '../../../../components/script/url_json'
+export default {
+	name: 'initiateApplyCreate1',
+	props: {
+		zqdata: Object,
+		item: Object,
+	},
+	data() {
+		return {
+			//  editState1:0
+			itsObj: {},
+		}
+	},
+	methods: {
+		confirmApCase() {
+			this.itsObj = this.item
+			this.itsObj.loanBillNos = this.zqdata.loanBillNos
+      // 请求开关控制
+			let isHold = true;
+			if (isHold) {
+        isHold = false;
+				this.$http.post(URL_JSON['confirmApplyCase'], this.itsObj).then(res => {
+					console.log('成功！', res.result)
+					this.$parent.$parent.initQuery(this.$parent.$parent.queryUrl, this.$parent.$parent.searchItem)
+					this.$parent.editState1 = false
+					this.$parent.$parent.editState = 0
+          this.$message.success('立案成功')
+          isHold = true;
+				})
+			}
+		},
+	},
+	mounted() {
+		console.log('ddddd: ', this.zqdata)
+	},
+	components: {},
+}
 </script>
 
 <style scoped lang="scss">
-
 </style>

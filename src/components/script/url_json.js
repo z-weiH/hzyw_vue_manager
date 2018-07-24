@@ -184,16 +184,7 @@ export const URL_JSON = {
   'saveCustomerAllot': '/distribution/saveDistribution.htm',//新增分配人员
   'unbindCustomerAllot': '/distribution/deleteChannelByPrimaryKey.htm', //解绑分配人员
 
-
-
-
-
-
-
-
-
-
-
+  'queryFreezeCaseList': '/adjust/queryFreezedCasesList.htm', //调解-冻结案件列表
 
 
   /* 状态配置 */
