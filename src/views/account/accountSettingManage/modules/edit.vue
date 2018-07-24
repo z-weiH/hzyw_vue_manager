@@ -117,14 +117,15 @@ export default {
       this.resetForm();
     },
     'item.ticketCount': function(val, oldval){
-      if(val){
+      if(val || val == 0){
         this.handleChange();
         this.handleArriveChange();
       }
     },
     'item.caseAmount': function (val,oldval) {
-
-      val && this.handleArriveChange();
+      if(val || val == 0){
+        this.handleArriveChange();
+      }
     },
     'item.serveAmount': function (val,oldval) {
       this.handleArriveChange(true);

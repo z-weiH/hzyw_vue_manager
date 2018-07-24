@@ -201,8 +201,9 @@
         this.resetForm();
       },
       'item.preCaseTicket':function (val, oldval) {
-        console.log(val,this.item);
-        this.item.preTicketAmt = this.item.preCaseTicket * 10;
+        if(val || val == 0){
+          this.item.preTicketAmt = this.item.preCaseTicket * 10;
+        }
       }
     },
     methods: {
