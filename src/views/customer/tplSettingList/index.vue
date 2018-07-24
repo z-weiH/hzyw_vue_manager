@@ -160,7 +160,7 @@
       },
       // table行 点击
       tableRowClick(row, event, column) {
-        this.$router.push(`tplSettingEdit?clientCode=${this.$route.query.clientCode}&prodTempId=${row.prodTempId}`);
+        this.$router.push(`tplSettingEdit?clientCode=${this.$route.query.clientCode}&prodTempId=${row.prodTempId}&templateId=${this.$route.query.templateId}`);
       },
       // 添加新模板
       handleAddTemplate() {

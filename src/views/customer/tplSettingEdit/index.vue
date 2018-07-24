@@ -247,7 +247,7 @@
       },
       // 点击返回
       handleGoBack() {
-        this.$router.push(`tplSettingList?clientCode=${this.$route.query.clientCode}`);
+        this.$router.push(`tplSettingList?clientCode=${this.$route.query.clientCode}&templateId=${this.$route.query.templateId}`);
       },
       //点击参数列表
       handleParameterList() {
@@ -263,11 +263,11 @@
       },
       // 点击网页编辑
       handleWebpage(type) {
-        this.$router.push(`/webpageEditor?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}&type=${type}`);
+        this.$router.push(`/webpageEditor?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}&type=${type}&templateId=${this.$route.query.templateId}`);
       },
       // 点击证据设置
       handleEvidenceSetting() {
-        this.$router.push(`evidenceSetting?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}`);
+        this.$router.push(`evidenceSetting?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}&templateId=${this.$route.query.templateId}`);
       },
       // 点击 启用 or 停用
       handleEnableOrDiscontinuation(type) {

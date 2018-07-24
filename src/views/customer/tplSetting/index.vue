@@ -127,7 +127,7 @@
       // 点击设置
       handleClick(row) {
         // this.$refs.setDialog.show(row);
-        this.$router.push(`tplSettingList?clientCode=${row.clientCode}`);
+        this.$router.push(`tplSettingList?clientCode=${row.clientCode}&templateId=${row.templateId}`);
       },
 
       // 表格相关 start

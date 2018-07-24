@@ -140,7 +140,7 @@
       },
       // 点击 取消
       handleGoBack() {
-        this.$router.push(`tplSettingEdit?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}`);
+        this.$router.push(`tplSettingEdit?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}&templateId=${this.$route.query.templateId}`);
       },
       
       // 点击新增证据

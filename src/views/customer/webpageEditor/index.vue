@@ -160,7 +160,7 @@
           confirmButtonClass: 'confirm',
           center: true,
         }).then(() => {
-          this.$router.push(`/main/tplSettingEdit?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}`);
+          this.$router.push(`/main/tplSettingEdit?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}&templateId=${this.$route.query.templateId}`);
         },() => {
         });
       },

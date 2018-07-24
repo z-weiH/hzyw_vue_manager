@@ -10,8 +10,8 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
           
-					<el-form-item label="产品名称" prop="accountPeriodType">
-            <el-select clearable style="width:260px;" v-model="ruleForm.accountPeriodType" placeholder="请选择账龄">
+					<el-form-item label="产品名称" prop="productId">
+            <el-select clearable style="width:260px;" v-model="ruleForm.productId" placeholder="请选择账龄">
               <el-option :label="item.label" :value="item.value" v-for="(item,index) in productOptions" :key="index"></el-option>
             </el-select>
           </el-form-item>
@@ -20,8 +20,8 @@
 						<el-input style="width:260px;" v-model.trim="ruleForm.templateCode" placeholder="请输入"></el-input>
 					</el-form-item>
 
-					<el-form-item label="备注" prop="remarks">
-						<el-input style="width:360px;" type="textarea" v-model.trim="ruleForm.remarks" placeholder="请输入"></el-input>
+					<el-form-item label="备注" prop="remark">
+						<el-input style="width:360px;" type="textarea" v-model.trim="ruleForm.remark" placeholder="请输入"></el-input>
 					</el-form-item>
 
         </el-form>
@@ -50,14 +50,14 @@
 
         ruleForm : {
           // 产品名称
-          accountPeriodType : '',
+          productId : '',
           // 模板编号
           templateCode : '',
           // 备注
-          remarks : '',
+          remark : '',
         },
         rules : {
-          accountPeriodType : [
+          productId : [
             {required : true , message : '请选择产品名称' , trigger : 'change'},
           ],
           templateCode : [
@@ -103,7 +103,12 @@
 						this.$http({
               method : 'post',
               url : '/preCaseLib/distributeCaseByDistributeCaseQuery.htm',
-              data : data,
+              data : {
+                productId : this.ruleForm.productId,
+                remark : this.ruleForm.remark,
+                templateCode : this.ruleForm.templateCode,
+                templateId : this.$route.query.templateId,
+              },
             }).then((res) => {
               this.$message.success('分配成功');
             }).catch(() => {
