@@ -19,7 +19,13 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="prodName" label="产品名称"></el-table-column>
+				<el-table-column prop="prodName" label="产品名称">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.prodName" placement="top-start">
+              <span class="fn-a ellipsis" style="max-width:132px;" @click="handleEditProduct(scope.row)">{{scope.row.prodName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="prodCode" label="产品编码"></el-table-column>
         <el-table-column prop="busiName" label="业务类型"></el-table-column>
         <el-table-column prop="platName" label="借款平台"></el-table-column>
@@ -38,7 +44,7 @@
 
     </div>
 
-    <productDialog ref="productDialog"></productDialog>
+    <productDialog @successCBK="successCBK" ref="productDialog"></productDialog>
 
 	</div>
 </template>
@@ -75,6 +81,14 @@
       // 点击新增 产品
       handleAddProduct() {
         this.$refs.productDialog.show('add');
+      },
+      // 编辑产品
+      handleEditProduct(row) {
+        this.$refs.productDialog.show('edit',row);
+      },
+      // 产品 dialog 回调
+      successCBK() {
+        this.initTableList();
       },
 
 			// 表格相关 start
