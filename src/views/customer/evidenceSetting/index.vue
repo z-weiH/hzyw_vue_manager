@@ -16,12 +16,12 @@
             <el-col :span="2">
               <div class="line-h m-color">
                 <span>•</span>
-                <span>证据组{{index + 1}}</span>
+                <span>{{item.group.groupNum}}{{index + 1}}</span>
               </div>
             </el-col>
             <el-col :span="16">
               <div class="ellipsis line-h" style="width:100%;">
-                我是证明对象
+                {{item.group.eviObject}}
               </div>
             </el-col>
             <el-col :span="6">
@@ -31,14 +31,14 @@
           </el-row>
         </div>
         <ul class="m-ul">
-          <li v-for="(children,key) in item.children" :key="key">
+          <li v-if="item.group.eviList && item.group.eviList.length > 0" v-for="(eviList,key) in item.group.eviList" :key="key">
             <el-row>
               <el-col :span="12">
-                <p>证据{{key + 1}}：30，啦啦啦啦</p>
-                <P class="mt-15">证据名称：啦啦啦</P>
+                <p>证据{{key + 1}}：{{eviList.eviNum}},{{eviList.eviCode}},{{eviList.evidenceNameText}}</p>
+                <p class="mt-15">证据名称：{{eviList.evidenceNameInput}}</p>
               </el-col>
               <el-col :span="6">
-                <P style="margin-top:28px;">是否签章：是</P>
+                <p style="margin-top:28px;">是否签章：{{eviList.signStatus === 0 ? '否' : '是'}}</p>
               </el-col>
               <el-col :span="6">
                 <div class="fr">
@@ -56,7 +56,7 @@
           新增证据组
         </el-button>
         <el-button @click="handleSubmit" type="primary">保存</el-button>
-        <el-button @click="handleGoBack">取消</el-button>
+        <el-button @click="handleGoBack">返回</el-button>
       </div>
     </div>
 
@@ -70,6 +70,7 @@
   import evidenceGroupDialog from './modules/evidenceGroupDialog.vue'
   // 新增证据
   import evidenceDialog from './modules/evidenceDialog.vue'
+  import {objDeepCopy} from '@/assets/js/tool'
   export default {
     components : {
       evidenceGroupDialog,
@@ -77,13 +78,69 @@
     },
     data() {
       return {
-        evidenceList : [{children : [{}]},{children:[{},{}]}],
+        // 证据组 列表
+        evidenceList : [
+          {
+            group : {
+              // 组号
+              groupNum : '',
+              // 证据对象
+              eviObject : '',
+              // 证据 列表
+              eviList : [
+                {
+                  // 证据 id
+                  baseId : '',
+                  // 签章是否读取,0:不读取,1:读取
+                  signStatus : '',
+                  // 证据排序 （数组下标）
+                  sortIndex : '',
+                  // 证据号
+                  eviNum : '',
+                  // 证据编码
+                  eviCode : '',
+
+                  // 前端字段 解决后端字段保存和编辑回显 字段不统一问题
+                  // 证据名称(前端字段 纯文案) 
+                  evidenceNameText : '',
+                  // 证据名称（前端字段 手动输入）
+                  evidenceNameInput : '',
+                }
+              ],
+            },
+          }
+        ],
       }
     },
+    mounted() {
+      this.initList();
+    },
     methods : {
+      // 初始化 列表
+      initList() {
+        this.$http({
+          url : '/eviConfigure/eviList.htm',
+          method : 'post',
+          data : {
+            prodTempId : this.$route.query.prodTempId,
+          },
+        }).then((res) => {
+          // 数据处理
+          this.evidenceList = res.result.list.map((v,k) => {
+            let children = v.group.eviList;
+            let arr = children.map((v1,k1) => {
+              v1.evidenceNameText = v1.eviTitle;
+              v1.evidenceNameInput = v1.eviName;
+              return v1;
+            });
+            v.group.eviList = arr;
+            return v;
+          });
+        });
+      },
       // 点击 取消
       handleGoBack() {
-        this.$router.push('tplSettingEdit');
+        this.$router.push(`tplSettingEdit?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}`);
       },
       
       // 点击新增证据
@@ -92,12 +149,19 @@
       },
       // 新增证据成功回调
       evidenceCBK(index,data) {
-        this.evidenceList[index].children.push({});
+        this.evidenceList[index].group.eviList.push({
+          baseId : data.tableDataActive[0].baseId,
+          signStatus : data.signStatus,
+          eviNum : data.tableDataActive[0].eviNum,
+          eviCode : data.tableDataActive[0].eviCode,
+          evidenceNameText : data.tableDataActive[0].eviTitle,
+          evidenceNameInput : data.evidenceNameInput,
+        });
       },
       // 点击删除证据
       handleDeleteEvidence(index,key) {
-        if(this.evidenceList[index].children.length > 1) {
-          this.evidenceList[index].children.splice(key,1);
+        if(this.evidenceList[index].group.eviList.length > 1) {
+          this.evidenceList[index].group.eviList.splice(key,1);
         }
       },
       // 点击新增证据组
@@ -106,7 +170,15 @@
       },
       // 新增证据组成功 回调
       evidenceGroupCBK(data) {
-        this.evidenceList.push({children : []});
+        this.evidenceList.push(
+          {
+            group : {
+              groupNum : '证据组',
+              eviObject : data,
+              eviList : [],
+            }
+          }
+        );
       },
       // 点击删除证据组
       handleDeleteEvidenceGroup(item,index) {
@@ -116,7 +188,39 @@
       },
       // 点击保存
       handleSubmit() {
-
+        // 校验数据
+        let verifyType = true;
+        this.evidenceList.map((v,k) => {
+          if(verifyType && v.group.eviList.length === 0) {
+            verifyType = false;
+            this.$message.warning('请确保证据组下至少有一条证据');
+          }
+        });
+        if(verifyType) {
+          // 数据处理
+          let list = [];
+          let data = objDeepCopy(this.evidenceList);
+          data = data.map((v,k) => {
+            v.group.eviList = v.group.eviList.map((v1,k1) => {
+              let obj = {
+                baseId : v1.baseId,
+                eviTitle : v1.evidenceNameInput,
+                signStatus : v1.signStatus,
+                sortIndex : k1,
+              }
+              return obj;
+            });
+            return v
+          });
+          this.$http({
+            url : '/eviConfigure/saveEviList.htm',
+            method : 'post',
+            data : data,
+            mheaders : true,
+          }).then((res) => {
+            this.$message.success('保存成功');
+          });
+        }
       },
     },
   }

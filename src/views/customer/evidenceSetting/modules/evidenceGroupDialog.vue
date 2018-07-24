@@ -10,8 +10,8 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
           
-					<el-form-item label="证据对象" prop="demo">
-						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
+					<el-form-item label="证据对象" prop="eviObject">
+						<el-input style="width:400px;" v-model.trim="ruleForm.eviObject" placeholder="请输入"></el-input>
 					</el-form-item>
 
         </el-form>
@@ -35,18 +35,13 @@
 
         ruleForm : {
           // 证据对象
-          demo : '',
+          eviObject : '',
         },
         rules : {
-          demo : [
+          eviObject : [
             {required : true , message : '请选择证据对象' , trigger : 'change'},
           ],
         },
-
-        // 产品 options
-        productOptions : [
-          {label : '产品1' , value : '产品1'}
-        ],
       }
     },
     mounted() {
@@ -78,7 +73,7 @@
 						// 提交数据
 						this.submitDisabled = true;
             
-            this.$emit('successCBK',this.ruleForm);
+            this.$emit('successCBK',this.ruleForm.eviObject);
             this.handleClose();
           }
         });

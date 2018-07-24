@@ -263,11 +263,11 @@
       },
       // 点击网页编辑
       handleWebpage() {
-        this.$router.push('/webpageEditor');
+        this.$router.push(`/webpageEditor?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}`);
       },
       // 点击证据设置
       handleEvidenceSetting() {
-        this.$router.push('evidenceSetting');
+        this.$router.push(`evidenceSetting?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}`);
       },
       // 点击 启用 or 停用
       handleEnableOrDiscontinuation(type) {
