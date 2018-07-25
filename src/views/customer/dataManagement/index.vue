@@ -14,7 +14,7 @@
         <span class="item-title-sign">数据列表</span>
       </div>
       <div class="item-table">
-        <table-component :needCheckbox="true" :pager="pager"  :noPager="true" :table-data="tableData" :column-define="columnDefine">
+        <table-component ref="table" :needSingleCheck="true" :pager="pager"  :noPager="true" :table-data="tableData" :column-define="columnDefine">
           <el-table-column label="操作"  slot="defineCol" >
             <template slot-scope="scope">
               <span class="colLink" @click="changeHandle(scope.row)">修改</span>
@@ -177,8 +177,10 @@
       },
       //新增数据保存
       saveHandle(){
+        
         this.checkbeforeSave().then(() => {
-            this.$http.post("/5/templateData/saveTemplateDataByDataId",this.item)
+            let obj = this.$refs.table.selectedRow ? {dataId : this.$refs.table.selectedRow.dataId} : {};  
+            this.$http.post("/5/templateData/saveTemplateDataByDataId",Object.assign(obj,this.item))
               .then(res => { 
                 if(res.code === '0000'){
                   this.showDailog = false;

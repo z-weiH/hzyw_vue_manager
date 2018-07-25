@@ -5,6 +5,11 @@
         type="selection"
         width="55" v-if="needCheckbox">
       </el-table-column>
+      <el-table-column label="" width="55" v-if="needSingleCheck">
+        <template slot-scope="scope">
+            <el-radio :label="scope.row.messageTemplateId" v-model="templateRadio" @change.native="getTemplateRow(scope.$index,scope.row)"><i></i></el-radio>
+        </template>
+    </el-table-column>
       <el-table-column v-if="!noSerial" :resizable="false" type="index" label="序号" width="50"></el-table-column>
       <template v-for="(col, index) of columns" >
           <el-table-column  :resizable="false" :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type == 'img'" :width="col.width ? col.width : 'auto'">
@@ -73,6 +78,13 @@ import Vue from "vue";
 import Tip from "@/components/tip";
 export default {
   name: "mineTable",
+  data(){
+    return {
+      templateRadio: '',
+      //当前
+      selectedRow: null
+    }
+  },
   props: {
     noSerial: Boolean,
     tableData: Array,
@@ -81,7 +93,8 @@ export default {
     actions: Array,
     pager: Object,
     needCheckbox:Boolean,
-    noPager: Boolean
+    noPager: Boolean,
+    needSingleCheck: Boolean
   },
   computed: {
     columns() {
@@ -188,6 +201,13 @@ export default {
       console.log("val===", val, this);
       this.$parent.pager.currentNum = val;
       this.$parent.doQuery(this.$parent.queryUrl, this.$parent.searchItem);
+    },
+
+
+    //获取单选选择行
+    getTemplateRow(index,row) {
+        // console.log(row);
+        this.selectedRow = row;
     },
 
     //选中行变化
