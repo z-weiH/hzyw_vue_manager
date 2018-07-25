@@ -6,6 +6,7 @@
       width="700px"
       @close="handleClose"
       ref="dialog"
+      :close-on-click-modal="false"
     >
       <div class="m-content">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules">
@@ -36,13 +37,22 @@
 
             <tr>
               <td colspan="1">企业名称：</td>
-              <td colspan="3">
+              <td colspan="1">
                 <el-form-item label=" " prop="clientCode">
                   <el-select style="width:100%" v-model="ruleForm.clientCode" placeholder="请选择">
                     <el-option label="请选择" value=""></el-option>
                     <template v-for="(item,index) in merchantOptions">
                       <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
                     </template>
+                  </el-select>
+                </el-form-item>
+              </td>
+              <td colspan="1">申请人：</td>
+              <td colspan="1">
+                <el-form-item label=" " prop="defaultApplicants">
+                  <el-select style="width:100%" v-model="ruleForm.defaultApplicants" placeholder="请选择">
+                    <el-option label="是" :value="1"></el-option>
+                    <el-option label="否" :value="0"></el-option>
                   </el-select>
                 </el-form-item>
               </td>
@@ -358,6 +368,8 @@
           arbId : '',
           // 商户Code
           clientCode : '',
+          // 申请人
+          defaultApplicants : 1,
           // 客户名称
           name : '',
           // 客户类型 0自然人 1企业

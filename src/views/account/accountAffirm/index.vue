@@ -10,9 +10,9 @@
         开户申请
       </div>
       <div class="item-table">
-        <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine">
+        <table-component :pager="pager" :tableData="tableData" :columnDefine="columnDefine" >
           <!--slot-->
-          <el-table-column label="操作" slot="defineCol">
+          <el-table-column label="操作" slot="defineCol" width="126">
             <template slot-scope="scope" >
               <el-button
                 size="mini"
@@ -61,10 +61,10 @@ export default {
           ]},
       ],
       columnDefine: [
-        {label: '企业名称',property: 'custName'},
+        {label: '企业名称',property: 'custName',width: 120},
         {label: '合同号',property: 'contactNo',isLink: 1, linkShowPanel: this.doView, width: 100},
         {label: '技术服务费 （元）',property: 'serveAmount', width: 140},
-        {label: '开户仲券（张）',property: 'ticketCount'},
+        {label: '开户仲券（张）',property: 'ticketCount', width: 120},
         {label: '开户受理费（元）',property: 'caseAmount', width: 140},
         {label: '申请时间',property: 'submitTime', width: 160},
       ],

@@ -161,9 +161,9 @@ export const URL_JSON = {
 
   /* 案件信息 */
   'queryCaseListView': '/case/queryHzCaseInfoByBaseQuery.htm', //案件列表
-  'exportCaseListView': '/case/exportFileHzCaseInfoByBaseQuery.htm', //导出
+  'exportCaseListView': '/case/exportFileHzCaseInfoByBaseQuery.htm', //案件列表 - 导出
   'queryRespondentsFeedback': '/feedback/queryRespondentFeedbackByBaseQuery.htm', //被申请人反馈
-  'exportRespondentsFeedback': '/feedback/exportExcel.htm', //导出
+  'exportRespondentsFeedback': ' /feedback/exportExcel.htm', //被申请人反馈-导出
   'queryPaymentInformation': '/repayment/queryRepaymentList.htm',//还款信息
   'selectCompany': '/case/queryCustomerList.htm',//选择-互金公司
   'selectProduct': '/case/queryProducts.htm',//选择-产品
@@ -184,16 +184,7 @@ export const URL_JSON = {
   'saveCustomerAllot': '/distribution/saveDistribution.htm',//新增分配人员
   'unbindCustomerAllot': '/distribution/deleteChannelByPrimaryKey.htm', //解绑分配人员
 
-
-
-
-
-
-
-
-
-
-
+  'queryFreezeCaseList': '/adjust/queryFreezedCasesList.htm', //调解-冻结案件列表
 
 
   /* 状态配置 */

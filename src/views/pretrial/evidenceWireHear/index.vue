@@ -19,11 +19,12 @@
       <div>没有符合要求的案件</div>
     </div>
     <!-- end -->
-    <div class="fix_screen" v-if="evidenceItems.length > 0">
-      <span class="arrow_left" @click="HandlePrev" :class="{disabled: canPrev}"></span>
-      <span class="arrow_right" @click="HandleNext" :class="{disabled: canNext}"></span>
-    </div>
-    <div class="card" v-for="(evidence, index) in evidenceItems" :key="index">
+
+    <div class="card" style="position:relative;" v-for="(evidence, index) in evidenceItems" :key="index">
+      <div class="fix_screen" v-if="evidenceItems.length > 0">
+        <span class="arrow_left" @click="HandlePrev" :class="{disabled: canPrev}"></span>
+        <span class="arrow_right" @click="HandleNext" :class="{disabled: canNext}"></span>
+      </div>
       <div class="card_header" style="overflow: hidden">
         <div class="fr mt-5" style="position: relative" v-if="!disabled">
           <transition name="addmark" >
@@ -62,7 +63,7 @@
           <div class="applybook_title of-hidden">
             <div class="tit fl part_tit f_18">仲裁申请书</div>
             <div class="scroll_toolbar fr">
-              <scroll-y label="eviTitle" @handleClick="scrollbarClick" :options="evidence.eviDetailList" :defaultWidth="420"></scroll-y>
+              <scroll-y label="eviTitle" @handleClick="scrollbarClick" :options="evidence.eviDetailList" :defaultWidth="520"></scroll-y>
             </div>
           </div>
           <div class="applybook_content of-hidden">
@@ -328,7 +329,7 @@
       background-repeat: no-repeat;
       background-size: 100%;
       background-position: 100% 100%;
-      position: fixed;
+      position: absolute;
       top: 20%;
       cursor: pointer;
       z-index: 9999;
@@ -338,12 +339,12 @@
     }
     .arrow_left {
       top:50%;
-      left: 16%;
+      left: -90px;
       background-image: url(./../../../assets/img/rct_page01.png);
     }
     .arrow_right {
       top:50%;
-      right: 16%;
+      right: -90px;
       background-image: url(./../../../assets/img/rct_page02.png);
     }
     .arrow_left.disabled{

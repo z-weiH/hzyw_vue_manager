@@ -79,14 +79,13 @@
             {label: '身份证号：', type: 'text', placeholder: '请输入身份证号',columns:1,property: 'legallerIdcard',rule:'certificate'},
             {label: '法定代表人手机：', type: 'number', placeholder: '请输入法定代表人手机',columns:1,property: 'legallerPhone',
               rule: [
-                { required: true, message: "不能为空", trigger: "blur" },
                 {required : false , pattern : /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/ , message : '手机号格式不正确'},
                 {
                   validator: (rule, value, callback) => {
                     if(this.editState === 9)
-                      return ;
-                    if(!value)
-                      return callback(new Error("不能为空"));
+                      callback();
+                    if(!value && value != 0)
+                      callback();
                     this.$http.post('/customer/validatePhoneExist.htm',{phone: value}).then(res => {
                       if(res.code === '0000'){
                         if(res.result.exist){
@@ -138,7 +137,7 @@
             {label: '合同编号：', type: 'text', placeholder: '请输入合同编号',columns:1,property: 'contractNo',rule:'require'},
             {label: '合同时间：', type: 'date', placeholder: '请输入合同时间',columns:1,property: 'contractDate',rule:'require'},
             {label: '预缴仲裁受理费（元）：', type: 'number', placeholder: '请输入预缴仲裁受理费',columns:1,property: 'preCaseAmt',rule:'require,gt0'},
-            {label: '技术服务费（元）：', type: 'number', placeholder: '请输入技术服务费',columns:1,property: 'serviceAmt',rule:'require,gt1'},
+            {label: '技术服务费（元）：', type: 'number', placeholder: '请输入技术服务费',columns:1,property: 'serviceAmt',rule:'gt0'},
             {label: '充值仲券（张）：', type: 'number', placeholder: '请输入充值仲券',columns:1,property: 'preCaseTicket',rule:'require,gt0'},
             {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'preTicketAmt',rule:'require,gt0',disabled: true},
             {label: '赠送仲券（张）：', type: 'number', placeholder: '请输入赠送仲券',columns:1,property: 'preGiftTicket',rule:'require,gt0'},
@@ -201,8 +200,9 @@
         this.resetForm();
       },
       'item.preCaseTicket':function (val, oldval) {
-        console.log(val,this.item);
-        this.item.preTicketAmt = this.item.preCaseTicket * 10;
+        if(val || val == 0){
+          this.item.preTicketAmt = this.item.preCaseTicket * 10;
+        }
       }
     },
     methods: {
@@ -231,7 +231,11 @@
           })
       },
       saveApply(num) {
+        if(!this.item.serviceAmt){
+          this.$set(this.item,'serviceAmt', 0);
+          // this.item.serviceAmt = 0;
 
+        }
         this.checkbeforeSave().then(() => {
           // "到款金额 = 仲券金额 + 技术服务费 + 添加受理费"
           if(this.item.preTicketAmt != (+this.item.preCaseTicket) * 10){

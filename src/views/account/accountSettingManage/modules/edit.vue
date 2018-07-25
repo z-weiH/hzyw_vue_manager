@@ -8,14 +8,14 @@
     center>
     <div class="dailog-container">
       <table-edits :editDefines="edtDefines1" :item="item" :disabled="true"></table-edits>
-      <table-edits ref="edits" :editDefines="edtDefines" :item="item" :disabled="editState != 1"></table-edits>
+      <table-edits ref="edits" :editDefines="edtDefines" :item="item" :disabled="editState !== 1"></table-edits>
     </div>
-    <span slot="footer" class="dialog-footer" v-if="editState !== 9">
+    <span slot="footer" class="dialog-footer" v-if="$parent.editState !== 8 ">
           <el-button type="primary" @click="save(0)">保 存</el-button>
           <el-button type="primary" @click="save(1)">确认提交</el-button>
           <el-button @click="$parent.editState = 0">取 消</el-button>
     </span>
-    <span slot="footer" class="dialog-footer" v-if="editState == 9 ">
+    <span slot="footer" class="dialog-footer" v-if="$parent.editState === 8 ">
           <el-button @click="$parent.editState = 0">返  回</el-button>
     </span>
   </el-dialog>
@@ -67,7 +67,7 @@ export default {
           {label: '添加仲券（张）：', type: 'number', placeholder: '请输入添加仲券',columns:1,property: 'ticketCount',rule:'require,gt0'},
           {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'ticketAmount',rule:'require,gt0', disabled: true},
           {label: '添加受理费（元）：', type: 'number', placeholder: '请输入添加受理费',columns:1,property: 'caseAmount',rule:'require,gt0'},
-          {label: '技术服务费（元）：', type: 'number', placeholder: '请输入技术服务费',columns:1,property: 'serveAmount',rule:'require,gt1'},
+          {label: '技术服务费（元）：', type: 'number', placeholder: '请输入技术服务费',columns:1,property: 'serveAmount',rule:'gt0'},
           {label: '赠送仲券（张）：', type: 'number', placeholder: '请输入赠送仲券',columns:1,property: 'giftTicket',rule:'require,gt0'},
           {label: '赠券有效期 ：', type: 'select', placeholder: '请选择赠券有效期',columns:1,property: 'giftPeriod',options: [
               {label: '请选择赠券有效期', value: ''},
@@ -113,21 +113,28 @@ export default {
     }
   },
   watch:{
+    '$parent.editState': function(val,oldval){
+      this.resetForm();
+    },
     'item.ticketCount': function(val, oldval){
-      this.handleChange();
-      this.handleArriveChange();
+      if(val || val == 0){
+        this.handleChange();
+        this.handleArriveChange();
+      }
     },
     'item.caseAmount': function (val,oldval) {
-      this.handleArriveChange();
+      if(val || val == 0){
+        this.handleArriveChange();
+      }
     },
     'item.serveAmount': function (val,oldval) {
-      this.handleArriveChange();
+      this.handleArriveChange(true);
     },
   },
   computed: {
     show :{
       get: function () {
-        return this.editState === 1 || this.editState === 9;
+        return this.editState === 1 || this.editState === 8;
       },
       set: function (v) {
         if(!v)
@@ -139,16 +146,33 @@ export default {
     TableEdits
   },
   methods: {
-    handleChange() {
-      this.item.ticketAmount = this.item.ticketCount * 10;
+    setServeAmount() {
+      if(!this.item.serveAmount){
+        // this.item.serveAmount = 1;
+        this.$set(this.item,'serveAmount',0)
+        this.item.serveAmount = 0;
+      }
     },
-    handleArriveChange() {
-      if(!isNaN(+this.item.ticketAmount) && !isNaN(+this.item.caseAmount) && !isNaN(+this.item.serveAmount) ){
-        this.item.arrivalAmt = (+this.item.ticketAmount) + (+this.item.caseAmount) + (+this.item.serveAmount);
+    handleChange() {
+      if(this.item.ticketCount)
+        this.item.ticketAmount = this.item.ticketCount * 10;
+    },
+    handleArriveChange(target) {
+      console.error(123123132)
+      if(!target){
+        this.setServeAmount();
+      }
+      let num = this.item.serveAmount;
+      if(!num){
+        num = 0;
+      }
+      if(!isNaN(+this.item.ticketAmount) && !isNaN(+this.item.caseAmount)) {
+        this.item.arrivalAmt = (+this.item.ticketAmount) + (+this.item.caseAmount) + (+num);
       }
     },
     save(num) {
-      // console.log(this.item);
+      this.setServeAmount();
+      console.log(this.item);
       this.checkbeforeSave().then(res => {
         // "到款金额 = 仲券金额 + 技术服务费 + 添加受理费"
         console.log(this.item);
