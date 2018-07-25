@@ -6,6 +6,7 @@
       width="700px"
       @close="handleClose"
       ref="dialog"
+      :close-on-click-modal="false"
     >
       <div class="m-content">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules">
