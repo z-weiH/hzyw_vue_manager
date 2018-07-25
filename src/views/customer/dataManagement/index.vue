@@ -24,7 +24,7 @@
         </table-component>
 
         <div class="center mt-20 mb-20">
-          <el-button type="primary" @click="showDailog = true;">新增数据</el-button>
+          <el-button type="primary" @click="createHandle">新增数据</el-button>
         </div>
 
       </div>
@@ -41,7 +41,7 @@
         </div>
 
         <div v-if="paramLevel === 1" class="m-c2">
-          <el-select @change="initList" style="width:268px;" v-model="bizType" placeholder="请选择账龄">
+          <el-select style="width:268px;" v-model="bizType" placeholder="请选择账龄">
             <el-option label="现金贷" value="10"></el-option>
             <el-option label="消费分期" value="20"></el-option>
             <el-option label="融资租赁" value="30"></el-option>
@@ -49,7 +49,7 @@
         </div>
 
         <div class="m-c3 mt-10">
-          <el-table @cell-click="handleRow" :data="tableData1" border>
+          <el-table  :data="tableData1" border>
             <el-table-column prop="respondents" label="参数">
               <template slot-scope="scope">
                 <span class="parameter-text">{{scope.row.paramCode}}</span>
@@ -100,9 +100,10 @@
   import Searchs from "@/components/searchs";
   import Mixins from "@/components/script/_mixin";
   import TableComponent from "@/components/table";
+  import formCheck from '@/components/script/formCheck'
   export default {
     name:'dataManagement',
-    mixins: [Mixins],
+    mixins: [Mixins,formCheck],
     data() {
       return {
         currentDataRow : null,
@@ -131,7 +132,7 @@
         showDailog: false,
         item: {},
         editItems: [
-          {label: '数据名称：', property: 'dataName', type : 'text',placeholder:'请输入数据名称'},
+          {label: '数据名称：', property: 'dataName', type : 'text',placeholder:'请输入数据名称',rule:'require'},
           {label: '备注：', property: 'remark', type : 'textarea',placeholder:'请勿超过30个数字'}
         ],
 
@@ -143,9 +144,17 @@
       },
       'paramLevel': function (val,oldval) {
         this.changeHandle(this.currentDataRow);
-      }
+      },
     },
     methods:{
+      //新增操作
+      createHandle(){
+        this.showDailog = true;
+        this.item = {};
+        this.$nextTick(() => {
+          this.resetForm();
+        })
+      },
       saveParametersHandle(){
         this.$http.post('/5/templateData/saveTemplateDataById',{list:this.tableData1},{mheader:true})
           .then(res => {
@@ -166,8 +175,18 @@
             }
           })
       },
+      //新增数据保存
       saveHandle(){
-
+        this.checkbeforeSave().then(() => {
+            this.$http.post("/5/templateData/saveTemplateDataByDataId",this.item)
+              .then(res => { 
+                if(res.code === '0000'){
+                  this.showDailog = false;
+                  this.changeHandle(this.item);
+                }
+              })
+        }).catch(()=>{})
+       
       },
       HandleCreate(){
 

@@ -79,7 +79,7 @@
 
       }
     },
-    mounted() {
+    created() {
       this.doQuery(this.queryUrl,{});
     }
   }
