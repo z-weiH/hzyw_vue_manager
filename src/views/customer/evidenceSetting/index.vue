@@ -150,11 +150,11 @@
       // 新增证据成功回调
       evidenceCBK(index,data) {
         this.evidenceList[index].group.eviList.push({
-          baseId : data.tableDataActive[0].baseId,
+          baseId : data.tableDataActive.baseId,
           signStatus : data.signStatus,
-          eviNum : data.tableDataActive[0].eviNum,
-          eviCode : data.tableDataActive[0].eviCode,
-          evidenceNameText : data.tableDataActive[0].eviTitle,
+          eviNum : data.tableDataActive.eviNum,
+          eviCode : data.tableDataActive.eviCode,
+          evidenceNameText : data.tableDataActive.eviTitle,
           evidenceNameInput : data.evidenceNameInput,
         });
       },

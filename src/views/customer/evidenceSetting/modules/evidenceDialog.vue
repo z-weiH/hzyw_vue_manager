@@ -136,7 +136,7 @@
             // 获取选中的数据
             data.tableDataActive = this.ruleForm.tableData.filter((v,k) => {
               return v.radio === '1'
-            });
+            })[0];
             this.$emit('successCBK',this.index,data);
             this.handleClose();
           }
