@@ -24,12 +24,12 @@
           {{ruleForm.remark}}
         </span>
         <span>仲裁服务费：</span>
-        <el-select style="width:130px;" v-model="ruleForm.arbFeeStatus" class="mr-10">
+        <el-select @change="handleArbFeeStatus" style="width:130px;" v-model="ruleForm.arbFeeStatus" class="mr-10">
           <el-option label="主张" :value="1"></el-option>
           <el-option label="不主张" :value="0"></el-option>
         </el-select>
         <span>仲裁程序：</span>
-        <el-select style="width:130px;" v-model="ruleForm.arbProcedureDay">
+        <el-select @change="handleArbProcedureDay" style="width:130px;" v-model="ruleForm.arbProcedureDay">
           <el-option label="互金企业" :value="1"></el-option>
           <el-option label="普通程序" :value="5"></el-option>
         </el-select>
@@ -342,6 +342,32 @@
         });
       },
 
+      // 仲裁服务费 change
+      handleArbFeeStatus(val) {
+        this.editFn({
+          arbFeeStatus : val,
+        });
+      },
+      // 仲裁程序 change
+      handleArbProcedureDay(val) {
+        this.editFn({
+          arbProcedureDay : val,
+        });
+      },
+      // 修改页面参数接口
+      editFn(data) {
+        this.$http({
+          url : '/templateSetting/updateTemplateDetailByProdTempId.htm',
+          method : 'post',
+          data : {
+            ...data,
+            prodTempId : this.$route.query.prodTempId,
+          },
+        }).then(() => {
+          
+        });
+      },
+
       // 文件上传前 回调
       beforeAvatarUpload(file) {
         let fileType = file.name.split('.').pop().toLowerCase();
@@ -369,6 +395,9 @@
 .tpl-setting-edit{
   .templateName{
     width: 100px;
+  }
+  .h-70{
+    height: 41.5px;
   }
   .item-title{
     padding-top: 5px;
