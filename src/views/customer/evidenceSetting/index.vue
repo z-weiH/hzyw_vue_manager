@@ -16,7 +16,7 @@
             <el-col :span="2">
               <div class="line-h m-color">
                 <span>•</span>
-                <span>{{item.group.groupNum}}{{index + 1}}</span>
+                <span>证据组{{index + 1}}</span>
               </div>
             </el-col>
             <el-col :span="16">
@@ -173,7 +173,6 @@
         this.evidenceList.push(
           {
             group : {
-              groupNum : '证据组',
               eviObject : data,
               eviList : [],
             }
@@ -198,10 +197,9 @@
         });
         if(verifyType) {
           // 数据处理
-          let list = [];
-          let data = objDeepCopy(this.evidenceList);
-          data = data.map((v,k) => {
-            v.group.eviList = v.group.eviList.map((v1,k1) => {
+          let list = objDeepCopy(this.evidenceList);
+          list = list.map((v,k) => {
+            v.eviList = v.group.eviList.map((v1,k1) => {
               let obj = {
                 baseId : v1.baseId,
                 eviTitle : v1.evidenceNameInput,
@@ -210,12 +208,18 @@
               }
               return obj;
             });
+            v.eviObject = v.group.eviObject;
+            v.groupNum = '证据组' + (k + 1);
+            delete v.group;
             return v
           });
           this.$http({
             url : '/eviConfigure/saveEviList.htm',
             method : 'post',
-            data : data,
+            data : {
+              group : list,
+              prodTempId : this.$route.query.prodTempId,
+            },
             mheaders : true,
           }).then((res) => {
             this.$message.success('保存成功');
