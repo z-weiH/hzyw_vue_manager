@@ -185,7 +185,8 @@ export const URL_JSON = {
   'unbindCustomerAllot': '/distribution/deleteChannelByPrimaryKey.htm', //解绑分配人员
 
   'queryFreezeCaseList': '/adjust/queryFreezedCasesList.htm', //调解-冻结案件列表
-
+  'saveunFreezeCaseIdsList': '/adjust/freezeOrUnfreezeCases.htm',//保存解冻-案件
+  'queryUnFreeZeCaseToDo': '/adjust/queryPrepareFreezeCasesList.htm',//未冻结案件-列表
 
   /* 状态配置 */
 

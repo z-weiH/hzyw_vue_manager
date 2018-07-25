@@ -1,30 +1,29 @@
 <template>
-  <div class="content">
-    <div class='wsbodyhead'>
-      <a>所在位置</a>
-      <router-link :to='$options.name' class='aside_tit'>调解状态设置</router-link>
-    </div>
-    <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
-       <template slot='moreBtn'>
-          <el-button class="ml-20" type='primary' @click='gotoUnFreeZeView'>冻结案件</el-button>
-          <el-button :disabled="checkBoxesLen" class="ml-20" type='info' @click='multiUnfreeZe'>解冻</el-button>
+<div class="content">
+        <div class='wsbodyhead'>
+         <a>所在位置</a>
+         <router-link :to='$options.name' class='aside_tit'>调解状态设置</router-link>
+        </div>
+        <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
+          <template slot='moreBtn'>
+            <el-button :disabled="checkBoxesLen" class="ml-20" type='primary' @click='CasefreeZe'>冻结</el-button>
+            <el-button  class="ml-20" type='success' @click='rebackPrevPage'>返回</el-button>
           </template>
-    </searchs>
+        </searchs>
         <div class='item-title'>
-          调解状态设置列表
+          未冻结案件列表
         </div>
         <div class='item-table'>
-           <table-component :needCheckbox="true" @slectionChange="slectionChange" :pager="pager" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize"  @refreshList="doQuery(this.queryUrl, this.item)"  :table-data="tableData" :column-define="columnDefine"  >
+           <table-component  :needCheckbox="true" @slectionChange="slectionChange" :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData"  :column-define="columnDefine" >
               <el-table-column label="操作" slot="defineCol" width="126">
                  <template slot-scope="scope">
-                     <el-button size="mini" @click="multiUnfreeZe(1,scope.row)">解冻</el-button>
+                     <el-button size="mini" @click="CasefreeZe(1,scope.row)">冻结案件</el-button>
                  </template>
               </el-table-column>
            </table-component>
         </div>
 </div>
 </template>
-
 <script type="text/ecmascript-6">
 import Searchs from '@/components/searchs'
 import TableComponent from '@/components/table'
@@ -37,8 +36,8 @@ export default {
 		return {
 			selection: [],
 			item: {},
-			queryUrl: URL_JSON['queryFreezeCaseList'],
-			caseIdsGroup: null, //待解冻数据id数组
+			queryUrl: URL_JSON['queryUnFreeZeCaseToDo'],
+			caseIdsGroup: null, //待冻结数据id数组
 			tableData: [],
 			searchItem: {},
 			searchItems: [
@@ -174,11 +173,11 @@ export default {
 					],
 				},
 				/*   {
-              label: "调解中心",
-              type: "select",
-              colSpan: 6,
-              property: ""
-            }, */
+          label: "调解中心",
+          type: "select",
+          colSpan: 6,
+          property: ""
+        }, */
 			],
 			columnDefine: [
 				{
@@ -215,8 +214,9 @@ export default {
 					property: 'submitTime',
 				},
 				{
-					label: '冻结日期',
-					property: '1s',
+					label: '预测裁决金额',
+					property: 'forecastJudgeAmt',
+					width: 150,
 				},
 				{
 					label: '应裁情况',
@@ -240,24 +240,24 @@ export default {
 				this.total = res.result.count
 			})
 		},
+		rebackPrevPage() {
+			// 返回到-冻结案件列表
+			self.history.go(-1)
+		},
 		searchItemChange(item) {
 			console.log('searchI:::', item)
 			for (var i in item) {
 				switch (item[i]) {
 					case 'merchantCode':
 						console.log(item['value'])
-						this.optsPduListView({
-							merchantCode: item['value'],
-						})
+						this.optsPduListView({ merchantCode: item['value'] })
 						break
 					case 'caseProcess':
 						console.warn(item['value'])
 						console.log('item>>>>>>>>>>>>>>', this.item)
 						item['value'] === ''
 							? (this.item[this.searchItems[8].property] = '')
-							: this.optsHkCaseStatusView({
-									status: item['value'],
-							  })
+							: this.optsHkCaseStatusView({ status: item['value'] })
 						break
 					default:
 						break
@@ -288,8 +288,7 @@ export default {
 		},
 		slectionChange(that) {
 			console.log('ss++', that)
-			this.selection = that //缓存当前选中行数据(单/多)
-			console.log('that-len---> ', this.selection.length)
+			this.selection = that //缓存当前选中行数据
 			this.caseIdsGroup = new Array()
 			that.forEach(el => {
 				this.caseIdsGroup.push(el.caseId)
@@ -301,24 +300,22 @@ export default {
 			let arrSet = new Set(arr)
 			return [...arrSet]
 		},
-		multiUnfreeZe(type, row) {
-			/** 批量解冻dialog-view
+		CasefreeZe(type, row) {
+			/** 批量\单一-冻结dialog-view
 			 * @param type
-			 * 1 代表单条数据解冻模版逻辑
+			 * 1 代表单条数据冻结模版逻辑
 			 */
 			const h = this.$createElement
 			// 该变量用来捕获只勾选一行数据，
-			// 又去触发批量-解冻按钮，
+			// 又去触发批量-冻结按钮，
 			// 这时候提示的模版是和当行数据模版一样的
 			let multi_btnType = this.selection.length === 1
-			console.log(multi_btnType)
-			console.log('mmmmmmmmmmmm-', this.selection)
 			if (type === 1 || multi_btnType) {
 				this.$msgbox({
 					title: '提示',
 					message: h('div', null, [
 						h('p', null, [
-							h('span', null, '待解冻'),
+							h('span', null, '待冻结'),
 							h(
 								'span',
 								{
@@ -338,7 +335,7 @@ export default {
 								},
 								`( ${multi_btnType ? this.selection[0].respondents : row.respondents} )`
 							),
-							h('span', null, '案件'),
+							h('span', null, '借款合同纠纷一案'),
 							h(
 								'span',
 								{
@@ -356,24 +353,15 @@ export default {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 				}).then(res => {
-
-					this.unFreedataFoo(0, row)
+					this.FreedataFoo(0, row)
 				})
 			} else {
 				this.$msgbox({
 					title: '提示',
 					message: h('div', null, [
 						h('p', null, [
-							h('span', null, '待解冻'),
-							h(
-								'span',
-								{
-									style: {
-										color: '#EEA823',
-									},
-								},
-								this.selection.length
-							),
+							h('span', null, '待冻结'),
+							h('span', { style: { color: '#EEA823' } }, this.selection.length),
 							h('span', null, '个案件'),
 						]),
 						h('p', null, '确认提交?'),
@@ -383,38 +371,33 @@ export default {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 				}).then(res => {
-          console.log('批量--');
-					this.unFreedataFoo(1, row)
+					this.FreedataFoo(1, row)
 				})
 			}
 		},
-		unFreedataFoo(type, row) {
-      // console.log('解冻请求方法-当前数据 ',row);
+		FreedataFoo(type, row) {
+      // console.log('冻结请求方法-当前数据 ',row);
+      // console.log( row ? row.caseId : this.caseIdsGroup[0]);
 			/**
 			 * @param type
 			 * 0:代表单条数据请求
 			 * 1:代表多条数据请求
 			 */
-			// 批量&单一：解冻案件方法
-			console.log('this.caseIdsGroup ', this.caseIdsGroup.join().split(','))
+			// 批量&单一：冻结案件方法
 			this.$http
 				.post(URL_JSON['saveunFreezeCaseIdsList'], {
 					caseIdList: type === 0 ? (row ? row.caseId : this.caseIdsGroup[0]) : JSON.stringify(this.caseIdsGroup.join().split(',')),
-					mediateStatus: 0,
+					mediateStatus: 1,
 				})
 				.then(msg => {
 					if (msg.code === '0000') {
 						console.log('*** ', msg.data)
-						this.$message.success('解冻处理成功!')
+						this.$message.success('冻结处理成功!')
 						this.doQuery(this.queryUrl, this.searchItem)
 					} else {
 						console.log('*** ERROR')
 					}
 				})
-		},
-		gotoUnFreeZeView() {
-			// 跳转到-未冻结案件-视图
-			this.$router.push('/main/unFreeZeList')
 		},
 	},
 	computed: {
@@ -429,7 +412,7 @@ export default {
 		this.optsHkCaseStatusView() //还款案件状态
 	},
 	mounted() {
-		this.doQuery(this.queryUrl, this.searchItem)
+		// this.doQuery(this.queryUrl, this.searchItem)
 	},
 	components: {
 		Searchs,
@@ -437,6 +420,5 @@ export default {
 	},
 }
 </script>
-
 <style scoped lang="scss">
 </style>
