@@ -39,7 +39,7 @@
           <i class="el-icon-circle-plus-outline"></i>
           新增产品
         </el-button>
-        <el-button>返回</el-button>
+        <el-button @click="handleGoBack">返回</el-button>
       </div>
 
     </div>
@@ -91,18 +91,20 @@
         this.initTableList();
       },
 
+      // 点击返回
+      handleGoBack() {
+        this.$router.push('clientManagement');
+      },
+
 			// 表格相关 start
 
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/merchant/saveClientInfoByClientCode',
+          url : '/merchant/queryClientInfoByClientCode',
           method : 'post',
           data : {
-            pageSize : this.pageSize,
-            currentNum : this.currentPage,
-
-            ...this.ruleForm,
+            clientCode : this.$route.query.clientCode,
           },
         }).then((res) => {
           this.tableData = res.result.list;

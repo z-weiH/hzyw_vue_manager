@@ -15,7 +15,7 @@
 					</el-form-item>
 
           <el-form-item label="产品编码：" prop="prodCode">
-						<el-input style="width:400px;" v-model.trim="ruleForm.prodCode" placeholder="请输入产品编码"></el-input>
+						<el-input style="width:400px;" v-model.trim="ruleForm.prodCode" placeholder="请输入两位产品编码"></el-input>
 					</el-form-item>
 
 					<el-form-item label="业务类型：" prop="busiName">
@@ -169,6 +169,7 @@
           ],
           prodCode : [
             {required : true , message : '请输入产品编码' , trigger : 'blur'},
+            {pattern : /^\d{2}$/ , message : '请输入两位数字' , trigger : 'blur'},
           ],
           busiName : [
             {required : true , message : '请选择业务类型' , trigger : 'change'},
