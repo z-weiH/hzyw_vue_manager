@@ -83,9 +83,9 @@
                 {
                   validator: (rule, value, callback) => {
                     if(this.editState === 9)
-                      return ;
+                      callback();
                     if(!value && value != 0)
-                      return ;
+                      callback();
                     this.$http.post('/customer/validatePhoneExist.htm',{phone: value}).then(res => {
                       if(res.code === '0000'){
                         if(res.result.exist){
