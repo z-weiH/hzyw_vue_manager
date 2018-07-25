@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import { Message } from 'element-ui'
+import {
+  Message
+} from 'element-ui'
 
 // 进度条
 import NProgress from 'nprogress'
@@ -285,6 +287,13 @@ let router = new Router({
             import ('@/views/statusConfig/mediateStatusSet'), //调解状态设置
           meta: {
             name: 'mediateStatusSet'
+          }
+        },{
+          path: 'unFreeZeList',
+          component: () =>
+            import ('@/views/statusConfig/unFreeZeList'),//未冻结案件列表
+          meta: {
+            name: 'unFreeZeList'
           }
         },
         /* 状态配置 end */
@@ -631,7 +640,7 @@ let router = new Router({
     {
       path: '/redoHearChildDetail',
       component: () =>
-        import('@/views/pretrial/redoHearChildDetail'), //案件复审 子批次审核
+        import ('@/views/pretrial/redoHearChildDetail'), //案件复审 子批次审核
       meta: {
         name: 'redoHearChildDetail',
       },
@@ -670,14 +679,14 @@ router.beforeEach((to, from, next) => {
   window.scrollTo(0, 0);
   NProgress.start();
 
-  let exclude = ['login','404',''];
+  let exclude = ['login', '404', ''];
   let path = to.path.slice(1);
-  if(exclude.indexOf(path) !== -1){
+  if (exclude.indexOf(path) !== -1) {
     next();
-  }else{
-    if(process.env.NODE_ENV === 'development'){
+  } else {
+    if (process.env.NODE_ENV === 'development') {
       next();
-    }else{
+    } else {
       try {
         let treeList = [];
         let tree = JSON.parse(localStorage.getItem('menuInfoList'));
@@ -696,7 +705,7 @@ router.beforeEach((to, from, next) => {
         fn(tree);
 
         // 权限判断
-        if ( (treeList.indexOf(to.path.slice(6)) !== -1) || (jurisdictionExclude.indexOf(to.path) !== -1) ) {
+        if ((treeList.indexOf(to.path.slice(6)) !== -1) || (jurisdictionExclude.indexOf(to.path) !== -1)) {
           // 高亮左侧导航
           try {
             main.$store.commit('menu/setMenuActive', `${to.path}`);
@@ -705,12 +714,12 @@ router.beforeEach((to, from, next) => {
         } else {
           console.log('该用户 没有权限', from);
           Message({
-            type : 'warning',
-            message : '没有权限访问',
+            type: 'warning',
+            message: '没有权限访问',
           });
           router.replace('/login');
         }
-      // 当前未登录
+        // 当前未登录
       } catch (err) {
         router.replace(`/login?returnUrl=${router.history.pending.path}`);
       }
