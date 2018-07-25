@@ -16,14 +16,15 @@
         >
         </timeFrame>
 
+        <el-button @click="handleSearch" type="warning">查询</el-button>
+
         <el-form-item label=" " prop="templateStatus">
-          <el-select clearable v-model="ruleForm.templateStatus" placeholder="是否启用">
+          <el-select @change="handleChange" style="width:150px;" clearable v-model="ruleForm.templateStatus" placeholder="是否启用">
+            <el-option label="全部" value=""></el-option>
             <el-option label="启用" value="1"></el-option>
             <el-option label="停用" value="0"></el-option>
           </el-select>
         </el-form-item>
-
-        <el-button @click="handleSearch" type="warning">查询</el-button>
 
         <div class="fr">
           <el-button @click="handleAddTemplate" type="primary" class="mr-20">
@@ -153,6 +154,10 @@
 			handleSearch() {
 				this.currentPage = 1;
         this.initTableList();
+      },
+      // 下拉 change
+      handleChange() {
+        this.handleSearch();
       },
       // 点击返回
       handleGoBack() {
