@@ -172,6 +172,7 @@ export default {
           colSpan: 3,
           unit: "元",
           property: "amtBorrowMax",
+          format: /[^0-9]/g,
           width:140
         },
         {
