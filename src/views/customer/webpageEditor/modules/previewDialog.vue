@@ -53,20 +53,20 @@
       }
     },
     mounted() {
-      // 获取 模板数据options
-      this.$http({
-        url : '/templateData/queryTemplateDataByDataIdList',
-        method : 'post',
-      }).then((res) => {
-        this.dataOptions = res.result.list;
-      });
+      
     },
     methods : {
       show(data) {
         this.dialogVisible = true;
         this.loading = '';
         this.textarea = data;
-        // 获取预览数据
+        // 获取 模板数据options
+        this.$http({
+          url : '/templateData/queryTemplateDataByDataIdList',
+          method : 'post',
+        }).then((res) => {
+          this.dataOptions = res.result.list;
+        });
 
 
 				// dialog 返回顶部
@@ -103,6 +103,7 @@
               method : 'post',
               url : '/templateSetting/reviewTemplateContent.htm',
               data : {
+                content : this.textarea,
                 dataId : this.ruleForm.dataId,
                 prodTempId : this.$route.query.prodTempId,
                 type : (
