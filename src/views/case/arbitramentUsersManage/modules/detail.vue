@@ -169,7 +169,8 @@
           <tr>
             <td colspan="1">签章图片：</td>
             <td colspan="3">
-              <a class="underline" target="_blank" :href="ruleForm.signedUrl">查看</a>
+              <a v-if="ruleForm.signedUrl" class="underline" target="_blank" :href="ruleForm.signedUrl">查看</a>
+              <span v-else>暂无图片</span>
             </td>
           </tr>
         </table>

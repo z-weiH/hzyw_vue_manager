@@ -115,11 +115,11 @@
 
         // 仲裁委options 
         arbOptions : [
-          {arbName : '张三' , arbId : '张三'}
+          /* {arbName : '张三' , arbId : '张三'} */
         ],
         // 商户options
         merchantOptions : [
-          {merchantName : '李四' , code : '李四'}
+          /* {merchantName : '李四' , code : '李四'} */
         ],
         // 业务编码options
         busiOptions : [
