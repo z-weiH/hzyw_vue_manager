@@ -17,6 +17,7 @@ axios.defaults.timeout = 10000;
 
 // 请求拦截
 axios.interceptors.request.use((config) => {
+  config.headers['Content-Type'] = 'application/x-www-form-urlencoded'
   // 判断是否是formdata格式
   // post 请求 使用 form Data 请求方式
   let token='';
