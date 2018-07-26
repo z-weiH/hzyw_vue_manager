@@ -126,14 +126,16 @@
           },
         }).then((res) => {
           // 数据处理
-          this.evidenceList = res.result.list.map((v,k) => {
-            let children = v.group.eviList;
+          this.evidenceList = res.result.map((v,k) => {
+            let children = v.eviList;
+            v.group = {};
             let arr = children.map((v1,k1) => {
               v1.evidenceNameText = v1.eviTitle;
               v1.evidenceNameInput = v1.eviName;
               return v1;
             });
             v.group.eviList = arr;
+            v.group.eviObject = v.eviObject;
             return v;
           });
         });
@@ -209,8 +211,9 @@
               return obj;
             });
             v.eviObject = v.group.eviObject;
-            v.groupNum = '证据组' + (k + 1);
+            v.groupNum = k + 1;
             delete v.group;
+            delete v.groupId;
             return v
           });
           this.$http({
