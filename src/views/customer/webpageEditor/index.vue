@@ -71,6 +71,16 @@
       }
     },
     mounted() {
+      // 防止富文本没有加载完成；
+      let fn = (data) => {
+        try{
+          this.$refs.ueeditor.setContent(data);
+        }catch(err){
+          setTimeout(() => {
+            fn(data)
+          },300);
+        }
+      }
       // 回显数据
       this.$http({
         url : '/templateSetting/queryRichTextContentByIdAndType.htm',
@@ -84,7 +94,7 @@
           ),
         },
       }).then((res) => {
-        this.$refs.ueeditor.setContent(res.result[this.$route.query.type] || '');
+        fn(res.result[this.$route.query.type] || '');
       });
     },
     methods : {
