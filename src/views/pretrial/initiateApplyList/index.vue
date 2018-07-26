@@ -363,8 +363,9 @@ export default {
     },
     queryProductList(into) {
       //根据企业选择产品
+      //queryCpProduct
       this.$http
-        .post(URL_JSON["queryCpProduct"], {
+        .post(URL_JSON["selectProduct"], {
           merchantCode: into
         })
         .then(res => {
