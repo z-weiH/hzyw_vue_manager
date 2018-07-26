@@ -62,10 +62,10 @@
         this.textarea = data;
         // 获取 模板数据options
         this.$http({
-          url : '/templateData/queryTemplateDataByDataIdList',
+          url : '/templateData/queryTemplateDataByDataIdList.htm',
           method : 'post',
         }).then((res) => {
-          this.dataOptions = res.result.list;
+          this.dataOptions = res.result;
         });
 
 
