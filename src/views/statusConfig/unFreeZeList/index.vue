@@ -343,7 +343,7 @@ export default {
 										color: '#EEA823',
 									},
 								},
-								`( ${multi_btnType ? this.selection[0].arbCaseId : row.arbCaseId} )`
+								`( ${multi_btnType ? (this.selection[0].arbCaseId ? this.selection[0].arbCaseId : '暂无案号' ) : ( row.arbCaseId ? row.arbCaseId : '暂无案号')} )`
 							),
 						]),
 						h('p', null, '确认提交?'),
@@ -386,7 +386,7 @@ export default {
 			// 批量&单一：冻结案件方法
 			this.$http
 				.post(URL_JSON['saveunFreezeCaseIdsList'], {
-					caseIdList: type === 0 ? (row ? row.caseId : this.caseIdsGroup[0]) : JSON.stringify(this.caseIdsGroup.join().split(',')),
+					caseIds: type === 0 ? (row ? row.caseId : this.caseIdsGroup[0]) : this.caseIdsGroup.join(),
 					mediateStatus: 1,
 				})
 				.then(msg => {

@@ -36,7 +36,7 @@ export default {
       opCompany: [],
       operatorList: [],
       queryUrl: URL_JSON["queryCustomerAllot"], ///13/distribution/queryDistributionByBaseQuery.htm
-      tableData: [{}],
+      tableData: [],
       searchItems: [
         {
           label: "互金企业",

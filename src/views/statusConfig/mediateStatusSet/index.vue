@@ -216,7 +216,7 @@ export default {
 				},
 				{
 					label: '冻结日期',
-					property: '1s',
+					property: 'freezeTime',
 				},
 				{
 					label: '应裁情况',
@@ -338,7 +338,7 @@ export default {
 								},
 								`( ${multi_btnType ? this.selection[0].respondents : row.respondents} )`
 							),
-							h('span', null, '案件'),
+							h('span', null, '借款合同纠纷一案'),
 							h(
 								'span',
 								{
@@ -346,7 +346,7 @@ export default {
 										color: '#EEA823',
 									},
 								},
-								`( ${multi_btnType ? this.selection[0].arbCaseId : row.arbCaseId} )`
+								`( ${multi_btnType ? (this.selection[0].arbCaseId ? this.selection[0].arbCaseId : '暂无案号' ) : ( row.arbCaseId ? row.arbCaseId : '暂无案号') } )`
 							),
 						]),
 						h('p', null, '确认提交?'),
@@ -396,10 +396,10 @@ export default {
 			 * 1:代表多条数据请求
 			 */
 			// 批量&单一：解冻案件方法
-			console.log('this.caseIdsGroup ', this.caseIdsGroup.join().split(','))
+			// console.log('this.caseIdsGroup ', this.caseIdsGroup.join().split(','))
 			this.$http
 				.post(URL_JSON['saveunFreezeCaseIdsList'], {
-					caseIdList: type === 0 ? (row ? row.caseId : this.caseIdsGroup[0]) : JSON.stringify(this.caseIdsGroup.join().split(',')),
+					caseIds: type === 0 ? (row ? row.caseId : this.caseIdsGroup[0]) : this.caseIdsGroup.join(),
 					mediateStatus: 0,
 				})
 				.then(msg => {
