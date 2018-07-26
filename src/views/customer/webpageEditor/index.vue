@@ -8,8 +8,8 @@
     <div class="webpage-editor-content">
       <div class="webpage-editor">
         <!-- 富文本编辑器 -->
-        <div class="fl umeditor-b">
-          <umeditor ref="umeditor" height="800px"></umeditor>
+        <div class="fl ueeditor-b">
+          <ueeditor ref="ueeditor" height="780px"></ueeditor>
         </div>
         <!-- 参数 -->
         <div class="fl parameter-box">
@@ -44,7 +44,7 @@
 
 <script>
   /* 
-    let value = this.$refs.umeditor.getContent();
+    let value = this.$refs.ueeditor.getContent();
     let $content = $('<div></div>').append($(value));
     $content.find('*').each((k,v) => {
       let $v = $(v);
@@ -54,13 +54,13 @@
     });
     let FangSongValue = $content[0].innerHTML;
   */
-  import umeditor from '@/components/umeditor'
+  import ueeditor from '@/components/ueeditor'
   import previewDialog from './modules/previewDialog.vue'
   import parameter from '../parameterList/modules/parameter.vue'
   
   export default {
     components : {
-      umeditor,
+      ueeditor,
       previewDialog,
       parameter,
     },
@@ -84,13 +84,13 @@
           ),
         },
       }).then((res) => {
-        this.$refs.umeditor.setContent(res.result[this.$route.query.type] || '');
+        this.$refs.ueeditor.setContent(res.result[this.$route.query.type] || '');
       });
     },
     methods : {
       // copy 参数
       handleCopy(data) {
-        this.$refs.umeditor.insertHtml(data);
+        this.$refs.ueeditor.insertHtml(data);
       },
       // 点击叶子 图片
       handleImg() {
@@ -114,11 +114,11 @@
         }else if(type === 3) {
           message = '&lt;@tableCol3 colNames=[用户名,昵称] colProperties=[userName,nickName]&gt;&lt;/@tableCol3&gt;';
         }
-        this.$refs.umeditor.insertHtml(message);
+        this.$refs.ueeditor.insertHtml(message);
       },
       // 校验 富文本所填数据
       verify(callback) {
-        let content = this.$refs.umeditor.getContent();
+        let content = this.$refs.ueeditor.getContent();
         if(!content) {
           this.$message.warning('模板内容不能为空');
           callback(false);
@@ -195,7 +195,7 @@
   width: 1200px;
   margin: 0 auto;
   overflow: hidden;
-  .umeditor-b{
+  .ueeditor-b{
     width: 900px;
   }
   .parameter-box{
