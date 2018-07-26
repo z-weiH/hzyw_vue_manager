@@ -84,7 +84,7 @@
           ),
         },
       }).then((res) => {
-        this.$refs.umeditor.setContent(res.result[this.$route.query.type]);
+        this.$refs.umeditor.setContent(res.result[this.$route.query.type] || '');
       });
     },
     methods : {

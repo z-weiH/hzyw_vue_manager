@@ -61,6 +61,8 @@
         this.paramLevel = type;
         if(type === 1) {
           this.bizType = '10';
+        }else{
+          this.bizType = '10';
         }
         this.initList();
       },

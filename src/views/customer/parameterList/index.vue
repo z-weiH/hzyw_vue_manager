@@ -24,6 +24,7 @@
 
 .parameter-list{
   height: 100%;
+  overflow: auto;
   .parameter-list-title{
     height: 75px;
     background-color: #fff;
