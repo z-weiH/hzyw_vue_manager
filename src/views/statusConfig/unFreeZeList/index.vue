@@ -354,7 +354,7 @@ export default {
 					cancelButtonText: '取消',
 				}).then(res => {
 					this.FreedataFoo(0, row)
-				})
+				}).catch(() => {});
 			} else {
 				this.$msgbox({
 					title: '提示',
@@ -372,7 +372,7 @@ export default {
 					cancelButtonText: '取消',
 				}).then(res => {
 					this.FreedataFoo(1, row)
-				})
+				}).catch(() => {});
 			}
 		},
 		FreedataFoo(type, row) {

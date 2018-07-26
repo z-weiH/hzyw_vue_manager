@@ -356,9 +356,8 @@ export default {
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 				}).then(res => {
-
 					this.unFreedataFoo(0, row)
-				})
+				}).catch(() => {});
 			} else {
 				this.$msgbox({
 					title: '提示',
@@ -385,7 +384,7 @@ export default {
 				}).then(res => {
           console.log('批量--');
 					this.unFreedataFoo(1, row)
-				})
+				}).catch(() => {});
 			}
 		},
 		unFreedataFoo(type, row) {
