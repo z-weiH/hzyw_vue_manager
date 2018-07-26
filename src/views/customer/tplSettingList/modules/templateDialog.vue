@@ -78,7 +78,7 @@
         url : '/templateList/queryTemplateList.htm',
         method : 'post',
       }).then((res) => {
-        this.productOptions = res.result.list;
+        this.productOptions = res.result;
       });
     },
     methods : {
@@ -108,7 +108,7 @@
 						this.submitDisabled = true;
 						this.$http({
               method : 'post',
-              url : '/eviConfigure/saveProductTemplate.htm',
+              url : '/templateSetting/saveProductTemplate.htm',
               data : {
                 productId : this.ruleForm.productId,
                 remark : this.ruleForm.remark,

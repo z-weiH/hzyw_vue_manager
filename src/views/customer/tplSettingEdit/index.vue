@@ -18,7 +18,7 @@
       <div class="m-template-list h-70">
         <span class="mr-10 templateName ellipsis">{{ruleForm.prodTempName}}</span>
         <el-button @click="handleEnableOrDiscontinuation(0)" class="mr-10" type="warning" size="medium" round>
-          {{ruleForm.templateStatus === 0 ? '停用' : '启用'}}
+          {{ruleForm.templateStatus === 1 ? '启用' : '停用'}}
         </el-button>
         <span class="remarks ellipsis">
           {{ruleForm.remark}}
@@ -380,7 +380,11 @@
       },
       // 文件上传成功
       handleAvatarSuccess(response, file, fileList) {
-        this.$message.success('上传成功');
+        if(response.code !== '0000') {
+          this.$message.warning(response.description);
+        }else{
+          this.$message.success('上传成功');
+        }
       },
       /* 文件上传失败 回调 */
       fileError() {
