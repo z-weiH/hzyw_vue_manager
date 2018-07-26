@@ -410,6 +410,7 @@
           this.$message.warning(response.description);
         }else{
           this.$message.success('上传成功');
+          this.init();
         }
       },
       /* 文件上传失败 回调 */
