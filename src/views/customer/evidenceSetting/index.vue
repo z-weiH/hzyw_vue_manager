@@ -21,7 +21,7 @@
             </el-col>
             <el-col :span="16">
               <div class="ellipsis line-h" style="width:100%;">
-                {{item.group.eviObject}}
+                {{item.eviObject}}
               </div>
             </el-col>
             <el-col :span="6">
@@ -31,7 +31,7 @@
           </el-row>
         </div>
         <ul class="m-ul">
-          <li v-if="item.group.eviList && item.group.eviList.length > 0" v-for="(eviList,key) in item.group.eviList" :key="key">
+          <li v-if="item.eviList && item.eviList.length > 0" v-for="(eviList,key) in item.eviList" :key="key">
             <el-row>
               <el-col :span="12">
                 <p>证据{{key + 1}}：{{eviList.eviNum}},{{eviList.eviCode}},{{eviList.evidenceNameText}}</p>
@@ -81,33 +81,31 @@
         // 证据组 列表
         evidenceList : [
           {
-            group : {
-              // 组号
-              groupNum : '',
-              // 证据对象
-              eviObject : '',
-              // 证据 列表
-              eviList : [
-                {
-                  // 证据 id
-                  baseId : '',
-                  // 签章是否读取,0:不读取,1:读取
-                  signStatus : '',
-                  // 证据排序 （数组下标）
-                  sortIndex : '',
-                  // 证据号
-                  eviNum : '',
-                  // 证据编码
-                  eviCode : '',
+            // 组号
+            groupNum : '',
+            // 证据对象
+            eviObject : '',
+            // 证据 列表
+            eviList : [
+              {
+                // 证据 id
+                baseId : '',
+                // 签章是否读取,0:不读取,1:读取
+                signStatus : '',
+                // 证据排序 （数组下标）
+                sortIndex : '',
+                // 证据号
+                eviNum : '',
+                // 证据编码
+                eviCode : '',
 
-                  // 前端字段 解决后端字段保存和编辑回显 字段不统一问题
-                  // 证据名称(前端字段 纯文案) 
-                  evidenceNameText : '',
-                  // 证据名称（前端字段 手动输入）
-                  evidenceNameInput : '',
-                }
-              ],
-            },
+                // 前端字段 解决后端字段保存和编辑回显 字段不统一问题
+                // 证据名称(前端字段 纯文案) 
+                evidenceNameText : '',
+                // 证据名称（前端字段 手动输入）
+                evidenceNameInput : '',
+              }
+            ],
           }
         ],
       }
@@ -128,14 +126,12 @@
           // 数据处理
           this.evidenceList = res.result.map((v,k) => {
             let children = v.eviList;
-            v.group = {};
             let arr = children.map((v1,k1) => {
               v1.evidenceNameText = v1.eviTitle;
               v1.evidenceNameInput = v1.eviName;
               return v1;
             });
-            v.group.eviList = arr;
-            v.group.eviObject = v.eviObject;
+            v.eviList = arr;
             return v;
           });
         });
@@ -151,7 +147,7 @@
       },
       // 新增证据成功回调
       evidenceCBK(index,data) {
-        this.evidenceList[index].group.eviList.push({
+        this.evidenceList[index].eviList.push({
           baseId : data.tableDataActive.baseId,
           signStatus : data.signStatus,
           eviNum : data.tableDataActive.eviNum,
@@ -162,8 +158,10 @@
       },
       // 点击删除证据
       handleDeleteEvidence(index,key) {
-        if(this.evidenceList[index].group.eviList.length > 1) {
-          this.evidenceList[index].group.eviList.splice(key,1);
+        if(this.evidenceList[index].eviList.length > 1) {
+          this.evidenceList[index].eviList.splice(key,1);
+        }else{
+          this.$message.warning('请至少保留一个证据');
         }
       },
       // 点击新增证据组
@@ -174,10 +172,8 @@
       evidenceGroupCBK(data) {
         this.evidenceList.push(
           {
-            group : {
-              eviObject : data,
-              eviList : [],
-            }
+            eviObject : data,
+            eviList : [],
           }
         );
       },
@@ -185,6 +181,8 @@
       handleDeleteEvidenceGroup(item,index) {
         if(this.evidenceList.length > 1) {
           this.evidenceList.splice(index,1);
+        }else{
+          this.$message.warning('请至少保留一个证据组');
         }
       },
       // 点击保存
@@ -192,7 +190,7 @@
         // 校验数据
         let verifyType = true;
         this.evidenceList.map((v,k) => {
-          if(verifyType && v.group.eviList.length === 0) {
+          if(verifyType && v.eviList.length === 0) {
             verifyType = false;
             this.$message.warning('请确保证据组下至少有一条证据');
           }
@@ -201,7 +199,7 @@
           // 数据处理
           let list = objDeepCopy(this.evidenceList);
           list = list.map((v,k) => {
-            v.eviList = v.group.eviList.map((v1,k1) => {
+            v.eviList = v.eviList.map((v1,k1) => {
               let obj = {
                 baseId : v1.baseId,
                 eviTitle : v1.evidenceNameInput,
@@ -210,10 +208,8 @@
               }
               return obj;
             });
-            v.eviObject = v.group.eviObject;
+            v.eviObject = v.eviObject;
             v.groupNum = k + 1;
-            delete v.group;
-            delete v.groupId;
             return v
           });
           this.$http({
