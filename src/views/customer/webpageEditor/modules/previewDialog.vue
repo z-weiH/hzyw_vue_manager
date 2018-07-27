@@ -116,6 +116,7 @@
               this.loading.close();
               win.location.href = res.result;
             }).catch(() => {
+              this.$message.warning('生成失败');
               this.loading.close();
               win.close();
             });
