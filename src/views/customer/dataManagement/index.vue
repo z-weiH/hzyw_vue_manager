@@ -196,7 +196,8 @@
               .then(res => { 
                 if(res.code === '0000'){
                   this.showDailog = false;
-                  this.changeHandle(this.item);
+                
+                  this.changeHandle({dataId:res.result});
                 }
               })
         }).catch(()=>{})

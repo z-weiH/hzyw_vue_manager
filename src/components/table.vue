@@ -7,7 +7,7 @@
       </el-table-column>
       <el-table-column label="" width="55" v-if="needSingleCheck">
         <template slot-scope="scope">
-            <el-radio :label="scope.row.messageTemplateId" v-model="templateRadio" @change.native="getTemplateRow(scope.$index,scope.row)"><i></i></el-radio>
+            <el-radio :label="scope.$index" v-model="templateRadio" @change.native="getTemplateRow(scope.$index,scope.row)"><i></i></el-radio>
         </template>
     </el-table-column>
       <el-table-column v-if="!noSerial" :resizable="false" type="index" label="序号" width="50"></el-table-column>
@@ -80,7 +80,7 @@ export default {
   name: "mineTable",
   data(){
     return {
-      templateRadio: '',
+      templateRadio: null,
       //当前
       selectedRow: null
     }
