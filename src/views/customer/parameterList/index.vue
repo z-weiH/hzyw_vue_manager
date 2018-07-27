@@ -6,6 +6,10 @@
     <div class="parameter-list-content">
       <div class="w-1200">
         <parameter></parameter>
+
+        <div class="m-center">
+          <el-button @click="handleClose">关闭</el-button>
+        </div>
       </div>
     </div>
   </div>
@@ -16,6 +20,12 @@
   export default {
     components : {
       parameter,
+    },
+    methods : {
+      // 点击关闭
+      handleClose() {
+        window.close();
+      },
     },
   }
 </script>
@@ -44,6 +54,10 @@
       width: 1200px;
       margin: 0 auto;
       padding-top: 10px;
+      .m-center{
+        text-align: center;
+        padding: 20px 0;
+      }
     }
   }
 }
