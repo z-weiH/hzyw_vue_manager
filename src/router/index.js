@@ -323,6 +323,14 @@ let router = new Router({
           },
         },
         {
+          path: 'balanceQueryDetail',
+          component: () =>
+            import ('@/views/customer/balanceQueryDetail'), // 账户余额查询 - 子页面
+          meta: {
+            name: 'balanceQueryDetail',
+          },
+        },
+        {
           path: 'tplSetting',
           component: () =>
             import ('@/views/customer/tplSetting'), // 模板设置 - 列表
@@ -741,6 +749,7 @@ let router = new Router({
         name: 'parameterList',
       },
     },
+    
   ]
 })
 

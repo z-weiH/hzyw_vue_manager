@@ -11,10 +11,10 @@
       <table-component :noPager="true" :noSerial="true"  :pager="pager" :table-data="tableData" :column-define="columnDefine">
         <el-table-column label="启用状态" prop="orderStatusName" slot="defineCol" >
           <template slot-scope="scope">
-            // { label: "启用状态", property: "enabledStatus",},
-            // 0:未启用,1:启用
-           <span v-if="scope.row.enabledStatus === 0" class="colLink">启用</span>
-           <span v-if="scope.row.enabledStatus === 1" class="colLink" style="color:#848484">停用</span>
+            <!-- // { label: "启用状态", property: "enabledStatus",},
+            // 0:未启用,1:启用 --> 
+           <span v-if="scope.row.enabledStatus === 0" class="colLink" @click="handleEnable(scope.row)">启用</span>
+           <span v-if="scope.row.enabledStatus === 1" class="colLink" style="color:#848484" @click="handleEnable(scope.row)">停用</span>
           </template>
         </el-table-column>
 
@@ -47,13 +47,14 @@
   import Edits from '@/components/edits'
   import Mixins from "@/components/script/_mixin";
   import TableComponent from "@/components/table";
+  import checkForm from "@/components/script/formCheck"
   export default {
     name: 'businessTypeSetting',
-    mixins: [Mixins],
+    mixins: [Mixins,checkForm],
     data() {
       return {
         columnDefine: [
-          { label: "业务类型", property: "busiType" },
+          { label: "业务类型", property: "bizType" },
           { label: "创建时间", property: "createTime" },
           { label: "产品数量", property: "productNum" },
 
@@ -62,21 +63,52 @@
         showDailog: false,
         item: {},
         editItems: [
-          {label: '业务类型', property: 'loginName', type : 'text',placeholder:'请输入业务类型'},
+          {label: '业务类型', property: 'bizType', type : 'text',placeholder:'请输入业务类型',rule:'require'},
         ],
-        queryUrl: "/5/biz/queryBizSetTypeByBaseQuery.htm",
+        queryUrl: "/biz/queryBizSetTypeByBaseQuery.htm",
       }
     },
     components:{
       TableComponent,
       Edits
     },
+    watch:{
+      'showDailog':function(val,oldval){
+        this.resetForm();
+      }
+    },
     methods:{
       HandleCreate() {
         this.showDailog = true;
       },
       saveHandle() {
-
+        this.checkbeforeSave().then(() => {
+            this.$http.post('/biz/saveBizType.htm',{bizType: this.item.bizType}).then(res => {
+                if(res.code == '0000'){
+                  this.$message.success(res.description);
+                  this.showDailog = false;
+                  this.doQuery(this.queryUrl, {});
+                }
+            })
+        }).catch(() => {});
+      
+      },
+      handleEnable(row) {
+        this.$http.post('/biz/updateBizSetTypeByBizCode.htm',{bizCode:row.bizCode,enabledStatus: 1-row.enabledStatus})
+          .then(res => {
+            if(res.code === '0000'){
+              this.$message.success(res.description);
+              row.enabledStatus = 1 -row.enabledStatus;
+            }
+          })
+      },
+      doQuery(url,item){
+        this.$http.post(this.queryUrl,item)
+          .then(res => {
+            if(res.code == '0000'){
+              this.tableData = res.result;
+            }
+          })
       }
     },
     created() {

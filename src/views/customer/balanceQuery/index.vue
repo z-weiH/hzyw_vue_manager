@@ -1,5 +1,9 @@
 <template>
   <div class="balance-query">
+     <div class="wsbodyhead" >
+        <a>所在位置</a>
+        <router-link :to="'/main/balanceQuery'" class="aside_tit">账户余额</router-link>
+      </div>  
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
         <el-form-item label=" " prop="keyWords">
@@ -24,12 +28,17 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="客户名称"></el-table-column>
-        <el-table-column prop="ticketAvail" label="可用仲券"></el-table-column>
-        <el-table-column prop="amtAvail" label="可用受理费"></el-table-column>
-        <el-table-column prop="amtTotal" label="累计充值受理费"></el-table-column>
-        <el-table-column prop="ticketTotal" label="累计充值仲券数量"></el-table-column>
-        <el-table-column prop="giftTotal" label="累计赠送仲券数量"></el-table-column>
+        <el-table-column prop="clientName" label="客户名称"></el-table-column>
+        <el-table-column prop="ticketAvail" label="可用仲券">
+            <template slot-scope="scope">
+           <span class="colLink" @click="handleDetail(scope.row)">{{scope.row.ticketAvail}}1</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="ticketGiftAvail" label="可用赠券"></el-table-column>
+        <el-table-column prop="amtAvail" label="可用仲裁费"></el-table-column>
+        <el-table-column prop="ticketTotal" label="累计充值仲券"></el-table-column>
+        <el-table-column prop="giftTotal" label="累计赠送仲券"></el-table-column>
+        <el-table-column prop="ticketAmtTotal" label="累计充值仲券费"></el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -69,6 +78,13 @@
       this.initTableList();
     },
     methods : {
+      //详情页面
+      handleDetail(row) {
+        this.$router.push({
+          path:'/main/balanceQueryDetail',
+          query: {clientCode: row.clientCode},
+        });
+      },
       // 点击搜索
       handleSearch() {
         this.currentPage = 1;

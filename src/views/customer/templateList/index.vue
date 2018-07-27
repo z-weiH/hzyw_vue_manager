@@ -8,7 +8,7 @@
       <searchs :search-items="searchItems" :item="searchItem" :queryUrl="queryUrl">
         <div class="fr" slot="moreBtn">
           是否启用：
-          <el-select style="width: 140px;" v-model="templateStatus" placeholder="全部">
+          <el-select clearable  style="width: 140px;" v-model="templateStatus" placeholder="全部">
             <el-option label="停用" value="0"></el-option>
             <el-option label="启用" value="1"></el-option>
           </el-select>
@@ -37,7 +37,9 @@
     mixins: [Mixins],
     data(){
       return {
-        queryUrl:'/5/templateList/queryTemplateListByBaseQuery.htm',
+        //是否启用
+        templateStatus:null,
+        queryUrl:'/templateList/queryTemplateListByBaseQuery.htm',
         searchItems: [
           {
             type: "text",
@@ -53,10 +55,10 @@
           { label: "客户", property: "clientName",width: 80},
           { label: "产品", property: "productName",width: 80 },
           { label: "模板", property: "templateCode",width: 80 },
-          { label: "启用状态", property: "templateStatus",width: 100 },
-          { label: "申请书", property: "applyStatus",width: 100 },
-          { label: "裁决书", property: "adjudeStatus",width: 100 },
-          { label: "强制执行书", property: "enforceStatus",width: 140 },
+          { label: "启用状态", property: "templateStatus",width: 100, type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
+          { label: "申请书", property: "applyStatus",width: 100, type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
+          { label: "裁决书", property: "adjudeStatus",width: 100, type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
+          { label: "强制执行书", property: "enforceStatus",width: 140, type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
           { label: "初次启用日期", property: "firstTime",width: 140 },
           { label: "备注", property: "remark" },
         ]

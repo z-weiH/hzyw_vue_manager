@@ -17,7 +17,7 @@
         <table-component ref="table" :needSingleCheck="true" :pager="pager"  :noPager="true" :table-data="tableData" :column-define="columnDefine">
           <el-table-column label="操作"  slot="defineCol" >
             <template slot-scope="scope">
-              <span class="colLink" @click="changeHandle(scope.row)">修改</span>
+              <span class="colLink" @click="editHandle(scope.row)">修改</span>
               <span @click="deleteHandle(scope.row)" class="colLink" style="color: #3A3A3A;margin-left: 10px;" >删除</span>
             </template>
           </el-table-column>
@@ -111,7 +111,7 @@
         bizType : '',
         tableData1 : [{respondents : '就飞快的接口'}],
         editState: 0,
-        queryUrl: '/5/templateData/queryTemplateDataByBaseQuery',
+        queryUrl: '/templateData/queryTemplateDataByBaseQuery.htm',
         searchItems: [
           {
             type: "text",
@@ -156,15 +156,27 @@
         })
       },
       saveParametersHandle(){
-        this.$http.post('/5/templateData/saveTemplateDataById',{list:this.tableData1},{mheader:true})
+        this.$http.post('/templateData/saveTemplateDataById.htm',{list:this.tableData1},{mheaders:true})
           .then(res => {
             if(res.code === '0000'){
               this.$message.success(res.description);
             }
           })
       },
+      editHandle(row){
+        this.$http.post('/templateData/queryTemplateDataByDataId.htm',{dataId: row.dataId})
+          .then(res => {
+            if(res.code === '0000'){
+              this.currentDataRow = row;
+              this.tableData1 = res.result.list;
+              if(!this.editState)
+                this.editState = 1;
+
+            }
+          })
+      },
       changeHandle(row){
-        this.$http.post('/5/templateData/queryTemplateDataByDataId',{bizType: this.bizType,dataId: row.dataId,paramLevel: this.paramLevel})
+        this.$http.post('/templateData/queryTemplateDataByDataId.htm',{bizType: this.bizType,dataId: row.dataId,paramLevel: this.paramLevel})
           .then(res => {
             if(res.code === '0000'){
               this.currentDataRow = row;
@@ -180,7 +192,7 @@
         
         this.checkbeforeSave().then(() => {
             let obj = this.$refs.table.selectedRow ? {dataId : this.$refs.table.selectedRow.dataId} : {};  
-            this.$http.post("/5/templateData/saveTemplateDataByDataId",Object.assign(obj,this.item))
+            this.$http.post("/templateData/saveTemplateDataByDataId.htm",Object.assign(obj,this.item))
               .then(res => { 
                 if(res.code === '0000'){
                   this.showDailog = false;
@@ -195,7 +207,7 @@
       },
       deleteHandle(row){
         this.showConfirm().then(() => {
-            this.$http.post('/5/templateData/deleteTemplateDataByDataId',{dataId: row.dataId})
+            this.$http.post('/templateData/deleteTemplateDataByDataId.htm',{dataId: row.dataId})
               .then(res => {
                 console.log(res);
                 if(res.code === '0000'){
@@ -204,6 +216,14 @@
                 }
               })
         }).catch(() => {})
+      },
+      doQuery(url,searchItem) {
+        this.$http.post(this.queryUrl, this.searchItems)
+          .then(res => {
+            if(res.code === '0000'){
+              this.tableData = res.result;
+            }
+          })
       }
     },
     components:{
