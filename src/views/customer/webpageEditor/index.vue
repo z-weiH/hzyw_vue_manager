@@ -82,7 +82,7 @@
         }catch(err){
           setTimeout(() => {
             fn(data)
-          },300);
+          },1000);
         }
       }
       // 回显数据
@@ -99,7 +99,9 @@
         },
       }).then((res) => {
         fn(res.result[this.$route.query.type] || '');
-      });
+      }).catch(() => {
+        close.close();
+      });;
     },
     methods : {
       // copy 参数
