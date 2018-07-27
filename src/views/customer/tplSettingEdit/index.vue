@@ -40,10 +40,10 @@
           <el-col :span="12">
             <div>
               <span class="is-required list-text">申请书：</span>
-              <el-upload
+              <!-- <el-upload
                 v-show="!ruleForm.applyUpdateTime"
                 ref="sqs"
-                class="upload-demo fn-hide"
+                class="upload-demo"
                 :action="`${$host}/templateSetting/uploadTemplateContent.htm`"
                 :show-file-list="false"
                 :before-upload="beforeAvatarUpload"
@@ -58,7 +58,7 @@
               >
                 <el-button type="text">word上传</el-button>
               </el-upload>
-              <el-button class="fn-hide" v-show="ruleForm.applyUpdateTime" @click="handleCoverUpload('sqs')" type="text">word上传</el-button>
+              <el-button v-show="ruleForm.applyUpdateTime" @click="handleCoverUpload('sqs')" type="text">word上传</el-button> -->
               <el-button @click="handleWebpage('applyContent')" type="text">网页编辑</el-button>
               <span class="m-time ml-10">
                 {{ruleForm.applyUpdateTime || '待设置'}}
@@ -95,10 +95,10 @@
         <el-col :span="12">
             <div>
               <span class="list-text">裁决书：</span>
-              <el-upload
+              <!-- <el-upload
                 v-show="!ruleForm.judgeUpdateTime"
                 ref="cjs"
-                class="upload-demo fn-hide"
+                class="upload-demo"
                 :action="`${$host}/templateSetting/uploadTemplateContent.htm`"
                 :show-file-list="false"
                 :before-upload="beforeAvatarUpload"
@@ -113,7 +113,7 @@
               >
                 <el-button type="text">word上传</el-button>
               </el-upload>
-              <el-button class="fn-hide" v-show="ruleForm.judgeUpdateTime" @click="handleCoverUpload('cjs')" type="text">word上传</el-button>
+              <el-button v-show="ruleForm.judgeUpdateTime" @click="handleCoverUpload('cjs')" type="text">word上传</el-button> -->
               <el-button @click="handleWebpage('judgeContent')" type="text">网页编辑</el-button>
               <span class="m-time ml-10">
                 {{ruleForm.judgeUpdateTime || '待设置'}}
@@ -142,10 +142,10 @@
         <el-col :span="12">
             <div>
               <span class="list-text">强制申请书：</span>
-              <el-upload
+              <!-- <el-upload
                 v-show="!ruleForm.enforceUpdateTime"
                 ref="qzsqs"
-                class="upload-demo fn-hide"
+                class="upload-demo"
                 :action="`${$host}/templateSetting/uploadTemplateContent.htm`"
                 :show-file-list="false"
                 :before-upload="beforeAvatarUpload"
@@ -160,7 +160,7 @@
               >
                 <el-button type="text">word上传</el-button>
               </el-upload>
-              <el-button class="fn-hide" v-show="ruleForm.enforceUpdateTime" @click="handleCoverUpload('qzsqs')" type="text">word上传</el-button>
+              <el-button v-show="ruleForm.enforceUpdateTime" @click="handleCoverUpload('qzsqs')" type="text">word上传</el-button> -->
               <el-button @click="handleWebpage('enforceContent')" type="text">网页编辑</el-button>
               <span class="m-time ml-10">
                 {{ruleForm.enforceUpdateTime || '待设置'}}
