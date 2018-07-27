@@ -84,22 +84,57 @@ export default {
 					property: 'merchantCode',
 					options: [],
 					labelfield: 'merchantName',
-					valuefield: 'code',
+          valuefield: 'code',
+          remoteMethod: this.optsCompanyListView,
+          filterable: true,
+          reserveKey: true,
+          remote: true
 				},
 				{
 					label: '产品名称',
 					type: 'select',
 					colSpan: 5,
-					property: 'productId',
+					property: 'prodCode',
 					options: [],
 					labelfield: 'prodName',
-					valuefield: 'prodId',
+          valuefield: 'prodCode',
+          remoteMethod: this.optsPduListView
 				},
 				{
 					label: '逾期天数',
 					type: 'select',
 					colSpan: 6,
 					property: 'overdueDate',
+					options: [
+						{
+							label: '0-30天 M1',
+							value: 'M1',
+						},
+						{
+							label: '31-60天 M2',
+							value: 'M2',
+						},
+						{
+							label: '61-90天 M3',
+							value: 'M3',
+						},
+						{
+							label: '91-120天 M4',
+							value: 'M4',
+						},
+						{
+							label: '121-150天 M5',
+							value: 'M5',
+						},
+						{
+							label: '151-180天 M6',
+							value: 'M6',
+						},
+						{
+							label: '180天以上 M7',
+							value: 'M7',
+						},
+					],
 				},
 				{
 					newline: 1,
@@ -245,10 +280,9 @@ export default {
 			for (var i in item) {
 				switch (item[i]) {
 					case 'merchantCode':
-						console.log(item['value'])
-						this.optsPduListView({
-							merchantCode: item['value'],
-						})
+            console.log("value---", item["value"]);
+            !item["value"] && (this.searchItem.prodCode = "");
+						this.optsPduListView(item['value'])
 						break
 					case 'caseProcess':
 						console.warn(item['value'])
@@ -264,13 +298,17 @@ export default {
 				}
 			}
 		},
-		optsCompanyListView() {
-			this.$http.post(URL_JSON['selectCompany']).then(res => {
+		optsCompanyListView(into) {
+			this.$http.post(URL_JSON['queryHJCompany'],{
+        keyWords: into
+      }).then(res => {
 				this.searchItems[4].options = res.result
 			})
 		},
-		optsPduListView(params) {
-			this.$http.post(URL_JSON['selectProduct'], params).then(res => {
+		optsPduListView(into) {
+			this.$http.post(URL_JSON['selectProduct'], {
+        merchantCode: into
+      }).then(res => {
 				this.searchItems[5].options = res.result
 			})
 		},
@@ -346,7 +384,11 @@ export default {
 										color: '#EEA823',
 									},
 								},
-								`( ${multi_btnType ? (this.selection[0].arbCaseId ? this.selection[0].arbCaseId : '暂无案号' ) : ( row.arbCaseId ? row.arbCaseId : '暂无案号') } )`
+								`( ${
+									multi_btnType
+										? this.selection[0].arbCaseId ? this.selection[0].arbCaseId : '暂无案号'
+										: row.arbCaseId ? row.arbCaseId : '暂无案号'
+								} )`
 							),
 						]),
 						h('p', null, '确认提交?'),
@@ -355,9 +397,11 @@ export default {
 					showCancelButton: true,
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
-				}).then(res => {
-					this.unFreedataFoo(0, row)
-				}).catch(() => {});
+				})
+					.then(res => {
+						this.unFreedataFoo(0, row)
+					})
+					.catch(() => {})
 			} else {
 				this.$msgbox({
 					title: '提示',
@@ -381,14 +425,16 @@ export default {
 					showCancelButton: true,
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
-				}).then(res => {
-          console.log('批量--');
-					this.unFreedataFoo(1, row)
-				}).catch(() => {});
+				})
+					.then(res => {
+						console.log('批量--')
+						this.unFreedataFoo(1, row)
+					})
+					.catch(() => {})
 			}
 		},
 		unFreedataFoo(type, row) {
-      // console.log('解冻请求方法-当前数据 ',row);
+			// console.log('解冻请求方法-当前数据 ',row);
 			/**
 			 * @param type
 			 * 0:代表单条数据请求
@@ -422,8 +468,8 @@ export default {
 		},
 	},
 	created() {
-		this.optsCompanyListView() //互金企业
-		this.optsPduListView() //产品名称
+		this.optsCompanyListView('') //互金企业
+		// this.optsPduListView() //产品名称
 		this.optsHkCaseStageView() //还款案件阶段
 		this.optsHkCaseStatusView() //还款案件状态
 	},

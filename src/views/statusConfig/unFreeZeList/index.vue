@@ -98,7 +98,37 @@ export default {
 					label: '逾期天数',
 					type: 'select',
 					colSpan: 6,
-					property: 'overdueDate',
+          property: 'overdueDate',
+          options: [
+						{
+							label: '0-30天 M1',
+							value: 'M1',
+						},
+						{
+							label: '31-60天 M2',
+							value: 'M2',
+						},
+						{
+							label: '61-90天 M3',
+							value: 'M3',
+						},
+						{
+							label: '91-120天 M4',
+							value: 'M4',
+						},
+						{
+							label: '121-150天 M5',
+							value: 'M5',
+						},
+						{
+							label: '151-180天 M6',
+							value: 'M6',
+						},
+						{
+							label: '180天以上 M7',
+							value: 'M7',
+						},
+					],
 				},
 				{
 					newline: 1,
