@@ -11,7 +11,7 @@
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
           
 					<el-form-item label="产品名称" prop="productId">
-            <el-select clearable style="width:260px;" v-model="ruleForm.productId" placeholder="请选择账龄">
+            <el-select clearable style="width:260px;" v-model="ruleForm.productId" placeholder="请选择产品">
               <el-option :label="item.productName + ' ' + item.prodCode" :value="item.productId" v-for="(item,index) in productOptions" :key="index"></el-option>
             </el-select>
           </el-form-item>
