@@ -50,6 +50,15 @@
         </ul>
       </div>
 
+      <div v-if="evidenceList.length === 0" :style="{
+        'height' : '60px',
+        'line-height' : '60px',
+        'text-align' : 'center',
+        'font-size' : '18px',
+      }">
+        <span>暂无证据组</span>
+      </div>
+
       <div class="text-center" style="margin-top: 40px;margin-bottom: 40px;">
         <el-button @click="handleAddEvidenceGroup" type="primary">
           <i class="el-icon-circle-plus-outline"></i>
