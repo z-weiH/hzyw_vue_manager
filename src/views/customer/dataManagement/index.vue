@@ -196,7 +196,7 @@
               .then(res => { 
                 if(res.code === '0000'){
                   this.showDailog = false;
-                
+                  this.doQuery(this.queryUrl,this.searchItem);
                   this.changeHandle({dataId:res.result});
                 }
               })
