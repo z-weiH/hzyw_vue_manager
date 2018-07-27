@@ -71,10 +71,14 @@
       }
     },
     mounted() {
+      let close = this.$loading({
+        text : '加载中'
+      });
       // 防止富文本没有加载完成；
       let fn = (data) => {
         try{
           this.$refs.ueeditor.setContent(data);
+          close.close();
         }catch(err){
           setTimeout(() => {
             fn(data)
@@ -154,6 +158,7 @@
               method : 'post',
               data : {
                 [this.$route.query.type] : content,
+                prodTempId : this.$route.query.prodTempId,
               },
             }).then((res) => {
               this.$message.success('保存成功');
