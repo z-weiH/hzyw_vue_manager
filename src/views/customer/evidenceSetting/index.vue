@@ -147,7 +147,16 @@
       },
       // 点击 取消
       handleGoBack() {
+        this.$confirm('确认退出吗?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          cancelButtonClass: 'cancel',
+          confirmButtonClass: 'confirm',
+          center: true,
+        }).then(() => {
         this.$router.push(`tplSettingEdit?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}&templateId=${this.$route.query.templateId}`);
+        },() => {
+        });
       },
       
       // 点击新增证据

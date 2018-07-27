@@ -67,7 +67,7 @@
             <div>
               <span class="is-required list-text">标的金额：</span>
               <el-button @click="handleSet(1)" type="text">设置</el-button>
-              <span class="m-time" style="margin-left:113px;">
+              <span class="m-time" style="margin-left:38px;">
                 {{ruleForm.bidUpdateTime || '待设置'}}
               </span>
             </div>
