@@ -112,6 +112,7 @@
                   this.$route.query.type === 'enforceContent' ? 3 : ''
                 )
               },
+              timeout : 1000 * 60 * 10,
             }).then((res) => {
               this.loading.close();
               win.location.href = res.result;
