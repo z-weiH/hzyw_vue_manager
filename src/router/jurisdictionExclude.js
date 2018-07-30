@@ -15,5 +15,6 @@ export default [
   '/webpageEditor', // 模板设置 - 网页编辑
   '/main/evidenceSetting', // 模板设置 - 证据设置
   '/parameterList', // 模板设置 - 参数列表
-  '/main/productList' // 客户管理 - 产品列表
+  '/main/productList', // 客户管理 - 产品列表
+  '/main/balanceQueryDetail', // 账户余额查询 - 子页面
 ]
