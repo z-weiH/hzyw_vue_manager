@@ -77,6 +77,9 @@
       this.$http({
         url : '/templateList/queryTemplateList.htm',
         method : 'post',
+        data : {
+          clientCode : this.$route.query.clientCode,
+        },
       }).then((res) => {
         this.productOptions = res.result;
       });
