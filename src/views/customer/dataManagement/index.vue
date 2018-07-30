@@ -222,7 +222,7 @@
         }).catch(() => {})
       },
       doQuery(url,searchItem) {
-        this.$http.post(this.queryUrl, this.searchItems)
+        this.$http.post(this.queryUrl, this.searchItem)
           .then(res => {
             if(res.code === '0000'){
               this.tableData = res.result;
