@@ -28,7 +28,7 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-        <el-table-column prop="clientName" label="客户名称"></el-table-column>
+        <el-table-column prop="name" label="客户名称"></el-table-column>
         <el-table-column prop="ticketAvail" label="可用仲券">
             <template slot-scope="scope">
            <span class="colLink" @click="handleDetail(scope.row)">{{scope.row.ticketAvail}}1</span>

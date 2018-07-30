@@ -143,6 +143,9 @@
         this.changeHandle(this.currentDataRow);
       },
       'paramLevel': function (val,oldval) {
+        if(val === 0){
+          this.bizType = '';
+        }
         this.changeHandle(this.currentDataRow);
       },
     },
