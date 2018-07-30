@@ -19,7 +19,9 @@
 
           <tr>
             <td colspan="1">企业名称：</td>
-            <td colspan="3">{{ruleForm.merchantName}}</td>
+            <td colspan="1">{{ruleForm.merchantName}}</td>
+            <td colspan="1">申请人：</td>
+            <td colspan="1">{{ruleForm.defaultApplicants === 1 ? '是' : '否'}}</td>
           </tr>
 
           <tr>
