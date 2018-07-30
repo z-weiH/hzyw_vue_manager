@@ -22,7 +22,7 @@
 				<el-table-column prop="prodName" label="产品名称">
           <template slot-scope="scope">
             <el-tooltip :content="scope.row.prodName" placement="top-start">
-              <span class="fn-a ellipsis" style="max-width:132px;" @click="handleEditProduct(scope.row)">{{scope.row.prodName}}</span>
+              <span class="fn-a ellipsis" style="max-width:112px;" @click="handleEditProduct(scope.row)">{{scope.row.prodName}}</span>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -31,7 +31,13 @@
         <el-table-column prop="platName" label="借款平台"></el-table-column>
         <el-table-column prop="extraPhones" label="协商电话"></el-table-column>
         <el-table-column prop="productIp" label="IP白名单"></el-table-column>
-        <el-table-column prop="productUrl" label="接口地址"></el-table-column>
+        <el-table-column prop="productUrl" label="接口地址">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.productUrl" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.productUrl}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
       </el-table>
 
       <div class="m-footer">
@@ -101,13 +107,13 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/merchant/queryClientInfoByClientCode',
+          url : '/merchant/queryClientInfoByClientCode.htm',
           method : 'post',
           data : {
             clientCode : this.$route.query.clientCode,
           },
         }).then((res) => {
-          this.tableData = res.result.list;
+          this.tableData = res.result;
         });
       },
 

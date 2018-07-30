@@ -18,8 +18,8 @@
 						<el-input style="width:400px;" v-model.trim="ruleForm.prodCode" placeholder="请输入两位产品编码"></el-input>
 					</el-form-item>
 
-					<el-form-item label="业务类型：" prop="busiName">
-            <el-select clearable style="width:400px;" v-model="ruleForm.busiName" placeholder="请选择业务类型">
+					<el-form-item label="业务类型：" prop="busiCode">
+            <el-select clearable style="width:400px;" v-model="ruleForm.busiCode" placeholder="请选择业务类型">
               <el-option :label="item.bizType" :value="item.bizCode" v-for="(item,index) in busiOptions" :key="index"></el-option>
             </el-select>
           </el-form-item>
@@ -60,7 +60,7 @@
               </el-button>
               {{ruleForm.fwxyUrlFileName}}
               <template v-if="type === 'edit' && !ruleForm.fwxyUrlFileName">
-                <a class="ml-10" slot="tip" target="_blank" :href="ruleForm.fwxyUrl">查看</a>
+                <a v-if="ruleForm.fwxyUrl" class="ml-10" slot="tip" target="_blank" :href="ruleForm.fwxyUrl">查看</a>
               </template>
             </el-upload>
           </el-form-item>
@@ -83,7 +83,7 @@
               </el-button>
               {{ruleForm.hzxyUrlFileName}}
               <template v-if="type === 'edit' && !ruleForm.hzxyUrlFileName">
-                <a class="ml-5" slot="tip" target="_blank" :href="ruleForm.hzxyUrl">查看</a>
+                <a v-if="ruleForm.hzxyUrl" class="ml-5" slot="tip" target="_blank" :href="ruleForm.hzxyUrl">查看</a>
               </template>
             </el-upload>
           </el-form-item>
@@ -106,7 +106,7 @@
               </el-button>
               {{ruleForm.bcxyUrlFileName}}
               <template v-if="type === 'edit' && !ruleForm.bcxyUrlFileName">
-                <a class="ml-10" slot="tip" target="_blank" :href="ruleForm.bcxyUrl">查看</a>
+                <a v-if="ruleForm.bcxyUrl" class="ml-10" slot="tip" target="_blank" :href="ruleForm.bcxyUrl">查看</a>
               </template>
             </el-upload>
           </el-form-item>
@@ -140,7 +140,7 @@
           // 产品编码
           prodCode : '',
           // 业务类型
-          busiName : '',
+          busiCode : '',
           // 借款平台
           platName : '',
           // 协商电话
@@ -171,7 +171,7 @@
             {required : true , message : '请输入产品编码' , trigger : 'blur'},
             {pattern : /^\d{2}$/ , message : '请输入两位数字' , trigger : 'blur'},
           ],
-          busiName : [
+          busiCode : [
             {required : true , message : '请选择业务类型' , trigger : 'change'},
           ],
           platName : [
@@ -201,7 +201,7 @@
         url : '/biz/queryListBizType.htm',
         method : 'post',
       }).then((res) => {
-        this.busiOptions = res.result.list;
+        this.busiOptions = res.result;
       });
     },
     methods : {
@@ -217,12 +217,13 @@
         // 回显数据
         if(type === 'edit') {
           this.$http({
-            url : '/merchant/queryClientInfoByProductId',
+            url : '/merchant/queryClientInfoByProductId.htm',
             method : 'post',
             data : {
               productId : data.productId,
             },
           }).then((res) => {
+            res.result.busiCode = + res.result.busiCode;
             this.ruleForm = Object.assign(this.ruleForm,res.result);
           });
         }
@@ -250,14 +251,14 @@
 						this.submitDisabled = true;
 						this.$http({
               method : 'post',
-              url : '/preCaseLib/distributeCaseByDistributeCaseQuery.htm',
+              url : '/merchant/saveClientInfoByProductId.htm',
               data : {
                 ...this.ruleForm,
                 clientCode : this.$route.query.clientCode,
                 productId : this.type === 'add' ? '' : this.row.productId,
               },
             }).then((res) => {
-              this.$message.success('分配成功');
+              this.$message.success(this.type === 'add' ? '新增产品成功' : '修改产品成功');
               this.$emit('successCBK');
               this.handleClose();
             }).catch(() => {
