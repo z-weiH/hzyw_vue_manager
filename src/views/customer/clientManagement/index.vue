@@ -1,5 +1,10 @@
 <template>
   <div class="client-management">
+    <div class="wsbodyhead">
+      <a>所在位置</a>
+      <a href="javascript:;" class="aside_tit">客户信息</a>
+    </div>
+
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
@@ -19,7 +24,7 @@
       </el-form>
     </div>
     <div class="item-title">
-      客户管理
+      客户列表
     </div>
     <div class="item-table">
       <el-table
@@ -46,19 +51,17 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="name" label="法定代表人"></el-table-column>
-        <el-table-column prop="idCard" label="社会信息代码">
-          <template slot-scope="scope">
-            <el-tooltip :content="scope.row.idCard" placement="top-start">
-              <span class="ellipsis" style="max-width:108px;">{{scope.row.idCard}}</span>
-            </el-tooltip>
-          </template>
-        </el-table-column>
+        <el-table-column prop="productCount" label="产品数量"></el-table-column>
         <el-table-column prop="createTime" label="开户时间">
           <template slot-scope="scope">
             <el-tooltip :content="scope.row.createTime" placement="top-start">
               <span class="ellipsis" style="max-width:108px;">{{scope.row.createTime}}</span>
             </el-tooltip>
+          </template>
+        </el-table-column>
+        <el-table-column label="产品设置">
+          <template slot-scope="scope">
+            <el-button @click="handleSet(scope.row)" type="text">设置</el-button>
           </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -123,6 +126,10 @@
       handleSearch() {
         this.currentPage = 1;
         this.initTableList();
+      },
+      // 点击设置
+      handleSet(row) {
+        this.$router.push(`productList?clientCode=${row.code}`);
       },
 
       // 点击修改

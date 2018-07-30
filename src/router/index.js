@@ -307,6 +307,14 @@ let router = new Router({
           },
         },
         {
+          path: 'productList',
+          component: () =>
+            import ('@/views/customer/productList'), // 客户管理 - 产品列表
+          meta: {
+            name: 'clientManagement',
+          },
+        },
+        {
           path: 'balanceQuery',
           component: () =>
             import ('@/views/customer/balanceQuery'), // 账户余额查询
@@ -315,9 +323,41 @@ let router = new Router({
           },
         },
         {
+          path: 'balanceQueryDetail',
+          component: () =>
+            import ('@/views/customer/balanceQueryDetail'), // 账户余额查询 - 子页面
+          meta: {
+            name: 'balanceQueryDetail',
+          },
+        },
+        {
           path: 'tplSetting',
           component: () =>
-            import ('@/views/customer/tplSetting'), // 模板设置
+            import ('@/views/customer/tplSetting'), // 模板设置 - 列表
+          meta: {
+            name: 'tplSetting',
+          },
+        },
+        {
+          path: 'tplSettingList',
+          component: () =>
+            import ('@/views/customer/tplSettingList'), // 模板设置 - 子列表
+          meta: {
+            name: 'tplSetting',
+          },
+        },
+        {
+          path: 'tplSettingEdit',
+          component: () =>
+            import ('@/views/customer/tplSettingEdit'), // 模板设置 - 编辑
+          meta: {
+            name: 'tplSetting',
+          },
+        },
+        {
+          path: 'evidenceSetting',
+          component: () =>
+            import ('@/views/customer/evidenceSetting'), // 模板设置 - 证据设置
           meta: {
             name: 'tplSetting',
           },
@@ -328,6 +368,30 @@ let router = new Router({
             import ('@/views/customer/tplEvidenceSetting'), // 模板证据设置
           meta: {
             name: 'tplEvidenceSetting',
+          },
+        },
+        {
+          path: 'businessTypeSetting',
+          component: () =>
+            import ('@/views/customer/businessTypeSetting'), // 业务类型设置
+          meta: {
+            name: 'businessTypeSetting',
+          },
+        },
+        {
+          path: 'templateList',
+          component: () =>
+            import ('@/views/customer/templateList'), // 模板列表
+          meta: {
+            name: 'templateList',
+          },
+        },
+        {
+          path: 'dataManagement',
+          component: () =>
+            import ('@/views/customer/dataManagement'), // 数据管理
+          meta: {
+            name: 'dataManagement',
           },
         },
         /* 客户管理模块 end */
@@ -668,7 +732,24 @@ let router = new Router({
       meta: {
         name: 'evidenceWireHear',
       },
-    }
+    },
+    {
+      path: '/webpageEditor',
+      component: () =>
+        import ('@/views/customer/webpageEditor'), // 模板设置 - 网页编辑
+      meta: {
+        name: 'webpageEditor',
+      },
+    },
+    {
+      path: '/parameterList',
+      component: () =>
+        import ('@/views/customer/parameterList'), // 模板设置 - 参数列表
+      meta: {
+        name: 'parameterList',
+      },
+    },
+    
   ]
 })
 

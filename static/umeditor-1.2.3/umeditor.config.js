@@ -147,7 +147,7 @@ etpl.config({
         ,imageFieldName:"file"                   //图片数据的key,若此处修改，需要在后台对应文件修改对应参数
         ,imageData: {                      // 需要携带的额外参数
             path : 'demo',
-            token : JSON.parse(localStorage.getItem('loginInfo')).token,
+            token : localStorage.getItem('loginInfo') && JSON.parse(localStorage.getItem('loginInfo')).token,
         }
 
 

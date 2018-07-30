@@ -164,26 +164,26 @@
       },
       // 点击删除
       handleDelete(row) {
-        this.$confirm('确认删除?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          cancelButtonClass: 'cancel',
-          confirmButtonClass: 'confirm',
-          center: true,
-        }).then(() => {
-          this.$http({
-            method : 'post',
-            url : '/templatevidence/deleteTemplateEvidence.htm',
-            data : {
-              eviId : row.eviId,
-            },
-          }).then((res) => {
-            this.$message.success('删除成功');
-            this.init();
-          });
-        },() => {
-          console.log('已取消');
-        }).catch(() => {});
+            this.$confirm('确认删除?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              cancelButtonClass: 'cancel',
+              confirmButtonClass: 'confirm',
+              center: true,
+            }).then(() => {
+              this.$http({
+                method : 'post',
+                url : '/templatevidence/deleteTemplateEvidence.htm',
+                data : {
+                  eviId : row.eviId,
+                },
+              }).then((res) => {
+                this.$message.success('删除成功');
+                this.init();
+              });
+            },() => {
+              console.log('已取消');
+            }).catch(() => {});
       },
     },
   }
