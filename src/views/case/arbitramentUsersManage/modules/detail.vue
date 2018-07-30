@@ -57,7 +57,7 @@
         >
 
           <!-- 自然人 信息 -->
-          <template v-if="ruleForm.type === '0'">
+          <template v-if="ruleForm.type === 0">
             <tr>
               <td colspan="4">自然人信息</td>
             </tr>
