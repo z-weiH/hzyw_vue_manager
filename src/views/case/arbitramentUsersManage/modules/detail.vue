@@ -197,8 +197,6 @@
     },
     methods: {
       show(row) {
-        this.dialogVisible = true;
-
         // 获取详情数据
         this.$http({
           method : 'post',
@@ -207,6 +205,7 @@
             userId : row.userId,
           },
         }).then((res) => {
+          this.dialogVisible = true;
           this.ruleForm = res.result;
         });
         // dialog 返回顶部
