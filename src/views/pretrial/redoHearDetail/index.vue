@@ -7,8 +7,8 @@
     </div>
     <div class="item-title clear of-hidden">
       <span class="tit">
-              <i class="fg_ico">|</i>批次信息
-            </span>
+                  <i class="fg_ico">|</i>批次信息
+                </span>
       <el-button v-if="showBtn" class="fr" @click="queryDialogFCperson">变更初审人</el-button>
 
     </div>
@@ -52,18 +52,13 @@
     <div v-for="(opts,index) in childBatchList" :key="index">
       <div class="item-title">
         <i class="fg_ico">|</i>子批次- {{index+1}}（<span>{{opts.countCase}}</span><span>件</span>）
-        <!-- <el-button v-if="opts.batchStatus == 0" size="medium" round>待初审</el-button> -->
         <button v-if="opts.batchStatus == 0" class="title_btn ml-5" disabled>待初审</button>
-        <!-- <el-button v-else-if="opts.batchStatus == 1" size="medium" round>待复审</el-button> -->
         <button v-else-if="opts.batchStatus == 1" class="title_btn ml-5" disabled>待复审</button>
         <span v-else-if="opts.batchStatus == 2">
-            <!-- <el-button size="medium" round>退回重审</el-button> -->
-            <button class="title_btn ml-5" disabled>退回重审</button>
-            <a href="javascript:;" class="btn_link" style="margin-left:15px;" @click="handleResult(opts)">查看原因</a>
-          </span>
-        <!-- <el-button v-else-if="opts.batchStatus == 3" size="medium" round>预审完成</el-button> -->
-        <button  v-else-if="opts.batchStatus == 3" class="title_btn ml-5" disabled>预审完成</button>
-        <!-- <span v-if="opts.batchStatus == 2" class="btn_link" style="margin-left:15px;" @click="reasonPanelType = true">查看原因</span> -->
+                <button class="title_btn ml-5" disabled>退回重审</button>
+                <a href="javascript:;" class="btn_link" style="margin-left:15px;" @click="handleResult(opts)">查看原因</a>
+              </span>
+        <button v-else-if="opts.batchStatus == 3" class="title_btn ml-5" disabled>预审完成</button>
       </div>
       <el-row class="message part">
         <el-col :span="22">
@@ -77,78 +72,24 @@
           </ul>
         </el-col>
         <el-col :span="2" style="text-align:center;">
-          <!-- <span v-if="opts.batchStatus == 1" class="btn_link" @click="gotoSmallTs(opts)">审核</span> -->
           <el-button v-if="opts.batchStatus == 1" type="primary" size="medium" round @click="gotoSmallTs(opts)">审核</el-button>
           <span v-if="opts.batchStatus == 3" class="btn_link" @click="gotoSmallTs(opts)">查看</span>
         </el-col>
       </el-row>
     </div>
 
-
-
-    <!-- <div class="item-title">
-        <i class="fg_ico">|</i>子批次-2（<span>100</span><span>件</span>）
-        <el-button size="medium" round>预审完成</el-button>
-      </div>
-      <el-row class="message part">
-        <el-col :span="22">
-          <ul>
-            <li>全部案件</li>
-            <li>通过<span>128</span>件，未通过<span>33</span>件</li>
-          </ul>
-        </el-col>
-        <el-col :span="2">
-          <span class="btn_link" @click="gotoSmallTs(row)">查看</span>
-        </el-col>
-      </el-row>
-      <div class="item-title">
-        <i class="fg_ico">|</i>子批次-3（<span>100</span><span>件</span>）
-        <el-button size="medium" round>退回重审</el-button> <span class="btn_link" @click="reasonPanelType = true">查看原因</span>
-      </div>
-
-      <el-row class="message part">
-        <el-col :span="22">
-          <ul>
-            <li>全部案件</li>
-            <li>通过<span>128</span>件，未通过<span>33</span>件</li>
-          </ul>
-        </el-col>
-        <el-col :span="2">
-        </el-col>
-      </el-row>
-      <div class="item-title">
-        <i class="fg_ico">|</i>子批次-4（<span>100</span><span>件</span>）
-        <el-button size="medium" round>待初审</el-button>
-      </div>
-      <el-row class="message part">
-        <el-col :span="22">
-          <ul>
-            <li>全部案件</li>
-            <li>通过<span>128</span>件，未通过<span>33</span>件</li>
-          </ul>
-        </el-col>
-        <el-col :span="2">
-        </el-col>
-      </el-row> -->
-
     <div class="item-title">
       <i class="fg_ico">|</i>批次日志
     </div>
-
-  <div class="logsItemWrap">
+    <div class="logsItemWrap">
       <ul>
-          <li v-for="(opts,index) in batchLogList" :key="index">
-            <span>{{ opts.logTime }}</span>
-            <span>{{ opts.logMsg }}</span>
-            <!-- <span v-if="opts.logType == 1"></span>
-              <span v-if="opts.logType == 2"></span>
-              <span v-if="opts.logType == 3"></span> -->
-            <span v-if="opts.logType == 4">复审退回<i class="btn_link" style="margin-left:15px;" @click="showViewReason(opts)">查看原因</i></span>
-            <!-- <span v-if="opts.logType == 5"></span>
-              <span v-if="opts.logType == 6"></span> -->
-          </li>
-        </ul>
-  </div>
+        <li v-for="(opts,index) in batchLogList" :key="index">
+          <span>{{ opts.logTime }}</span>
+          <span>{{ opts.logMsg }}</span>
+          <span v-if="opts.logType == 4">复审退回<i class="btn_link" style="margin-left:15px;" @click="showViewReason(opts)">查看原因</i></span>
+        </li>
+      </ul>
+    </div>
 
     <!-- dialog:查看原因 -->
     <el-dialog title="退回原因" :visible.sync="reasonPanelType" width="600px">
@@ -157,372 +98,384 @@
           <span>退回原因：</span>
           <span>{{backReasonObj}}</span>
         </div>
-        <!-- <el-col :span="3">退回原因：</el-col>
-        <el-col :span="21">
-          <pre>
-            {{backReasonObj}}
-          </pre>
-        </el-col> -->
       </el-row>
       <span slot="footer" class="dialog-footer">
-            <el-button @click="reasonPanelType = false">关闭</el-button>
-          </span>
+                <el-button @click="reasonPanelType = false">关闭</el-button>
+              </span>
     </el-dialog>
     <!-- ** -->
 
     <!-- dialog:变更初审人 -->
     <el-dialog title="变更初审人" :visible.sync="changeFpeopleType" width="560px">
-      <el-row class="mb-20">
-        <el-col :span="4">保留案件：</el-col>
-        <el-col :span="20">
-          <span class="f_orange mr-10">{{ changeFPerson.hasAudit }}</span><span>件</span>
-        </el-col>
-      </el-row>
-      <el-row class="mb-20">
-        <el-col :span="4">移交案件：</el-col>
-        <el-col :span="20">
-          <span class="f_orange mr-10">{{ changeFPerson.handerOver }}</span><span>件</span>
-        </el-col>
-      </el-row>
-      <el-row class="mb-20">
-        <el-col :span="4">现任初审人：</el-col>
-        <el-col :span="20">
-          <span class="f_orange">{{ changeFPerson.originalAuditName }}</span>
-        </el-col>
-      </el-row>
-      <el-row class="mb-20">
-        <el-col :span="4">新任初审人：</el-col>
-        <el-col :span="20">
-          <el-select @change="optsValChange" clearable v-model="newFirstPerson" placeholder="请选择初审人">
-            <el-option v-for="item in changeFPerson.newAuditors" :key="item.value" :label="item.userName" :value="item.userId">
-            </el-option>
-          </el-select>
-        </el-col>
-      </el-row>
-
+      <el-form :model="ruleForm" label-width="100px"  :rules="rules" ref="ruleForm">
+        <el-row class="mb-20">
+          <el-col :span="4">保留案件：</el-col>
+          <el-col :span="20">
+            <span class="f_orange mr-10">{{ changeFPerson.hasAudit }}</span><span>件</span>
+          </el-col>
+        </el-row>
+        <el-row class="mb-20">
+          <el-col :span="4">移交案件：</el-col>
+          <el-col :span="20">
+            <span class="f_orange mr-10">{{ changeFPerson.handerOver }}</span><span>件</span>
+          </el-col>
+        </el-row>
+        <el-row class="mb-20">
+          <el-col :span="4">现任初审人：</el-col>
+          <el-col :span="20">
+            <span class="f_orange">{{ changeFPerson.originalAuditName }}</span>
+          </el-col>
+        </el-row>
+        <el-row class="mb-20">
+          <!-- <el-col :span="4">新任初审人：</el-col> -->
+          <el-col :span="24">
+            <el-form-item label="新任初审人:" prop="newFirstPerson">
+              <el-select @change="optsValChange" clearable v-model="ruleForm.newFirstPerson" placeholder="请选择初审人">
+                <el-option v-for="item in changeFPerson.newAuditors" :key="item.userId" :label="item.userName" :value="item.userId">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
       <span slot="footer" class="dialog-footer">
-            <el-button @click="saveNewFPerson" type="primary">确认</el-button>
-            <el-button @click="changeFpeopleType = false">取消</el-button>
-          </span>
+          <el-button @click="saveNewFPerson" type="primary">确认</el-button>
+          <el-button @click="changeFpeopleType = false">取消</el-button>
+        </span>
     </el-dialog>
     <!-- ** -->
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import { URL_JSON } from "../../../components/script/url_json";
-import { compileStr, uncompileStr } from "@/assets/js/tool";
-import Searchs from "@/components/searchs";
-import TableComponent from "@/components/table";
-import Mixins from "@/components/script/_mixin";
+import { URL_JSON } from '../../../components/script/url_json'
+import { compileStr, uncompileStr } from '@/assets/js/tool'
+import Searchs from '@/components/searchs'
+import TableComponent from '@/components/table'
+import Mixins from '@/components/script/_mixin'
 export default {
-  extends: Mixins,
-  data() {
-    return {
-      changeFpeopleType: false,
-      reasonPanelType: false,
-      batchNo: "",
-      clientName: "",
-      childBatchList: [], //子批次概要信息
-      batchLogList: [], //批次日志信息
-      items: [],
-      item: {}, //批次信息
-      queryUrl: "",
-      tableData: [{}],
-      changeFPerson: {}, //变更初审人obj
-      _newOpts: {},
-      newFirstPerson: "", //新初审人字段
-      backReasonObj: "", //退回原因
-      firstPersonOpts: [
-        {
-          value: "1",
-          label: "人物1"
-        },
-        {
-          value: "2",
-          label: "人物2"
-        },
-        {
-          value: "3",
-          label: "人物3"
-        }
-      ],
-      searchItem: {},
-      searchItems: [
-        {
-          label: "",
-          type: "",
-          placeholder: "",
-          colSpan: 4,
-          property: ""
-        }
-      ],
-      columnDefine: [
-        {
-          label: "",
-          property: ""
-        }
-      ]
-    };
-  },
-  computed: {
-    showBtn() {
-      let item = this.childBatchList.find(it => {
-        return (
-          (it.batchStatus === 0 || it.batchStatus === 2) &&
-          (it.countEviChecked < it.countCase ||
-            it.countIdChecked < it.countCase ||
-            it.countSignChecked < it.countCase)
-        );
-      });
-      if (item) {
-        console.log('*真*');
-        return true;
-      } else {
-        console.log('*假*');
-        return false;
-      }
-    }
-  },
-  methods: {
-    handleResult(item) {
-      this.reasonPanelType = true;
-      this.backReasonObj = item.returnMsg;
-    },
-    showViewReason(opts) {
-      this.reasonPanelType = true;
-      console.log("opts.logId: ", opts.logId);
-      this.$http
-        .post(URL_JSON["queryBackReason1"], {
-          logId: opts.logId
-        })
-        .then(res => {
-          console.log("退回原因：", res);
-          this.backReasonObj = res.result.returnMsg;
-        });
-    },
-    getBatchInfo() {
-      console.info("asdasd     ", this.batchNo);
-      this.$http
-        .post(URL_JSON["queryBatchInfo"], {
-          batchNo: this.batchNo
-        })
-        .then(res => {
-          if (res.code === "0000") {
-            this.item = res.result;
-          }
-        });
-    },
-    getBatchList() {
-      this.$http
-        .post(URL_JSON["queryChildBatchInfo"], {
-          batchNo: this.batchNo,
-          type:'SECOND'
-        })
-        .then(res => {
-          if (res.code === "0000") {
-            // res = Mock.mock(res);
-            console.log("zzzzz:::", res);
-            // this.items = res.result.list;
-            this.childBatchList = res.result;
-            console.log('SECOND:: ',this.childBatchList);
-          }
-        });
-    },
-    getBatchLog() {
-      this.$http
-        .post(URL_JSON["queryBatchLogs"], {
-          batchNo: this.batchNo
-        })
-        .then(res => {
-          if (res.code === "0000") {
-            console.log("logs::::", res);
-            this.batchLogList = res.result;
-          }
-        });
-    },
-    getLabel(value) {
-      let options = [
-        {
-          label: "初审中",
-          value: 0
-        },
-        {
-          label: "待审核",
-          value: 1
-        },
-        {
-          label: "审核完成",
-          value: 2
-        },
-      ];
-      let item = options.find(it => it.value === value);
-      if (item) return item.label;
-      return "--";
-    },
-    gotoSmallTs(opts) {
-      console.log("opts::", opts);
-      // 小批次查看与审核
-      let routeData = this.$router.resolve({
-        path: "/redoHearChildDetail",
-        query: {
-          subBatchId: opts.subBatchNo,
-          subViewType: opts.batchStatus
-        }
-      });
-      window.open(routeData.href, "_blank");
-    },
-    queryDialogFCperson() {
-      this.changeFpeopleType = true;
-      // 变更初审人查询
-      this.$http
-        .post(URL_JSON["queryChangeFirstPerson"], {
-          batchId: this.batchNo,
-          type: "OPERATOR"
-        })
-        .then(res => {
-          console.log("bgsgg11111::", res.result);
-          this.changeFPerson = res.result;
-
-        });
-    },
-    saveNewFPerson() {
-      console.info("ssasasasas::", this._newOpts);
-      // 更新新初审人
-      this.$http
-        .post(URL_JSON["saveChangeFirstPerson"], this._newOpts)
-        .then(res => {
-          this.changeFpeopleType = false;
-          this.$message.success("修改成功");
-          this.$router.push('/main/redoHearList');
-        }, 300);
-    },
-    optsValChange(_value) {
-      console.log(_value);
-      this._newOpts = Object.assign({}, this.changeFPerson);
-      this._newOpts.batchId = this.$route.query.batchN;
-      // delete this._newOpts.newAuditors;
-      this._newOpts.currentAuditId = _value;
-      console.info("vhange:::", this._newOpts);
-    }
-  },
-  mounted() {
-    this.batchNo = this.$route.query.batchN;
-    this.clientName = uncompileStr(this.$route.query.clientN);
-    this.getBatchInfo();
-    this.getBatchList();
-    this.getBatchLog();
-  },
-  components: {
-    Searchs,
-    TableComponent
-  }
-};
+	extends: Mixins,
+	data() {
+		return {
+			changeFpeopleType: false,
+			reasonPanelType: false,
+			batchNo: '',
+			clientName: '',
+			childBatchList: [], //子批次概要信息
+			batchLogList: [], //批次日志信息
+			items: [],
+			item: {}, //批次信息
+			queryUrl: '',
+			tableData: [{}],
+			changeFPerson: {}, //变更初审人obj
+			ruleForm: {
+				newFirstPerson: '', //新初审人字段
+			},
+			rules: {
+				newFirstPerson: [
+					{
+						required: true,
+						message: '请选择新的审核人',
+						trigger: 'change',
+					},
+				],
+			},
+			_newOpts: {},
+			backReasonObj: '', //退回原因
+			firstPersonOpts: [
+				{
+					value: '1',
+					label: '人物1',
+				},
+				{
+					value: '2',
+					label: '人物2',
+				},
+				{
+					value: '3',
+					label: '人物3',
+				},
+			],
+			searchItem: {},
+			searchItems: [
+				{
+					label: '',
+					type: '',
+					placeholder: '',
+					colSpan: 4,
+					property: '',
+				},
+			],
+			columnDefine: [
+				{
+					label: '',
+					property: '',
+				},
+			],
+		}
+	},
+	computed: {
+		showBtn() {
+			let item = this.childBatchList.find(it => {
+				return (
+					(it.batchStatus === 0 || it.batchStatus === 2) &&
+					(it.countEviChecked < it.countCase ||
+						it.countIdChecked < it.countCase ||
+						it.countSignChecked < it.countCase)
+				)
+			})
+			if (item) {
+				console.log('*真*')
+				return true
+			} else {
+				console.log('*假*')
+				return false
+			}
+		},
+	},
+	methods: {
+		handleResult(item) {
+			this.reasonPanelType = true
+			this.backReasonObj = item.returnMsg
+		},
+		showViewReason(opts) {
+			this.reasonPanelType = true
+			console.log('opts.logId: ', opts.logId)
+			this.$http
+				.post(URL_JSON['queryBackReason1'], {
+					logId: opts.logId,
+				})
+				.then(res => {
+					console.log('退回原因：', res)
+					this.backReasonObj = res.result.returnMsg
+				})
+		},
+		getBatchInfo() {
+			console.info('asdasd     ', this.batchNo)
+			this.$http
+				.post(URL_JSON['queryBatchInfo'], {
+					batchNo: this.batchNo,
+				})
+				.then(res => {
+					if (res.code === '0000') {
+						this.item = res.result
+					}
+				})
+		},
+		getBatchList() {
+			this.$http
+				.post(URL_JSON['queryChildBatchInfo'], {
+					batchNo: this.batchNo,
+					type: 'SECOND',
+				})
+				.then(res => {
+					if (res.code === '0000') {
+						// res = Mock.mock(res);
+						console.log('zzzzz:::', res)
+						// this.items = res.result.list;
+						this.childBatchList = res.result
+						console.log('SECOND:: ', this.childBatchList)
+					}
+				})
+		},
+		getBatchLog() {
+			this.$http
+				.post(URL_JSON['queryBatchLogs'], {
+					batchNo: this.batchNo,
+				})
+				.then(res => {
+					if (res.code === '0000') {
+						console.log('logs::::', res)
+						this.batchLogList = res.result
+					}
+				})
+		},
+		getLabel(value) {
+			let options = [
+				{
+					label: '初审中',
+					value: 0,
+				},
+				{
+					label: '待审核',
+					value: 1,
+				},
+				{
+					label: '审核完成',
+					value: 2,
+				},
+			]
+			let item = options.find(it => it.value === value)
+			if (item) return item.label
+			return '--'
+		},
+		gotoSmallTs(opts) {
+			console.log('opts::', opts)
+			// 小批次查看与审核
+			let routeData = this.$router.resolve({
+				path: '/redoHearChildDetail',
+				query: {
+					subBatchId: opts.subBatchNo,
+					subViewType: opts.batchStatus,
+				},
+			})
+			window.open(routeData.href, '_blank')
+		},
+		queryDialogFCperson() {
+			this.changeFpeopleType = true
+			// 变更初审人查询
+			this.$http
+				.post(URL_JSON['queryChangeFirstPerson'], {
+					batchId: this.batchNo,
+					type: 'OPERATOR',
+				})
+				.then(res => {
+					console.log('bgsgg11111::', res.result)
+					this.changeFPerson = res.result
+				})
+		},
+		saveNewFPerson() {
+			console.info('ssasasasas::', this._newOpts)
+			this.$refs['ruleForm'].validate(valid => {
+				if (valid) {
+					// 更新新初审人
+					this.$http.post(URL_JSON['saveChangeFirstPerson'], this._newOpts).then(res => {
+						this.changeFpeopleType = false
+						this.$message.success('修改成功')
+						this.$router.push('/main/redoHearList')
+					}, 300)
+				} else {
+					console.log('error submit!!')
+					return false
+				}
+			})
+		},
+		optsValChange(_value) {
+			console.log(_value)
+			this._newOpts = Object.assign({}, this.changeFPerson)
+			this._newOpts.batchId = this.$route.query.batchN
+			// delete this._newOpts.newAuditors;
+			this._newOpts.currentAuditId = _value
+			console.info('vhange:::', this._newOpts)
+		},
+	},
+	mounted() {
+		this.batchNo = this.$route.query.batchN
+		this.clientName = uncompileStr(this.$route.query.clientN)
+		this.getBatchInfo()
+		this.getBatchList()
+		this.getBatchLog()
+	},
+	components: {
+		Searchs,
+		TableComponent,
+	},
+}
 </script>
 
 <style scoped lang="scss">
 $themeColor: #0f357f;
 .fg_ico {
-  color: $themeColor;
-  font-weight: bold;
-  margin-right: 5px;
+	color: $themeColor;
+	font-weight: bold;
+	margin-right: 5px;
 }
 
 .title_btn {
-  color: $themeColor;
-  border: 1px solid #193b8c;
-  padding: 7px 12px;
-  border-radius: 10px;
-  font-size: 16px;
-  background: #fff;
+	color: $themeColor;
+	border: 1px solid #193b8c;
+	padding: 7px 12px;
+	border-radius: 10px;
+	font-size: 16px;
+	background: #fff;
 }
 
 .content {
-  .logsItemWrap {
-    background-color: #ffffff;
-
-    li {
-      padding-left: 20px;
-      padding-top: 26px;
-      padding-bottom: 16px;
-      font-size: 14px;
-      border-top: 1px dotted #a3a3a3;
-      &:first-child {
-        border-top: 0;
-      }
-      span {
-        &:first-child {
-          color: #a3a3a3;
-        }
-        & + span {
-          font-size: 16px;
-        }
-      }
-    }
-  }
-  .message {
-    padding: 10px 20px;
-    background: #fff;
-    font-size: 15px;
-    .btn_link {
-      display: inline-block;
-      // vertical-align: middle;
-      margin-top: 22px;
-    }
-    span {
-      display: inline-block;
-      line-height: 30px;
-    }
-    .label {
-      width: 100px;
-      text-align: left;
-      color: #7a7a7a;
-    }
-  }
-  .part {
-    padding-top: 20px;
-    padding-bottom: 20px;
-    li {
-      line-height: 2;
-    }
-    ul {
-      li {
-        .btn_link {
-          margin: 0;
-        }
-      }
-    }
-  }
+	.logsItemWrap {
+		background-color: #ffffff;
+		li {
+			padding-left: 20px;
+			padding-top: 26px;
+			padding-bottom: 16px;
+			font-size: 14px;
+			border-top: 1px dotted #a3a3a3;
+			&:first-child {
+				border-top: 0;
+			}
+			span {
+				&:first-child {
+					color: #a3a3a3;
+				}
+				& + span {
+					font-size: 16px;
+				}
+			}
+		}
+	}
+	.message {
+		padding: 10px 20px;
+		background: #fff;
+		font-size: 15px;
+		.btn_link {
+			display: inline-block;
+			// vertical-align: middle;
+			margin-top: 22px;
+		}
+		span {
+			display: inline-block;
+			line-height: 30px;
+		}
+		.label {
+			width: 100px;
+			text-align: left;
+			color: #7a7a7a;
+		}
+	}
+	.part {
+		padding-top: 20px;
+		padding-bottom: 20px;
+		li {
+			line-height: 2;
+		}
+		ul {
+			li {
+				.btn_link {
+					margin: 0;
+				}
+			}
+		}
+	}
 }
 
 .item-title {
-  .tit {
-    vertical-align: middle;
-    display: inline-block;
-    padding-top: 10px;
-  }
+	.tit {
+		vertical-align: middle;
+		display: inline-block;
+		padding-top: 10px;
+	}
 }
 
 .info {
-  margin: 15px 0;
-  .info_ul {
-    background: #fff;
-    li {
-      box-sizing: border-box;
-      padding: 20px 30px 10px;
-      height: 100px;
-      border-bottom: 1px solid #e5eaee;
-      p {
-        line-height: 24px;
-        font-size: 14px;
-        color: #666;
-        &.info_title {
-          line-height: 30px;
-          color: #363636;
-          font-weight: 700;
-        }
-      }
-    }
-  }
+	margin: 15px 0;
+	.info_ul {
+		background: #fff;
+		li {
+			box-sizing: border-box;
+			padding: 20px 30px 10px;
+			height: 100px;
+			border-bottom: 1px solid #e5eaee;
+			p {
+				line-height: 24px;
+				font-size: 14px;
+				color: #666;
+				&.info_title {
+					line-height: 30px;
+					color: #363636;
+					font-weight: 700;
+				}
+			}
+		}
+	}
 }
+
 </style>
