@@ -383,6 +383,7 @@ export default {
         .then(res => {
           console.log("bgsgg11111::", res.result);
           this.changeFPerson = res.result;
+
         });
     },
     saveNewFPerson() {
@@ -393,6 +394,7 @@ export default {
         .then(res => {
           this.changeFpeopleType = false;
           this.$message.success("修改成功");
+          this.$router.push('/main/redoHearList');
         }, 300);
     },
     optsValChange(_value) {
