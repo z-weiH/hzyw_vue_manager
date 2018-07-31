@@ -1,5 +1,10 @@
 <template>
   <div class="tpl-setting">
+    <div class="wsbodyhead">
+      <a>所在位置</a>
+      <a href="javascript:;" class="aside_tit">模板设置</a>
+    </div>
+
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
@@ -17,6 +22,10 @@
         <el-button @click="handleSearch" type="warning">查询</el-button>
 
       </el-form>
+    </div>
+
+    <div class="item-title of-hidden">
+      <span class="item-title-sign">客户列表</span>
     </div>
 
     <div class="item-table">
@@ -117,7 +126,8 @@
       },
       // 点击设置
       handleClick(row) {
-        this.$refs.setDialog.show(row);
+        // this.$refs.setDialog.show(row);
+        this.$router.push(`tplSettingList?clientCode=${row.clientCode}&templateId=${row.templateId}`);
       },
 
       // 表格相关 start
@@ -126,7 +136,7 @@
       initTableList() {
         this.$http({
           method : 'post',
-          url : '/tplsetting/queryMerchantTemplateInfoByBaseQuery.htm',
+          url : '/templateSetting/queryTemplateListByBaseQuery.htm',
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,

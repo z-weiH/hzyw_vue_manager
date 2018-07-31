@@ -5,7 +5,12 @@
         type="selection"
         width="55" v-if="needCheckbox">
       </el-table-column>
-      <el-table-column :resizable="false" type="index" label="序号" width="50"></el-table-column>
+      <el-table-column label="" width="55" v-if="needSingleCheck">
+        <template slot-scope="scope">
+            <el-radio :label="scope.$index" v-model="templateRadio" @change.native="getTemplateRow(scope.$index,scope.row)"><i></i></el-radio>
+        </template>
+    </el-table-column>
+      <el-table-column v-if="!noSerial" :resizable="false" type="index" label="序号" width="50"></el-table-column>
       <template v-for="(col, index) of columns" >
           <el-table-column  :resizable="false" :key="index" :prop="col.property" :label="col.label" :render-header="defineHeader" v-if="!col.hidden && col.type == 'img'" :width="col.width ? col.width : 'auto'">
               <template slot-scope="scope" v-if="col.type == 'img'">
@@ -36,7 +41,7 @@
       <slot name="defineCol"></slot>
     </el-table>
     <!-- 分页 -->
-    <div class="ctable_foot">
+    <div class="ctable_foot"       v-if="!noPager">
       <el-pagination
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
@@ -73,13 +78,23 @@ import Vue from "vue";
 import Tip from "@/components/tip";
 export default {
   name: "mineTable",
+  data(){
+    return {
+      templateRadio: null,
+      //当前
+      selectedRow: null
+    }
+  },
   props: {
+    noSerial: Boolean,
     tableData: Array,
     columnDefine: Array,
     spanMethod: Function,
     actions: Array,
     pager: Object,
-    needCheckbox:Boolean
+    needCheckbox:Boolean,
+    noPager: Boolean,
+    needSingleCheck: Boolean
   },
   computed: {
     columns() {
@@ -186,6 +201,13 @@ export default {
       console.log("val===", val, this);
       this.$parent.pager.currentNum = val;
       this.$parent.doQuery(this.$parent.queryUrl, this.$parent.searchItem);
+    },
+
+
+    //获取单选选择行
+    getTemplateRow(index,row) {
+        // console.log(row);
+        this.selectedRow = row;
     },
 
     //选中行变化

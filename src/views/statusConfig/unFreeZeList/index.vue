@@ -92,7 +92,7 @@ export default {
 					property: 'productId',
 					options: [],
 					labelfield: 'prodName',
-					valuefield: 'prodId',
+					valuefield: 'prodCode',
 				},
 				{
 					label: '逾期天数',

@@ -607,8 +607,8 @@
         </template>
 
         <template v-else-if="type === 'add' || type === 'edit'">
-          <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit('save')">保 存</el-button>
-          <el-button :disabled="submitDisabled" @click="handleSubmit('submit')">提 交</el-button>
+          <el-button :disabled="submitDisabled" @click="handleSubmit('save')">保 存</el-button>
+          <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit('submit')">提 交</el-button>
           <el-button @click="handleClose">取 消</el-button>
         </template>
 

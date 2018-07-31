@@ -19,7 +19,9 @@
 
           <tr>
             <td colspan="1">企业名称：</td>
-            <td colspan="3">{{ruleForm.merchantName}}</td>
+            <td colspan="1">{{ruleForm.merchantName}}</td>
+            <td colspan="1">申请人：</td>
+            <td colspan="1">{{ruleForm.defaultApplicants === 1 ? '是' : '否'}}</td>
           </tr>
 
           <tr>
@@ -55,7 +57,7 @@
         >
 
           <!-- 自然人 信息 -->
-          <template v-if="ruleForm.type === '0'">
+          <template v-if="ruleForm.type === 0">
             <tr>
               <td colspan="4">自然人信息</td>
             </tr>
@@ -195,8 +197,6 @@
     },
     methods: {
       show(row) {
-        this.dialogVisible = true;
-
         // 获取详情数据
         this.$http({
           method : 'post',
@@ -205,6 +205,7 @@
             userId : row.userId,
           },
         }).then((res) => {
+          this.dialogVisible = true;
           this.ruleForm = res.result;
         });
         // dialog 返回顶部
