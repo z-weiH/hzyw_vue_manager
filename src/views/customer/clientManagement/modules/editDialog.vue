@@ -294,7 +294,7 @@
             { required : true , message : '请输入登录账号' , trigger : 'blur'},
           ],
           fax : [
-            { required : true , message : '请输入传真号码' , trigger : 'blur'},
+            { required : false , message : '请输入传真号码' , trigger : 'blur'},
           ],
           hzmngUserId : [
             { required : true , message : '请选择所属市场人员' , trigger : 'change'},
