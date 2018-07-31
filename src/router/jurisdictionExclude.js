@@ -10,6 +10,8 @@ export default [
   '/signatureHearDetail', //案件初审 签名审核
   '/evidenceWireHear', //案件初审 证据链审核
 
+  '/main/unFreeZeList', // 调节状态冻结页面
+
   '/main/tplSettingList', // 模板设置 - 子列表
   '/main/tplSettingEdit', // 模板设置 - 编辑
   '/webpageEditor', // 模板设置 - 网页编辑
