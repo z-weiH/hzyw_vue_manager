@@ -30,15 +30,23 @@
         </el-table-column>
         <el-table-column prop="clientName" label="客户名称"></el-table-column>
         <el-table-column prop="ticketAvail" label="可用仲券">
-            <template slot-scope="scope">
-           <span class="colLink" @click="handleDetail(scope.row)">{{scope.row.ticketAvail}}</span>
+          <template slot-scope="scope">
+           <span class="colLink" @click="handleDetail(scope.row)">{{scope.row.ticketAvail || 0}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="ticketGiftAvail" label="可用赠券"></el-table-column>
+        <el-table-column prop="ticketGiftAvail" label="可用赠券">
+          <template slot-scope="scope">
+            {{scope.row.ticketGiftAvail || 0}}
+          </template>
+        </el-table-column>
         <el-table-column prop="amtAvail" label="可用仲裁费"></el-table-column>
         <el-table-column prop="ticketTotal" label="累计充值仲券"></el-table-column>
         <el-table-column prop="giftTotal" label="累计赠送仲券"></el-table-column>
-        <el-table-column prop="ticketAmtTotal" label="累计充值仲券费"></el-table-column>
+        <el-table-column prop="ticketAmtTotal" label="累计充值仲券费">
+          <template slot-scope="scope">
+            {{scope.row.ticketAmtTotal || 0}}
+          </template>
+        </el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination
