@@ -111,7 +111,8 @@
                   this.$route.query.type === 'applyContent' ? 1 :
                   this.$route.query.type === 'judgeContent' ? 2 :
                   this.$route.query.type === 'enforceContent' ? 3 : ''
-                )
+                ),
+                token : JSON.parse(localStorage.getItem('loginInfo')).token,
               },
               timeout : 1000 * 60 * 10,
               async : false,
