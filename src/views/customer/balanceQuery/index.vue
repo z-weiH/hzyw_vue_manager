@@ -31,7 +31,7 @@
         <el-table-column prop="clientName" label="客户名称"></el-table-column>
         <el-table-column prop="ticketAvail" label="可用仲券">
             <template slot-scope="scope">
-           <span class="colLink" @click="handleDetail(scope.row)">{{scope.row.ticketAvail}}1</span>
+           <span class="colLink" @click="handleDetail(scope.row)">{{scope.row.ticketAvail}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="ticketGiftAvail" label="可用赠券"></el-table-column>

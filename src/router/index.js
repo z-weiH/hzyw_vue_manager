@@ -307,6 +307,14 @@ let router = new Router({
           },
         },
         {
+          path: 'accountManagement',
+          component: () =>
+            import ('@/views/customer/accountManagement'), // 客户账号管理
+          meta: {
+            name: 'accountManagement',
+          },
+        },
+        {
           path: 'productList',
           component: () =>
             import ('@/views/customer/productList'), // 客户管理 - 产品列表

@@ -195,6 +195,11 @@
             menuId : 31,
             children : [
               {
+                menuName : '客户账号管理',
+                menuId : 39,
+                menuUrl : 'accountManagement',
+              },
+              {
                 menuName : '客户管理',
                 menuId : 32,
                 menuUrl : 'clientManagement',
