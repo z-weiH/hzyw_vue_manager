@@ -263,6 +263,7 @@
     }
   }
   .parameter-page{
+    padding-bottom: 80px;
     .m-c1{
       position: relative;
       height: 50px;
