@@ -39,7 +39,7 @@ export default {
   data() {
     return {
       item: {},
-      title: "仲券赠送申请",
+      title: "仲券赠送申请审核",
       edtDefines: [
         {
           title: "客户基本信息",
