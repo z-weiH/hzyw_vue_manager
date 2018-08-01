@@ -29,6 +29,8 @@
 </template>
 
 <script>
+  import $ from 'jquery'
+  import timeout from '@/axios/timeout'
   export default {
     data() {
       return {
@@ -97,11 +99,10 @@
             this.loading = this.$loading({
               text : '模板生成中'
             });
-            let win = window.open('');
-						// 提交数据
-						this.$http({
-              method : 'post',
+            // 提交数据
+            $.ajax({
               url : '/templateSetting/reviewTemplateContent.htm',
+              type : 'post',
               data : {
                 content : this.textarea,
                 dataId : this.ruleForm.dataId,
@@ -113,13 +114,17 @@
                 )
               },
               timeout : 1000 * 60 * 10,
-            }).then((res) => {
-              this.loading.close();
-              win.location.href = res.result;
-            }).catch(() => {
-              this.$message.warning('生成失败');
-              this.loading.close();
-              win.close();
+              async : false,
+              success : (res) => {
+                this.loading.close();
+                timeout(res.code,() => {
+                  window.open(res.result);
+                });
+              },
+              error : () => {
+                this.$message.warning('生成失败');
+                this.loading.close();
+              },
             });
           }
         });
