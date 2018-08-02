@@ -7,7 +7,7 @@
       </el-table-column>
       <el-table-column label="" width="55" v-if="needSingleCheck">
         <template slot-scope="scope">
-            <el-radio :label="scope.$index" v-model="templateRadio" @change.native="getTemplateRow(scope.$index,scope.row)"><i></i></el-radio>
+            <el-radio :label="scope.$index" v-model="templateRadio" @change.native="getTemplateRow(scope.$index,scope.row)" @click.native="cancelCheckd(scope.$index,scope.row,$event)"><i></i></el-radio>
         </template>
     </el-table-column>
       <el-table-column v-if="!noSerial" :resizable="false" type="index" label="序号" width="50"></el-table-column>
@@ -208,6 +208,14 @@ export default {
     getTemplateRow(index,row) {
         // console.log(row);
         this.selectedRow = row;
+    },
+    cancelCheckd(index,row,e){
+      if(e.target.type == "radio"){
+          // console.log(index,row,e.target);
+          if(this.selectedRow == row){
+            this.templateRadio = null;
+          }
+      }
     },
 
     //选中行变化
