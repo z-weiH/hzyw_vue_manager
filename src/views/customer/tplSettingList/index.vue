@@ -19,10 +19,11 @@
         <el-button @click="handleSearch" type="warning">查询</el-button>
 
         <el-form-item label=" " prop="templateStatus">
+          是否启用：
           <el-select @change="handleChange" style="width:150px;" clearable v-model="ruleForm.templateStatus" placeholder="是否启用">
             <el-option label="全部" value=""></el-option>
             <el-option label="启用" value="1"></el-option>
-            <el-option label="停用" value="0"></el-option>
+            <el-option label="停用" value="2"></el-option>
           </el-select>
         </el-form-item>
 

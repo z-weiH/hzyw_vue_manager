@@ -36,7 +36,13 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-        <el-table-column prop="code" label="客户号"></el-table-column>
+        <el-table-column prop="code" label="客户号">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.code" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.code}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="loginName" label="登录账号">
           <template slot-scope="scope">
             <el-tooltip :content="scope.row.loginName" placement="top-start">
