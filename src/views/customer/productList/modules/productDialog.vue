@@ -248,15 +248,18 @@
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
 						// 提交数据
-						this.submitDisabled = true;
+            this.submitDisabled = true;
+            let data = {
+              ...this.ruleForm,
+              clientCode : this.$route.query.clientCode,
+            };
+            if(this.type === 'add') {
+              data.productId = this.row.productId;
+            }
 						this.$http({
               method : 'post',
               url : '/merchant/saveClientInfoByProductId.htm',
-              data : {
-                ...this.ruleForm,
-                clientCode : this.$route.query.clientCode,
-                productId : this.type === 'add' ? '' : this.row.productId,
-              },
+              data : data,
             }).then((res) => {
               this.$message.success(this.type === 'add' ? '新增产品成功' : '修改产品成功');
               this.$emit('successCBK');
