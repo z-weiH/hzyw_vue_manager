@@ -97,7 +97,7 @@
         this.$http.post('/biz/updateBizSetTypeByBizCode.htm',{bizCode:row.bizCode,enabledStatus: 1-row.enabledStatus})
           .then(res => {
             if(res.code === '0000'){
-              this.$message.success(res.description);
+              this.$message.success(row.enabledStatus === 0 ? '启用成功' : '停用成功');
               row.enabledStatus = 1 -row.enabledStatus;
             }
           })
