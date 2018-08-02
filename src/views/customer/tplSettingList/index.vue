@@ -92,10 +92,10 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="firstTime" label="初次启用日期" width="120px">
+        <el-table-column prop="firstUseTime" label="初次启用日期" width="120px">
           <template slot-scope="scope">
             {{
-              scope.row.firstTime || '--'
+              scope.row.firstUseTime || '--'
             }}
           </template>
         </el-table-column>

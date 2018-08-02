@@ -59,7 +59,7 @@
           { label: "申请书", property: "applyStatus",width: 100, type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
           { label: "裁决书", property: "adjudeStatus",width: 100, type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
           { label: "强制执行书", property: "enforceStatus",width: 140, type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
-          { label: "初次启用日期", property: "firstTime",width: 140 },
+          { label: "初次启用日期", property: "firstUseTime",width: 140 },
           { label: "备注", property: "remark" },
         ]
       }
