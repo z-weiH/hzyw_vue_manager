@@ -38,7 +38,7 @@
     </div>
 
     <div class="item-title of-hidden">
-      <span class="item-title-sign">客户列表</span>
+      <span class="item-title-sign">模板列表</span>
     </div>
 
 		<div class="item-table">

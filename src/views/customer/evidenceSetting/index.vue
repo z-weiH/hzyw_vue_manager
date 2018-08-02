@@ -20,7 +20,7 @@
               </div>
             </el-col>
             <el-col :span="16">
-              <div class="ellipsis line-h" style="width:100%;">
+              <div class="ellipsis line-h" style="width:100%;" :title="item.eviObject">
                 {{item.eviObject}}
               </div>
             </el-col>

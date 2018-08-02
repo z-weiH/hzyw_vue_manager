@@ -343,7 +343,7 @@
             type : type,
           },
         }).then((res) => {
-          let name = (
+          let name = this.ruleForm.prodTempName + ' ' + (
             type === 1 ? '申请书' : 
             type === 2 ? '裁决书' : 
             type === 3 ? '强制申请书' : '模板'
