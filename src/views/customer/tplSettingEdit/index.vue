@@ -17,8 +17,8 @@
     <div class="item-table">
       <div class="m-template-list h-70">
         <span class="mr-10 templateName ellipsis">{{ruleForm.prodTempName}}</span>
-        <el-button @click="handleEnableOrDiscontinuation(0)" class="mr-10" type="warning" size="medium" round>
-          {{ruleForm.templateStatus === 1 ? '启用' : '停用'}}
+        <el-button @click="handleEnableOrDiscontinuation(0)" :disabled="ruleForm.applyStatus != 1" class="mr-10" type="warning" size="medium" round>
+          {{ruleForm.templateStatus === 1 ? '停用' : '启用'}}
         </el-button>
         <span class="remarks ellipsis">
           {{ruleForm.remark}}
@@ -83,7 +83,7 @@
               </el-col>
               <el-col :span="6">
                 <el-button @click="handleEnableOrDiscontinuation(1)" type="warning" size="medium" round class="mt-20">
-                  {{ruleForm.applyStatus === 1 ? '启用' : '停用'}}
+                  {{ruleForm.applyStatus === 1 ? '停用' : '启用'}}
                 </el-button>
               </el-col>
             </el-row>
@@ -131,7 +131,7 @@
               </el-col>
               <el-col :span="6">
                 <el-button @click="handleEnableOrDiscontinuation(2)" type="warning" size="medium" round>
-                  {{ruleForm.adjudeStatus === 1 ? '启用' : '停用'}}
+                  {{ruleForm.adjudeStatus === 1 ? '停用' : '启用'}}
                 </el-button>
               </el-col>
             </el-row>
@@ -178,7 +178,7 @@
               </el-col>
               <el-col :span="6">
                 <el-button @click="handleEnableOrDiscontinuation(3)" type="warning" size="medium" round>
-                  {{ruleForm.enforceStatus === 1 ? '启用' : '停用'}}
+                  {{ruleForm.enforceStatus === 1 ? '停用' : '启用'}}
                 </el-button>
               </el-col>
             </el-row>
@@ -348,7 +348,7 @@
             type === 2 ? '裁决书' : 
             type === 3 ? '强制申请书' : '模板'
           );
-          let message = activeType === 1 ? name + '启用成功' : name + '停用成功';
+          let message = activeType === 1 ? name + '停用成功' : name + '启用成功';
           this.$message.success(message);
           this.init();
         });
