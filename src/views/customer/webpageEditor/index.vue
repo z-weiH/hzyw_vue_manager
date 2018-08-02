@@ -128,7 +128,7 @@
         }else if(type === 2) {
           message = '&lt;#if userName=admin&gt;a&lt;#else&gt;b&lt;/#if&gt;';
         }else if(type === 3) {
-          message = '&lt;@tableCol3 colNames=[用户名,昵称] colProperties=[userName,nickName]&gt;&lt;/@tableCol3&gt;';
+          message = "&lt;@tableCol colNames=['String','Integer','BigDecimal','Date'] colProperties=[list1,list2,list3,list4]&gt;&lt;/@tableCol&gt;";
         }
         this.$refs.ueeditor.insertHtml(message);
       },

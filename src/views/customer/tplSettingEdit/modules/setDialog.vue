@@ -1,7 +1,7 @@
 <template>
   <div class="tplSetting-edit-set-dialog">
     <el-dialog
-      title="设置"
+      :title="labelKey + '设置'"
       :visible.sync="dialogVisible"
       width="580px"
       @close="handleClose"
