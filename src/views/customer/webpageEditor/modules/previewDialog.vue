@@ -96,13 +96,13 @@
       handleSubmit(submitType) {
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
+            let win = window.open('');
             this.loading = this.$loading({
               text : '模板生成中'
             });
-            // 提交数据
-            $.ajax({
+            this.$http({
               url : '/templateSetting/reviewTemplateContent.htm',
-              type : 'post',
+              method : 'post',
               data : {
                 content : this.textarea,
                 dataId : this.ruleForm.dataId,
@@ -112,20 +112,14 @@
                   this.$route.query.type === 'judgeContent' ? 2 :
                   this.$route.query.type === 'enforceContent' ? 3 : ''
                 ),
-                token : JSON.parse(localStorage.getItem('loginInfo')).token,
               },
               timeout : 1000 * 60 * 10,
-              async : false,
-              success : (res) => {
-                this.loading.close();
-                timeout(res.code,() => {
-                  window.open(res.result);
-                });
-              },
-              error : () => {
-                this.$message.warning('生成失败');
-                this.loading.close();
-              },
+            }).then((res) => {
+              this.loading.close();
+              win.location.href = res.result;
+            }).catch(() => {
+              this.$message.warning('生成失败');
+              this.loading.close();
             });
           }
         });
