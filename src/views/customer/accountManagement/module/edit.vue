@@ -29,19 +29,19 @@
     data () {
       return {
         editItems: [
-          {type: 'text', property:'loginName', label: '用户名', disabled: true},
+          {type: 'text', property:'loginName', label: '登录账号', disabled: true},
           {type: 'text', property:'userEmail', label: '邮箱地址',rule:'require,email'},
           {type: 'text', property:'userName', label: '用户名称', rule:'require'},
           {type: 'text', property:'userPhone', label: '用户手机号',rule:'require,phone'},
         ],
         editItems3: [
-          {type: 'text', property:'loginName', label: '用户名', rule: 'require'},
+          {type: 'text', property:'loginName', label: '登录账号', rule: 'require'},
           {type: 'text', property:'userEmail', label: '邮箱地址',rule:'require,email'},
           {type: 'text', property:'userName', label: '用户名称', rule:'require'},
           {type: 'text', property:'userPhone', label: '用户手机号',rule:'require,phone'},
         ],
         editItems2: [
-            {type: 'text', property:'loginName', label: '用户名', disabled: true},
+            {type: 'text', property:'loginName', label: '登录账号', disabled: true},
             {type: 'password', property:'oldPwd', label: '用户旧密码', rule:'require'},
             {type: 'password', property:'newPwd', label: '	用户新密码', rule:'require'},
             {type: 'password', property:'confirmPwd', label: '用户确认密码', rule:[
@@ -85,7 +85,7 @@
                     }
                 })
             }else{
-               this.$http.post("/update/updateClientByLoginId.htm",this.editItem).then(res => {
+               this.$http.post("/client/updateClientByLoginId.htm",this.editItem).then(res => {
                    console.log(res)
                     if(res.code == '0000'){
                         this.$message.success(res.description);

@@ -17,7 +17,7 @@
     </div>
     <div class="item-table">
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" >
-           <el-table-column label="操作" prop="orderStatusName" slot="defineCol" width="196">
+           <el-table-column label="操作" prop="orderStatusName" slot="defineCol" width="181">
             <template slot-scope="scope">
                 <span class="colLink" @click="handleEdit(scope.row)">修改信息</span>
                 <span class="colLink" @click="handleChange(scope.row)">修改密码</span>
@@ -47,13 +47,12 @@
         queryUrl:'/client/queryByBaseQuery.htm',
         searchItem: {},
         columnDefine: [
-          { label: "客户号", property: "clientCode",width: 80 },
-          { label: "客户名称", property: "clientName",width: 80},
-          { label: "用户名称", property: "userNmae",width: 80 },
-          { label: "登录账户", property: "loginName",width: 95 },
-          { label: "邮箱地址", property: "userEmail",width: 125 },
-          { label: "用户手机号", property: "userPhone",width: 125 },
-          { label: "创建时间", property: "createTime",width: 125 },
+          // { label: "客户号", property: "clientCode",width: 80 },
+          { label: "用户名称", property: "userName",width:110},
+          { label: "登录账户", property: "loginName",width: 185 },
+          { label: "邮箱地址", property: "userEmail",width: 185 },
+          { label: "用户手机号", property: "userPhone",width: 130 },
+          { label: "创建时间", property: "createTime",width: 115 },
         ],
         searchItems : [
           {type: 'text',placeholder: '请输入企业名称、账户', property: 'keyWords', colSpan: 7}
