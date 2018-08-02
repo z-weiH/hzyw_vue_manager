@@ -31,12 +31,12 @@
         <el-table-column prop="clientName" label="客户名称"></el-table-column>
         <el-table-column prop="ticketAvail" label="可用仲券">
           <template slot-scope="scope">
-           <span class="colLink" @click="handleDetail(scope.row)">{{scope.row.ticketAvail || 0}}</span>
+            {{scope.row.ticketAvail || 0}}
           </template>
         </el-table-column>
         <el-table-column prop="ticketGiftAvail" label="可用赠券">
           <template slot-scope="scope">
-            {{scope.row.ticketGiftAvail || 0}}
+           <span class="colLink" @click="handleDetail(scope.row)">{{scope.row.ticketGiftAvail || 0}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="amtAvail" label="可用仲裁费"></el-table-column>
