@@ -58,9 +58,7 @@
         <el-table-column prop="templateStatus" label="启用状态">
           <template slot-scope="scope">
             {{ 
-              
-              scope.row.templateStatus === 0 ? '停用' :
-              scope.row.templateStatus === 1 ? '启用' : ''
+              scope.row.templateStatus === 1 ? '启用' : '停用'
             }}
           </template>
         </el-table-column>
@@ -94,7 +92,13 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="firstTime" label="初次启用日期" width="120px"></el-table-column>
+        <el-table-column prop="firstTime" label="初次启用日期" width="120px">
+          <template slot-scope="scope">
+            {{
+              scope.row.firstTime || '--'
+            }}
+          </template>
+        </el-table-column>
         <el-table-column prop="remark" label="备注"></el-table-column>
       </el-table>
       <!-- 分页 -->

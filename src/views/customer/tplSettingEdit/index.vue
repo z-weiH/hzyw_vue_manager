@@ -17,7 +17,7 @@
     <div class="item-table">
       <div class="m-template-list h-70">
         <span class="mr-10 templateName ellipsis">{{ruleForm.prodTempName}}</span>
-        <el-button @click="handleEnableOrDiscontinuation(0)" :disabled="ruleForm.applyStatus != 1" class="mr-10" type="warning" size="medium" round>
+        <el-button @click="handleEnableOrDiscontinuation(0)" :disabled="ruleForm.applyStatus !== 1" class="mr-10" type="warning" size="medium" round>
           {{ruleForm.templateStatus === 1 ? '停用' : '启用'}}
         </el-button>
         <span class="remarks ellipsis">
