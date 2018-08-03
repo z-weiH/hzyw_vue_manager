@@ -29,7 +29,13 @@
         <el-table-column prop="prodCode" label="产品编码"></el-table-column>
         <el-table-column prop="busiName" label="业务类型"></el-table-column>
         <el-table-column prop="platName" label="借款平台"></el-table-column>
-        <el-table-column prop="extraPhones" label="协商电话"></el-table-column>
+        <el-table-column prop="extraPhones" label="协商电话">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.extraPhones" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.extraPhones}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="productIp" label="IP白名单">
           <template slot-scope="scope">
             <el-tooltip :content="scope.row.productIp" placement="top-start">
