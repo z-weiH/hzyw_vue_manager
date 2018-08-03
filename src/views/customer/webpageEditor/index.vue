@@ -32,7 +32,7 @@
         <div class="mt-20 btn-box mb-20">
           <el-button @click="handlePreview" class="mr-30">预览</el-button>
           <el-button @click="handleSubmit" type="primary" class="mr-30">保存</el-button>
-          <el-button @click="handleCancel" class="mr-30">取消</el-button>
+          <el-button @click="handleCancel" class="mr-30">返回</el-button>
         </div>
       </div>
     </div>
@@ -124,13 +124,14 @@
       handleInsertGrammar(type) {
         let message = '';
         if(type === 1) {
-          message = '${userName}';
+          message = '${参数}';
         }else if(type === 2) {
-          message = '&lt;#if userName=admin&gt;a&lt;#else&gt;b&lt;/#if&gt;';
+          message = '&lt;#if 参数 &lt;= 0>第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
         }else if(type === 3) {
-          message = "&lt;@tableCol colNames=['String','Integer','BigDecimal','Date'] colProperties=[list1,list2,list3,list4]&gt;&lt;/@tableCol&gt;";
+          message = '&lt;@tableCol colNames=["列名1","列名2", "列名3","列名4","列名5","列名6","列名7","列名8"] colProperties=[参数1, 参数2, 参数3, 参数4, 参数5, 参数6, 参数7, 参数8]&gt;&lt;/@tableCol&gt;';
         }
         this.$refs.ueeditor.insertHtml(message);
+        this.handleBox();
       },
       // 校验 富文本所填数据
       verify(callback) {
@@ -170,7 +171,7 @@
       },
       // 取消
       handleCancel() {
-        this.$confirm('确认退出吗?', '提示', {
+        this.$confirm('确认返回吗?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           cancelButtonClass: 'cancel',
