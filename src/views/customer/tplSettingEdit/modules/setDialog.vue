@@ -13,6 +13,7 @@
 					<el-form-item :label="labelKey + '：'" prop="keyWords"
             :rules="[
               {required : true , message : '请输入' + labelKey , trigger : 'blur'},
+              { validator: validatePass, trigger: 'blur' },
             ]"
           >
 						<el-input style="width:400px;" v-model.trim="ruleForm.keyWords" placeholder="请输入"></el-input>
@@ -81,6 +82,15 @@
         });
       },
 
+      // 校验中文
+      validatePass(rule, value, callback) {
+        if((/[\u4e00-\u9fa5]/.test(value))) {
+          callback('不能含有中文');
+        }else{
+          callback();
+        }
+      },
+
       // 关闭浮层
       handleClose() {
         this.dialogVisible = false;
@@ -100,13 +110,17 @@
             let data = {
               prodTempId : this.$route.query.prodTempId,
             };
+            // 中文（） 替换为 英文 ()
+            let keyWords = this.ruleForm.keyWords.replace(/（/g,'(');
+            keyWords = keyWords.replace(/）/g,')');
+
             // 根据不同状态 提交不同参数数据
             if(this.currentType === 1) {
-              data.bidAmt = this.ruleForm.keyWords;
+              data.bidAmt = keyWords;
             }else if(this.currentType === 2) {
-              data.forecastAmt = this.ruleForm.keyWords;
+              data.forecastAmt = keyWords;
             }else if(this.currentType === 3) {
-              data.executeAmt = this.ruleForm.keyWords;
+              data.executeAmt = keyWords;
             }
 						this.$http({
               method : 'post',
