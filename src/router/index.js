@@ -338,6 +338,14 @@ let router = new Router({
             name: 'balanceQueryDetail',
           },
         },
+        // {
+        //   path: 'balanceQueryInfo',
+        //   component: () =>
+        //     import ('@/views/customer/balanceQueryInfo'), // 账户余额查询 - 子页面 --赠券详情
+        //   meta: {
+        //     name: 'balanceQueryInfo',
+        //   },
+        // },
         {
           path: 'tplSetting',
           component: () =>

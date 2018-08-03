@@ -41,7 +41,13 @@
         </el-table-column>
         <el-table-column prop="amtAvail" label="可用仲裁费"></el-table-column>
         <el-table-column prop="ticketTotal" label="累计充值仲券"></el-table-column>
-        <el-table-column prop="giftTotal" label="累计赠送仲券"></el-table-column>
+        <el-table-column prop="giftTotal" label="累计赠送仲券">
+           <!-- <template slot-scope="scope">
+             <span class="colLink" @click="handleInfo(scope.row)">
+                {{scope.row.giftTotal || 0}}
+             </span>
+          </template> -->
+        </el-table-column>
         <el-table-column prop="ticketAmtTotal" label="累计充值仲券费">
           <template slot-scope="scope">
             {{scope.row.ticketAmtTotal || 0}}
@@ -90,6 +96,13 @@
       handleDetail(row) {
         this.$router.push({
           path:'/main/balanceQueryDetail',
+          query: {clientCode: row.clientCode},
+        });
+      },
+      //赠券详情
+      handleInfo(row){
+         this.$router.push({
+          path:'/main/balanceQueryInfo',
           query: {clientCode: row.clientCode},
         });
       },

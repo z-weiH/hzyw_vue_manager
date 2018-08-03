@@ -213,6 +213,7 @@ export default {
       if(e.target.type == "radio"){
           // console.log(index,row,e.target);
           if(this.selectedRow == row){
+            this.selectedRow = null;
             this.templateRadio = null;
           }
       }
