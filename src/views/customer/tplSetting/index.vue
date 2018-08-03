@@ -81,7 +81,7 @@
       </el-pagination>
 
       <!-- 设置弹出框 -->
-      <setDialog ref="setDialog"></setDialog>
+      <!-- <setDialog ref="setDialog"></setDialog> -->
     </div>
   </div>  
 </template>

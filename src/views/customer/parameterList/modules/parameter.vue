@@ -38,7 +38,7 @@
       return {
         paramLevel : 0,
         bizType : '',
-        tableData : [{respondents : '就飞快的接口'}],
+        tableData : [],
       }
     },
     mounted() {
@@ -68,18 +68,15 @@
       },
       // 表格 col 点击
       handleRow(row, column, cell, event) {
-        copy('${'+ row.paramCode +'}',() => {
-          this.$message.success('已复制${'+ row.paramCode +'}');
-        });
-        /* if(cell.querySelector('.parameter-text')) {
-          copy(row.paramCode,() => {
-            this.$message.success('已复制');
+        if(cell.querySelector('.parameter-text')) {
+          copy('${'+ row.paramCode +'}',() => {
+            this.$message.success('已复制${'+ row.paramCode +'}');
           });
         }else{
           copy(row.paramCode,() => {
-            this.$message.success('复制成功');
+            this.$message.success('已复制'+ row.paramCode +'');
           });
-        } */
+        }
       },
     },
   }
