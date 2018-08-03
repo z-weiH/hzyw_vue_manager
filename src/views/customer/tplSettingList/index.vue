@@ -141,7 +141,7 @@
 				rules : {},
 
 				// 表格数据
-        tableData : [{name : 'j'}],
+        tableData : [],
         // 数据总数
         total : 11,
         // 当前页数
