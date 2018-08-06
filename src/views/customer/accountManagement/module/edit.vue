@@ -30,14 +30,64 @@
       return {
         editItems: [
           {type: 'text', property:'loginName', label: '登录账号', disabled: true},
-          {type: 'text', property:'userEmail', label: '邮箱地址',rule:'require,email'},
+          {type: 'text', property:'userEmail', label: '邮箱地址',
+            rule: [
+                { required: true, message: "不能为空", trigger: "blur" },
+                {required : false , pattern : /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ , message : '邮箱格式不正确' , trigger : 'blur'},
+                {
+                  validator: (rule, value, callback) => {
+                    if(this.editState === 9)
+                      return ;
+                    if(!value)
+                      return callback(new Error("不能为空"));
+                    this.$http.post('/customer/validateEmailExist.htm',{email: value}).then(res => {
+                      if(res.code === '0000'){
+                        if(res.result.exist){
+                          callback(new Error("该邮箱(账号)已存在"));
+                        }
+                        else {
+                          callback();
+                        }
+                      }else{
+                        callback(new Error(res.description));
+                      }
+                    })},
+                  trigger: 'blur'
+                }
+            ]
+            },
           {type: 'text', property:'userName', label: '用户名称', rule:'require'},
           {type: 'select', property:'clientCode',label: "企业名称",rule:'require',options:[],optLabel:'merchantName',optValue:'code'},
           {type: 'text', property:'userPhone', label: '用户手机号',rule:'require,phone'},
         ],
         editItems3: [
           {type: 'text', property:'loginName', label: '登录账号', rule: 'require'},
-          {type: 'text', property:'userEmail', label: '邮箱地址',rule:'require,email'},
+          {type: 'text', property:'userEmail', label: '邮箱地址',
+           rule: [
+                { required: true, message: "不能为空", trigger: "blur" },
+                {required : false , pattern : /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/ , message : '邮箱格式不正确' , trigger : 'blur'},
+                {
+                  validator: (rule, value, callback) => {
+                    if(this.editState === 9)
+                      return ;
+                    if(!value)
+                      return callback(new Error("不能为空"));
+                    this.$http.post('/customer/validateEmailExist.htm',{email: value}).then(res => {
+                      if(res.code === '0000'){
+                        if(res.result.exist){
+                          callback(new Error("该邮箱(账号)已存在"));
+                        }
+                        else {
+                          callback();
+                        }
+                      }else{
+                        callback(new Error(res.description));
+                      }
+                    })},
+                  trigger: 'blur'
+                }
+            ]
+          },
           {type: 'text', property:'userName', label: '用户名称', rule:'require'},
            {type: 'select', property:'clientCode',label: "企业名称",rule:'require',options:[],optLabel:'merchantName',optValue:'code'},
           {type: 'text', property:'userPhone', label: '用户手机号',rule:'require,phone'},
