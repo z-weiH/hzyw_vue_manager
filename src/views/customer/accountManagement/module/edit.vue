@@ -32,12 +32,14 @@
           {type: 'text', property:'loginName', label: '登录账号', disabled: true},
           {type: 'text', property:'userEmail', label: '邮箱地址',rule:'require,email'},
           {type: 'text', property:'userName', label: '用户名称', rule:'require'},
+          {type: 'select', property:'clientCode',label: "客户",rule:'require',options:[],optLabel:'merchantName',optValue:'code'},
           {type: 'text', property:'userPhone', label: '用户手机号',rule:'require,phone'},
         ],
         editItems3: [
           {type: 'text', property:'loginName', label: '登录账号', rule: 'require'},
           {type: 'text', property:'userEmail', label: '邮箱地址',rule:'require,email'},
           {type: 'text', property:'userName', label: '用户名称', rule:'require'},
+           {type: 'select', property:'clientCode',label: "客户",rule:'require',options:[],optLabel:'merchantName',optValue:'code'},
           {type: 'text', property:'userPhone', label: '用户手机号',rule:'require,phone'},
         ],
         editItems2: [
@@ -75,12 +77,12 @@
       }
     },
     methods: {
-    save() {
+      save() {
         this.checkbeforeSave().then(() => {
             if(this.editState === 2){
                 this.$http.post("/client/updatePassWord.htm",this.editItem).then(res => {
                     if(res.code == '0000'){
-                        this.$message.success(res.description);
+                        this.$message.success("修改密码成功");
                         this.$emit("refresh");
                     }
                 })
@@ -88,18 +90,33 @@
                this.$http.post("/client/updateClientByLoginId.htm",this.editItem).then(res => {
                    console.log(res)
                     if(res.code == '0000'){
-                        this.$message.success(res.description);
+                        this.$message.success( this.editState == 3 ? "新增账户成功,默认密码为123456" : "修改信息成功");
                         this.$emit("refresh");
                     }
                 }) 
             }
            
         })
+      },
+      //为下拉选项复制
+      addOptions(arr,property,opts){
+        let item = arr.find(it => it.property == property);
+        if(item){
+          item.options = opts;
+        }
       }
+
     },
     components: {
       EditComponent
     },
+    created() {
+      this.$http.post('/merchant/queryMerchants.htm').then(res => {
+        console.log(res);
+        this.addOptions(this.editItems,"clientCode",res.result.list);
+        this.addOptions(this.editItems3,"clientCode",res.result.list);
+      })
+    }
    
   }
 </script>

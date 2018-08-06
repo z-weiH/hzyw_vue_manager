@@ -55,7 +55,7 @@
           { label: "创建时间", property: "createTime",width: 115 },
         ],
         searchItems : [
-          {type: 'text',placeholder: '请输入企业名称、账户', property: 'keyWords', colSpan: 7}
+          {type: 'text',placeholder: '请输入客户名称', property: 'keyWords', colSpan: 7}
         ]
        
       }
@@ -95,7 +95,7 @@
           this.showConfirm().then( () => {
             this.$http.post("client/deleteClient.htm",{loginId: row.loginId}).then(res => {
               if(res.code === '0000'){
-                this.$message.success(this.description);
+                this.$message.success("刪除账户成功");
                 this.doQuery(this.queryUrl, this.searchItem);
               }
             })
