@@ -96,7 +96,7 @@
         this.$confirm('确定开始整合？', '提示', {
           center: true,
         }).then(res => {
-          this.$http.post('failedReason/batchIntegration.htm',{list: [{caseOrderId:this.item.caseOrderId}]},{mheaders: true}).then(r => {
+          this.$http.post('/failedReason/batchIntegration.htm',{list: [{caseOrderId:this.item.caseOrderId}]},{mheaders: true}).then(r => {
             if(r.code === '0000'){
               this.$message.success(r.description);
             }

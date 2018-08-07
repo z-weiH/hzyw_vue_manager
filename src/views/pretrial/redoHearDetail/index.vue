@@ -127,7 +127,6 @@
           </el-col>
         </el-row>
         <el-row class="mb-20">
-          <!-- <el-col :span="4">新任初审人：</el-col> -->
           <el-col :span="24">
             <el-form-item label="新任初审人:" prop="newFirstPerson">
               <el-select @change="optsValChange" clearable v-model="ruleForm.newFirstPerson" placeholder="请选择初审人">

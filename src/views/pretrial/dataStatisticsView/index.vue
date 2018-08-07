@@ -32,7 +32,7 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item label="产品名称：" prop="productId">
+        <el-form-item label="模板：" prop="productId">
           <el-select
             style="width:200px"
             v-model="ruleForm.productId"
