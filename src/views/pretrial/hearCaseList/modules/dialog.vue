@@ -43,9 +43,11 @@
             >
               <el-option
                 v-for="(item,index) in productOptions"
-                :key="item.prodCode + '' + index "
-                :label="item.prodName"
-                :value="item.prodCode">
+                :key="item.productId + '' + index "
+                :label="`${item.prodTempName}`"
+                :value="item.productId">
+                <span>{{`${item.prodTempName}`}}</span>
+                <span class="fr">{{item.num}}件</span>
               </el-option>
             </el-select>
           </el-form-item>
@@ -305,9 +307,9 @@
         // 根据互金企业 查询 产品
         this.$http({
           method : 'post',
-          url : '/merchant/selectMerchantProductByMerchantCode.htm',
+          url : '/preCaseLib/queryProductTemplateListByClientCode.htm',
           data : {
-            merchantCode : val,
+            clientCode : val,
           },
         }).then((res) => {
           this.productOptions = res.result;
