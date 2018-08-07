@@ -80,6 +80,7 @@
     methods:{
       HandleCreate() {
         this.showDailog = true;
+        this.item = {};
       },
       saveHandle() {
         this.checkbeforeSave().then(() => {
