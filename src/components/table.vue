@@ -122,6 +122,7 @@ export default {
           transition: true,
           // customProps 传递 customComponent 组件的需要的 props
           placements: ['right', 'buttom'],
+          container:document.body,
           customProps: {
             msg: $eleVal,
             handler() {
