@@ -260,22 +260,9 @@ export default {
               this.queryProductList(item['value'])
             }
 						break
-					case 'templateId':
-						break
-
 					default:
 						break
 				}
-			}
-		},
-		defaultButtonStatus() {
-			console.log('df::', this.searchItem.merchantCode)
-			if (this.searchItem.merchantCode === '') {
-				console.log('zzzzzz')
-				this.dfBtnStatus = true
-			} else {
-				console.log('jjjjjj')
-				this.dfBtnStatus = false
 			}
 		},
 		doQuery(url, item) {
@@ -345,12 +332,13 @@ export default {
 				for (let i in item) {
 					// console.log(i);
 					if (i == 'templateId') {
-						// console.log(item[i]);
-						if (item[i] != '') {
-							if (this.tableData.length != 0) {
-								this.defaultButtonStatus()
-							}
-						}
+            console.log('--------------------99999-------',item[i]);
+            console.log('~~~~~~~~~~~~~~~~~table-~~~~~~~~~~',this.tableData.length);
+						if (item[i] != '' && this.tableData.length != 0) {
+              this.dfBtnStatus = false;
+						}else{
+              this.dfBtnStatus = true;
+            }
 					}
 				}
 			})
