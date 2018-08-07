@@ -63,7 +63,10 @@
           <div class="applybook_title of-hidden">
             <div class="tit fl part_tit f_18">仲裁申请书</div>
             <div class="scroll_toolbar fr">
-              <scroll-y label="eviTitle" @handleClick="scrollbarClick" :options="evidence.eviDetailList" :defaultWidth="520"></scroll-y>
+              <ul>
+                <li class="fl evi_bar" :class="{active: eviDetail.eviFileurl == currentUrl}" v-for="(eviDetail,idx) in evidence.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
+              </ul> 
+              <!-- <scroll-y label="eviTitle" @handleClick="scrollbarClick" :options="evidence.eviDetailList" :defaultWidth="520"></scroll-y> -->
             </div>
           </div>
           <div class="applybook_content of-hidden">
@@ -256,6 +259,8 @@
               this.evidenceItems = res.result.list;
               this.count = res.result.totalCount;
               this.pager.total = res.result.count;
+              console.log(this.evidenceItems)
+              this.currentUrl = this.evidenceItems[0].eviDetailList[0].eviFileurl;
               // this.scrollList =
 
 
@@ -465,9 +470,16 @@
     .applybook_title {
       font-size: 17px;
       color: $themeColor;
-      padding-bottom: 30px;
+      padding-bottom: 13px;
       .scroll_toolbar {
+        width: 565px;
         font-size: 14px;
+        .evi_bar{
+          cursor: pointer;
+          line-height: 24px;
+          margin-right: 10px;
+          border-bottom: 2px solid transparent;
+        }
         .active {
           border-bottom: 2px solid $themeColor;
         }
