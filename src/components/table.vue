@@ -121,6 +121,7 @@ export default {
           theme: "dark",
           transition: true,
           // customProps 传递 customComponent 组件的需要的 props
+          placements: ['right', 'buttom'],
           customProps: {
             msg: $eleVal,
             handler() {

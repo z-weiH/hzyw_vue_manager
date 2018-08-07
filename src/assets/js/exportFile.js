@@ -35,4 +35,4 @@ let exportFile = (obj) => {
   }
 }
 
-export default exportFile;
+export default exportFile
