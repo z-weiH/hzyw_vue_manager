@@ -37,7 +37,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
           <el-button type="primary"   @click="saveHandle">保 存</el-button>
-          <el-button @click=" showDailog= 0" >取 消</el-button>
+          <el-button @click=" showDailog= false" >取 消</el-button>
         </span>
     </el-dialog>
   </div>
@@ -80,6 +80,7 @@
     methods:{
       HandleCreate() {
         this.showDailog = true;
+        this.item = {};
       },
       saveHandle() {
         this.checkbeforeSave().then(() => {

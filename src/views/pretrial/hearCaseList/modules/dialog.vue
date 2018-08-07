@@ -35,7 +35,7 @@
 
           <el-form-item label="模版" prop="productId">
             <el-select
-              style="width:200px"
+              style="width:100%"
               v-model="ruleForm.productId"
               clearable
               placeholder="请选择"
@@ -46,7 +46,7 @@
                 :key="item.productId + '' + index "
                 :label="`${item.prodTempName}`"
                 :value="item.productId">
-                <span>{{`${item.prodTempName}`}}</span>
+                <span>{{item.prodTempName}}</span>
                 <span class="fr">{{item.num}}件</span>
               </el-option>
             </el-select>
