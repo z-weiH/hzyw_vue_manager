@@ -44,8 +44,10 @@
               <el-option
                 v-for="(item,index) in productOptions"
                 :key="item.productId + '' + index "
-                :label="`${item.prodTempName} (${item.num})`"
+                :label="`${item.prodTempName}`"
                 :value="item.productId">
+                <span>{{`${item.prodTempName}`}}</span>
+                <span class="fr">{{item.num}}件</span>
               </el-option>
             </el-select>
           </el-form-item>
