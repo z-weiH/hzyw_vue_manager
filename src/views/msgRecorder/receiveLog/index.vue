@@ -5,14 +5,14 @@
          <a>所在位置</a>
          <router-link :to='$options.name' class='aside_tit'>接收记录</router-link>
         </div>
-        <searchs class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
+        <searchs class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
           <template slot='moreBtn'><el-button class='ml-20' type='primary' @click='exportFileFoo'>导出Excel</el-button></template>
         </searchs>
         <div class='item-title'>
           接收记录列表
         </div>
         <div class='item-table'>
-           <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData"  :column-define="columnDefine" ></table-component>
+           <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.searchItem)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData"  :column-define="columnDefine" ></table-component>
         </div>
    </div>
 </div>
