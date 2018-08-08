@@ -466,6 +466,37 @@
               },
             ],
           },
+          {
+            menuName : '复核管理',
+            menuId : 'fh1',
+            children : [
+              {
+                menuName : '案件列表',
+                menuId : 'fh2',
+                menuUrl : 'reviewCaseList'
+              },
+              {
+                menuName : '案件复核',
+                menuId : 'fh3',
+                menuUrl : 'reviewCaseReview'
+              },
+              {
+                menuName : '复核监控',
+                menuId : 'fh4',
+                menuUrl : 'monitor'
+              },
+              {
+                menuName : '撤案对接',
+                menuId : 'fh5',
+                menuUrl : 'withdrawCase'
+              },
+              {
+                menuName : '复核设置',
+                menuId : 'fh6',
+                menuUrl : 'reviewSetting'
+              },
+            ],
+          },
         ],
         // 当前高亮的 menu
         active : '/main/demo',

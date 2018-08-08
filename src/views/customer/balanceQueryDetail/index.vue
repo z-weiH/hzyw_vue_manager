@@ -36,7 +36,7 @@ export default {
         {label: '赠送日期',property: 'startDate', width: 240},
         {label: '有效期至',property: 'ticketPeriod', width: 240},
       ],
-      queryUrl: 'account/queryAvailableTicket.htm',
+      queryUrl: '/account/queryAvailableTicket.htm',
       searchItem: {}
     }
   },

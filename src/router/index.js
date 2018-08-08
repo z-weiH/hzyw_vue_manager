@@ -711,6 +711,81 @@ let router = new Router({
           },
         },
         /* 预审模块 end */
+
+        /* 复核系统 模块 start */
+        {
+          path: 'reviewCaseList',
+          component: () =>
+            import ('@/views/review/reviewCaseList'), // 案件列表
+          meta: {
+            name: 'reviewCaseList',
+          },
+        },
+        {
+          path: 'reviewCaseReview',
+          component: () =>
+            import ('@/views/review/reviewCaseReview'), // 案件复核
+          meta: {
+            name: 'reviewCaseReview',
+          },
+        },
+        {
+          path: 'reviewCaseReviewList',
+          component: () =>
+            import ('@/views/review/reviewCaseReviewList'), // 案件复核 - 列表
+          meta: {
+            name: 'reviewCaseReview',
+          },
+        },
+        {
+          path: 'monitor',
+          component: () =>
+            import ('@/views/review/monitor'), // 复核监控
+          meta: {
+            name: 'monitor',
+          },
+        },
+        {
+          path: 'monitorList',
+          component: () =>
+            import ('@/views/review/monitorList'), // 复核监控 - 列表
+          meta: {
+            name: 'monitor',
+          },
+        },
+        {
+          path: 'withdrawCase',
+          component: () =>
+            import ('@/views/review/withdrawCase'), // 撤案对接
+          meta: {
+            name: 'withdrawCase',
+          },
+        },
+        {
+          path: 'reviewSetting',
+          component: () =>
+            import ('@/views/review/reviewSetting'), // 复核设置
+          meta: {
+            name: 'reviewSetting',
+          },
+        },
+        {
+          path: 'reviewSettingRetrial',
+          component: () =>
+            import ('@/views/review/reviewSettingRetrial'), // 复核设置 - 复审人设置
+          meta: {
+            name: 'reviewSetting',
+          },
+        },
+        {
+          path: 'reviewSettingSampling',
+          component: () =>
+            import ('@/views/review/reviewSettingSampling'), // 复核设置 - 抽检比例设置
+          meta: {
+            name: 'reviewSetting',
+          },
+        },
+        /* 复核系统 模块 end */
       ],
     },
     {
@@ -763,6 +838,14 @@ let router = new Router({
         import ('@/views/customer/parameterList'), // 模板设置 - 参数列表
       meta: {
         name: 'parameterList',
+      },
+    },
+    {
+      path: '/caseReview',
+      component: () =>
+        import ('@/views/review/caseReview'), // 复核管理 - 案件详情
+      meta: {
+        name: 'caseReview',
       },
     },
     

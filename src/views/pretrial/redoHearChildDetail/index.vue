@@ -161,7 +161,10 @@
         <div class="applybook_title of-hidden">
           <div class="tit fl">仲裁申请书</div>
           <div class="scroll_toolbar fr">
-            <scroll-y @handleClick="scrollbarClick" :options="card.evi.eviDetailList" label="eviTitle" :defaultWidth="520"></scroll-y>
+						   <ul>
+                <li class="fl evi_bar" :class="{active: eviDetail.eviFileurl == currentUrl}" v-for="(eviDetail,idx) in card.evi.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
+              </ul> 
+            <!-- <scroll-y @handleClick="scrollbarClick" :options="card.evi.eviDetailList" label="eviTitle" :defaultWidth="520"></scroll-y> -->
           </div>
         </div>
         <div class="applybook_content of-hidden">
@@ -316,6 +319,7 @@ export default {
 						this.idCardList = res.result.list
 						this.count = res.result.count
 						this.pager.total = res.result.count
+						console.log(this.currentUrl);
 						// 明细请求过后再去改变-无数据模版状态
 						this.idCardList.length === 0 ? (this.screenWaitType = true) : (this.screenWaitType = false)
 					}
@@ -392,6 +396,8 @@ export default {
 					if (res.code === '0000') {
 						this.waiter.close() //关闭loader-screen
 						this.idCardList = res.result.list
+						this.currentUrl = this.idCardList[0].evi.eviDetailList[0].eviFileurl;
+
 						console.log('len-idCardList.length:: ', this.idCardList.length)
 						this.count = res.result.count
 						this.pager.total = res.result.count
@@ -825,8 +831,15 @@ $themeColor: #193b8c;
 		color: $themeColor;
 		padding-bottom: 30px;
 		.scroll_toolbar {
-			font-size: 14px;
 			padding-right: 30px;
+			 width: 565px;
+			font-size: 14px;
+			.evi_bar{
+          cursor: pointer;
+          line-height: 24px;
+          margin-right: 10px;
+          border-bottom: 2px solid transparent;
+        }
 			.active {
 				border-bottom: 2px solid $themeColor;
 			}
