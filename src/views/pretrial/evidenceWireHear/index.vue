@@ -65,7 +65,7 @@
             <div class="scroll_toolbar fr">
               <ul>
                 <li class="fl evi_bar" :class="{active: eviDetail.eviFileurl == currentUrl}" v-for="(eviDetail,idx) in evidence.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
-              </ul> 
+              </ul>
               <!-- <scroll-y label="eviTitle" @handleClick="scrollbarClick" :options="evidence.eviDetailList" :defaultWidth="520"></scroll-y> -->
             </div>
           </div>
@@ -260,7 +260,9 @@
               this.count = res.result.totalCount;
               this.pager.total = res.result.count;
               console.log(this.evidenceItems)
-              this.currentUrl = this.evidenceItems[0].eviDetailList[0].eviFileurl;
+              if(this.evidenceItems.length > 0){
+                this.currentUrl = this.evidenceItems[0].eviDetailList[0].eviFileurl;
+              }
               // this.scrollList =
 
 
