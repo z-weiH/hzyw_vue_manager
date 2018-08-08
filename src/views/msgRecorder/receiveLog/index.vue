@@ -6,7 +6,7 @@
          <router-link :to='$options.name' class='aside_tit'>接收记录</router-link>
         </div>
         <searchs class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
-          <template slot='moreBtn'><el-button class='ml-20' type='primary' @click='exportFile(exportUrl)'>导出Excel</el-button></template>
+          <template slot='moreBtn'><el-button class='ml-20' type='primary' @click='exportFileFoo'>导出Excel</el-button></template>
         </searchs>
         <div class='item-title'>
           接收记录列表
@@ -19,13 +19,13 @@
 </template>
 <script type="text/ecmascript-6">
 import { URL_JSON } from "../../../components/script/url_json";
-import exportFile from "@/components/script/exportFile";
+import exportFile from "@/assets/js/exportFile";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
 export default {
   name: "receiveLog",
-  mixins: [Mixins, exportFile],
+  mixins: [Mixins],
   data() {
     return {
       item: {},
@@ -99,6 +99,9 @@ export default {
         this.tableData = res.result.list;
         this.total = res.result.count;
       });
+    },
+    exportFileFoo(){
+      exportFile({url: this.exportUrl, data: this.searchItem});
     }
   },
   mounted() {
