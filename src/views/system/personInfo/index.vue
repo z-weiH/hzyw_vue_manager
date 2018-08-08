@@ -7,12 +7,14 @@
         <edits :formname="'personinfo'" ref="edits" :edit-items="editItems" :item="item" :label-width="'150px'"></edits>
         <div class="item-buttons">
           <el-button type="primary" @click="save">提 交</el-button>
+          <el-button @click="test"">test</el-button>
         </div>
       </div>
     </div>
 </template>
 
 <script>
+  import $ from '_jquery@3.3.1@jquery'
 import Edits from '@/components/edits'
 import Searchs from '@/components/searchs'
 import {URL_JSON} from "../../../components/script/url_json";
@@ -34,6 +36,24 @@ export default {
     }
   },
   methods: {
+    test(){
+         $.ajax({url:"http://192.168.30.14:7777/websocket/sendMessage.htm?token="+JSON.parse(localStorage.getItem('loginInfo')).token + "&content=1",success:function(result){
+                var ws = new SockJS("http://192.168.30.14:7777/websocket/")
+                console.log(SockJS,ws);
+
+                ws.onopen = function () {
+                    console.log("onpen");
+                    ws.send("{}");
+                }
+                ws.onclose = function () {
+                    console.log("onclose");
+                }
+
+                ws.onmessage = function (msg) {
+                    console.log(msg.data);
+                }
+            }});
+    },
     save() {
       this.$refs['edits'].$refs['personinfo'].validate((res) => {
         if(res){
