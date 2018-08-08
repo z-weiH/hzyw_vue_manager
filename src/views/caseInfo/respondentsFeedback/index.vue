@@ -264,10 +264,10 @@ export default {
     handleExport() {
        console.info('searchItem:::',this.searchItem);
       let _token = JSON.parse(localStorage.getItem('loginInfo')).token;
-          this.searchItem.token = _token;
+          this.item.token = _token;
       exportFile({
         url: this.exportUrl,
-        data: this.searchItem
+        data: this.item
       });
     },
     searchItemChange(item) {
