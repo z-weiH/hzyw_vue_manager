@@ -105,7 +105,8 @@ export default {
           property: "merchantCode",
           options: this.opCompany,
           labelfield: "merchantName",
-          valuefield: "code"
+          valuefield: "code",
+          filterable:true
         },
         {
           label: "产品名称",
@@ -115,7 +116,8 @@ export default {
           property: "productName",
           options: this.opProduct,
           labelfield: "prodName",
-          valuefield: "prodCode"
+          valuefield: "prodName",
+          filterable:true
         },
         {
           label: "还款案件阶段",
@@ -228,7 +230,12 @@ export default {
         switch (item[i]) {
           case "merchantCode":
             console.log(item["value"]);
-            this.optsPduListView({ merchantCode: item["value"] });
+            if(item["value"] === ''){
+              this.searchItems[5].property = '';
+              this.optsPduListView('');
+            }else{
+              this.optsPduListView({ merchantCode: item["value"] });
+            }
             break;
           case "caseProcess":
             this.optsHkCaseStatusView({ status: item["value"] });
@@ -256,6 +263,7 @@ export default {
       });
     },
     optsPduListView(params) {
+      this.searchItems[5].options = [];
       this.$http.post(URL_JSON["selectProduct"], params).then(res => {
         // res.result.unshift({
         //   prodName: "请选择",
