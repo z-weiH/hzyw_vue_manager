@@ -60,7 +60,13 @@
             </el-tooltip>
           </template>
         </el-table-column>
-				<el-table-column prop="productName" label="产品"></el-table-column>
+				<el-table-column prop="productName" label="产品">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.productName" placement="top-start">
+              <span class="ellipsis" style="max-width:78px;">{{scope.row.productName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="templateCode" label="模板"></el-table-column>
         <el-table-column prop="templateStatus" label="启用状态">
           <template slot-scope="scope">
@@ -106,7 +112,13 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="remark" label="备注"></el-table-column>
+        <el-table-column prop="remark" label="备注">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.remark" placement="top-start">
+              <span class="ellipsis" style="max-width:78px;">{{scope.row.remark}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination

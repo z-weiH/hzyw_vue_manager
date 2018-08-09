@@ -163,7 +163,7 @@
           <div class="scroll_toolbar fr">
 						   <ul>
                 <li class="fl evi_bar" :class="{active: eviDetail.eviFileurl == currentUrl}" v-for="(eviDetail,idx) in card.evi.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
-              </ul> 
+              </ul>
             <!-- <scroll-y @handleClick="scrollbarClick" :options="card.evi.eviDetailList" label="eviTitle" :defaultWidth="520"></scroll-y> -->
           </div>
         </div>
@@ -396,7 +396,9 @@ export default {
 					if (res.code === '0000') {
 						this.waiter.close() //关闭loader-screen
 						this.idCardList = res.result.list
-						this.currentUrl = this.idCardList[0].evi.eviDetailList[0].eviFileurl;
+            if(this.idCardList.length > 0){
+              this.currentUrl = this.idCardList[0].evi.eviDetailList[0].eviFileurl;
+            }
 
 						console.log('len-idCardList.length:: ', this.idCardList.length)
 						this.count = res.result.count

@@ -13,6 +13,7 @@
 </template>
 
 <script>
+  import $ from '_jquery@3.3.1@jquery'
 import Edits from '@/components/edits'
 import Searchs from '@/components/searchs'
 import {URL_JSON} from "../../../components/script/url_json";

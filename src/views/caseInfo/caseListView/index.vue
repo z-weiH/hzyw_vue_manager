@@ -437,21 +437,14 @@ export default {
               this.searchItems[5].property = '';
               this.optsPduListView('');
 						} else {
-							this.optsPduListView({
-								merchantCode: item['value'],
-							})
+							this.optsPduListView({merchantCode: item['value']})
 						}
-
 						break
 					case 'caseProcess':
-						this.optsHkCaseStatusView({
-							status: item['value'],
-						})
+						this.optsHkCaseStatusView({status: item['value']})
 						break
 					case 'operType':
-						this.optsObjListView({
-							operType: item['value'],
-						})
+						this.optsObjListView({operType: item['value']})
 						break
 					default:
 						break

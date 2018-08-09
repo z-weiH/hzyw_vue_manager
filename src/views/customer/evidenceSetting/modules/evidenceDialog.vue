@@ -55,7 +55,7 @@
 
         ruleForm : {
           // 签章是否读取 0:不读取,1:读取
-          signStatus : 1,
+          signStatus : 0,
           // 证据名称
           evidenceNameInput : '',
           tableData : [

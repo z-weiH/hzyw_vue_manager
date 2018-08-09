@@ -225,6 +225,7 @@
           }).then((res) => {
             res.result.busiCode = + res.result.busiCode;
             this.ruleForm = Object.assign(this.ruleForm,res.result);
+            this.ruleForm.oldBusiCode = this.ruleForm.busiCode;
           });
         }
       },
@@ -242,6 +243,7 @@
         this.ruleForm.fwxyUrlFileName = '';
         this.ruleForm.hzxyUrlFileName = '';
         this.ruleForm.bcxyUrlFileName = '';
+        delete this.ruleForm.oldBusiCode;
       },
       // 点击提交
       handleSubmit(submitType) {
