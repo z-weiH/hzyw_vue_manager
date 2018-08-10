@@ -9,10 +9,10 @@
       <div class="webpage-editor">
         <!-- 富文本编辑器 -->
         <div class="fl ueeditor-b">
-          <ueeditor ref="ueeditor" height="780px"></ueeditor>
+          <ueeditor ref="ueeditor" :height="ueeditorHeight"></ueeditor>
         </div>
         <!-- 参数 -->
-        <div class="fl parameter-box">
+        <div class="fl parameter-box" :style="{height : ueeditorHeight + 80 + 'px'}">
           <parameter @copy="handleCopy"></parameter>
         </div>
         <!-- 悬浮操作 -->
@@ -68,6 +68,8 @@
       return {
         imgShow : true,
         boxShow : false,
+        // 符文本编辑器 height
+        ueeditorHeight : '780px',
       }
     },
     mounted() {
@@ -78,6 +80,7 @@
       let fn = (data) => {
         try{
           this.$refs.ueeditor.setContent(data);
+          this.ueeditorHeight = document.body.clientHeight - 75 - 75 - 40 - 50;
           close.close();
         }catch(err){
           setTimeout(() => {
@@ -101,7 +104,8 @@
         fn(res.result[this.$route.query.type] || '');
       }).catch(() => {
         close.close();
-      });;
+      });
+
     },
     methods : {
       // copy 参数
