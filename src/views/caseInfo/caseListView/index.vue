@@ -90,7 +90,7 @@ export default {
 				{
 					label: '产品名称',
 					type: 'select',
-					property: 'productCode',
+					property: 'prodName',
 					colSpan: 4,
 					options: this.opProduct,
 					labelfield: 'prodName',
@@ -428,13 +428,13 @@ export default {
 			})
 		},
 		searchItemChange(item) {
-			// console.warn(item);
+      console.log('parent valuechange init');
 			for (var i in item) {
 				switch (item[i]) {
 					case 'merchantCode':
-						console.log(item['value'])
+            console.log(item['value'])
 						if (item['value'] === '') {
-              this.searchItems[5].property = '';
+              // console.error(123)
               this.optsPduListView('');
 						} else {
 							this.optsPduListView({merchantCode: item['value']})
@@ -470,7 +470,9 @@ export default {
 			this.searchItems[5].options = []
 			this.$http.post(URL_JSON['selectProduct'], params).then(res => {
 				// console.log('selectProduct:::',res);
-				this.searchItems[5].options = res.result
+        this.searchItems[5].options = res.result;
+        this.$set(this.item,'prodName','');
+
 			})
 		},
 		optsHkCaseStageView() {
@@ -495,7 +497,7 @@ export default {
 	},
 	created() {
 		this.optsCompanyListView() //互金企业
-		this.optsPduListView() //产品名称
+		// this.optsPduListView() //产品名称
 		this.optsHkCaseStageView() //还款案件阶段
 		this.optsHkCaseStatusView() //还款案件状态
 	},

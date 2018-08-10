@@ -4,7 +4,7 @@
       <a>所在位置</a>
       <router-link :to='$options.name' class='aside_tit'>被申请人操作记录</router-link>
     </div>
-    <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
+    <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
       <template slot='moreBtn'>
         <el-button class='ml-20' type='primary' @click='exportFile1'>导出Excel</el-button>
       </template>
@@ -76,7 +76,7 @@ export default {
 					label: '产品名称',
 					type: 'select',
 					colSpan: 4,
-					property: 'productName',
+					property: 'prodName',
 					options: this.opProduct,
 					labelfield: 'prodName',
 					valuefield: 'prodName',
@@ -188,13 +188,13 @@ export default {
 			for (let i in item) {
 				switch (item[i]) {
 					case 'merchantCode':
-            console.log('1---', item['value'])
-            if(item['value'] === ''){
-              this.searchItems[4].property = '';
-              this.optsPduListView('');
-            }else{
-              this.optsPduListView({ merchantCode: item['value'] })
-            }
+						console.log('1---', item['value'])
+						if (item['value'] === '') {
+							this.searchItems[4].property = ''
+							this.optsPduListView('')
+						} else {
+							this.optsPduListView({ merchantCode: item['value'] })
+						}
 						break
 					case 'caseProcess':
 						console.log('2----', item['value'])
@@ -220,10 +220,6 @@ export default {
 		optsCompanyListView() {
 			this.$http.post(URL_JSON['selectCompany']).then(res => {
 				console.log('selectCompany:::', res)
-				// res.result.unshift({
-				//   merchantName: "请选择",
-				//   code: ""
-				// });
 				this.searchItems[3].options = res.result
 				// console.log('list:',res.result);
 			})
@@ -231,21 +227,12 @@ export default {
 		optsPduListView(params) {
 			this.searchItems[4].options = []
 			this.$http.post(URL_JSON['selectProduct'], params).then(res => {
-				// res.result.unshift({
-				//   prodName: "请选择",
-				//   prodCode: ""
-				// });
-				// console.log('selectProduct:::',res);
 				this.searchItems[4].options = res.result
+				this.$set(this.item, 'prodName', '')
 			})
 		},
 		optsHkCaseStageView() {
 			this.$http.post(URL_JSON['selectHkCaseStage']).then(res => {
-				// console.log('selectHkCaseStage:::',res);
-				// res.result.list.unshift({
-				//   desc: "请选择",
-				//   status: ""
-				// });
 				this.searchItems[5].options = res.result.list
 			})
 		},
@@ -258,39 +245,31 @@ export default {
 				// });
 				this.searchItems[6].options = res.result.list
 				setTimeout(() => {
-					// this.searchItem.statusThree = '';
-					this.$set(this.searchItem, 'statusThree', '')
-					console.log(this.searchItem)
+					this.$set(this.item, 'statusThree', '')
+					console.log(this.item)
 				}, 300)
 			})
 		},
 		optsTypeListView() {
 			this.$http.post(URL_JSON['queryOperType']).then(res => {
 				console.info('type::::', res)
-				// res.result.list.unshift({
-				//   desc: "请选择",
-				//   status: ""
-				// });
+
 				this.searchItems[7].options = res.result.list
 			})
 		},
 		optsObjListView(params) {
 			this.$http.post(URL_JSON['queryOperObject'], params).then(res => {
 				console.info('obj:::::', res)
-				// res.result.list.unshift({
-				//   desc: "请选择",
-				//   status: ""
-				// });
 				this.searchItems[8].options = res.result.list
 				setTimeout(() => {
-					this.$set(this.searchItem, 'operObject', '')
+					this.$set(this.item, 'operObject', '')
 				}, 300)
 			})
 		},
 	},
 	created() {
 		this.optsCompanyListView() //互金企业
-		this.optsPduListView() //产品名称
+		// this.optsPduListView() //产品名称
 		this.optsHkCaseStageView() //还款案件阶段
 		this.optsHkCaseStatusView() //还款案件状态
 		this.optsTypeListView() //操作类型

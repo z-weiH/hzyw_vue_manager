@@ -93,7 +93,7 @@
     },
     watch: {
       value(val, oldval) {
-        console.log(val, oldval)
+        console.log(val, oldval);
       },
     },
     mounted() {
