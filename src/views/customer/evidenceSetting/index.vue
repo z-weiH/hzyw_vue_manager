@@ -188,12 +188,21 @@
       },
       // 新增证据组成功 回调
       evidenceGroupCBK(data) {
-        this.evidenceList.push(
+        // 以下操作为了实现 ： 仲财通合作协议始终在证据组 底部
+        // 保存证据组最后一条数据
+        let last = this.evidenceList.pop();
+        // 最新添加的数据
+        let n = {
+          eviObject : data,
+          eviList : [],
+        };
+        this.evidenceList.push(n,last);
+        /* this.evidenceList.push(
           {
             eviObject : data,
             eviList : [],
           }
-        );
+        ); */
       },
       // 点击删除证据组
       handleDeleteEvidenceGroup(item,index) {
