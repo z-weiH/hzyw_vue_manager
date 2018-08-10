@@ -17,6 +17,13 @@
         default : '240px',
       },
     },
+    watch : {
+      height() {
+        if(typeof this.height === 'number') {
+          UE.getEditor(this.id).setHeight(this.height);
+        }
+      },
+    },
     data() {
       return {
         um : '',
