@@ -103,6 +103,8 @@
             // 解决 后台不识别 &lt; 以及 &gt; 问题
             let content = this.textarea.replace(/&lt;/g,'<');
             content = content.replace(/&gt;/g,'>');
+            content = content.replace(/&quot;/g,'"');
+            content = content.replace(/&nbsp;/g,'');
             this.$http({
               url : '/templateSetting/reviewTemplateContent.htm',
               method : 'post',
