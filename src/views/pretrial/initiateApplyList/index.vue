@@ -4,7 +4,7 @@
       <a>所在位置</a>
       <router-link :to='$options.name' class='aside_tit'>立案申请</router-link>
     </div>
-    <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
+    <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
     </searchs>
     <div class='item-title clear of-hidden'>
       <span class="fl mt-10">案件列表</span>
@@ -251,14 +251,15 @@ export default {
 				switch (item[i]) {
 					case 'merchantCode':
 						console.log('value---', item['value'])
-						console.log('value---', !item['value'])
-						if (!item['value']) {
-							this.searchItem.templateId = ''
-              this.companyfinance('')
-              this.queryProductList(-1)
-						}else{
-              this.queryProductList(item['value'])
-            }
+						if (item['value'] === '') {
+							// this.searchItem.templateId = ''
+							this.$set(this.item, 'templateId', '')
+							// this.companyfinance('')
+							// this.queryProductList(-1)
+							this.searchItems[1].options = []
+						} else {
+							this.queryProductList(item['value'])
+						}
 						break
 					default:
 						break
@@ -272,8 +273,8 @@ export default {
 			let _idx = place.indexOf('/')
 			item['resAddress'] = place.slice(_idx + 1)
 			console.log('搜索因素：：', item)
-			let _numMin = this.searchItem.amtBorrowMin,
-				_numMax = this.searchItem.amtBorrowMax
+			let _numMin = this.item.amtBorrowMin,
+				_numMax = this.item.amtBorrowMax
 			if ((!_numMin && _numMax) || (_numMin && !_numMax)) {
 				this.$confirm('标的金额的范围请填写完整再查询', '提示', {
 					confirmButtonText: '确定',
@@ -304,8 +305,8 @@ export default {
 				}
 			}
 
-			console.log('start::', this.searchItem.amtBorrowMin)
-			console.log('end::', this.searchItem.amtBorrowMax)
+			console.log('start::', this.item.amtBorrowMin)
+			console.log('end::', this.item.amtBorrowMax)
 		},
 		initQuery(url, item) {
 			this.query(url, item).then(res => {
@@ -332,13 +333,13 @@ export default {
 				for (let i in item) {
 					// console.log(i);
 					if (i == 'templateId') {
-            console.log('--------------------99999-------',item[i]);
-            console.log('~~~~~~~~~~~~~~~~~table-~~~~~~~~~~',this.tableData.length);
+						console.log('--------------------99999-------', item[i])
+						console.log('~~~~~~~~~~~~~~~~~table-~~~~~~~~~~', this.tableData.length)
 						if (item[i] != '' && this.tableData.length != 0) {
-              this.dfBtnStatus = false;
-						}else{
-              this.dfBtnStatus = true;
-            }
+							this.dfBtnStatus = false
+						} else {
+							this.dfBtnStatus = true
+						}
 					}
 				}
 			})
@@ -364,7 +365,8 @@ export default {
 				})
 				.then(res => {
 					console.log('产品：：：', res.result)
-					this.searchItems[1].options = res.result
+          this.searchItems[1].options = res.result
+          this.$set(this.item, 'templateId', '')
 				})
 		},
 		cityDataChange() {
@@ -386,7 +388,7 @@ export default {
 	},
 
 	mounted() {
-		this.doQuery(this.queryUrl, this.searchItem)
+		this.doQuery(this.queryUrl, this.item)
 		this.companyfinance('')
 		this.cityDataChange()
 	},
