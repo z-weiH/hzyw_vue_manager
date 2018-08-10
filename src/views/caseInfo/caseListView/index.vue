@@ -434,8 +434,8 @@ export default {
 					case 'merchantCode':
             console.log(item['value'])
 						if (item['value'] === '') {
-              // console.error(123)
-              this.optsPduListView('');
+              this.$set(this.item,'prodName','');
+              this.searchItems[5].options = [];
 						} else {
 							this.optsPduListView({merchantCode: item['value']})
 						}

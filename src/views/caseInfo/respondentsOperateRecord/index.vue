@@ -190,8 +190,8 @@ export default {
 					case 'merchantCode':
 						console.log('1---', item['value'])
 						if (item['value'] === '') {
-							this.searchItems[4].property = ''
-							this.optsPduListView('')
+							this.$set(this.item,'prodName','');
+              this.searchItems[4].options = [];
 						} else {
 							this.optsPduListView({ merchantCode: item['value'] })
 						}
