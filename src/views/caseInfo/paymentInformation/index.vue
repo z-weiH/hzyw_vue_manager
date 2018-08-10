@@ -222,7 +222,7 @@ export default {
 	methods: {
 		exportFile1() {
 			console.log(exportFile)
-			exportFile({ url: URL_JSON['exportPaymentInfomation'], data: this.searchItem })
+			exportFile({ url: URL_JSON['exportPaymentInfomation'], data: this.item })
 		},
 		searchItemChange(item) {
 			// console.error(item);

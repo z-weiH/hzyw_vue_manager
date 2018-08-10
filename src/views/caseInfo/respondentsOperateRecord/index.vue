@@ -181,7 +181,7 @@ export default {
 	},
 	methods: {
 		exportFile1() {
-			exportFile({ url: URL_JSON['exportRespondentsOperateRecord'], data: this.searchItem })
+			exportFile({ url: URL_JSON['exportRespondentsOperateRecord'], data: this.item })
 		},
 		searchItemChange(item) {
 			console.error(item)
