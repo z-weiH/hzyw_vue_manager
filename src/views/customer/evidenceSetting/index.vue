@@ -117,10 +117,10 @@
 
                 // 前端字段 解决后端字段保存和编辑回显 字段不统一问题
                 // 证据名称(前端字段 纯文案) 
-                evidenceNameText : '啦啦啦',
+                evidenceNameText : '',
                 // 证据名称（前端字段 手动输入）
                 evidenceNameInput : '',
-              },{evidenceNameText : '哈哈哈'}
+              }
             ],
           }
         ],
