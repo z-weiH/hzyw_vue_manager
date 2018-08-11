@@ -87,8 +87,10 @@
       // 关闭浮层
       handleClose() {
         this.dialogVisible = false;
-				// 重置表单数据
-        this.$refs.ruleForm.resetFields();
+				setTimeout(() => {
+          // 重置表单数据
+          this.$refs.ruleForm.resetFields();
+        },500);
 
         this.loading && this.loading.close();
       },
