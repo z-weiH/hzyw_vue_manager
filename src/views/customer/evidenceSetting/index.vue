@@ -10,45 +10,49 @@
     </div>
 
     <div class="item-table">
-      <div v-for="(item,index) in evidenceList" :key="index" class="m-item-list">
-        <div class="m-parent">
-          <el-row>
-            <el-col :span="2">
-              <div class="line-h m-color">
-                <span>•</span>
-                <span>证据组{{index + 1}}</span>
-              </div>
-            </el-col>
-            <el-col :span="16">
-              <div class="ellipsis line-h" style="width:100%;" :title="item.eviObject">
-                {{item.eviObject}}
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <el-button @click="handleAddEvidence(item,index)" type="primary" size="medium" round>新增证据</el-button>
-              <el-button @click="handleDeleteEvidenceGroup(item,index)" size="medium" round>删除证据组</el-button>
-            </el-col>
-          </el-row>
-        </div>
-        <ul class="m-ul">
-          <li v-if="item.eviList && item.eviList.length > 0" v-for="(eviList,key) in item.eviList" :key="key">
+      <draggable v-model="evidenceList">
+        <div v-for="(item,index) in evidenceList" :key="index" class="m-item-list">
+          <div class="m-parent">
             <el-row>
-              <el-col :span="12">
-                <p>证据{{key + 1}}：{{eviList.eviNum}},{{eviList.eviCode}},{{eviList.evidenceNameText}}</p>
-                <p class="mt-15">证据名称：{{eviList.evidenceNameInput}}</p>
-              </el-col>
-              <el-col :span="6">
-                <p style="margin-top:28px;">是否签章：{{eviList.signStatus === 0 ? '否' : '是'}}</p>
-              </el-col>
-              <el-col :span="6">
-                <div class="fr">
-                  <el-button @click="handleDeleteEvidence(index,key)" size="medium" round class="mr-5">删除证据</el-button>
+              <el-col :span="2">
+                <div class="line-h m-color">
+                  <span>•</span>
+                  <span>证据组{{index + 1}}</span>
                 </div>
               </el-col>
+              <el-col :span="16">
+                <div class="ellipsis line-h" style="width:100%;" :title="item.eviObject">
+                  {{item.eviObject}}
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <el-button @click="handleAddEvidence(item,index)" type="primary" size="medium" round>新增证据</el-button>
+                <el-button @click="handleDeleteEvidenceGroup(item,index)" size="medium" round>删除证据组</el-button>
+              </el-col>
             </el-row>
-          </li>
-        </ul>
-      </div>
+          </div>
+          <ul class="m-ul">
+            <draggable class="dragArea" v-model="item.eviList" :options="{group:'article'}">
+              <li v-for="(eviList,key) in item.eviList" :key="key">
+                <el-row>
+                  <el-col :span="12">
+                    <p>证据{{key + 1}}：{{eviList.eviNum}},{{eviList.eviCode}},{{eviList.evidenceNameText}}</p>
+                    <p class="mt-15">证据名称：{{eviList.evidenceNameInput}}</p>
+                  </el-col>
+                  <el-col :span="6">
+                    <p style="margin-top:28px;">是否签章：{{eviList.signStatus === 0 ? '否' : '是'}}</p>
+                  </el-col>
+                  <el-col :span="6">
+                    <div class="fr">
+                      <el-button @click="handleDeleteEvidence(index,key)" size="medium" round class="mr-5">删除证据</el-button>
+                    </div>
+                  </el-col>
+                </el-row>
+              </li>
+            </draggable>
+          </ul>
+        </div>
+      </draggable>
 
       <div v-if="evidenceList.length === 0" :style="{
         'height' : '60px',
@@ -80,10 +84,13 @@
   // 新增证据
   import evidenceDialog from './modules/evidenceDialog.vue'
   import {objDeepCopy} from '@/assets/js/tool'
+  // 拖拽组件
+  import draggable from 'vuedraggable'
   export default {
     components : {
       evidenceGroupDialog,
       evidenceDialog,
+      draggable,
     },
     data() {
       return {
@@ -110,10 +117,10 @@
 
                 // 前端字段 解决后端字段保存和编辑回显 字段不统一问题
                 // 证据名称(前端字段 纯文案) 
-                evidenceNameText : '',
+                evidenceNameText : '啦啦啦',
                 // 证据名称（前端字段 手动输入）
                 evidenceNameInput : '',
-              }
+              },{evidenceNameText : '哈哈哈'}
             ],
           }
         ],
@@ -282,6 +289,16 @@
   }
   .text-center{
     text-align: center;
+  }
+  // 拖拽样式
+  .sortable-chosen {
+    background-color: rgba(15,53,127,.1);
+  }
+  .sortable-ghost {
+    background-color: rgba(15,53,127,.3);
+  }
+  .dragArea{
+    min-height: 20px;
   }
 }
 
