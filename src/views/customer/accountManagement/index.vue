@@ -9,7 +9,7 @@
         <div class="fr" slot="moreBtn">
           <el-button @click="handleCreate" type="primary">新增用户</el-button>
         </div>
-      </searchs> 
+      </searchs>
   </div>
 
     <div class="item-title of-hidden">
@@ -28,7 +28,7 @@
       </table-component>
 
     </div>
-    <edit ref="edit" :editState = "editState" @refresh="refresh"></edit>  
+    <edit ref="edit" :editState = "editState" @refresh="refresh"></edit>
   </div>
 </template>
 
@@ -57,10 +57,10 @@
         searchItems : [
           {type: 'text',placeholder: '请输入客户名称', property: 'keyWords', colSpan: 7}
         ]
-       
+
       }
     },
-   
+
     components:{
       TableComponent,
       Searchs,
@@ -68,12 +68,12 @@
     },
     methods: {
         handleEdit(row){
-            this.$http.post("client/details.htm",{loginId: row.loginId}).then(
+            this.$http.post("/client/details.htm",{loginId: row.loginId}).then(
               res =>{
                 if(res.code === '0000'){
                   this.editState = 1;
                   this.$nextTick(() => {
-                  this.$refs.edit.editItem = res.result; 
+                  this.$refs.edit.editItem = res.result;
                   })
                 }
               }

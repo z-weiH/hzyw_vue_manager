@@ -18,7 +18,7 @@ export default  {
         this._refForms = [];
         Object.keys(this.$refs).forEach(key => {
           // console.error(this.$refs[key])
-          if(key.indexOf('edits') === 0){
+          if(key.indexOf('edits') === 0 && this.$refs[key]){
             Object.keys(this.$refs[key].$refs).forEach(k => {
               this._refForms.push(this.$refs[key].$refs[k]);
             })
