@@ -942,7 +942,7 @@
       handleAddTicket(item,index) {
         let type = item.addTicket > 0 ? true : false;
         if(type === false) {
-          this.ruleForm.orderDetailList[index].addTicketAmt = '';
+          this.ruleForm.orderDetailList[index].addTicketAmt = 0;
         }else{
           this.ruleForm.orderDetailList[index].addTicketAmt = item.addTicket * this.multiple;
         }
