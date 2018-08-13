@@ -123,8 +123,13 @@ import $ from "jquery";
                 this.canvas=document.createElement('canvas')
                 this.canvas.className='mouse-cover-canvas'
                 this.canvas.style.position='absolute'
-                this.canvas.style.left=this.imgbox.offsetLeft+this.imgbox.offsetWidth+10+'px'
-                this.canvas.style.top=this.imgbox.offsetTop - document.documentElement.querySelector('.body_container').scrollTop +'px';
+                this.canvas.style.left=this.imgbox.offsetLeft+'px';
+                this.canvas.style.top=this.imgbox.offsetTop - document.documentElement.querySelector('.body_container').scrollTop +this.imgbox.offsetHeight+'px';
+               if(document.documentElement.querySelector('.pagination').offsetTop - this.imgbox.offsetTop < 500){
+                 this.canvas.style.top=this.imgbox.offsetTop - document.documentElement.querySelector('.body_container').scrollTop-this.imgbox.offsetHeight+'px';
+
+                }
+
                 // console.log(this.canvas.style.top,'scroll',this.imgbox.offsetTop,document.documentElement.querySelector('.body_container').scrollTop);
                 this.canvas.style.border='1px solid #eee'
                 this.canvas.style.zIndex='99999'

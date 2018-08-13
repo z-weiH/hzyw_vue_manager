@@ -107,8 +107,8 @@ export default {
 				imgLayer.id = '_magnifier_layer'
 				imgLayer.style.width = _layerWidth + 'px'
 				imgLayer.style.height = _layerHeight + 'px'
-				imgLayer.style.left = this.imgRect.left + this.imgRect.width + 'px'
-				imgLayer.style.top = this.imgRect.top + 'px'
+				imgLayer.style.left = this.imgRect.left  + 'px'
+				imgLayer.style.top = this.imgRect.top+ this.imgRect.height + 'px'
 				imgLayer.style.backgroundImage = `url('${this.bigsrc}')`
 				imgLayer.style.backgroundRepeat = 'no-repeat'
 				document.body.appendChild(imgLayer)
