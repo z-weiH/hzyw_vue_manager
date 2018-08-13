@@ -611,7 +611,7 @@
       /* 营业执照 上传前 */
       businessLicenseBefore(file) {
         let fileType = file.name.split('.').pop();
-        let arr = ['jpg','png','gif','jpeg'];
+        let arr = ['jpg','png','gif','jpeg','pdf'];
         if(arr.indexOf(fileType) === -1){
           this.$message.error('文件格式有误');
           return false;
