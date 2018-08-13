@@ -78,7 +78,7 @@
         <edits class="item-edits" formname="changePwd" ref="edits" :editItems="editItems" :item="item" :labelWidth="'100px'"></edits>
       </div>
       <span slot="footer" class="dialog-footer">
-          <el-button type="primary"   @click="saveHandle">保 存</el-button>
+          <el-button type="primary"   @click="saveHandle" :disabled="isDisabled">保 存</el-button>
           <el-button @click="showDailog= false;">取 消</el-button>
         </span>
     </el-dialog>
@@ -86,7 +86,7 @@
     <div class="footerBtn" v-if="editState === 1">
       <div class="btns-container">
         <div class="btns">
-          <el-button type="primary" @click="saveParametersHandle">保 存</el-button>
+          <el-button type="primary" @click="saveParametersHandle" :disabled="isDisabled">保 存</el-button>
           <el-button @click="editState = 0;">取 消</el-button>
         </div>
       </div>
@@ -135,7 +135,7 @@
           {label: '数据名称：', property: 'dataName', type : 'text',placeholder:'请输入数据名称',rule:'require'},
           {label: '备注：', property: 'remark', type : 'textarea',placeholder:'请勿超过30个数字'}
         ],
-
+        isDisabled: false //控制保存按钮
       }
     },
     watch:{
@@ -159,12 +159,19 @@
         })
       },
       saveParametersHandle(){
-        this.$http.post('/templateData/saveTemplateDataById.htm',{list:this.tableData1},{mheaders:true})
-          .then(res => {
-            if(res.code === '0000'){
-              this.$message.success(res.description);
-            }
-          })
+        if(!this.isDisabled) {
+          this.isDisabled = true;
+
+          this.$http.post('/templateData/saveTemplateDataById.htm', {list: this.tableData1}, {mheaders: true})
+            .then(res => {
+              if (res.code === '0000') {
+                this.$message.success(res.description);
+                setTimeout(() => {
+                  this.isDisabled = false;
+                },200)
+              }
+            })
+        }
       },
       editHandle(row){
         this.$http.post('/templateData/queryTemplateDataByDataId.htm',{dataId: row.dataId})
@@ -192,19 +199,25 @@
       },
       //新增数据保存
       saveHandle(){
-        
-        this.checkbeforeSave().then(() => {
-            let obj = this.$refs.table.selectedRow ? {dataId : this.$refs.table.selectedRow.dataId} : {};  
+        if(!this.isDisabled){
+          this.isDisabled = true;
+          this.checkbeforeSave().then(() => {
+            let obj = this.$refs.table.selectedRow ? {dataId : this.$refs.table.selectedRow.dataId} : {};
             this.$http.post("/templateData/saveTemplateDataByDataId.htm",Object.assign(obj,this.item))
-              .then(res => { 
+              .then(res => {
                 if(res.code === '0000'){
                   this.showDailog = false;
                   this.doQuery(this.queryUrl,this.searchItem);
                   this.changeHandle({dataId:res.result});
+                  setTimeout(() => {
+                    this.isDisabled = false;
+                  },200)
                 }
               })
-        }).catch(()=>{})
-       
+          }).catch(()=>{})
+        }
+
+
       },
       HandleCreate(){
 
