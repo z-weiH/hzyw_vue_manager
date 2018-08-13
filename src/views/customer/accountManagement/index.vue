@@ -93,7 +93,7 @@
         },
         handleDelete(row){
           this.showConfirm().then( () => {
-            this.$http.post("client/deleteClient.htm",{loginId: row.loginId}).then(res => {
+            this.$http.post("/client/deleteClient.htm",{loginId: row.loginId}).then(res => {
               if(res.code === '0000'){
                 this.$message.success("刪除账户成功");
                 this.doQuery(this.queryUrl, this.searchItem);
