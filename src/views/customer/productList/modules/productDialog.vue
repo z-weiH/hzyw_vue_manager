@@ -238,7 +238,9 @@
           this.submitDisabled = false;
 				},500);
 				// 重置表单数据
-        this.$refs.ruleForm.resetFields();
+        setTimeout(() => {
+          this.$refs.ruleForm.resetFields();
+        },500);
         // 清空其他数据
         this.ruleForm.fwxyUrlFileName = '';
         this.ruleForm.hzxyUrlFileName = '';
