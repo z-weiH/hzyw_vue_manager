@@ -497,6 +497,17 @@
               },
             ],
           },
+          {
+            menuName : '规则库管理',
+            menuId : 'gzk1',
+            children : [
+              {
+                menuName : '规则库',
+                menuId : 'gzk2',
+                menuUrl : 'ruleBaseNavigation'
+              },
+            ],
+          },
         ],
         // 当前高亮的 menu
         active : '/main/demo',

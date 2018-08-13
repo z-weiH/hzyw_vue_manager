@@ -786,6 +786,17 @@ let router = new Router({
           },
         },
         /* 复核系统 模块 end */
+
+        /* 规则库管理 模块 start */
+        {
+          path: 'ruleBaseNavigation',
+          component: () =>
+            import ('@/views/ruleBaseManagement/ruleBaseNavigation'), // 规则库 - 导航
+          meta: {
+            name: 'ruleBaseNavigation',
+          },
+        },
+        /* 规则库管理 模块 end */
       ],
     },
     {
@@ -846,6 +857,14 @@ let router = new Router({
         import ('@/views/review/caseReview'), // 复核管理 - 案件详情
       meta: {
         name: 'caseReview',
+      },
+    },
+    {
+      path: '/ruleBase',
+      component: () =>
+        import ('@/views/ruleBaseManagement/ruleBase'), // 规则库
+      meta: {
+        name: 'ruleBase',
       },
     },
     
