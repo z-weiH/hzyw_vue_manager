@@ -125,7 +125,8 @@ import $ from "jquery";
                 this.canvas.style.position='absolute'
                 this.canvas.style.left=this.imgbox.offsetLeft+'px';
                 this.canvas.style.top=this.imgbox.offsetTop - document.documentElement.querySelector('.body_container').scrollTop +this.imgbox.offsetHeight+'px';
-               if(document.documentElement.querySelector('.pagination').offsetTop - this.imgbox.offsetTop < 500){
+                console.log(document.documentElement.querySelector('.body_container').offsetHeight)
+               if(document.documentElement.querySelector('.pagination').offsetTop - this.imgbox.offsetTop < 500 && document.documentElement.querySelector('.pagination').offsetTop + 200 > document.documentElement.querySelector('.body_container').offsetHeight){
                  this.canvas.style.top=this.imgbox.offsetTop - document.documentElement.querySelector('.body_container').scrollTop-this.imgbox.offsetHeight+'px';
 
                 }
