@@ -457,13 +457,20 @@ export default {
       .img {
         float: left;
         width: 370px;
+        height: 225px;
+        /*width: 370px;*/
+        /*height: 225px;*/
         border: 1px solid #e5eaee;
         border-radius: 5px;
         &.zhen {
           margin-right: 17px;
+
         }
         &.fan {
           margin-right: 28px;
+        }
+        img{
+          height:225px;
         }
       }
       .img_desc {
