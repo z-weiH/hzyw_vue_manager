@@ -12,7 +12,7 @@
         <el-table-column label="启用状态" prop="orderStatusName" slot="defineCol" >
           <template slot-scope="scope">
             <!-- // { label: "启用状态", property: "enabledStatus",},
-            // 0:未启用,1:启用 --> 
+            // 0:未启用,1:启用 -->
            <span v-if="scope.row.enabledStatus === 0" class="colLink" @click="handleEnable(scope.row)">启用</span>
            <span v-if="scope.row.enabledStatus === 1" class="colLink" style="color:#848484" @click="handleEnable(scope.row)">停用</span>
           </template>
@@ -36,7 +36,7 @@
         <edits class="item-edits" formname="changePwd" ref="edits" :editItems="editItems" :item="item"></edits>
       </div>
       <span slot="footer" class="dialog-footer">
-          <el-button type="primary"   @click="saveHandle">保 存</el-button>
+          <el-button type="primary"   @click="saveHandle" :disabled="isDisabled">保 存</el-button>
           <el-button @click=" showDailog= false" >取 消</el-button>
         </span>
     </el-dialog>
@@ -66,6 +66,7 @@
           {label: '业务类型', property: 'bizType', type : 'text',placeholder:'请输入业务类型',rule:'require'},
         ],
         queryUrl: "/biz/queryBizSetTypeByBaseQuery.htm",
+        isDisabled: false //控制保存按鈕，解決鼠標連點
       }
     },
     components:{
@@ -83,16 +84,26 @@
         this.item = {};
       },
       saveHandle() {
-        this.checkbeforeSave().then(() => {
+        if(!this.isDisabled ){
+          this.isDisabled = true;
+          console.error(123213123);
+          this.checkbeforeSave().then(() => {
             this.$http.post('/biz/saveBizType.htm',{bizType: this.item.bizType}).then(res => {
-                if(res.code == '0000'){
-                  this.$message.success("新增业务类型"+ this.item.bizType + "成功");
-                  this.showDailog = false;
-                  this.doQuery(this.queryUrl, {});
-                }
+              if(res.code == '0000'){
+                this.$message.success("新增业务类型"+ this.item.bizType + "成功");
+                this.showDailog = false;
+                this.doQuery(this.queryUrl, {});
+                setTimeout(()=>{
+                  this.isDisabled = false;
+                },200)
+              }
             })
-        }).catch(() => {});
-      
+          }).catch(() => {});
+        }else{
+          console.log("repeat")
+        }
+
+
       },
       handleEnable(row) {
         this.$http.post('/biz/updateBizSetTypeByBizCode.htm',{bizCode:row.bizCode,enabledStatus: 1-row.enabledStatus})
