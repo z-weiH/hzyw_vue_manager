@@ -61,7 +61,7 @@
         text-align: center;
       }
       .gz-img{
-        background-image: url('./../../../assets/img/sz-shyjwh.png');
+        background-image: url('./../../../assets/img/gz.png');
       }
     }
   }
