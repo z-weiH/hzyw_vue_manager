@@ -59,6 +59,7 @@
                 <a href="javascript:;" class="btn_link" style="margin-left:15px;" @click="handleResult(opts)">查看原因</a>
               </span>
         <button v-else-if="opts.batchStatus == 3" class="title_btn ml-5" disabled>预审完成</button>
+        <div class="fr"><el-button type="primary" size="small" @click="childBatchExcel(opts)" round>导出Excel</el-button></div>
       </div>
       <el-row class="message part">
         <el-col :span="22">
@@ -148,6 +149,7 @@
 
 <script type="text/ecmascript-6">
 import { URL_JSON } from '../../../components/script/url_json'
+import exportFile from '@/assets/js/exportFile'
 import { compileStr, uncompileStr } from '@/assets/js/tool'
 import Searchs from '@/components/searchs'
 import TableComponent from '@/components/table'
@@ -258,6 +260,7 @@ export default {
 				.then(res => {
 					if (res.code === '0000') {
 						this.item = res.result
+						console.log('批次信息：', res.result)
 					}
 				})
 		},
@@ -356,6 +359,16 @@ export default {
 			// delete this._newOpts.newAuditors;
 			this._newOpts.currentAuditId = _value
 			console.info('vhange:::', this._newOpts)
+		},
+		childBatchExcel(opts) {
+			// 导出子批次数据
+			exportFile({
+				url: URL_JSON['exportChildBatchFile'],
+				data: {
+					productName: this.item.productName,
+					subBatchNo: opts.subBatchNo
+				},
+			})
 		},
 	},
 	mounted() {
@@ -476,5 +489,4 @@ $themeColor: #0f357f;
 		}
 	}
 }
-
 </style>

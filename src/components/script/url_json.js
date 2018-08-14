@@ -256,6 +256,8 @@ export const URL_JSON = {
   'saveChangeResReason': '/againAudit/saveAuditSuggestion.htm',//案件复审-变更审核原因
 
   'querySetCaseNum': '/caseApply/countAbleApplicationCaseByBaseQuery.htm', //立案申请总数查询
+
+  'exportChildBatchFile': '/againAudit/exportSubBatchBackCaseList.htm',//案件复审-导出子批次数据
   /*-----预审系统----*/
 
 
