@@ -64,12 +64,12 @@
         <div class="card_part">
           <div class="img zhen">
             <!-- <pic-zoom ref="picZoom" v-if="card.idCard.image02" :url="card.idCard.image02" :scale="3" :scroll="true"></pic-zoom> -->
-            <v-zoom v-if="card.idCard.image02" :src="card.idCard.image02" width="370" height="231" :bigsrc="card.idCard.image02" :configs="configs"></v-zoom>
+            <v-zoom v-if="card.idCard.image02" :src="card.idCard.image02 + '?x-oss-process=image/resize,h_231/auto-orient,1'" :bigsrc="card.idCard.image02 + '?x-oss-process=image/resize,w_370/auto-orient,1'" :configs="configs"></v-zoom>
             <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
           </div>
           <div class="img fan">
             <!-- <pic-zoom ref="picZoom" v-if="card.idCard.image02" :url="card.idCard.image01" :scale="3" :scroll="true"></pic-zoom> -->
-            <v-zoom v-if="card.idCard.image02" :src="card.idCard.image01" width="370" height="231" :bigsrc="card.idCard.image01" :configs="configs"></v-zoom>
+            <v-zoom v-if="card.idCard.image02" :src="card.idCard.image01 + '?x-oss-process=image/resize,h_231/auto-orient,1'" width="370" height="231" :bigsrc="card.idCard.image01 + '?x-oss-process=image/resize,w_370/auto-orient,1'" :configs="configs"></v-zoom>
             <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
           </div>
           <div class="img_desc">
@@ -534,6 +534,7 @@ $themeColor: #193b8c;
 				border: 1px solid #e5eaee;
 				border-radius: 10px;
 				overflow: hidden;
+        text-align: center;
 				// position: relative;
 				.errImg {
 					position: absolute;
