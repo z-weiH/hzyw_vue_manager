@@ -3,7 +3,7 @@
     <el-dialog
       title="案件新增"
       :visible.sync="dialogVisible"
-      width="700px"
+      width="800px"
       @close="handleClose"
       ref="dialog"
       :close-on-click-modal="false"
@@ -376,10 +376,32 @@
               {{ruleForm.fileFileName}}
             </el-form-item>
           </div>
+          <div class="mt-20">
+            <el-form-item prop="evidenceIndex">
+              <el-upload
+                class="upload-demo"
+                :action="`${$host}/file/upload.htm`"
+                :show-file-list="false"
+                :before-upload="evidenceCatalogueBefore"
+                :on-success="evidenceCatalogueSuccess"
+                :on-error="fileError"
+                :data="{
+                  path : 'hzuser/idcard',
+                  token : token,
+                }"
+              >
+                <el-button size="mini" icon='el-icon-upload'>
+                  上传证据目录
+                </el-button>
+                {{ruleForm.evidenceIndexFileName}}
+              </el-upload>
+            </el-form-item>
+          </div>
 
           <el-form-item class="hidden"  label=" " prop="img01FileName"></el-form-item>
           <el-form-item class="hidden"  label=" " prop="img02FileName"></el-form-item>
           <el-form-item class="hidden"  label=" " prop="fileFileName"></el-form-item>
+          <el-form-item class="hidden"  label=" " prop="evidenceIndexFileName"></el-form-item>
 
         </el-form>
       </div>
@@ -462,6 +484,8 @@
           ],
           // 仲裁申请书 pdf 格式
           file : '',
+          // 证据目录
+          evidenceIndex : '',
 
           // 法定代表人
           legaller : '',
@@ -474,6 +498,8 @@
           img02FileName : '',
           // 仲裁申请书 文件名
           fileFileName : '',
+          // 证据目录 文件名
+          evidenceIndexFileName : '',
         },
         rules : {
           // 申请人
@@ -544,7 +570,7 @@
           ],
           // 仲裁申请书 pdf 格式
           file : [
-            {required : true , message : '请上传文件' , trigger : 'change'},
+            {required : true , message : '请上传仲裁申请书' , trigger : 'change'},
           ],
           // 法定代表人
           legaller : [
@@ -553,6 +579,9 @@
           // 法定代表人职务
           position : [
             {required : true , message : '请输入法定代表人职务' , trigger : 'blur'},
+          ],
+          evidenceIndex : [
+            {required : true , message : '请上传证据目录' , trigger : 'change'},
           ],
         },
 
@@ -717,6 +746,22 @@
         // 重新校验
         this.$refs.ruleForm.validateField('file');
         
+      },
+      // 证据目录上传前
+      evidenceCatalogueBefore(file) {
+        let fileType = file.name.split('.').pop();
+        let arr = ['jpg','png','gif','jpeg','pdf'];
+        if(arr.indexOf(fileType) === -1){
+          this.$message.error('文件格式有误');
+          return false;
+        }
+        return true;
+      },
+      evidenceCatalogueSuccess(response, file, fileList) {
+        this.ruleForm.evidenceIndex = response.result;
+        this.ruleForm.evidenceIndexFileName = file.name;
+        /* 重新校验 */
+        this.$refs.ruleForm.validateField('evidenceIndex');
       },
       /* 文件上传失败 回调 */
       fileError() {
