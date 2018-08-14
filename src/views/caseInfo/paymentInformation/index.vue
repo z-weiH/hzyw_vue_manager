@@ -4,7 +4,7 @@
       <a>所在位置</a>
       <router-link :to='$options.name' class='aside_tit'>还款信息</router-link>
     </div>
-    <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
+    <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
         <template slot='moreBtn'>
               <el-button class='ml-20' type='primary' @click='exportFile1'>导出Excel</el-button>
         </template>
@@ -13,7 +13,7 @@
       还款信息列表
     </div>
     <div class='item-table'>
-      <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data='tableData' :column-define='columnDefine' ></table-component>
+      <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.searchItem)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data='tableData' :column-define='columnDefine' ></table-component>
     </div>
   </div>
 </template>
@@ -222,7 +222,7 @@ export default {
 	methods: {
 		exportFile1() {
 			console.log(exportFile)
-			exportFile({ url: URL_JSON['exportPaymentInfomation'], data: this.item })
+			exportFile({ url: URL_JSON['exportPaymentInfomation'], data: this.searchItem })
 		},
 		searchItemChange(item) {
 			// console.error(item);
@@ -231,7 +231,7 @@ export default {
 					case 'merchantCode':
 						console.log(item['value'])
 						if (item['value'] === '') {
-							this.$set(this.item,'prodName','');
+							this.$set(this.searchItem,'prodName','');
               this.searchItems[5].options = [];
 						} else {
 							this.optsPduListView({ merchantCode: item['value'] })
@@ -262,7 +262,7 @@ export default {
 			this.searchItems[5].options = []
 			this.$http.post(URL_JSON['selectProduct'], params).then(res => {
 				this.searchItems[5].options = res.result
-				this.$set(this.item, 'prodName', '')
+				this.$set(this.searchItem, 'prodName', '')
 				console.log('selectProduct:::', res)
 			})
 		},
@@ -286,8 +286,8 @@ export default {
 				this.searchItems[7].options = res.result.list
 				setTimeout(() => {
 					// this.searchItem.statusThree = '';
-					this.$set(this.item, 'statusThree', '')
-					console.log(this.item)
+					this.$set(this.searchItem, 'statusThree', '')
+					console.log(this.searchItem)
 				}, 300)
 			})
 		},
@@ -299,7 +299,7 @@ export default {
 		this.optsHkCaseStatusView() //还款案件状态
 	},
 	mounted() {
-		this.doQuery(this.queryUrl, this.item)
+		this.doQuery(this.queryUrl, this.searchItem)
 	},
 	components: {
 		Searchs,

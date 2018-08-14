@@ -64,12 +64,12 @@
         <div class="card_part">
           <div class="img zhen">
             <!-- <pic-zoom ref="picZoom" v-if="card.idCard.image02" :url="card.idCard.image02" :scale="3" :scroll="true"></pic-zoom> -->
-            <v-zoom v-if="card.idCard.image02" :src="card.idCard.image02 + '?x-oss-process=image/resize,h_231/auto-orient,1'" :bigsrc="card.idCard.image02 + '?x-oss-process=image/resize,w_370/auto-orient,1'" :configs="configs"></v-zoom>
+            <v-zoom v-if="card.idCard.image02" :src="card.idCard.image02 + '?x-oss-process=image/resize,h_231/auto-orient,1'" width="370" height="231"  :bigsrc="card.idCard.image02 + '?x-oss-process=image/resize,w_680/auto-orient,1'" :configs="configs"></v-zoom>
             <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
           </div>
           <div class="img fan">
             <!-- <pic-zoom ref="picZoom" v-if="card.idCard.image02" :url="card.idCard.image01" :scale="3" :scroll="true"></pic-zoom> -->
-            <v-zoom v-if="card.idCard.image02" :src="card.idCard.image01 + '?x-oss-process=image/resize,h_231/auto-orient,1'" width="370" height="231" :bigsrc="card.idCard.image01 + '?x-oss-process=image/resize,w_370/auto-orient,1'" :configs="configs"></v-zoom>
+            <v-zoom v-if="card.idCard.image02" :src="card.idCard.image01 + '?x-oss-process=image/resize,h_231/auto-orient,1'" width="370" height="231" :bigsrc="card.idCard.image01 + '?x-oss-process=image/resize,w_680/auto-orient,1'" :configs="configs"></v-zoom>
             <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
           </div>
           <div class="img_desc">
@@ -319,7 +319,7 @@ export default {
 						this.idCardList = res.result.list
 						this.count = res.result.count
 						this.pager.total = res.result.count
-						console.log(this.currentUrl);
+						console.log(this.currentUrl)
 						// 明细请求过后再去改变-无数据模版状态
 						this.idCardList.length === 0 ? (this.screenWaitType = true) : (this.screenWaitType = false)
 					}
@@ -396,9 +396,9 @@ export default {
 					if (res.code === '0000') {
 						this.waiter.close() //关闭loader-screen
 						this.idCardList = res.result.list
-            if(this.idCardList.length > 0){
-              this.currentUrl = this.idCardList[0].evi.eviDetailList[0].eviFileurl;
-            }
+						if (this.idCardList.length > 0) {
+							this.currentUrl = this.idCardList[0].evi.eviDetailList[0].eviFileurl
+						}
 
 						console.log('len-idCardList.length:: ', this.idCardList.length)
 						this.count = res.result.count
@@ -534,7 +534,7 @@ $themeColor: #193b8c;
 				border: 1px solid #e5eaee;
 				border-radius: 10px;
 				overflow: hidden;
-        text-align: center;
+				text-align: center;
 				// position: relative;
 				.errImg {
 					position: absolute;
@@ -552,7 +552,7 @@ $themeColor: #193b8c;
 				}
 			}
 			.img_desc {
-        max-width:370px;
+				max-width: 370px;
 				ul {
 					li {
 						line-height: 38px;
@@ -835,14 +835,14 @@ $themeColor: #193b8c;
 		padding-bottom: 30px;
 		.scroll_toolbar {
 			padding-right: 30px;
-			 width: 565px;
+			width: 565px;
 			font-size: 14px;
-			.evi_bar{
-          cursor: pointer;
-          line-height: 24px;
-          margin-right: 10px;
-          border-bottom: 2px solid transparent;
-        }
+			.evi_bar {
+				cursor: pointer;
+				line-height: 24px;
+				margin-right: 10px;
+				border-bottom: 2px solid transparent;
+			}
 			.active {
 				border-bottom: 2px solid $themeColor;
 			}

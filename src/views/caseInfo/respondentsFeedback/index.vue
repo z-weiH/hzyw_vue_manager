@@ -4,7 +4,7 @@
       <a>所在位置</a>
       <router-link :to="$options.name" class="aside_tit">被申请人反馈</router-link>
     </div>
-    <searchs @valueChange="searchItemChange"  class="item-search" :search-items="searchItems" :item="item" :query-url="queryUrl">
+    <searchs @valueChange="searchItemChange"  class="item-search" :search-items="searchItems" :item="searchItem" :query-url="queryUrl">
         <template slot="moreBtn">
               <el-button class="ml-20" type="primary" @click="handleExport">导出Excel</el-button>
         </template>
@@ -13,7 +13,7 @@
       被申请人反馈列表
     </div>
     <div class="item-table">
-      <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data='tableData' :column-define='columnDefine' ></table-component>
+      <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.searchItem)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data='tableData' :column-define='columnDefine' ></table-component>
     </div>
   </div>
 </template>
@@ -266,10 +266,10 @@ export default {
     handleExport() {
        console.info('searchItem:::',this.searchItem);
       let _token = JSON.parse(localStorage.getItem('loginInfo')).token;
-          this.item.token = _token;
+          this.searchItem.token = _token;
       exportFile({
         url: this.exportUrl,
-        data: this.item
+        data: this.searchItem
       });
     },
     searchItemChange(item) {
@@ -314,7 +314,7 @@ export default {
       this.$http.post(URL_JSON["selectProduct"], params).then(res => {
         // console.log('selectProduct:::',res);
         this.searchItems[5].options = res.result;
-        this.$set(this.item,'prodName','');
+        this.$set(this.searchItem,'prodName','');
       });
     },
     optsHkCaseStageView() {
@@ -330,7 +330,7 @@ export default {
     this.optsHkCaseStageView(); //还款案件阶段
   },
   mounted() {
-    this.doQuery(this.queryUrl, this.item);
+    this.doQuery(this.queryUrl, this.searchItem);
   },
   components: {
     Searchs,

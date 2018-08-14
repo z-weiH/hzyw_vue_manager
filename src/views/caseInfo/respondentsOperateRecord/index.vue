@@ -4,7 +4,7 @@
       <a>所在位置</a>
       <router-link :to='$options.name' class='aside_tit'>被申请人操作记录</router-link>
     </div>
-    <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
+    <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
       <template slot='moreBtn'>
         <el-button class='ml-20' type='primary' @click='exportFile1'>导出Excel</el-button>
       </template>
@@ -13,7 +13,7 @@
     被申请人操作记录列表
     </div>
     <div class='item-table'>
-         <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data='tableData' :column-define='columnDefine' ></table-component>
+         <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.searchItem)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data='tableData' :column-define='columnDefine' ></table-component>
     </div>
   </div>
 </template>
@@ -181,7 +181,7 @@ export default {
 	},
 	methods: {
 		exportFile1() {
-			exportFile({ url: URL_JSON['exportRespondentsOperateRecord'], data: this.item })
+			exportFile({ url: URL_JSON['exportRespondentsOperateRecord'], data: this.searchItem })
 		},
 		searchItemChange(item) {
 			console.error(item)
@@ -190,7 +190,7 @@ export default {
 					case 'merchantCode':
 						console.log('1---', item['value'])
 						if (item['value'] === '') {
-							this.$set(this.item,'prodName','');
+							this.$set(this.searchItem,'prodName','');
               this.searchItems[4].options = [];
 						} else {
 							this.optsPduListView({ merchantCode: item['value'] })
@@ -228,7 +228,7 @@ export default {
 			this.searchItems[4].options = []
 			this.$http.post(URL_JSON['selectProduct'], params).then(res => {
 				this.searchItems[4].options = res.result
-				this.$set(this.item, 'prodName', '')
+				this.$set(this.searchItem, 'prodName', '')
 			})
 		},
 		optsHkCaseStageView() {
@@ -245,8 +245,8 @@ export default {
 				// });
 				this.searchItems[6].options = res.result.list
 				setTimeout(() => {
-					this.$set(this.item, 'statusThree', '')
-					console.log(this.item)
+					this.$set(this.searchItem, 'statusThree', '')
+					console.log(this.searchItem)
 				}, 300)
 			})
 		},
@@ -262,7 +262,7 @@ export default {
 				console.info('obj:::::', res)
 				this.searchItems[8].options = res.result.list
 				setTimeout(() => {
-					this.$set(this.item, 'operObject', '')
+					this.$set(this.searchItem, 'operObject', '')
 				}, 300)
 			})
 		},
@@ -274,7 +274,7 @@ export default {
 		this.optsHkCaseStatusView() //还款案件状态
 		this.optsTypeListView() //操作类型
 		this.optsObjListView() //操作对象
-		this.doQuery(this.queryUrl, this.item)
+		this.doQuery(this.queryUrl, this.searchItem)
 	},
 	components: {
 		Searchs,

@@ -5,14 +5,14 @@
          <a>所在位置</a>
          <router-link :to='$options.name' class='aside_tit'>客户分配</router-link>
         </div>
-        <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
+        <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
           <template slot='moreBtn'><el-button class='ml-20' type='primary' @click='create'>新增分配</el-button></template>
         </searchs>
         <div class='item-title'>
           客户分配列表
         </div>
         <div class='item-table'>
-           <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData"  :column-define="columnDefine" :actions="actions"></table-component>
+           <table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.searchItem)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData"  :column-define="columnDefine" :actions="actions"></table-component>
         </div>
         <customer-allot-create  :item="item" :edit-state="editState"></customer-allot-create>
    </div>
@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     FullListQuery(){
-      this.doQuery(this.queryUrl, this.item);
+      this.doQuery(this.queryUrl, this.searchItem);
     },
     searchItemChange(item) {
       console.error(item);
@@ -135,7 +135,7 @@ export default {
           console.log('sdsdsdsd',row.id);
           this.$http.post(URL_JSON['unbindCustomerAllot'],{id:row.id}).then(res => {
             this.$message.success('解绑成功');
-            this.doQuery(this.queryUrl, this.item);
+            this.doQuery(this.queryUrl, this.searchItem);
           });
         }
 
@@ -147,7 +147,7 @@ export default {
     this.operatorListView();//运营人员
   },
   mounted() {
-    this.doQuery(this.queryUrl, this.item);
+    this.doQuery(this.queryUrl, this.searchItem);
   },
   components: {
     Searchs,

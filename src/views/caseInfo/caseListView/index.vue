@@ -4,7 +4,7 @@
       <a>所在位置</a>
       <router-link :to="$options.name" class="aside_tit">案件列表</router-link>
     </div>
-    <searchs @valueChange="searchItemChange" class="item-search" :search-items="searchItems" :item="item" :query-url="queryUrl">
+    <searchs @valueChange="searchItemChange" class="item-search" :search-items="searchItems" :item="searchItem" :query-url="queryUrl">
       <template slot="moreBtn">
             <el-button class="ml-20" type="primary" @click="handleExport">导出Excel</el-button>
 </template>
@@ -13,7 +13,7 @@
       案件列表
     </div>
     <div class="item-table">
-      <table-component :pager="pager" @refreshList="doQuery(this.queryUrl, this.item)" :table-data="tableData" :column-define="columnDefine" ></table-component>
+      <table-component :pager="pager" @refreshList="doQuery(this.queryUrl, this.searchItem)" :table-data="tableData" :column-define="columnDefine" ></table-component>
     </div>
   </div>
 </template>
@@ -421,10 +421,10 @@ export default {
 		handleExport() {
 			console.info('searchItem:::', this.searchItem)
 			let _token = JSON.parse(localStorage.getItem('loginInfo')).token
-			this.item.token = _token
+			this.searchItem.token = _token
 			exportFile({
 				url: this.exportUrl,
-				data: this.item,
+				data: this.searchItem,
 			})
 		},
 		searchItemChange(item) {
@@ -434,7 +434,7 @@ export default {
 					case 'merchantCode':
             console.log(item['value'])
 						if (item['value'] === '') {
-              this.$set(this.item,'prodName','');
+              this.$set(this.searchItem,'prodName','');
               this.searchItems[5].options = [];
 						} else {
 							this.optsPduListView({merchantCode: item['value']})
@@ -471,7 +471,7 @@ export default {
 			this.$http.post(URL_JSON['selectProduct'], params).then(res => {
 				// console.log('selectProduct:::',res);
         this.searchItems[5].options = res.result;
-        this.$set(this.item,'prodName','');
+        this.$set(this.searchItem,'prodName','');
 
 			})
 		},
@@ -502,7 +502,7 @@ export default {
 		this.optsHkCaseStatusView() //还款案件状态
 	},
 	mounted() {
-		this.doQuery(this.queryUrl, this.item)
+		this.doQuery(this.queryUrl, this.searchItem)
 	},
 	components: {
 		Searchs,
