@@ -59,7 +59,7 @@
                 <a href="javascript:;" class="btn_link" style="margin-left:15px;" @click="handleResult(opts)">查看原因</a>
               </span>
         <button v-else-if="opts.batchStatus == 3" class="title_btn ml-5" disabled>预审完成</button>
-        <div class="fr"><el-button type="primary" size="small" @click="childBatchExcel(opts)" round>导出Excel</el-button></div>
+        <div class="fr" v-if="opts.batchStatus == 3"><el-button type="primary" size="small" @click="childBatchExcel(opts)" round>导出Excel</el-button></div>
       </div>
       <el-row class="message part">
         <el-col :span="22">
