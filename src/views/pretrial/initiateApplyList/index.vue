@@ -4,17 +4,17 @@
       <a>所在位置</a>
       <router-link :to='$options.name' class='aside_tit'>立案申请</router-link>
     </div>
-    <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
+    <searchs @valueChange="searchItemChange" class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
     </searchs>
     <div class='item-title clear of-hidden'>
       <span class="fl mt-10">案件列表</span>
       <el-button class='fr' type='primary' @click='create' :disabled="dfBtnStatus">申请立案</el-button>
     </div>
     <div class='item-table'>
-      <table-component :pager="pager" @refreshList="doQuery(this.queryUrl, this.item)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData" :column-define="columnDefine">
+      <table-component :pager="pager" @refreshList="doQuery(this.queryUrl, this.searchItem)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData" :column-define="columnDefine">
       </table-component>
     </div>
-    <apply-case-dialog :editState="editState" :pager="pager" :item="item"></apply-case-dialog>
+    <apply-case-dialog :editState="editState" :pager="pager" :item="searchItem"></apply-case-dialog>
   </div>
 </template>
 
@@ -253,7 +253,7 @@ export default {
 						console.log('value---', item['value'])
 						if (item['value'] === '') {
 							// this.searchItem.templateId = ''
-							this.$set(this.item, 'templateId', '')
+							this.$set(this.searchItem, 'templateId', '')
 							// this.companyfinance('')
 							// this.queryProductList(-1)
 							this.searchItems[1].options = []
@@ -388,7 +388,7 @@ export default {
 	},
 
 	mounted() {
-		this.doQuery(this.queryUrl, this.item)
+		this.doQuery(this.queryUrl, this.searchItem)
 		this.companyfinance('')
 		this.cityDataChange()
 	},
