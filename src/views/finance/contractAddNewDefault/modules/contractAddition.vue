@@ -902,8 +902,10 @@
         }).then((res) => {
           // 设置 如果当前是审核状态  初始化为 请选择
           res.result.orderDetailList = res.result.orderDetailList.map((v) => {
-            v.resultStatusDefault = v.resultStatus;
-            v.resultStatus = '';
+            if(v.orderStatus === 1) {
+              v.resultStatusDefault = v.resultStatus;
+              v.resultStatus = '';
+            }
             return v;
           });
           this.ruleForm = Object.assign(this.ruleForm,res.result);
