@@ -73,9 +73,17 @@
             </el-tooltip>
           </template>
         </el-table-column>
+        <el-table-column prop="applicationUrl" label="仲裁申请书" width="100px">
+          <template slot-scope="scope">
+            <a v-if="scope.row.applicationUrl" target="_blank" :href="scope.row.applicationUrl">查看</a>
+            <span v-else>--</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button @click="handleReset(scope.row)" type="text">重新提交</el-button>
+            <!-- <el-button @click="handleReset(scope.row)" type="text">重新提交</el-button> -->
+            <el-button @click="handleEditClaimant(scope.row)" type="text">修改</el-button>
+            <el-button @click="handleSubmitEvidence(scope.row)" type="text">证据</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -93,6 +101,8 @@
 
       <!-- 详情弹出框 -->
       <dialogDetail ref="dialogDetail"></dialogDetail>
+      <!-- 修改 dialog -->
+      <editDialog @successCBK="successCBK" ref="editDialog"></editDialog>
     </div>
 
   </div>
@@ -101,10 +111,12 @@
 <script>
   import timeFrame from '@/components/timeFrame.vue'
   import dialogDetail from './modules/detail.vue'
+  import editDialog from './modules/editDialog.vue'
   export default {
     components : {
       timeFrame,
       dialogDetail,
+      editDialog,
     },
     data() {
       return {
@@ -179,6 +191,18 @@
         }).then((res) => {
           this.$message.success('重新提交成功');
         });
+      },
+      // 修改被申请人 
+      handleEditClaimant(row) {
+        this.$refs.editDialog.show();
+      },
+      // 修改被申请人 成功回调
+      successCBK() {
+
+      },
+      // 点击证据 按钮
+      handleSubmitEvidence() {
+        this.$router.push('summitEvidence');
       },
 
       // 表格相关 start
