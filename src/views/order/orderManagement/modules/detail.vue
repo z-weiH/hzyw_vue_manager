@@ -171,7 +171,7 @@
 
               <tr>
                 <td colspan="1">证件地址：</td>
-                <td colspan="3">{{item.idaddress}}</td>
+                <td colspan="3">{{item.idAddress}}</td>
               </tr>
 
               <tr>
@@ -199,7 +199,7 @@
 
               <tr>
                 <td colspan="1">注册地址：</td>
-                <td colspan="3">{{item.idaddress}}</td>
+                <td colspan="3">{{item.idAddress}}</td>
               </tr>
 
               <tr>
@@ -432,7 +432,7 @@
               // 身份证反面
               img02 : '',
               // 证件地址 注册地址
-              idaddress : '',
+              idAddress : '',
               // 住址 通讯地址
               address : '',
 

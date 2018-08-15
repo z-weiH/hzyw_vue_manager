@@ -194,11 +194,11 @@
       },
       // 修改被申请人 
       handleEditClaimant(row) {
-        this.$refs.editDialog.show();
+        this.$refs.editDialog.show(row);
       },
       // 修改被申请人 成功回调
       successCBK() {
-
+        this.handleSearch();
       },
       // 点击证据 按钮
       handleSubmitEvidence() {

@@ -50,8 +50,8 @@
 						  <el-input v-model.trim="ruleForm.idcard" placeholder="请输入"></el-input>
 					  </el-form-item>
 
-            <el-form-item label="证件地址：" prop="idaddress">
-						  <el-input v-model.trim="ruleForm.idaddress" placeholder="请输入"></el-input>
+            <el-form-item label="证件地址：" prop="idAddress">
+						  <el-input v-model.trim="ruleForm.idAddress" placeholder="请输入"></el-input>
 					  </el-form-item>
 
             <el-form-item label="住址：" prop="address">
@@ -72,8 +72,8 @@
 						  <el-input v-model.trim="ruleForm.idcard" placeholder="请输入"></el-input>
 					  </el-form-item>
 
-            <el-form-item label="注册地址：" prop="idaddress">
-						  <el-input v-model.trim="ruleForm.idaddress" placeholder="请输入"></el-input>
+            <el-form-item label="注册地址：" prop="idAddress">
+						  <el-input v-model.trim="ruleForm.idAddress" placeholder="请输入"></el-input>
 					  </el-form-item>
 
             <el-form-item label="法定代表人：" prop="legaler">
@@ -132,7 +132,7 @@
           // 民族
           nation : '',
           // 证件地址
-          idaddress : '',
+          idAddress : '',
           // 通讯地址
           address : '',
 
@@ -158,16 +158,38 @@
 
     },
     methods : {
-      show(data,type) {
+      show(data) {
 				this.dialogVisible = true;
 				// dialog 返回顶部
         this.$nextTick(() => {
           this.$refs.dialog.$el.scrollTop = 0;
         });
+
+        // 获取数据
+        this.$http({
+          url : '/ordermanage/queryRespondentInfo.htm',
+          method : 'post',
+          data : {
+            caseOrderId : data.caseOrderId,
+          },
+        }).then((res) => {
+          this.ruleForm = Object.assign(this.ruleForm,res.result);
+        });
       },
 
       // 用户类型change
       handleChange(val) {
+        // 重置相关数据
+        let arr = [
+          'phone' , 'email' , 'idcard' , 'idAddress' , 'address' ,
+          'legaler' , 'position', 'name' , 'sex' ,
+        ];
+        arr.map((v,k) => {
+          this.ruleForm[v] = '';
+        });
+        // 移除校验
+        this.$refs.ruleForm.clearValidate();
+
         // 自然人
         if(val === 0) {
           this.ruleForm.idtype = 0;
@@ -195,10 +217,14 @@
 						this.submitDisabled = true;
 						this.$http({
               method : 'post',
-              url : '/preCaseLib/distributeCaseByDistributeCaseQuery.htm',
-              data : data,
+              url : '/ordermanage/modifyRespondentInfo.htm',
+              data : {
+                ...this.ruleForm
+              },
             }).then((res) => {
-              this.$message.success('分配成功');
+              this.$message.success('修改成功');
+              this.handleClose();
+              this.$eimt('successCBK');
             }).catch(() => {
               this.submitDisabled = false;
             });
