@@ -123,13 +123,15 @@ import $ from "jquery";
                 this.canvas=document.createElement('canvas')
                 this.canvas.className='mouse-cover-canvas'
                 this.canvas.style.position='absolute'
+                // console.log(this.imgbox,this.imgbox.offsetLeft)
                 this.canvas.style.left=this.imgbox.offsetLeft+'px';
                 this.canvas.style.top=this.imgbox.offsetTop - document.documentElement.querySelector('.body_container').scrollTop +this.imgbox.offsetHeight+'px';
-                console.log(document.documentElement.querySelector('.body_container').offsetHeight)
-               if(document.documentElement.querySelector('.pagination').offsetTop - this.imgbox.offsetTop < 500 && document.documentElement.querySelector('.pagination').offsetTop + 200 > document.documentElement.querySelector('.body_container').offsetHeight){
-                 this.canvas.style.top=this.imgbox.offsetTop - document.documentElement.querySelector('.body_container').scrollTop-this.imgbox.offsetHeight+'px';
-
+                if(document.documentElement.querySelector('.pagination')){
+                  if(document.documentElement.querySelector('.pagination').offsetTop - this.imgbox.offsetTop < 500 && document.documentElement.querySelector('.pagination').offsetTop + 200 > document.documentElement.querySelector('.body_container').offsetHeight){
+                    this.canvas.style.top=this.imgbox.offsetTop - document.documentElement.querySelector('.body_container').scrollTop-this.imgbox.offsetHeight+'px';
+                  }
                 }
+
 
                 // console.log(this.canvas.style.top,'scroll',this.imgbox.offsetTop,document.documentElement.querySelector('.body_container').scrollTop);
                 this.canvas.style.border='1px solid #eee'

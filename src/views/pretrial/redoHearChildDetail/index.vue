@@ -26,7 +26,7 @@
       <div>没有符合要求的案件</div>
     </div>
     <!-- end -->
-    <div class="card" style="position: relative" v-for="(card, index) in idCardList" :key="index">
+    <div class="card"  v-for="(card, index) in idCardList" :key="index">
       <div class="fix_screen" v-if="idCardList.length != 0">
         <span class="arrow_left" @click="gotoPrevPage(card)"></span><span class="arrow_right" @click="gotoNextPage(card)"></span>
       </div>
@@ -63,13 +63,13 @@
         <div class="part_tit f_18">身份证信息</div>
         <div class="card_part">
           <div class="img zhen">
-            <!-- <pic-zoom ref="picZoom" v-if="card.idCard.image02" :url="card.idCard.image02" :scale="3" :scroll="true"></pic-zoom> -->
-            <v-zoom v-if="card.idCard.image02" :src="card.idCard.image02 + '?x-oss-process=image/resize,h_231/auto-orient,1'" width="370" height="231"  :bigsrc="card.idCard.image02 + '?x-oss-process=image/resize,w_680/auto-orient,1'" :configs="configs"></v-zoom>
+             <pic-zoom ref="picZoom" v-if="card.idCard.image02" :url="card.idCard.image02" :scale="3" :scroll="true"></pic-zoom>
+            <!--<v-zoom v-if="card.idCard.image02" :src="card.idCard.image02 + '?x-oss-process=image/resize,h_231/auto-orient,1'" width="370" height="227"  :bigsrc="card.idCard.image02 + '?x-oss-process=image/resize,w_680/auto-orient,1'" :configs="configs"></v-zoom>-->
             <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
           </div>
           <div class="img fan">
-            <!-- <pic-zoom ref="picZoom" v-if="card.idCard.image02" :url="card.idCard.image01" :scale="3" :scroll="true"></pic-zoom> -->
-            <v-zoom v-if="card.idCard.image02" :src="card.idCard.image01 + '?x-oss-process=image/resize,h_231/auto-orient,1'" width="370" height="231" :bigsrc="card.idCard.image01 + '?x-oss-process=image/resize,w_680/auto-orient,1'" :configs="configs"></v-zoom>
+             <pic-zoom ref="picZoom" v-if="card.idCard.image02" :url="card.idCard.image01" :scale="3" :scroll="true"></pic-zoom>
+            <!--<v-zoom v-if="card.idCard.image02" :src="card.idCard.image01 + '?x-oss-process=image/resize,h_231/auto-orient,1'" width="370" height="227" :bigsrc="card.idCard.image01 + '?x-oss-process=image/resize,w_680/auto-orient,1'" :configs="configs"></v-zoom>-->
             <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
           </div>
           <div class="img_desc">
@@ -211,9 +211,9 @@
 
 <script>
 import closeDig from '@/components/closeDlg.vue'
-// import PicZoom from "@/components/Piczoom";
-import vZoom from '@/components/vZoom'
-import scrollY from '@/components/scroll-y'
+import PicZoom from "@/components/Piczoom";
+// import vZoom from '@/components/vZoom'
+// import scrollY from '@/components/scroll-y'
 import { URL_JSON } from '../../../components/script/url_json'
 import audit from './modules/audit'
 import passview from './modules/passview'
@@ -241,10 +241,10 @@ export default {
 			pview_state: 0,
 			rb_state: 0,
 			configs: {
-				width: 390,
-				height: 261,
-				maskWidth: 100,
-				maskHeight: 100,
+				width: 370,
+				height: 227,
+				maskWidth: 87,
+				maskHeight: 130,
 				maskColor: 'rgba(0, 0, 0, 0.5)',
 				maskOpacity: 0.2,
 			},
@@ -409,14 +409,14 @@ export default {
 						setTimeout(() => {
 							this.scrollFunc()
 						}, 300)
-						// this.$nextTick(() => {
-						//   console.log("piczoom :", this.$refs.picZoom);
-						//   // setTimeout(() => {
-						//     this.$refs.picZoom.forEach(it => {
-						//       it.initTime();
-						//     });
-						//   // }, 300);
-						// });
+						this.$nextTick(() => {
+						  console.log("piczoom :", this.$refs.picZoom);
+						  // setTimeout(() => {
+						    this.$refs.picZoom.forEach(it => {
+						      it.initTime();
+						    });
+						  // }, 300);
+						});
 
 						this.idCardList.forEach(it => {
 							console.log(it)
@@ -426,11 +426,11 @@ export default {
 				})
 		},
 		scrollFunc() {
-			// this.$refs.picZoom.forEach(it => {
-			//   setTimeout(() => {
-			//     it.initTime();
-			//   }, 300);
-			// });
+			this.$refs.picZoom.forEach(it => {
+			  setTimeout(() => {
+			    it.initTime();
+			  }, 300);
+			});
 		},
 		screenLoader() {
 			this.waiter = this.$loading({
@@ -449,16 +449,16 @@ export default {
 		this.subViewType = this.$route.query.subViewType
 		this.auditStatus = 0
 		this.getRecheckDetail()
-		// if (document.addEventListener) {
-		// 	document.addEventListener('DOMMouseScroll', this.scrollFunc)
-		// }
-		// //IE及其他浏览器
-		// window.onmousewheel = document.onmousewheel = this.scrollFunc
+		if (document.addEventListener) {
+			document.addEventListener('DOMMouseScroll', this.scrollFunc)
+		}
+		//IE及其他浏览器
+		window.onmousewheel = document.onmousewheel = this.scrollFunc
 	},
 	created() {},
 	components: {
-		// PicZoom,
-		vZoom,
+		PicZoom,
+		// vZoom,
 		scrollY,
 		audit,
 		passview,
@@ -713,7 +713,7 @@ $themeColor: #193b8c;
 		background-repeat: no-repeat;
 		background-size: 100%;
 		background-position: 100% 100%;
-		position: absolute;
+		position: fixed;
 		top: 20%;
 		cursor: pointer;
 		&:hover {
@@ -722,7 +722,7 @@ $themeColor: #193b8c;
 	}
 	.arrow_left {
 		top: 20%;
-		left: -90px;
+		left: calc(50vw - 690px);
 		width: 120px;
 		height: 120px;
 		&:after {
@@ -742,7 +742,7 @@ $themeColor: #193b8c;
 	}
 	.arrow_right {
 		top: 20%;
-		right: -90px;
+		right: calc(50vw - 690px);
 		width: 120px;
 		height: 120px;
 		&:after {
