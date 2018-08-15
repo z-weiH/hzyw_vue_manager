@@ -454,6 +454,14 @@ let router = new Router({
           },
         },
         {
+          path: 'summitEvidence',
+          component: () =>
+            import ('@/views/order/summitEvidence'), // 订单管理 - 提交证据
+          meta: {
+            name: 'orderManagement',
+          },
+        },
+        {
           path: 'fastTrack',
           component: () =>
             import ('@/views/order/fastTrack'), // 快速通道

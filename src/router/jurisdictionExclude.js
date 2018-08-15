@@ -19,4 +19,7 @@ export default [
   '/parameterList', // 模板设置 - 参数列表
   '/main/productList', // 客户管理 - 产品列表
   '/main/balanceQueryDetail', // 账户余额查询 - 子页面
+
+  '/main/summitEvidence', // 订单管理 - 提交证据
+  '/ruleBase', // 规则库
 ]
