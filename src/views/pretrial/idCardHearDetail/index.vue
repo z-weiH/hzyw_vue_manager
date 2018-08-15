@@ -6,6 +6,10 @@
       <div class="header">
         <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
         <span class="header_title">身份证审核</span>
+
+        <span></span>
+
+
         <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>
         <template v-if="disabled">
           <el-radio v-model="passStatus" :label="0">全部</el-radio>
