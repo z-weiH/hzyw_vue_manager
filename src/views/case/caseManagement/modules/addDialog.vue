@@ -345,26 +345,37 @@
               <el-button @click="handleAddEvidence" size="mini" type="primary">新增证据</el-button>
             </div>
           </div>
-          <el-table
-            :data="ruleForm.evidences"
-            border
+          <table
+            class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover"
           >
-            <el-table-column prop="date" label="序号" width="50px">
-              <template slot-scope="scope">
-                {{scope.$index + 1}}
+            <tr>
+              <td colspan="1">序号</td>
+              <td colspan="1">证据名称</td>
+              <td colspan="1">证据来源</td>
+              <td colspan="1">格式</td>
+              <td colspan="1">页数</td>
+              <td colspan="1">证明对象</td>
+              <td colspan="1">操作</td>
+            </tr>
+
+            <template v-for="(item,index) in ruleForm.evidences" >
+              <!-- 循环 证据list -->
+              <template v-for="(details,index2) in item.details">
+                <tr :key="index + '' + index2">
+                  <td v-if="index2 === 0" colspan="1" :rowspan="item.details.length">{{item.sortNum}}</td>
+                  <td colspan="1">{{details.eviTitle}}</td>
+                  <td colspan="1">{{details.eviSource}}</td>
+                  <td colspan="1">{{details.eviFormat}}</td>
+                  <td colspan="1">{{details.eviPage}}</td>
+                  <td v-if="index2 === 0" colspan="1" :rowspan="item.details.length">{{item.eviObject}}</td>
+                  <td colspan="1">
+                    <a class="underline" target="_blank" :href="details.eviFileurl">详情</a>
+                  </td>
+                </tr>
               </template>
-            </el-table-column>
-            <el-table-column prop="eviTitle" label="证据名称"></el-table-column>
-            <el-table-column prop="eviSource" label="证据来源"></el-table-column>
-            <el-table-column prop="eviFormat" label="形式"></el-table-column>
-            <el-table-column prop="eviPage" label="页数"></el-table-column>
-            <el-table-column prop="eviObject" label="证明对象"></el-table-column>
-            <el-table-column label="操作">
-              <template slot-scope="scope">
-                <a class="underline" target="_blank" :href="scope.row.eviFileurl">详情</a>
-              </template>
-            </el-table-column>
-          </el-table>
+            </template>
+          </table>
+
           <el-form-item class="evidences-item" label=" " prop="evidences">
           </el-form-item>
           <div class="mt-20">
@@ -634,6 +645,7 @@
       },
       // 新增证据 成功回调
       successCBK(row) {
+        row.sortNum = this.ruleForm.evidences.length + 1;
         this.ruleForm.evidences.push(row);
         // 重新校验
         this.$refs.ruleForm.validateField('evidences');
@@ -651,10 +663,7 @@
           if(valid) {
             let formData = new FormData();
             let form = {...this.ruleForm};
-            form.evidences = JSON.stringify(form.evidences.map((v,k) => {
-              v.sortNum = k + 1;
-              return v;
-            }));
+            form.evidences = JSON.stringify(form.evidences);
             for(let key in form) {
               formData.append(key,form[key]);
             }
