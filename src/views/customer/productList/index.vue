@@ -27,7 +27,13 @@
           </template>
         </el-table-column>
         <el-table-column prop="prodCode" label="产品编码"></el-table-column>
-        <el-table-column prop="busiName" label="业务类型"></el-table-column>
+        <el-table-column prop="busiName" label="业务类型">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.busiName" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.busiName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="platName" label="借款平台"></el-table-column>
         <el-table-column prop="extraPhones" label="协商电话">
           <template slot-scope="scope">
