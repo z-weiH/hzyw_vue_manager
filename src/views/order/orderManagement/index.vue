@@ -56,7 +56,13 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="platName" label="所属平台名称"></el-table-column>
+        <el-table-column prop="platName" label="所属平台名称">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.platName" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.platName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column prop="orderStatusCn" label="案件状态"></el-table-column>
         <el-table-column prop="createTime" label="订单提交时间">
