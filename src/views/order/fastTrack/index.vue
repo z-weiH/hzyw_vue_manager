@@ -30,13 +30,20 @@
         </el-form-item>
 
         <el-form-item style="display:inline-block;" label=" " prop="busiCode">
-          <el-select clearable class="mr-10" style="width:150px;" v-model="ruleForm.busiCode" placeholder="请选择业务">
+          <el-select @change="handleChange" clearable class="mr-10" style="width:150px;" v-model="ruleForm.busiCode" placeholder="请选择业务">
             <template v-for="(item,index) in busiOptions">
               <el-option :key="item.id + index" :label="item.desc" :value="item.id"></el-option>
             </template>
           </el-select>
         </el-form-item>
 
+        <el-form-item v-if="ruleForm.busiCode === 'SUBMIT'" style="display:inline-block;" label=" " prop="prodCode">
+          <el-select clearable class="mr-10" style="width:150px;" v-model="ruleForm.prodCode" placeholder="请选择产品">
+            <template v-for="(item,index) in prodOptions">
+              <el-option :key="item.prodCode + index" :label="item.prodName" :value="item.prodCode"></el-option>
+            </template>
+          </el-select>
+        </el-form-item>
 
         <el-button @click="handleSearch" type="warning">提交</el-button>
       </el-form>
@@ -88,6 +95,8 @@
           merchantCode : '',
           // 业务编码
           busiCode : '',
+          // 产品 id
+          prodCode : '',
         },
         rules : {
           loanBillNos : [
@@ -126,6 +135,8 @@
           {desc : 'SUBMIT' , id : 'SUBMIT'},
           {desc : 'APPLICATION' , id : 'APPLICATION'},
         ],
+        // 产品 option
+        prodOptions : [],
       }
     },
     mounted() {
@@ -144,13 +155,13 @@
       }).then((res) => {
         this.merchantOptions = res.result.list;
       });
-      // 获取所有 业务编码
-      /* this.$http({
+      // 获取所有产品 option
+      this.$http({
         method : 'post',
-        url : '/fastTrack/queryBusicodeList.htm',
+        url : '/fastTrack/queryProdSelectByClientCode.htm',
       }).then((res) => {
-        this.busiOptions = res.result.list;
-      }); */
+        this.prodOptions = res.result;
+      });
     },
     methods : {
       // 点击搜索
@@ -161,6 +172,11 @@
             this.initTableList();
           }
         });
+      },
+
+      // 业务change
+      handleChange(val) {
+        this.ruleForm.prodCode = '';
       },
 
       // 表格相关 start
@@ -178,6 +194,7 @@
             busiCode	: this.ruleForm.busiCode,
             loanBillNos	: this.ruleForm.loanBillNos,
             merchantCode	: this.ruleForm.merchantCode,
+            prodCode : this.ruleForm.prodCode,
           },
         }).then((res) => {
           this.total = res.result.count;
