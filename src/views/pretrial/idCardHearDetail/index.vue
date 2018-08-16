@@ -55,10 +55,14 @@
       </div>
       <div class="card_body">
         <div class="img zhen fl">
-          <pic-zoom ref="picZoom" :url="card.respondentInfo.image02" :scale="3" :scroll="true"></pic-zoom>
+          <!--<pic-zoom ref="picZoom" :url="card.respondentInfo.image02" :scale="3" :scroll="true"></pic-zoom>-->
+          <img-zoom :src="card.respondentInfo.image02" width="370" height="227" :bigsrc="card.respondentInfo.image02" :configs="configs"></img-zoom>
+          <!--<img :src="card.respondentInfo.image02" alt="" @mouseenter="mouseenterHandle" @mousemove="mousemoveHandle" @mouseleave="mouseleaveHandle">-->
         </div>
         <div class="img fan fl">
-          <pic-zoom ref="picZoom" :url="card.respondentInfo.image01" :scale="3" :scroll="true"></pic-zoom>
+          <img-zoom :src="card.respondentInfo.image01" width="370" height="227" :bigsrc="card.respondentInfo.image01" :configs="configs"></img-zoom>
+
+          <!--<pic-zoom ref="picZoom" :url="card.respondentInfo.image01" :scale="3" :scroll="true"></pic-zoom>-->
         </div>
         <div class="img_desc fl" style="max-width: 380px">
           <ul>
@@ -131,6 +135,7 @@ import audit from "../signatureHearDetail/modules/audit";
 import Mixins from "@/components/script/_mixin";
 import PicZoom from "@/components/Piczoom";
 import closeDlg from "@/components/closeDlg";
+import imgZoom from "@/components/v-zoom"
 export default {
   extends: Mixins,
   data() {
@@ -154,6 +159,19 @@ export default {
         count: 0
       },
       selValue: null,
+
+      //放大鏡涉案hi之
+      configs: {
+        width:370,
+        height:227,
+        maskWidth:123,
+        maskHeight:75.5,
+        maskColor:'#fff',
+        maskOpacity:0.2
+      },
+
+
+
     };
   },
   computed: {
@@ -175,6 +193,7 @@ export default {
     }
   },
   methods: {
+
     //审核意见
     HandleShow(card) {
       console.log(window.opener)
@@ -328,29 +347,30 @@ export default {
             }else{
               document.documentElement.querySelector('.body_container').scrollTo(0,0);
             }
-            setTimeout(()=>{
-              this.scrollFunc();
-            },300)
+            // setTimeout(()=>{
+            //   this.scrollFunc();
+            // },300)
           }
           loading.close();
 
         });
     },
-    scrollFunc() {
-      this.$refs.picZoom.forEach(it => {
-        // this.pager.currentNum = Math.ceil(this.markflag/20);
-        // if(this.pager.currentNum === 0)
-        //   this.pager.currentNum = 1;
-        setTimeout(()=> {
-          it.initTime()
-        },300)
-      })
-    }
+    // scrollFunc() {
+    //   this.$refs.picZoom.forEach(it => {
+    //     // this.pager.currentNum = Math.ceil(this.markflag/20);
+    //     // if(this.pager.currentNum === 0)
+    //     //   this.pager.currentNum = 1;
+    //     setTimeout(()=> {
+    //       it.initTime()
+    //     },300)
+    //   })
+    // }
   },
   components: {
     audit,
     PicZoom,
-    closeDlg
+    closeDlg,
+    imgZoom
   },
   mounted() {
     this.subBatchNo = this.$route.query.subBatchNo;
@@ -363,11 +383,11 @@ export default {
     this.HandleQuery(true);
     console.log(window.opener);
     // window.onscroll = this.scrollFunc
-    if(document.addEventListener){
-      document.addEventListener('DOMMouseScroll',this.scrollFunc,);
-    }
-//IE及其他浏览器
-    window.onmousewheel = document.onmousewheel=this.scrollFunc;
+//     if(document.addEventListener){
+//       document.addEventListener('DOMMouseScroll',this.scrollFunc,);
+//     }
+// //IE及其他浏览器
+//     window.onmousewheel = document.onmousewheel=this.scrollFunc;
   }
 };
 </script>
