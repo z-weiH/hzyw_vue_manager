@@ -155,10 +155,9 @@
             // 提交数据
             let formData = new FormData();
             this.ruleForm.evidenceList.map((v,k) => {
-              formData.append(`files${k}`,v.file);
+              formData.append(`files`,v.file);
             });
             // 拼接 额外字段
-            formData.append('length',this.ruleForm.evidenceList.length);
             formData.append('fileName',this.ruleForm.evidenceList.map(v => v.fileName).join(','));
 
 						this.submitDisabled = true;
