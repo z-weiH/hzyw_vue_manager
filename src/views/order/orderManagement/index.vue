@@ -103,6 +103,8 @@
       <dialogDetail ref="dialogDetail"></dialogDetail>
       <!-- 修改 dialog -->
       <editDialog @successCBK="successCBK" ref="editDialog"></editDialog>
+      <!-- 证据 dialgo -->
+      <evidenceDialog ref="evidenceDialog"></evidenceDialog>
     </div>
 
   </div>
@@ -112,11 +114,13 @@
   import timeFrame from '@/components/timeFrame.vue'
   import dialogDetail from './modules/detail.vue'
   import editDialog from './modules/editDialog.vue'
+  import evidenceDialog from './modules/evidenceDialog.vue'
   export default {
     components : {
       timeFrame,
       dialogDetail,
       editDialog,
+      evidenceDialog,
     },
     data() {
       return {
@@ -202,7 +206,7 @@
       },
       // 点击证据 按钮
       handleSubmitEvidence() {
-        this.$router.push('summitEvidence');
+        this.$refs.evidenceDialog.show();
       },
 
       // 表格相关 start
