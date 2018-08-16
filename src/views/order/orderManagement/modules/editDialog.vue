@@ -8,7 +8,7 @@
 			ref="dialog"
     >
       <div class="m-conetnt">
-        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
+        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="110px">
 
           <el-form-item label="用户类型：" prop="type">
             <el-select @change="handleChange" clearable style="width:100%;" v-model="ruleForm.type" placeholder="请选择用户类型">
@@ -18,8 +18,12 @@
           </el-form-item>
 
           <!-- 自然人 -->
-          <template v-if="ruleForm.type === 0">
-            <el-form-item label="姓名：" prop="name">
+          <div key="1" v-if="ruleForm.type === 0">
+            <el-form-item label="姓名：" prop="name"
+              :rules="[
+                {required : true , message : '请输入姓名' , trigger : 'blur'}
+              ]"
+            >
 						  <el-input v-model.trim="ruleForm.name" placeholder="请输入"></el-input>
 					  </el-form-item>
 
@@ -46,21 +50,37 @@
 						  {{ruleForm.idtype === 0 ? '身份证' : '营业执照'}}
 					  </el-form-item>
 
-            <el-form-item label="证件号码：" prop="idcard">
+            <el-form-item label="证件号码：" prop="idcard"
+              :rules="[
+                {required : true , message : '请输入证件号码' , trigger : 'blur'}
+              ]"
+            >
 						  <el-input v-model.trim="ruleForm.idcard" placeholder="请输入"></el-input>
 					  </el-form-item>
 
-            <el-form-item label="证件地址：" prop="idAddress">
+            <el-form-item label="证件地址：" prop="idAddress"
+              :rules="[
+                {required : true , message : '请输入证件地址' , trigger : 'blur'}
+              ]"
+            >
 						  <el-input v-model.trim="ruleForm.idAddress" placeholder="请输入"></el-input>
 					  </el-form-item>
 
-            <el-form-item label="住址：" prop="address">
+            <el-form-item label="住址：" prop="address"
+              :rules="[
+                {required : true , message : '请输入住址' , trigger : 'blur'}
+              ]"
+            >
 						  <el-input v-model.trim="ruleForm.address" placeholder="请输入"></el-input>
 					  </el-form-item>
-          </template>
+          </div>
           <!-- 企业 -->
-          <template v-else>
-            <el-form-item label="企业名称：" prop="name">
+          <div key="2" v-else>
+            <el-form-item label="企业名称：" prop="name"
+              :rules="[
+                {required : true , message : '请输入企业名称' , trigger : 'blur'}
+              ]"
+            >
 						  <el-input v-model.trim="ruleForm.name" placeholder="请输入"></el-input>
 					  </el-form-item>
 
@@ -68,11 +88,19 @@
 						  {{ruleForm.idtype === 0 ? '身份证' : '营业执照'}}
 					  </el-form-item>
 
-            <el-form-item label="证件号码：" prop="idcard">
+            <el-form-item label="证件号码：" prop="idcard"
+              :rules="[
+                {required : true , message : '请输入证件号码' , trigger : 'blur'}
+              ]"
+            >
 						  <el-input v-model.trim="ruleForm.idcard" placeholder="请输入"></el-input>
 					  </el-form-item>
 
-            <el-form-item label="注册地址：" prop="idAddress">
+            <el-form-item label="注册地址：" prop="idAddress"
+              :rules="[
+                {required : true , message : '请输入注册地址' , trigger : 'blur'}
+              ]"
+            >
 						  <el-input v-model.trim="ruleForm.idAddress" placeholder="请输入"></el-input>
 					  </el-form-item>
 
@@ -92,11 +120,15 @@
 						  <el-input v-model.trim="ruleForm.email" placeholder="请输入"></el-input>
 					  </el-form-item>
 
-            <el-form-item label="通讯地址：" prop="address">
+            <el-form-item label="通讯地址：" prop="address"
+              :rules="[
+                {required : true , message : '请输入通讯地址' , trigger : 'blur'}
+              ]"
+            >
 						  <el-input v-model.trim="ruleForm.address" placeholder="请输入"></el-input>
 					  </el-form-item>
 
-          </template>
+          </div>
           
         </el-form>
       </div>
@@ -110,6 +142,7 @@
 </template>
 
 <script>
+  import reg from '@/assets/js/regexp'
   export default {
     data() {
       return {
@@ -147,8 +180,25 @@
           sex : '',
         },
         rules : {
-          demo : [
-            {required : true , message : '请选择互金企业' , trigger : 'change'},
+          sex : [
+            {required : true , message : '请选择性别' , trigger : 'change'},
+          ],
+          nation : [
+            {required : true , message : '请输入民族' , trigger : 'blur'},
+          ],
+          phone : [
+            {required : true , message : '请输入手机号' , trigger : 'blur'},
+            {pattern : reg.tel , message : '手机号格式有误' , trigger : 'blur'},
+          ],
+          email : [
+            {required : true , message : '请输入邮箱' , trigger : 'blur'},
+            {pattern : reg.email , message : '邮箱格式有误' , trigger : 'blur'},
+          ],
+          legaler : [
+            {required : true , message : '请输入法定代表人' , trigger : 'blur'},
+          ],
+          position : [
+            {required : true , message : '请输入职位' , trigger : 'blur'},
           ],
         },
 
