@@ -163,6 +163,7 @@
             formData.append('fileIds',this.ruleForm.evidenceList.map(v => v.fileIds).join(','));
             formData.append('clientCode',this.data.merchantCode);
             formData.append('loanbillno',this.data.loanBillNo);
+            formData.append('caseOrderId',this.data.caseOrderId);
 
 						this.submitDisabled = true;
 						this.$http({

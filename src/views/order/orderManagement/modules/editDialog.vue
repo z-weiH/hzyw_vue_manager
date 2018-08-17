@@ -214,6 +214,7 @@
         this.$nextTick(() => {
           this.$refs.dialog.$el.scrollTop = 0;
         });
+        this.data = data;
 
         // 获取数据
         this.$http({
@@ -269,7 +270,8 @@
               method : 'post',
               url : '/ordermanage/modifyRespondentInfo.htm',
               data : {
-                ...this.ruleForm
+                ...this.ruleForm,
+                caseOrderId : this.data.caseOrderId,
               },
             }).then((res) => {
               this.$message.success('修改成功');
