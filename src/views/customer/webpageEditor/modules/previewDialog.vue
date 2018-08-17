@@ -107,8 +107,8 @@
             content = content.replace(/&gt;/g,'>');
             content = content.replace(/&quot;/g,'"');
             content = content.replace(/&nbsp;/g,'');
-            content = content.replace(/<a>/g,'');
-            content = content.replace(/<\/a>/g,'');
+            /* content = content.replace(/<a>/g,'');
+            content = content.replace(/<\/a>/g,''); */
             this.$http({
               url : '/templateSetting/reviewTemplateContent.htm',
               method : 'post',
@@ -127,7 +127,7 @@
               this.loading.close();
               win.location.href = res.result;
             }).catch(() => {
-              this.$message.warning('生成失败');
+              //this.$message.warning('生成失败');
               this.loading.close();
               win.close();
             });
