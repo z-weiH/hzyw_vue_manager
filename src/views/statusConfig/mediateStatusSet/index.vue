@@ -14,7 +14,7 @@
           调解状态设置列表
         </div>
         <div class='item-table'>
-           <table-component :needCheckbox="true" @slectionChange="slectionChange" :pager="pager" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize"  @refreshList="doQuery(this.queryUrl, this.item)"  :table-data="tableData" :column-define="columnDefine"  >
+           <table-component :needCheckbox="true" @slectionChange="slectionChange" :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)"  :table-data="tableData" :column-define="columnDefine">
               <el-table-column label="操作" slot="defineCol" width="126">
                  <template slot-scope="scope">
                      <el-button size="mini" @click="multiUnfreeZe(1,scope.row)">解冻</el-button>

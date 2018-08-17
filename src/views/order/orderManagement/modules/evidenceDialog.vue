@@ -31,12 +31,12 @@
               </el-col>
               <el-col :span="12">
                 <el-form-item label="" 
-                  :prop="`evidenceList[${index}].fileName`"
+                  :prop="`evidenceList[${index}].fileIds`"
                   :rules="[
                     {required : true , message : '请选择' , trigger : 'change'}
                   ]"
                 >
-                  <el-select clearable style="width:200px;" v-model="item.fileName" placeholder="请选择">
+                  <el-select clearable style="width:200px;" v-model="item.fileIds" placeholder="请选择">
                     <el-option :label="item2.name" :value="item2.code" v-for="(item2,index2) in evidenceOption" :key="index2"></el-option>
                   </el-select>
                 </el-form-item>
@@ -70,7 +70,7 @@
     // 文件名称
     uploadName : '',
     // 下拉选
-    fileName : '',
+    fileIds : '',
   };
   export default {
     data() {
@@ -111,6 +111,7 @@
         this.$nextTick(() => {
           this.$refs.dialog.$el.scrollTop = 0;
         });
+        this.data = data;
       },
 
       // 点击文件上传
@@ -126,6 +127,7 @@
           this.$message.error('文件格式有误');
           return;
         }
+        event.target.value = '';
         
         this.ruleForm.evidenceList[index].file = file;
         this.ruleForm.evidenceList[index].uploadName = file.name;
@@ -158,7 +160,9 @@
               formData.append(`files`,v.file);
             });
             // 拼接 额外字段
-            formData.append('fileName',this.ruleForm.evidenceList.map(v => v.fileName).join(','));
+            formData.append('fileIds',this.ruleForm.evidenceList.map(v => v.fileIds).join(','));
+            formData.append('clientCode',this.data.merchantCode);
+            formData.append('loanbillno',this.data.loanBillNo);
 
 						this.submitDisabled = true;
 						this.$http({
