@@ -28,7 +28,7 @@
                 <template v-if="(index > (
                     activeName === '0' ? 5 :
                     activeName === '1' ? 2 : -1
-                  )) && (item.active === true)">
+                  )) && (item.active === true) && (item.addType === 0)">
                   <el-button @click="handleEdit(item)" type="text">修改</el-button>
                   <span>|</span>
                   <el-button @click="handleDelete(item)" type="text">删除</el-button>
@@ -57,7 +57,7 @@
         list : [
           /* {
             // 原因
-            reasonMsg : '', 
+            reasonMsg : '',
             // id
             reasonId : '',
             // 类型 0-身份证意见，1-签名意见，2-证据意见
@@ -143,7 +143,7 @@
     padding-left: 25px;
     padding-right: 25px;
     .tabs-box{
-      
+
     }
     .add-button{
       position: absolute;
