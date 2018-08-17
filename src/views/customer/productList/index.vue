@@ -34,7 +34,13 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="platName" label="借款平台"></el-table-column>
+        <el-table-column prop="platName" label="借款平台">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.platName" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.platName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="extraPhones" label="协商电话">
           <template slot-scope="scope">
             <el-tooltip :content="scope.row.extraPhones" placement="top-start">
