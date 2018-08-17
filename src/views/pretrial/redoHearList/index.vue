@@ -10,7 +10,7 @@
       案件列表
     </div>
     <div class='item-table'>
-      <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine">
+      <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine" >
         <!-- slot批次状态 -->
         <el-table-column label="批次状态"  slot="defineCol" width="100px">
             <template slot-scope="scope" >
@@ -49,6 +49,7 @@ import {compileStr,uncompileStr} from '@/assets/js/tool';
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
+import {mapGetters} from 'vuex';
 export default {
   name: "redoHearList",
   extends: Mixins,
@@ -62,7 +63,6 @@ export default {
       fpersonType: {
         type: "OPERATOR" //初审人类型
       },
-      searchItem: {},
       searchItems: [
         {
           type: "text",
@@ -129,6 +129,15 @@ export default {
       ]
     };
   },
+  computed: {
+    ...mapGetters(['searchItem'])
+  },
+  watch:{
+    total(val,oldval){
+      console.log(val,123)
+      this.pager.total = val;
+    }
+  },
   methods: {
     queryFirstPerson(url, item) {
       this.query(url, item).then(res => {
@@ -145,6 +154,8 @@ export default {
     gotoLargeTs(row) {
       //大批次审核
       console.info("row::::", row);
+      // localStorage.setItem("redoHearSearchItem",JSON.stringify(this.searchItem));
+      this.$store.commit('setSearchItem',this.searchItem);
       this.$router.push({
         path: "/main/redoHearDetail",
         query: {
@@ -154,17 +165,20 @@ export default {
       });
     }
   },
+
   mounted() {
     this.queryFirstPerson(this.queryFirstPersonURL, this.fpersonType);
 
     setTimeout(() => {
-      this.doQuery(this.queryUrl, this.item);
+      this.doQuery(this.queryUrl, this.searchItem);
     },500);
   },
   components: {
     Searchs,
     TableComponent
-  }
+  },
+
+
 };
 </script>
 

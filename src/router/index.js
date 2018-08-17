@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from '../store/index'
 
 import {
   Message
@@ -454,6 +455,14 @@ let router = new Router({
           },
         },
         {
+          path: 'summitEvidence',
+          component: () =>
+            import ('@/views/order/summitEvidence'), // 订单管理 - 提交证据
+          meta: {
+            name: 'orderManagement',
+          },
+        },
+        {
           path: 'fastTrack',
           component: () =>
             import ('@/views/order/fastTrack'), // 快速通道
@@ -867,7 +876,7 @@ let router = new Router({
         name: 'ruleBase',
       },
     },
-    
+
   ]
 })
 
@@ -930,6 +939,12 @@ router.beforeEach((to, from, next) => {
 /* 后置钩子 */
 router.afterEach((to, from) => {
   NProgress.done();
+
+  if(to.path === '/main/redoHearList'){
+    if(from.path !== "/main/redoHearDetail"){
+      store.commit("setSearchItem",{})
+    }
+  }
 });
 
 export default router

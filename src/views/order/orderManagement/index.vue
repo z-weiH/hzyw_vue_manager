@@ -56,7 +56,13 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="platName" label="所属平台名称"></el-table-column>
+        <el-table-column prop="platName" label="所属平台名称">
+          <template slot-scope="scope">
+            <el-tooltip :content="scope.row.platName" placement="top-start">
+              <span class="ellipsis" style="max-width:108px;">{{scope.row.platName}}</span>
+            </el-tooltip>
+          </template>
+        </el-table-column>
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column prop="orderStatusCn" label="案件状态"></el-table-column>
         <el-table-column prop="createTime" label="订单提交时间">
@@ -73,9 +79,17 @@
             </el-tooltip>
           </template>
         </el-table-column>
+        <el-table-column prop="applicationUrl" label="仲裁申请书" width="100px">
+          <template slot-scope="scope">
+            <a v-if="scope.row.applicationUrl" target="_blank" :href="scope.row.applicationUrl">查看</a>
+            <span v-else>--</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button @click="handleReset(scope.row)" type="text">重新提交</el-button>
+            <!-- <el-button @click="handleReset(scope.row)" type="text">重新提交</el-button> -->
+            <el-button @click="handleEditClaimant(scope.row)" type="text">修改</el-button>
+            <el-button @click="handleSubmitEvidence(scope.row)" type="text">证据</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -93,6 +107,10 @@
 
       <!-- 详情弹出框 -->
       <dialogDetail ref="dialogDetail"></dialogDetail>
+      <!-- 修改 dialog -->
+      <editDialog @successCBK="successCBK" ref="editDialog"></editDialog>
+      <!-- 证据 dialgo -->
+      <evidenceDialog ref="evidenceDialog"></evidenceDialog>
     </div>
 
   </div>
@@ -101,10 +119,14 @@
 <script>
   import timeFrame from '@/components/timeFrame.vue'
   import dialogDetail from './modules/detail.vue'
+  import editDialog from './modules/editDialog.vue'
+  import evidenceDialog from './modules/evidenceDialog.vue'
   export default {
     components : {
       timeFrame,
       dialogDetail,
+      editDialog,
+      evidenceDialog,
     },
     data() {
       return {
@@ -179,6 +201,18 @@
         }).then((res) => {
           this.$message.success('重新提交成功');
         });
+      },
+      // 修改被申请人 
+      handleEditClaimant(row) {
+        this.$refs.editDialog.show(row);
+      },
+      // 修改被申请人 成功回调
+      successCBK() {
+        this.handleSearch();
+      },
+      // 点击证据 按钮
+      handleSubmitEvidence() {
+        this.$refs.evidenceDialog.show();
       },
 
       // 表格相关 start

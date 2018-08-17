@@ -23,7 +23,9 @@
           {{ruleForm.templateStatus === 1 ? '停用' : '启用'}}
         </el-button>
         <span class="remarks ellipsis">
-          {{ruleForm.remark}}
+          <el-tooltip :content="ruleForm.remark" placement="top">
+            <span style="max-width:270px;" class="ellipsis">{{ruleForm.remark}}</span>
+          </el-tooltip>
         </span>
         <span>仲裁服务费：</span>
         <el-select @change="handleArbFeeStatus" style="width:130px;" v-model="ruleForm.arbFeeStatus" class="mr-10">
