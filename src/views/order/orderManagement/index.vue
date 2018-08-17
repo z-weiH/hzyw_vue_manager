@@ -211,8 +211,8 @@
         this.handleSearch();
       },
       // 点击证据 按钮
-      handleSubmitEvidence() {
-        this.$refs.evidenceDialog.show();
+      handleSubmitEvidence(row) {
+        this.$refs.evidenceDialog.show(row);
       },
 
       // 表格相关 start
