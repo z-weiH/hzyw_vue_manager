@@ -127,6 +127,7 @@
           this.$message.error('文件格式有误');
           return;
         }
+        event.target.value = '';
         
         this.ruleForm.evidenceList[index].file = file;
         this.ruleForm.evidenceList[index].uploadName = file.name;
