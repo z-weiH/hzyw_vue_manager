@@ -239,7 +239,7 @@
                 baseId : v1.baseId,
                 eviTitle : v1.evidenceNameInput,
                 signStatus : v1.signStatus,
-                sortIndex : k1,
+                sortIndex : k1 + 1,
               }
               return obj;
             });
