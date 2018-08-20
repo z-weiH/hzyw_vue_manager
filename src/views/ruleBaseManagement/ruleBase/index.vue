@@ -53,54 +53,58 @@
         </el-menu>
       </div>
       <div class="fl m-right" style="height: 100%;">
-        <div class="rule_title">
-          {{currentRule}}
-        </div>
-        <div class="rule_body">
-          <div class="rule_desc">
-            <el-button style="margin-top: 5px;" class="fr" icon="el-icon-plus"  type="primary" plain @click="handleCreate">添加规则</el-button>
-            <span>规则列表</span>
-            （共{{pager.count}}条)
+        <img src="@/assets/img/no_rule.png" alt="" v-if="pager.count === 0">
+        <template v-if="pager.count > 0">
+          <div class="rule_title">
+            {{currentRule}}
           </div>
-          <ul class="rule_list">
-            <li class="rule_item" v-for="(rule,index) in ruleList" :key="index">
-              <div class="ruleDesc">
-                <div class="btns fr">
-                  <span class="edit_btn colLink" @click="handleEdit(rule)">编辑</span>
-                  <span class="delete_btn colLink" @click="handleDelete(rule)">删除</span>
+          <div class="rule_body">
+            <div class="rule_desc">
+              <el-button style="margin-top: 5px;" class="fr" icon="el-icon-plus"  type="primary" plain @click="handleCreate">添加规则</el-button>
+              <span>规则列表</span>
+              （共{{pager.count}}条)
+            </div>
+            <ul class="rule_list">
+              <li class="rule_item" v-for="(rule,index) in ruleList" :key="index">
+                <div class="ruleDesc">
+                  <div class="btns fr">
+                    <span class="edit_btn colLink" @click="handleEdit(rule)">编辑</span>
+                    <span class="delete_btn colLink" @click="handleDelete(rule)">删除</span>
+                  </div>
+                  <b >{{(pager.currentNum-1) * 5 + index + 1}}.</b>
+                  <span>{{rule.ruleDesc}}</span>
                 </div>
-                <b >{{(pager.currentNum-1) * 5 + index + 1}}.</b>
-                <span>{{rule.ruleDesc}}</span>
-              </div>
-              <div class="auditOpinion">
-                <span class="rule_title_desc">审核意见</span>
-                <span>{{rule.auditOpinion}}</span>
-              </div>
-              <div class="modularType">
-                <span class="rule_title_desc">所属模块</span>
-                <!--1-身份证，2-签名，3-证据链-->
-                <span>{{rule.modularType == 1 ? "身份证" : rule.modularType == 2 ? "签名" : "证据链"}}模块</span>
-              </div>
-              <div class="ruleInfo">
-                <span class="rule_title_desc">规则代码</span>
-                <span>{{rule.ruleInfo}}</span>
-              </div>
+                <div class="auditOpinion">
+                  <span class="rule_title_desc">审核意见</span>
+                  <span>{{rule.auditOpinion}}</span>
+                </div>
+                <div class="modularType">
+                  <span class="rule_title_desc">所属模块</span>
+                  <!--1-身份证，2-签名，3-证据链-->
+                  <span>{{rule.modularType == 1 ? "身份证" : rule.modularType == 2 ? "签名" : "证据链"}}模块</span>
+                </div>
+                <div class="ruleInfo">
+                  <span class="rule_title_desc">规则代码</span>
+                  <span>{{rule.ruleInfo}}</span>
+                </div>
 
 
-            </li>
-          </ul>
+              </li>
+            </ul>
 
-          <div class="pagination clear">
-            <el-pagination
-              @current-change="handleCurrentChange"
-              :current-page="pager.currentNum"
-              :page-size="5"
-              layout="prev, pager, next, jumper, total"
-              :total="pager.count">
-            </el-pagination>
+            <div class="pagination clear">
+              <el-pagination
+                @current-change="handleCurrentChange"
+                :current-page="pager.currentNum"
+                :page-size="5"
+                layout="prev, pager, next, jumper, total"
+                :total="pager.count">
+              </el-pagination>
+            </div>
+
           </div>
+        </template>
 
-        </div>
 
 
       </div>
@@ -526,6 +530,9 @@
     margin-top: 10px;
     .m-left{
       width: 300px;
+      overflow-x:hidden;
+      min-height: calc(100vh - 100px);
+      background: transparent;
     }
     .m-right{
       width: 890px;
