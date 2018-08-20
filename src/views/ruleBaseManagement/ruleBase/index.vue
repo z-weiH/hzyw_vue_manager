@@ -391,7 +391,7 @@
         }).then(res => {
           if(res){
             //刪除接口
-            this.$http.post("/ruleBase/deletedByRuleId.htm",{ruleId: rule.ruleId}).then(r => {
+            this.$http.post("/ruleBase/deletedByRuleId.htm",{ruleId: rule.ruleId,reasonId: rule.reasonId}).then(r => {
               console.log(r);
               if(r.code === '0000'){
                 this.handleNodeClick(this.currentMenu);
@@ -407,7 +407,7 @@
         this.$nextTick(()=> {
           this.$refs.createForm.resetFields();
         });
-        this.form = {cengji: this.currentMenu.labelName , levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel}
+        this.form = {cengji: this.currentMenu.labelName , levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,modularType:null}
       },
       // 保存
       HandleSave(){
