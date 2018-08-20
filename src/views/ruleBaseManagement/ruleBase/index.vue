@@ -66,8 +66,8 @@
             <li class="rule_item" v-for="(rule,index) in ruleList" :key="index">
               <div class="ruleDesc">
                 <div class="btns fr">
-                  <span class="edit_btn colLink" @click="handleEdit">编辑</span>
-                  <span class="delete_btn colLink" @click="handleDelete">删除</span>
+                  <span class="edit_btn colLink" @click="handleEdit(rule)">编辑</span>
+                  <span class="delete_btn colLink" @click="handleDelete(rule)">删除</span>
                 </div>
                 <b >{{(pager.currentNum-1) * 5 + index + 1}}.</b>
                 <span>{{rule.ruleDesc}}</span>
@@ -94,11 +94,12 @@
             <el-pagination
               @current-change="handleCurrentChange"
               :current-page="pager.currentNum"
-              :page-size="1"
+              :page-size="5"
               layout="prev, pager, next, jumper, total"
               :total="pager.count">
             </el-pagination>
           </div>
+          <img class="img_loading"  data-copyright="0" data-ratio="0.473257698541329" data-s="300,640" src="https://mmbiz.qpic.cn/mmbiz_png/ymSPPg2nPJPvefsWP0icU1vKWUdgX7PmruTsooXxPSyCadkZXFIDwesErpDQUicenibsEyWvWHCFVCkTtssrnPz4Q/640?wx_fmt=png" data-type="png" data-w="617" />
 
         </div>
 
@@ -114,25 +115,25 @@
       width="495px"
       center>
       <!--<edits ref="edits" :edit-items="createItems" :item="item" :label-width="'120px'"></edits>-->
-      <el-form  ref="edits" :model="form" label-width="100px">
-        <el-form-item label="规则描述：" >
+      <el-form  ref="edits" :model="form" label-width="100px" :rules="rules">
+        <el-form-item label="规则描述：" prop="ruleDesc">
           <el-input v-model="form.ruleDesc" placeholder="请填写规则描述,如“标的金额是否正确”"></el-input>
         </el-form-item>
         <el-form-item label="层级：">
           <el-input v-model="form.cengji" disabled></el-input>
         </el-form-item>
-        <el-form-item label="审核意见：" >
+        <el-form-item label="审核意见：" prop="auditOpinion">
           <el-input v-model="form.auditOpinion" placeholder="请填写审核意见,如“被申请人姓名与身份证不一致”"></el-input>
         </el-form-item>
-        <el-form-item label="模块：">
+        <el-form-item label="模块：" prop="modularType">
           <!--1-身份证，2-签名，3-证据链-->
           <el-select v-model="form.modularType" placeholder="请选择模块">
-            <el-option label="身份证审核" value="1"></el-option>
-            <el-option label="签名审核" value="2"></el-option>
-            <el-option label="证据链审核" value="3"></el-option>
+            <el-option label="身份证审核" :value="1"></el-option>
+            <el-option label="签名审核" :value="2"></el-option>
+            <el-option label="证据链审核" :value="3"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="机审规则：">
+        <el-form-item label="机审规则：" prop="ruleInfo">
           <el-input type="textarea" v-model="form.ruleInfo" :rows="7" placeholder="请填写机审规则"></el-input>
           <div class="rightBtns" >
             <el-button size="mini" @click="handleAvriable">查看参数</el-button>
@@ -240,6 +241,24 @@
         //规则表单
         form: {},
 
+        //表單規則
+        rules: {
+          ruleDesc: [
+            { required: true, message: '请输入规则描述', trigger: 'blur' },
+          ],
+          auditOpinion: [
+            { required: true, message: '请输入审核意见', trigger: 'blur' },
+          ],
+          modularType: [
+            { required: true, message: '请选择模块', trigger: 'blur' },
+          ],
+          ruleInfo: [
+            { required: true, message: '请输入机审规则', trigger: 'blur' },
+          ],
+
+
+        },
+
 
         //执行选择参数
         selectLevel:{}, //选中层级
@@ -344,11 +363,18 @@
       handleAvriable() {
         this.$router.push({path:'/parameterList'});
       },
-      handleEdit() {
-        this.editState = 1;
+      //編輯規則
+      handleEdit(rule) {
+        this.$http.post("/ruleBase/ruleInfoDetailsByRuleId.htm",{ruleId: rule.ruleId}).then(res => {
+          if(res.code ==='0000'){
+            this.editState = 1;
+            this.form = res.result;
+            this.form.cengji = this.currentMenu.labelName;
+          }
+        })
       },
       //删除规则
-      handleDelete(){
+      handleDelete(rule){
         let h = this.$createElement;
         this.$msgbox({
           title: "提示",
@@ -363,28 +389,36 @@
         }).then(res => {
           if(res){
             //刪除接口
-            this.$http.post().then(r => {
-
+            this.$http.post("/ruleBase/deletedByRuleId.htm",{ruleId: rule.ruleId}).then(r => {
+              console.log(r);
             })
           }
         })
       },
+      //添加规则
       handleCreate(){
         this.editState = 2;
         this.form = {cengji: this.currentMenu.labelName , levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel}
       },
+      // 保存
       HandleSave(){
-        this.$http.post("/ruleBase/saveRuleInfo.htm", this.form).then(res => {
-          if(res.code == '0000'){
-            this.$message.success(res.description);
-            this.handleNodeClick(this.currentMenu);
+        this.$refs['edits'].validate((valid) => {
+          if(valid){
+            this.$http.post("/ruleBase/saveRuleInfo.htm", this.form).then(res => {
+              if(res.code == '0000'){
+                this.$message.success(res.description);
+                this.handleNodeClick(this.currentMenu);
+              }
+            })
           }
         })
+
       },
       handleCurrentChange(val){
         this.pager.currentNum = val;
         this.handleNodeClick(this.currentMenu);
       },
+
       handleNodeClick(item){
         let obj = Object.assign({},item);
         obj.children = null;

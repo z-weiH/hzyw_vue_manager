@@ -62,6 +62,9 @@
       save() {
         // console.error(this.item);
         this.item.newsDetail = this.$refs.tinymce.getContent();
+        // let reg = new RegExp("<img class[\s\S]+base64[\s\S]+/>",'g');
+        this.item.newsDetail = this.item.newsDetail.replace(/<img class="img_loading"[^<]+base64[^<]+\/>/g,'');
+        console.log(this.item.newsDetail)
         this.$http.post(URL_JSON['saveNewsDynamicState'],this.item)
           .then(res => {
             if(res.code == '0000'){
