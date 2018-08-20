@@ -17,7 +17,11 @@
 
           <tr>
             <td colspan="1">案件订单编号：</td>
-            <td colspan="1">{{ruleForm.orderInfo.loanBillNo}}</td>
+            <td colspan="1">
+              <el-tooltip :content="ruleForm.orderInfo.loanBillNo" placement="top-start">
+                <span class="ellipsis" style="max-width:185px;" type="text">{{ruleForm.orderInfo.loanBillNo}}</span>
+              </el-tooltip>
+            </td>
             <td colspan="1">所属平台：</td>
             <td colspan="1">{{ruleForm.orderInfo.platName}}</td>
           </tr>
