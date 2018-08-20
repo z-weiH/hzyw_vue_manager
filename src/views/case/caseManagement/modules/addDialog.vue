@@ -364,7 +364,13 @@
                   <td v-if="index2 === 0" colspan="1" :rowspan="item.details.length">{{item.sortNum}}</td>
                   <td colspan="1">{{details.eviTitle}}</td>
                   <td colspan="1">{{details.eviSource}}</td>
-                  <td colspan="1">{{details.eviFormat}}</td>
+                  <td colspan="1">
+                    {{
+                      details.eviFormat === 'PNG' ? '图片':
+                      details.eviFormat === 'PDF' ? 'PDF':
+                      details.eviFormat === 'DOC' ? '文档': ''
+                    }}
+                  </td>
                   <td colspan="1">{{details.eviPage}}</td>
                   <td v-if="index2 === 0" colspan="1" :rowspan="item.details.length">{{item.eviObject}}</td>
                   <td colspan="1">
