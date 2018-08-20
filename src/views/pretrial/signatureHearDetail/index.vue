@@ -93,10 +93,12 @@
       </div>
       <audit :selValue="selValue" :caseId="currentCaseId" :type="1"></audit>
     <closeDlg :message="'已完成签名审核，请关闭本页'" v-if="showCloseDlg"></closeDlg>
+      <!--<rule></rule>-->
     </div>
 </template>
 
 <script>
+import rule from "./modules/rule";
 import audit from "./modules/audit";
 import Mixins from "@/components/script/_mixin";
 import closeDlg from "@/components/closeDlg";
@@ -271,7 +273,8 @@ export default {
   },
   components: {
     audit,
-    closeDlg
+    closeDlg,
+    rule
   },
   mounted() {
     this.subBatchNo = this.$route.query.subBatchNo;

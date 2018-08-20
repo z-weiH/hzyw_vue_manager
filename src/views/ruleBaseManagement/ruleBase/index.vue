@@ -53,18 +53,18 @@
         </el-menu>
       </div>
       <div class="fl m-right" style="height: 100%;">
-        <img src="@/assets/img/no_rule.png" alt="" v-if="pager.count === 0">
-        <template v-if="pager.count > 0">
           <div class="rule_title">
             {{currentRule}}
           </div>
-          <div class="rule_body">
+
+        <div class="rule_body" >
             <div class="rule_desc">
               <el-button style="margin-top: 5px;" class="fr" icon="el-icon-plus"  type="primary" plain @click="handleCreate">添加规则</el-button>
               <span>规则列表</span>
               （共{{pager.count}}条)
             </div>
-            <ul class="rule_list">
+          <img src="@/assets/img/no_rule.png" style="width:100%;" alt="" v-if="pager.count === 0">
+            <ul class="rule_list" v-if="pager.count > 0">
               <li class="rule_item" v-for="(rule,index) in ruleList" :key="index">
                 <div class="ruleDesc">
                   <div class="btns fr">
@@ -92,7 +92,7 @@
               </li>
             </ul>
 
-            <div class="pagination clear">
+            <div class="pagination clear" v-if="pager.count > 0">
               <el-pagination
                 @current-change="handleCurrentChange"
                 :current-page="pager.currentNum"
@@ -103,7 +103,6 @@
             </div>
 
           </div>
-        </template>
 
 
 
