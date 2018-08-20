@@ -203,6 +203,7 @@
     methods : {
       // 点击查询
       handleSearch() {
+        let loading = this.$loading();
         this.$http({
           method : 'post',
           url : '/statistics/queryStatisticsByCondition.htm',
@@ -215,6 +216,9 @@
           },
         }).then((res) => {
           this.ruleForm = Object.assign(this.ruleForm,res.result);
+          loading.close();
+        }).catch(() => {
+          loading.close();
         });
       },
 
