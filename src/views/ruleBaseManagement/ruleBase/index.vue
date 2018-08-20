@@ -24,26 +24,26 @@
         <el-menu
           background-color="#fff"
           text-color="#7C7C7C"
-          active-text-color="#435F9A">
+          active-text-color="#7C7C7C">
           <el-submenu :index="menu.levelId"  v-for="(menu,ii) in treeData" :key="ii">
             <template slot="title">
-              <div @click="handleNodeClick(menu)">{{menu.labelName}}</div>
+              <div @click="handleNodeClick(menu)" :class="{'currentMenu': currentMenu.levelId === menu.levelId}">{{menu.labelName}}</div>
             </template>
             <el-menu-item-group v-for="(sub,index) in menu.children" :key="index">
               <el-submenu :index="sub.levelId">
                 <template slot="title" >
-                  <div @click="handleNodeClick(sub)">
+                  <div @click="handleNodeClick(sub)" :class="{'currentMenu': currentMenu.levelId === sub.levelId}">
                     {{sub.labelName}}
                   </div>
                 </template>
                 <el-menu-item-group v-for="(group,idx) in sub.children" :key="idx">
                   <el-submenu :index="group.levelId">
                     <template slot="title" >
-                      <div @click="handleNodeClick(group)">
+                      <div @click="handleNodeClick(group)" :class="{'currentMenu': currentMenu.levelId === group.levelId}">
                       {{group.labelName}}
                       </div>
                     </template>
-                  <el-menu-item :index="item.levelId" v-for="(item,i) in group.children" :key="i" @click="handleNodeClick(item)">{{item.labelName}}</el-menu-item>
+                  <el-menu-item :index="item.levelId" v-for="(item,i) in group.children" :key="i" @click="handleNodeClick(item)" :class="{'currentMenu': currentMenu.levelId === item.levelId}">{{item.labelName}}</el-menu-item>
                   </el-submenu>
 
                 </el-menu-item-group>
@@ -99,7 +99,6 @@
               :total="pager.count">
             </el-pagination>
           </div>
-          <img class="img_loading"  data-copyright="0" data-ratio="0.473257698541329" data-s="300,640" src="https://mmbiz.qpic.cn/mmbiz_png/ymSPPg2nPJPvefsWP0icU1vKWUdgX7PmruTsooXxPSyCadkZXFIDwesErpDQUicenibsEyWvWHCFVCkTtssrnPz4Q/640?wx_fmt=png" data-type="png" data-w="617" />
 
         </div>
 
@@ -115,7 +114,7 @@
       width="495px"
       center>
       <!--<edits ref="edits" :edit-items="createItems" :item="item" :label-width="'120px'"></edits>-->
-      <el-form  ref="edits" :model="form" label-width="100px" :rules="rules">
+      <el-form  ref="createForm" :model="form" label-width="100px" :rules="rules">
         <el-form-item label="规则描述：" prop="ruleDesc">
           <el-input v-model="form.ruleDesc" placeholder="请填写规则描述,如“标的金额是否正确”"></el-input>
         </el-form-item>
@@ -391,6 +390,9 @@
             //刪除接口
             this.$http.post("/ruleBase/deletedByRuleId.htm",{ruleId: rule.ruleId}).then(r => {
               console.log(r);
+              if(r.code === '0000'){
+                this.handleNodeClick(this.currentMenu);
+              }
             })
           }
         })
@@ -398,15 +400,21 @@
       //添加规则
       handleCreate(){
         this.editState = 2;
+        //刷新form表单验证
+        this.$nextTick(()=> {
+          this.$refs.createForm.resetFields();
+        });
         this.form = {cengji: this.currentMenu.labelName , levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel}
       },
       // 保存
       HandleSave(){
-        this.$refs['edits'].validate((valid) => {
+        this.$refs['createForm'].validate((valid) => {
           if(valid){
             this.$http.post("/ruleBase/saveRuleInfo.htm", this.form).then(res => {
               if(res.code == '0000'){
                 this.$message.success(res.description);
+                this.editState = 0;
+
                 this.handleNodeClick(this.currentMenu);
               }
             })
@@ -463,6 +471,9 @@
 
 <style lang="scss" scoped>
 
+  .currentMenu{
+    color: #435F9A !important;
+  }
   .form-item{
     margin-bottom: 15px;
     overflow: hidden;
