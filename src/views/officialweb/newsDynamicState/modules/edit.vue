@@ -45,7 +45,7 @@
             {label: '关键词：',type: 'text',columns:2,placeholder: '请输入关键词',property: 'keyWords'},
             {label: '新闻图标：',type: 'file',columns:1,path: 'portal/news',property:'newsImg'},
             {type: 'img',columns:1,property:'newsImg'},
-            {label: '外部链接：', type: 'text', placeholder: '外部链接',columns:2,property: 'newsUrl'},
+            /* {label: '外部链接：', type: 'text', placeholder: '外部链接',columns:2,property: 'newsUrl'}, */
             {label: '排列序号：', type: 'text', placeholder: '排列序号',columns:2,property: 'newsSort'},
             {label: '新闻简介：', type: 'textarea', placeholder: '新闻简介',columns:2,property: 'newsBrief'},
             {label: '状态：', type: 'select', placeholder: '请选择',columns:2, options: [
