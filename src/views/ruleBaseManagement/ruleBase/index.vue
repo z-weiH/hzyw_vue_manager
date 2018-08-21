@@ -360,6 +360,10 @@
 
       handleExecute(){
         this.executeflag = true;
+        //执行选择参数初始化
+        this.selectLevel={}; //选中层级
+        this.startDate='';//开始时间
+        this.endDate=''//结束时间
       },
       //查看参数
       handleAvriable() {

@@ -53,7 +53,7 @@
           {label: '电子邮箱', property: 'email',width:140},
           {label: '公司名称', property: 'company',width: 100},
           {label: '职位', property: 'position',width: 100},
-          {label: "发布时间",property:'createTime',width: 130},
+          {label: "创建时间",property:'createTime',width: 130},
           {label: '处理状态', property: 'processed',width: 100,type: 'select', options: [
               {label:'未处理', value: 0},
               {label:'已处理', value: 1},
