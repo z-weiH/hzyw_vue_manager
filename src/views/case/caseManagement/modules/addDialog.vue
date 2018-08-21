@@ -379,6 +379,9 @@
                 </tr>
               </template>
             </template>
+            <tr v-if="ruleForm.evidences.length === 0">
+              <td colspan="7">暂无数据</td>
+            </tr>
           </table>
 
           <el-form-item class="evidences-item" label=" " prop="evidences">
@@ -424,7 +427,7 @@
 
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="handleSubmit">确 定</el-button>
-        <el-button @click="handleClose">取 消</el-button>
+        <el-button @click="dialogVisible = false">取 消</el-button>
       </span>
     </el-dialog>
 

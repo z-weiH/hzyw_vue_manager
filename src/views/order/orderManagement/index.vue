@@ -8,7 +8,7 @@
         </el-form-item>
 
         <el-form-item label=" " prop="merchantCode">
-          <el-select clearable style="width:120px;" v-model="ruleForm.merchantCode" placeholder="请选择商户">
+          <el-select clearable style="width:120px;" v-model="ruleForm.merchantCode" placeholder="请选择客户">
             <template v-for="(item,index) in merchantOptions">
               <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
             </template>
@@ -35,8 +35,11 @@
       </el-form>
     </div>
 
-    <div class="item-title">
-      订单管理
+    <div class="item-title of-hidden">
+      <span class="item-title-text">订单管理</span>
+      <div class="fr">
+        <el-button type="primary">批量上传证据</el-button>
+      </div>
     </div>
 
     <div class="item-table">
@@ -85,10 +88,11 @@
             <span v-else>--</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="160px">
           <template slot-scope="scope">
             <!-- <el-button @click="handleReset(scope.row)" type="text">重新提交</el-button> -->
-            <el-button @click="handleEditClaimant(scope.row)" type="text">修改</el-button>
+            
+            <el-button @click="handleEditClaimant(scope.row)" type="text">修改被申请人</el-button>
             <el-button @click="handleSubmitEvidence(scope.row)" type="text">证据</el-button>
           </template>
         </el-table-column>
@@ -256,6 +260,14 @@
 <style lang="scss">
 
 .order-management{
+  .item-title{
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .item-title-text{
+    margin-top: 12px;
+    display: inline-block;
+  }
   .el-form-item{
     margin-bottom: 0;
   }

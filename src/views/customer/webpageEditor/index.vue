@@ -23,7 +23,9 @@
               <span @click="handleBox">x</span>
               <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
               <el-button @click="handleInsertGrammar(2)">插入判断条件</el-button>
-              <el-button @click="handleInsertGrammar(3)">插入表格</el-button>
+              <el-button @click="handleInsertGrammar(3)">插入多判断条件</el-button>
+              <el-button @click="handleInsertGrammar(4)">插入表格</el-button>
+              <el-button @click="handleInsertGrammar(5)">分页符</el-button>
             </div>
           </transition>
         </div>
@@ -132,7 +134,11 @@
         }else if(type === 2) {
           message = '&lt;#if 参数 &lt;= 0>第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
         }else if(type === 3) {
-          message = '&lt;@tableCol colNames=["列名1","列名2", "列名3","列名4","列名5","列名6","列名7","列名8"] colProperties=[参数1, 参数2, 参数3, 参数4, 参数5, 参数6, 参数7, 参数8]&gt;&lt;/@tableCol&gt;';
+          message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
+        }else if(type === 4) {
+          message = '&lt;@tableCol colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4,]&gt;&lt;/@tableCol&gt;';
+        }else if(type === 5) {
+          message = '&lt;@myPage&gt;&lt;/@myPage&gt;';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();

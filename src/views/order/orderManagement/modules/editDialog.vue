@@ -191,7 +191,7 @@
             {pattern : reg.tel , message : '手机号格式有误' , trigger : 'blur'},
           ],
           email : [
-            {required : true , message : '请输入邮箱' , trigger : 'blur'},
+            /* {required : true , message : '请输入邮箱' , trigger : 'blur'}, */
             {pattern : reg.email , message : '邮箱格式有误' , trigger : 'blur'},
           ],
           legaler : [
