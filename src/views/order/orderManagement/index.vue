@@ -35,8 +35,11 @@
       </el-form>
     </div>
 
-    <div class="item-title">
-      订单管理
+    <div class="item-title of-hidden">
+      <span class="item-title-text">订单管理</span>
+      <div class="fr">
+        <el-button type="primary">批量上传证据</el-button>
+      </div>
     </div>
 
     <div class="item-table">
@@ -257,6 +260,14 @@
 <style lang="scss">
 
 .order-management{
+  .item-title{
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+  .item-title-text{
+    margin-top: 12px;
+    display: inline-block;
+  }
   .el-form-item{
     margin-bottom: 0;
   }

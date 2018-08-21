@@ -1,7 +1,7 @@
 <template>
   <div class="order-management-detail">
     <el-dialog
-      title="客户信息修改"
+      title="订单详情"
       :visible.sync="dialogVisible"
       width="860px"
       @close="handleClose"
