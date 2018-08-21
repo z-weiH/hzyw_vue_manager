@@ -73,7 +73,7 @@
                 // this.$parent.tableData.unshift(Object.assign(this.item, res.result));
                 // this.$message.success('新增成功');
                 this.$parent.editState = 0;
-                this.$message.success('修改成功');
+                this.$message.success('新增成功');
                 this.$parent.doQuery(this.$parent.queryUrl, this.$parent.searchItem);
               }else{
                 console.log(this.$parent);
