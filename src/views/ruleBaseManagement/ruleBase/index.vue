@@ -357,6 +357,7 @@
         if(val){
           document.addEventListener("keydown",this.InputHelper);
         }else{
+          this.ruleNames = this.allNames;
           document.removeEventListener("keydown",this.InputHelper);
         }
       },
