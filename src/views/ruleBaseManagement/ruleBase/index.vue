@@ -136,7 +136,11 @@
           </el-select>
         </el-form-item>
         <el-form-item label="机审规则：" prop="ruleInfo">
-          <el-input type="textarea" v-model="form.ruleInfo" :rows="7" placeholder="请填写机审规则"></el-input>
+          <el-input type="textarea" ref="textarea_rule" v-model="form.ruleInfo" @keyup.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
+          <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:24px;" v-html="ruleInfo_html" ></div>
+          <ul class="textarea_select" v-if="showSelect" ref="textarea_select">
+            <li v-for="(name,index) in ruleNames" :key="index" :class="{'active': index == ruleIndex}">{{name}}</li>
+          </ul>
           <div class="rightBtns" >
             <el-button size="mini" @click="handleAvriable">查看参数</el-button>
             <el-button size="mini" type="primary">运行</el-button>
@@ -231,6 +235,22 @@
     data() {
       return {
 
+        //規則函數列表
+        ruleNames:[
+          "f1","f2","f3","f4"
+        ],
+        allNames:[
+          "f1","f2","f3","f4"
+        ],
+        ruleIndex: 0,
+
+
+        showSelect: false,
+
+        //html内容
+        ruleInfo_html: '',
+
+
         //tree config
         defaultProps:{
           children: 'children',
@@ -317,7 +337,6 @@
       }
     },
     mounted() {
-
     },
     computed: {
       title(){
@@ -333,7 +352,84 @@
         }
       }
     },
+    watch: {
+      'showSelect'(val,oldval){
+        if(val){
+          document.addEventListener("keydown",this.InputHelper);
+        }else{
+          document.removeEventListener("keydown",this.InputHelper);
+        }
+      },
+      'form.ruleInfo'(val,oldVal){
+        console.log(val);
+        if(val.indexOf("$") == -1 && this.showSelect){
+          this.showSelect = false;
+        }
+        if(this.showSelect){
+          let index = val.lastIndexOf("$");
+          let find = val.substr(index+1);
+          this.ruleNames = this.allNames.filter(it => it.indexOf(find) != -1);
+          this.ruleIndex = 0;
+        }
+        if(val[val.length - 1] === '$'){
+          let str = val;
+          this.ruleInfo_html = str.substr(0,val.length -1 ).replace(/\n/g,'<br/>') + "<span>$</span>";
+          !this.showSelect && (this.showSelect = true);
+          this.$nextTick(() => {
+            let elms = this.$refs.textarea_warpar.querySelectorAll('span');
+            let elm = elms[elms.length - 1];
+            this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
+            this.$refs.textarea_select.style.top = elm.offsetTop+6 + 'px';
+          });
+
+        }else{
+          this.ruleInfo_html = val;
+          console.log(this.ruleInfo_html.indexOf('\n'))
+          this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>');
+          console.log(this.ruleInfo_html);
+        }
+
+
+      }
+    },
     methods : {
+
+      //textarea换行
+      changeLine(){
+        this.ruleInfo_html += '<br/>';
+      },
+      //textarea的輸入補全
+      InputHelper(event){
+        // this.$refs.textarea_rule.blur();
+        //下
+        if(event.keyCode === 40){
+          if(this.ruleIndex  === this.ruleNames.length -1){
+            this.ruleIndex = 0;
+          }
+          else{
+            this.ruleIndex ++;
+          }
+        }
+        //上
+        if(event.keyCode === 38){
+          if(this.ruleIndex === 0){
+            this.ruleIndex = this.ruleNames.length -1;
+          }else{
+            this.ruleIndex --;
+          }
+        }
+        //確定
+        if(event.keyCode === 13){
+          event.preventDefault();
+          let str = this.form.ruleInfo.substr(0,this.form.ruleInfo.lastIndexOf("$")+1);
+          let fName = this.ruleNames[this.ruleIndex];
+          this.form.ruleInfo = str +fName;
+          this.showSelect = false;
+
+        }
+      },
+
+
       //查询执行规则中的可执行规则的案件数量
       castNumQuery(){
         this.ruleListQuery();
@@ -376,6 +472,12 @@
             this.editState = 1;
             this.form = res.result;
             this.form.cengji = this.currentMenu.labelName;
+            this.$nextTick(()=> {
+              this.$refs.createForm.resetFields();
+              console.log(this.$refs.textarea_warpar);
+              this.ruleInfo_html = this.form.ruleInfo;
+
+            });
           }
         })
       },
@@ -410,8 +512,12 @@
         //刷新form表单验证
         this.$nextTick(()=> {
           this.$refs.createForm.resetFields();
+          console.log(this.$refs.textarea_warpar);
+          this.ruleInfo_html = this.form.ruleInfo;
+
         });
-        this.form = {cengji: this.currentMenu.labelName , levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,modularType:null}
+        this.form = {cengji: this.currentMenu.labelName , levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,modularType:null};
+        this.$set(this.form,'ruleInfo','');
       },
       // 保存
       HandleSave(){
@@ -477,6 +583,25 @@
 </script>
 
 <style lang="scss" scoped>
+
+  .textarea_select{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 220px;
+    background: #3C3F41;
+    li{
+      padding-left: 5px;
+      height: 20px;
+      line-height: 20px;
+      color: #fff;
+      border-bottom: 1px solid transparent;
+      &.active{
+        background: #0052A4;
+      }
+    }
+  }
+
 
   .currentMenu{
     color: #435F9A !important;
