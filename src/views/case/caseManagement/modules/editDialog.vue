@@ -41,7 +41,7 @@
                   <span>{{ruleForm.idtype === 0 ? '身份证' : '营业执照'}}</span>
                 </el-form-item>
 
-                <el-form-item label="身份证正面：" prop="img01"
+                <!-- <el-form-item label="身份证正面：" prop="img01"
                   :rules="[
                     {required : true , message : '请上传身份证正面' , trigger : 'blur'},
                   ]"
@@ -63,7 +63,7 @@
                     </el-button>
                     {{ruleForm.img01FileName}}
                   </el-upload>
-                </el-form-item>
+                </el-form-item> -->
 
                 <el-form-item label="证件地址：" prop="idaddress"
                   :rules="[
@@ -81,9 +81,9 @@
                   </el-select>
                 </el-form-item>
 
-                <el-form-item label="出生年月：" prop="birth">
+                <!-- <el-form-item label="出生年月：" prop="birth">
                   <el-input v-model.trim="ruleForm.birth" placeholder="请输入"></el-input>
-                </el-form-item>
+                </el-form-item> -->
 
                 <el-form-item label="邮箱：" prop="email">
                   <el-input v-model.trim="ruleForm.email" placeholder="请输入"></el-input>
@@ -93,7 +93,7 @@
                   <el-input v-model.trim="ruleForm.idcard" placeholder="请输入"></el-input>
                 </el-form-item>
 
-                <el-form-item  label="身份证背面：" prop="img02"
+                <!-- <el-form-item  label="身份证背面：" prop="img02"
                   :rules="[
                     {required : true , message : '请上传身份证背面' , trigger : 'blur'},
                   ]"
@@ -115,7 +115,7 @@
                     </el-button>
                     {{ruleForm.img02FileName}}
                   </el-upload>
-                </el-form-item>
+                </el-form-item> -->
 
                 <el-form-item label="住址：" prop="address"
                   :rules="[
@@ -165,7 +165,7 @@
                   <span>{{ruleForm.idtype === 0 ? '身份证' : '营业执照'}}</span>
                 </el-form-item>
 
-                <el-form-item  label="营业执照：" prop="img01"
+                <!-- <el-form-item  label="营业执照：" prop="img01"
                   :rules="[
                     {required : true , message : '请上传营业执照' , trigger : 'blur'},
                   ]"
@@ -187,7 +187,7 @@
                     </el-button>
                     {{ruleForm.img01FileName}}
                   </el-upload>
-                </el-form-item>
+                </el-form-item> -->
 
                 <el-form-item label="法定代表人：" prop="legalPerson">
                   <el-input v-model.trim="ruleForm.legalPerson" placeholder="请输入"></el-input>
@@ -223,6 +223,7 @@
 </template>
 
 <script>
+  import reg from '@/assets/js/regexp'
   export default {
     data() {
       return {
@@ -275,7 +276,8 @@
             {required : true , message : '请输入出生年月' , trigger : 'blur'},
           ],
           email : [
-            {required : true , message : '请输入邮箱' , trigger : 'blur'},
+            /* {required : true , message : '请输入邮箱' , trigger : 'blur'}, */
+            {pattern : reg.email , message : '邮箱格式有误' , trigger : 'blur'},
           ],
           birth : [
             {required : true , message : '请输入出生年月' , trigger : 'blur'},
@@ -291,6 +293,7 @@
           ],
           phone : [
             {required : true , message : '请输入手机号' , trigger : 'blur'},
+            {pattern : reg.tel , message : '手机号格式有误' , trigger : 'blur'},
           ],
           position : [
             {required : true , message : '请输入职位' , trigger : 'blur'},
