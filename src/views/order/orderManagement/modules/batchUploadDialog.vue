@@ -25,6 +25,7 @@
             </div>
           </el-form-item>
 
+          <el-form-item class="fn-hide" label="" prop="uploadName"></el-form-item>
         </el-form>
       </div>
 
