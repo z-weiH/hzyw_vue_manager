@@ -202,7 +202,7 @@
         <div class="left fl " >
           案件数量:
         </div>
-        <div class="right fl">
+        <div class="right fl" style="color:#F1B543;">
           {{castNum}}
         </div>
       </div>
@@ -211,13 +211,19 @@
           执行规则:
         </div>
         <div class="right fl">
-          1
+          <el-checkbox-group v-model="ruleIdList">
+            <el-checkbox label="0000">全部规则</el-checkbox><br>
+            <p v-for="(rule,index) in allruleList" :key="index">
+              <el-checkbox   :label="rule.ruleId" name="type">{{rule.ruleDesc}}</el-checkbox>
+
+            </p>
+          </el-checkbox-group>
         </div>
       </div>
 
 
       <div slot="footer" class="dialog-footer clear" >
-          <el-button type="primary"  @click="castNumQuery">确 定</el-button>
+          <el-button type="primary"  @click="executeRule">确 定</el-button>
           <el-button @click="executeflag = false;">取 消</el-button>
         </div>
     </el-dialog>
@@ -291,6 +297,12 @@
         //案件数量
         castNum:'-',
 
+        //可执行规则
+        allruleList: [],
+
+        //选中的执行规则id列表
+        ruleIdList: [],
+
         //控制弹窗
         editState: 0, // 1编辑 2新增
 
@@ -307,38 +319,13 @@
           pageSize: 5,
           count: 0,
         }
-          // [{
-          //   label : '公共规则',
-          //   children : [
-          //     {
-          //       label : 'P2P现金贷业务',
-          //       children : [
-          //         {
-          //           label : '奇速贷',
-          //           children : [
-          //             {
-          //               label : '奇速贷-1001',
-          //               id : 1,
-          //             },
-          //             {
-          //               label : '奇速贷-1002',
-          //               id:2,
-          //             },
-          //             {
-          //               label : '奇速贷-1003',
-          //               id: 3
-          //             },
-          //           ],
-          //         }
-          //       ],
-          //     }
-          //   ],
-          // }],
+
       }
     },
     mounted() {
     },
     computed: {
+
       title(){
         return this.editState == 1 ? "编辑规则" : "添加规则";
       },
@@ -353,6 +340,32 @@
       }
     },
     watch: {
+      //控制全部规则，选中全部
+      'ruleIdList'(val,oldVal){
+        console.log(val);
+        let arr = ["0000"];
+        this.allruleList.forEach(it => {arr.push(it.ruleId);});
+        if(val.indexOf("0000") != -1 && val.length != arr.length){
+          this.ruleIdList = arr;
+        }
+      },
+      'iconName'(val,oldval){
+        if(val === 'el-icon-arrow-down' && this.selectLevel.levelId){
+          this.castNumQuery();
+          this.ruleListQuery();
+        }
+      },
+      'startDate'(val,oldval){
+        if(this.selectLevel && this.selectLevel.levelId){
+          this.castNumQuery();
+        }
+      },
+      'endDate'(){
+        if(this.selectLevel && this.selectLevel.levelId){
+          this.castNumQuery();
+        }
+      },
+
       'showSelect'(val,oldval){
         if(val){
           document.addEventListener("keydown",this.InputHelper);
@@ -394,6 +407,31 @@
       }
     },
     methods : {
+      //执行规则
+      executeRule() {
+        let arr = this.ruleIdList;
+        let idx = arr.findIndex(it => it === '0000');
+        if(idx != -1){
+          arr.splice(idx,1);
+        }
+        this.execute({endDate: this.endDate,levelId: this.selectLevel.levelId,ruleIdList:arr,ruleLevel: this.selectLevel.ruleLevel,startDate: this.startDate});
+      },
+      //执行规则实现函数
+      execute(item){
+        this.$http.post('/rule/executeRuleByBaseQuery.htm',item,{mheaders: true}).then(res => {
+          if(res.code === '0000'){
+            if(res.result.progressId === 0 ){
+              //执行中
+              this.execute(item);
+            }
+            else{
+              this.$message.success("执行成功");
+            }
+          }
+        })
+      },
+
+
 
       //textarea换行
       changeLine(){
@@ -433,14 +471,19 @@
 
       //查询执行规则中的可执行规则的案件数量
       castNumQuery(){
-        this.ruleListQuery();
+        // this.ruleListQuery();
         this.$http.post('/rule/countCaseNumByBaseQuery.htm',{startDate: this.startDate,endDate: this.endDate,ruleLevel: this.selectLevel.ruleLevel,treeId:this.selectLevel.levelId}).then(res => {
+          if(res.code === '0000'){
+            this.castNum = res.result;
+          }
         })
       },
       //执行规则接口
       ruleListQuery(){
         this.$http.post("/rule/queryAllRuleListByTreeId.htm",{ruleLevel: this.selectLevel.ruleLevel,treeId: this.selectLevel.levelId}).then(res => {
-
+          if(res.code === '0000'){
+            this.allruleList = res.result;
+          }
         })
       },
 
