@@ -58,8 +58,9 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="160px">
           <template slot-scope="scope">
+            <el-button @click="handleEdit(scope.row)" type="text">修改被申请人</el-button>
             <el-button @click="handleDetail(scope.row)" type="text">详情</el-button>
           </template>
         </el-table-column>
@@ -80,6 +81,8 @@
       <detailDialog ref="detailDialog"></detailDialog>
       <!-- 新增弹出框 -->
       <addDialog @upload="successCBK" ref="addDialog"></addDialog>
+      <!-- 修改弹出框 -->
+      <editDialog @successCBK="initTableList" ref="editDialog"></editDialog>
     </div>
   </div>
 </template>
@@ -88,11 +91,13 @@
   import timeFrame from '@/components/timeFrame.vue'
   import addDialog from './modules/addDialog.vue'
   import detailDialog from './modules/detailDialog.vue'
+  import editDialog from './modules/editDialog.vue'
   export default {
     components : {
       timeFrame,
       addDialog,
       detailDialog,
+      editDialog,
     },
     data() {
       return {
@@ -155,6 +160,10 @@
       successCBK() {
         this.currentPage = 1;
         this.initTableList();
+      },
+      // 点击 修改
+      handleEdit(row) {
+        this.$refs.editDialog.show(row);
       },
 
       // 表格相关 start
