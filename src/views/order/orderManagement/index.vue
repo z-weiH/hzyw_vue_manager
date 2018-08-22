@@ -38,7 +38,7 @@
     <div class="item-title of-hidden">
       <span class="item-title-text">订单管理</span>
       <div class="fr">
-        <el-button type="primary">批量上传证据</el-button>
+        <el-button @click="handleBatchUpload" type="primary">批量上传证据</el-button>
       </div>
     </div>
 
@@ -115,6 +115,8 @@
       <editDialog @successCBK="successCBK" ref="editDialog"></editDialog>
       <!-- 证据 dialgo -->
       <evidenceDialog ref="evidenceDialog"></evidenceDialog>
+      <!-- 批量上传 dialog -->
+      <batchUploadDialog ref="batchUploadDialog"></batchUploadDialog>
     </div>
 
   </div>
@@ -125,12 +127,14 @@
   import dialogDetail from './modules/detail.vue'
   import editDialog from './modules/editDialog.vue'
   import evidenceDialog from './modules/evidenceDialog.vue'
+  import batchUploadDialog from './modules/batchUploadDialog.vue'
   export default {
     components : {
       timeFrame,
       dialogDetail,
       editDialog,
       evidenceDialog,
+      batchUploadDialog,
     },
     data() {
       return {
@@ -189,6 +193,10 @@
       handleSearch() {
         this.currentPage = 1;
         this.initTableList();
+      },
+      // 点击 批量上传
+      handleBatchUpload() {
+        this.$refs.batchUploadDialog.show();
       },
       // 点击 详情
       handleDetail(row) {
