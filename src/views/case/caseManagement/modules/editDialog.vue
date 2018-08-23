@@ -11,7 +11,7 @@
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
           
 					<el-form-item label="用户类型：" prop="type">
-            <el-select @change="handleTypeChange" clearable v-model="ruleForm.type" placeholder="请选择账龄">
+            <el-select @change="handleTypeChange" clearable v-model="ruleForm.type" placeholder="请选择用户类型">
               <el-option label="自然人" :value="0" ></el-option>
               <el-option label="企业" :value="1" ></el-option>  
             </el-select>
@@ -65,21 +65,14 @@
                   </el-upload>
                 </el-form-item> -->
 
-                <el-form-item label="证件地址：" prop="idaddress"
-                  :rules="[
-                    {required : true , message : '请输入证件地址' , trigger : 'blur'},
-                  ]"
-                >
-                  <el-input v-model.trim="ruleForm.idaddress" placeholder="请输入"></el-input>
-                </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="性别：" prop="sex">
+                <!-- <el-form-item label="性别：" prop="sex">
                   <el-select clearable v-model="ruleForm.sex" placeholder="请选择账龄">
                     <el-option label="女" :value="0" ></el-option>
                     <el-option label="男" :value="1" ></el-option>  
                   </el-select>
-                </el-form-item>
+                </el-form-item> -->
 
                 <!-- <el-form-item label="出生年月：" prop="birth">
                   <el-input v-model.trim="ruleForm.birth" placeholder="请输入"></el-input>
@@ -123,6 +116,14 @@
                   ]"
                 >
                   <el-input v-model.trim="ruleForm.address" placeholder="请输入"></el-input>
+                </el-form-item>
+
+                <el-form-item label="证件地址：" prop="idaddress"
+                  :rules="[
+                    {required : true , message : '请输入证件地址' , trigger : 'blur'},
+                  ]"
+                >
+                  <el-input v-model.trim="ruleForm.idaddress" placeholder="请输入"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>  
@@ -197,9 +198,9 @@
                   <el-input v-model.trim="ruleForm.phone" placeholder="请输入"></el-input>
                 </el-form-item>
 
-                <el-form-item label="通讯住址：" prop="address"
+                <el-form-item label="通讯地址：" prop="address"
                   :rules="[
-                    {required : true , message : '请输入通讯住址' , trigger : 'blur'},
+                    {required : true , message : '请输入通讯地址' , trigger : 'blur'},
                   ]"
                 >
                   <el-input v-model.trim="ruleForm.address" placeholder="请输入"></el-input>
