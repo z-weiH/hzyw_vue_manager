@@ -560,7 +560,7 @@
           ],
           // 电子邮箱
           email : [
-            {required : true , message : '请输入电子邮箱' , trigger : 'blur'},
+            /* {required : true , message : '请输入电子邮箱' , trigger : 'blur'}, */
             {pattern : reg.email , message : '电子邮箱格式有误' , trigger : 'blur'},
           ],
           // 身份证号 or 社会唯一信用代码
@@ -581,7 +581,7 @@
           ],
           // 通讯地址
           address : [
-            {required : true , message : '请输入通讯地址' , trigger : 'blur'},
+            /* {required : true , message : '请输入通讯地址' , trigger : 'blur'}, */
           ],
           // 证据列表
           evidences : [
