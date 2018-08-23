@@ -113,6 +113,8 @@
       :visible.sync="show"
       v-dialogDrag
       :title="title"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
       @open="resetForm"
       width="495px"
       center>
@@ -158,6 +160,8 @@
       v-dialogDrag
       title="执行规则"
       @open="resetForm"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
       width="495px"
       center>
       <!--<edits ref="edits" :edit-items="createItems" :item="item" :label-width="'120px'"></edits>-->
@@ -409,11 +413,12 @@
     methods : {
       //执行规则
       executeRule() {
-        let arr = this.ruleIdList;
+        let arr = [].concat(this.ruleIdList);
         let idx = arr.findIndex(it => it === '0000');
         if(idx != -1){
           arr.splice(idx,1);
         }
+        console.log(this.ruleIdList)
         this.execute({endDate: this.endDate,levelId: this.selectLevel.levelId,ruleIdList:arr,ruleLevel: this.selectLevel.ruleLevel,startDate: this.startDate});
       },
       //执行规则实现函数
