@@ -614,7 +614,7 @@
       // 获取申请人 列表
       this.$http({
         method : 'post',
-        url : '/hzuser/queryUsers.htm',
+        url : '/casemanage/queryUsers.htm',
       }).then((res) => {
         this.userOptions = res.result.list;
       });
