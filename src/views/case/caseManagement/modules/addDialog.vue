@@ -616,7 +616,7 @@
         method : 'post',
         url : '/casemanage/queryUsers.htm',
       }).then((res) => {
-        this.userOptions = res.result.list;
+        this.userOptions = res.result;
       });
     },
     methods : {

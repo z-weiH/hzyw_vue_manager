@@ -62,6 +62,7 @@
           <template slot-scope="scope">
             <el-button @click="handleEdit(scope.row)" type="text">修改被申请人</el-button>
             <el-button @click="handleDetail(scope.row)" type="text">详情</el-button>
+            <el-button @click="handleSubmitCase(scope.row)" v-if="scope.row.caseStatus !== '10'" type="text">提交立案</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -164,6 +165,28 @@
       // 点击 修改
       handleEdit(row) {
         this.$refs.editDialog.show(row);
+      },
+      // 点击 提交立案
+      handleSubmitCase(row) {
+        this.$confirm('确认提交立案?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          cancelButtonClass: 'cancel',
+          confirmButtonClass: 'confirm',
+          center: true,
+        }).then(() => {
+          this.$http({
+            url : '/casemanage/caseApplicationToArb.htm',
+            method : 'post',
+            data : {
+              caseId : row.caseId,
+            },
+          }).then((res) => {
+            this.$message.success('提交立案成功');
+            this.initTableList();
+          });
+        },() => {
+        });
       },
 
       // 表格相关 start
