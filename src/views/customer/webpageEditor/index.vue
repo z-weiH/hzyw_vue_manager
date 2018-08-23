@@ -24,8 +24,18 @@
               <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
               <el-button @click="handleInsertGrammar(2)">插入判断条件</el-button>
               <el-button @click="handleInsertGrammar(3)">插入多判断条件</el-button>
-              <el-button @click="handleInsertGrammar(4)">插入表格</el-button>
-              <el-button @click="handleInsertGrammar(5)">分页符</el-button>
+              <el-button @click="handleInsertGrammar(4)">分页符</el-button>
+              <el-dropdown @command="handleInsertGrammar" style="width:100%;">
+                <el-button>插入表格<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item :command="5">普通表格</el-dropdown-item>
+                  <el-dropdown-item :command="6">普通表格+标题</el-dropdown-item>
+                  <el-dropdown-item :command="7">带说明</el-dropdown-item>
+                  <el-dropdown-item :command="8">带说明+标题</el-dropdown-item>
+                  <el-dropdown-item :command="9">带合计</el-dropdown-item>
+                  <el-dropdown-item :command="10">带合计+标题</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
             </div>
           </transition>
         </div>
@@ -136,9 +146,19 @@
         }else if(type === 3) {
           message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
         }else if(type === 4) {
-          message = '&lt;@tableCol colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4,]&gt;&lt;/@tableCol&gt;';
-        }else if(type === 5) {
           message = '&lt;@myPage&gt;&lt;/@myPage&gt;';
+        }else if(type === 5) {
+          message = '&lt;@tableCol colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4,]&gt;&lt;/@tableCol&gt;';
+        }else if(type === 6) {
+          message = '&lt;@tableCol title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4,]&gt;&lt;/@tableCol&gt;';
+        }else if(type === 7) {
+          message = '&lt;@tableCol lastLine="说明"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4,]&gt;&lt;/@tableCol&gt;';
+        }else if(type === 8) {
+          message = '&lt;@tableCol lastLine="说明" title="标题"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4,]&gt;&lt;/@tableCol&gt;';
+        }else if(type === 9) {
+          message = '&lt;@tableCol stat=true colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4,]&gt;&lt;/@tableCol&gt;';
+        }else if(type === 10) {
+          message = '&lt;@tableCol stat=true title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4,]&gt;&lt;/@tableCol&gt;';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
@@ -246,6 +266,7 @@
       top: -15px;
     }
     .operation{
+      height: 284px;
       width: 150px;
       border-radius: 5px;
       border: 1px solid #ccc;
