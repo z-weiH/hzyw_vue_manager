@@ -24,7 +24,17 @@
               <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
               <el-button @click="handleInsertGrammar(2)">插入判断条件</el-button>
               <el-button @click="handleInsertGrammar(3)">插入多判断条件</el-button>
-              <el-button @click="handleInsertGrammar(4)">分页符</el-button>
+              <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
+                <el-button>分页<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item :command="4">分页符</el-dropdown-item>
+                  <el-dropdown-item :command="11">事实与理由-开始</el-dropdown-item>
+                  <el-dropdown-item :command="12">事实与理由-结束</el-dropdown-item>
+                  <el-dropdown-item :command="13">仲裁请求-开始</el-dropdown-item>
+                  <el-dropdown-item :command="14">仲裁请求-结束</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+              
               <el-dropdown @command="handleInsertGrammar" style="width:100%;">
                 <el-button>插入表格<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
@@ -69,7 +79,7 @@
   import ueeditor from '@/components/ueeditor'
   import previewDialog from './modules/previewDialog.vue'
   import parameter from '../parameterList/modules/parameter.vue'
-  
+
   export default {
     components : {
       ueeditor,
@@ -165,6 +175,14 @@
           message = '&lt;@tableCol stat=true colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4]&gt;&lt;/@tableCol&gt;';
         }else if(type === 10) {
           message = '&lt;@tableCol stat=true title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4]&gt;&lt;/@tableCol&gt;';
+        }else if(type === 11) {
+          message = '${startFact}';
+        }else if(type === 12) {
+          message = '${endFact}';
+        }else if(type === 13) {
+          message = '${startRequest}';
+        }else if(type === 14) {
+          message = '${endRequest}';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
@@ -276,7 +294,6 @@
       top: -15px;
     }
     .operation{
-      height: 284px;
       width: 150px;
       border-radius: 5px;
       border: 1px solid #ccc;
@@ -286,10 +303,19 @@
       background-color: rgba(255,255,255,.5);
       button{
         width: 100%;
+      }
+      >button{
+        width: 100%;
         margin-left: 0;
         margin-bottom: 20px;
       }
-      button:last-child{
+      >button:last-child{
+        margin-bottom: 0;
+      }
+      >div{
+        margin-bottom: 20px;
+      }
+      >div:last-child{
         margin-bottom: 0;
       }
       span{
