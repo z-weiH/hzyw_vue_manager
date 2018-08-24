@@ -201,6 +201,7 @@
             <td>证据来源</td>
             <td>形式</td>
             <td>页数</td>
+            <td>证明对象</td>
             <td>操作</td>
           </tr>
           <!-- 一层循环 -->
@@ -216,6 +217,9 @@
                 <td colspan="1">{{child.eviSource}}</td>
                 <td colspan="1">{{child.eviFormat}}</td>
                 <td colspan="1">{{child.eviPage}}</td>
+                <td v-if="ind === 0" :rowspan="item.details.length" colspan="1">
+                  {{item.eviObject}}
+                </td>
                 <td>
                   <a class="underline" target="_blank" :href="child.eviFileurl">查看</a>
                 </td>
