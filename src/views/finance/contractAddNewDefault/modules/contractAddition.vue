@@ -958,7 +958,7 @@
         let addTicketAmt = +item.addTicketAmt || 0;
         let addAmt = +item.addAmt || 0;
         let addService = +item.addService || 0;
-        this.ruleForm.orderDetailList[index].arrivalAmt = (addTicketAmt + addAmt + addService) || '';
+        this.ruleForm.orderDetailList[index].arrivalAmt = (addTicketAmt + addAmt + addService) || '0';
       },
 
       // 关闭浮层
