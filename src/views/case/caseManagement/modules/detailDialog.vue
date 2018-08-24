@@ -86,7 +86,7 @@
 
               <tr>
                 <td colspan="1">法定代表人：</td>
-                <td colspan="1">{{item.legaller}}</td>
+                <td colspan="1">{{item.legalPerson}}</td>
                 <td colspan="1">职位：</td>
                 <td colspan="1">{{item.position}}</td>
               </tr>

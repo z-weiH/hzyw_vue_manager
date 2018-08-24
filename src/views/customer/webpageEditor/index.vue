@@ -148,17 +148,17 @@
         }else if(type === 4) {
           message = '&lt;@myPage&gt;&lt;/@myPage&gt;';
         }else if(type === 5) {
-          message = '&lt;@tableCol colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4,]&gt;&lt;/@tableCol&gt;';
+          message = '&lt;@tableCol colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4]&gt;&lt;/@tableCol&gt;';
         }else if(type === 6) {
-          message = '&lt;@tableCol title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4,]&gt;&lt;/@tableCol&gt;';
+          message = '&lt;@tableCol title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4]&gt;&lt;/@tableCol&gt;';
         }else if(type === 7) {
-          message = '&lt;@tableCol lastLine="说明"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4,]&gt;&lt;/@tableCol&gt;';
+          message = '&lt;@tableCol lastLine="说明"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4]&gt;&lt;/@tableCol&gt;';
         }else if(type === 8) {
-          message = '&lt;@tableCol lastLine="说明" title="标题"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4,]&gt;&lt;/@tableCol&gt;';
+          message = '&lt;@tableCol lastLine="说明" title="标题"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4]&gt;&lt;/@tableCol&gt;';
         }else if(type === 9) {
-          message = '&lt;@tableCol stat=true colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4,]&gt;&lt;/@tableCol&gt;';
+          message = '&lt;@tableCol stat=true colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4]&gt;&lt;/@tableCol&gt;';
         }else if(type === 10) {
-          message = '&lt;@tableCol stat=true title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4,]&gt;&lt;/@tableCol&gt;';
+          message = '&lt;@tableCol stat=true title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4]&gt;&lt;/@tableCol&gt;';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
