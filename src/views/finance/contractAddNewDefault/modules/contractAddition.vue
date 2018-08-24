@@ -629,7 +629,7 @@
       ['ruleForm.preCaseTicket'](val) {
         let type = val > 0 ? true : false;
         if(type === false) {
-          this.ruleForm.preTicketAmt = '';
+          this.ruleForm.preTicketAmt = 0;
         }else{
           this.ruleForm.preTicketAmt = val * this.multiple;
         }
