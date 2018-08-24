@@ -16,7 +16,7 @@
           <parameter @copy="handleCopy"></parameter>
         </div>
         <!-- 悬浮操作 -->
-        <div class="operation-box">
+        <div class="operation-box" @click.stop="() => {}">
           <img v-if="imgShow" @click="handleImg" src="@/assets/img/webpageEditorCircular.png" />
           <transition name="fade" mode="out-in">
             <div class="operation" v-if="boxShow">
@@ -82,6 +82,10 @@
         boxShow : false,
         // 符文本编辑器 height
         ueeditorHeight : '780px',
+        // 保存 全局点击 事件
+        globalClickFn : () => {
+          this.handleBox();
+        },
       }
     },
     mounted() {
@@ -94,6 +98,8 @@
           this.$refs.ueeditor.setContent(data);
           this.ueeditorHeight = document.body.clientHeight - 75 - 75 - 40 - 50;
           close.close();
+          document.querySelector('iframe').contentDocument.addEventListener('click',this.globalClickFn);
+          document.addEventListener('click',this.globalClickFn);
         }catch(err){
           setTimeout(() => {
             fn(data)
@@ -212,6 +218,10 @@
         },() => {
         });
       },
+    },
+    destroyed() {
+      document.querySelector('iframe').contentDocument.removeEventListener('click',this.globalClickFn);
+      document.removeEventListener('click',this.globalClickFn);
     },
   }
 </script>
