@@ -33,6 +33,7 @@
          <span>电子签名</span>
        </div>
        <div class="sign_body">
+         <p style="line-height: 30px;color: #193b8c;font-size: 17px;">借款合同</p>
          <table
            class="m-primordial-table mt-10
             el-table el-table--fit el-table--border
@@ -64,8 +65,8 @@
            <ul>
              <li class="fl evi_bar" :class="{active: eviDetail.eviUrl == currentUrl}" v-for="(eviDetail,idx) in item.evidences" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviName}}</li>
            </ul>
-
          </div>
+         <p style="line-height: 30px;color: #193b8c;font-size: 17px;">仲裁申请书</p>
         <div class="pdf fl clear">
           <iframe  :src="item.applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
         </div>
@@ -145,7 +146,8 @@ export default {
       border-bottom: 2px solid transparent;
     }
     .active {
-      border-bottom: 2px solid #0f357f;
+      color: #193b8c;
+      border-bottom: 2px solid #193b8c;
     }
   }
 
@@ -213,7 +215,7 @@ export default {
     width: 1366px;
     margin: 15px auto;
     .sign_body{
-      padding: 30px 15px 25px 15px;
+      padding: 10px 15px 25px 15px;
       background: #fff;
 
     }
