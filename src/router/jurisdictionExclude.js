@@ -22,4 +22,5 @@ export default [
 
   '/main/summitEvidence', // 订单管理 - 提交证据
   '/ruleBase', // 规则库
+  '/caseDetail',//复审临时页面
 ]
