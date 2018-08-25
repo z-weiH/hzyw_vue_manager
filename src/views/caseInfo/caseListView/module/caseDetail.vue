@@ -2,7 +2,7 @@
  <div class="caseDetail body_container">
   <div class="case_header_warper">
     <div class="case_header">
-      王二小与张三风的借款合同纠纷
+      {{$route.query.applicants}}与{{item.respondentInfo.name}}的借款合同纠纷
     </div>
   </div>
    <div class="case_body">
