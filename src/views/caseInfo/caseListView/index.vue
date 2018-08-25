@@ -251,6 +251,8 @@ export default {
 					label: '被申请人',
 					property: 'respondents',
 					width: 100,
+          isLink: true,
+          linkShowPanel: this.gotoPretrial
 				},
 				{
 					label: '被申请人手机',
@@ -418,6 +420,16 @@ export default {
 		}
 	},
 	methods: {
+	  //跳转法务预审
+    gotoPretrial(row){
+      let routeData = this.$router.resolve({
+        path:'/caseDetail',
+        query: {caseId: row.caseId}
+      });
+      window.open(routeData.href, '_blank');
+    },
+
+
 		handleExport() {
 			console.info('searchItem:::', this.searchItem)
 			let _token = JSON.parse(localStorage.getItem('loginInfo')).token
@@ -426,6 +438,9 @@ export default {
 				url: this.exportUrl,
 				data: this.searchItem,
 			})
+
+
+
 		},
 		searchItemChange(item) {
       console.log('parent valuechange init');

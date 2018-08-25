@@ -215,6 +215,7 @@ let router = new Router({
             name: 'caseListView',
           },
         },
+
         {
           path: 'respondentsFeedback',
           component: () =>
@@ -875,6 +876,14 @@ let router = new Router({
       meta: {
         name: 'ruleBase',
       },
+    },
+    {
+      path:'/caseDetail',
+      component: () =>
+        import("@/views/caseInfo/caseListView/module/caseDetail"), //案件复核详情(案件列表)
+      meta: {
+        name:'caseDetail'
+      }
     },
 
   ]

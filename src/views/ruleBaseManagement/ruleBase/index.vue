@@ -1,8 +1,6 @@
 <template>
   <div class="rule-base">
-    <!-- <div class="m-bar">
-      <m-progress :width="progress" :height="20">执行中</m-progress>
-    </div> -->
+
     <div class="title-box">
       <div>
         <span class="m-title">规则库</span>
@@ -138,7 +136,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="机审规则：" prop="ruleInfo">
-          <el-input type="textarea" ref="textarea_rule" v-model="form.ruleInfo" @keyup.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
+          <el-input type="textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @keyup.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
           <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:24px;" v-html="ruleInfo_html" ></div>
           <ul class="textarea_select" v-if="showSelect" ref="textarea_select">
             <li v-for="(name,index) in ruleNames" :key="index" :class="{'active': index == ruleIndex}">{{name}}</li>
@@ -233,6 +231,30 @@
     </el-dialog>
 
 
+
+    <el-dialog
+      :visible.sync="executing"
+      v-dialogDrag
+      :show-close="false"
+      title="提示"
+      @open="resetForm"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      width="495px"
+      center>
+      <div class="m-bar" style="width: 300px; margin: 20px auto;text-align: center;">
+        <m-progress :width="100" :height="20" v-if="isExecuting">执行中</m-progress>
+        <template v-if="!isExecuting">
+          <p>机审执行完毕！</p>
+          <p>本次机审共对365件案件执行了4条规则，检出错误34处</p>
+          <el-button type="primary"  @click="executing = false;">确 定</el-button>
+        </template>
+
+      </div>
+    </el-dialog>
+
+
+
   </div>
 </template>
 
@@ -253,6 +275,8 @@
           "f1","f2","f3","f4"
         ],
         ruleIndex: 0,
+
+
 
 
         showSelect: false,
@@ -313,6 +337,12 @@
         //执行弹窗
         executeflag: false,
 
+        //执行中弹窗
+        executing: false,
+
+        //是否执行完成
+        isExecuting: true,
+
         currentRule:'',
         currentMenu: {},
         progress : 80,
@@ -327,6 +357,8 @@
       }
     },
     mounted() {
+
+
     },
     computed: {
 
@@ -379,33 +411,35 @@
         }
       },
       'form.ruleInfo'(val,oldVal){
-        console.log(val);
-        if(val.indexOf("$") == -1 && this.showSelect){
-          this.showSelect = false;
-        }
-        if(this.showSelect){
-          let index = val.lastIndexOf("$");
-          let find = val.substr(index+1);
-          this.ruleNames = this.allNames.filter(it => it.indexOf(find) != -1);
-          this.ruleIndex = 0;
-        }
-        if(val[val.length - 1] === '$'){
-          let str = val;
-          this.ruleInfo_html = str.substr(0,val.length -1 ).replace(/\n/g,'<br/>') + "<span>$</span>";
-          !this.showSelect && (this.showSelect = true);
-          this.$nextTick(() => {
-            let elms = this.$refs.textarea_warpar.querySelectorAll('span');
-            let elm = elms[elms.length - 1];
-            this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
-            this.$refs.textarea_select.style.top = elm.offsetTop+6 + 'px';
-          });
+        if(val){
+          if(val.indexOf("$") == -1 && this.showSelect){
+            this.showSelect = false;
+          }
+          if(this.showSelect){
+            let index = val.lastIndexOf("$");
+            let find = val.substr(index+1);
+            this.ruleNames = this.allNames.filter(it => it.indexOf(find) != -1);
+            this.ruleIndex = 0;
+          }
+          if(val[val.length - 1] === '$'){
+            let str = val;
+            this.ruleInfo_html = str.substr(0,val.length -1 ).replace(/\n/g,'<br/>') + "<span>$</span>";
+            !this.showSelect && (this.showSelect = true);
+            this.$nextTick(() => {
+              let elms = this.$refs.textarea_warpar.querySelectorAll('span');
+              let elm = elms[elms.length - 1];
+              this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
+              this.$refs.textarea_select.style.top = elm.offsetTop+6 + 'px';
+            });
 
-        }else{
-          this.ruleInfo_html = val;
-          console.log(this.ruleInfo_html.indexOf('\n'))
-          this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>');
-          console.log(this.ruleInfo_html);
+          }else{
+            this.ruleInfo_html = val;
+            console.log(this.ruleInfo_html.indexOf('\n'))
+            this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>');
+            console.log(this.ruleInfo_html);
+          }
         }
+
 
 
       }
@@ -419,18 +453,24 @@
           arr.splice(idx,1);
         }
         console.log(this.ruleIdList)
+
         this.execute({endDate: this.endDate,levelId: this.selectLevel.levelId,ruleIdList:arr,ruleLevel: this.selectLevel.ruleLevel,startDate: this.startDate});
       },
       //执行规则实现函数
       execute(item){
         this.$http.post('/rule/executeRuleByBaseQuery.htm',item,{mheaders: true}).then(res => {
+
           if(res.code === '0000'){
             if(res.result.progressId === 0 ){
               //执行中
+              if(!this.executing){
+                this.executing = true;
+              }
               this.execute(item);
             }
             else{
               this.$message.success("执行成功");
+              this.isExecuting = false;
             }
           }
         })
@@ -492,10 +532,18 @@
         })
       },
 
-      resetForm(){},
+      resetForm(){
+
+      },
       //选择范围
       handleFocus(){
         this.iconName ='el-icon-arrow-up';
+      },
+      handleFocus1(){
+        let textarea = document.querySelector("textarea");
+        console.log(textarea)
+        textarea.setAttribute("spellcheck",false);
+
       },
       handleSelect(data){
         console.log(data);
@@ -519,13 +567,12 @@
         this.$http.post("/ruleBase/ruleInfoDetailsByRuleId.htm",{ruleId: rule.ruleId}).then(res => {
           if(res.code ==='0000'){
             this.editState = 1;
-            this.form = res.result;
             this.form.cengji = this.currentMenu.labelName;
             this.$nextTick(()=> {
               this.$refs.createForm.resetFields();
               console.log(this.$refs.textarea_warpar);
               this.ruleInfo_html = this.form.ruleInfo;
-
+              this.form = res.result;
             });
           }
         })
@@ -610,12 +657,34 @@
         }else{
           return false;
         }
+      },
+      //树状结构去掉空的children属性
+      deleteProperty(arr,property){
+        arr.forEach(it => {
+            if(it[property].length == 0){
+              it[property] = null;
+            }else{
+              this.deleteProperty(it[property],property);
+            }
+
+        })
+        // if(arr.property){
+        //   if(arr.property.Constructor == Array && arr.property.length == 0){
+        //     arr.property = null;
+        //   }else{
+        //     arr.property.forEach(it => this.deleteProperty(it,property));
+        //   }
+        // }
+
       }
     },
     created(){
+
       this.$http.post('/rule/queryRuleTree.htm').then(res => {
         if(res.code === '0000'){
+          this.deleteProperty([res.result],"children");
           this.treeData = [res.result];
+
           console.log(this.treeData)
           this.handleNodeClick(Object.assign({},this.treeData[0]));
         }
