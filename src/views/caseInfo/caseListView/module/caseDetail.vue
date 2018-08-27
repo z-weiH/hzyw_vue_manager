@@ -159,6 +159,8 @@ export default {
   height: 76px;
   background: #fff;
   .case_header{
+    box-sizing: border-box;
+    padding-left:18px;
     width: 1366px;
     margin:0 auto;
     font-size: 28px;
