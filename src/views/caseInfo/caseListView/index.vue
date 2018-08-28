@@ -213,6 +213,15 @@ export default {
 						},
 					],
 				},
+				{
+					label: '模版编码',
+					type: 'select',
+					property: 'test01',
+					colSpan: 4,
+					options: [],
+					labelfield: '-',
+					valuefield: '--',
+				},
 			],
 
 			searchItem: {},
@@ -251,14 +260,19 @@ export default {
 					label: '被申请人',
 					property: 'respondents',
 					width: 100,
-          isLink: true,
-          linkShowPanel: this.gotoPretrial
+					isLink: true,
+					linkShowPanel: this.gotoPretrial,
 				},
 				{
 					label: '被申请人手机',
 					property: 'resPhone',
 					width: 150,
 				},
+				// {
+				// 	label: '模版编码',
+				// 	property: '-',
+				// 	width: 130,
+				// },
 				{
 					label: '案件阶段',
 					property: 'caseProcessDesc',
@@ -420,15 +434,14 @@ export default {
 		}
 	},
 	methods: {
-	  //跳转法务预审
-    gotoPretrial(row){
-      let routeData = this.$router.resolve({
-        path:'/caseDetail',
-        query: {caseId: row.caseId,applicants: row.applicants}
-      });
-      window.open(routeData.href, '_blank');
-    },
-
+		//跳转法务预审
+		gotoPretrial(row) {
+			let routeData = this.$router.resolve({
+				path: '/caseDetail',
+				query: { caseId: row.caseId, applicants: row.applicants },
+			})
+			window.open(routeData.href, '_blank')
+		},
 
 		handleExport() {
 			console.info('searchItem:::', this.searchItem)
@@ -438,28 +451,25 @@ export default {
 				url: this.exportUrl,
 				data: this.searchItem,
 			})
-
-
-
 		},
 		searchItemChange(item) {
-      console.log('parent valuechange init');
+			console.log('parent valuechange init')
 			for (var i in item) {
 				switch (item[i]) {
 					case 'merchantCode':
-            console.log(item['value'])
+						console.log(item['value'])
 						if (item['value'] === '') {
-              this.$set(this.searchItem,'prodName','');
-              this.searchItems[5].options = [];
+							this.$set(this.searchItem, 'prodName', '')
+							this.searchItems[5].options = []
 						} else {
-							this.optsPduListView({merchantCode: item['value']})
+							this.optsPduListView({ merchantCode: item['value'] })
 						}
 						break
 					case 'caseProcess':
-						this.optsHkCaseStatusView({status: item['value']})
+						this.optsHkCaseStatusView({ status: item['value'] })
 						break
 					case 'operType':
-						this.optsObjListView({operType: item['value']})
+						this.optsObjListView({ operType: item['value'] })
 						break
 					default:
 						break
@@ -485,9 +495,8 @@ export default {
 			this.searchItems[5].options = []
 			this.$http.post(URL_JSON['selectProduct'], params).then(res => {
 				// console.log('selectProduct:::',res);
-        this.searchItems[5].options = res.result;
-        this.$set(this.searchItem,'prodName','');
-
+				this.searchItems[5].options = res.result
+				this.$set(this.searchItem, 'prodName', '')
 			})
 		},
 		optsHkCaseStageView() {
