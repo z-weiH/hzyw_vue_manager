@@ -24,6 +24,7 @@ import exportFile from '@/assets/js/exportFile'
 import Searchs from '@/components/searchs'
 import TableComponent from '@/components/table'
 import Mixins from '@/components/script/_mixin'
+import { distinctArrObj } from '@/assets/js/tool'
 export default {
 	name: 'caseListView',
 	mixins: [Mixins],
@@ -98,40 +99,13 @@ export default {
 					filterable: true,
 				},
 				{
-					label: '逾期天数',
+					label: '模版编码',
 					type: 'select',
-					property: 'overdueDate',
+					property: 'templateCode',
 					colSpan: 4,
-					options: [
-						{
-							label: '0-30天',
-							value: 'M1',
-						},
-						{
-							label: '31-60天',
-							value: 'M2',
-						},
-						{
-							label: '61-90天',
-							value: 'M3',
-						},
-						{
-							label: '91-120天',
-							value: 'M4',
-						},
-						{
-							label: '121-150天',
-							value: 'M5',
-						},
-						{
-							label: '151-180天',
-							value: 'M6',
-						},
-						{
-							label: '180天以上',
-							value: 'M7',
-						},
-					],
+					options: [],
+					labelfield: 'prodCode',
+					valuefield: 'merchantCode',
 				},
 				{
 					label: '审理状态',
@@ -213,8 +187,44 @@ export default {
 						},
 					],
 				},
+				{
+					label: '逾期天数',
+					type: 'select',
+					property: 'overdueDate',
+					colSpan: 4,
+					options: [
+						{
+							label: '0-30天',
+							value: 'M1',
+						},
+						{
+							label: '31-60天',
+							value: 'M2',
+						},
+						{
+							label: '61-90天',
+							value: 'M3',
+						},
+						{
+							label: '91-120天',
+							value: 'M4',
+						},
+						{
+							label: '121-150天',
+							value: 'M5',
+						},
+						{
+							label: '151-180天',
+							value: 'M6',
+						},
+						{
+							label: '180天以上',
+							value: 'M7',
+						},
+					],
+				},
 			],
-
+			cacheMerchantCode: '', //缓存的企业code
 			searchItem: {},
 			item: {},
 			currentItem: {},
@@ -251,13 +261,18 @@ export default {
 					label: '被申请人',
 					property: 'respondents',
 					width: 100,
-          isLink: true,
-          linkShowPanel: this.gotoPretrial
+					isLink: true,
+					linkShowPanel: this.gotoPretrial,
 				},
 				{
 					label: '被申请人手机',
 					property: 'resPhone',
 					width: 150,
+				},
+				{
+					label: '模版编码',
+					property: 'templateCode',
+					width: 130,
 				},
 				{
 					label: '案件阶段',
@@ -420,15 +435,14 @@ export default {
 		}
 	},
 	methods: {
-	  //跳转法务预审
-    gotoPretrial(row){
-      let routeData = this.$router.resolve({
-        path:'/caseDetail',
-        query: {caseId: row.caseId,applicants: row.applicants}
-      });
-      window.open(routeData.href, '_blank');
-    },
-
+		//跳转法务预审
+		gotoPretrial(row) {
+			let routeData = this.$router.resolve({
+				path: '/caseDetail',
+				query: { caseId: row.caseId, applicants: row.applicants },
+			})
+			window.open(routeData.href, '_blank')
+		},
 
 		handleExport() {
 			console.info('searchItem:::', this.searchItem)
@@ -438,28 +452,41 @@ export default {
 				url: this.exportUrl,
 				data: this.searchItem,
 			})
-
-
-
 		},
 		searchItemChange(item) {
-      console.log('parent valuechange init');
+			console.log('parent valuechange init')
 			for (var i in item) {
 				switch (item[i]) {
 					case 'merchantCode':
-            console.log(item['value'])
+						console.log(item['value'])
 						if (item['value'] === '') {
-              this.$set(this.searchItem,'prodName','');
-              this.searchItems[5].options = [];
+							this.$set(this.searchItem, 'prodName', '')
+							this.searchItems[5].options = []
 						} else {
-							this.optsPduListView({merchantCode: item['value']})
+							// 缓存当前的->cache:cacheMerchantCode,方便别的方法调用
+							this.cacheMerchantCode = item['value']
+							this.optsPduListView({ merchantCode: item['value'] })
 						}
 						break
+					case 'prodName':
+						console.log('prodName: ', item['value'])
+						console.log('sssss-', this.opProduct)
+						let $opPro = distinctArrObj(
+							this.opProduct.filter(it => {
+								return it.prodName == item['value']
+							})
+						)
+						console.log($opPro[0]['prodCode'])
+						this.optsTemplateCode({
+							merchantCode: this.cacheMerchantCode,
+							prodCode: $opPro[0]['prodCode'],
+						})
+						break
 					case 'caseProcess':
-						this.optsHkCaseStatusView({status: item['value']})
+						this.optsHkCaseStatusView({ status: item['value'] })
 						break
 					case 'operType':
-						this.optsObjListView({operType: item['value']})
+						this.optsObjListView({ operType: item['value'] })
 						break
 					default:
 						break
@@ -485,9 +512,14 @@ export default {
 			this.searchItems[5].options = []
 			this.$http.post(URL_JSON['selectProduct'], params).then(res => {
 				// console.log('selectProduct:::',res);
-        this.searchItems[5].options = res.result;
-        this.$set(this.searchItem,'prodName','');
-
+				this.searchItems[5].options = res.result
+				this.opProduct = res.result
+				this.$set(this.searchItem, 'prodName', '')
+			})
+		},
+		optsTemplateCode(params) {
+			this.$http.post(URL_JSON['selectTemplateItem'], params).then(res => {
+				this.searchItems[6].options = res.result.list
 			})
 		},
 		optsHkCaseStageView() {

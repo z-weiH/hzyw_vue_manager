@@ -162,27 +162,27 @@
         }else if(type === 3) {
           message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
         }else if(type === 4) {
-          message = '&lt;@myPage&gt;&lt;/@myPage&gt;';
+          message = '&lt;@myPage /&gt;';
         }else if(type === 5) {
-          message = '&lt;@tableCol colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4]&gt;&lt;/@tableCol&gt;';
+          message = '&lt;@tableCol colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
         }else if(type === 6) {
-          message = '&lt;@tableCol title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4]&gt;&lt;/@tableCol&gt;';
+          message = '&lt;@tableCol title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
         }else if(type === 7) {
-          message = '&lt;@tableCol lastLine="说明"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4]&gt;&lt;/@tableCol&gt;';
+          message = '&lt;@tableCol lastLine="说明"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
         }else if(type === 8) {
-          message = '&lt;@tableCol lastLine="说明" title="标题"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4]&gt;&lt;/@tableCol&gt;';
+          message = '&lt;@tableCol lastLine="说明" title="标题"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
         }else if(type === 9) {
-          message = '&lt;@tableCol stat=true colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4]&gt;&lt;/@tableCol&gt;';
+          message = '&lt;@tableCol stat=true colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
         }else if(type === 10) {
-          message = '&lt;@tableCol stat=true title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4]&gt;&lt;/@tableCol&gt;';
+          message = '&lt;@tableCol stat=true title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
         }else if(type === 11) {
-          message = '${startFact}';
+          message = 'startFact';
         }else if(type === 12) {
-          message = '${endFact}';
+          message = 'endFact';
         }else if(type === 13) {
-          message = '${startRequest}';
+          message = 'startRequest';
         }else if(type === 14) {
-          message = '${endRequest}';
+          message = 'endRequest';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
