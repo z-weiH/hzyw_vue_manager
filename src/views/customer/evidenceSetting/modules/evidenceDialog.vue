@@ -105,7 +105,7 @@
       
       // 单选change
       handleRadioChange(index) {
-        this.tableData = this.ruleForm.tableData.map((v,k) => {
+        this.ruleForm.tableData = this.ruleForm.tableData.map((v,k) => {
           v.radio = '';
           if(k === index) {
             v.radio = '1'
