@@ -7,7 +7,7 @@
       </el-table-column>
       <el-table-column label="" width="55" v-if="needSingleCheck">
         <template slot-scope="scope">
-            <el-radio :label="scope.$index" v-model="templateRadio" @change.native="getTemplateRow(scope.$index,scope.row)" @click.native="cancelCheckd(scope.$index,scope.row,$event)"><i></i></el-radio>
+            <el-radio :label="scope.$index" v-model="templateRadio" @click.native="cancelCheckd(scope.$index,scope.row,$event)"><i></i></el-radio>
         </template>
     </el-table-column>
       <el-table-column v-if="!noSerial" :resizable="false" type="index" label="序号" width="50"></el-table-column>
@@ -82,7 +82,11 @@ export default {
     return {
       templateRadio: null,
       //当前
-      selectedRow: null
+      selectedRow: null,
+      //当前位置
+      selectIdx : null,
+      //上次选中的位置
+      preselectIndex: null
     }
   },
   props: {
@@ -207,17 +211,20 @@ export default {
 
 
     //获取单选选择行
-    getTemplateRow(index,row) {
-        // console.log(row);
-        this.selectedRow = row;
-    },
+
     cancelCheckd(index,row,e){
-      if(e.target.type == "radio"){
+      console.log('cancel',index,this.selectIdx);
+
+      if(e.target.type == "radio" ){
           // console.log(index,row,e.target);
-          if(this.selectedRow == row){
-            this.selectedRow = null;
-            this.templateRadio = null;
-          }
+        if(this.selectedRow != row){
+          this.selectedRow = row;
+        }else{
+          console.log('cancel');
+          this.selectedRow = null;
+          this.templateRadio = null;
+        }
+
       }
     },
 

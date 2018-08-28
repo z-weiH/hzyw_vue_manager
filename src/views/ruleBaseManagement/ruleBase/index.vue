@@ -143,7 +143,11 @@
           </ul>
           <div class="rightBtns" >
             <el-button size="mini" @click="handleAvriable">查看参数</el-button>
-            <el-button size="mini" type="primary">运行</el-button>
+            <el-button size="mini" type="primary" @click="handleRun">运行</el-button>
+          </div>
+          <div class="runRes" v-if="runRes != 0">
+            <i :class="runRes == 1 ? 'error' : 'succ'"></i>
+            <span>{{runRes == 2? '可用' : '不可用'}}</span>
           </div>
         </el-form-item>
       </el-form>
@@ -217,7 +221,6 @@
             <el-checkbox label="0000">全部规则</el-checkbox><br>
             <p v-for="(rule,index) in allruleList" :key="index">
               <el-checkbox   :label="rule.ruleId" name="type">{{rule.ruleDesc}}</el-checkbox>
-
             </p>
           </el-checkbox-group>
         </div>
@@ -267,9 +270,11 @@
     data() {
       return {
 
+        //控制运行结果
+        runRes : 2, //0 未运行，1 失败， 2 成功
+
         //規則函數列表
-        ruleNames:[
-          "f1","f2","f3","f4"
+        ruleNames:[          "f1","f2","f3","f4"
         ],
         allNames:[
           "f1","f2","f3","f4"
@@ -411,6 +416,7 @@
         }
       },
       'form.ruleInfo'(val,oldVal){
+        //规则输入的交互逻辑
         if(val){
           if(val.indexOf("$") == -1 && this.showSelect){
             this.showSelect = false;
@@ -429,7 +435,7 @@
               let elms = this.$refs.textarea_warpar.querySelectorAll('span');
               let elm = elms[elms.length - 1];
               this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
-              this.$refs.textarea_select.style.top = elm.offsetTop+6 + 'px';
+              this.$refs.textarea_select.style.top = elm.offsetTop+12 + 'px';
             });
 
           }else{
@@ -438,6 +444,8 @@
             this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>');
             console.log(this.ruleInfo_html);
           }
+        }else{
+          this.showSelect = false;
         }
 
 
@@ -445,6 +453,18 @@
       }
     },
     methods : {
+
+      //运行按钮
+      handleRun(){
+        // this.form.ruleInfo
+        this.$http.post('/ruleBase/ruleInfoByRuleInfo.htm',{ruleInfo: this.form.ruleInfo})
+          .then(res => {
+            if(res.code === '0000'){
+
+            }
+          })
+      },
+
       //执行规则
       executeRule() {
         let arr = [].concat(this.ruleIdList);
@@ -560,7 +580,9 @@
       },
       //查看参数
       handleAvriable() {
-        this.$router.push({path:'/parameterList'});
+
+        window.open(this.$router.resolve({path:'/parameterList', query: {fromRule:true}}).href,'_blank');
+
       },
       //編輯規則
       handleEdit(rule) {
@@ -750,6 +772,27 @@
     position: absolute;
     right: 10px;
     bottom: 0;
+  }
+  .runRes{
+    font-size:12px;
+    line-height: 12px;
+    i{
+      height:0px;
+      width:0px;
+      display: inline-block;
+      border: 6px solid #3A3A3A;
+      border-radius: 50%;
+      &.succ{
+        border-color: #66CC33;
+      }
+      &.error{
+        border-color:#CC0000;
+      }
+    }
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+
   }
 
 .rule-base{
