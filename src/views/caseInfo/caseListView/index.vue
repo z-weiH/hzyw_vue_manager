@@ -524,9 +524,8 @@ export default {
 		},
 		optsTemplateCode(params) {
 			this.$http.post(URL_JSON['selectTemplateItem'], params).then(res => {
-				// this.searchItems[6].options = []
+        this.searchItems[6].options = [];
 				res.result.forEach(el => {
-					console.log(el)
 					this.searchItems[6].options.push({ label: el, value: el })
 				})
 			})
