@@ -71,6 +71,10 @@
         if(cell.querySelector('.parameter-text')) {
           if(this.$parent.handleCopy) {
             this.$parent.handleCopy('${'+ row.paramCode +'}');
+          }else if(this.$route.query.fromRule) {
+            copy(row.paramCode,() => {
+              this.$message.success('已复制'+ row.paramCode +'');
+            });
           }else{
             copy('${'+ row.paramCode +'}',() => {
               this.$message.success('已复制${'+ row.paramCode +'}');
