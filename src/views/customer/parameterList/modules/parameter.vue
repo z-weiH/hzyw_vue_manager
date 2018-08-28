@@ -69,19 +69,21 @@
       // 表格 col 点击
       handleRow(row, column, cell, event) {
         if(cell.querySelector('.parameter-text')) {
-          let text = '${'+ row.paramCode +'}';
-          //
-          console.log(this.$route.query);
-          if(this.$route.query.fromRule){
-            text = row.paramCode;
+          if(this.$parent.handleCopy) {
+            this.$parent.handleCopy('${'+ row.paramCode +'}');
+          }else{
+            copy('${'+ row.paramCode +'}',() => {
+              this.$message.success('已复制${'+ row.paramCode +'}');
+            });
           }
-          copy(text,() => {
-            this.$message.success('已复制${'+ row.paramCode +'}');
-          });
         }else{
-          copy(row.paramCode,() => {
-            this.$message.success('已复制'+ row.paramCode +'');
-          });
+          if(this.$parent.handleCopy) {
+            this.$parent.handleCopy(row.paramCode);
+          }else{
+            copy(row.paramCode,() => {
+              this.$message.success('已复制'+ row.paramCode +'');
+            });
+          }
         }
       },
     },
