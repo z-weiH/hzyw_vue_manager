@@ -107,8 +107,9 @@
             content = content.replace(/&gt;/g,'>');
             content = content.replace(/&quot;/g,'"');
             content = content.replace(/&nbsp;/g,'');
-            content = content.replace(/<a>/g,'');
+            /* content = content.replace(/<a>/g,'');
             content = content.replace(/<\/a>/g,'');
+            content = content.replace(/<a.*?<\/a>/g,''); */
             this.$http({
               url : '/templateSetting/reviewTemplateContent.htm',
               method : 'post',
