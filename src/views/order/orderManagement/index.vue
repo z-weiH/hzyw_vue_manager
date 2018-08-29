@@ -92,7 +92,7 @@
           <template slot-scope="scope">
             <!-- <el-button @click="handleReset(scope.row)" type="text">重新提交</el-button> -->
             
-            <el-button @click="handleEditClaimant(scope.row)" type="text">修改被申请人</el-button>
+            <el-button v-if="scope.row.orderStatus !== 1" @click="handleEditClaimant(scope.row)" type="text">修改被申请人</el-button>
             <el-button @click="handleSubmitEvidence(scope.row)" type="text">证据</el-button>
           </template>
         </el-table-column>
