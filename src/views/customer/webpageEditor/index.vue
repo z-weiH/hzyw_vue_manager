@@ -201,13 +201,13 @@
         }else if(type === 10) {
           message = '&lt;@tableCol stat=true title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
         }else if(type === 11) {
-          message = 'startFact';
+          message = '<span class="asdf">startFact</span>';
         }else if(type === 12) {
-          message = 'endFact';
+          message = '<span class="asdf">endFact</span>';
         }else if(type === 13) {
-          message = 'startRequest';
+          message = '<span class="asdf">startRequest</span>';
         }else if(type === 14) {
-          message = 'endRequest';
+          message = '<span class="asdf">endRequest</span>';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
