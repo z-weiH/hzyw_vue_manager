@@ -106,7 +106,7 @@
             let content = this.textarea.replace(/&lt;/g,'<');
             content = content.replace(/&gt;/g,'>');
             content = content.replace(/&quot;/g,'"');
-            content = content.replace(/&nbsp;/g,'');
+            content = content.replace(/&nbsp;/g,' ');
               // 高级过滤 过滤a标签 提取出中间内容
             content = content.replace(/<a.*?>(.*?)<\/a>/g,'$1');
             // '<a>我是内容222</a>'.replace(/<a.*?>(.*?)<\/a>/g,'$1');  "我是内容222"
