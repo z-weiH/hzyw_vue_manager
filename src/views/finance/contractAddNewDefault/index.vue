@@ -19,7 +19,7 @@
         >
         </timeFrame>
 
-        <el-form-item label=" " prop="orderStatus">
+        <el-form-item label=" " prop="orderStatus" v-if="!isOperate">
           <el-select clearable style="width:100px;" v-model="ruleForm.orderStatus">
             <el-option label="待提交" value="0"></el-option>
             <el-option label="待处理" value="1"></el-option>
@@ -29,9 +29,9 @@
         </el-form-item>
 
         <el-button @click="handleSearch" type="warning">查询</el-button>
-        <el-button @click="handleExport" type="primary">导出Excel</el-button>
+        <el-button @click="handleExport" type="primary" v-if="!isOperate">导出Excel</el-button>
 
-        <div class="fr">
+        <div class="fr" v-if="!isOperate">
           <el-button @click="handleAdd" type="primary">新增加款</el-button>
         </div>
       </el-form>
@@ -70,7 +70,7 @@
         <el-table-column prop="preCaseTicket" label="预加仲券"></el-table-column>
         <el-table-column prop="preTicketAmt" label="仲券金额"></el-table-column>
         <el-table-column prop="preServiceAmt" label="技术服务费"></el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" v-if="!isOperate">
           <template slot-scope="scope">
             
             <template v-if="scope.row.orderStatus === 1">
@@ -120,6 +120,7 @@
     },
     data() {
       return {
+        isOperate : this.$route.path === '/main/OperatecontractAddNewDefault',
         ruleForm : {
           // 合同编号、客户名称
           keyWords : '',

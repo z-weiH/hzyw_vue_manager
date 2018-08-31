@@ -502,6 +502,14 @@ let router = new Router({
           },
         },
         {
+          path: 'OperatecontractAddNewDefault',
+          component: () =>
+            import ('@/views/finance/contractAddNewDefault'), // 合同加款【财务人员】 运营
+          meta: {
+            name: 'OperatecontractAddNewDefault',
+          },
+        },
+        {
           path: 'contractAddNewManage',
           component: () =>
             import ('@/views/finance/contractAddNewManage'), // 合同加款【财务主管-审核】
@@ -515,6 +523,14 @@ let router = new Router({
             import ('@/views/finance/orderAddNewDefault'), //订单加款【财务人员】
           meta: {
             name: 'orderAddNewDefault',
+          },
+        },
+        {
+          path: 'OperateorderAddNewDefault',
+          component: () =>
+            import ('@/views/finance/orderAddNewDefault'), //订单加款【财务人员】 运营
+          meta: {
+            name: 'OperateorderAddNewDefault',
           },
         },
         {
@@ -920,7 +936,6 @@ router.beforeEach((to, from, next) => {
           });
         }
         fn(tree);
-
         // 权限判断
         if ((treeList.indexOf(to.path.slice(6)) !== -1) || (jurisdictionExclude.indexOf(to.path) !== -1)) {
           // 高亮左侧导航

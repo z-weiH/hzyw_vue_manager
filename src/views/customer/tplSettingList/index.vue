@@ -62,8 +62,8 @@
         </el-table-column>
 				<el-table-column prop="productName" label="产品">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.productName" placement="top-start">
-              <span class="ellipsis" style="max-width:78px;">{{scope.row.productName}}</span>
+            <el-tooltip :content="scope.row.productName  + '' + scope.row.prodCode" placement="top-start">
+              <span class="ellipsis" style="max-width:78px;">{{scope.row.productName  + '' + scope.row.prodCode}}</span>
             </el-tooltip>
           </template>
         </el-table-column>
