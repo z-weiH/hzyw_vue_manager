@@ -433,9 +433,7 @@ export default {
 						// 明细请求过后再去改变-无数据模版状态
 						this.idCardList.length === 0 ? (this.screenWaitType = true) : (this.screenWaitType = false)
 
-						setTimeout(() => {
-							this.scrollFunc()
-						}, 300)
+
 						this.$nextTick(() => {
 						  console.log("piczoom :", this.$refs.picZoom);
 						  // setTimeout(() => {
@@ -452,13 +450,7 @@ export default {
 					}
 				})
 		},
-		scrollFunc() {
-			this.$refs.picZoom.forEach(it => {
-			  setTimeout(() => {
-			    it.initTime();
-			  }, 300);
-			});
-		},
+
 		screenLoader() {
 			this.waiter = this.$loading({
 				lock: true,
@@ -487,11 +479,8 @@ export default {
 		this.auditStatus = 0
     this.queryCountAgainAuditCase({subBatchNo: this.subBatchId});
     this.getRecheckDetail();
-		if (document.addEventListener) {
-			document.addEventListener('DOMMouseScroll', this.scrollFunc)
-		}
+
 		//IE及其他浏览器
-		window.onmousewheel = document.onmousewheel = this.scrollFunc
 	},
 	created() {},
 	components: {

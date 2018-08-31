@@ -75,11 +75,11 @@
         let objX = e.pageX - this.imgRect.left
         let objY = e.pageY - this.imgRect.top
 
-        console.log(e.pageX,objX,objY);
+        // console.log(e.pageX,objX,objY);
         //判断是否超出界限
         let _maskX = objX - this.mouseMask.offsetHeight / 2
         let _maskY = objY - this.mouseMask.offsetWidth / 2
-        console.log(_maskX,_maskY,this.mouseMask.offsetHeight / 2,this.mouseMask.offsetWidth / 2);
+        // console.log(_maskX,_maskY,this.mouseMask.offsetHeight / 2,this.mouseMask.offsetWidth / 2);
 
         if (_maskY <= 0) {
           _maskY = 0
@@ -115,7 +115,7 @@
           //获取大图尺寸
           this.imgObj = this.$el.getElementsByTagName('img')[0]
           this.imgRect = this.imgObj.getBoundingClientRect()
-          console.log(this.imgObj.offsetLeft,this.imgRect)
+          // console.log(this.imgObj.offsetLeft,this.imgRect)
           this.bigImg = new Image()
           this.bigImg.src = this.bigsrc
           this.bigImg.style.width = this.imgObj.offsetWidth *3 + 'px';
