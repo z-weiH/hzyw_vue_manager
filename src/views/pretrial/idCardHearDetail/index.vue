@@ -10,12 +10,13 @@
         <span></span>
 
 
-        <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>
-        <template v-if="disabled">
-          <el-radio v-model="passStatus" :label="0">全部</el-radio>
-          <el-radio v-model="passStatus" :label="1">已通过</el-radio>
-          <el-radio v-model="passStatus" :label="2">未通过</el-radio>
-        </template>
+        <!--<el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>-->
+        <!--<template v-if="disabled">-->
+          <!--<el-radio v-model="passStatus" :label="0">全部</el-radio>-->
+          <!--<el-radio v-model="passStatus" :label="1">已通过</el-radio>-->
+          <!--<el-radio v-model="passStatus" :label="2">未通过</el-radio>-->
+        <!--</template>-->
+        <selectQuery ref="query" :disabled="disabled" :queryConfig="queryConfig" style="display: inline-block;"></selectQuery>
       </div>
     </div>
     <!-- 无匹配案件区域 -->
@@ -56,11 +57,11 @@
       <div class="card_body">
         <div class="img zhen fl">
           <!--<pic-zoom ref="picZoom" :url="card.respondentInfo.image02" :scale="3" :scroll="true"></pic-zoom>-->
-          <img-zoom :src="card.respondentInfo.image02" width="370" height="227" :bigsrc="card.respondentInfo.image02" :configs="configs"></img-zoom>
+          <img-zoom :src="card.respondentInfo.image02+ '?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.respondentInfo.image02+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
           <!--<img :src="card.respondentInfo.image02" alt="" @mouseenter="mouseenterHandle" @mousemove="mousemoveHandle" @mouseleave="mouseleaveHandle">-->
         </div>
         <div class="img fan fl">
-          <img-zoom :src="card.respondentInfo.image01" width="370" height="227" :bigsrc="card.respondentInfo.image01" :configs="configs"></img-zoom>
+          <img-zoom :src="card.respondentInfo.image01+ '?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.respondentInfo.image01+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
 
           <!--<pic-zoom ref="picZoom" :url="card.respondentInfo.image01" :scale="3" :scroll="true"></pic-zoom>-->
         </div>
@@ -131,6 +132,7 @@
 </template>
 
 <script>
+  import selectQuery from './../signatureHearDetail/modules/selectQuery'
 import audit from "../signatureHearDetail/modules/audit";
 import Mixins from "@/components/script/_mixin";
 import PicZoom from "@/components/Piczoom";
@@ -140,6 +142,9 @@ export default {
   extends: Mixins,
   data() {
     return {
+      //查询条件
+      queryConfig:{},
+      keyWords:'',
       auditStatus: 0,
       passStatus:0,//查看状态
       editState: 0,
@@ -181,12 +186,12 @@ export default {
     }
   },
   watch: {
-    auditStatus(val, oldVal) {
-      this.HandleQuery();
-    },
-    passStatus(val,oldVal){
-      this.HandleQuery();
-    },
+    // auditStatus(val, oldVal) {
+    //   this.HandleQuery();
+    // },
+    // passStatus(val,oldVal){
+    //   this.HandleQuery();
+    // },
     'pager.currentNum':function(val,oldval){
       console.log(val);
       this.$set(this.pager,'currentNum',val);
@@ -286,12 +291,12 @@ export default {
       let obj={};
       if(!this.disabled){
         Object.assign(obj,
-          { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus },
+          { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus,passStatus: +this.passStatus,keyWords: this.keyWords},
           this.pager
         )
       }else{
         Object.assign(obj,
-          { subBatchNo: this.subBatchNo, passStatus: +this.passStatus },
+          { subBatchNo: this.subBatchNo, passStatus: +this.passStatus ,keyWords: this.keyWords},
           this.pager
         )
       }
@@ -306,6 +311,8 @@ export default {
             this.idCardList = res.result.list;
             this.count = res.result.count;
             this.pager.total = res.result.count;
+            // this.queryConfig.count = res.result.count;
+            this.$set(this.queryConfig,'count',res.result.count);
             this.idCardList.forEach(item => {
               Object.defineProperty(item, "checkName", {
                 get: () => {
@@ -355,6 +362,15 @@ export default {
 
         });
     },
+
+    //初审身份证、签名、证据链搜索是案件数量统计接口
+    handleCountQuery(item){
+      this.$http.post('/firstAudit/countAuditCaseByBaseQuery.htm',item).then(res =>{
+        if(res.code === '0000'){
+          this.queryConfig = res.result;
+        }
+      })
+    }
     // scrollFunc() {
     //   this.$refs.picZoom.forEach(it => {
     //     // this.pager.currentNum = Math.ceil(this.markflag/20);
@@ -370,16 +386,19 @@ export default {
     audit,
     PicZoom,
     closeDlg,
-    imgZoom
+    imgZoom,
+    selectQuery
   },
   mounted() {
     this.subBatchNo = this.$route.query.subBatchNo;
     this.markflag = this.$route.query.markflag;
-    this.disabled = this.$route.query.disabled;
+    this.disabled = Boolean(this.$route.query.disabled);
     this.batchNo = this.$route.query.batchNo;
     this.pager.currentNum = Math.ceil(this.markflag/20);
     if(this.pager.currentNum === 0)
       this.pager.currentNum = 1;
+
+    this.handleCountQuery({check: this.disabled ? 0 : 1,subBatchNo:this.subBatchNo, type: 1 });
     this.HandleQuery(true);
     console.log(window.opener);
     // window.onscroll = this.scrollFunc

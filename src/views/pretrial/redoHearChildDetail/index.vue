@@ -13,6 +13,9 @@
               <el-radio :label="2">未通过</el-radio>
             </el-radio-group>
           </el-col>
+          <!--<el-col :span="3" style="padding-top:30px;">-->
+            <!--<selectQuery ref="query" :disabled="disabled" :queryConfig="queryConfig"></selectQuery>-->
+          <!--</el-col>-->
           <el-col :span="15">
             <el-button v-if="subViewType == 1" type="primary" class="fr mr-10 mt-20" @click="FooPassCheck">通过</el-button>
             <el-button v-if="subViewType == 1" class="fr mr-10 mt-20" @click="FooRebak">退回</el-button>
@@ -210,8 +213,10 @@
 </template>
 
 <script>
+import selectQuery from './modules/query';
 import closeDig from '@/components/closeDlg.vue'
 import PicZoom from "@/components/Piczoom";
+import imgZoom from "@/components/v-zoom"
 // import vZoom from '@/components/vZoom'
 // import scrollY from '@/components/scroll-y'
 import { URL_JSON } from '../../../components/script/url_json'
@@ -222,6 +227,9 @@ import backTop from '@/components/backTop.vue'
 export default {
 	data() {
 		return {
+		  //查询条件
+		  queryConfig: {},
+
 			isSubmit: false,
 			auditStatusList: ['1', '2'],
 			waiter: null, // 数据加载前显示动画
@@ -243,9 +251,9 @@ export default {
 			configs: {
 				width: 370,
 				height: 227,
-				maskWidth: 87,
-				maskHeight: 130,
-				maskColor: 'rgba(0, 0, 0, 0.5)',
+        maskWidth:123,
+        maskHeight:75.5,
+        maskColor:'#fff',
 				maskOpacity: 0.2,
 			},
 			pager: {
@@ -402,6 +410,7 @@ export default {
 
 						console.log('len-idCardList.length:: ', this.idCardList.length)
 						this.count = res.result.count
+            this.$set(this.queryConfig,'count',res.result.count);
 						this.pager.total = res.result.count
 						// 明细请求过后再去改变-无数据模版状态
 						this.idCardList.length === 0 ? (this.screenWaitType = true) : (this.screenWaitType = false)
@@ -441,6 +450,14 @@ export default {
 				target: document.querySelector('#app'),
 			})
 		},
+    //复审案件详情列表安检线信息筛选时查询案件通过未通过数量
+    queryCountAgainAuditCase(item){
+		  this.$http.post('/againAudit/countAgainAuditCaseBySubBatchNo.htm',item).then(res => {
+		    if(res.code === '0000'){
+		      this.queryConfig = res.result;
+        }
+      })
+    }
 	},
 	mounted() {
 		console.log('---', this.$route.query.subBatchId)
@@ -448,7 +465,8 @@ export default {
 		this.subBatchId = this.$route.query.subBatchId
 		this.subViewType = this.$route.query.subViewType
 		this.auditStatus = 0
-		this.getRecheckDetail()
+    this.queryCountAgainAuditCase({subBatchNo: this.subBatchId});
+    this.getRecheckDetail();
 		if (document.addEventListener) {
 			document.addEventListener('DOMMouseScroll', this.scrollFunc)
 		}
@@ -465,6 +483,7 @@ export default {
 		reback,
 		closeDig,
 		backTop,
+    selectQuery
 	},
 }
 </script>

@@ -439,7 +439,7 @@ export default {
 		gotoPretrial(row) {
 			let routeData = this.$router.resolve({
 				path: '/caseDetail',
-				query: { caseId: row.caseId, applicants: row.applicants },
+				query: { caseId: row.caseId },
 			})
 			window.open(routeData.href, '_blank')
 		},

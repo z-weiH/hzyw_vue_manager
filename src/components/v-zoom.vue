@@ -1,6 +1,10 @@
 <template>
-  <div class="_magnifier">
-    <img :src="src" :width="width" :height="height" @mouseover="handOver"  @mousemove="handMove" @mouseout="handOut"/>
+  <div class="_magnifier" style="width:370px;height:227px;">
+    <img :style="{'transform':'rotate('+cureentDeg+'deg)','height':height +'px'}" :src="src" @mouseover="handOver"  @mousemove="handMove" @mouseout="handOut"/>
+    <div class="edit-wrap" >
+      <span class="rotate-left" @click="rotate('left')"></span>
+      <span class="rotate-right" @click="rotate('right')"></span>
+    </div>
   </div>
 </template>
 
@@ -40,6 +44,8 @@
     },
     data() {
       return {
+        //旋转角度
+        cureentDeg:0,
         imgObj: {},
         bigImg: {},
         mouseMask: {},
@@ -48,13 +54,32 @@
       }
     },
     methods: {
+      rotate(direction){
+        let idx = this.src.lastIndexOf(',');
+        if(direction == 'left'){
+          let deg = +this.src.substr(idx+1)-90;
+          if(deg <　0){
+            deg += 360;
+          }
+          this.src = this.src.substring(0,idx + 1)+deg;
+        }else{
+          let deg = +this.src.substr(idx+1)+90;
+          if(deg > 360){
+            deg -= 360;
+          }
+          this.src = this.src.substring(0,idx + 1)+deg;
+        }
+        this.bigsrc = this.src;
+      },
       handMove(e) {
         let objX = e.pageX - this.imgRect.left
         let objY = e.pageY - this.imgRect.top
 
+        console.log(e.pageX,objX,objY);
         //判断是否超出界限
         let _maskX = objX - this.mouseMask.offsetHeight / 2
         let _maskY = objY - this.mouseMask.offsetWidth / 2
+        console.log(_maskX,_maskY,this.mouseMask.offsetHeight / 2,this.mouseMask.offsetWidth / 2);
 
         if (_maskY <= 0) {
           _maskY = 0
@@ -68,7 +93,7 @@
         if (_maskX + this.mouseMask.offsetWidth >= this.imgRect.width) {
           _maskX = this.imgRect.width - this.mouseMask.offsetWidth
         }
-        this.mouseMask.style.webkitTransform = `translate3d(${_maskX}px,${_maskY}px,0)`;
+        this.mouseMask.style.webkitTransform = `translate3d(${_maskX+this.imgObj.offsetLeft}px,${_maskY}px,0)`;
         let backgroundX = _maskX * (Math.ceil(this.bigImg.width / this.imgObj.offsetWidth))
         let backgroundY = _maskY * (Math.ceil(this.bigImg.height / this.imgObj.offsetHeight))
         //判断背景图是否小于预览框
@@ -90,6 +115,7 @@
           //获取大图尺寸
           this.imgObj = this.$el.getElementsByTagName('img')[0]
           this.imgRect = this.imgObj.getBoundingClientRect()
+          console.log(this.imgObj.offsetLeft,this.imgRect)
           this.bigImg = new Image()
           this.bigImg.src = this.bigsrc
           this.bigImg.style.width = this.imgObj.offsetWidth *3 + 'px';
@@ -120,6 +146,9 @@
               imgLayer.style.top = this.imgRect.top- this.imgRect.height + 'px';
             }
           }
+          if(this.configs.top){
+            imgLayer.style.top = this.imgRect.top- this.imgRect.height + 'px';
+          }
           imgLayer.appendChild(this.bigImg);
           document.body.appendChild(imgLayer)
         }
@@ -128,7 +157,7 @@
   }
 </script>
 
-<style >
+<style lang="scss">
   #_magnifier_layer {
     position: absolute;
     z-index: 9999;
@@ -138,6 +167,7 @@
   ._magnifier {
     position: relative;
     display: inline-block;
+    text-align: center;
   }
   ._magnifier img {
     vertical-align: middle;
@@ -148,5 +178,35 @@
     left: 0;
     z-index: 10;
     pointer-events: none;
+  }
+  .edit-wrap{
+    position: absolute;
+    bottom: 5px;
+    right: 0;
+    z-index: 9999999;
+    background: rgba(0,0,0,0.4);
+    padding: 5px 15px 0 15px;
+    border-radius: 15px;
+    .rotate-left{
+      display: inline-block;
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+      background: url(../assets/img/rotate.png);
+      background-size: 100% 100%;
+      -moz-transform:scaleX(-1);
+      -webkit-transform:scaleX(-1);
+      -o-transform:scaleX(-1);
+      transform:scaleX(-1);
+    }
+    .rotate-right{
+      margin-left: 10px;
+      cursor: pointer;
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: url(../assets/img/rotate.png);
+      background-size: 100% 100%;
+    }
   }
 </style>
