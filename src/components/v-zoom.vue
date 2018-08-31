@@ -1,6 +1,6 @@
 <template>
   <div class="_magnifier" style="width:370px;height:227px;">
-    <img :style="{'transform':'rotate('+cureentDeg+'deg)','height':height +'px'}" :src="src" @mouseover="handOver"  @mousemove="handMove" @mouseout="handOut"/>
+    <img :style="{'transform':'rotate('+cureentDeg+'deg)','height':height +'px','max-width':'100%'}" :src="src" @mouseover="handOver"  @mousemove="handMove" @mouseout="handOut"/>
     <div class="edit-wrap" >
       <span class="rotate-left" @click="rotate('left')"></span>
       <span class="rotate-right" @click="rotate('right')"></span>
