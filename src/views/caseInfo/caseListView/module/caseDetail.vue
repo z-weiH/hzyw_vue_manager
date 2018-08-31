@@ -196,7 +196,7 @@ export default {
           this.bsqrInfo = res.result.partyInfo.find(it =>it.litigantType == 1);
           console.log(this.sqrInfo,this.bsqrInfo)
           if(this.sqrInfo.type === 1){
-            this.licenseUrl = this.sqrInfo.img01 + '?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0';
+            this.licenseUrl = this.sqrInfo.img01 + '?x-oss-process=image/resize,h_929/auto-orient,1/rotate,0';
           }
         }
       })
