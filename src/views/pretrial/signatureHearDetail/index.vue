@@ -280,7 +280,9 @@ export default {
     handleCountQuery(item){
       this.$http.post('/firstAudit/countAuditCaseByBaseQuery.htm',item).then(res =>{
         if(res.code === '0000'){
-          this.queryConfig = res.result;
+          Object.keys(res.result).forEach(key => {
+            this.queryConfig[key] = res.result[key];
+          })
         }
       })
     }

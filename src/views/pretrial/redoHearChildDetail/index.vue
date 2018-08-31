@@ -392,7 +392,7 @@ export default {
 		gotoNextPage(card) {
 			//@2018-07-04 wait-fixed todo bug
 			// card.totalCount != 0
-			if (this.currentNum != 0 && this.currentNum != card.totalCount) {
+			if (this.currentNum != 0 && this.currentNum != this.count) {
 				console.log('currentNum:: ', this.currentNum)
 				//获取分页最大值做比较
 				this.currentNum++
@@ -469,7 +469,9 @@ export default {
     queryCountAgainAuditCase(item){
 		  this.$http.post('/againAudit/countAgainAuditCaseBySubBatchNo.htm',item).then(res => {
 		    if(res.code === '0000'){
-		      this.queryConfig = res.result;
+          Object.keys(res.result).forEach(key => {
+            this.queryConfig[key] = res.result[key];
+          })
         }
       })
     }

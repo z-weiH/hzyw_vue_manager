@@ -148,6 +148,7 @@ export default {
           this.$parent.audit_state = 0;
           this.$message.success('保存成功');
           this.$parent.getRecheckDetail();
+          this.$parent.queryCountAgainAuditCase({subBatchNo: this.$parent.subBatchId})
         } else {
           console.log("提交审核原因内容：：：：", res.result);
         }

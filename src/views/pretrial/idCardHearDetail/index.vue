@@ -313,6 +313,9 @@ export default {
             this.pager.total = res.result.count;
             // this.queryConfig.count = res.result.count;
             this.$set(this.queryConfig,'count',res.result.count);
+            // Object.keys(this.queryConfig).forEach(key => {
+            //   this.$set(this.queryConfig,key,this.queryConfig[key]);
+            // })
             this.idCardList.forEach(item => {
               Object.defineProperty(item, "checkName", {
                 get: () => {
@@ -348,8 +351,11 @@ export default {
             });
             if (mark) {
               setTimeout(() => {
-                console.log(this.$refs[this.markflag][0].offsetTop);
-                document.documentElement.querySelector('.body_container').scrollTo(0,this.$refs[this.markflag][0].offsetTop)
+                if(this.$refs[this.markflag]){
+                  console.log(this.$refs[this.markflag][0].offsetTop);
+                  document.documentElement.querySelector('.body_container').scrollTo(0,this.$refs[this.markflag][0].offsetTop)
+                }
+
               }, 500);
             }else{
               document.documentElement.querySelector('.body_container').scrollTo(0,0);
@@ -367,7 +373,12 @@ export default {
     handleCountQuery(item){
       this.$http.post('/firstAudit/countAuditCaseByBaseQuery.htm',item).then(res =>{
         if(res.code === '0000'){
-          this.queryConfig = res.result;
+          Object.keys(res.result).forEach(key => {
+            this.queryConfig[key] = res.result[key];
+          })
+          // Object.keys(this.queryConfig).forEach(key => {
+          //   this.$set(this.queryConfig,key,this.queryConfig[key]);
+          // })
         }
       })
     }
