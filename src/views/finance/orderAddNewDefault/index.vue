@@ -5,7 +5,7 @@
     </div>
     <searchs class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
       <template slot='moreBtn'>
-              <el-button class='ml-20' type='primary' @click='handleExport' >导出Excel</el-button>
+              <el-button v-if="!isOperate" class='ml-20' type='primary' @click='handleExport' >导出Excel</el-button>
 </template>
     </searchs>
     <div class="item-title">
@@ -183,7 +183,12 @@ export default {
   },
   created() {
     this.doQuery(this.queryUrl, this.searchItem);
-  }
+  },
+  mounted() {
+    if(this.isOperate) {
+      this.searchItems.pop();
+    }
+  },
 };
 </script>
 
