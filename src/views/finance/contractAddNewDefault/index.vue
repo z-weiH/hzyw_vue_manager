@@ -29,7 +29,7 @@
         </el-form-item>
 
         <el-button @click="handleSearch" type="warning">查询</el-button>
-        <el-button @click="handleExport" type="primary" v-if="!isOperate">导出Excel</el-button>
+        <el-button @click="handleExport" type="primary">导出Excel</el-button>
 
         <div class="fr" v-if="!isOperate">
           <el-button @click="handleAdd" type="primary">新增加款</el-button>
