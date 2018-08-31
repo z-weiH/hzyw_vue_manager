@@ -38,7 +38,7 @@
           <el-col :span="18">
             <div class="smallBatch_title mt-10 f_18">
               <span class="f_14">{{card.subSortNo}}</span>/<span class="f_14">{{card.totalCount}}</span>
-              <span>{{card.applicants}}</span>与<span>{{card.respondents}}</span>的借款合同纠纷
+              <span>{{card.lender}}</span>与<span>{{card.respondents}}</span>的借款合同纠纷
               <span class="ico_group">
                         <i class="ico_idcard" v-if="card.idStatus === 0"></i>
                         <i class="ico_idcard right" v-if="card.idStatus === 1"></i>
