@@ -23,7 +23,7 @@
            <p>{{bsqrInfo.nation}}</p>
            <p>{{bsqrInfo.idaddress}}</p>
            <p>{{bsqrInfo.idcard}}</p>
-           <p>借款协议签订日期：{{bsqrInfo.signedDate}}</p>
+           <p>借款协议签订日期：{{item.signedDate}}</p>
          </div>
        </div>
      </div>

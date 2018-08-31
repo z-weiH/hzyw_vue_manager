@@ -31,9 +31,12 @@
 
         <div style="line-height: 30px;margin-top:10px;">
           <span class="form_desc" >借款本金</span>
-          <input type="text" class="el-input__inner" v-model="minAmtCapital">
-          <input type="text" class="el-input__inner" v-model="maxAmtCapital">
-
+          <input type="number" :class="{'el-input__inner':true,'input_error': calcError}" v-model="minAmtCapital">
+          <i class="unit">元</i>
+          <div class="line"></div>
+          <input type="number" :class="{'el-input__inner':true,'input_error': calcError}" v-model="maxAmtCapital">
+          <i class="unit">元</i>
+          <p v-if="calcError" style="color:red;padding-left: 70px;">金额输入有误</p>
           <!--<el-input style="display: inline-block;width: 330px" v-model="keyWords" placeholder="请输入案件编号或被申请人姓名进行搜索"></el-input>-->
         </div>
 
@@ -70,11 +73,12 @@
         type: Object
       },
       disabled:{
-        type: Boolean
+        type: String
       }
     },
     data(){
       return {
+        calcError: false,
         //借款本金最小值
         minAmtCapital:'',
         //借款本金最大值
@@ -85,17 +89,40 @@
         keyWords: ''
       }
     },
+    watch:{
+      // 'showQuery'(val,oldVal){
+      //   if(val){
+      //     this.calcError = false;
+      //   }
+      // }
+    },
     methods:{
       showQueryHandle(){
         this.showQuery = !this.showQuery;
       },
+      isEmpty(str){
+        if(str == '' || str == null){
+          return true;
+        }
+        return false;
+      },
       HandleQuery(){
-        this.$parent.auditStatus = this.auditStatus;
-        this.$parent.passStatus = this.passStatus;
-        this.$parent.keyWords = this.keyWords;
+        this.$parent.$parent.$parent.auditStatus = this.passStatus;
+        this.$parent.$parent.$parent.passStatus = this.passStatus;
+        this.$parent.$parent.$parent.keyWords = this.keyWords;
+        this.$parent.$parent.$parent.maxAmtCapital = this.maxAmtCapital;
+        this.$parent.$parent.$parent.minAmtCapital = this.minAmtCapital;
+        if(!this.isEmpty(this.minAmtCapital) && (!this.isEmpty(this.maxAmtCapital))){
+          console.log(this.minAmtCapital , this.maxAmtCapital)
+          if(+this.minAmtCapital > (+this.maxAmtCapital)){
+            return this.calcError = true;
+          }
+        }
         this.showQuery = false;
-        if(this.$parent.HandleQuery && this.$parent.HandleQuery instanceof Function){
-          this.$parent.HandleQuery();
+        this.calcError = false;
+        console.log(this.$parent);
+        if(this.$parent.$parent.$parent.getRecheckDetail && this.$parent.$parent.$parent.getRecheckDetail instanceof Function){
+          this.$parent.$parent.$parent.getRecheckDetail();
         }
       },
       checkClick(elm){
@@ -123,6 +150,22 @@
 
 <style scoped lang="scss">
 
+  i.unit{
+    position: relative;
+    left:-24px;
+  }
+  div.line{
+    display: inline-block;
+    width: 30px;
+    border-top: 5px solid #D8DBE2;
+    margin-right: 14px;
+  }
+  .el-input__inner{
+    width: 150px;
+    &.input_error{
+      border-color: red;
+    }
+  }
   .select_parent{
     position: relative;
     display: inline-block;

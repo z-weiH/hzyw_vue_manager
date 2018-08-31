@@ -6,16 +6,16 @@
           <el-col :span="3">
             <span class="header_title">案件复审</span>
           </el-col>
-          <el-col :span="6">
-            <el-radio-group v-model="auditStatus" class="mt-30">
-              <el-radio :label="0">全部</el-radio>
-              <el-radio :label="1">已通过</el-radio>
-              <el-radio :label="2">未通过</el-radio>
-            </el-radio-group>
-          </el-col>
-          <!--<el-col :span="3" style="padding-top:30px;">-->
-            <!--<selectQuery ref="query" :disabled="disabled" :queryConfig="queryConfig"></selectQuery>-->
+          <!--<el-col :span="6">-->
+            <!--<el-radio-group v-model="auditStatus" class="mt-30">-->
+              <!--<el-radio :label="0">全部</el-radio>-->
+              <!--<el-radio :label="1">已通过</el-radio>-->
+              <!--<el-radio :label="2">未通过</el-radio>-->
+            <!--</el-radio-group>-->
           <!--</el-col>-->
+          <el-col :span="3" style="padding-top:30px;">
+            <selectQuery ref="query" :disabled="subViewType" :queryConfig="queryConfig"></selectQuery>
+          </el-col>
           <el-col :span="15">
             <el-button v-if="subViewType == 1" type="primary" class="fr mr-10 mt-20" @click="FooPassCheck">通过</el-button>
             <el-button v-if="subViewType == 1" class="fr mr-10 mt-20" @click="FooRebak">退回</el-button>
@@ -237,9 +237,13 @@ export default {
 			auditStatus: 0,
 			subBatchNo: '',
 			subBatchId: '',
+      passStatus:'',
 			subViewType: '',
 			btnRecheckType: '',
 			currentNum: 1,
+      keyWords:'',
+      maxAmtCapital:'',
+      minAmtCapital:'',
 			auditLists: [],
 			idCardList: [], //身份证信息
 			curCardObj: {}, //当前分页的合同数据
@@ -284,10 +288,10 @@ export default {
 		}
 	},
 	watch: {
-		auditStatus(val) {
-			console.log('cur:: ', val)
-			this.HandleQuery(val)
-		},
+		// auditStatus(val) {
+		// 	console.log('cur:: ', val)
+		// 	this.HandleQuery(val)
+		// },
 	},
 	methods: {
 		scrollbarClick(e) {
@@ -310,29 +314,29 @@ export default {
 			this.audit_state = 1
 			this.HandleShow(card)
 		},
-		HandleQuery(_val) {
-			this.screenLoader()
-			this.currentNum = 1
-			this.$http
-				.post(URL_JSON['queryRecheckDetailView'], {
-					pageSize: 1,
-					currentNum: this.currentNum,
-					subBatchNo: this.subBatchId,
-					auditStatus: _val,
-				})
-				.then(res => {
-					console.log('newQuery>>>', res.result)
-					if (res.code === '0000') {
-						this.waiter.close() //关闭loader-screen
-						this.idCardList = res.result.list
-						this.count = res.result.count
-						this.pager.total = res.result.count
-						console.log(this.currentUrl)
-						// 明细请求过后再去改变-无数据模版状态
-						this.idCardList.length === 0 ? (this.screenWaitType = true) : (this.screenWaitType = false)
-					}
-				})
-		},
+		// HandleQuery(_val) {
+		// 	this.screenLoader()
+		// 	this.currentNum = 1
+		// 	this.$http
+		// 		.post(URL_JSON['queryRecheckDetailView'], {
+		// 			pageSize: 1,
+		// 			currentNum: this.currentNum,
+		// 			subBatchNo: this.subBatchId,
+		// 			auditStatus: _val,
+		// 		})
+		// 		.then(res => {
+		// 			console.log('newQuery>>>', res.result)
+		// 			if (res.code === '0000') {
+		// 				this.waiter.close() //关闭loader-screen
+		// 				this.idCardList = res.result.list
+		// 				this.count = res.result.count
+		// 				this.pager.total = res.result.count
+		// 				console.log(this.currentUrl)
+		// 				// 明细请求过后再去改变-无数据模版状态
+		// 				this.idCardList.length === 0 ? (this.screenWaitType = true) : (this.screenWaitType = false)
+		// 			}
+		// 		})
+		// },
 		HandleShow(card) {
 			//意见审核
 			this.$http
@@ -398,6 +402,10 @@ export default {
 					currentNum: this.currentNum,
 					subBatchNo: this.subBatchId,
 					auditStatus: this.auditStatus,
+          keyWords: this.keyWords,
+          maxAmtCapital: this.maxAmtCapital,
+          minAmtCapital: this.minAmtCapital,
+          passStatus: this.passStatus
 				})
 				.then(res => {
 					console.log('detail>->', res.result)
