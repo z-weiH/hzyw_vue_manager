@@ -382,7 +382,7 @@ export default {
 				})
 		},
 		gotoPrevPage(card) {
-			if (this.currentNum != 1) {
+			if (this.currentNum >= 1) {
 				this.currentNum--
 				this.getRecheckDetail()
 			} else {
@@ -392,7 +392,7 @@ export default {
 		gotoNextPage(card) {
 			//@2018-07-04 wait-fixed todo bug
 			// card.totalCount != 0
-			if (this.currentNum != 0 && this.currentNum != this.count) {
+			if (this.currentNum != 0 && this.currentNum < this.count) {
 				console.log('currentNum:: ', this.currentNum)
 				//获取分页最大值做比较
 				this.currentNum++
@@ -427,6 +427,9 @@ export default {
 						this.count = res.result.count
             this.$set(this.queryConfig,'count',res.result.count);
 						this.pager.total = res.result.count
+            if(this.currentNum > res.result.count){
+						  this.currentNum = res.result.count;
+            }
 						// 明细请求过后再去改变-无数据模版状态
 						this.idCardList.length === 0 ? (this.screenWaitType = true) : (this.screenWaitType = false)
 
