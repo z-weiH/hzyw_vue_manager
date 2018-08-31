@@ -265,6 +265,9 @@
               this.evidenceItems = res.result.list;
               this.count = res.result.totalCount;
               this.pager.total = res.result.count;
+              if(this.pager.currentNum > res.result.count){
+                this.pager.currentNum = res.result.count;
+              }
               console.log(this.evidenceItems)
               this.$set(this.queryConfig,'count',res.result.count);
               if(this.evidenceItems.length > 0){
