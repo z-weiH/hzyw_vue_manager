@@ -434,14 +434,7 @@ export default {
 						this.idCardList.length === 0 ? (this.screenWaitType = true) : (this.screenWaitType = false)
 
 
-						this.$nextTick(() => {
-						  console.log("piczoom :", this.$refs.picZoom);
-						  // setTimeout(() => {
-						    this.$refs.picZoom.forEach(it => {
-						      it.initTime();
-						    });
-						  // }, 300);
-						});
+
 
 						this.idCardList.forEach(it => {
 							console.log(it)
