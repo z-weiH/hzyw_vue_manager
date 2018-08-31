@@ -382,7 +382,7 @@ export default {
 				})
 		},
 		gotoPrevPage(card) {
-			if (this.currentNum >= 1) {
+			if (this.currentNum > 1) {
 				this.currentNum--
 				this.getRecheckDetail()
 			} else {
@@ -392,7 +392,7 @@ export default {
 		gotoNextPage(card) {
 			//@2018-07-04 wait-fixed todo bug
 			// card.totalCount != 0
-			if (this.currentNum != 0 && this.currentNum < this.count) {
+			if (this.currentNum < this.count) {
 				console.log('currentNum:: ', this.currentNum)
 				//获取分页最大值做比较
 				this.currentNum++
