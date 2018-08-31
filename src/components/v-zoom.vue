@@ -183,7 +183,7 @@
     position: absolute;
     bottom: 5px;
     right: 0;
-    z-index: 9999999;
+    z-index: 888;
     background: rgba(0,0,0,0.4);
     padding: 5px 15px 0 15px;
     border-radius: 15px;
