@@ -98,7 +98,7 @@
          </template>
          <template v-if="sqrInfo.type === 1">
            <div class="license">
-             <img :src="licenseUrl" alt="" style="width:100%;height:100%">
+             <img :src="licenseUrl" alt="" style="width:100%;">
              <div class="edit-wrap">
                <span class="rotate-left" @click="rotate('left')"></span>
                <span class="rotate-right" @click="rotate('right')"></span>
