@@ -12,10 +12,10 @@
        </div>
        <div class="card_body">
          <div class="card-img fl zhen">
-           <img-zoom :src="bsqrInfo.img02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="bsqrInfo.img02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+           <img-zoom :src="bsqrInfo.img02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="bsqrInfo.img02+'?x-oss-process=image/resize,h_1250/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
          </div>
          <div class="card-img fl fan">
-           <img-zoom :src="bsqrInfo.img01+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="bsqrInfo.img01+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+           <img-zoom :src="bsqrInfo.img01+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="bsqrInfo.img01+'?x-oss-process=image/resize,h_1250/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
          </div>
          <div class="card-info">
            <p>{{bsqrInfo.name}}</p>
@@ -83,10 +83,10 @@
        <div class="card_body">
          <template v-if="sqrInfo.type === 0">
            <div class="card-img fl zhen">
-             <img-zoom :src="sqrInfo.img02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="sqrInfo.img02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" :configs="configs1"></img-zoom>
+             <img-zoom :src="sqrInfo.img02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="sqrInfo.img02+'?x-oss-process=image/resize,h_1250/auto-orient,1/rotate,0'" :configs="configs1"></img-zoom>
            </div>
            <div class="card-img fl fan">
-             <img-zoom :src="sqrInfo.img01+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="sqrInfo.img01+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" :configs="configs1"></img-zoom>
+             <img-zoom :src="sqrInfo.img01+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="sqrInfo.img01+'?x-oss-process=image/resize,h_1250/auto-orient,1/rotate,0'" :configs="configs1"></img-zoom>
            </div>
            <div class="card-info">
              <p>{{sqrInfo.name}}</p>

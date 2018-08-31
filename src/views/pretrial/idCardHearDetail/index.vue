@@ -57,11 +57,11 @@
       <div class="card_body">
         <div class="img zhen fl">
           <!--<pic-zoom ref="picZoom" :url="card.respondentInfo.image02" :scale="3" :scroll="true"></pic-zoom>-->
-          <img-zoom :src="card.respondentInfo.image02+ '?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.respondentInfo.image02+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+          <img-zoom :src="card.respondentInfo.image02+ '?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.respondentInfo.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
           <!--<img :src="card.respondentInfo.image02" alt="" @mouseenter="mouseenterHandle" @mousemove="mousemoveHandle" @mouseleave="mouseleaveHandle">-->
         </div>
         <div class="img fan fl">
-          <img-zoom :src="card.respondentInfo.image01+ '?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.respondentInfo.image01+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+          <img-zoom :src="card.respondentInfo.image01+ '?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.respondentInfo.image01+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
 
           <!--<pic-zoom ref="picZoom" :url="card.respondentInfo.image01" :scale="3" :scroll="true"></pic-zoom>-->
         </div>

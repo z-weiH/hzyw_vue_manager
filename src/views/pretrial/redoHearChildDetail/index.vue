@@ -66,11 +66,11 @@
         <div class="part_tit f_18">身份证信息</div>
         <div class="card_part">
           <div class="img zhen">
-            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image02+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.idCard.image02+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image02+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.idCard.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
             <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
           </div>
           <div class="img fan">
-            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image01+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.idCard.image01+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image01+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.idCard.image01+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
             <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
           </div>
           <div class="img_desc">
