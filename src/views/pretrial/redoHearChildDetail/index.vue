@@ -66,13 +66,11 @@
         <div class="part_tit f_18">身份证信息</div>
         <div class="card_part">
           <div class="img zhen">
-             <pic-zoom ref="picZoom" v-if="card.idCard.image02" :url="card.idCard.image02" :scale="3" :scroll="true"></pic-zoom>
-            <!--<v-zoom v-if="card.idCard.image02" :src="card.idCard.image02 + '?x-oss-process=image/resize,h_231/auto-orient,1'" width="370" height="227"  :bigsrc="card.idCard.image02 + '?x-oss-process=image/resize,w_680/auto-orient,1'" :configs="configs"></v-zoom>-->
+            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image02+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.idCard.image02+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
             <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
           </div>
           <div class="img fan">
-             <pic-zoom ref="picZoom" v-if="card.idCard.image02" :url="card.idCard.image01" :scale="3" :scroll="true"></pic-zoom>
-            <!--<v-zoom v-if="card.idCard.image02" :src="card.idCard.image01 + '?x-oss-process=image/resize,h_231/auto-orient,1'" width="370" height="227" :bigsrc="card.idCard.image01 + '?x-oss-process=image/resize,w_680/auto-orient,1'" :configs="configs"></v-zoom>-->
+            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image01+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.idCard.image01+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
             <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
           </div>
           <div class="img_desc">
@@ -230,6 +228,15 @@ export default {
 		  //查询条件
 		  queryConfig: {},
 
+      //放大鏡涉案hi之
+      configs: {
+        width:370,
+        height:227,
+        maskWidth:123,
+        maskHeight:75.5,
+        maskColor:'#fff',
+        maskOpacity:0.2
+      },
 			isSubmit: false,
 			auditStatusList: ['1', '2'],
 			waiter: null, // 数据加载前显示动画
@@ -484,6 +491,7 @@ export default {
 	created() {},
 	components: {
 		PicZoom,
+    imgZoom,
 		// vZoom,
 		scrollY,
 		audit,
