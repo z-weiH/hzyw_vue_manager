@@ -108,8 +108,11 @@
         globalCopyFn : (event) => {
           if(this.copyStyle === false) {
             event.preventDefault(); // 取消默认的复制事件
-            let copyFont = document.querySelector('iframe').contentDocument.getSelection().getRangeAt(0).toString(); // 被复制的文字 等下插入
-            return event.clipboardData.setData('text', copyFont); // 将信息写入粘贴板
+            let sel = document.querySelector('iframe').contentDocument.getSelection();
+            if(sel && sel.rangeCount > 0) {
+              let copyFont = sel.getRangeAt(0).toString();
+              return event.clipboardData.setData('text', copyFont); // 将信息写入粘贴板
+            }
           }
         },
         // 当前复制是否 携带样式 false - 不带样式 ， true 带样式
