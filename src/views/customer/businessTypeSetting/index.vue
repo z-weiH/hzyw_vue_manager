@@ -97,7 +97,9 @@
                   this.isDisabled = false;
                 },200)
               }
-            })
+            }).catch(() => {
+              this.isDisabled = false;
+            });
           }).catch(() => {});
         }else{
           console.log("repeat")
