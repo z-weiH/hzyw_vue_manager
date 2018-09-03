@@ -114,11 +114,11 @@ export default {
 					options: [
 						{
 							label: '审理中',
-							value: '1',
+							value: '0',
 						},
 						{
 							label: '已结案',
-							value: '2',
+							value: '1',
 						},
 					],
 				},

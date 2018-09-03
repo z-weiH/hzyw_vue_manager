@@ -40,18 +40,18 @@ import store from './store'
 import './filter'
 
 //if(process.env.NODE_ENV === 'development') {
-  // 引入 element-ui
-  let ElementUI = require('element-ui');
-  // 装载 element ui
-  Vue.use(ElementUI);
+// 引入 element-ui
+let ElementUI = require('element-ui');
+// 装载 element ui
+Vue.use(ElementUI);
 //}
 
 
 /* eslint-disable no-new */
 export default new Vue({
-  el: '#app',
-  router,
-  store,
-  components: { App },
-  template: '<App/>'
+    el: '#app',
+    router,
+    store,
+    components: { App },
+    template: '<App/>'
 })
