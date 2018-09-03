@@ -24,6 +24,14 @@
               <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
               <el-button @click="handleInsertGrammar(2)">插入判断条件</el-button>
               <el-button @click="handleInsertGrammar(3)">插入多判断条件</el-button>
+              <p class="mb-10">
+                复制样式 - 
+                <el-switch
+                  @change="handleCopyChange"
+                  v-model="copyStyle"
+                >
+                </el-switch>
+              </p>
               <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>分页<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
@@ -96,6 +104,16 @@
         globalClickFn : () => {
           this.handleBox();
         },
+        // 保存 全局复制 事件
+        globalCopyFn : (event) => {
+          if(this.copyStyle === false) {
+            event.preventDefault(); // 取消默认的复制事件
+            let copyFont = document.querySelector('iframe').contentDocument.getSelection(0).toString(); // 被复制的文字 等下插入
+            return event.clipboardData.setData('text', copyFont); // 将信息写入粘贴板
+          }
+        },
+        // 当前复制是否 携带样式 false - 不带样式 ， true 带样式
+        copyStyle : false,
       }
     },
     mounted() {
@@ -110,6 +128,7 @@
           close.close();
           document.querySelector('iframe').contentDocument.addEventListener('click',this.globalClickFn);
           document.addEventListener('click',this.globalClickFn);
+          document.querySelector('iframe').contentDocument.body.oncopy = this.globalCopyFn;
         }catch(err){
           setTimeout(() => {
             fn(data)
@@ -134,8 +153,14 @@
         close.close();
       });
 
+      // 从 session 读取
+      this.copyStyle = sessionStorage.getItem('copyStyle') === 'true' ? true : false;
     },
     methods : {
+      // 复制 开关 change
+      handleCopyChange(val) {
+        sessionStorage.setItem('copyStyle',val);
+      },
       // copy 参数
       handleCopy(data) {
         this.$refs.ueeditor.insertHtml(data);
@@ -176,13 +201,13 @@
         }else if(type === 10) {
           message = '&lt;@tableCol stat=true title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
         }else if(type === 11) {
-          message = 'startFact';
+          message = '<span class="asdf">startFact</span>';
         }else if(type === 12) {
-          message = 'endFact';
+          message = '<span class="asdf">endFact</span>';
         }else if(type === 13) {
-          message = 'startRequest';
+          message = '<span class="asdf">startRequest</span>';
         }else if(type === 14) {
-          message = 'endRequest';
+          message = '<span class="asdf">endRequest</span>';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
@@ -240,6 +265,7 @@
     destroyed() {
       document.querySelector('iframe').contentDocument.removeEventListener('click',this.globalClickFn);
       document.removeEventListener('click',this.globalClickFn);
+      document.querySelector('iframe').contentDocument.body.removeEventListener('copy',this.globalCopyFn);
     },
   }
 </script>
@@ -300,7 +326,7 @@
       text-align: center;
       padding: 20px 10px;
       position: relative;
-      background-color: rgba(255,255,255,.5);
+      background-color: rgba(255,255,255,.8);
       button{
         width: 100%;
       }

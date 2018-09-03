@@ -13,7 +13,7 @@
     </div>
     <div class="item-table">
       <table-component :pager="pager" :table-data="tableData" :column-define="columnDefine">
-        <el-table-column :resizable="false" label="状态" prop="orderStatus" slot="defineCol">
+        <el-table-column :resizable="false" label="状态" prop="orderStatus" slot="defineCol" v-if="!isOperate">
 <template slot-scope="scope">
   <el-button size="mini" @click="showDialog(scope.row,1)" v-if="scope.row.orderStatus == 0">
     待提交</el-button>
@@ -41,6 +41,7 @@ export default {
   mixins: [Mixins],
   data() {
     return {
+      isOperate : this.$route.path === '/main/OperateorderAddNewDefault',
       searchItem: {},
       searchItems: [
         {
@@ -98,37 +99,37 @@ export default {
             console.info("orderNo:::", el, this);
             this.showDialog(el, 9);
           },
-          width:120
+          // width:120
         },
         {
           label: "申请时间",
           property: "orderDate",
-          width:120
+          // width:120
         },
         {
           label: "客户名称",
           property: "merchantName",
-          width:100
+          // width:100
         },
         {
           label: "联系电话",
           property: "orderPhone",
-          width:120
+          // width:120
         },
         {
           label: "订单金额",
           property: "orderAmt",
-          width:120
+          // width:120
         },
         {
           label: "已到账",
           property: "factAmt",
-          width:110
+          // width:110
         },
         {
           label: "未到账金额",
           property: "unArriveAmt",
-          width:110
+          // width:110
         }
       ],
       editItems: [
@@ -182,7 +183,12 @@ export default {
   },
   created() {
     this.doQuery(this.queryUrl, this.searchItem);
-  }
+  },
+  mounted() {
+    if(this.isOperate) {
+      this.searchItems.pop();
+    }
+  },
 };
 </script>
 

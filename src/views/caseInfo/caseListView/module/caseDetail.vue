@@ -2,7 +2,7 @@
  <div class="caseDetail body_container">
   <div class="case_header_warper">
     <div class="case_header">
-      {{$route.query.applicants}}与{{item.respondentInfo.name}}的借款合同纠纷
+      {{bsqrInfo.name}}与{{sqrInfo.name}}的借款合同纠纷
     </div>
   </div>
    <div class="case_body">
@@ -12,18 +12,18 @@
        </div>
        <div class="card_body">
          <div class="card-img fl zhen">
-           <img-zoom :src="item.respondentInfo.img02" width="400" height="250" :bigsrc="item.respondentInfo.img02" :configs="configs"></img-zoom>
+           <img-zoom :src="bsqrInfo.img02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="bsqrInfo.img02+'?x-oss-process=image/resize,h_1250/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
          </div>
          <div class="card-img fl fan">
-           <img-zoom :src="item.respondentInfo.img01" width="400" height="250" :bigsrc="item.respondentInfo.img01" :configs="configs"></img-zoom>
+           <img-zoom :src="bsqrInfo.img01+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="bsqrInfo.img01+'?x-oss-process=image/resize,h_1250/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
          </div>
          <div class="card-info">
-           <p>{{item.respondentInfo.name}}</p>
-           <p>{{item.respondentInfo.sex == 0 ? '女' : '男'}}</p>
-           <p>{{item.respondentInfo.nation}}</p>
-           <p>{{item.respondentInfo.idaddress}}</p>
-           <p>{{item.respondentInfo.idcard}}</p>
-           <p>借款协议签订日期：{{item.respondentInfo.signedDate}}</p>
+           <p>{{bsqrInfo.name}}</p>
+           <p>{{bsqrInfo.sex == 0 ? '女' : '男'}}</p>
+           <p>{{bsqrInfo.nation}}</p>
+           <p>{{bsqrInfo.idaddress}}</p>
+           <p>{{bsqrInfo.idcard}}</p>
+           <p>借款协议签订日期：{{item.signedDate}}</p>
          </div>
        </div>
      </div>
@@ -75,8 +75,46 @@
          </div>
          <div class="clear"></div>
        </div>
-
      </div>
+     <div class="case_card">
+       <div class="card_title">
+         <span>申请人{{sqrInfo.type ===0 ? '身份证' : '营业执照'}}</span>
+       </div>
+       <div class="card_body">
+         <template v-if="sqrInfo.type === 0">
+           <div class="card-img fl zhen">
+             <img-zoom :src="sqrInfo.img02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="sqrInfo.img02+'?x-oss-process=image/resize,h_1250/auto-orient,1/rotate,0'" :configs="configs1"></img-zoom>
+           </div>
+           <div class="card-img fl fan">
+             <img-zoom :src="sqrInfo.img01+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="sqrInfo.img01+'?x-oss-process=image/resize,h_1250/auto-orient,1/rotate,0'" :configs="configs1"></img-zoom>
+           </div>
+           <div class="card-info">
+             <p>{{sqrInfo.name}}</p>
+             <p>{{sqrInfo.sex == 0 ? '女' : '男'}}</p>
+             <p>{{sqrInfo.nation}}</p>
+             <p>{{sqrInfo.idaddress}}</p>
+             <p>{{sqrInfo.idcard}}</p>
+           </div>
+         </template>
+         <template v-if="sqrInfo.type === 1">
+           <div class="license">
+             <img :src="licenseUrl" alt="" style="width:100%;">
+             <div class="edit-wrap">
+               <span class="rotate-left" @click="rotate('left')"></span>
+               <span class="rotate-right" @click="rotate('right')"></span>
+             </div>
+           </div>
+           <div class="license_desc">
+             <p>{{sqrInfo.idcard}}</p>
+             <p>{{sqrInfo.name}}</p>
+             <p>{{sqrInfo.idaddress}}</p>
+             <p>{{sqrInfo.legaler}}</p>
+           </div>
+         </template>
+
+       </div>
+     </div>
+
 
    </div>
 
@@ -93,9 +131,19 @@ export default {
     return {
       //当前选中pdf
       currentUrl:'',
+
+
+      //营业执照url
+      licenseUrl:'',
+
+
       item: {
         respondentInfo:{img01:'',img02:''}
       },
+      // 申请人信息
+      sqrInfo:{},
+      // 被申请人信息
+      bsqrInfo:{},
       configs: {
         width:400,
         height:250,
@@ -104,12 +152,38 @@ export default {
         maskColor:'#fff',
         maskOpacity:0.2
       },
+      configs1:{
+        width:400,
+        height:250,
+        maskWidth:133.3,
+        maskHeight:83.3,
+        maskColor:'#fff',
+        maskOpacity:0.2,
+        top:true
+      }
     }
   },
   components:{
     imgZoom
   },
   methods:{
+    //旋转营业执照
+      rotate(direction){
+        let idx = this.licenseUrl.lastIndexOf(',');
+        if(direction == 'left'){
+          let deg = +this.licenseUrl.substr(idx+1)-90;
+          if(deg <　0){
+            deg += 360;
+          }
+          this.licenseUrl = this.licenseUrl.substring(0,idx + 1)+deg;
+        }else{
+          let deg = +this.licenseUrl.substr(idx+1)+90;
+          if(deg > 360){
+            deg -= 360;
+          }
+          this.licenseUrl = this.licenseUrl.substring(0,idx + 1)+deg;
+        }
+      },
     //初始化方法
     init(){
       console.log(this.$route.query);
@@ -118,6 +192,12 @@ export default {
           this.item = res.result;
           res.result.evidences.unshift({eviName:'证据目录',eviUrl:res.result.eviCatalog});
           this.currentUrl = res.result.eviCatalog;
+          this.sqrInfo = res.result.partyInfo.find(it =>it.litigantType == 0);
+          this.bsqrInfo = res.result.partyInfo.find(it =>it.litigantType == 1);
+          console.log(this.sqrInfo,this.bsqrInfo)
+          if(this.sqrInfo.type === 1){
+            this.licenseUrl = this.sqrInfo.img01 + '?x-oss-process=image/resize,h_929/auto-orient,1/rotate,0';
+          }
         }
       })
     },
@@ -179,6 +259,8 @@ export default {
       .card_body {
         padding: 30px 15px 25px 15px;
         background: #fff;
+        overflow: hidden;
+
         .card-img {
           &.zhen {
             margin-left: 18px;
@@ -239,5 +321,54 @@ export default {
   }
   .t_header tr{
     background: #EEF3FF;
+  }
+  .license{
+    float: left;
+    width: 660px;
+    height:929px;
+    text-align: center;
+    position: relative;
+  }
+  .license_desc{
+    height: 929px;
+    box-sizing: border-box;
+    padding: 350px 0;
+    float: left;
+    margin-left: 20px;
+    p{
+      font-size:16px;
+      line-height: 40px;
+    }
+  }
+  .edit-wrap{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    height:20px;
+    z-index: 9999999;
+    background: rgba(0,0,0,0.4);
+    padding: 5px 15px 0 15px;
+    border-radius: 15px;
+    .rotate-left{
+      display: inline-block;
+      cursor: pointer;
+      width: 16px;
+      height: 16px;
+      background: url(../../../../assets/img/rotate.png);
+      background-size: 100% 100%;
+      -moz-transform:scaleX(-1);
+      -webkit-transform:scaleX(-1);
+      -o-transform:scaleX(-1);
+      transform:scaleX(-1);
+    }
+    .rotate-right{
+      margin-left: 10px;
+      cursor: pointer;
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background: url(../../../../assets/img/rotate.png);
+      background-size: 100% 100%;
+    }
   }
 </style>

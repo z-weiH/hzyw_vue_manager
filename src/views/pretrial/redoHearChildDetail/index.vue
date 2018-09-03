@@ -6,12 +6,15 @@
           <el-col :span="3">
             <span class="header_title">案件复审</span>
           </el-col>
-          <el-col :span="6">
-            <el-radio-group v-model="auditStatus" class="mt-30">
-              <el-radio :label="0">全部</el-radio>
-              <el-radio :label="1">已通过</el-radio>
-              <el-radio :label="2">未通过</el-radio>
-            </el-radio-group>
+          <!--<el-col :span="6">-->
+            <!--<el-radio-group v-model="auditStatus" class="mt-30">-->
+              <!--<el-radio :label="0">全部</el-radio>-->
+              <!--<el-radio :label="1">已通过</el-radio>-->
+              <!--<el-radio :label="2">未通过</el-radio>-->
+            <!--</el-radio-group>-->
+          <!--</el-col>-->
+          <el-col :span="3" style="padding-top:30px;">
+            <selectQuery ref="query" :disabled="subViewType" :queryConfig="queryConfig"></selectQuery>
           </el-col>
           <el-col :span="15">
             <el-button v-if="subViewType == 1" type="primary" class="fr mr-10 mt-20" @click="FooPassCheck">通过</el-button>
@@ -35,7 +38,7 @@
           <el-col :span="18">
             <div class="smallBatch_title mt-10 f_18">
               <span class="f_14">{{card.subSortNo}}</span>/<span class="f_14">{{card.totalCount}}</span>
-              <span>{{card.applicants}}</span>与<span>{{card.respondents}}</span>的借款合同纠纷
+              <span>{{card.lender}}</span>与<span>{{card.respondents}}</span>的借款合同纠纷
               <span class="ico_group">
                         <i class="ico_idcard" v-if="card.idStatus === 0"></i>
                         <i class="ico_idcard right" v-if="card.idStatus === 1"></i>
@@ -63,13 +66,11 @@
         <div class="part_tit f_18">身份证信息</div>
         <div class="card_part">
           <div class="img zhen">
-             <pic-zoom ref="picZoom" v-if="card.idCard.image02" :url="card.idCard.image02" :scale="3" :scroll="true"></pic-zoom>
-            <!--<v-zoom v-if="card.idCard.image02" :src="card.idCard.image02 + '?x-oss-process=image/resize,h_231/auto-orient,1'" width="370" height="227"  :bigsrc="card.idCard.image02 + '?x-oss-process=image/resize,w_680/auto-orient,1'" :configs="configs"></v-zoom>-->
+            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image02+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.idCard.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
             <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
           </div>
           <div class="img fan">
-             <pic-zoom ref="picZoom" v-if="card.idCard.image02" :url="card.idCard.image01" :scale="3" :scroll="true"></pic-zoom>
-            <!--<v-zoom v-if="card.idCard.image02" :src="card.idCard.image01 + '?x-oss-process=image/resize,h_231/auto-orient,1'" width="370" height="227" :bigsrc="card.idCard.image01 + '?x-oss-process=image/resize,w_680/auto-orient,1'" :configs="configs"></v-zoom>-->
+            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image01+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.idCard.image01+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
             <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
           </div>
           <div class="img_desc">
@@ -210,8 +211,10 @@
 </template>
 
 <script>
+import selectQuery from './modules/query';
 import closeDig from '@/components/closeDlg.vue'
 import PicZoom from "@/components/Piczoom";
+import imgZoom from "@/components/v-zoom"
 // import vZoom from '@/components/vZoom'
 // import scrollY from '@/components/scroll-y'
 import { URL_JSON } from '../../../components/script/url_json'
@@ -222,6 +225,18 @@ import backTop from '@/components/backTop.vue'
 export default {
 	data() {
 		return {
+		  //查询条件
+		  queryConfig: {},
+
+      //放大鏡涉案hi之
+      configs: {
+        width:370,
+        height:227,
+        maskWidth:123,
+        maskHeight:75.5,
+        maskColor:'#fff',
+        maskOpacity:0.2
+      },
 			isSubmit: false,
 			auditStatusList: ['1', '2'],
 			waiter: null, // 数据加载前显示动画
@@ -229,9 +244,13 @@ export default {
 			auditStatus: 0,
 			subBatchNo: '',
 			subBatchId: '',
+      passStatus:'',
 			subViewType: '',
 			btnRecheckType: '',
 			currentNum: 1,
+      keyWords:'',
+      maxAmtCapital:'',
+      minAmtCapital:'',
 			auditLists: [],
 			idCardList: [], //身份证信息
 			curCardObj: {}, //当前分页的合同数据
@@ -243,9 +262,9 @@ export default {
 			configs: {
 				width: 370,
 				height: 227,
-				maskWidth: 87,
-				maskHeight: 130,
-				maskColor: 'rgba(0, 0, 0, 0.5)',
+        maskWidth:123,
+        maskHeight:75.5,
+        maskColor:'#fff',
 				maskOpacity: 0.2,
 			},
 			pager: {
@@ -276,10 +295,10 @@ export default {
 		}
 	},
 	watch: {
-		auditStatus(val) {
-			console.log('cur:: ', val)
-			this.HandleQuery(val)
-		},
+		// auditStatus(val) {
+		// 	console.log('cur:: ', val)
+		// 	this.HandleQuery(val)
+		// },
 	},
 	methods: {
 		scrollbarClick(e) {
@@ -302,29 +321,29 @@ export default {
 			this.audit_state = 1
 			this.HandleShow(card)
 		},
-		HandleQuery(_val) {
-			this.screenLoader()
-			this.currentNum = 1
-			this.$http
-				.post(URL_JSON['queryRecheckDetailView'], {
-					pageSize: 1,
-					currentNum: this.currentNum,
-					subBatchNo: this.subBatchId,
-					auditStatus: _val,
-				})
-				.then(res => {
-					console.log('newQuery>>>', res.result)
-					if (res.code === '0000') {
-						this.waiter.close() //关闭loader-screen
-						this.idCardList = res.result.list
-						this.count = res.result.count
-						this.pager.total = res.result.count
-						console.log(this.currentUrl)
-						// 明细请求过后再去改变-无数据模版状态
-						this.idCardList.length === 0 ? (this.screenWaitType = true) : (this.screenWaitType = false)
-					}
-				})
-		},
+		// HandleQuery(_val) {
+		// 	this.screenLoader()
+		// 	this.currentNum = 1
+		// 	this.$http
+		// 		.post(URL_JSON['queryRecheckDetailView'], {
+		// 			pageSize: 1,
+		// 			currentNum: this.currentNum,
+		// 			subBatchNo: this.subBatchId,
+		// 			auditStatus: _val,
+		// 		})
+		// 		.then(res => {
+		// 			console.log('newQuery>>>', res.result)
+		// 			if (res.code === '0000') {
+		// 				this.waiter.close() //关闭loader-screen
+		// 				this.idCardList = res.result.list
+		// 				this.count = res.result.count
+		// 				this.pager.total = res.result.count
+		// 				console.log(this.currentUrl)
+		// 				// 明细请求过后再去改变-无数据模版状态
+		// 				this.idCardList.length === 0 ? (this.screenWaitType = true) : (this.screenWaitType = false)
+		// 			}
+		// 		})
+		// },
 		HandleShow(card) {
 			//意见审核
 			this.$http
@@ -363,7 +382,7 @@ export default {
 				})
 		},
 		gotoPrevPage(card) {
-			if (this.currentNum != 1) {
+			if (this.currentNum > 1) {
 				this.currentNum--
 				this.getRecheckDetail()
 			} else {
@@ -373,7 +392,7 @@ export default {
 		gotoNextPage(card) {
 			//@2018-07-04 wait-fixed todo bug
 			// card.totalCount != 0
-			if (this.currentNum != 0 && this.currentNum != card.totalCount) {
+			if (this.currentNum < this.count) {
 				console.log('currentNum:: ', this.currentNum)
 				//获取分页最大值做比较
 				this.currentNum++
@@ -390,6 +409,10 @@ export default {
 					currentNum: this.currentNum,
 					subBatchNo: this.subBatchId,
 					auditStatus: this.auditStatus,
+          keyWords: this.keyWords,
+          maxAmtCapital: this.maxAmtCapital,
+          minAmtCapital: this.minAmtCapital,
+          passStatus: this.passStatus
 				})
 				.then(res => {
 					console.log('detail>->', res.result)
@@ -402,21 +425,16 @@ export default {
 
 						console.log('len-idCardList.length:: ', this.idCardList.length)
 						this.count = res.result.count
+            this.$set(this.queryConfig,'count',res.result.count);
 						this.pager.total = res.result.count
+            if(this.currentNum > res.result.count){
+						  this.currentNum = res.result.count;
+            }
 						// 明细请求过后再去改变-无数据模版状态
 						this.idCardList.length === 0 ? (this.screenWaitType = true) : (this.screenWaitType = false)
 
-						setTimeout(() => {
-							this.scrollFunc()
-						}, 300)
-						this.$nextTick(() => {
-						  console.log("piczoom :", this.$refs.picZoom);
-						  // setTimeout(() => {
-						    this.$refs.picZoom.forEach(it => {
-						      it.initTime();
-						    });
-						  // }, 300);
-						});
+
+
 
 						this.idCardList.forEach(it => {
 							console.log(it)
@@ -425,13 +443,7 @@ export default {
 					}
 				})
 		},
-		scrollFunc() {
-			this.$refs.picZoom.forEach(it => {
-			  setTimeout(() => {
-			    it.initTime();
-			  }, 300);
-			});
-		},
+
 		screenLoader() {
 			this.waiter = this.$loading({
 				lock: true,
@@ -441,6 +453,16 @@ export default {
 				target: document.querySelector('#app'),
 			})
 		},
+    //复审案件详情列表安检线信息筛选时查询案件通过未通过数量
+    queryCountAgainAuditCase(item){
+		  this.$http.post('/againAudit/countAgainAuditCaseBySubBatchNo.htm',item).then(res => {
+		    if(res.code === '0000'){
+          Object.keys(res.result).forEach(key => {
+            this.queryConfig[key] = res.result[key];
+          })
+        }
+      })
+    }
 	},
 	mounted() {
 		console.log('---', this.$route.query.subBatchId)
@@ -448,16 +470,15 @@ export default {
 		this.subBatchId = this.$route.query.subBatchId
 		this.subViewType = this.$route.query.subViewType
 		this.auditStatus = 0
-		this.getRecheckDetail()
-		if (document.addEventListener) {
-			document.addEventListener('DOMMouseScroll', this.scrollFunc)
-		}
+    this.queryCountAgainAuditCase({subBatchNo: this.subBatchId});
+    this.getRecheckDetail();
+
 		//IE及其他浏览器
-		window.onmousewheel = document.onmousewheel = this.scrollFunc
 	},
 	created() {},
 	components: {
 		PicZoom,
+    imgZoom,
 		// vZoom,
 		scrollY,
 		audit,
@@ -465,6 +486,7 @@ export default {
 		reback,
 		closeDig,
 		backTop,
+    selectQuery
 	},
 }
 </script>

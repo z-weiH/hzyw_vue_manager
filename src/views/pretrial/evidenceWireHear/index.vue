@@ -5,12 +5,13 @@
       <div class="header">
         <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
         <span class="header_title">证据链审核</span>
-        <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>
-        <template v-if="disabled">
-          <el-radio v-model="passStatus" :label="0">全部</el-radio>
-          <el-radio v-model="passStatus" :label="1">已通过</el-radio>
-          <el-radio v-model="passStatus" :label="2">未通过</el-radio>
-        </template>
+        <!--<el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>-->
+        <!--<template v-if="disabled">-->
+          <!--<el-radio v-model="passStatus" :label="0">全部</el-radio>-->
+          <!--<el-radio v-model="passStatus" :label="1">已通过</el-radio>-->
+          <!--<el-radio v-model="passStatus" :label="2">未通过</el-radio>-->
+        <!--</template>-->
+        <selectQuery ref="query" :disabled="disabled" :queryConfig="queryConfig" style="display: inline-block;"></selectQuery>
       </div>
     </div>
     <!-- 无匹配案件区域 -->
@@ -35,7 +36,7 @@
           </transition>
           <el-button type="primary"  plain @click="HandleShow(evidence)">审核意见</el-button>
         </div>
-        <span class="header_title">{{evidence.subSortNo}}/{{evidence.totalCount}} {{evidence.applicants}}与{{evidence.respondents}}的借款合同纠纷</span>
+        <span class="header_title">{{evidence.subSortNo}}/{{evidence.totalCount}} {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷</span>
         <div class="header_img">
           <img src="@/assets/img/idCard.png" alt="">
           <img class="icon" src="@/assets/img/success.png" v-if="evidence.idStatus === 1" alt="">
@@ -107,10 +108,15 @@
   import Mixins from '@/components/script/_mixin'
   import scrollY from "@/components/scroll-y";
   import closeDlg from '@/components/closeDlg';
+  import selectQuery from '../signatureHearDetail/modules/selectQuery'
   export default {
     extends: Mixins,
     data(){
       return {
+        //查询条件
+        queryConfig:{},
+        keyWords:'',
+
         auditStatus: 0,
         passStatus: 0,//查看状态
         editState: 0,
@@ -131,14 +137,14 @@
         selfflag: 0
       }
     },
-    watch: {
-      auditStatus(val) {
-        this.HandleQuery();
-      },
-      passStatus(val){
-        this.HandleQuery();
-      }
-    },
+    // watch: {
+    //   auditStatus(val) {
+    //     this.HandleQuery();
+    //   },
+    //   passStatus(val){
+    //     this.HandleQuery();
+    //   }
+    // },
     computed: {
       mark() {
         if(!this.selfflag)
@@ -243,12 +249,12 @@
         let obj={};
         if(!this.disabled){
           Object.assign(obj,
-            { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus },
+            { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus ,passStatus: +this.passStatus,keyWords: this.keyWords},
             this.pager
           )
         }else{
           Object.assign(obj,
-            { subBatchNo: this.subBatchNo, passStatus: +this.passStatus },
+            { subBatchNo: this.subBatchNo, passStatus: +this.passStatus,keyWords: this.keyWords },
             this.pager
           )
         }
@@ -259,7 +265,11 @@
               this.evidenceItems = res.result.list;
               this.count = res.result.totalCount;
               this.pager.total = res.result.count;
+              if(this.pager.currentNum > res.result.count){
+                this.pager.currentNum = res.result.count;
+              }
               console.log(this.evidenceItems)
+              this.$set(this.queryConfig,'count',res.result.count);
               if(this.evidenceItems.length > 0){
                 this.currentUrl = this.evidenceItems[0].eviDetailList[0].eviFileurl;
               }
@@ -269,18 +279,30 @@
             }
             loading.close();
           })
+      },
+      //初审身份证、签名、证据链搜索是案件数量统计接口
+      handleCountQuery(item){
+        this.$http.post('/firstAudit/countAuditCaseByBaseQuery.htm',item).then(res =>{
+          if(res.code === '0000'){
+            Object.keys(res.result).forEach(key => {
+              this.queryConfig[key] = res.result[key];
+            })
+          }
+        })
       }
     },
     components: {
       audit,
       scrollY,
-      closeDlg
+      closeDlg,
+      selectQuery
     },
     mounted() {
       this.subBatchNo = this.$route.query.subBatchNo;
       this.markflag = +this.$route.query.markflag;
-      this.disabled = this.$route.query.disabled;
+      this.disabled = Boolean(this.$route.query.disabled);
       this.batchNo = this.$route.query.batchNo;
+      this.handleCountQuery({check: this.disabled ? 0 : 1,subBatchNo:this.subBatchNo, type: 3 });
       this.pager.currentNum = Math.ceil(this.markflag/1);
       if(this.pager.currentNum === 0)
         this.pager.currentNum = 1;

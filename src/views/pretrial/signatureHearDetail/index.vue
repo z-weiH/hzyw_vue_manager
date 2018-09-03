@@ -4,12 +4,13 @@
         <div class="header">
           <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
           <span class="header_title">签名审核</span>
-          <el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>
-          <template v-if="disabled">
-            <el-radio v-model="passStatus" :label="0">全部</el-radio>
-            <el-radio v-model="passStatus" :label="1">已通过</el-radio>
-            <el-radio v-model="passStatus" :label="2">未通过</el-radio>
-          </template>
+          <!--<el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>-->
+          <!--<template v-if="disabled">-->
+            <!--<el-radio v-model="passStatus" :label="0">全部</el-radio>-->
+            <!--<el-radio v-model="passStatus" :label="1">已通过</el-radio>-->
+            <!--<el-radio v-model="passStatus" :label="2">未通过</el-radio>-->
+          <!--</template>-->
+          <selectQuery ref="query" :disabled="disabled" :queryConfig="queryConfig" style="display: inline-block;"></selectQuery>
         </div>
       </div>
       <div class="noCase_panel" v-if="signatureItems.length == 0">
@@ -102,12 +103,16 @@ import rule from "./modules/rule";
 import audit from "./modules/audit";
 import Mixins from "@/components/script/_mixin";
 import closeDlg from "@/components/closeDlg";
+import selectQuery from './modules/selectQuery'
 export default {
   extends: Mixins,
   data() {
     return {
+      //查询条件
+      queryConfig:{},
       auditStatus: 0,
       passStatus: 0,//查看状态
+      keyWords:'',
       editState: 0,
       markflag: 0,
       selfflag: null,
@@ -133,12 +138,12 @@ export default {
     }
   },
   watch: {
-    auditStatus(val, oldVal) {
-      this.HandleQuery();
-    },
-    passStatus(val, oldVal){
-      this.HandleQuery();
-    }
+    // auditStatus(val, oldVal) {
+    //   this.HandleQuery();
+    // },
+    // passStatus(val, oldVal){
+    //   this.HandleQuery();
+    // }
 
   },
   methods: {
@@ -234,12 +239,12 @@ export default {
       let obj={};
       if(!this.disabled){
         Object.assign(obj,
-          { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus },
+          { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus,keyWords: this.keyWords,passStatus: +this.passStatus },
           this.pager
         )
       }else{
         Object.assign(obj,
-          { subBatchNo: this.subBatchNo, passStatus: +this.passStatus },
+          { subBatchNo: this.subBatchNo, passStatus: +this.passStatus,keyWords: this.keyWords },
           this.pager
         )
       }
@@ -254,6 +259,7 @@ export default {
             this.signatureItems.forEach(it => {
               it.signAuditList.reverse();
             });
+            this.$set(this.queryConfig,'count',res.result.count);
             console.log(this.signatureItems);
             this.count = res.result.totalCount;
             this.pager.total = res.result.count;
@@ -269,18 +275,30 @@ export default {
           loading.close();
 
         });
+    },
+    //初审身份证、签名、证据链搜索是案件数量统计接口
+    handleCountQuery(item){
+      this.$http.post('/firstAudit/countAuditCaseByBaseQuery.htm',item).then(res =>{
+        if(res.code === '0000'){
+          Object.keys(res.result).forEach(key => {
+            this.queryConfig[key] = res.result[key];
+          })
+        }
+      })
     }
   },
   components: {
     audit,
     closeDlg,
+    selectQuery,
     rule
   },
   mounted() {
     this.subBatchNo = this.$route.query.subBatchNo;
     this.markflag = +this.$route.query.markflag;
-    this.disabled = this.$route.query.disabled;
+    this.disabled = Boolean(this.$route.query.disabled);
     this.batchNo = this.$route.query.batchNo;
+    this.handleCountQuery({check: this.disabled ? 0 : 1,subBatchNo:this.subBatchNo, type: 2 });
     //查询 和  标签定位
     this.pager.currentNum = Math.ceil(this.markflag/20);
     if(this.pager.currentNum === 0)

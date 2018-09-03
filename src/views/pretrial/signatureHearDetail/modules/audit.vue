@@ -62,6 +62,7 @@ export default {
           if(res.code === '0000'){
             this.$message.success(res.description);
             //刷新审核结果
+            this.$parent.handleCountQuery({check: this.$parent.disabled ? 0 : 1,subBatchNo:this.$parent.subBatchNo, type: this.type+1});
             let keyStr= '';
             if(this.type === 0){
               keyStr = 'idCardList.auditListWrap';

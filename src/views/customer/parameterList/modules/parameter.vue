@@ -68,20 +68,33 @@
       },
       // 表格 col 点击
       handleRow(row, column, cell, event) {
+        // 左侧
         if(cell.querySelector('.parameter-text')) {
-          let text = '${'+ row.paramCode +'}';
-          //
-          console.log(this.$route.query);
-          if(this.$route.query.fromRule){
-            text = row.paramCode;
+          if(this.$parent.handleCopy) {
+            let money = '';
+            // money 类型特殊 处理 凭借 money()字段
+            if(row.valueType === 4) {
+              money = '${money('+ row.paramCode +')}';
+            }
+            this.$parent.handleCopy(money || '${'+ row.paramCode +'}');
+          }else if(this.$route.query.fromRule) {
+            copy(row.paramCode,() => {
+              this.$message.success('已复制'+ row.paramCode +'');
+            });
+          }else{
+            copy('${'+ row.paramCode +'}',() => {
+              this.$message.success('已复制${'+ row.paramCode +'}');
+            });
           }
-          copy(text,() => {
-            this.$message.success('已复制${'+ row.paramCode +'}');
-          });
+        // 右侧
         }else{
-          copy(row.paramCode,() => {
-            this.$message.success('已复制'+ row.paramCode +'');
-          });
+          if(this.$parent.handleCopy) {
+            this.$parent.handleCopy(row.paramCode);
+          }else{
+            copy(row.paramCode,() => {
+              this.$message.success('已复制'+ row.paramCode +'');
+            });
+          }
         }
       },
     },
