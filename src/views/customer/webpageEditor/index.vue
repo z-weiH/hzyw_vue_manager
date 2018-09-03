@@ -108,7 +108,7 @@
         globalCopyFn : (event) => {
           if(this.copyStyle === false) {
             event.preventDefault(); // 取消默认的复制事件
-            let copyFont = document.querySelector('iframe').contentDocument.getSelection(0).toString(); // 被复制的文字 等下插入
+            let copyFont = document.querySelector('iframe').contentDocument.getSelection().getRangeAt(0).toString(); // 被复制的文字 等下插入
             return event.clipboardData.setData('text', copyFont); // 将信息写入粘贴板
           }
         },
