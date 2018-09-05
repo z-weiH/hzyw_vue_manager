@@ -1,11 +1,11 @@
 <template>
-  <div class="evidence-setting" ref="dragbox">
+  <div class="evidence-setting">
     <div class="wsbodyhead">
       <a>所在位置</a>
       <a href="javascript:;" class="aside_tit">模板设置</a>
     </div>
 
-    <div class="item-title of-hidden" draggable="true">
+    <div class="item-title of-hidden" draggable="true" ref="dragbox">
       <span class="item-title-sign">证据设置</span>
     </div>
 
