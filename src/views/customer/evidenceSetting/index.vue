@@ -20,12 +20,13 @@
                   <span>证据组{{index + 1}}</span>
                 </div>
               </el-col>
-              <el-col :span="16">
-                <div class="ellipsis line-h" style="width:100%;" :title="item.eviObject">
+              <el-col :span="13">
+                <div class="line-h" style="width:100%;" :title="item.eviObject">
                   {{item.eviObject}}
                 </div>
               </el-col>
-              <el-col :span="6">
+              <el-col :span="9">
+                <el-button @click="handleEditEvidenceGroup(item,index)" size="medium" round style="margin-left:33px">修改</el-button>
                 <el-button @click="handleAddEvidence(item,index)" type="primary" size="medium" round>新增证据</el-button>
                 <el-button @click="handleDeleteEvidenceGroup(item,index)" size="medium" round>删除证据组</el-button>
               </el-col>
@@ -44,6 +45,7 @@
                   </el-col>
                   <el-col :span="6">
                     <div class="fr">
+                      <el-button @click="handleEditEvidence(index,key,eviList)" size="medium" round class="mr-5">修改</el-button>
                       <el-button @click="handleDeleteEvidence(index,key)" size="medium" round class="mr-5">删除证据</el-button>
                     </div>
                   </el-col>
@@ -124,6 +126,11 @@
             ],
           }
         ],
+
+        // 修改证据组 index
+        evidenceGroupIndex : '',
+        // 修改证据 index
+        evidenceIndex : '',
       }
     },
     mounted() {
@@ -168,18 +175,22 @@
       
       // 点击新增证据
       handleAddEvidence(iten,index) {
-        this.$refs.evidenceDialog.show(index);
+        this.$refs.evidenceDialog.show(index,'add');
       },
       // 新增证据成功回调
-      evidenceCBK(index,data) {
-        this.evidenceList[index].eviList.push({
-          baseId : data.tableDataActive.baseId,
-          signStatus : data.signStatus,
-          eviNum : data.tableDataActive.eviNum,
-          eviCode : data.tableDataActive.eviCode,
-          evidenceNameText : data.tableDataActive.eviTitle,
-          evidenceNameInput : data.evidenceNameInput,
-        });
+      evidenceCBK(index,data,type) {
+        if(type === 'add') {
+          this.evidenceList[index].eviList.push({
+            baseId : data.tableDataActive.baseId,
+            signStatus : data.signStatus,
+            eviNum : data.tableDataActive.eviNum,
+            eviCode : data.tableDataActive.eviCode,
+            evidenceNameText : data.tableDataActive.eviTitle,
+            evidenceNameInput : data.evidenceNameInput,
+          });
+        }else{
+          this.evidenceList[index].eviList[this.evidenceIndex].signStatus = data.signStatus;
+        }
       },
       // 点击删除证据
       handleDeleteEvidence(index,key) {
@@ -189,28 +200,32 @@
           this.$message.warning('请至少保留一个证据');
         }
       },
+      // 点击修改证据
+      handleEditEvidence(index,key,row) {
+        this.evidenceIndex = key;
+        this.$refs.evidenceDialog.show(index,'edit',row);
+      },
       // 点击新增证据组
       handleAddEvidenceGroup() {
-        this.$refs.evidenceGroupDialog.show();
+        this.$refs.evidenceGroupDialog.show('add');
       },
       // 新增证据组成功 回调
-      evidenceGroupCBK(data) {
-        /* // 以下操作为了实现 ： 仲财通合作协议始终在证据组 底部
-        // 保存证据组最后一条数据
-        let last = this.evidenceList.pop();
-        // 最新添加的数据
-        let n = {
-          eviObject : data,
-          eviList : [],
-        };
-        this.evidenceList.push(n,last); */
-
-        this.evidenceList.push(
-          {
-            eviObject : data,
-            eviList : [],
-          }
-        );
+      evidenceGroupCBK(type,data) {
+        if(type === 'add') {
+          this.evidenceList.push(
+            {
+              eviObject : data,
+              eviList : [],
+            }
+          );
+        }else{
+          this.evidenceList[this.evidenceGroupIndex].eviObject = data;
+        }
+      },
+      // 点击修改证据组
+      handleEditEvidenceGroup(row,index) {
+        this.evidenceGroupIndex = index;
+        this.$refs.evidenceGroupDialog.show('edit',row);
       },
       // 点击删除证据组
       handleDeleteEvidenceGroup(item,index) {

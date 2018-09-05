@@ -1,7 +1,7 @@
 <template>
   <div class="evidence-setting-evidence-dialog">
     <el-dialog
-      title="新增证据"
+      :title="type === 'add' ? '新增证据' : '修改证据'"
       :visible.sync="dialogVisible"
       width="580px"
       @close="handleClose"
@@ -12,7 +12,7 @@
           <el-table border :data="ruleForm.tableData">
             <el-table-column align="center" label="序号" width="50px">
               <div class="m-radio" slot-scope="scope">
-                <el-radio @change="handleRadioChange(scope.$index)" v-model="scope.row.radio" label="1">
+                <el-radio :disabled="type === 'edit'" @change="handleRadioChange(scope.$index)" v-model="scope.row.radio" label="1">
                   <span class="fn-hide">无意义</span>
                 </el-radio>
               </div>
@@ -25,7 +25,7 @@
           </el-table>
 
           <el-form-item label=" " prop="evidenceNameInput">
-            <el-input class="mt-20" style="width:400px;" v-model.trim="ruleForm.evidenceNameInput" placeholder="请输入证据名称"></el-input>
+            <el-input :disabled="type === 'edit'" class="mt-20" style="width:400px;" v-model.trim="ruleForm.evidenceNameInput" placeholder="请输入证据名称"></el-input>
           </el-form-item>
 
           <el-form-item label=" " prop="signStatus">
@@ -78,15 +78,17 @@
         },
 
         index : '',
+        type : '',
       }
     },
     mounted() {
 
     },
     methods : {
-      show(index) {
+      show(index,type,row) {
         this.dialogVisible = true;
         this.index = index;
+        this.type = type;
 				// dialog 返回顶部
         this.$nextTick(() => {
           this.$refs.dialog.$el.scrollTop = 0;
@@ -97,8 +99,19 @@
           url : '/eviConfigure/baseEviList.htm',
           method : 'post',
         }).then((res) => {
-          // 默认选中第一个
-          res.result[0].radio = '1';
+          // 修改逻辑
+          if(this.type === 'edit') {
+            this.ruleForm.signStatus = row.signStatus;
+            this.ruleForm.evidenceNameInput = row.evidenceNameInput;
+            res.result = res.result.map((v) => {
+              v.baseId === row.baseId && (v.radio = '1');
+              return v;
+            });
+          // 新增逻辑
+          }else{
+            // 默认选中第一个
+            res.result[0].radio = '1';
+          }
           this.ruleForm.tableData = res.result;
         });
       },
@@ -108,7 +121,7 @@
         this.ruleForm.tableData = this.ruleForm.tableData.map((v,k) => {
           v.radio = '';
           if(k === index) {
-            v.radio = '1'
+            v.radio = '1';
           }
           return v;
         });
@@ -137,7 +150,7 @@
             data.tableDataActive = this.ruleForm.tableData.filter((v,k) => {
               return v.radio === '1'
             })[0];
-            this.$emit('successCBK',this.index,data);
+            this.$emit('successCBK',this.index,data,this.type);
             this.handleClose();
           }
         });

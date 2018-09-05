@@ -1,7 +1,7 @@
 <template>
   <div class="evidence-setting-evidence-group-dialog">
     <el-dialog
-      title="新增证据组"
+      :title="type === 'add' ? '新增证据组' : '修改证据组'"
       :visible.sync="dialogVisible"
       width="580px"
       @close="handleClose"
@@ -42,18 +42,25 @@
             {required : true , message : '请选择证据对象' , trigger : 'change'},
           ],
         },
+        type : '',
       }
     },
     mounted() {
 
     },
     methods : {
-      show(data,type) {
-				this.dialogVisible = true;
+      show(type,data) {
+        this.dialogVisible = true;
+        this.type = type;
 				// dialog 返回顶部
         this.$nextTick(() => {
           this.$refs.dialog.$el.scrollTop = 0;
         });
+
+        // 修改逻辑
+        if(type === 'edit') {
+          this.ruleForm.eviObject = data.eviObject;
+        }
       },
 
       // 关闭浮层
@@ -64,7 +71,9 @@
           this.submitDisabled = false;
 				},500);
 				// 重置表单数据
-        this.$refs.ruleForm.resetFields();
+        setTimeout(() => {
+          this.$refs.ruleForm.resetFields();
+        },200);
       },
       // 点击提交
       handleSubmit(submitType) {
@@ -73,7 +82,7 @@
 						// 提交数据
 						this.submitDisabled = true;
             
-            this.$emit('successCBK',this.ruleForm.eviObject);
+            this.$emit('successCBK',this.type,this.ruleForm.eviObject);
             this.handleClose();
           }
         });
