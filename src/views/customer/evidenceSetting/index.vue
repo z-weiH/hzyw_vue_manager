@@ -1,11 +1,11 @@
 <template>
-  <div class="evidence-setting">
+  <div class="evidence-setting" ref="dragbox">
     <div class="wsbodyhead">
       <a>所在位置</a>
       <a href="javascript:;" class="aside_tit">模板设置</a>
     </div>
 
-    <div class="item-title of-hidden">
+    <div class="item-title of-hidden" draggable="true">
       <span class="item-title-sign">证据设置</span>
     </div>
 
@@ -135,6 +135,19 @@
     },
     mounted() {
       this.initList();
+      // 绑定拖拽相关事件
+      document.addEventListener('dragleave',(e) => {e.preventDefault();});
+      document.addEventListener('drop',(e) => {e.preventDefault();});
+      document.addEventListener('dragenter',(e) => {e.preventDefault();});
+      document.addEventListener('dragover',(e) => {e.preventDefault();});
+      // 源
+      this.$refs.dragbox.addEventListener('dragstart',(e) => {
+        e.dataTransfer.setData('evidenceList',JSON.stringify(this.evidenceList)); 
+      });
+      // 目标
+      this.$refs.dragbox.addEventListener('drop',(e) => {
+        this.evidenceList = JSON.parse(e.dataTransfer.getData('evidenceList'));
+      });
     },
     methods : {
       // 初始化 列表
@@ -283,6 +296,15 @@
           });
         }
       },
+    },
+    // 销毁
+    destroyed() {
+      document.removeEventListener('dragleave');
+      document.removeEventListener('drop');
+      document.removeEventListener('dragenter');
+      document.removeEventListener('dragover');
+      this.$refs.dragbox.removeEventListener('dragstart');
+      this.$refs.dragbox.removeEventListener('drop');
     },
   }
 </script>
