@@ -5,7 +5,7 @@
       {{bsqrInfo.name}}与{{sqrInfo.name}}的借款合同纠纷
     </div>
   </div>
-   <div class="case_body">
+   <div class="case_body" v-for="(item,idx) in items" :key="idx">
      <div class="case_card">
        <div class="card_title">
          <span>被申请人身份证</span>
@@ -70,7 +70,7 @@
         <div class="pdf fl clear">
           <iframe  :src="item.applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
         </div>
-         <div class="pdf fr" ref="evidenceWarper">
+         <div ref="evidenceWarper"  class="pdf fr" >
            <iframe v-if="checkPdf(currentUrl)" :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
            <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
          </div>
@@ -141,9 +141,9 @@ export default {
       licenseUrl:'',
 
 
-      item: {
+      items: [{
         respondentInfo:{img01:'',img02:''}
-      },
+      }],
       // 申请人信息
       sqrInfo:{},
       // 被申请人信息
@@ -200,7 +200,6 @@ export default {
       console.log(this.$route.query);
       this.$http.post('/case/queryCaseDetailByCaseId.htm',{caseId: this.$route.query.caseId}).then(res => {
         if(res.code === '0000'){
-          this.item = res.result;
           res.result.evidences.unshift({eviName:'证据目录',eviUrl:res.result.eviCatalog});
           this.currentUrl = res.result.eviCatalog;
           this.sqrInfo = res.result.partyInfo.find(it =>it.litigantType == 0);
@@ -209,6 +208,8 @@ export default {
           if(this.sqrInfo.type === 1){
             this.licenseUrl = this.sqrInfo.img01 + '?x-oss-process=image/resize,h_929/auto-orient,1/rotate,0';
           }
+          this.items = [res.result];
+
         }
       })
     },
@@ -220,6 +221,9 @@ export default {
   },
   created(){
     this.init();
+  },
+  mounted(){
+
   }
 }
 </script>

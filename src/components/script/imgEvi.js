@@ -11,31 +11,36 @@ export  default {
               let elm = this.$refs[refName][0];
               element = elm.querySelector('img');
             }
-            let w = element.offsetWidth;
-            let h = element.offsetHeight;
-            element.onmousewheel = (e) =>{
-              e.preventDefault();
-              let url = element.src;
-              if(url.indexOf('?x-oss-process=image/resize') == -1){
-                element.src = url + `?x-oss-process=image/resize,p_100`;
-              }
+            if(element){
+              let w = element.offsetWidth;
+              let h = element.offsetHeight;
+              element.onmousewheel = (e) =>{
+                e.preventDefault();
+                let url = element.src;
+                if(url.indexOf('?x-oss-process=image/resize') == -1){
+                  element.src = url + `?x-oss-process=image/resize,p_100`;
+                }
 
-              let idx =element.src.lastIndexOf('_');
-              let left = element.src.substring(0,idx);
-              let right = +element.src.substr(idx+1);
-              if(right < 20){
-                right = 20;
-              }
-              if(e.deltaY> 0){
-                element.src = left +'_'+ (right-10);
-              }
-              if(e.deltaY< 0){
-                element.src = left +'_'+ (right+10);
+                let idx =element.src.lastIndexOf('_');
+                let left = element.src.substring(0,idx);
+                let right = +element.src.substr(idx+1);
+                if(right < 20){
+                  right = 20;
+                }
+                if(e.deltaY> 0){
+                  element.src = left +'_'+ (right-10);
+                }
+                if(e.deltaY< 0){
+                  element.src = left +'_'+ (right+10);
+                }
               }
             }
+
           };
           this.$refs[refName][0].onmouseleave = () => {
-            element.onmousewheel = null;
+            if(element){
+              element.onmousewheel = null;
+            }
           };
 
           this.$refs[refName][0].onmousedown = (e)=>{
