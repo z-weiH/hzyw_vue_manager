@@ -34,7 +34,7 @@
         </el-select>
         <span>仲裁程序：</span>
         <el-select @change="handleArbProcedureDay" style="width:130px;" v-model="ruleForm.arbProcedureDay">
-          <el-option label="互金企业" :value="1"></el-option>
+          <el-option label="互金程序" :value="1"></el-option>
           <el-option label="普通程序" :value="5"></el-option>
         </el-select>
       </div>
