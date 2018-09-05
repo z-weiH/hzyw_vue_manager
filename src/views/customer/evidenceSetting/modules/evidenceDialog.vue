@@ -12,7 +12,7 @@
           <el-table border :data="ruleForm.tableData">
             <el-table-column align="center" label="序号" width="50px">
               <div class="m-radio" slot-scope="scope">
-                <el-radio :disabled="type === 'edit'" @change="handleRadioChange(scope.$index)" v-model="scope.row.radio" label="1">
+                <el-radio @change="handleRadioChange(scope.$index)" v-model="scope.row.radio" label="1">
                   <span class="fn-hide">无意义</span>
                 </el-radio>
               </div>
@@ -25,7 +25,7 @@
           </el-table>
 
           <el-form-item label=" " prop="evidenceNameInput">
-            <el-input :disabled="type === 'edit'" class="mt-20" style="width:400px;" v-model.trim="ruleForm.evidenceNameInput" placeholder="请输入证据名称"></el-input>
+            <el-input class="mt-20" style="width:400px;" v-model.trim="ruleForm.evidenceNameInput" placeholder="请输入证据名称"></el-input>
           </el-form-item>
 
           <el-form-item label=" " prop="signStatus">

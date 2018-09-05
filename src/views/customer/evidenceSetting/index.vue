@@ -189,7 +189,15 @@
             evidenceNameInput : data.evidenceNameInput,
           });
         }else{
-          this.evidenceList[index].eviList[this.evidenceIndex].signStatus = data.signStatus;
+          let obj = {
+            baseId : data.tableDataActive.baseId,
+            signStatus : data.signStatus,
+            eviNum : data.tableDataActive.eviNum,
+            eviCode : data.tableDataActive.eviCode,
+            evidenceNameText : data.tableDataActive.eviTitle,
+            evidenceNameInput : data.evidenceNameInput,
+          };
+          this.$set(this.evidenceList[index].eviList,this.evidenceIndex,obj);
         }
       },
       // 点击删除证据
