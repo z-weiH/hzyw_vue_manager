@@ -9,8 +9,8 @@ let host = {
   // target: 'http://192.168.30.18:8999',   //刘全全
   // target: 'http://118.31.39.65:7777',   // 测试环境
   // target: 'http://192.168.30.64:3000',   // 本地node
-  // target: 'http://hzapi.arbexpress.cn',
-  target: '',
+  target: 'http://hzapi.arbexpress.cn',
+  // target: '',
 };
 
 export default host;
