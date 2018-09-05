@@ -74,7 +74,13 @@
       Searchs
     },
     methods: {
-
+      doQuery(queryUrl,searchItem) {
+        this.query(queryUrl,searchItem).then(() => {
+          this.tableData.forEach((v) => {
+            v.productName = v.productName + v.prodCode;
+          });
+        });
+      },
     },
     mounted(){
       this.doQuery(this.queryUrl,this.searchItem);
