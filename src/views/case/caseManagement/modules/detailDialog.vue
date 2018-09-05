@@ -37,7 +37,7 @@
             <td colspan="1">案件标的：</td>
             <td colspan="1">{{ruleForm.hzCaseInfoVO.amtBorrow}}</td>
             <td colspan="1">管辖权理由：</td>
-            <td colspan="1">{{ruleForm.hzCaseInfoVO.caseCause}}</td>
+            <td colspan="1">协议仲裁条款<!-- {{ruleForm.hzCaseInfoVO.caseCause}} --></td>
           </tr>
 
         </table>
