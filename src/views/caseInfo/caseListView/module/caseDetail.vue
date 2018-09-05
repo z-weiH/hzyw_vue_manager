@@ -70,8 +70,9 @@
         <div class="pdf fl clear">
           <iframe  :src="item.applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
         </div>
-         <div class="pdf fr">
-           <iframe  :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+         <div class="pdf fr" ref="evidenceWarper">
+           <iframe v-if="checkPdf(currentUrl)" :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+           <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
          </div>
          <div class="clear"></div>
        </div>
@@ -125,8 +126,11 @@
 <script>
 
 import imgZoom from "@/components/v-zoom"
+import imgEvi from '@/components/script/imgEvi';
+
 export default {
   name: 'caseDetail',
+  mixins:[imgEvi],
   data(){
     return {
       //当前选中pdf
@@ -167,6 +171,13 @@ export default {
     imgZoom
   },
   methods:{
+    //判断文件是否是pdf
+    checkPdf(url){
+      if(url.substr(url.length-3) == 'pdf'){
+        return true;
+      }
+      return false;
+    },
     //旋转营业执照
       rotate(direction){
         let idx = this.licenseUrl.lastIndexOf(',');

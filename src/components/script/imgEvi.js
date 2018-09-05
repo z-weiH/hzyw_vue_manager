@@ -15,7 +15,6 @@ export  default {
             let h = element.offsetHeight;
             element.onmousewheel = (e) =>{
               e.preventDefault();
-              console.log(e);
               let url = element.src;
               if(url.indexOf('?x-oss-process=image/resize') == -1){
                 element.src = url + `?x-oss-process=image/resize,p_100`;
@@ -24,7 +23,6 @@ export  default {
               let idx =element.src.lastIndexOf('_');
               let left = element.src.substring(0,idx);
               let right = +element.src.substr(idx+1);
-              console.log(left,right);
               if(right < 20){
                 right = 20;
               }
@@ -50,26 +48,18 @@ export  default {
             let h = element.offsetHeight;
             let _x = element.style.left ? +element.style.left.substring(0,element.style.left.length - 2) : 0;
             let _y = element.style.top ? +element.style.top.substring(0,element.style.top.length - 2) : 0;
-            console.log(x,y,w,h)
-            console.log(e);
             if(e.target.tagName == 'IMG'){
               element.onmousemove = (ev) =>{
-                console.log('move');
                 let left = ev.clientX - x;
                 let top = ev.clientY - y;
-                console.log(left,top);
 
                 element.style.left = _x + left + 'px';
                 element.style.top = _y + top + 'px';
               }
             }
-            // document.addEventListener('mousewheel',(e) => {
-            //   console.log(e,e.pageX,e.pageY);
-            // })
 
           }
           this.$refs[refName][0].onmouseup = (e) =>{
-            console.log('up');
             element.onmousemove = null;
           }
 

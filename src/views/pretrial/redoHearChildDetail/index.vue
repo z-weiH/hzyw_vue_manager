@@ -173,9 +173,9 @@
             <iframe :src="card.evi.applicationUrl" width="100%" height="100%">
                       </iframe>
           </div>
-          <div class="article_right fr">
-            <iframe :src="currentUrl" width="100%" height="100%">
-                      </iframe>
+          <div ref="evidenceWarper" class="article_right fr">
+            <iframe v-if="checkPdf(currentUrl)" :src="currentUrl" width="100%" height="100%"></iframe>
+            <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
           </div>
         </div>
       </div>
@@ -222,7 +222,10 @@ import audit from './modules/audit'
 import passview from './modules/passview'
 import reback from './modules/reback'
 import backTop from '@/components/backTop.vue'
+import imgEvi from '@/components/script/imgEvi';
+
 export default {
+  mixins:[imgEvi],
 	data() {
 		return {
 		  //查询条件
@@ -301,6 +304,12 @@ export default {
 		// },
 	},
 	methods: {
+    checkPdf(url){
+      if(url.substr(url.length-3) == 'pdf'){
+        return true;
+      }
+      return false;
+    },
 		scrollbarClick(e) {
 			console.log(e)
 			this.currentUrl = e.eviFileurl
