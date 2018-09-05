@@ -75,8 +75,9 @@
               <!--<pdf :src="evidence.applicationUrl"></pdf>-->
               <iframe  :src="evidence.applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
             </div>
-            <div class="article_right fr">
-              <iframe ref="evidence"  :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+            <div  ref="evidenceWarper" class="article_right fr">
+              <iframe ref="evidence" v-if="checkPdf(currentUrl)"  :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+              <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
             </div>
           </div>
         </div>
@@ -108,9 +109,11 @@
   import Mixins from '@/components/script/_mixin'
   import scrollY from "@/components/scroll-y";
   import closeDlg from '@/components/closeDlg';
+  import imgEvi from '@/components/script/imgEvi';
   import selectQuery from '../signatureHearDetail/modules/selectQuery'
   export default {
     extends: Mixins,
+    mixins:[imgEvi],
     data(){
       return {
         //查询条件
@@ -163,6 +166,13 @@
       }
     },
     methods: {
+      //判断文件是否是pdf
+      checkPdf(url){
+        if(url.substr(url.length-3) == 'pdf'){
+          return true;
+        }
+        return false;
+      },
       scrollbarClick(e) {
         console.log(e);
         this.currentUrl = e.eviFileurl;

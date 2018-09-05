@@ -55,6 +55,8 @@
             {{currentRule}}
           </div>
 
+          <pdf-selector ></pdf-selector>
+
         <div class="rule_body" >
             <div class="rule_desc">
               <el-button style="margin-top: 5px;" class="fr" icon="el-icon-plus"  type="primary" plain @click="handleCreate">添加规则</el-button>
@@ -263,9 +265,11 @@
 
 <script>
   import progress from './modules/progress.vue'
+  import pdfSelector from './modules/pdf_selector'
   export default {
     components : {
       'm-progress' : progress,
+      pdfSelector
     },
     data() {
       return {
