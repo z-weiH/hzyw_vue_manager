@@ -136,18 +136,14 @@
     mounted() {
       this.initList();
       // 绑定拖拽相关事件
-      document.addEventListener('dragleave',(e) => {e.preventDefault();});
-      document.addEventListener('drop',(e) => {e.preventDefault();});
-      document.addEventListener('dragenter',(e) => {e.preventDefault();});
-      document.addEventListener('dragover',(e) => {e.preventDefault();});
+      document.addEventListener('dragleave',this.dragFn);
+      document.addEventListener('drop',this.dragFn);
+      document.addEventListener('dragenter',this.dragFn);
+      document.addEventListener('dragover',this.dragFn);
       // 源
-      this.$refs.dragbox.addEventListener('dragstart',(e) => {
-        e.dataTransfer.setData('evidenceList',JSON.stringify(this.evidenceList)); 
-      });
+      this.$refs.dragbox.addEventListener('dragstart',this.dragstartFn);
       // 目标
-      this.$refs.dragbox.addEventListener('drop',(e) => {
-        this.evidenceList = JSON.parse(e.dataTransfer.getData('evidenceList'));
-      });
+      this.$refs.dragbox.addEventListener('drop',this.dropFn);
     },
     methods : {
       // 初始化 列表
@@ -296,15 +292,26 @@
           });
         }
       },
+
+      // 拖拽相关事件
+      dragFn(e) {
+        e.preventDefault();
+      },
+      dragstartFn(e) {
+        e.dataTransfer.setData('evidenceList',JSON.stringify(this.evidenceList)); 
+      },
+      dropFn(e) {
+        this.evidenceList = JSON.parse(e.dataTransfer.getData('evidenceList'));
+      },
     },
     // 销毁
-    destroyed() {
-      document.removeEventListener('dragleave');
-      document.removeEventListener('drop');
-      document.removeEventListener('dragenter');
-      document.removeEventListener('dragover');
-      this.$refs.dragbox.removeEventListener('dragstart');
-      this.$refs.dragbox.removeEventListener('drop');
+    beforeDestroy() {
+      document.removeEventListener('dragleave',this.dragFn);
+      document.removeEventListener('drop',this.dragFn);
+      document.removeEventListener('dragenter',this.dragFn);
+      document.removeEventListener('dragover',this.dragFn);
+      this.$refs.dragbox.removeEventListener('dragstart',this.dragstartFn);
+      this.$refs.dragbox.removeEventListener('drop',this.dropFn);
     },
   }
 </script>
