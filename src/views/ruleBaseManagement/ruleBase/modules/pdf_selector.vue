@@ -1,10 +1,10 @@
 <template>
   <div>
-    <input type="text" style="border:1px solid #aaa;" v-model="pdfPage">
+    <input type="text" style="border:1px solid #aaa;" v-model="pageNum">
     <button @click="onNextPage">下一页</button>
     <button @click="onPrevPage">上一页</button>
     <button @click="testPdf1">console</button>
-    一共{{pageCount}}页
+    <!--一共{{}}页-->
     <div style="position:relative;" >
       <!--<pdf ref="pdf" style="width:595.3px;" src="../../../../../static/借款协议.pdf"-->
            <!--@num-pages="pageCount = $event"-->
@@ -29,11 +29,7 @@ export default {
   name: 'pdf_selector',
   data(){
       return {
-        pdfPage: 1,
-        pageCount: 0,
-        theobject:null,
-        border:'1px solid red',
-        currentPage:1,
+
 
         pdfDoc: null,
         pageNum: 1,
