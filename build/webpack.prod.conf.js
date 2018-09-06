@@ -110,7 +110,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'mainfest',
       minChunks: Infinity,
-      chunks: ['vendor']
+      // chunks: ['vendor']
     }),
     // This instance extracts shared chunks from code splitted chunks and bundles them
     // in a separate chunk, similar to the vendor chunk

@@ -38,7 +38,7 @@ let router = new Router({
       component: () =>
         import ('@/views/main'),
       children: [
-        /* 系统管理模块 start */
+        /* 系统管理module start */
         {
           path: 'userQuery',
           component: () =>
@@ -87,7 +87,7 @@ let router = new Router({
             name: 'changePwd',
           },
         },
-        /* 系统管理模块 end */
+        /* 系统管理module end */
 
         /* 开户管理 start */
         {
@@ -180,7 +180,7 @@ let router = new Router({
 
         /* 官网管理 */
 
-        /* 第三方管理模块 start */
+        /* 第三方管理module start */
         {
           path: 'mailSend',
           component: () =>
@@ -205,8 +205,8 @@ let router = new Router({
             name: 'channelManage',
           },
         },
-        /* 第三方管理模块 end */
-        /* 案件信息模块 start */
+        /* 第三方管理module end */
+        /* 案件信息module start */
         {
           path: 'caseListView',
           component: () =>
@@ -241,7 +241,7 @@ let router = new Router({
             name: 'respondentsOperateRecord'
           }
         },
-        /* 案件信息模块 end */
+        /* 案件信息module end */
         /* 短信记录 start */
         {
           path: 'esmqLogView',
@@ -290,16 +290,16 @@ let router = new Router({
           meta: {
             name: 'mediateStatusSet'
           }
-        },{
+        }, {
           path: 'unFreeZeList',
           component: () =>
-            import ('@/views/statusConfig/unFreeZeList'),//未冻结案件列表
+            import ('@/views/statusConfig/unFreeZeList'), //未冻结案件列表
           meta: {
             name: 'unFreeZeList'
           }
         },
         /* 状态配置 end */
-        /* 客户管理模块 start */
+        /* 客户管理module start */
         {
           path: 'clientManagement',
           component: () =>
@@ -412,9 +412,9 @@ let router = new Router({
             name: 'dataManagement',
           },
         },
-        /* 客户管理模块 end */
+        /* 客户管理module end */
 
-        /* 案件订单模块 start */
+        /* 案件订单module start */
         {
           path: 'arbitramentTimeTaskManage',
           component: () =>
@@ -471,9 +471,9 @@ let router = new Router({
             name: 'fastTrack',
           },
         },
-        /* 案件订单模块 end */
+        /* 案件订单module end */
 
-        /* 案件相关模块 start */
+        /* 案件相关module start */
         {
           path: 'arbitramentUsersManage',
           component: () =>
@@ -490,9 +490,9 @@ let router = new Router({
             name: 'caseManagement',
           },
         },
-        /* 案件相关模块 end */
+        /* 案件相关module end */
 
-        /* 财务管理模块 start */
+        /* 财务管理module start */
         {
           path: 'contractAddNewDefault',
           component: () =>
@@ -621,9 +621,9 @@ let router = new Router({
             name: 'processingFeeSettleReview',
           },
         },
-        /* 财务管理模块 end */
+        /* 财务管理module end */
 
-        /* 预审模块 start */
+        /* 预审module start */
         {
           path: 'hearCaseList',
           component: () =>
@@ -736,9 +736,9 @@ let router = new Router({
             name: 'dataStatisticsView',
           },
         },
-        /* 预审模块 end */
+        /* 预审module end */
 
-        /* 复核系统 模块 start */
+        /* 复核系统 module start */
         {
           path: 'reviewCaseList',
           component: () =>
@@ -811,9 +811,9 @@ let router = new Router({
             name: 'reviewSetting',
           },
         },
-        /* 复核系统 模块 end */
+        /* 复核系统 module end */
 
-        /* 规则库管理 模块 start */
+        /* 规则库管理 module start */
         {
           path: 'ruleBaseNavigation',
           component: () =>
@@ -822,7 +822,39 @@ let router = new Router({
             name: 'ruleBaseNavigation',
           },
         },
-        /* 规则库管理 模块 end */
+        /* 规则库管理 module end */
+
+        /* 执行管理 module start */
+        {
+          path: 'courtInfo',
+          component: () =>
+            import ('@/views/execManage/courtInfo'),
+          meta: {
+            name: 'courtInfo',
+          }
+        }, {
+          path: 'judgeInfo',
+          component: () =>
+            import ('@/views/execManage/judgeInfo'),
+          meta: {
+            name: 'judgeInfo',
+          }
+        }, {
+          path: 'judgeRegisterInfo',
+          component: () =>
+            import ('@/views/execManage/judgeRegisterInfo'),
+          meta: {
+            name: 'judgeRegisterInfo',
+          }
+        }, {
+          path: 'caseOperationRecord',
+          component: () =>
+            import ('@/views/execManage/caseOperationRecord'),
+          meta: {
+            name: 'caseOperationRecord',
+          }
+        },
+        /* 执行管理 module end */
       ],
     },
     {
@@ -894,11 +926,11 @@ let router = new Router({
       },
     },
     {
-      path:'/caseDetail',
+      path: '/caseDetail',
       component: () =>
         import("@/views/caseInfo/caseListView/module/caseDetail"), //案件复核详情(案件列表)
       meta: {
-        name:'caseDetail'
+        name: 'caseDetail'
       }
     },
 
@@ -964,9 +996,9 @@ router.beforeEach((to, from, next) => {
 router.afterEach((to, from) => {
   NProgress.done();
 
-  if(to.path === '/main/redoHearList'){
-    if(from.path !== "/main/redoHearDetail"){
-      store.commit("setSearchItem",{})
+  if (to.path === '/main/redoHearList') {
+    if (from.path !== "/main/redoHearDetail") {
+      store.commit("setSearchItem", {})
     }
   }
 });

@@ -508,6 +508,32 @@
               },
             ],
           },
+          {
+            menuName: '执行管理',
+            menuId: 'zxm1',
+            children: [
+              {
+                menuName: '法院信息表',
+                menuId: 'zxm2',
+                menuUrl: 'courtInfo'
+              },
+              {
+                menuName: '注册法官信息',
+                menuId: 'zxm3',
+                menuUrl: 'judgeInfo'
+              },
+              {
+                menuName: '注册信息审核',
+                menuId: 'zxm4',
+                menuUrl: 'judgeRegisterInfo'
+              },
+              {
+                menuName: '案件操作记录',
+                menuId: 'zxm5',
+                menuUrl: 'caseOperationRecord'
+              }
+            ]
+          }
         ],
         // 当前高亮的 menu
         active : '/main/demo',
