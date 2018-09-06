@@ -458,8 +458,8 @@ export default {
 					case 'merchantCode':
 						console.log(item['value'])
 						if (item['value'] === '') {
-              this.$set(this.searchItem, 'prodName', '')
-              this.$set(this.searchItem, 'templateCode', '')
+							this.$set(this.searchItem, 'prodName', '')
+							this.$set(this.searchItem, 'templateCode', '')
 							this.searchItems[5].options = []
 						} else {
 							// 缓存当前的->cache:cacheMerchantCode,方便别的方法调用
@@ -472,7 +472,7 @@ export default {
 						console.log('opProduct-', this.opProduct)
 
 						if (item['value'] === '') {
-              this.$set(this.searchItem, 'templateCode', '')
+							this.$set(this.searchItem, 'templateCode', '')
 							this.searchItems[6].options = []
 						} else {
 							let $opPro = distinctArrObj(
@@ -480,7 +480,7 @@ export default {
 									return it.prodName == item['value']
 								})
 							)
-							console.log('$opPro--',$opPro[0]['prodCode'])
+							console.log('$opPro--', $opPro[0]['prodCode'])
 							this.optsTemplateCode({
 								merchantCode: this.cacheMerchantCode,
 								prodCode: $opPro[0]['prodCode'],
@@ -524,7 +524,7 @@ export default {
 		},
 		optsTemplateCode(params) {
 			this.$http.post(URL_JSON['selectTemplateItem'], params).then(res => {
-        this.searchItems[6].options = [];
+				this.searchItems[6].options = []
 				res.result.forEach(el => {
 					this.searchItems[6].options.push({ label: el, value: el })
 				})
