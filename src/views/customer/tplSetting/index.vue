@@ -40,9 +40,7 @@
         </el-table-column>
         <el-table-column prop="clientName" label="客户名称">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.clientName" placement="top-start">
-              <span class="ellipsis" style="max-width:112px;">{{scope.row.clientName}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20 class="ellipsis">{{scope.row.clientName}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="loginName" label="账户">
