@@ -1,14 +1,15 @@
 <template>
   <div>
     <input type="text" style="border:1px solid #aaa;" v-model="pdfPage">
-    <button @click="testPdf">下一页</button>
-    <button @click="testPdf2">上一页</button>
+    <button @click="onNextPage">下一页</button>
+    <button @click="onPrevPage">上一页</button>
     <button @click="testPdf1">console</button>
     一共{{pageCount}}页
-    <div style="position:relative;">
-      <pdf ref="pdf" style="width:595.3px;" src="../../../../../static/商品分期服务居间协议.pdf"
-           @num-pages="pageCount = $event"
-      ></pdf>
+    <div style="position:relative;" >
+      <!--<pdf ref="pdf" style="width:595.3px;" src="../../../../../static/借款协议.pdf"-->
+           <!--@num-pages="pageCount = $event"-->
+      <!--&gt;</pdf>-->
+      <canvas id="the-canvas" style="width: 595.3px;"></canvas>
       <!--<iframe  src="../../../../../static"-->
       <!--width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>-->
       <div class="resizeMe" id="testDiv" ref="testDiv">
@@ -23,6 +24,7 @@
 
 <script>
   import pdf from 'vue-pdf'
+  // import PDFJS from 'pdfjs-dist'
 export default {
   name: 'pdf_selector',
   data(){
@@ -31,13 +33,84 @@ export default {
         pageCount: 0,
         theobject:null,
         border:'1px solid red',
-        currentPage:1
+        currentPage:1,
+
+        pdfDoc: null,
+        pageNum: 1,
+        pageRendering: false,
+        pageNumPending: null,
+        scale: 0.9
       }
   },
   components:{
     pdf,
   },
+  created(){
+    console.log(PDFJS);
+    PDFJS.workerSrc = 'static/pdfjs/build/pdf.worker.js';
+    PDFJS.cMapUrl  = 'static/pdfjs/web/cmaps/';
+    PDFJS.cMapPacked = true;
+  },
   methods:{
+
+    showPDF (url) {
+      let _this = this
+      PDFJS.getDocument(url).then(function (pdf) {
+        _this.pdfDoc = pdf
+        _this.renderPage(1)
+      })
+    },
+    renderPage (num) {
+      this.pageRendering = true
+      let _this = this
+      this.pdfDoc.getPage(num).then(function (page) {
+        var viewport = page.getViewport(_this.scale)
+        let canvas = document.getElementById('the-canvas')
+        canvas.height = viewport.height
+        canvas.width = viewport.width
+
+        // Render PDF page into canvas context
+        var renderContext = {
+          canvasContext: canvas.getContext('2d'),
+          viewport: viewport
+        }
+        var renderTask = page.render(renderContext)
+
+        // Wait for rendering to finish
+        renderTask.promise.then(function () {
+          _this.pageRendering = false
+          if (_this.pageNumPending !== null) {
+            // New page rendering is pending
+            _this.renderPage(_this.pageNumPending)
+            _this.pageNumPending = null
+          }
+        })
+      })
+    },
+    queueRenderPage (num) {
+      if (this.pageRendering) {
+        this.pageNumPending = num
+      } else {
+        this.renderPage(num)
+      }
+    },
+    onPrevPage () {
+      if (this.pageNum <= 1) {
+        return
+      }
+      this.pageNum--
+      this.queueRenderPage(this.pageNum)
+    },
+    onNextPage () {
+      if (this.pageNum >= this.pdfDoc.numPages) {
+        return
+      }
+      this.pageNum++
+      this.queueRenderPage(this.pageNum)
+    },
+
+
+
     testPdf(){
       console.log(this.$refs.pdf);
       this.$refs.pdf.pdf.loadPage(++this.pdfPage);
@@ -174,6 +247,7 @@ export default {
     }
   },
   mounted(){
+    this.showPDF("../../../../../static/借款协议.pdf");
     this.$refs.testDiv.style.border=this.border;
     this.$refs.testDiv.addEventListener('mousedown',(e)=>{this.doDown(e)});
     document.addEventListener('mouseup',(e)=>{this.doUp(e)});
