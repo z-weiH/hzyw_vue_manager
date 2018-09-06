@@ -1,17 +1,15 @@
 <template>
- <div class="page">
+	<div>
 
- </div>
+	</div>
 </template>
 
-<script type="text/ecmascript-6">
-export default {
-	data() {
-		return {}
-	},
-	components: {},
-}
+<script>
+	export default {
+		
+	}
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+
 </style>

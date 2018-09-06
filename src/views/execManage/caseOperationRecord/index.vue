@@ -1,83 +1,15 @@
 <template>
-<div class='content'>
-<div class='wsbodyhead'>
-<a>所在位置</a>
-<router-link :to='options.name' class='aside_tit'>text</router-link>
-</div>
-<searchs @valueChange='searchItemChange' class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
-<template slot='moreBtn'>
-</template>
-</searchs>
-<div class='item-title'>
-text
-</div>
-<div class='item-table'>
-<table-component :pager='pager' @refreshList='doQuery(this.queryUrl, this.searchItem)' :table-data='tableData' :column-define='columnDefine' ></table-component>
-</div>
-</div>
+	<div>
+
+	</div>
 </template>
 
-
-<script type='text/ecmascript-6'>
-import { URL_JSON } from '../../../components/script/url_json'
-import exportFile from '@/assets/js/exportFile'
-import Searchs from '@/components/searchs'
-import TableComponent from '@/components/table'
-import Mixins from '@/components/script/_mixin'
-export default {
-	name: '',
-	mixins: [Mixins],
-	data() {
-		return {
-			searchItem: {},
-			item: {},
-			pager: {
-				// 数据总数
-				total: 11,
-				// 当前页数
-				currentPage: 1,
-				// 每页数量
-				pageSize: 10,
-			},
-			tableData: [{}],
-			searchItems: [
-				{
-					label: '',
-					type: 'text',
-					placeholder: '',
-					colSpan: null,
-					property: '',
-				},
-			],
-			columnDefine: [
-				{
-					label: '',
-					property: '',
-					width: 100,
-				},
-			],
-		}
-	},
-	methods: {
-		doQuery(url, item) {
-			this.query(url, item).then(res => {
-				console.info(res)
-				//  this.tableData = res.result.list;
-				//   this.total = res.result.count;
-			})
-		},
-	},
-	created() {},
-	mounted() {
-		this.doQuery(this.queryUrl, this.searchItem)
-	},
-	components: {
-		Searchs,
-		TableComponent,
-	},
-}
+<script>
+	export default {
+		
+	}
 </script>
 
+<style scoped>
 
-<style lang='scss' scoped>
 </style>
