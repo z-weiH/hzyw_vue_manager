@@ -4,9 +4,10 @@
     <button @click="testPdf">下一页</button>
     <button @click="testPdf2">上一页</button>
     <button @click="testPdf1">console</button>
+    一共{{pageCount}}页
     <div style="position:relative;">
-      <pdf ref="pdf" style="width:595.3px;" src="../../../../../static/收货确认书.pdf"
-           @page-loaded="currentPage = $event"
+      <pdf ref="pdf" style="width:595.3px;" src="../../../../../static/商品分期服务居间协议.pdf"
+           @num-pages="pageCount = $event"
       ></pdf>
       <!--<iframe  src="../../../../../static"-->
       <!--width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>-->
@@ -27,6 +28,7 @@ export default {
   data(){
       return {
         pdfPage: 1,
+        pageCount: 0,
         theobject:null,
         border:'1px solid red',
         currentPage:1
