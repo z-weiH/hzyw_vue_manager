@@ -6,8 +6,14 @@
         "browsers": ["> 1%", "last 2 versions", "not ie <= 8"]
       }
     }],
+    ["latest", {
+      "es2015": {
+        "modules": false
+      }
+    }],
     "stage-2"
   ],
-  "plugins": ["transform-vue-jsx", "transform-runtime", "syntax-dynamic-import"]
+  "plugins": ["transform-vue-jsx", "transform-runtime", "syntax-dynamic-import"],
+  "comments": false
 
 }

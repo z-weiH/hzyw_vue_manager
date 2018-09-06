@@ -4,7 +4,12 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 
-Vue.config.productionTip = false
+const isDebug_mode = process.env.NODE_ENV !== 'production'
+Vue.config.debug = isDebug_mode
+Vue.config.devtools = isDebug_mode
+Vue.config.productionTip = isDebug_mode
+
+// Vue.config.productionTip = false
 
 // 添加 主题色
 import './assets/style/element/index.css'
