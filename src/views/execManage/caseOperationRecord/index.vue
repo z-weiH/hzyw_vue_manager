@@ -6,13 +6,6 @@
           <el-input v-model.trim="ruleForm.keyWords" style="width:280px;" placeholder="案号、申请人、被申请人、手机、法院"></el-input>
         </el-form-item>
 
-        <el-form-item label=" " prop="accountAge">
-          <el-select clearable v-model="ruleForm.accountAge" style="width:150px;" placeholder="请选择操作类型">
-            <el-option label="法官扫码" value="M1"></el-option>
-            <el-option label="普通扫码" value="M2"></el-option>
-          </el-select>
-        </el-form-item>
-
 				<timeFrame
           :startDate.sync="ruleForm.startDate"
           :endDate.sync="ruleForm.endDate"
@@ -20,6 +13,13 @@
           endPlaceholder="操作结束时间"
         >
         </timeFrame>
+
+				<el-form-item label=" " prop="accountAge">
+          <el-select clearable v-model="ruleForm.accountAge" style="width:150px;" placeholder="操作类型">
+            <el-option label="法官扫码" value="M1"></el-option>
+            <el-option label="普通扫码" value="M2"></el-option>
+          </el-select>
+        </el-form-item>
 
         <el-button @click="handleSearch" type="warning">查询</el-button>
       </el-form>
