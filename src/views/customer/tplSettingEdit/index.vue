@@ -15,7 +15,7 @@
     </div>
 
     <div class="item-table">
-      <div class="m-template-list h-70">
+      <div class="m-template-list">
         <el-tooltip :content="ruleForm.prodTempName" placement="left">
           <span class="mr-10 templateName ellipsis">{{ruleForm.prodTempName}}</span>
         </el-tooltip>
@@ -24,19 +24,28 @@
         </el-button>
         <span class="remarks ellipsis">
           <el-tooltip :content="ruleForm.remark" placement="top">
-            <span style="max-width:270px;" class="ellipsis">{{ruleForm.remark}}</span>
+            <span style="max-width:545px;" class="ellipsis">{{ruleForm.remark}}</span>
           </el-tooltip>
         </span>
-        <span>仲裁服务费：</span>
-        <el-select @change="handleArbFeeStatus" style="width:130px;" v-model="ruleForm.arbFeeStatus" class="mr-10">
-          <el-option label="主张" :value="1"></el-option>
-          <el-option label="不主张" :value="0"></el-option>
-        </el-select>
-        <span>仲裁程序：</span>
-        <el-select @change="handleArbProcedureDay" style="width:130px;" v-model="ruleForm.arbProcedureDay">
-          <el-option label="互金程序" :value="1"></el-option>
-          <el-option label="普通程序" :value="5"></el-option>
-        </el-select>
+        
+        <div class="mt-20">
+          <span>仲裁服务费：</span>
+          <el-select @change="handleArbFeeStatus" style="width:130px;" v-model="ruleForm.arbFeeStatus" class="mr-20">
+            <el-option label="主张" :value="1"></el-option>
+            <el-option label="不主张" :value="0"></el-option>
+          </el-select>
+          <span>仲裁程序：</span>
+          <el-select @change="handleArbProcedureDay" style="width:130px;" v-model="ruleForm.arbProcedureDay" class="mr-20">
+            <el-option label="互金程序" :value="1"></el-option>
+            <el-option label="普通程序" :value="5"></el-option>
+          </el-select>
+          <span>案由：</span>
+          <el-select @change="handleCaseReason" style="width:130px;" v-model="ruleForm.caseReason">
+            <el-option label="借款合同纠纷" :value="0"></el-option>
+            <el-option label="追偿权纠纷" :value="1"></el-option>
+            <el-option label="融资租赁合同纠纷" :value="2"></el-option>
+          </el-select>
+        </div>
       </div>
 
       <div class="m-template-list">
@@ -217,6 +226,8 @@
           arbFeeStatus : '',
           // 仲裁程序 1(互金程序),5(普通程序)
           arbProcedureDay : '',
+          // 案由 0借款合同纠纷 1追偿权纠纷 2融资租赁合同纠纷
+          caseReason : '',
           // 申请书 时间
           applyUpdateTime : '',
           // 证据设置状态 0(未设置),1(已设置) ---
@@ -368,6 +379,12 @@
       handleArbProcedureDay(val) {
         this.editFn({
           arbProcedureDay : val,
+        });
+      },
+      // 案由 change
+      handleCaseReason(val) {
+        this.editFn({
+          caseReason : val,
         });
       },
       // 修改页面参数接口
