@@ -40,7 +40,7 @@
         </el-table-column>
         <el-table-column prop="clientName" label="客户名称">
           <template slot-scope="scope">
-            <span v-ellipsis.20 class="ellipsis">{{scope.row.clientName}}</span>
+            <span v-ellipsis.20>{{scope.row.clientName}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="loginName" label="账户">

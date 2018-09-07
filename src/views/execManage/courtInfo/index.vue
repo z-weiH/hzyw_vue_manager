@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="courtInfo-box">
 
 	</div>
 </template>
@@ -10,6 +10,10 @@
 	}
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
+.courtInfo-box{
+	
+}
 
 </style>
