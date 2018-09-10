@@ -57,11 +57,11 @@
       <div class="card_body">
         <div class="img zhen fl">
           <!--<pic-zoom ref="picZoom" :url="card.respondentInfo.image02" :scale="3" :scroll="true"></pic-zoom>-->
-          <img-zoom :src="card.respondentInfo.image02+ '?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.respondentInfo.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+          <img-zoom :src="card.respondentInfo.image02+ '?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.respondentInfo.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
           <!--<img :src="card.respondentInfo.image02" alt="" @mouseenter="mouseenterHandle" @mousemove="mousemoveHandle" @mouseleave="mouseleaveHandle">-->
         </div>
         <div class="img fan fl">
-          <img-zoom :src="card.respondentInfo.image01+ '?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.respondentInfo.image01+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+          <img-zoom :src="card.respondentInfo.image01+ '?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.respondentInfo.image01+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
 
           <!--<pic-zoom ref="picZoom" :url="card.respondentInfo.image01" :scale="3" :scroll="true"></pic-zoom>-->
         </div>
@@ -460,7 +460,7 @@ export default {
     height: 76px;
     background: #fff;
     .header {
-      width: 1200px;
+      width: 1366px;
       margin: 0 auto;
       height: 76px;
       .header_title {
@@ -476,7 +476,7 @@ export default {
   }
   .card {
     overflow: hidden;
-    width: 1200px;
+    width: 1366px;
     border: 1px solid #e5eaee;
     background: #fff;
     margin: 16px auto;
@@ -510,18 +510,18 @@ export default {
       padding: 30px 0 0 22px;
       .img {
         float: left;
-        width: 370px;
-        height: 225px;
+        width: 400px;
+        height: 250px;
         /*width: 370px;*/
         /*height: 225px;*/
         border: 1px solid #e5eaee;
         border-radius: 5px;
         &.zhen {
-          margin-right: 17px;
+          margin-right: 27px;
 
         }
         &.fan {
-          margin-right: 28px;
+          margin-right: 38px;
         }
         img{
           height:225px;
@@ -558,7 +558,7 @@ export default {
     margin: 20px auto;
     box-sizing: border-box;
     border: 1px solid #e5eaee;
-    width: 1200px;
+    width: 1366px;
     padding: 10px 20px;
     background: #fff;
   }

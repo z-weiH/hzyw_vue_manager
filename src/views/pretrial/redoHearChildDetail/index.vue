@@ -66,11 +66,11 @@
         <div class="part_tit f_18">身份证信息</div>
         <div class="card_part">
           <div class="img zhen">
-            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image02+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.idCard.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
             <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
           </div>
           <div class="img fan">
-            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image01+'?x-oss-process=image/resize,h_227/auto-orient,1/rotate,0'" width="370" height="227" :bigsrc="card.idCard.image01+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image01+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image01+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
             <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
           </div>
           <div class="img_desc">
@@ -263,10 +263,10 @@ export default {
 			pview_state: 0,
 			rb_state: 0,
 			configs: {
-				width: 370,
-				height: 227,
-        maskWidth:123,
-        maskHeight:75.5,
+				width: 400,
+				height: 250,
+        maskWidth:133.5,
+        maskHeight:83.5,
         maskColor:'#fff',
 				maskOpacity: 0.2,
 			},
@@ -304,8 +304,16 @@ export default {
 		// },
 	},
 	methods: {
+    //判斷是否是視頻
+    checkMovie(url){
+      let idx = url.lastIndexOf('.');
+      let str = url.substr(idx+1);
+      let arr = ["avi","mkv","mov","mp4","rmvb"];
+      return arr.indexOf(str) != -1;
+    },
+
     checkPdf(url){
-      if(url.substr(url.length-3) == 'pdf'){
+      if(url.substr(url.length-3) == 'pdf' || this.checkMovie(url)){
         return true;
       }
       return false;
@@ -517,7 +525,7 @@ $themeColor: #193b8c;
 		height: 76px;
 		background: #fff;
 		.header {
-			width: 1200px;
+			width: 1366px;
 			margin: 0 auto;
 			height: 76px;
 			.header_title {
@@ -545,7 +553,7 @@ $themeColor: #193b8c;
 		}
 	}
 	.card {
-		width: 1200px;
+		width: 1366px;
 		border: 1px solid #e5eaee;
 		background: #fff;
 		margin: 16px auto;
@@ -560,8 +568,8 @@ $themeColor: #193b8c;
 			padding: 30px 0 30px 22px;
 			.img {
 				float: left;
-				width: 370px;
-				height: 225px;
+				width: 400px;
+				height: 250px;
 				border: 1px solid #e5eaee;
 				border-radius: 10px;
 				overflow: hidden;
@@ -576,7 +584,7 @@ $themeColor: #193b8c;
 					bottom: 0;
 				}
 				&.zhen {
-					margin-right: 17px;
+					margin-right: 35px;
 				}
 				&.fan {
 					margin-right: 28px;
@@ -822,7 +830,7 @@ $themeColor: #193b8c;
 			background-color: #f5f7fa;
 		}
 		.cell:nth-child(odd) {
-			width: 130px;
+			width: 135px;
 		}
 		&:first-child {
 			.cell {
@@ -837,7 +845,7 @@ $themeColor: #193b8c;
 		line-height: 1.6;
 		padding: 2px 8px;
 		text-align: center;
-		width: 220px;
+		width: 250px;
 		// text-indent: 20px;
 		border-left-width: 1px;
 		border-right-width: 1px;
@@ -866,7 +874,7 @@ $themeColor: #193b8c;
 		padding-bottom: 30px;
 		.scroll_toolbar {
 			padding-right: 30px;
-			width: 565px;
+			width: 645px;
 			font-size: 14px;
 			.evi_bar {
 				cursor: pointer;
@@ -904,7 +912,7 @@ $themeColor: #193b8c;
 		padding-right: 30px;
 		.article_left,
 		.article_right {
-			width: 565px;
+			width: 645px;
 			height: 780px;
 			border: 1px solid #9b9b9b;
 			overflow: hidden;

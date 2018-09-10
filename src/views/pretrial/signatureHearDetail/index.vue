@@ -347,7 +347,7 @@ export default {
     height: 76px;
     background: #fff;
     .header {
-      width: 1200px;
+      width: 1366px;
       margin: 0 auto;
       height: 76px;
       .header_title {
@@ -363,7 +363,7 @@ export default {
   }
   .card {
     overflow: hidden;
-    width: 1200px;
+    width: 1366px;
     border: 1px solid #e5eaee;
     background: #fff;
     margin: 16px auto;
@@ -394,6 +394,7 @@ export default {
     }
     .card_body {
       padding: 30px 0 30px 22px;
+      overflow: hidden;
       table,
       tr,
       td {
@@ -403,7 +404,7 @@ export default {
       .card_table {
         color: #363636;
         float: left;
-        width: 768px;
+        width: 868px;
         border-collapse: collapse;
         tr {
           height: 49px;
@@ -419,11 +420,13 @@ export default {
       }
       .img_desc {
         margin: 50px;
+        margin-right: 70px;
         ul {
           li {
             line-height: 38px;
             font-size: 14px;
             color: #363636;
+            min-width:325px;
           }
         }
       }
@@ -449,7 +452,7 @@ export default {
     margin: 20px auto;
     box-sizing: border-box;
     border: 1px solid #e5eaee;
-    width: 1200px;
+    width: 1366px;
     padding: 10px 20px;
     background: #fff;
   }

@@ -166,9 +166,17 @@
       }
     },
     methods: {
+      //判斷是否是視頻
+      checkMovie(url){
+        let idx = url.lastIndexOf('.');
+        let str = url.substr(idx+1);
+        let arr = ["avi","mkv","mov","mp4","rmvb"];
+        return arr.indexOf(str) != -1;
+      },
+
       //判断文件是否是pdf
       checkPdf(url){
-        if(url.substr(url.length-3) == 'pdf'){
+        if(url.substr(url.length-3) == 'pdf' || this.checkMovie(url)){
           return true;
         }
         return false;
@@ -378,12 +386,12 @@
     }
     .arrow_left {
       top:50%;
-      left: -90px;
+      left: 0px;
       background-image: url(./../../../assets/img/rct_page01.png);
     }
     .arrow_right {
       top:50%;
-      right: -90px;
+      right: 0px;
       background-image: url(./../../../assets/img/rct_page02.png);
     }
     .arrow_left.disabled{
@@ -400,7 +408,7 @@
       height: 76px;
       background: #fff;
       .header{
-        width: 1200px;
+        width: 1366px;
         margin: 0 auto;
         height: 76px;
         .header_title{
@@ -415,7 +423,7 @@
       }
     }
     .card{
-      width:1200px;
+      width:1366px;
       border:1px solid #E5EAEE;
       background: #fff;
       margin: 16px auto;
@@ -506,7 +514,7 @@
       color: $themeColor;
       padding-bottom: 13px;
       .scroll_toolbar {
-        width: 565px;
+        width: 645px;
         font-size: 14px;
         .evi_bar{
           cursor: pointer;
@@ -546,7 +554,7 @@
     .applybook_content {
       .article_left,
       .article_right {
-        width: 565px;
+        width: 645px;
         height: 780px;
         border: 1px solid #9b9b9b;
         overflow: hidden;
@@ -558,7 +566,7 @@
     margin: 20px auto;
     box-sizing: border-box;
     border: 1px solid #E5EAEE;
-    width: 1200px;
+    width: 1366px;
     padding: 10px 20px;
     background: #fff;
   }

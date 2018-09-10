@@ -9,9 +9,7 @@
       <!--<pdf ref="pdf" style="width:595.3px;" src="../../../../../static/借款协议.pdf"-->
            <!--@num-pages="pageCount = $event"-->
       <!--&gt;</pdf>-->
-      <canvas id="the-canvas" style="width: 595.3px;"></canvas>
-      <!--<iframe  src="../../../../../static"-->
-      <!--width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>-->
+      <canvas id="the-canvas" style="width: 595.3px; "></canvas>
       <div class="resizeMe" id="testDiv" ref="testDiv">
         <div id="innerNice" ref="innerNice">
 
@@ -30,7 +28,7 @@ export default {
   data(){
       return {
 
-
+        border: '1px solid red',
         pdfDoc: null,
         pageNum: 1,
         pageRendering: false,
