@@ -1,5 +1,10 @@
 <template>
 	<div class="case-operation-record-box">
+    <div class="wsbodyhead">
+      <a>所在位置</a>
+      <a href="javascript:;" class="aside_tit">案件操作记录</a>
+    </div>
+
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
         <el-form-item label=" " prop="keyWords">
