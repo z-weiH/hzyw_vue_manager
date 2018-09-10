@@ -36,7 +36,7 @@
 
         <span>法官：</span>
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="姓名、手机、座机" style="width:150px;"></el-input>
+          <el-input v-model.trim="ruleForm.keyWords" placeholder="姓名、手机、座机" style="width:178px;"></el-input>
         </el-form-item>
 
         
@@ -64,6 +64,10 @@
           </timeFrame>
 
           <el-button @click="handleSearch" type="warning">查询</el-button>
+
+          <div class="fr">
+            <el-button @click="handleAdd" type="primary" class="mr-10">新增</el-button>
+          </div>
         </div>
       </el-form>
     </div>
@@ -106,16 +110,19 @@
         :total="total">
       </el-pagination>
 
+      <mdialog ref="dialog"></mdialog>
     </div>
 	</div>
 </template>
 
 <script>
   import timeFrame from '@/components/timeFrame.vue'
+  import mdialog from './modules/dialog.vue'
   import {rawCitiesData} from '@/assets/js/city'
 	export default {
 		components : {
-			timeFrame,
+      timeFrame,
+      mdialog,
 		},
 		data() {
 			return {
@@ -170,13 +177,17 @@
       handleRegion(val) {
         console.log(val);
       },
+      // 点击新增
+      handleAdd() {
+        this.$refs.dialog.show('add');
+      },
       // 点击修改
       handleEdit(row) {
-
+        this.$refs.dialog.show('edit',row);
       },
       // 点击启用，停用
       handleState(row) {
-
+        
       },
 
 			// 表格相关 start
