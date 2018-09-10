@@ -520,7 +520,6 @@ $themeColor: #193b8c;
 
 .body_container {
 	background: #f7f7f7;
-	padding-bottom: 20px;
 	.header_container {
 		height: 76px;
 		background: #fff;
