@@ -763,6 +763,7 @@ $themeColor: #193b8c;
 		left: calc(50vw - 690px);
 		width: 120px;
 		height: 120px;
+    z-index: 9999999;
 		&:after {
 			margin: 16px 0 0 16px;
 			content: '';
@@ -783,7 +784,9 @@ $themeColor: #193b8c;
 		right: calc(50vw - 690px);
 		width: 120px;
 		height: 120px;
-		&:after {
+    z-index: 9999999;
+
+    &:after {
 			margin: 16px 0 0 16px;
 			content: '';
 			display: block;
