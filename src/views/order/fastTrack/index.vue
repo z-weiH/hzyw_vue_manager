@@ -13,16 +13,16 @@
           </el-input>
         </el-form-item>
 
-        <el-form-item style="display:inline-block;" label=" " prop="arbId">
+        <!-- <el-form-item style="display:inline-block;" label=" " prop="arbId">
           <el-select filterable clearable class="mr-10" style="width:150px;" v-model="ruleForm.arbId" placeholder="请选择仲裁委">
             <template v-for="(item,index) in arbOptions">
               <el-option :key="item.arbId + index" :label="item.arbName" :value="item.arbId"></el-option>
             </template>
           </el-select>
-        </el-form-item>
+        </el-form-item> -->
 
         <el-form-item style="display:inline-block;" label=" " prop="merchantCode">
-          <el-select filterable clearable class="mr-10" style="width:150px;" v-model="ruleForm.merchantCode" placeholder="请选择商户">
+          <el-select @change="handleMerchantCodeChange" filterable clearable class="mr-10" style="width:150px;" v-model="ruleForm.merchantCode" placeholder="请选择商户">
             <template v-for="(item,index) in merchantOptions">
               <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
             </template>
@@ -42,6 +42,21 @@
             <template v-for="(item,index) in prodOptions">
               <el-option :key="item.prodCode + index" :label="item.prodName" :value="item.prodCode"></el-option>
             </template>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item style="display:inline-block;" label=" " prop="type">
+          <el-select clearable class="mr-10" style="width:150px;" v-model="ruleForm.type" placeholder="是否推送预审库">
+            <el-option label="是" value="client"></el-option>
+            <el-option label="否" value="hz"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item style="display:inline-block;" label=" " prop="step">
+          <el-select clearable class="mr-10" style="width:150px;" v-model="ruleForm.step" placeholder="整合步骤">
+            <el-option label="获取客户数据" value="FETCH_CUSTOMER_INFO"></el-option>
+            <el-option label="生成申请书" value="CREATE_REQUISITION"></el-option>
+            <el-option label="下载并整合证据链" value="DOWNLOAD_AND_INTEGRATION"></el-option>
           </el-select>
         </el-form-item>
 
@@ -97,6 +112,10 @@
           busiCode : '',
           // 产品 id
           prodCode : '',
+          // 是否推送预审库 client 是 hz否
+          type : 'client',
+          // 整合步骤 FETCH_CUSTOMER_INFO获取客户数据 CREATE_REQUISITION生成申请书 DOWNLOAD_AND_INTEGRATION下载并整合证据链
+          step : '',
         },
         rules : {
           loanBillNos : [
@@ -155,13 +174,7 @@
       }).then((res) => {
         this.merchantOptions = res.result.list;
       });
-      // 获取所有产品 option
-      this.$http({
-        method : 'post',
-        url : '/fastTrack/queryProdSelectByClientCode.htm',
-      }).then((res) => {
-        this.prodOptions = res.result;
-      });
+      
     },
     methods : {
       // 点击搜索
@@ -177,6 +190,24 @@
       // 业务change
       handleChange(val) {
         this.ruleForm.prodCode = '';
+      },
+      // 商户 cahnge
+      handleMerchantCodeChange() {
+        this.ruleForm.prodCode = '';
+        this.initProduct();
+      },
+      // 更新 产品 下拉
+      initProduct() {
+        // 获取所有产品 option
+        this.$http({
+          method : 'post',
+          url : '/fastTrack/queryProdSelectByClientCode.htm',
+          data : {
+            clientCode : this.ruleForm.merchantCode,
+          },
+        }).then((res) => {
+          this.prodOptions = res.result;
+        });
       },
 
       // 表格相关 start
@@ -195,6 +226,8 @@
             loanBillNos	: this.ruleForm.loanBillNos,
             merchantCode	: this.ruleForm.merchantCode,
             prodCode : this.ruleForm.prodCode,
+            type : this.ruleForm.type,
+            step : this.ruleForm.step,
           },
         }).then((res) => {
           this.total = res.result.count;
