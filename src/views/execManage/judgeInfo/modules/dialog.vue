@@ -57,7 +57,7 @@
 						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="工作座机" prop="demo">
+          <el-form-item label="工作座机：" prop="demo">
 						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
 					</el-form-item>
 

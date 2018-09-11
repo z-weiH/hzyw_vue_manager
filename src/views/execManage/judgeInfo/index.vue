@@ -66,7 +66,7 @@
           <el-button @click="handleSearch" type="warning">查询</el-button>
 
           <div class="fr">
-            <el-button @click="handleAdd" type="primary" class="mr-10">新增</el-button>
+            <el-button @click="handleAdd" type="primary" class="mr-10"><i class="el-icon-plus"></i>新增</el-button>
           </div>
         </div>
       </el-form>
@@ -187,7 +187,7 @@
       },
       // 点击启用，停用
       handleState(row) {
-        
+
       },
 
 			// 表格相关 start
