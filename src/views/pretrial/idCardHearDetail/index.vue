@@ -167,10 +167,10 @@ export default {
 
       //放大鏡涉案hi之
       configs: {
-        width:370,
-        height:227,
-        maskWidth:123,
-        maskHeight:75.5,
+        width:400,
+        height:250,
+        maskWidth:133.5,
+        maskHeight:83.5,
         maskColor:'#fff',
         maskOpacity:0.2
       },
