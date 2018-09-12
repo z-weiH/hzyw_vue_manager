@@ -45,22 +45,26 @@
           </el-select>
         </el-form-item>
 
-        <el-form-item style="display:inline-block;" label=" " prop="type">
-          <el-select clearable class="mr-10" style="width:150px;" v-model="ruleForm.type" placeholder="是否推送预审库">
+        <el-form-item style="display:inline-block;width:270px;" label="推送预审库：" prop="type">
+          <el-select clearable class="mr-10" style="width:150px;" v-model="ruleForm.type" placeholder="请选择">
             <el-option label="是" value="client"></el-option>
             <el-option label="否" value="hz"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-form-item style="display:inline-block;" label=" " prop="step">
-          <el-select clearable class="mr-10" style="width:150px;" v-model="ruleForm.step" placeholder="整合步骤">
-            <el-option label="获取客户数据" value="FETCH_CUSTOMER_INFO"></el-option>
-            <el-option label="生成申请书" value="CREATE_REQUISITION"></el-option>
-            <el-option label="下载并整合证据链" value="DOWNLOAD_AND_INTEGRATION"></el-option>
-          </el-select>
-        </el-form-item>
+        <div>
+          <el-form-item style="display:inline-block;width:670px;" label="整合步骤：" prop="step">
+            <el-checkbox-group v-model="ruleForm.step">
+              <el-checkbox label="FETCH_CUSTOMER_INFO">获取客户数据</el-checkbox>
+              <el-checkbox label="CREATE_REQUISITION">生成申请书</el-checkbox>
+              <el-checkbox label="DOWNLOAD_AND_INTEGRATION">下载并整合证据链</el-checkbox>
+            </el-checkbox-group>
+          </el-form-item>
 
-        <el-button @click="handleSearch" type="warning">提交</el-button>
+          <div class="fr">
+            <el-button @click="handleSearch" type="warning">提交</el-button>
+          </div>
+        </div>
       </el-form>
     </div>
 
@@ -115,7 +119,7 @@
           // 是否推送预审库 client 是 hz否
           type : 'client',
           // 整合步骤 FETCH_CUSTOMER_INFO获取客户数据 CREATE_REQUISITION生成申请书 DOWNLOAD_AND_INTEGRATION下载并整合证据链
-          step : '',
+          step : [],
         },
         rules : {
           loanBillNos : [
@@ -227,7 +231,7 @@
             merchantCode	: this.ruleForm.merchantCode,
             prodCode : this.ruleForm.prodCode,
             type : this.ruleForm.type,
-            step : this.ruleForm.step,
+            step : this.ruleForm.step.join(','),
           },
         }).then((res) => {
           this.total = res.result.count;
