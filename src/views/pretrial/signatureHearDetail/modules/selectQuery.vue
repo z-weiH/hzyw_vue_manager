@@ -24,6 +24,13 @@
               <el-radio  :label="0">全部案件({{queryConfig.totalCaseCount}})</el-radio>
             </el-radio-group>
           </div>
+        <div style="line-height: 30px;">
+            <span class="form_desc">信息修正</span>
+            <el-radio-group v-model="correctionStatus">
+              <el-radio  :label="0">已修正({{queryConfig.passCaseCount}})</el-radio>
+              <el-radio  :label="1">全部案件({{queryConfig.totalCaseCount}})</el-radio>
+            </el-radio-group>
+          </div>
         <div style="line-height: 30px;margin-top:10px;">
           <span class="form_desc" >案件搜索</span>
           <el-input style="display: inline-block;width: 330px" v-model="keyWords" placeholder="请输入案件编号或被申请人姓名进行搜索"></el-input>
@@ -70,7 +77,8 @@
         showQuery: false,
         auditStatus: 0,
         passStatus: 0,
-        keyWords: ''
+        keyWords: '',
+        correctionStatus: 1
       }
     },
     methods:{
@@ -81,6 +89,7 @@
         this.$parent.auditStatus = this.auditStatus;
         this.$parent.passStatus = this.passStatus;
         this.$parent.keyWords = this.keyWords;
+        this.$parent.correctionStatus = this.correctionStatus;
         this.showQuery = false;
         if(this.$parent.HandleQuery && this.$parent.HandleQuery instanceof Function){
           this.$parent.HandleQuery();

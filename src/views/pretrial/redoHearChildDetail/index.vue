@@ -75,7 +75,7 @@
           </div>
           <div class="img_desc">
             <ul>
-              <li>
+              <li :class="{'pointer': respondentEidtConfig.nameStatus == 1}">
                 <i v-if="card.idCard.nameStatus === 0" class="i_nopass"></i>
                 <i v-if="card.idCard.nameStatus === 1" class="i_pass"></i>
                 <i v-if="card.idCard.nameStatus === 2" class="i_warn"></i> {{card.idCard.resName}}
@@ -207,12 +207,14 @@
     <closeDig v-if="isSubmit" message="复审结果已提交，请关闭本页面"></closeDig>
 
     <backTop></backTop>
+    <respondent-edit :currentRespodent="currentRespodent" :respondentItem="respondentItem"></respondent-edit>
 
 
   </div>
 </template>
 
 <script>
+  import respondentEdit from '../redoHearChildDetail/modules/respondentEdit'
 import selectQuery from './modules/query';
 import closeDig from '@/components/closeDlg.vue'
 import PicZoom from "@/components/Piczoom";
@@ -230,6 +232,19 @@ export default {
   mixins:[imgEvi],
 	data() {
 		return {
+
+      //被申请人修改信息配置
+      respondentEidtConfig: {},
+      //对应关系
+      editconfig:{resName:'nameStatus',resNation: 'nationStatus',resIdaddress: 'idaddressStatus',resIdcard:'idcardStatus',sexStatus:'resSex'},
+      respondentEditFlag: false,
+      //当前的被修改人信息
+      currentRespodent: {},
+
+
+      respondentItem:{},
+
+
 		  //查询条件
 		  queryConfig: {},
 
@@ -505,7 +520,8 @@ export default {
 		reback,
 		closeDig,
 		backTop,
-    selectQuery
+    selectQuery,
+    respondentEdit
 	},
 }
 </script>

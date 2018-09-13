@@ -169,6 +169,7 @@ export default {
       keyWords:'',
       auditStatus: 0,
       passStatus:0,//查看状态
+      correctionStatus: 1,//修正数
       editState: 0,
       markflag: false,
       subBatchNo: "",
@@ -226,7 +227,7 @@ export default {
   methods: {
 //获取修改配置
     getRespodent(){
-      this.$http.post("firstAudit/queryRespondent.htm").then(res => {
+      this.$http.post("/firstAudit/queryRespondent.htm").then(res => {
         if(res.code == "0000"){
           this.respondentEidtConfig = res.result;
         }
