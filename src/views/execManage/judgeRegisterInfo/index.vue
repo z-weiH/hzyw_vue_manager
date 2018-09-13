@@ -57,7 +57,7 @@
 				<el-table-column prop="respondents" label="操作人"></el-table-column>
 				<el-table-column label="状态">
 					<template slot-scope="scope">
-						<el-button type="text">待审核</el-button>
+						<el-button type="text" @click="handleExamine(scope.row)">待审核</el-button>
 					</template>
 				</el-table-column>
       </el-table>
@@ -73,15 +73,20 @@
         :total="total">
       </el-pagination>
 
+      <!-- 审核 dialog -->
+      <examineDialog ref="examineDialog"></examineDialog>
+
     </div>
 	</div>
 </template>
 
 <script>
-	import timeFrame from '@/components/timeFrame.vue'
+  import timeFrame from '@/components/timeFrame.vue'
+  import examineDialog from './modules/examineDialog.vue'
 	export default {
 		components : {
-			timeFrame,
+      timeFrame,
+      examineDialog,
 		},
 		data() {
 			return {
@@ -120,7 +125,11 @@
 			handleTimeChange() {
 				this.ruleForm.startDate = '';
 				this.ruleForm.endDate = '';
-			},
+      },
+      // 点击审核
+      handleExamine(row) {
+        this.$refs.examineDialog.show(row);
+      },
 
 			// 表格相关 start
 
