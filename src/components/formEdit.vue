@@ -1,6 +1,6 @@
 <template>
     <div>
-      <el-form-item :label="editItem.label" v-if="editItem.type === 'text' || editItem.type === 'number' || editItem.type === 'password'" :prop="editItem.property" >
+      <el-form-item :label="editItem.label" v-if="(editItem.type === 'text' || editItem.type === 'number' || editItem.type === 'password')&& (! editItem.hidden || editItem.hidden())" :prop="editItem.property" >
         <el-input :type="editItem.type" v-model="item[editItem.property]" :disabled="editItem.disabled"  :placeholder="editItem.placeholder"></el-input>
       </el-form-item>
       <el-form-item :label="editItem.label" v-if="editItem.type === 'select' && (! editItem.hidden || editItem.hidden())"  :prop="editItem.property">

@@ -109,7 +109,7 @@ export default {
           case "ADDRESS":
             this.curCardObj.idCard.idaddressStatus = 0;
             console.log("ADDRESS");
-            this.notpassReasonView(el);
+            // this.notpassReasonView(el);
             break;
           case "NAME":
             this.curCardObj.idCard.nameStatus = 0;
