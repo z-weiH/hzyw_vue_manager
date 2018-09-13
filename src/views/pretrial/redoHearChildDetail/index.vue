@@ -77,28 +77,33 @@
             <ul>
               <li :class="{'pointer': respondentEidtConfig.nameStatus == 1}">
                 <i v-if="card.idCard.nameStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.nameStatus === 1" class="i_pass"></i>
-                <i v-if="card.idCard.nameStatus === 2" class="i_warn"></i> {{card.idCard.resName}}
+                <i v-if="card.idCard.nameStatus%2 === 1" class="i_pass"></i>
+                <i v-if="card.idCard.nameStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resName')">{{card.idCard.resName}}</span>
+                <b style="color:#aaa;" v-if="card.idCard.nameStatus === 3">(已修正)</b>
               </li>
-              <li>
+              <li :class="{'pointer': respondentEidtConfig.sexStatus == 1}">
                 <i v-if="card.idCard.sexStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.sexStatus === 1" class="i_pass"></i>
-                <i v-if="card.idCard.sexStatus === 2" class="i_warn"></i> {{card.idCard.resSex === 0 ? '女':'男'}}
+                <i v-if="card.idCard.sexStatus%2 === 1" class="i_pass"></i>
+                <i v-if="card.idCard.sexStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resSex')">{{card.idCard.resSex === 0 ? '女':'男'}}</span>
+                <b style="color:#aaa;" v-if="card.idCard.sexStatus === 3">(已修正)</b>
               </li>
-              <li>
+              <li :class="{'pointer': respondentEidtConfig.nationStatus == 1}">
                 <i v-if="card.idCard.nationStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.nationStatus === 1" class="i_pass"></i>
-                <i v-if="card.idCard.nationStatus === 2" class="i_warn"></i> {{card.idCard.resNation}}
+                <i v-if="card.idCard.nationStatus%2 === 1" class="i_pass"></i>
+                <i v-if="card.idCard.nationStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resNation')">{{card.idCard.resNation}}</span>
+                <b style="color:#aaa;" v-if="card.idCard.nationStatus === 3">(已修正)</b>
               </li>
-              <li>
+              <li :class="{'pointer': respondentEidtConfig.idaddressStatus == 1}">
                 <i v-if="card.idCard.idaddressStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.idaddressStatus === 1" class="i_pass"></i>
-                <i v-if="card.idCard.idaddressStatus === 2" class="i_warn"></i> {{card.idCard.resIdaddress}}
+                <i v-if="card.idCard.idaddressStatus%2 === 1" class="i_pass"></i>
+                <i v-if="card.idCard.idaddressStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdaddress')">{{card.idCard.resIdaddress}}</span>
+                <b style="color:#aaa;" v-if="card.idCard.idaddressStatus === 3">(已修正)</b>
               </li>
-              <li>
+              <li :class="{'pointer': respondentEidtConfig.idcardStatus == 1}">
                 <i v-if="card.idCard.idcardStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.idcardStatus === 1" class="i_pass"></i>
-                <i v-if="card.idCard.idcardStatus === 2" class="i_warn"></i> {{card.idCard.resIdcard}}
+                <i v-if="card.idCard.idcardStatus%2 === 1" class="i_pass"></i>
+                <i v-if="card.idCard.idcardStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdcard')">{{card.idCard.resIdcard}}</span>
+                <b style="color:#aaa;" v-if="card.idCard.idcardStatus === 3">(已修正)</b>
               </li>
               <li>
                 <i v-if="card.idCard.effctDateStatus === 0" class="i_nopass"></i>
@@ -320,7 +325,35 @@ export default {
 		// 	this.HandleQuery(val)
 		// },
 	},
+
 	methods: {
+    getRespodent(){
+      this.$http.post("/firstAudit/queryRespondent.htm").then(res => {
+        if(res.code == "0000"){
+          this.respondentEidtConfig = res.result;
+        }
+      })
+    },
+
+    handleRespondentClick(card,property){
+      if(this.respondentEidtConfig[this.editconfig[property]] != 1){
+        return;
+      }
+      this.currentRespodent = card.idCard;
+      this.$set(this.currentRespodent,'imgUrl',card.idCard.image01);
+      // this.$set(this.currentRespodent,'currentProperty',property);
+      for(let key in this.respondentEidtConfig){
+        if(this.respondentEidtConfig[key] === 1){
+          for(let k in this.editconfig){
+            if(this.editconfig[k] === key){
+              this.$set(this.respondentItem,k,card.idCard[k]);
+            }
+          }
+        }
+      }
+      this.respondentEditFlag= true;
+    },
+
     //判斷是否是視頻
     checkMovie(url){
       let idx = url.lastIndexOf('.');
@@ -509,7 +542,10 @@ export default {
 
 		//IE及其他浏览器
 	},
-	created() {},
+	created() {
+    this.getRespodent();
+
+  },
 	components: {
 		PicZoom,
     imgZoom,
@@ -529,6 +565,9 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/style/scss/helper/_mixin.scss';
 $themeColor: #193b8c;
+li.pointer > span{
+  cursor: pointer;
+}
 .card_part {
 	@include clearfix;
 	> div {
