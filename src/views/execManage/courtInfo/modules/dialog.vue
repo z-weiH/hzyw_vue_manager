@@ -10,40 +10,32 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
 
-          <el-form-item label=" " prop="accountPeriodType">
-            <el-cascader
-              :options="cityOptions"
-              clearable
-              v-model="ruleForm.selectedOptions"
-              @change="handleRegion"
-              placeholder="地区"
-              change-on-select
-              :props="{
-                label : 'label',
-                children : 'children',
-              }"
-              class="mr-20"
-              style="width:400px;"
+          <el-form-item label=" " prop="provinceCode">
+            <cityCascader
+              :provinceCode.sync="ruleForm.provinceCode"
+              :cityCode.sync="ruleForm.cityCode"
+              :districtCode.sync="ruleForm.districtCode"  
+              ref="cityCascader"
             >
-            </el-cascader>
+            </cityCascader>
           </el-form-item>
 
-          <el-form-item label="法院类型：" prop="accountPeriodType">
-            <el-select clearable style="width:400px;" v-model="ruleForm.accountPeriodType" placeholder="请选择">
+          <el-form-item label="法院类型：" prop="courtType">
+            <el-select clearable style="width:400px;" v-model="ruleForm.courtType" placeholder="请选择">
               <el-option :label="item.label" :value="item.value" v-for="(item,index) in courtOptions" :key="index"></el-option>
             </el-select>
           </el-form-item>
 
-          <el-form-item label="法院名：" prop="demo">
-						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
+          <el-form-item label="法院名：" prop="courtName">
+						<el-input style="width:400px;" v-model.trim="ruleForm.courtName" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="地址：" prop="demo">
-						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
+          <el-form-item label="地址：" prop="courtAddress">
+						<el-input style="width:400px;" v-model.trim="ruleForm.courtAddress" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="电话：" prop="demo">
-						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
+          <el-form-item label="电话：" prop="courtPhone">
+						<el-input style="width:400px;" v-model.trim="ruleForm.courtPhone" placeholder="请输入"></el-input>
 					</el-form-item>
 
         </el-form>
@@ -59,19 +51,59 @@
 
 <script>
   import {rawCitiesData} from '@/assets/js/city'
+  import cityCascader from '@/components/cityCascader.vue'
   export default {
+    components : {
+      cityCascader,
+    },
     data() {
+      // 校验 城市
+      let verifyCity = (rule, value, callback) => {
+        if(!this.ruleForm.provinceCode || !this.ruleForm.cityCode || !this.ruleForm.districtCode) {
+          callback('请选择完整地区');
+        }else{
+          callback();
+        }
+      };
       return {
         dialogVisible : false,
         // 提交按钮禁用状态
         submitDisabled : false,
 
         ruleForm : {
-
+          // 省编码
+          provinceCode : '',
+          // 市编码
+          cityCode : '',
+          // 区编码
+          districtCode : '',
+          // 法院类型 1:基层人民法院;2:中级人民法院;3:高级人民法院;4:最高院
+          courtType : '',
+          // 法院 id 修改时 需要
+          courtId : '',
+          // 法院名称
+          courtName : '',
+          // 地址
+          courtAddress : '',
+          // 电话
+          courtPhone : '',
         },
         rules : {
-          demo : [
-            {required : true , message : '请选择互金企业' , trigger : 'change'},
+          provinceCode : [
+            {required : true , message : '请选择' , trigger : 'change'},
+            { validator: verifyCity, trigger: 'blur' },
+          ],
+          courtType : [
+            {required : true , message : '请选择法院类型' , trigger : 'change'},
+          ],
+          courtName : [
+            {required : true , message : '请输入法院名称' , trigger : 'blur'},
+          ],
+          courtAddress : [
+            {required : true , message : '请输入地址' , trigger : 'blur'},
+          ],
+          courtPhone : [
+            {required : true , message : '请输入电话' , trigger : 'blur'},
           ],
         },
         type : '',
@@ -80,10 +112,10 @@
 
         // 法院类型 options
         courtOptions : [
-          {label : '中级人民法院' , value : '1'},
-          {label : '基础人民法院' , value : '2'},
-          {label : '高级人民法院' , value : '3'},
-          {label : '最高人民法院' , value : '4'},
+          {label : '基础人民法院' , value : 1},
+          {label : '中级人民法院' , value : 2},
+          {label : '高级人民法院' , value : 3},
+          {label : '最高人民法院' , value : 4},
         ],
       }
     },
@@ -100,7 +132,7 @@
         });
 
         if(type === 'edit') {
-
+          this.courtId = data.courtId;
         }
       },
 
@@ -118,19 +150,27 @@
 				},500);
 				// 重置表单数据
         this.$refs.ruleForm.resetFields();
+        this.$refs.ruleForm.clearValidate();
       },
       // 点击提交
       handleSubmit(submitType) {
         this.$refs.ruleForm.validate((valid) => {
-          console.log(this.ruleForm);
           if(valid) {
+            let cn = this.$refs.cityCascader.getCN();
+            let form = {...this.ruleForm};
+            if(type === 'add') {
+              delete form.courtId;
+            }
 						// 提交数据
 						this.submitDisabled = true;
 						this.$http({
               method : 'post',
-              url : '/preCaseLib/distributeCaseByDistributeCaseQuery.htm',
+              url : '/court/insertOrUpdateCourtInfo.htm',
               data : {
-
+                ...form,
+                province : cn[0],
+                city : cn[1],
+                district : cn[2],
               },
             }).then((res) => {
               this.$message.success('分配成功');
