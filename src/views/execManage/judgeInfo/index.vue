@@ -9,6 +9,7 @@
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
 				<el-cascader
 					:options="cityOptions"
+          clearable
 					v-model="ruleForm.selectedOptions"
           @change="handleRegion"
           placeholder="地区"
