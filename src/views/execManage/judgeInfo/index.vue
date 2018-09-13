@@ -91,7 +91,7 @@
         <el-table-column prop="respondents" label="法院地址" width="120px"></el-table-column>
         <el-table-column prop="respondents" label="录入日期" width="120px"></el-table-column>
         <el-table-column prop="respondents" label="备注" width="120px"></el-table-column>
-        <el-table-column label="操作" width="120px" fixed="right">
+        <el-table-column label="操作" width="120px" fixed="right" align="center">
           <template slot-scope="scope">
             <el-button @click="handleEdit(scope.row)" type="text">修改</el-button>
             <el-button @click="handleState(scope.row)" type="text">启用</el-button>

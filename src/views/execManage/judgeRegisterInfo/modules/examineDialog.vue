@@ -103,10 +103,10 @@
 
         // 法院类型 options
         courtOptions : [
-          {label : '中级人民法院' , value : '1'},
-          {label : '基础人民法院' , value : '2'},
-          {label : '高级人民法院' , value : '3'},
-          {label : '最高人民法院' , value : '4'},
+          {label : '法院1' , value : '1'},
+          {label : '法院2' , value : '2'},
+          {label : '法院3' , value : '3'},
+          {label : '法院4' , value : '4'},
         ],
         // 角色 options
         roleOptions : [
