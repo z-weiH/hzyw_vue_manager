@@ -51,7 +51,6 @@
 </template>
 
 <script>
-  import {rawCitiesData} from '@/assets/js/city'
   import cityCascader from '@/components/cityCascader.vue'
   export default {
     components : {
@@ -108,8 +107,6 @@
           ],
         },
         type : '',
-        // 城市tree
-        cityOptions : rawCitiesData,
 
         // 法院类型 options
         courtOptions : [
@@ -133,7 +130,7 @@
         });
 
         if(type === 'edit') {
-          this.courtId = data.courtId;
+          this.ruleForm.courtId = data.courtId;
         }
       },
 

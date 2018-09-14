@@ -7,9 +7,9 @@
 
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
-				<span>法院类型：</span>
-        <el-form-item label=" " prop="accountAge">
-          <el-select clearable v-model="ruleForm.accountAge2" placeholder="请选择" style="width:150px;">
+				<span class="inline">法院类型：</span>
+        <el-form-item label=" " prop="courtType">
+          <el-select clearable v-model="ruleForm.courtType" placeholder="请选择" style="width:150px;">
             <el-option 
               v-for="(item,index) in courtTypeOptions" 
               :key="index" 
@@ -20,37 +20,31 @@
           </el-select>
         </el-form-item>
 
-				<el-cascader
-					:options="cityOptions"
-					clearable
-					v-model="ruleForm.selectedOptions"
-          @change="handleRegion"
-          placeholder="地区"
-					change-on-select
-          :props="{
-            label : 'label',
-            children : 'children',
-          }"
-          class="mr-20"
-				>
-				</el-cascader>
+        <el-form-item label=" " prop="provinceCode">
+          <cityCascader
+            :provinceCode.sync="ruleForm.provinceCode"
+            :cityCode.sync="ruleForm.cityCode"
+            :districtCode.sync="ruleForm.districtCode"  
+            ref="cityCascader"
+            @finish="cityFinish"
+            @cancel="cityCancel"
+          >
+          </cityCascader>
+        </el-form-item>
 
-				<span>法院：</span>
-        <el-form-item label=" " prop="accountAge">
-          <el-select clearable v-model="ruleForm.accountAge2" placeholder="请选择" style="width:150px;">
+
+				<span class="inline">法院：</span>
+        <el-form-item label=" " prop="courtId">
+          <el-select clearable v-model="ruleForm.courtId" placeholder="请选择" style="width:185px;">
             <el-option 
               v-for="(item,index) in courtOptions" 
               :key="index" 
-              :label="item.label" 
-              :value="item.value"
+              :label="item.courtName" 
+              :value="item.courtId"
             >
             </el-option>
           </el-select>
         </el-form-item>
-
-				<div class="fr">
-					<el-button @click="handleAdd" type="primary" class="mr-10"><i class="el-icon-plus"></i>新增</el-button>
-				</div>
 
 				<div class="mt-20">
 					<span class="ml-30">查询：</span>
@@ -59,6 +53,10 @@
 					</el-form-item>
 
           <el-button @click="handleSearch" type="warning">查询</el-button>
+
+          <div class="fr">
+            <el-button @click="handleAdd" type="primary" class="mr-10"><i class="el-icon-plus"></i>新增</el-button>
+          </div>
 
         </div>
       </el-form>
@@ -74,13 +72,22 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="respondents" label="法院类型" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="省" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="市" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="区" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="法院名" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="地址" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="电话" width="120px"></el-table-column>
+				<el-table-column prop="respondents" label="法院类型" width="120px">
+          <template slot-scope="scope">
+            {{
+              scope.row.courtType === 1 ? '基层人民法院' :
+              scope.row.courtType === 2 ? '中级人民法院' :
+              scope.row.courtType === 3 ? '高级人民法院' :
+              scope.row.courtType === 4 ? '最高人民法院' : ''
+            }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="province" label="省" width="120px"></el-table-column>
+        <el-table-column prop="city" label="市" width="120px"></el-table-column>
+        <el-table-column prop="district" label="区" width="120px"></el-table-column>
+        <el-table-column prop="courtName" label="法院名" width="120px"></el-table-column>
+        <el-table-column prop="courtAddress" label="地址" width="120px"></el-table-column>
+        <el-table-column prop="courtPhone" label="电话" width="120px"></el-table-column>
         <el-table-column label="操作" width="120px" fixed="right" align="center">
           <template slot-scope="scope">
             <el-button @click="handleEdit(scope.row)" type="text">修改</el-button>
@@ -99,7 +106,7 @@
         :total="total">
       </el-pagination>
 
-      <mdialog ref="dialog"></mdialog>
+      <mdialog @successCBK="successCBK" ref="dialog"></mdialog>
     </div>
 	</div>
 </template>
@@ -107,39 +114,44 @@
 <script>
   import timeFrame from '@/components/timeFrame.vue'
   import mdialog from './modules/dialog.vue'
-  import {rawCitiesData} from '@/assets/js/city'
+  import cityCascader from '@/components/cityCascader.vue'
 	export default {
 		components : {
       timeFrame,
       mdialog,
+      cityCascader,
 		},
 		data() {
 			return {
 				ruleForm : {
-					// 关键字
-					keyWords : '',
-					// 开始时间
-					startDate : '',
-					// 结束时间
-					endDate : '',
+					// 省编码
+          provinceCode : '',
+          // 市编码
+          cityCode : '',
+          // 区编码
+          districtCode : '',
+          // 法院编码
+          courtId : '',
+          // 法院类型 1:基层人民法院;2:中级人民法院;3:高级人民法院;4:最高院
+          courtType : '',
+          // 关键字
+          keyWords : '',
 				},
 				rules : {},
 
-				// 城市tree
-        cityOptions : rawCitiesData,
         // 法院 options
         courtOptions : [
-          {label : '法院1' , value : '1'},
-          {label : '法院2' , value : '2'},
-          {label : '法院3' , value : '3'},
-          {label : '法院4' , value : '4'},
+          /* {courtName : '法院1' , courtId : '1'},
+          {courtName : '法院2' , courtId : '2'},
+          {courtName : '法院3' , courtId : '3'},
+          {courtName : '法院4' , courtId : '4'}, */
         ],
         // 法院类型 options
         courtTypeOptions : [
-          {label : '中级人民法院' , value : '1'},
-          {label : '基础人民法院' , value : '2'},
-          {label : '高级人民法院' , value : '3'},
-          {label : '最高人民法院' , value : '4'},
+          {label : '基础人民法院' , value : 1},
+          {label : '中级人民法院' , value : 2},
+          {label : '高级人民法院' , value : 3},
+          {label : '最高人民法院' , value : 4},
         ],
 
 				// 表格数据
@@ -163,9 +175,23 @@
         this.initTableList();
       },
       
-      // 地区change
-      handleRegion(val) {
-        console.log(val);
+      // 地区 选择完成回调
+      cityFinish() {
+        console.log('选择成功');
+        this.$http({
+          url : '/court/queryCourtInfoByDistrictCode.htm',
+          method : 'post',
+          data : {
+            districtCode : this.ruleForm.districtCode,
+          },
+        }).then((res) => {
+          this.courtOptions = res.result.list;
+        });
+      },
+      // 地区 取消回调
+      cityCancel() {
+        this.courtOptions = [];
+        this.ruleForm.courtId = '';
       },
       // 点击新增
       handleAdd() {
@@ -173,7 +199,12 @@
       },
       // 点击修改
       handleEdit(row) {
+        console.log(row);
         this.$refs.dialog.show('edit',row);
+      },
+      // 新增 修改 成功回调
+      successCBK() {
+        this.handleSearch();
       },
       // 点击启用，停用
       handleState(row) {
@@ -185,7 +216,7 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
+          url : '/court/queryCourtlist.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
@@ -218,7 +249,11 @@
 <style lang="scss" scoped>
 
 .courtInfo-box{
-	
+	.inline{
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 14px;
+  }
 }
 
 </style>

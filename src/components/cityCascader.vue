@@ -175,10 +175,14 @@
           this.$refs.sele3.$el.querySelector('input').value,
         ]
       },
-      // 选择完成 回调
+      // 区 change
       handleAreaChange(val) {
         if(val) {
+          // 选择完成 回调
           this.$emit('finish');
+        }else{
+          // 选择取消 回调
+          this.$emit('cancel');
         }
       },
     },
