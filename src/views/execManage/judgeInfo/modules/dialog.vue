@@ -171,6 +171,7 @@
         });
 
         if(type === 'edit') {
+          // 修改 id
           this.ruleForm.judgeId = data.judgeId;
           // 根据法院 id 回显数据
           this.$http({

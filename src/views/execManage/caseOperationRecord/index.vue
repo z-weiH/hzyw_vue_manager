@@ -19,10 +19,10 @@
         >
         </timeFrame>
 
-				<el-form-item label=" " prop="accountAge">
-          <el-select clearable v-model="ruleForm.accountAge" style="width:150px;" placeholder="操作类型">
-            <el-option label="法官扫码" value="M1"></el-option>
-            <el-option label="普通扫码" value="M2"></el-option>
+				<el-form-item label=" " prop="operType">
+          <el-select clearable v-model="ruleForm.operType" style="width:150px;" placeholder="操作类型">
+            <el-option label="法官扫码" :value="2"></el-option>
+            <el-option label="普通扫码" :value="1"></el-option>
           </el-select>
         </el-form-item>
 
@@ -40,16 +40,22 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="respondents" label="案号"></el-table-column>
-				<el-table-column prop="respondents" label="申请人"></el-table-column>
+				<el-table-column prop="caseNo" label="案号"></el-table-column>
+				<el-table-column prop="applicants" label="申请人"></el-table-column>
 				<el-table-column prop="respondents" label="被申请人"></el-table-column>
-				<el-table-column prop="respondents" label="裁决金额"></el-table-column>
-				<el-table-column prop="respondents" label="操作类型"></el-table-column>
-				<el-table-column prop="respondents" label="操作IP"></el-table-column>
-				<el-table-column prop="respondents" label="法院"></el-table-column>
-				<el-table-column prop="respondents" label="法官"></el-table-column>
-				<el-table-column prop="respondents" label="法官手机"></el-table-column>
-				<el-table-column prop="respondents" label="操作时间"></el-table-column>
+				<el-table-column prop="forecastJudgeAmt" label="裁决金额"></el-table-column>
+				<el-table-column prop="operType" label="操作类型">
+          <template slot-scope="scope">
+            {{
+              scope.row.operType === 1 ? '普通扫码' : '法官扫码'
+            }}
+          </template>
+        </el-table-column>
+				<el-table-column prop="operIp" label="操作IP"></el-table-column>
+				<el-table-column prop="courtName" label="法院"></el-table-column>
+				<el-table-column prop="judgeName" label="法官"></el-table-column>
+				<el-table-column prop="cellphone" label="法官手机"></el-table-column>
+				<el-table-column prop="operTime" label="操作时间"></el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -81,7 +87,9 @@
 					// 开始时间
 					startDate : '',
 					// 结束时间
-					endDate : '',
+          endDate : '',
+          // 操作类型 1：普通扫码;2：法官扫码
+          operType : '',
 				},
 				rules : {},
 
@@ -111,7 +119,7 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
+          url : '/judge/judgeScanList.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
