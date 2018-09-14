@@ -289,6 +289,8 @@
               }
               console.log(this.evidenceItems)
               this.$set(this.queryConfig,'count',res.result.count);
+              this.$set(this.queryConfig,'correctionCount',res.result.list.filter(it => it.correctionStatus == 0).length);
+
 
               if(this.evidenceItems.length > 0){
                 this.currentUrl = this.evidenceItems[0].eviDetailList[0].eviFileurl;

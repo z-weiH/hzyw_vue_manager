@@ -241,7 +241,7 @@ export default {
       //被申请人修改信息配置
       respondentEidtConfig: {},
       //对应关系
-      editconfig:{resName:'nameStatus',resNation: 'nationStatus',resIdaddress: 'idaddressStatus',resIdcard:'idcardStatus',sexStatus:'resSex'},
+      editconfig:{resName:'nameStatus',resNation: 'nationStatus',resIdaddress: 'idaddressStatus',resIdcard:'idcardStatus',resSex:'sexStatus'},
       respondentEditFlag: false,
       //当前的被修改人信息
       currentRespodent: {},
@@ -337,6 +337,7 @@ export default {
     },
 
     handleRespondentClick(card,property){
+      console.log(123);
       if(this.respondentEidtConfig[this.editconfig[property]] != 1 || this.subViewType != 1){
         return;
       }
@@ -496,7 +497,9 @@ export default {
 						console.log('len-idCardList.length:: ', this.idCardList.length)
 						this.count = res.result.count
             this.$set(this.queryConfig,'count',res.result.count);
-						this.pager.total = res.result.count
+            this.$set(this.queryConfig,'correctionCount',res.result.list.filter(it => it.correctionStatus == 0).length);
+
+            this.pager.total = res.result.count
             if(this.currentNum > res.result.count){
 						  this.currentNum = res.result.count;
             }

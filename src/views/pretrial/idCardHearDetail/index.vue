@@ -155,7 +155,7 @@ export default {
       //被申请人修改信息配置
       respondentEidtConfig: {},
       //对应关系
-      editconfig:{resName:'nameStatus',resNation: 'nationStatus',resIdaddress: 'idaddressStatus',resIdcard:'idcardStatus',sexStatus:'resSex'},
+      editconfig:{resName:'nameStatus',resNation: 'nationStatus',resIdaddress: 'idaddressStatus',resIdcard:'idcardStatus',resSex:'sexStatus'},
       respondentEditFlag: false,
       //当前的被修改人信息
       currentRespodent: {},
