@@ -20,7 +20,7 @@
       </el-option>
     </el-select>
 
-    <el-select ref="sele3" v-model="activeArea" clearable placeholder="请选择" style="width:130px;vertical-align:middle;">
+    <el-select ref="sele3" @change="handleAreaChange" v-model="activeArea" clearable placeholder="请选择" style="width:130px;vertical-align:middle;">
       <el-option
         v-for="(item,index) in areaOptions"
         :key="index"
@@ -174,6 +174,12 @@
           this.$refs.sele2.$el.querySelector('input').value,
           this.$refs.sele3.$el.querySelector('input').value,
         ]
+      },
+      // 选择完成 回调
+      handleAreaChange(val) {
+        if(val) {
+          this.$emit('finish');
+        }
       },
     },
   }

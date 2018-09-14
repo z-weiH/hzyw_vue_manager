@@ -16,6 +16,7 @@
               :cityCode.sync="ruleForm.cityCode"
               :districtCode.sync="ruleForm.districtCode"  
               ref="cityCascader"
+              @finish="cityFinish"
             >
             </cityCascader>
           </el-form-item>
@@ -136,9 +137,9 @@
         }
       },
 
-      // 地区change
-      handleRegion(val) {
-
+      // 地区 选择完成回调
+      cityFinish() {
+        
       },
 
       // 关闭浮层
@@ -147,10 +148,10 @@
         // 取消按钮禁用
         setTimeout(() => {
           this.submitDisabled = false;
+          this.$refs.ruleForm.clearValidate();
 				},500);
 				// 重置表单数据
         this.$refs.ruleForm.resetFields();
-        this.$refs.ruleForm.clearValidate();
       },
       // 点击提交
       handleSubmit(submitType) {
@@ -158,7 +159,7 @@
           if(valid) {
             let cn = this.$refs.cityCascader.getCN();
             let form = {...this.ruleForm};
-            if(type === 'add') {
+            if(this.type === 'add') {
               delete form.courtId;
             }
 						// 提交数据
@@ -173,7 +174,9 @@
                 district : cn[2],
               },
             }).then((res) => {
-              this.$message.success('分配成功');
+              this.$message.success(this.type === 'add' ? '新增成功' : '修改成功');
+              this.handleClose();
+              this.$emit('successCBK');
             }).catch(() => {
               this.submitDisabled = false;
             });
