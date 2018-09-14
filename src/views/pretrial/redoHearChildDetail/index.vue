@@ -75,31 +75,31 @@
           </div>
           <div class="img_desc">
             <ul>
-              <li :class="{'pointer': respondentEidtConfig.nameStatus == 1}">
+              <li :class="{'pointer': respondentEidtConfig.nameStatus == 1 && subViewType == 1}">
                 <i v-if="card.idCard.nameStatus === 0" class="i_nopass"></i>
                 <i v-if="card.idCard.nameStatus%2 === 1" class="i_pass"></i>
                 <i v-if="card.idCard.nameStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resName')">{{card.idCard.resName}}</span>
                 <b style="color:#aaa;" v-if="card.idCard.nameStatus === 3">(已修正)</b>
               </li>
-              <li :class="{'pointer': respondentEidtConfig.sexStatus == 1}">
+              <li :class="{'pointer': respondentEidtConfig.sexStatus == 1 && subViewType == 1}">
                 <i v-if="card.idCard.sexStatus === 0" class="i_nopass"></i>
                 <i v-if="card.idCard.sexStatus%2 === 1" class="i_pass"></i>
                 <i v-if="card.idCard.sexStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resSex')">{{card.idCard.resSex === 0 ? '女':'男'}}</span>
                 <b style="color:#aaa;" v-if="card.idCard.sexStatus === 3">(已修正)</b>
               </li>
-              <li :class="{'pointer': respondentEidtConfig.nationStatus == 1}">
+              <li :class="{'pointer': respondentEidtConfig.nationStatus == 1 && subViewType == 1}">
                 <i v-if="card.idCard.nationStatus === 0" class="i_nopass"></i>
                 <i v-if="card.idCard.nationStatus%2 === 1" class="i_pass"></i>
                 <i v-if="card.idCard.nationStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resNation')">{{card.idCard.resNation}}</span>
                 <b style="color:#aaa;" v-if="card.idCard.nationStatus === 3">(已修正)</b>
               </li>
-              <li :class="{'pointer': respondentEidtConfig.idaddressStatus == 1}">
+              <li :class="{'pointer': respondentEidtConfig.idaddressStatus == 1 && subViewType == 1}">
                 <i v-if="card.idCard.idaddressStatus === 0" class="i_nopass"></i>
                 <i v-if="card.idCard.idaddressStatus%2 === 1" class="i_pass"></i>
                 <i v-if="card.idCard.idaddressStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdaddress')">{{card.idCard.resIdaddress}}</span>
                 <b style="color:#aaa;" v-if="card.idCard.idaddressStatus === 3">(已修正)</b>
               </li>
-              <li :class="{'pointer': respondentEidtConfig.idcardStatus == 1}">
+              <li :class="{'pointer': respondentEidtConfig.idcardStatus == 1 && subViewType == 1}">
                 <i v-if="card.idCard.idcardStatus === 0" class="i_nopass"></i>
                 <i v-if="card.idCard.idcardStatus%2 === 1" class="i_pass"></i>
                 <i v-if="card.idCard.idcardStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdcard')">{{card.idCard.resIdcard}}</span>
@@ -336,7 +336,7 @@ export default {
     },
 
     handleRespondentClick(card,property){
-      if(this.respondentEidtConfig[this.editconfig[property]] != 1){
+      if(this.respondentEidtConfig[this.editconfig[property]] != 1 || this.subViewType != 1){
         return;
       }
       this.currentRespodent = card.idCard;

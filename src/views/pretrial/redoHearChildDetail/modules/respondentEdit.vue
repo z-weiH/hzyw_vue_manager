@@ -6,7 +6,11 @@
     width="545px"
     center>
     <div style="text-align: center;">
-      <img style="width:400px;height: 250px;" :src="currentRespodent.imgUrl" alt="">
+      <!--<img style="width:400px;height: 250px;" :src="currentRespodent.imgUrl" alt="">-->
+      <div style="position: relative;width:400px;height:250px;margin-left: 44px;">
+        <img-zoom :src="currentRespodent.imgUrl+ '?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="currentRespodent.imgUrl+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+      </div>
+
       <div class="edit" style="margin: 20px 0;width:400px;margin-left:44px;">
         <edits ref="edits" :edit-items="respondentEditItems" :item="respondentItem" :label-width="'60px'"></edits>
       </div>
@@ -19,6 +23,7 @@
 </template>
 
 <script>
+  import imgZoom from "@/components/v-zoom"
   import Edits from '@/components/edits'
     export default {
       name: 'respondentEdit',
@@ -31,7 +36,15 @@
         return {
 
 
-
+          //放大鏡涉案hi之
+          configs: {
+            width:400,
+            height:250,
+            maskWidth:133.5,
+            maskHeight:83.5,
+            maskColor:'#fff',
+            maskOpacity:0.2
+          },
 
 
           respondentEditItems:[
@@ -46,18 +59,28 @@
       methods:{
         handleRespondentEdit(){
 
-
-          this.$http.post("/firstAudit/respondentModified.htm",{cardList:[this.respondentItem],caseId:this.currentRespodent.caseId,resId:this.currentRespodent.resId},{mheaders: true}).then(res => {
-            if(res.code === '0000'){
-              this.$message.success("修改成功");
-              this.$parent.respondentEditFlag = false;
-              this.$parent.HandleQuery();
+          this.$refs.edits.$refs.editsform.validate((valid) => {
+            if(valid){
+              this.$http.post("/firstAudit/respondentModified.htm",{cardList:[this.respondentItem],caseId:this.currentRespodent.caseId,resId:this.currentRespodent.resId},{mheaders: true}).then(res => {
+                if(res.code === '0000'){
+                  this.$message.success("修改成功");
+                  this.$parent.respondentEditFlag = false;
+                  if(this.$parent.HandleQuery && this.$parent.HandleQuery instanceof Function){
+                    this.$parent.HandleQuery();
+                  }
+                  if(this.$parent.getRecheckDetail && this.$parent.getRecheckDetail instanceof Function){
+                    this.$parent.getRecheckDetail();
+                  }
+                }
+              })
             }
           })
+
         },
       },
       components:{
-        Edits
+        Edits,
+        imgZoom
       },
       computed:{
         show :{

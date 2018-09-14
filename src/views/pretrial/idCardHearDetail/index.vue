@@ -67,35 +67,35 @@
         </div>
         <div class="img_desc fl" style="max-width: 380px">
           <ul>
-            <li :class="{'pointer': respondentEidtConfig.nameStatus == 1}">
+            <li :class="{'pointer': respondentEidtConfig.nameStatus == 1 && !disabled}">
               <img class="mr-10" v-if="card.auditInfoWrap.nameStatus === 0 || card.checkName"  src="@/assets/img/error_tag.png" alt="">
-              <img class="mr-5" v-if="card.auditInfoWrap.nameStatus === 1 && !card.checkName" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.nameStatus%2 === 1 && !card.checkName" src="@/assets/img/success_tag.png" alt="">
               <img class="mr-15" v-if="card.auditInfoWrap.nameStatus === 2 && !card.checkName" src="@/assets/img/warning_tag.png" alt="">
               <span @click="handleRespondentClick(card,'resName')">{{card.auditInfoWrap.resName}}</span>
               <b style="color:#aaa;" v-if="card.auditInfoWrap.nameStatus === 3">(已修正)</b>
             </li>
-            <li :class="{'pointer': respondentEidtConfig.sexStatus == 1}">
+            <li :class="{'pointer': respondentEidtConfig.sexStatus == 1 && !disabled}">
               <img class="mr-10" v-if="card.auditInfoWrap.sexStatus === 0 || card.checkGENDER"  src="@/assets/img/error_tag.png" alt="">
-              <img class="mr-5" v-if="card.auditInfoWrap.sexStatus === 1 && !card.checkGENDER" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.sexStatus%2 === 1 && !card.checkGENDER" src="@/assets/img/success_tag.png" alt="">
               <img class="mr-15" v-if="card.auditInfoWrap.sexStatus === 2 && !card.checkGENDER" src="@/assets/img/warning_tag.png" alt="">
               <span @click="handleRespondentClick(card,'resSex')">{{card.auditInfoWrap.resSex === 0 ? '女' : '男'}}</span>
               <b style="color:#aaa;" v-if="card.auditInfoWrap.sexStatus === 3">(已修正)</b>
             </li>
-            <li :class="{'pointer': respondentEidtConfig.nationStatus == 1}">
+            <li :class="{'pointer': respondentEidtConfig.nationStatus == 1 && !disabled}">
               <img class="mr-10" v-if="card.auditInfoWrap.nationStatus === 0 || card.checkNATION"  src="@/assets/img/error_tag.png" alt="">
               <img class="mr-5" v-if="card.auditInfoWrap.nationStatus%2 === 1 && !card.checkNATION" src="@/assets/img/success_tag.png" alt="">
               <img class="mr-15" v-if="card.auditInfoWrap.nationStatus === 2 && !card.checkNATION" src="@/assets/img/warning_tag.png" alt="">
               <span @click="handleRespondentClick(card,'resNation')">{{card.auditInfoWrap.resNation}}</span>
               <b style="color:#aaa;" v-if="card.auditInfoWrap.nationStatus === 3">(已修正)</b>
             </li>
-            <li :class="{'pointer': respondentEidtConfig.idaddressStatus == 1}">
+            <li :class="{'pointer': respondentEidtConfig.idaddressStatus == 1 && !disabled}">
               <img class="mr-10" v-if="card.auditInfoWrap.idaddressStatus === 0 || card.checkADDRESS"  src="@/assets/img/error_tag.png" alt="">
               <img class="mr-5" v-if="card.auditInfoWrap.idaddressStatus%2 === 1 && !card.checkADDRESS" src="@/assets/img/success_tag.png" alt="">
               <img class="mr-15" v-if="card.auditInfoWrap.idaddressStatus === 2 && !card.checkADDRESS" src="@/assets/img/warning_tag.png" alt="">
               <span @click="handleRespondentClick(card,'resIdaddress')">{{card.auditInfoWrap.resIdaddress}}</span>
               <b style="color:#aaa;" v-if="card.auditInfoWrap.idaddressStatus === 3">(已修正)</b>
             </li>
-            <li :class="{'pointer': respondentEidtConfig.idcardStatus == 1}">
+            <li :class="{'pointer': respondentEidtConfig.idcardStatus == 1 && !disabled}">
               <img class="mr-10" v-if="card.auditInfoWrap.idcardStatus === 0 || card.checkIDCARD"  src="@/assets/img/error_tag.png" alt="">
               <img class="mr-5" v-if="card.auditInfoWrap.idcardStatus%2 === 1 && !card.checkIDCARD" src="@/assets/img/success_tag.png" alt="">
               <img class="mr-15" v-if="card.auditInfoWrap.idcardStatus === 2 && !card.checkIDCARD" src="@/assets/img/warning_tag.png" alt="">
@@ -104,7 +104,7 @@
             </li>
             <li>
               <img class="mr-10" v-if="card.auditInfoWrap.effctDateStatus === 0 || card.checkEFFECT"  src="@/assets/img/error_tag.png" alt="">
-              <img class="mr-5" v-if="card.auditInfoWrap.effctDateStatus%2 === 1 && !card.checkEFFECT" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-5" v-if="card.auditInfoWrap.effctDateStatus === 1 && !card.checkEFFECT" src="@/assets/img/success_tag.png" alt="">
               <img class="mr-15" v-if="card.auditInfoWrap.effctDateStatus === 2 && !card.checkEFFECT" src="@/assets/img/warning_tag.png" alt="">
               <span>{{card.auditInfoWrap.resEffctDate}}</span>
             </li>
@@ -234,7 +234,7 @@ export default {
       })
     },
     handleRespondentClick(card,property){
-      if(this.respondentEidtConfig[this.editconfig[property]] != 1){
+      if(this.respondentEidtConfig[this.editconfig[property]] != 1 || this.disabled){
         return;
       }
       this.currentRespodent = card.auditInfoWrap;

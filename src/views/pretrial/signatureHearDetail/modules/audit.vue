@@ -81,7 +81,9 @@ export default {
                 item.idStatus = this.status === 0 ? 2 : 1;
                 let arr = ['effctDateStatus','idaddressStatus','idcardStatus','nameStatus','nationStatus','sexStatus'];
                 arr.map(key => {
-                  item.auditInfoWrap[key] = 1;
+                  if(item.auditInfoWrap[key] != 3){
+                    item.auditInfoWrap[key] = 1;
+                  }
                 })
               }
               else if(this.type === 1){
