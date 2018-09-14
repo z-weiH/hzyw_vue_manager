@@ -62,10 +62,6 @@
 						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="微信号：" prop="demo">
-						<span>我是微信号</span>
-					</el-form-item>
-
           <el-form-item label="备注：" prop="demo">
 						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
 					</el-form-item>

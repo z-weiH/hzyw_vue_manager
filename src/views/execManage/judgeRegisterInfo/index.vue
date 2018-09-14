@@ -7,10 +7,10 @@
           <el-input v-model.trim="ruleForm.keyWords" placeholder="法院姓名/手机号/座机号/进行查询" style="width:200px;"></el-input>
         </el-form-item>
 
-        <el-form-item label=" " prop="accountAge">
-          <el-select @change="handleTimeChange" clearable v-model="ruleForm.accountAge" placeholder="请选择" style="width:120px;">
-            <el-option label="操作日期" value="M1"></el-option>
-            <el-option label="提交日期" value="M2"></el-option>
+        <el-form-item label=" " prop="dateType">
+          <el-select @change="handleTimeChange" clearable v-model="ruleForm.dateType" placeholder="请选择" style="width:120px;">
+            <el-option label="操作日期" :value="1"></el-option>
+            <el-option label="提交日期" :value="0"></el-option>
           </el-select>
         </el-form-item>
 
@@ -26,12 +26,12 @@
 
 				<br />
 				
-				<el-form-item label=" " prop="accountAge">
+				<el-form-item label=" " prop="status">
 					<span>状态：</span>
-					<el-select clearable v-model="ruleForm.accountAge2" placeholder="请选择" style="width:120px;">
-						<el-option label="待审核" value="M1"></el-option>
-						<el-option label="已通过" value="M2"></el-option>
-						<el-option label="已拒绝" value="M3"></el-option>
+					<el-select clearable v-model="ruleForm.status" placeholder="请选择" style="width:120px;">
+						<el-option label="待审核" :value="0"></el-option>
+						<el-option label="已通过" :value="1"></el-option>
+						<el-option label="已拒绝" :value="2"></el-option>
 					</el-select>
 				</el-form-item>
 
@@ -48,16 +48,20 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="respondents" label="法院"></el-table-column>
-				<el-table-column prop="respondents" label="姓名"></el-table-column>
-				<el-table-column prop="respondents" label="手机号"></el-table-column>
-				<el-table-column prop="respondents" label="座机号"></el-table-column>
-				<el-table-column prop="respondents" label="提交时间"></el-table-column>
-				<el-table-column prop="respondents" label="操作时间"></el-table-column>
-				<el-table-column prop="respondents" label="操作人"></el-table-column>
+				<el-table-column prop="courtName" label="法院"></el-table-column>
+				<el-table-column prop="judgeName" label="姓名"></el-table-column>
+				<el-table-column prop="cellphone" label="手机号"></el-table-column>
+				<el-table-column prop="landlineTelephone" label="座机号"></el-table-column>
+				<el-table-column prop="submitTime" label="提交时间"></el-table-column>
+				<el-table-column prop="operTime" label="操作时间"></el-table-column>
+				<el-table-column prop="userName" label="操作人"></el-table-column>
 				<el-table-column label="状态">
 					<template slot-scope="scope">
-						<el-button type="text" @click="handleExamine(scope.row)">待审核</el-button>
+						<template v-if="scope.row.status !== 0">
+              <el-button type="text" @click="handleExamine(scope.row)">待审核</el-button>
+            </template>
+            <template v-else-if="scope.row.status === 1">已通过</template>
+            <template v-else-if="scope.row.status === 2">已拒绝</template>
 					</template>
 				</el-table-column>
       </el-table>
@@ -74,7 +78,7 @@
       </el-pagination>
 
       <!-- 审核 dialog -->
-      <examineDialog ref="examineDialog"></examineDialog>
+      <examineDialog @successCBK="successCBK" ref="examineDialog"></examineDialog>
 
     </div>
 	</div>
@@ -96,7 +100,11 @@
 					// 开始时间
 					startDate : '',
 					// 结束时间
-					endDate : '',
+          endDate : '',
+          // 日期类型 0:提交日期;1：操作日期
+          dateType : '',
+          // 状态 	0：待审核;1：已通过;2：已拒绝
+          status : '',
 				},
 				rules : {},
 
@@ -130,13 +138,17 @@
       handleExamine(row) {
         this.$refs.examineDialog.show(row);
       },
+      // 审核 成功回调
+      successCBK() {
+        this.handleSearch();
+      },
 
 			// 表格相关 start
 
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
+          url : '/judge/judgeRegisterList.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
