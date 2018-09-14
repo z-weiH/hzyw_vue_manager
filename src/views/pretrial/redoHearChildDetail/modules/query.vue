@@ -24,6 +24,13 @@
             <el-radio  :label="0">全部案件({{queryConfig.totalCaseCount}})</el-radio>
           </el-radio-group>
         </div>
+        <div style="line-height: 30px;">
+          <span class="form_desc">信息修正</span>
+          <el-radio-group v-model="correctionStatus">
+            <el-radio  :label="0">已修正({{queryConfig.correctionCount}})</el-radio>
+            <el-radio  :label="1">全部案件({{queryConfig.totalCaseCount}})</el-radio>
+          </el-radio-group>
+        </div>
         <div style="line-height: 30px;margin-top:10px;">
           <span class="form_desc" >案件搜索</span>
           <el-input style="display: inline-block;width: 330px" v-model="keyWords" placeholder="请输入案件编号或被申请人姓名进行搜索"></el-input>
@@ -86,7 +93,9 @@
         showQuery: false,
         auditStatus: 0,
         passStatus: 0,
-        keyWords: ''
+        keyWords: '',
+        //修正狀態
+        correctionStatus: 1
       }
     },
     watch:{
@@ -112,6 +121,7 @@
         this.$parent.$parent.$parent.keyWords = this.keyWords;
         this.$parent.$parent.$parent.maxAmtCapital = this.maxAmtCapital;
         this.$parent.$parent.$parent.minAmtCapital = this.minAmtCapital;
+        this.$parent.$parent.$parent.correctionStatus = this.correctionStatus;
         if(!this.isEmpty(this.minAmtCapital) && (!this.isEmpty(this.maxAmtCapital))){
           console.log(this.minAmtCapital , this.maxAmtCapital)
           if(+this.minAmtCapital > (+this.maxAmtCapital)){

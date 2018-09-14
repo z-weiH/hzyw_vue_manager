@@ -351,7 +351,7 @@ export default {
       let obj={};
       if(!this.disabled){
         Object.assign(obj,
-          { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus,passStatus: +this.passStatus,keyWords: this.keyWords},
+          { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus,passStatus: +this.passStatus,keyWords: this.keyWords,correctionStatus: this.correctionStatus},
           this.pager
         )
       }else{
@@ -373,6 +373,7 @@ export default {
             this.pager.total = res.result.count;
             // this.queryConfig.count = res.result.count;
             this.$set(this.queryConfig,'count',res.result.count);
+            this.$set(this.queryConfig,'correctionCount',res.result.list.filter(it => it.correctionStatus == 0).length);
             // Object.keys(this.queryConfig).forEach(key => {
             //   this.$set(this.queryConfig,key,this.queryConfig[key]);
             // })

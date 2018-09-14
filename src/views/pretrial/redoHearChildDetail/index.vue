@@ -271,6 +271,7 @@ export default {
 			subBatchId: '',
       passStatus:'',
 			subViewType: '',
+      correctionStatus: '',
 			btnRecheckType: '',
 			currentNum: 1,
       keyWords:'',
@@ -480,7 +481,8 @@ export default {
           keyWords: this.keyWords,
           maxAmtCapital: this.maxAmtCapital,
           minAmtCapital: this.minAmtCapital,
-          passStatus: this.passStatus
+          passStatus: this.passStatus,
+          correctionStatus: this.correctionStatus
 				})
 				.then(res => {
 					console.log('detail>->', res.result)

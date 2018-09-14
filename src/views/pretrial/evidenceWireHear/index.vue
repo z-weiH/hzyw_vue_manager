@@ -124,6 +124,7 @@
         passStatus: 0,//查看状态
         editState: 0,
         count: 0,
+        correctionStatus: 1,//修正數
         disabled: false,
         evidenceItems: [],
         currentCaseId: '', //当前案件
@@ -267,12 +268,12 @@
         let obj={};
         if(!this.disabled){
           Object.assign(obj,
-            { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus ,passStatus: +this.passStatus,keyWords: this.keyWords},
+            { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus ,passStatus: +this.passStatus,keyWords: this.keyWords,correctionStatus: this.correctionStatus},
             this.pager
           )
         }else{
           Object.assign(obj,
-            { subBatchNo: this.subBatchNo, passStatus: +this.passStatus,keyWords: this.keyWords },
+            { subBatchNo: this.subBatchNo, passStatus: +this.passStatus,keyWords: this.keyWords ,correctionStatus: this.correctionStatus},
             this.pager
           )
         }
@@ -288,6 +289,7 @@
               }
               console.log(this.evidenceItems)
               this.$set(this.queryConfig,'count',res.result.count);
+
               if(this.evidenceItems.length > 0){
                 this.currentUrl = this.evidenceItems[0].eviDetailList[0].eviFileurl;
               }
