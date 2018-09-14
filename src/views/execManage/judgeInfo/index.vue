@@ -167,11 +167,11 @@
         ],
         // 角色 options
         roleOptions : [
-          {label : '立案法官' , value : '1'},
-          {label : '执行法官' , value : '2'},
-          {label : '立案庭庭长' , value : '3'},
-          {label : '执行庭庭长' , value : '4'},
-          {label : '法院院长' , value : '5'},
+          {label : '立案法官' , value : 1},
+          {label : '执行法官' , value : 2},
+          {label : '立案庭庭长' , value : 3},
+          {label : '执行庭庭长' , value : 4},
+          {label : '法院院长' , value : 5},
         ],
 
 				// 表格数据
