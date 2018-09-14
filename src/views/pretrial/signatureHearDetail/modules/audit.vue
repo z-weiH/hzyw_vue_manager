@@ -84,6 +84,24 @@ export default {
                   if(item.auditInfoWrap[key] != 3){
                     item.auditInfoWrap[key] = 1;
                   }
+                  // if(it.code && auditList.find(i => i.code === it.code)){
+                  //   it.auditStatus = 0;
+                  // }
+                  if(auditList.find(it => it.code == 1001)){
+                    item.auditInfoWrap.sexStatus = 0;
+                  }
+                  if(auditList.find(it => it.code == 1002)){
+                    item.auditInfoWrap.nationStatus = 0;
+                  }
+                  if(auditList.find(it => it.code == 1003)){
+                    item.auditInfoWrap.idaddressStatus = 0;
+                  }
+                  if(auditList.find(it => it.code == 1004)){
+                    item.auditInfoWrap.idcardStatus = 0;
+                  }
+                  if(auditList.find(it => it.code == 1005)){
+                    item.auditInfoWrap.effctDateStatus = 0;
+                  }
                 })
               }
               else if(this.type === 1){

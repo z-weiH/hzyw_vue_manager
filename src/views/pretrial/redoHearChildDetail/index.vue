@@ -341,6 +341,7 @@ export default {
       }
       this.currentRespodent = card.idCard;
       this.$set(this.currentRespodent,'imgUrl',card.idCard.image01);
+      // this.$set(this.currentRespodent,'imgUrl',card.idCard.image01);
       // this.$set(this.currentRespodent,'currentProperty',property);
       for(let key in this.respondentEidtConfig){
         if(this.respondentEidtConfig[key] === 1){

@@ -239,7 +239,7 @@ export default {
       }
       this.currentRespodent = card.auditInfoWrap;
       this.$set(this.currentRespodent,'imgUrl',card.respondentInfo.image01);
-      // this.$set(this.currentRespodent,'currentProperty',property);
+      this.$set(this.currentRespodent,'correctionStatus',card.correctionStatus);
       for(let key in this.respondentEidtConfig){
         if(this.respondentEidtConfig[key] === 1){
           for(let k in this.editconfig){
