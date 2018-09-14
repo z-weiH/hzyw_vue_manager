@@ -97,7 +97,7 @@
             {required : true , message : '请选择法院类型' , trigger : 'change'},
           ],
           courtName : [
-            {required : true , message : '请输入法院名称' , trigger : 'blur'},
+            {required : true , message : '请输入法院名' , trigger : 'blur'},
           ],
           courtAddress : [
             {required : true , message : '请输入地址' , trigger : 'blur'},
@@ -130,7 +130,29 @@
         });
 
         if(type === 'edit') {
+          // 修改 id
           this.ruleForm.courtId = data.courtId;
+          // 根据法院 id 回显数据
+          this.$http({
+            url : '/court/queryCourtInfoById.htm',
+            method : 'post',
+            data : {
+              courtId : data.courtId,
+            },
+          }).then((res) => {
+            // 省市区相关
+            this.ruleForm.provinceCode = res.result.provinceCode;
+            this.ruleForm.cityCode = res.result.cityCode;
+            this.ruleForm.districtCode = res.result.districtCode;
+
+            this.$refs.cityCascader.cityOptions = [{city : res.result.city , cityCode : res.result.cityCode}];
+            this.$refs.cityCascader.areaOptions = [{district : res.result.district , districtCode : res.result.districtCode}];
+          });
+          // 回显其他数据
+          this.ruleForm.courtType = data.courtType;
+          this.ruleForm.courtName = data.courtName;
+          this.ruleForm.courtAddress = data.courtAddress;
+          this.ruleForm.courtPhone = data.courtPhone;
         }
       },
 
