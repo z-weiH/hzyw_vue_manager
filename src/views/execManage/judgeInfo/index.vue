@@ -7,54 +7,50 @@
 
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
-				<el-cascader
-					:options="cityOptions"
-          clearable
-					v-model="ruleForm.selectedOptions"
-          @change="handleRegion"
-          placeholder="地区"
-					change-on-select
-          :props="{
-            label : 'label',
-            children : 'children',
-          }"
-          class="mr-20"
-				>
-				</el-cascader>
+				<el-form-item label=" " prop="provinceCode">
+          <cityCascader
+            :provinceCode.sync="ruleForm.provinceCode"
+            :cityCode.sync="ruleForm.cityCode"
+            :districtCode.sync="ruleForm.districtCode"  
+            ref="cityCascader"
+            @finish="cityFinish"
+            @cancel="cityCancel"
+          >
+          </cityCascader>
+        </el-form-item>
 
-        <span>法院：</span>
+        <span class="inline">法院：</span>
         <el-form-item label=" " prop="accountAge">
-          <el-select clearable v-model="ruleForm.accountAge" placeholder="请选择法院" style="width:150px;">
+          <el-select clearable v-model="ruleForm.accountAge" placeholder="请选择法院" style="width:185px;">
             <el-option 
               v-for="(item,index) in courtOptions" 
               :key="index" 
-              :label="item.label" 
-              :value="item.value"
+              :label="item.courtName" 
+              :value="item.courtId"
             >
             </el-option>
           </el-select>
         </el-form-item>
 
-        <span>法官：</span>
+        <span class="inline">法官：</span>
         <el-form-item label=" " prop="keyWords">
           <el-input v-model.trim="ruleForm.keyWords" placeholder="姓名、手机、座机" style="width:178px;"></el-input>
         </el-form-item>
 
-        
-        <span>角色：</span>
-        <el-form-item label=" " prop="accountAge">
-          <el-select clearable v-model="ruleForm.accountAge2" placeholder="请选择角色" style="width:150px;">
-            <el-option 
-              v-for="(item,index) in roleOptions" 
-              :key="index" 
-              :label="item.label" 
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
-
 				<div class="mt-20">
+          <span>角色：</span>
+          <el-form-item label=" " prop="accountAge">
+            <el-select clearable v-model="ruleForm.accountAge2" placeholder="请选择角色" style="width:150px;">
+              <el-option 
+                v-for="(item,index) in roleOptions" 
+                :key="index" 
+                :label="item.label" 
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+
           <span>录入日期：</span>
           <timeFrame
             :startDate.sync="ruleForm.startDate"
@@ -83,19 +79,33 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="respondents" label="省" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="法院" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="角色" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="姓名" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="手机" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="座机" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="法院地址" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="录入日期" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="备注" width="120px"></el-table-column>
+				<el-table-column prop="province" label="省" width="120px"></el-table-column>
+        <el-table-column prop="courtName" label="法院" width="120px"></el-table-column>
+        <el-table-column prop="role" label="角色" width="120px">
+          <template slot-scope="scope">
+            {{
+              scope.row.courtType === 1 ? '立案法官' :
+              scope.row.courtType === 2 ? '执行法官' :
+              scope.row.courtType === 3 ? '立案庭庭长' :
+              scope.row.courtType === 4 ? '执行庭庭长' :
+              scope.row.courtType === 5 ? '法院院长' : ''
+            }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="judgeName" label="姓名" width="120px"></el-table-column>
+        <el-table-column prop="cellphone" label="手机" width="120px"></el-table-column>
+        <el-table-column prop="landlineTelephone" label="座机" width="120px"></el-table-column>
+        <el-table-column prop="courtAddress" label="法院地址" width="120px"></el-table-column>
+        <el-table-column prop="createTime" label="录入日期" width="120px"></el-table-column>
+        <el-table-column prop="remark" label="备注" width="120px"></el-table-column>
         <el-table-column label="操作" width="120px" fixed="right" align="center">
           <template slot-scope="scope">
             <el-button @click="handleEdit(scope.row)" type="text">修改</el-button>
-            <el-button @click="handleState(scope.row)" type="text">启用</el-button>
+            <el-button @click="handleState(scope.row)" type="text">
+              {{
+                scope.row.useStatus === 0 ? '禁用' : '启用'
+              }}
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -111,7 +121,7 @@
         :total="total">
       </el-pagination>
 
-      <mdialog ref="dialog"></mdialog>
+      <mdialog @successCBK="successCBK" ref="dialog"></mdialog>
     </div>
 	</div>
 </template>
@@ -119,11 +129,12 @@
 <script>
   import timeFrame from '@/components/timeFrame.vue'
   import mdialog from './modules/dialog.vue'
-  import {rawCitiesData} from '@/assets/js/city'
+  import cityCascader from '@/components/cityCascader.vue'
 	export default {
 		components : {
       timeFrame,
       mdialog,
+      cityCascader,
 		},
 		data() {
 			return {
@@ -133,16 +144,26 @@
 					// 开始时间
 					startDate : '',
 					// 结束时间
-					endDate : '',
+          endDate : '',
+          // 角色 1：立案法官;2：执行法官;3：立案庭庭长;4: 执行庭庭长;5：法院院长
+          role : '',
+          // 省编码
+          provinceCode : '',
+          // 市编码
+          cityCode : '',
+          // 区编码
+          districtCode : '',
+          // 法院编码
+          courtId : '',
 				},
 				rules : {},
 
-				// 城市tree
-        cityOptions : rawCitiesData,
         // 法院 options
         courtOptions : [
-          {label : '法院a' , value : 'a'},
-          {label : '法院b' , value : 'b'},
+          /* {courtName : '法院1' , courtId : '1'},
+          {courtName : '法院2' , courtId : '2'},
+          {courtName : '法院3' , courtId : '3'},
+          {courtName : '法院4' , courtId : '4'}, */
         ],
         // 角色 options
         roleOptions : [
@@ -174,9 +195,23 @@
         this.initTableList();
       },
       
-      // 地区change
-      handleRegion(val) {
-        console.log(val);
+      // 地区 选择完成回调
+      cityFinish() {
+        console.log('选择成功');
+        this.$http({
+          url : '/court/queryCourtInfoByDistrictCode.htm',
+          method : 'post',
+          data : {
+            districtCode : this.ruleForm.districtCode,
+          },
+        }).then((res) => {
+          this.courtOptions = res.result.list;
+        });
+      },
+      // 地区 取消回调
+      cityCancel() {
+        this.courtOptions = [];
+        this.ruleForm.courtId = '';
       },
       // 点击新增
       handleAdd() {
@@ -186,9 +221,23 @@
       handleEdit(row) {
         this.$refs.dialog.show('edit',row);
       },
+      // 新增 修改 成功回调
+      successCBK() {
+        this.handleSearch();
+      },
       // 点击启用，停用
       handleState(row) {
-
+        this.$http({
+          url : '/judge/enableOrDisableThisJudge.htm',
+          method : 'post',
+          data : {
+            judgeId : row.judgeId,
+            useStatus : row.useStatus === 0 ? 1 : 0,
+          },
+        }).then((res) => {
+          this.$message.success(row.useStatus === 0 ? '禁用成功' : '启用成功');
+          this.handleSearch();
+        });
       },
 
 			// 表格相关 start
@@ -196,7 +245,7 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
+          url : '/judge/judgeList.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
@@ -229,7 +278,11 @@
 <style lang="scss" scoped>
 
 .judge-info-box{
-	
+	.inline{
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: 14px;
+  }
 }
 
 </style>
