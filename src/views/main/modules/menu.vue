@@ -350,6 +350,21 @@
                 menuId : 714,
                 menuUrl : 'processingFeeSettleReview'
               },
+              {
+                menuName : '案件仲卷退款申请',
+                menuId : 715,
+                menuUrl : 'crRefundApplication'
+              },
+              {
+                menuName : '案件仲卷退款审核',
+                menuId : 716,
+                menuUrl : 'crRefundAudit'
+              },
+              {
+                menuName : '案件仲卷退款查看',
+                menuId : 717,
+                menuUrl : 'crRefundView'
+              },
             ],
           },
           {
