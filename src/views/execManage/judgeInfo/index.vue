@@ -206,6 +206,7 @@
           },
         }).then((res) => {
           this.courtOptions = res.result.list;
+          this.ruleForm.courtId = '';
         });
       },
       // 地区 取消回调
