@@ -4,6 +4,7 @@
     v-dialogDrag
     title="信息修正"
     width="545px"
+    :close-on-click-modal="false"
     center>
     <div style="text-align: center;">
       <!--<img style="width:400px;height: 250px;" :src="currentRespodent.imgUrl" alt="">-->
@@ -65,10 +66,10 @@
                 if(res.code === '0000'){
                   this.$message.success("修改成功");
                   if(this.$parent.handleCountQuery && this.$parent.handleCountQuery instanceof Function){
-                    this.$parent.handleCountQuery();
+                    this.$parent.handleCountQuery({check: this.$parent.disabled ? 0 : 1,subBatchNo:this.$parent.subBatchNo, type: 1 });
                   }
                   if(this.$parent.queryCountAgainAuditCase && this.$parent.queryCountAgainAuditCase instanceof Function) {
-                    this.$parent.queryCountAgainAuditCase();
+                    this.$parent.queryCountAgainAuditCase({subBatchNo: this.$parent.subBatchId});
                   }
                   this.$parent.respondentEditFlag = false;
                   if(this.$parent.HandleQuery && this.$parent.HandleQuery instanceof Function){
