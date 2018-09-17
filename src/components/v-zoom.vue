@@ -110,8 +110,8 @@
         this.bigImg.style.left=-backgroundX + 'px';
       },
       handOut(e) {
-        // this.imgLayer.remove()
-        // this.mouseMask.remove()
+        this.imgLayer.remove()
+        this.mouseMask.remove()
       },
       handOver(e) {
         if (!document.getElementById('_magnifier_layer')) {
