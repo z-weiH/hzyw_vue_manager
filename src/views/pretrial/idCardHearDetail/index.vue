@@ -373,7 +373,6 @@ export default {
             this.pager.total = res.result.count;
             // this.queryConfig.count = res.result.count;
             this.$set(this.queryConfig,'count',res.result.count);
-            this.$set(this.queryConfig,'correctionCount',res.result.list.filter(it => it.correctionStatus == 0).length);
             // Object.keys(this.queryConfig).forEach(key => {
             //   this.$set(this.queryConfig,key,this.queryConfig[key]);
             // })

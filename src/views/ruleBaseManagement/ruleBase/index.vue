@@ -22,22 +22,24 @@
         <el-menu
           background-color="#fff"
           text-color="#7C7C7C"
-          active-text-color="#7C7C7C">
+          active-text-color="#7C7C7C"
+          default-active="测试内容zya3"
+        >
           <el-submenu :index="menu.levelId"  v-for="(menu,ii) in treeData" :key="ii">
             <template slot="title">
-              <div @click="handleNodeClick(menu)" :class="{'currentMenu': currentMenu.levelId === menu.levelId}">{{menu.labelName}}</div>
+              <div @click="handleNodeClick(menu,true)" ref="firstMenu" :class="{'currentMenu': currentMenu.levelId === menu.levelId}">{{menu.labelName}}</div>
             </template>
             <el-menu-item-group v-for="(sub,index) in menu.children" :key="index">
               <el-submenu :index="sub.levelId">
                 <template slot="title" >
-                  <div @click="handleNodeClick(sub)" :class="{'currentMenu': currentMenu.levelId === sub.levelId}">
+                  <div @click="handleNodeClick(sub,true)" :class="{'currentMenu': currentMenu.levelId === sub.levelId}">
                     {{sub.labelName}}
                   </div>
                 </template>
                 <el-menu-item-group v-for="(group,idx) in sub.children" :key="idx">
                   <el-submenu :index="group.levelId">
                     <template slot="title" >
-                      <div @click="handleNodeClick(group)" :class="{'currentMenu': currentMenu.levelId === group.levelId}">
+                      <div @click="handleNodeClick(group,true)" :class="{'currentMenu': currentMenu.levelId === group.levelId}">
                       {{group.labelName}}
                       </div>
                     </template>
@@ -55,15 +57,21 @@
             {{currentRule}}
           </div>
 
-          <pdf-selector ></pdf-selector>
+          <!--<pdf-selector ></pdf-selector>-->
 
         <div class="rule_body" >
+          <div v-if="contentFlag">
             <div class="rule_desc">
-              <el-button style="margin-top: 5px;" class="fr" icon="el-icon-plus"  type="primary" plain @click="handleCreate">添加规则</el-button>
+              <div style="margin-top: 5px; color:#aaa;" class="fr">
+                <el-button plain>参数列表</el-button>
+                <el-button plain>执行集合</el-button>
+                <el-button plain>案件样例</el-button>
+                <el-button  icon="el-icon-plus"  type="primary" plain @click="handleCreate">添加规则</el-button>
+              </div>
               <span>规则列表</span>
               （共{{pager.count}}条)
             </div>
-          <img src="@/assets/img/no_rule.png" style="width:100%;" alt="" v-if="pager.count === 0">
+            <img src="@/assets/img/no_rule.png" style="width:100%;" alt="" v-if="pager.count === 0">
             <ul class="rule_list" v-if="pager.count > 0">
               <li class="rule_item" v-for="(rule,index) in ruleList" :key="index">
                 <div class="ruleDesc">
@@ -74,21 +82,7 @@
                   <b >{{(pager.currentNum-1) * 5 + index + 1}}.</b>
                   <span>{{rule.ruleDesc}}</span>
                 </div>
-                <div class="auditOpinion">
-                  <span class="rule_title_desc">审核意见</span>
-                  <span>{{rule.auditOpinion}}</span>
-                </div>
-                <div class="modularType">
-                  <span class="rule_title_desc">所属模块</span>
-                  <!--1-身份证，2-签名，3-证据链-->
-                  <span>{{rule.modularType == 1 ? "身份证" : rule.modularType == 2 ? "签名" : "证据链"}}模块</span>
-                </div>
-                <div class="ruleInfo">
-                  <span class="rule_title_desc">规则代码</span>
-                  <span>{{rule.ruleInfo}}</span>
-                </div>
-
-
+                <div>{{rule.ruleInfo}}</div>
               </li>
             </ul>
 
@@ -101,6 +95,21 @@
                 :total="pager.count">
               </el-pagination>
             </div>
+          </div>
+          <div v-else>
+            <div class="text-content">
+              <p class="content-title">{{currentRule}}</p>
+              <p class="content-desc">
+                <b>{{numObj.bizNum}}个业务、</b>
+                <b>{{numObj.productNum}}个产品、</b>
+                <b>{{numObj.templateNum}}个模版、</b>
+                <b>{{numObj.ruleNum}}条规则</b>
+              </p>
+            </div>
+
+          </div>
+
+
 
           </div>
 
@@ -119,7 +128,7 @@
       width="495px"
       center>
       <!--<edits ref="edits" :edit-items="createItems" :item="item" :label-width="'120px'"></edits>-->
-      <el-form  ref="createForm" :model="form" label-width="100px" :rules="rules">
+      <el-form  ref="createForm"  label-width="100px" :rules="rules">
         <el-form-item label="规则描述：" prop="ruleDesc">
           <el-input v-model="form.ruleDesc" placeholder="请填写规则描述,如“标的金额是否正确”"></el-input>
         </el-form-item>
@@ -175,6 +184,7 @@
           </div>
           <div class="right fl slect_tree_warpar">
             <el-input
+              style="width:300px;"
               placeholder="请选择范围"
               :suffix-icon="iconName"
               @focus="handleFocus"
@@ -197,7 +207,7 @@
               type="date"
               placeholder="选择日期">
             </el-date-picker>
-            -
+             -
             <el-date-picker
               style="width: 135px; display: inline-block"
               v-model="endDate"
@@ -273,6 +283,12 @@
     },
     data() {
       return {
+
+        //控制内容显示
+        contentFlag: false,
+
+        //统计的业务、产品、模版、规则
+        numObj: {},
 
         //控制运行结果
         runRes : 2, //0 未运行，1 失败， 2 成功
@@ -366,6 +382,10 @@
       }
     },
     mounted() {
+      setTimeout(() => {
+        console.log(this.$refs,this.$refs.firstMenu);
+        this.$refs.firstMenu[0].click();
+      },1000)
 
 
     },
@@ -662,11 +682,24 @@
         this.handleNodeClick(this.currentMenu);
       },
 
-      handleNodeClick(item){
+      handleNodeClick(item,flag){
         let obj = Object.assign({},item);
         obj.children = null;
         this.currentMenu = obj;
         this.currentRule = obj.labelName;
+
+        if(flag){
+          this.contentFlag = false;
+          this.$http.post("/rule/ruleNumberByLevelIdAndRuleLevel.htm",item).then(res => {
+            console.log(res);
+            if(res.code === '0000'){
+              this.numObj = res.result;
+            }
+          });
+          return ;
+        }
+
+        this.contentFlag = true;
         this.$http.post("/ruleBase/ruleInfoByBaseQuery.htm",Object.assign(obj,this.pager)).then(res => {
           if(res.code === '0000'){
             this.ruleList = res.result.list;
@@ -708,8 +741,10 @@
 
       this.$http.post('/rule/queryRuleTree.htm').then(res => {
         if(res.code === '0000'){
-          this.deleteProperty([res.result],"children");
-          this.treeData = [res.result];
+          // this.deleteProperty([res.result],"children");
+          // this.treeData = [res.result];
+          // this.deleteProperty(res.result,"children");
+          this.treeData = res.result;
 
           console.log(this.treeData)
           this.handleNodeClick(Object.assign({},this.treeData[0]));
@@ -767,7 +802,7 @@
     z-index:999;
     width: 300px;
     height: 130px;
-    border: 1px solid #aaa;
+    border: 1px solid #dcdfe6;
     position: absolute;
     background: #fff;
   }
@@ -894,6 +929,20 @@
         }
 
       }
+    }
+  }
+  .text-content{
+    text-align: center;
+    margin-top: 30px;
+    min-height: 800px;
+    .content-title{
+      font-size: 24px;
+      color:#666666;
+      margin: 18px 0;
+    }
+    .content-desc{
+      color: #7F7F7F;
+      font-size: 18px;
     }
   }
 

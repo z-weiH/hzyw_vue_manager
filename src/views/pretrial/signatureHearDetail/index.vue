@@ -261,7 +261,6 @@ export default {
               it.signAuditList.reverse();
             });
             this.$set(this.queryConfig,'count',res.result.count);
-            this.$set(this.queryConfig,'correctionCount',res.result.list.filter(it => it.correctionStatus == 0).length);
 
             console.log(this.signatureItems);
             this.count = res.result.totalCount;

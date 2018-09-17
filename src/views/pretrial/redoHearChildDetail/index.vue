@@ -497,7 +497,6 @@ export default {
 						console.log('len-idCardList.length:: ', this.idCardList.length)
 						this.count = res.result.count
             this.$set(this.queryConfig,'count',res.result.count);
-            this.$set(this.queryConfig,'correctionCount',res.result.list.filter(it => it.correctionStatus == 0).length);
 
             this.pager.total = res.result.count
             if(this.currentNum > res.result.count){

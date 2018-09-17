@@ -64,6 +64,7 @@
               this.$http.post("/firstAudit/respondentModified.htm",{cardList:[this.respondentItem],caseId:this.currentRespodent.caseId,resId:this.currentRespodent.resId},{mheaders: true}).then(res => {
                 if(res.code === '0000'){
                   this.$message.success("修改成功");
+                  this.$parent.queryCountAgainAuditCase();
                   this.$parent.respondentEditFlag = false;
                   if(this.$parent.HandleQuery && this.$parent.HandleQuery instanceof Function){
                     this.$parent.HandleQuery();
