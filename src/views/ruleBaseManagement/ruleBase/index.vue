@@ -125,27 +125,17 @@
       :close-on-click-modal="false"
       :close-on-press-escape="false"
       @open="resetForm"
-      width="495px"
+      width="800px"
       center>
       <!--<edits ref="edits" :edit-items="createItems" :item="item" :label-width="'120px'"></edits>-->
-      <el-form  ref="createForm"  label-width="100px" :rules="rules">
+      <el-form  ref="createForm" :model="form"  label-width="100px" :rules="rules">
         <el-form-item label="规则描述：" prop="ruleDesc">
           <el-input v-model="form.ruleDesc" placeholder="请填写规则描述,如“标的金额是否正确”"></el-input>
         </el-form-item>
         <el-form-item label="层级：">
           <el-input v-model="form.cengji" disabled></el-input>
         </el-form-item>
-        <el-form-item label="审核意见：" prop="auditOpinion">
-          <el-input v-model="form.auditOpinion" placeholder="请填写审核意见,如“被申请人姓名与身份证不一致”"></el-input>
-        </el-form-item>
-        <el-form-item label="模块：" prop="modularType">
-          <!--1-身份证，2-签名，3-证据链-->
-          <el-select v-model="form.modularType" placeholder="请选择模块">
-            <el-option label="身份证审核" :value="1"></el-option>
-            <el-option label="签名审核" :value="2"></el-option>
-            <el-option label="证据链审核" :value="3"></el-option>
-          </el-select>
-        </el-form-item>
+
         <el-form-item label="机审规则：" prop="ruleInfo">
           <el-input type="textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @keyup.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
           <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:24px;" v-html="ruleInfo_html" ></div>
@@ -613,12 +603,18 @@
         this.$http.post("/ruleBase/ruleInfoDetailsByRuleId.htm",{ruleId: rule.ruleId}).then(res => {
           if(res.code ==='0000'){
             this.editState = 1;
-            this.form.cengji = this.currentMenu.labelName;
+            // this.form.cengji = this.currentMenu.labelName;
+            console.log(this.form.cengji)
             this.$nextTick(()=> {
               this.$refs.createForm.resetFields();
               console.log(this.$refs.textarea_warpar);
               this.ruleInfo_html = this.form.ruleInfo;
-              this.form = res.result;
+              this.form = {};
+              // this.$set(this.form,'cengji',this.currentMenu.labelClassName);
+              this.form = {cengji: this.currentRule, ...res.result};
+              // for(let key in res.result){
+              //   this.$set(this.form,key,res.result[key]);
+              // }
             });
           }
         })

@@ -69,7 +69,10 @@
           }
           this.src = this.src.substring(0,idx + 1)+deg;
         }
-        this.bigsrc = this.src;
+        let index1 = this.bigsrc.lastIndexOf('/');
+        let index2 = this.src.lastIndexOf('/');
+        this.bigsrc = this.bigsrc.substring(0,index1) + this.src.substring(index2);
+
       },
       handMove(e) {
         let objX = e.pageX - this.imgRect.left
@@ -107,8 +110,8 @@
         this.bigImg.style.left=-backgroundX + 'px';
       },
       handOut(e) {
-        this.imgLayer.remove()
-        this.mouseMask.remove()
+        // this.imgLayer.remove()
+        // this.mouseMask.remove()
       },
       handOver(e) {
         if (!document.getElementById('_magnifier_layer')) {
