@@ -102,6 +102,9 @@ export default {
                   if(auditList.find(it => it.code == 1005)){
                     item.auditInfoWrap.effctDateStatus = 0;
                   }
+                  if(auditList.find(it => it.code == 1000)){
+                    item.auditInfoWrap.nameStatus = 0;
+                  }
                 })
               }
               else if(this.type === 1){
