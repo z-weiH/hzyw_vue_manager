@@ -171,35 +171,37 @@
         });
 
         if(type === 'edit') {
-          // 修改 id
-          this.ruleForm.judgeId = data.judgeId;
-          // 根据法院 id 回显数据
-          this.$http({
-            url : '/court/queryCourtInfoById.htm',
-            method : 'post',
-            data : {
-              courtId : data.courtId,
-            },
-          }).then((res) => {
-            // 省市区相关
-            this.ruleForm.provinceCode = res.result.provinceCode;
-            this.ruleForm.cityCode = res.result.cityCode;
-            this.ruleForm.districtCode = res.result.districtCode;
+          this.$nextTick(() => {
+            // 修改 id
+            this.ruleForm.judgeId = data.judgeId;
+            // 根据法院 id 回显数据
+            this.$http({
+              url : '/court/queryCourtInfoById.htm',
+              method : 'post',
+              data : {
+                courtId : data.courtId,
+              },
+            }).then((res) => {
+              // 省市区相关
+              this.ruleForm.provinceCode = res.result.provinceCode;
+              this.ruleForm.cityCode = res.result.cityCode;
+              this.ruleForm.districtCode = res.result.districtCode;
 
-            this.$refs.cityCascader.cityOptions = [{city : res.result.city , cityCode : res.result.cityCode}];
-            this.$refs.cityCascader.areaOptions = [{district : res.result.district , districtCode : res.result.districtCode}];
-            // 法院相关
-            this.ruleForm.courtId = res.result.courtId;
-            this.courtOptions = [{courtName : res.result.courtName , courtId : res.result.courtId}];
-            // 地址
-            this.ruleForm.courtAddress = res.result.courtAddress;
+              this.$refs.cityCascader.cityOptions = [{city : res.result.city , cityCode : res.result.cityCode}];
+              this.$refs.cityCascader.areaOptions = [{district : res.result.district , districtCode : res.result.districtCode}];
+              // 法院相关
+              this.ruleForm.courtId = res.result.courtId;
+              this.courtOptions = [{courtName : res.result.courtName , courtId : res.result.courtId}];
+              // 地址
+              this.ruleForm.courtAddress = res.result.courtAddress;
+            });
+            // 回显其他数据
+            this.ruleForm.role = data.role;
+            this.ruleForm.judgeName = data.judgeName;
+            this.ruleForm.cellphone = data.cellphone;
+            this.ruleForm.landlineTelephone = data.landlineTelephone;
+            this.ruleForm.remark = data.remark;
           });
-          // 回显其他数据
-          this.ruleForm.role = data.role;
-          this.ruleForm.judgeName = data.judgeName;
-          this.ruleForm.cellphone = data.cellphone;
-          this.ruleForm.landlineTelephone = data.landlineTelephone;
-          this.ruleForm.remark = data.remark;
         }
       },
 
