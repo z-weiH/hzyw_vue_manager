@@ -179,10 +179,14 @@
       handleAreaChange(val) {
         if(val) {
           // 选择完成 回调
-          this.$emit('finish');
+          this.$nextTick(() => {
+            this.$emit('finish');
+          });
         }else{
           // 选择取消 回调
-          this.$emit('cancel');
+          this.$nextTick(() => {
+            this.$emit('cancel');
+          });
         }
       },
     },
