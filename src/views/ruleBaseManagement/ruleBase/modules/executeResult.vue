@@ -16,8 +16,9 @@
         <span>执行错误：{{exe.exeErrorCount}}件</span>
         <span>耗时：{{exe.exeTime}}秒</span>
       </p>
-      <el-table :data="list" style="width: 100%" row-key="caseId"
-                :expand-row-keys="expands">
+      <el-table  :data="list" style="width: 100%" row-key="caseId"
+                :expand-row-keys="expands" @expand-change="showDetails">
+
 
         <el-table-column type="index" label="序号" width="50">
         </el-table-column>
@@ -39,7 +40,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column  type="expand" v-if="false" >
+        <el-table-column  type="expand">
           <template slot-scope="props">
             <ul>
               <li v-for="(item,idx) in props.row.results" style="margin:10px 0;">
@@ -50,6 +51,8 @@
             </ul>
           </template>
         </el-table-column>
+
+
       </el-table>
 
 
