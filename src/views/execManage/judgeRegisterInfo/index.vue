@@ -140,7 +140,7 @@
       },
       // 审核 成功回调
       successCBK() {
-        this.handleSearch();
+        this.initTableList();
       },
 
 			// 表格相关 start
