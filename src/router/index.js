@@ -621,6 +621,30 @@ let router = new Router({
             name: 'processingFeeSettleReview',
           },
         },
+        {
+          path: 'crRefundApplication',
+          component: () =>
+            import ('@/views/finance/crRefundApplication'), // 案件仲卷退款申请
+          meta: {
+            name: 'crRefundApplication',
+          },
+        },
+        {
+          path: 'crRefundAudit',
+          component: () =>
+            import ('@/views/finance/crRefundAudit'), // 案件仲卷退款审核
+          meta: {
+            name: 'crRefundAudit',
+          },
+        },
+        {
+          path: 'crRefundView',
+          component: () =>
+            import ('@/views/finance/crRefundView'), // 案件仲卷退款查看
+          meta: {
+            name: 'crRefundView',
+          },
+        },
         /* 财务管理module end */
 
         /* 预审module start */

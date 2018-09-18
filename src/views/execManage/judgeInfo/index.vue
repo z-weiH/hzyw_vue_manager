@@ -224,7 +224,7 @@
       },
       // 新增 修改 成功回调
       successCBK() {
-        this.handleSearch();
+        this.initTableList();
       },
       // 点击启用，停用
       handleState(row) {
@@ -237,7 +237,7 @@
           },
         }).then((res) => {
           this.$message.success(row.useStatus === 0 ? '禁用成功' : '启用成功');
-          this.handleSearch();
+          this.initTableList();
         });
       },
 

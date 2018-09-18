@@ -14,8 +14,8 @@
 				<timeFrame
           :startDate.sync="ruleForm.startDate"
           :endDate.sync="ruleForm.endDate"
-          startPlaceholder="操作开始时间"
-          endPlaceholder="操作结束时间"
+          startPlaceholder="开始时间"
+          endPlaceholder="结束时间"
         >
         </timeFrame>
 
