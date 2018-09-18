@@ -4,7 +4,7 @@
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
         <el-form-item label=" " prop="keyWords">
 					<span>查询：</span>
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="法院姓名/手机号/座机号/进行查询" style="width:200px;"></el-input>
+          <el-input v-model.trim="ruleForm.keyWords" placeholder="法院姓名/手机号/座机号/进行查询" style="width:290px;"></el-input>
         </el-form-item>
 
         <el-form-item label=" " prop="dateType">
