@@ -910,6 +910,14 @@ let router = new Router({
       },
     },
     {
+      path: '/ruleParameterList',
+      component: () =>
+        import ('@/views/ruleBaseManagement/ruleBase/modules/paramsList'), // 规则库 - 参数列表
+      meta: {
+        name: 'ruleParameterList',
+      },
+    },
+    {
       path: '/caseReview',
       component: () =>
         import ('@/views/review/caseReview'), // 复核管理 - 案件详情

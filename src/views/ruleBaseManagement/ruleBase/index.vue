@@ -63,7 +63,7 @@
           <div v-if="contentFlag">
             <div class="rule_desc">
               <div style="margin-top: 5px; color:#aaa;" class="fr">
-                <el-button plain>参数列表</el-button>
+                <el-button plain @click="gotoParamList">参数列表</el-button>
                 <el-button plain>执行集合</el-button>
                 <el-button plain>案件样例</el-button>
                 <el-button  icon="el-icon-plus"  type="primary" plain @click="handleCreate">添加规则</el-button>
@@ -170,7 +170,7 @@
       <!--<edits ref="edits" :edit-items="createItems" :item="item" :label-width="'120px'"></edits>-->
         <div class="form-item">
           <div class="left fl " >
-            执行范围:
+            <sup style="color:red;margin-right:5px;">*</sup>执行范围:
           </div>
           <div class="right fl slect_tree_warpar">
             <el-input
@@ -178,6 +178,7 @@
               placeholder="请选择范围"
               :suffix-icon="iconName"
               @focus="handleFocus"
+
               readonly
               v-model="selectLevel.labelName">
             </el-input>
@@ -194,6 +195,7 @@
             <el-date-picker
               style="width: 135px; display: inline-block"
               v-model="startDate"
+              value-format="yyyy-MM-dd"
               type="date"
               placeholder="选择日期">
             </el-date-picker>
@@ -201,6 +203,7 @@
             <el-date-picker
               style="width: 135px; display: inline-block"
               v-model="endDate"
+              value-format="yyyy-MM-dd"
               type="date"
               placeholder="选择日期">
             </el-date-picker>
@@ -216,7 +219,7 @@
       </div>
       <div class="form-item">
         <div class="left fl">
-          执行规则:
+          <sup style="color:red;margin-right:5px;">*</sup>执行规则:
         </div>
         <div class="right fl">
           <el-checkbox-group v-model="ruleIdList">
@@ -248,7 +251,8 @@
       width="495px"
       center>
       <div class="m-bar" style="width: 300px; margin: 20px auto;text-align: center;">
-        <m-progress :width="100" :height="20" v-if="isExecuting">执行中</m-progress>
+        <p style="margin: 20px 0;font-size: 18px;">正在执行规则...</p>
+        <m-progress :width="executProgress" :height="20" v-if="isExecuting">执行中</m-progress>
         <template v-if="!isExecuting">
           <p>机审执行完毕！</p>
           <p>本次机审共对365件案件执行了4条规则，检出错误34处</p>
@@ -260,16 +264,20 @@
 
 
 
+    <executeResult ref="executeResult" :exeId="exeId"></executeResult>
+
   </div>
 </template>
 
 <script>
   import progress from './modules/progress.vue'
   import pdfSelector from './modules/pdf_selector'
+  import executeResult from './modules/executeResult'
   export default {
     components : {
       'm-progress' : progress,
-      pdfSelector
+      pdfSelector,
+      executeResult
     },
     data() {
       return {
@@ -317,12 +325,6 @@
           ruleDesc: [
             { required: true, message: '请输入规则描述', trigger: 'blur' },
           ],
-          auditOpinion: [
-            { required: true, message: '请输入审核意见', trigger: 'blur' },
-          ],
-          modularType: [
-            { required: true, message: '请选择模块', trigger: 'blur' },
-          ],
           ruleInfo: [
             { required: true, message: '请输入机审规则', trigger: 'blur' },
           ],
@@ -356,7 +358,13 @@
         executing: false,
 
         //是否执行完成
-        isExecuting: true,
+        isExecuting: false,
+
+        //执行结果
+        exeId: '',
+
+        //执行进度
+        executProgress: 0,
 
         currentRule:'',
         currentMenu: {},
@@ -406,6 +414,7 @@
       },
       'iconName'(val,oldval){
         if(val === 'el-icon-arrow-down' && this.selectLevel.levelId){
+
           this.castNumQuery();
           this.ruleListQuery();
         }
@@ -488,23 +497,38 @@
         }
         console.log(this.ruleIdList)
 
-        this.execute({endDate: this.endDate,levelId: this.selectLevel.levelId,ruleIdList:arr,ruleLevel: this.selectLevel.ruleLevel,startDate: this.startDate});
-      },
-      //执行规则实现函数
-      execute(item){
-        this.$http.post('/rule/executeRuleByBaseQuery.htm',item,{mheaders: true}).then(res => {
-
+        this.$http.post("/rule/executeRuleByBaseQuery.htm",{endDate: this.endDate,levelId: this.selectLevel.levelId,ruleIdList:arr,ruleLevel: this.selectLevel.ruleLevel,startDate: this.startDate},{mheaders: true}).then(res => {
           if(res.code === '0000'){
-            if(res.result.progressId === 0 ){
+            //轮训规则执行结果
+            this.execute({exeId: res.result.exeId});
+          }
+        })
+      },
+
+      //轮训规则执行结果
+      execute(item){
+        this.$http.post('/rule/queryRuleExecuteInfoByExeId.htm',item).then(res => {
+          if(res.code === '0000'){
+            // exeId		string	0:执行中，1：执行完成
+            // if(res.result.status == 0 ){
+            this.exeId = item.exeId;
+            this.executProgress = (res.result.currentCount/res.result.totalCount) * 100;
+            if(!res.result.status  ){
               //执行中
               if(!this.executing){
                 this.executing = true;
               }
-              this.execute(item);
+              setTimeout(() => {
+                this.execute(item);
+              },3000);
             }
             else{
               this.$message.success("执行成功");
-              this.isExecuting = false;
+              this.isExecuting = true;
+              this.$nextTick(() => {
+                this.$refs.executeResult.queryExecutRes();
+              })
+
             }
           }
         })
@@ -551,7 +575,7 @@
       //查询执行规则中的可执行规则的案件数量
       castNumQuery(){
         // this.ruleListQuery();
-        this.$http.post('/rule/countCaseNumByBaseQuery.htm',{startDate: this.startDate,endDate: this.endDate,ruleLevel: this.selectLevel.ruleLevel,treeId:this.selectLevel.levelId}).then(res => {
+        this.$http.post('/rule/countCaseNumByBaseQuery.htm',{startDate: this.startDate,endDate: this.endDate,ruleLevel: this.selectLevel.ruleLevel,levelId:this.selectLevel.levelId}).then(res => {
           if(res.code === '0000'){
             this.castNum = res.result;
           }
@@ -559,7 +583,7 @@
       },
       //执行规则接口
       ruleListQuery(){
-        this.$http.post("/rule/queryAllRuleListByTreeId.htm",{ruleLevel: this.selectLevel.ruleLevel,treeId: this.selectLevel.levelId}).then(res => {
+        this.$http.post("/rule/queryAllRuleListByLevelId.htm",{ruleLevel: this.selectLevel.ruleLevel,levelId: this.selectLevel.levelId}).then(res => {
           if(res.code === '0000'){
             this.allruleList = res.result;
           }
@@ -595,7 +619,7 @@
       //查看参数
       handleAvriable() {
 
-        window.open(this.$router.resolve({path:'/parameterList', query: {fromRule:true}}).href,'_blank');
+        window.open(this.$router.resolve({path:'/ruleParameterList'}).href,'_blank');
 
       },
       //編輯規則
