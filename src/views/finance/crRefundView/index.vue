@@ -34,7 +34,15 @@
         <el-table-column prop="applyTime" label="申请时间"></el-table-column>
         <el-table-column prop="borrowAmt" label="标的金额"></el-table-column>
         <el-table-column prop="caseTicket" label="案件仲券"></el-table-column>
-        <el-table-column prop="refundStatus" label="退款状态"></el-table-column>
+        <el-table-column prop="refundStatus" label="退款状态">
+          <template slot-scope="scope">
+            {{
+              scope.row.refundStatus === 1 ? '待审核' :
+              scope.row.refundStatus === 2 ? '已通过' :
+              scope.row.refundStatus === 3 ? '不通过' : ''
+            }}
+          </template>
+        </el-table-column>
         <el-table-column prop="resPhone" label="被申请人手机" width="150px"></el-table-column>
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column label="操作">
