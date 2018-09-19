@@ -30,8 +30,8 @@
           </template>
         </el-table-column>
 				<el-table-column prop="applicants" label="申请人"></el-table-column>
-        <el-table-column prop="applyName" label="申请人姓名"></el-table-column>
-        <el-table-column prop="applyTime" label="申请时间"></el-table-column>
+        <el-table-column prop="respondents" label="被申请人"></el-table-column>
+        <el-table-column prop="resPhone" label="被申请人手机" width="150px"></el-table-column>
         <el-table-column prop="borrowAmt" label="标的金额"></el-table-column>
         <el-table-column prop="caseTicket" label="案件仲券"></el-table-column>
         <el-table-column prop="refundStatus" label="退款状态">
@@ -43,8 +43,8 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="resPhone" label="被申请人手机" width="150px"></el-table-column>
-        <el-table-column prop="respondents" label="被申请人"></el-table-column>
+        <el-table-column prop="applyName" label="申请人姓名"></el-table-column>
+        <el-table-column prop="applyTime" label="申请时间"></el-table-column>
         <el-table-column label="操作" width="100px">
           <template slot-scope="scope">
             <el-button v-if="scope.row.refundStatus === 1" @click="handleExamine(scope.row)" type="text">审核</el-button>
