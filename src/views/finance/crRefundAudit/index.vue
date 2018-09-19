@@ -47,7 +47,7 @@
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column label="操作" width="100px">
           <template slot-scope="scope">
-            <el-button @click="handleExamine(scope.row)" type="text">审核</el-button>
+            <el-button v-if="scope.row.refundStatus === 1" @click="handleExamine(scope.row)" type="text">审核</el-button>
             <el-button @click="handleSee(scope.row)" type="text">查看</el-button>
           </template>
         </el-table-column>
@@ -151,7 +151,7 @@
           },
         }).then((res) => {
           this.total = res.result.count;
-          this.tableData = res.result;
+          this.tableData = res.result.list;
         });
       },
       // 页数 change

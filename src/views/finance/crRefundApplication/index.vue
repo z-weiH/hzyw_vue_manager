@@ -32,8 +32,8 @@
 				<el-table-column prop="applicants" label="申请人"></el-table-column>
         <el-table-column prop="borrowAmt" label="标的金额"></el-table-column>
         <el-table-column prop="caseTicket" label="案件仲券"></el-table-column>
-        <el-table-column prop="clientCode" label="客户号"></el-table-column>
-        <el-table-column prop="clientName" label="客户名称"></el-table-column>
+        <!-- <el-table-column prop="clientCode" label="客户号"></el-table-column>
+        <el-table-column prop="clientName" label="客户名称"></el-table-column> -->
         <el-table-column prop="isRefund" label="是否已退仲券" width="120px">
           <template slot-scope="scope">
             {{

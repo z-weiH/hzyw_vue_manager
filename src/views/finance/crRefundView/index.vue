@@ -139,7 +139,7 @@
           },
         }).then((res) => {
           this.total = res.result.count;
-          this.tableData = res.result;
+          this.tableData = res.result.list;
         });
       },
       // 页数 change
