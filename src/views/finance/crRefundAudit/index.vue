@@ -65,6 +65,7 @@
       </el-pagination>
 
       <detailDialog ref="detailDialog"></detailDialog>
+      <examineDialog @successCBK="successCBK" ref="examineDialog"></examineDialog>
     </div>
 	</div>
 </template>
@@ -72,10 +73,12 @@
 <script>
   import timeFrame from '@/components/timeFrame.vue'
   import detailDialog from '@/views/case/caseManagement/modules/detailDialog.vue'
+  import examineDialog from './modules/examineDialog.vue'
 	export default {
 		components : {
       timeFrame,
       detailDialog,
+      examineDialog,
 		},
 		data() {
 			return {
@@ -126,7 +129,11 @@
       },
       // 点击 审核
       handleExamine(row) {
-        console.log('审核');
+        this.$refs.examineDialog.show(row);
+      },
+      // 审核成功 回调
+      successCBK() {
+        this.initTableList();
       },
 
 			// 表格相关 start
