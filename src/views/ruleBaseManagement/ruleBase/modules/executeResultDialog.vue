@@ -13,10 +13,10 @@
         <span>案件总数：{{exe.toatalCount}}件</span>
         <span>规则总数：{{exe.ruleCount}}条</span>
         <span>检出错误：{{exe.checkErrorCount}}件</span>
-        <span>执行错误：{{exe.exeErrorCount}}件</span>
-        <span>耗时：{{exe.exeTime}}秒</span>
+        <span>执行错误：{{exe.exeErrorCount ? exe.exeErrorCount : 0 }}件</span>
+        <span>耗时：{{exe.exeTime ? exe.exeTime : 1}}秒</span>
       </p>
-      <el-table  :data="list" style="width: 100%" row-key="caseId"
+      <el-table  :data="list" style="width: 100%" row-key="id"
                 :expand-row-keys="expands" @expand-change="showDetails">
 
 
@@ -29,11 +29,23 @@
         <el-table-column label="被申请人手机号" prop="phones">
         </el-table-column>
         <el-table-column label="执行结果" prop="exeStatus">
+          <template slot-scope="scope">
+            <div style="text-align: center;">
+              <span>
+               <img class="mr-10" v-if="scope.row.exeStatus === 2"  src="@/assets/img/error_tag.png" alt="">
+              <img class="mr-5" v-if="scope.row.exeStatus === 1" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-15" v-if="scope.row.exeStatus === 0" src="@/assets/img/warning_tag.png" alt="">
+                <b v-if="scope.row.exeStatus === 2">检出错误</b>
+                <b v-if="scope.row.exeStatus === 0">执行错误</b>
+                <b v-if="scope.row.exeStatus === 1">未检出错误</b>
+              </span>
+            </div>
+          </template>
         </el-table-column>
         <el-table-column label="操作" >
           <template slot-scope="scope">
             <div style="text-align: center;">
-              <span class="colLink mr-20" @click="showDetails(scope.row)">{{expands.indexOf(scope.row.caseId) != -1 ? '收起' : '展开'}}</span>
+              <span class="colLink mr-20" @click="showDetails(scope.row)">{{expands.indexOf(scope.row.id) != -1 ? '收起' : '展开'}}</span>
               <span class="colLink">查看</span>
             </div>
 
@@ -94,21 +106,21 @@
     methods:{
       //展开 收起 详细信息
       showDetails(row){
-        if(this.expands.indexOf(row.caseId) == -1){
+        if(this.expands.indexOf(row.id) == -1){
 
           if(!row.results || !row.results.length){
-            this.$http.post('/ruleExe/queryRuleExeResultDetail.htm',{caseId: row.caseId,exeId: this.exeId}).then(res => {
+            this.$http.post('/ruleExe/queryRuleExeResultDetail.htm',{exeCaseId: row.id}).then(res => {
               if(res.code === '0000'){
-                row.results = res.result.list;
-                this.expands.push(row.caseId);
+                row.results = res.result;
+                this.expands.push(row.id);
               }
             })
           }else{
-            this.expands.push(row.caseId);
+            this.expands.push(row.id);
           }
         }
         else{
-          let idx = this.expands.indexOf(row.caseId);
+          let idx = this.expands.indexOf(row.id);
           this.expands.splice(idx,1);
 
         }

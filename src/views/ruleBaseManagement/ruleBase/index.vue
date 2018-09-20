@@ -64,7 +64,7 @@
             <div class="rule_desc">
               <div style="margin-top: 5px; color:#aaa;" class="fr">
                 <el-button plain @click="handleAvriable">参数列表</el-button>
-                <el-button plain>执行集合</el-button>
+                <el-button plain @click="runSet">执行集合</el-button>
                 <el-button plain>案件样例</el-button>
                 <el-button  icon="el-icon-plus"  type="primary" plain @click="handleCreate">添加规则</el-button>
               </div>
@@ -100,10 +100,10 @@
             <div class="text-content">
               <p class="content-title">{{currentRule}}</p>
               <p class="content-desc">
-                <b>{{numObj.bizNum}}个业务、</b>
-                <b>{{numObj.productNum}}个产品、</b>
-                <b>{{numObj.templateNum}}个模版、</b>
-                <b>{{numObj.ruleNum}}条规则</b>
+                <b v-if="currentMenu.ruleLevel <= 1">{{numObj.bizNum}}个业务、</b>
+                <b v-if="currentMenu.ruleLevel <= 2">{{numObj.productNum}}个产品、</b>
+                <b v-if="currentMenu.ruleLevel <= 3">{{numObj.templateNum}}个模版、</b>
+                <b v-if="currentMenu.ruleLevel <= 4">{{numObj.ruleNum}}条规则</b>
               </p>
             </div>
 
@@ -132,19 +132,18 @@
         <el-form-item label="规则描述：" prop="ruleDesc">
           <el-input v-model="form.ruleDesc" placeholder="请填写规则描述,如“标的金额是否正确”"></el-input>
         </el-form-item>
-        <el-form-item label="层级：">
-          <el-input v-model="form.cengji" disabled></el-input>
-        </el-form-item>
+
 
         <el-form-item label="机审规则：" prop="ruleInfo">
-          <el-input type="textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @keyup.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
+          <el-input type="textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @kep.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
           <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:24px;" v-html="ruleInfo_html" ></div>
           <ul class="textarea_select" v-if="showSelect" ref="textarea_select">
             <li v-for="(name,index) in ruleNames" :key="index" :class="{'active': index == ruleIndex}">{{name}}</li>
           </ul>
           <div class="rightBtns" >
             <el-button size="mini" @click="handleAvriable">查看参数</el-button>
-            <el-button size="mini" type="primary" @click="handleRun">运行</el-button>
+            <!--:disabled="!form.ruleInfo || !form.ruleDesc"-->
+            <el-button size="mini" type="primary" @click="handleRun" >验证</el-button>
           </div>
           <div class="runRes" v-if="runRes != 0">
             <i :class="runRes == 1 ? 'error' : 'succ'"></i>
@@ -153,7 +152,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button type="primary"  @click="HandleSave">确 定</el-button>
+          <el-button type="primary"  @click="HandleSave">保存并关闭</el-button>
           <el-button @click="editState = 0">取 消</el-button>
         </span>
     </el-dialog>
@@ -266,7 +265,7 @@
 
     <executeResult ref="executeResult" :exeId="exeId"></executeResult>
 
-    <addRule :ruleInfo="form.ruleInfo"></addRule>
+    <addRule ref="addRule" :rule="form" > </addRule>
   </div>
 </template>
 
@@ -480,15 +479,51 @@
     },
     methods : {
 
+      //执行集合
+      runSet(){
+        this.$refs.executionSetDialog.show({levelId : this.currentMenu.levelId})
+      },
+
       //运行按钮
       handleRun(){
         // this.form.ruleInfo
-        this.$http.post('/ruleBase/ruleInfoByRuleInfo.htm',{ruleInfo: this.form.ruleInfo})
-          .then(res => {
-            if(res.code === '0000'){
+        // this.$http.post('/ruleBase/ruleInfoByRuleInfo.htm',{ruleInfo: this.form.ruleInfo})
+        //   .then(res => {
+        //     if(res.code === '0000'){
+        //
+        //     }
+        //   })
 
-            }
-          })
+        // 线上案件
+        this.$http.post('/rule/queryOnLineCaseListByBaseQuery.htm',{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel, pagerNum: 1,pageSize: 5}).then(res => {
+          if(res.code === '0000'){
+            let arr1 = res.result.list;
+            //案件样例
+            this.$http.post("/rule/querySimpleCaseListByBaseQuery.htm",{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,pagerNum: 1,pageSize: 5}).then(re => {
+              if(re.code === '0000'){
+                let arr2 = re.result.list;
+                //都没有案件
+                if(arr1.length === 0 && arr2.length === 0){
+                  const h = this.$createElement;
+                  this.$msgbox({
+                    title: "提示",
+                    message: h("div", null, [
+                      h("p", null, "当前无案件样例或线上案件可供验证规则的正确性。"),
+                      h("p", null, "建议您将规则暂时保存。")
+                    ]),
+                    center: true,
+                    confirmButtonText: "确定",
+                  })
+                }else{
+                  this.$refs.addRule.addRuleFlag = true;
+                  //初始化验证规则的内容
+                  this.$refs.addRule.initVerify(arr2,re.result.count,arr1,res.result.count,this.currentMenu);
+                }
+              }
+            })
+          }
+        })
+
       },
 
       //执行规则
@@ -627,18 +662,15 @@
       },
       //編輯規則
       handleEdit(rule) {
-        this.$http.post("/ruleBase/ruleInfoDetailsByRuleId.htm",{ruleId: rule.ruleId}).then(res => {
+        this.$http.post("/ruleBase/queryRuleInfoDetailsByRuleId.htm",{ruleId: rule.ruleId}).then(res => {
           if(res.code ==='0000'){
             this.editState = 1;
-            // this.form.cengji = this.currentMenu.labelName;
-            console.log(this.form.cengji)
             this.$nextTick(()=> {
               this.$refs.createForm.resetFields();
               console.log(this.$refs.textarea_warpar);
               this.ruleInfo_html = this.form.ruleInfo;
               this.form = {};
-              // this.$set(this.form,'cengji',this.currentMenu.labelClassName);
-              this.form = {cengji: this.currentRule, ...res.result};
+              this.form = res.result;
               // for(let key in res.result){
               //   this.$set(this.form,key,res.result[key]);
               // }
@@ -681,7 +713,7 @@
           this.ruleInfo_html = this.form.ruleInfo;
 
         });
-        this.form = {cengji: this.currentMenu.labelName , levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,modularType:null};
+        this.form = { levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel};
         this.$set(this.form,'ruleInfo','');
       },
       // 保存
@@ -713,7 +745,7 @@
 
         if(flag){
           this.contentFlag = false;
-          this.$http.post("/rule/ruleNumberByLevelIdAndRuleLevel.htm",item).then(res => {
+          this.$http.post("/rule/queryRuleNumberByLevelIdAndRuleLevel.htm",item).then(res => {
             console.log(res);
             if(res.code === '0000'){
               this.numObj = res.result;
@@ -723,12 +755,16 @@
         }
 
         this.contentFlag = true;
-        this.$http.post("/ruleBase/ruleInfoByBaseQuery.htm",Object.assign(obj,this.pager)).then(res => {
-          if(res.code === '0000'){
-            this.ruleList = res.result.list;
-            this.pager.count = res.result.count;
-          }
-        })
+        //模版需要去查询列表
+        if(this.currentMenu.ruleLevel === 4){
+          this.$http.post("/ruleBase/queryRuleInfoByBaseQuery.htm",Object.assign(obj,this.pager)).then(res => {
+            if(res.code === '0000'){
+              this.ruleList = res.result.list;
+              this.pager.count = res.result.count;
+            }
+          })
+        }
+
       },
       checkClick(elm){
         if(elm.className ==='right fl slect_tree_warpar'){
@@ -765,9 +801,9 @@
       this.$http.post('/rule/queryRuleTree.htm').then(res => {
         if(res.code === '0000'){
           // this.deleteProperty([res.result],"children");
-          // this.treeData = [res.result];
-          // this.deleteProperty(res.result,"children");
-          this.treeData = res.result;
+          this.treeData = [res.result];
+          this.deleteProperty(res.result,"children");
+          // this.treeData = res.result;
 
           console.log(this.treeData)
           this.handleNodeClick(Object.assign({},this.treeData[0]));

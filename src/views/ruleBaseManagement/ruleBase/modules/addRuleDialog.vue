@@ -22,13 +22,13 @@
               type="selection"
               width="55">
             </el-table-column>
-            <el-table-column label="案件编号" prop="caseNo">
+            <el-table-column label="案件编号" prop="loanBillNo">
             </el-table-column>
-            <el-table-column label="被申请人姓名" prop="resName">
+            <el-table-column label="被申请人姓名" prop="respondents">
             </el-table-column>
-            <el-table-column label="被申请人手机号" prop="resPhone">
+            <el-table-column label="被申请人手机号" prop="phones">
             </el-table-column>
-            <el-table-column label="抓取时间" prop="captureTime">
+            <el-table-column label="抓取时间" prop="createTime">
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
@@ -50,10 +50,44 @@
             </el-pagination>
           </div>
 
+        </div><div v-if="currentTab === 1">
+          <el-table ref="table1" border :data="list2" style="width: 100%" @selection-change="handleSelectionChange">
+            <el-table-column
+              type="selection"
+              width="55">
+            </el-table-column>
+            <el-table-column label="案件编号" prop="loanBillNo">
+            </el-table-column>
+            <el-table-column label="被申请人姓名" prop="respondents">
+            </el-table-column>
+            <el-table-column label="被申请人手机号" prop="phones">
+            </el-table-column>
+            <el-table-column label="状态" prop="caseStatus">
+            </el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <div style="text-align: center;">
+                  <span class="colLink">查看</span>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+          <div class="pagination">
+            <el-pagination
+              @size-change="handleSizeChange2"
+              @current-change="handleCurrentChange2"
+              :current-page="pager2.currentNum"
+              :page-sizes="[5, 10, 15, 20]"
+              :page-size="pager2.pageSize"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="pager2.count">
+            </el-pagination>
+          </div>
+
         </div>
 
         <div class="content_footer">
-          <el-button style="margin-right: 20px;" type="primary" @click="HandleVerify">立即验证</el-button>
+          <el-button style="margin-right: 20px;" type="primary" @click="HandleVerify" :disabled="canVerify">立即验证</el-button>
           <el-button  @click="create">取消</el-button>
         </div>
       </div>
@@ -73,6 +107,9 @@
     },
     data(){
       return {
+        //当前的rule模版
+        currentMenu: {},
+
         addRuleFlag: false,
         isExecuting: false,
         currentTab: 0,
@@ -94,40 +131,55 @@
           pageSize: 5
         },
         selectedList1: [],
+        selectedList2: [],
       }
 
     },
     props: {
       //规则描述
-      ruleInfo: String,
+      rule: Object,
     },
     computed:{
         selectedNum(){
           if(this.currentTab === 0){
             return this.selectedList1.length;
           }
-          return 0;
-        }
+          else{
+            return this.selectedList2.length;
+          }
+        },
+      canVerify(){
+          if(this.currentTab === 0){
+            return this.selectedList1.length === 0;
+          }else{
+            return this.selectedList2.length === 0;
+          }
+      }
     },
     mounted(){
       this.queryList1();
     },
     watch:{
-      'currentTab'(val,oldVal){
-        if(val === 0){
-          this.queryList1();
-        }
-      }
+      // 'currentTab'(val,oldVal){
+      //   if(val === 0){
+      //     this.queryList1();
+      //   }
+      // }
     },
     methods: {
 
       //验证初始化
-      initVerify() {
-
+      initVerify(list1,count1,list2,count2,menu) {
+        this.list1 = list1;
+        this.list2 = list2;
+        this.pager1= {currentNum: 1,pageSize: 5, count: count1};
+        this.pager2= {currentNum: 1,pageSize: 5, count: count2};
+        this.currentMenu = menu;
       },
 
       //立即验证
       HandleVerify(){
+        console.log(this.currentMenu)
         const loading =this.$loading({
           lock: true,
           text: '正在验证...',
@@ -135,19 +187,23 @@
           spinner: 'el-icon-loading',
           background: "hsla(0,0%,100%,.9)"
         });
-        let item = {ruleInfo: this.ruleInfo};
+        let item = this.rule;
         if(this.currentTab === 0){
           let arr = [];
-          this.list1.forEach(it => {
-            arr.push(it.caseId);
+          this.selectedList1.forEach(it => {
+            arr.push(it.sampleId);
           })
           item.simpleIdList = arr;
         }else{
+          let arr = [];
+          this.selectedList2.forEach(it => {
+            arr.push(it.caseId);
+          })
           item.caseIdList = this.list2;
         }
-        this.$http.post("/rule/executeRuleByRuleInfo.htm",item).then(res => {
+        this.$http.post("/rule/executeRuleByRuleInfo.htm",item,{mheaders: true}).then(res => {
           if(res.code === '0000'){
-            this.execute({exeId: res.result.exeId},loading)
+            this.execute({exeId: res.result},loading)
           }
         })
 
@@ -183,6 +239,8 @@
       handleSelectionChange(val){
         if(this.currentTab === 0){
           this.selectedList1 = val;
+        }else{
+          this.selectedList2 = val;
         }
       },
 
@@ -203,12 +261,35 @@
         this.pager1.pageSize = val;
         this.queryList1();
       },
+      // 页数 change
+      handleSizeChange2(val) {
+        this.pager2.pageSize = val;
+        this.queryList2();
+      },
       // 分页 change
       handleCurrentChange1(val) {
         this.pager1.currentNum = val;
         this.doQuery();
       },
+      handleCurrentChange2(val) {
+        this.pager1.currentNum = val;
+        this.doQuery();
+      },
 
+      //查询
+      doQuery(){
+        if(this.currentTab === 0){
+          this.$http.post("/rule/querySimpleCaseListByBaseQuery.htm",{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,keyWords: this.keyWords, ...this.pager1}).then(res =>　{
+            this.list1 = res.result.list;
+            this.pager1.count = res.result.count;
+          })
+        }else{
+          this.$http.post("/rule/queryOnLineCaseListByBaseQuery.htm",{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,caseStatus: this.caseStatus,keyWords: this.keyWords, ...this.pager2}).then(res =>　{
+            this.list2 = res.result.list;
+            this.pager2.count = res.result.count;
+          })
+        }
+      }
     }
   }
 </script>
