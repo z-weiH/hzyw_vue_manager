@@ -181,12 +181,12 @@
         >
           <tr>
             <td colspan="1">诉讼请求：</td>
-            <td v-html="ruleForm.hzCaseInfoVO.requireItem" colspan="3"></td>
+            <td v-html="ruleForm.hzCaseInfoVO.requireItem" colspan="3" style="text-align:left;"></td>
           </tr>
 
           <tr>
             <td colspan="1">事实与理由：</td>
-            <td v-html="ruleForm.hzCaseInfoVO.factsReason" colspan="3"></td>
+            <td v-html="ruleForm.hzCaseInfoVO.factsReason" colspan="3" style="text-align:left;"></td>
           </tr>
         </table>
 
