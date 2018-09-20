@@ -22,7 +22,7 @@
         </el-form-item> -->
 
         <el-form-item style="display:inline-block;" label=" " prop="merchantCode">
-          <el-select @change="handleMerchantCodeChange" filterable clearable class="mr-10" style="width:150px;" v-model="ruleForm.merchantCode" placeholder="请选择商户">
+          <el-select @change="handleMerchantCodeChange" filterable clearable class="mr-10" style="width:150px;" v-model="ruleForm.merchantCode" placeholder="请选择客户">
             <template v-for="(item,index) in merchantOptions">
               <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
             </template>

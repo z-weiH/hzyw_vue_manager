@@ -12,7 +12,11 @@
         </el-form-item>
 
         <el-form-item label=" " prop="clientCode">
-          <el-input v-model.trim="ruleForm.clientCode" placeholder="请输入客户号"></el-input>
+          <el-select filterable clearable v-model="ruleForm.clientCode" placeholder="请选择客户">
+            <template v-for="(item,index) in merchantOptions">
+              <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
+            </template>
+          </el-select>
         </el-form-item>
 
         <el-button @click="handleSearch" type="warning">查询</el-button>
@@ -88,7 +92,9 @@
           // 客户号
           clientCode : '',
 				},
-				rules : {},
+        rules : {},
+        // 客户 options
+        merchantOptions : [],
 
 				// 表格数据
         tableData : [{caseId : 1537239084742}],
@@ -103,6 +109,13 @@
     },
     mounted() {
       this.initTableList();
+      // 获取所有 客户
+      this.$http({
+        method : 'post',
+        url : '/merchant/queryMerchants.htm',
+      }).then((res) => {
+        this.merchantOptions = res.result.list;
+      });
     },
 		methods : {
 			// 点击搜索
