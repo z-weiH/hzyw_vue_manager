@@ -92,20 +92,18 @@
     methods : {
       init() {
         this.$http({
-          url : '/ruleBase/collection/queryExeCollectionList.htm',
+          url : '/collection/queryRuleCollectionList.htm',
           method : 'post',
           data : {
             levelId : this.levelId,
           },
         }).then((res) => {
-          /* if(res.result.configFlag === false) {
+          if(res.result.configFlag === false) {
             this.irregularity();
           }else{
             this.dialogVisible = true;
             this.list = res.result.exeCollectionList;
-          } */
-          this.list = res.result.exeCollectionList;
-          this.dialogVisible = true;
+          }
         });
       },
 
@@ -121,13 +119,13 @@
 
         // 获取所有规则列表
         this.$http({
-          url : '/collection/queryAllRuleListByRuleId.htm',
+          url : '/collection/queryAllRuleListByLevelId.htm',
           method : 'post',
           data : {
             levelId : data.levelId,
           },
         }).then((res) => {
-          this.configList = res.result.list;
+          this.configList = res.result;
         });
 
       },
@@ -185,11 +183,11 @@
 						// 提交数据
             this.submitDisabled = true;
 						this.$http({
-              method : 'post',
-              url : '/ruleBase/collection/updateExeCollectionList.htm',
-              data : {
+              method : 'get',
+              url : '/collection/configRuleCollectionList.htm',
+              params : {
                 levelId : this.levelId,
-                ruleIds : JSON.stringify(this.checkList),
+                ruleIds : (this.checkList),
               },
             }).then((res) => {
               this.submitDisabled = false;
