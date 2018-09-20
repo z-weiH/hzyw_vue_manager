@@ -145,6 +145,8 @@
       // 点击配置
       handleConfig() {
         this.type = 2;
+        this.checkList = this.list.map((v) => v.ruleId);
+        this.handleChange(this.checkList);
       },
       // 全选 change
       handleCheckAllChange(val) {
