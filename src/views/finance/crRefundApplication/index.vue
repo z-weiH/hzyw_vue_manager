@@ -47,10 +47,14 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="submitTime" label="提交时间"></el-table-column>
+        <el-table-column prop="submitTime" label="提交时间">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.submitTime}}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.isRefund === 0" @click="handleRefundApplication(scope.row)" type="text">退款申请</el-button>
+            <el-button v-if="scope.row.isRefund === 0" @click="handleRefundApplication(scope.row)" type="text">退卷申请</el-button>
             <span v-else>--</span>
           </template>
         </el-table-column>

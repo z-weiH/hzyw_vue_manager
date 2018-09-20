@@ -70,6 +70,7 @@ Vue.directive('tableCollapse',{
 Vue.directive('ellipsis',{
   inserted(el,binding,vnode,oldVnode) {
     el.style.display = 'inline-block';
+    el.style.whiteSpace = 'nowrap';
     // 可以存储数据到 el中 
     el.$mapp = new Vue({
       el : el,

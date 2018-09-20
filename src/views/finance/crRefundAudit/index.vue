@@ -48,7 +48,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="applyName" label="申请人姓名"></el-table-column>
-        <el-table-column prop="applyTime" label="申请时间"></el-table-column>
+        <el-table-column prop="applyTime" label="申请时间">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.applyTime}}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="100px">
           <template slot-scope="scope">
             <el-button v-if="scope.row.refundStatus === 1" @click="handleExamine(scope.row)" type="text">审核</el-button>

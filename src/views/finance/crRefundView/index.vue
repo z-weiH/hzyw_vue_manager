@@ -48,7 +48,11 @@
           </template>
         </el-table-column>
         <el-table-column prop="applyName" label="申请人姓名"></el-table-column>
-        <el-table-column prop="applyTime" label="申请时间"></el-table-column>
+        <el-table-column prop="applyTime" label="申请时间">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.applyTime}}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button @click="handleSee(scope.row)" type="text">查看</el-button>
