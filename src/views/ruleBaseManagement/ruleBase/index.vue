@@ -63,7 +63,7 @@
           <div v-if="contentFlag">
             <div class="rule_desc">
               <div style="margin-top: 5px; color:#aaa;" class="fr">
-                <el-button plain @click="gotoParamList">参数列表</el-button>
+                <el-button plain @click="handleAvriable">参数列表</el-button>
                 <el-button plain>执行集合</el-button>
                 <el-button plain>案件样例</el-button>
                 <el-button  icon="el-icon-plus"  type="primary" plain @click="handleCreate">添加规则</el-button>
@@ -253,11 +253,11 @@
       <div class="m-bar" style="width: 300px; margin: 20px auto;text-align: center;">
         <p style="margin: 20px 0;font-size: 18px;">正在执行规则...</p>
         <m-progress :width="executProgress" :height="20" v-if="isExecuting">执行中</m-progress>
-        <template v-if="!isExecuting">
-          <p>机审执行完毕！</p>
-          <p>本次机审共对365件案件执行了4条规则，检出错误34处</p>
-          <el-button type="primary"  @click="executing = false;">确 定</el-button>
-        </template>
+        <!--<template v-if="!isExecuting">-->
+          <!--<p>机审执行完毕！</p>-->
+          <!--<p>本次机审共对365件案件执行了4条规则，检出错误34处</p>-->
+          <!--<el-button type="primary"  @click="executing = false;">确 定</el-button>-->
+        <!--</template>-->
 
       </div>
     </el-dialog>
@@ -266,18 +266,21 @@
 
     <executeResult ref="executeResult" :exeId="exeId"></executeResult>
 
+    <addRule :ruleInfo="form.ruleInfo"></addRule>
   </div>
 </template>
 
 <script>
   import progress from './modules/progress.vue'
   import pdfSelector from './modules/pdf_selector'
-  import executeResult from './modules/executeResult'
+  import executeResult from './modules/executeResultDialog'
+  import addRule from './modules/addRuleDialog'
   export default {
     components : {
       'm-progress' : progress,
       pdfSelector,
-      executeResult
+      executeResult,
+      addRule
     },
     data() {
       return {

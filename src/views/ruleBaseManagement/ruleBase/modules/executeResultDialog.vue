@@ -119,12 +119,16 @@
         this.$http.post('/ruleExe/queryRuleExeResult.htm',{exeId: this.exeId}).then(res => {
           if(res.code === '0000'){
             this.pager.total = res.result.caseCount,
-            this.exe = res.result.exe;
+
             this.list = res.result.list;
 
           }
+        });
+        this.$http.post("/ruleExe/queryRuleExeResultCount.htm",{exeId: this.exeId}).then(res => {
+          if(res.code === '0000'){
+            this.exe = res.result;
+          }
         })
-
       }
 
     }

@@ -548,3 +548,9 @@ body {
 input.el-input__inner {
     line-height: 38px;
 }
+//loading图标样式
+.el-loading-mask .el-loading-spinner i{
+  //color: #fff;
+  font-size: 50px;
+}
+
