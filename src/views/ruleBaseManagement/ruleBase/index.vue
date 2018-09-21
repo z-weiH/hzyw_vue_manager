@@ -11,19 +11,11 @@
     </div>
     <div class="content-box">
       <div class="fl m-left">
-        <!--<el-tree -->
-          <!--:data="treeData" -->
-          <!--:props="{children : 'children' , label : 'label'}"-->
-          <!--:highlight-current="true"-->
-          <!--:expand-on-click-node="false"-->
-          <!--@node-click="handleNodeClick"-->
-        <!--&gt;-->
-        <!--</el-tree>-->
+
         <el-menu
           background-color="#fff"
           text-color="#7C7C7C"
-          active-text-color="#7C7C7C"
-          default-active="测试内容zya3"
+          active-text-color="#13367D"
         >
           <el-submenu :index="menu.levelId"  v-for="(menu,ii) in treeData" :key="ii">
             <template slot="title">
@@ -65,7 +57,7 @@
               <div style="margin-top: 5px; color:#aaa;" class="fr">
                 <el-button plain @click="handleAvriable">参数列表</el-button>
                 <el-button plain @click="runSet">执行集合</el-button>
-                <el-button plain>案件样例</el-button>
+                <el-button plain @click="showCaseSample">案件样例</el-button>
                 <el-button  icon="el-icon-plus"  type="primary" plain @click="handleCreate">添加规则</el-button>
               </div>
               <span>规则列表</span>
@@ -142,13 +134,13 @@
           </ul>
           <div class="rightBtns" >
             <el-button size="mini" @click="handleAvriable">查看参数</el-button>
-            <!--:disabled="!form.ruleInfo || !form.ruleDesc"-->
-            <el-button size="mini" type="primary" @click="handleRun" >验证</el-button>
+
+            <el-button size="mini" type="primary" @click="handleRun" :disabled="!form.ruleInfo || !form.ruleDesc">验证</el-button>
           </div>
-          <div class="runRes" v-if="runRes != 0">
-            <i :class="runRes == 1 ? 'error' : 'succ'"></i>
-            <span>{{runRes == 2? '可用' : '不可用'}}</span>
-          </div>
+          <!--<div class="runRes" v-if="runRes != 0">-->
+            <!--<i :class="runRes == 1 ? 'error' : 'succ'"></i>-->
+            <!--<span>{{runRes == 2? '可用' : '不可用'}}</span>-->
+          <!--</div>-->
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -232,7 +224,7 @@
 
 
       <div slot="footer" class="dialog-footer clear" >
-          <el-button type="primary"  @click="executeRule">确 定</el-button>
+          <el-button type="primary"  @click="executeRule">执 行</el-button>
           <el-button @click="executeflag = false;">取 消</el-button>
         </div>
     </el-dialog>
@@ -251,7 +243,7 @@
       center>
       <div class="m-bar" style="width: 300px; margin: 20px auto;text-align: center;">
         <p style="margin: 20px 0;font-size: 18px;">正在执行规则...</p>
-        <m-progress :width="executProgress" :height="20" v-if="isExecuting">执行中</m-progress>
+        <m-progress :width="executProgress"  :height="20">执行中</m-progress>
         <!--<template v-if="!isExecuting">-->
           <!--<p>机审执行完毕！</p>-->
           <!--<p>本次机审共对365件案件执行了4条规则，检出错误34处</p>-->
@@ -266,6 +258,8 @@
     <executeResult ref="executeResult" :exeId="exeId"></executeResult>
 
     <addRule ref="addRule" :rule="form" > </addRule>
+    <executionSet ref="executionSetDialog"></executionSet>
+    <caseSample ref="caseSampleDialog" :rule="currentMenu"></caseSample>
   </div>
 </template>
 
@@ -274,12 +268,16 @@
   import pdfSelector from './modules/pdf_selector'
   import executeResult from './modules/executeResultDialog'
   import addRule from './modules/addRuleDialog'
+  import executionSet from './modules/executionSetDialog'
+  import caseSample from './modules/caseSampleDialog'
   export default {
     components : {
       'm-progress' : progress,
       pdfSelector,
       executeResult,
-      addRule
+      addRule,
+      executionSet,
+      caseSample
     },
     data() {
       return {
@@ -290,8 +288,8 @@
         //统计的业务、产品、模版、规则
         numObj: {},
 
-        //控制运行结果
-        runRes : 2, //0 未运行，1 失败， 2 成功
+        // //控制运行结果
+        // runRes : 2, //0 未运行，1 失败， 2 成功
 
         //規則函數列表
         ruleNames:[          "f1","f2","f3","f4"
@@ -440,44 +438,48 @@
           document.removeEventListener("keydown",this.InputHelper);
         }
       },
-      'form.ruleInfo'(val,oldVal){
-        //规则输入的交互逻辑
-        if(val){
-          if(val.indexOf("$") == -1 && this.showSelect){
-            this.showSelect = false;
-          }
-          if(this.showSelect){
-            let index = val.lastIndexOf("$");
-            let find = val.substr(index+1);
-            this.ruleNames = this.allNames.filter(it => it.indexOf(find) != -1);
-            this.ruleIndex = 0;
-          }
-          if(val[val.length - 1] === '$'){
-            let str = val;
-            this.ruleInfo_html = str.substr(0,val.length -1 ).replace(/\n/g,'<br/>') + "<span>$</span>";
-            !this.showSelect && (this.showSelect = true);
-            this.$nextTick(() => {
-              let elms = this.$refs.textarea_warpar.querySelectorAll('span');
-              let elm = elms[elms.length - 1];
-              this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
-              this.$refs.textarea_select.style.top = elm.offsetTop+12 + 'px';
-            });
-
-          }else{
-            this.ruleInfo_html = val;
-            console.log(this.ruleInfo_html.indexOf('\n'))
-            this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>');
-            console.log(this.ruleInfo_html);
-          }
-        }else{
-          this.showSelect = false;
-        }
-
-
-
-      }
+      // 'form.ruleInfo'(val,oldVal){
+      //   //规则输入的交互逻辑
+      //   if(val){
+      //     if(val.indexOf("$") == -1 && this.showSelect){
+      //       this.showSelect = false;
+      //     }
+      //     if(this.showSelect){
+      //       let index = val.lastIndexOf("$");
+      //       let find = val.substr(index+1);
+      //       this.ruleNames = this.allNames.filter(it => it.indexOf(find) != -1);
+      //       this.ruleIndex = 0;
+      //     }
+      //     if(val[val.length - 1] === '$'){
+      //       let str = val;
+      //       this.ruleInfo_html = str.substr(0,val.length -1 ).replace(/\n/g,'<br/>') + "<span>$</span>";
+      //       !this.showSelect && (this.showSelect = true);
+      //       this.$nextTick(() => {
+      //         let elms = this.$refs.textarea_warpar.querySelectorAll('span');
+      //         let elm = elms[elms.length - 1];
+      //         this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
+      //         this.$refs.textarea_select.style.top = elm.offsetTop+12 + 'px';
+      //       });
+      //
+      //     }else{
+      //       this.ruleInfo_html = val;
+      //       console.log(this.ruleInfo_html.indexOf('\n'))
+      //       this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>');
+      //       console.log(this.ruleInfo_html);
+      //     }
+      //   }else{
+      //     this.showSelect = false;
+      //   }
+      //
+      //
+      //
+      // }
     },
     methods : {
+      //案件样例
+      showCaseSample(){
+        this.$refs.caseSampleDialog.show();
+      },
 
       //执行集合
       runSet(){
@@ -538,7 +540,7 @@
         this.$http.post("/rule/executeRuleByBaseQuery.htm",{endDate: this.endDate,levelId: this.selectLevel.levelId,ruleIdList:arr,ruleLevel: this.selectLevel.ruleLevel,startDate: this.startDate},{mheaders: true}).then(res => {
           if(res.code === '0000'){
             //轮训规则执行结果
-            this.execute({exeId: res.result.exeId});
+            this.execute({exeId: res.result});
           }
         })
       },
@@ -550,7 +552,8 @@
             // exeId		string	0:执行中，1：执行完成
             // if(res.result.status == 0 ){
             this.exeId = item.exeId;
-            this.executProgress = (res.result.currentCount/res.result.totalCount) * 100;
+            this.executProgress = res.result.currentCount+ '/' +res.result.totalCount;
+
             if(!res.result.status  ){
               //执行中
               if(!this.executing){
@@ -558,7 +561,7 @@
               }
               setTimeout(() => {
                 this.execute(item);
-              },3000);
+              },2000);
             }
             else{
               this.$message.success("执行成功");
@@ -643,6 +646,9 @@
       },
       handleSelect(data){
         console.log(data);
+        if(data.ruleLevel !== 4){
+          return;
+        }
         this.selectLevel = data;
       },
 
@@ -669,7 +675,6 @@
               this.$refs.createForm.resetFields();
               console.log(this.$refs.textarea_warpar);
               this.ruleInfo_html = this.form.ruleInfo;
-              this.form = {};
               this.form = res.result;
               // for(let key in res.result){
               //   this.$set(this.form,key,res.result[key]);
@@ -720,7 +725,7 @@
       HandleSave(){
         this.$refs['createForm'].validate((valid) => {
           if(valid){
-            this.$http.post("/ruleBase/saveRuleInfo.htm", this.form).then(res => {
+            this.$http.post("/ruleBase/saveRuleInfo.htm", {levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel, ...this.form}).then(res => {
               if(res.code == '0000'){
                 this.$message.success(res.description);
                 this.editState = 0;
@@ -871,27 +876,27 @@
     right: 10px;
     bottom: 0;
   }
-  .runRes{
-    font-size:12px;
-    line-height: 12px;
-    i{
-      height:0px;
-      width:0px;
-      display: inline-block;
-      border: 6px solid #3A3A3A;
-      border-radius: 50%;
-      &.succ{
-        border-color: #66CC33;
-      }
-      &.error{
-        border-color:#CC0000;
-      }
-    }
-    position: absolute;
-    left: 10px;
-    bottom: 10px;
+  /*.runRes{*/
+    /*font-size:12px;*/
+    /*line-height: 12px;*/
+    /*i{*/
+      /*height:0px;*/
+      /*width:0px;*/
+      /*display: inline-block;*/
+      /*border: 6px solid #3A3A3A;*/
+      /*border-radius: 50%;*/
+      /*&.succ{*/
+        /*border-color: #66CC33;*/
+      /*}*/
+      /*&.error{*/
+        /*border-color:#CC0000;*/
+      /*}*/
+    /*}*/
+    /*position: absolute;*/
+    /*left: 10px;*/
+    /*bottom: 10px;*/
 
-  }
+  /*}*/
 
 .rule-base{
   height: 100%;

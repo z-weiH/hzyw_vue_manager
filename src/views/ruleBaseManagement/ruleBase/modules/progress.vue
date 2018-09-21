@@ -1,6 +1,7 @@
 <template>
   <div class="m-progress" :style="{height : height + 'px'}">
     <div :style="{width : width + '%'}" class="progress-bar progress-bar-striped active progress-color">
+      <span class="present">{{width}}</span>
     </div>
     <div class="slot" :style="{'line-height' : height - 2 + 'px'}">
       <slot></slot>
@@ -24,7 +25,12 @@
 </script>
 
 <style lang="scss" scoped>
-
+.present{
+  position: absolute;
+  color:#000;
+  right: 0;
+  line-height: 18px;
+}
 .m-progress{
   width: 100%;
   position: relative;

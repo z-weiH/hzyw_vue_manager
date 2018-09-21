@@ -88,7 +88,7 @@
 
         <div class="content_footer">
           <el-button style="margin-right: 20px;" type="primary" @click="HandleVerify" :disabled="canVerify">立即验证</el-button>
-          <el-button  @click="create">取消</el-button>
+          <el-button  @click="addRuleFlag = false;">取消</el-button>
         </div>
       </div>
 
@@ -156,16 +156,7 @@
           }
       }
     },
-    mounted(){
-      this.queryList1();
-    },
-    watch:{
-      // 'currentTab'(val,oldVal){
-      //   if(val === 0){
-      //     this.queryList1();
-      //   }
-      // }
-    },
+
     methods: {
 
       //验证初始化
@@ -248,23 +239,17 @@
       HandleTabChange(tab){
         this.currentTab = tab;
       },
-      queryList1(){
-        this.$http.post("/ruleBase/caseSample/queryCaseSampleList",this.pager1).then(res => {
-          if(res.code === '0000'){
-            this.pager1.count = res.result.count;
-            this.list1 = res.result.caseSampleList;
-          }
-        })
-      },
+
+
       // 页数 change
       handleSizeChange1(val) {
         this.pager1.pageSize = val;
-        this.queryList1();
+        this.doQuery();
       },
       // 页数 change
       handleSizeChange2(val) {
         this.pager2.pageSize = val;
-        this.queryList2();
+        this.doQuery();
       },
       // 分页 change
       handleCurrentChange1(val) {
@@ -272,7 +257,7 @@
         this.doQuery();
       },
       handleCurrentChange2(val) {
-        this.pager1.currentNum = val;
+        this.pager2.currentNum = val;
         this.doQuery();
       },
 

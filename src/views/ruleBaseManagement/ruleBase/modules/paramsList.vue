@@ -9,7 +9,7 @@
             default-active="1-1"
             background-color="#fff"
             text-color="#7C7C7C"
-            active-text-color="#7C7C7C"
+            active-text-color="#13367D"
             >
             <el-submenu index="1" >
               <span slot="title">字段列表</span>
@@ -39,10 +39,11 @@
           <div class="fieldList" v-if="tab === 0">
             <el-table  :data="currentList"  border  style="width: 100%" key="fieldList"
                        :header-cell-style="getRowStyle"
+                       @cell-click="cellClick"
             >
               <el-table-column prop="fieldName" label="字段名称" width="283"> </el-table-column>
-              <el-table-column prop="fieldValue" label="值" width="283"> </el-table-column>
               <el-table-column prop="fieldCode" label="英文名称" width="283"> </el-table-column>
+              <el-table-column prop="fieldValue" label="值" width="283"> </el-table-column>
 
             </el-table>
 
@@ -63,7 +64,7 @@
               <el-table-column  label="操作" width="180">
                 <template slot-scope="scope">
                   <div style="text-align: center;">
-                    <span class="colLink">查看</span>
+                    <span class="colLink" @click="openView(scope.row.eviUrl)">查看</span>
                   </div>
                 </template>
               </el-table-column>
@@ -118,6 +119,13 @@
         this.initParamterList();
       },
       methods:{
+        openView(url){
+          window.open(url,"_blank");
+        },
+        //修改值
+        cellClick(row, column, cell, event){
+          console.log(row);
+        },
         getRowStyle(){
           return {'background':'#EEF3FF','font-weight':'bold'};
         },

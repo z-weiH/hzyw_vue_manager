@@ -14,7 +14,7 @@
         <span>规则总数：{{exe.ruleCount}}条</span>
         <span>检出错误：{{exe.checkErrorCount}}件</span>
         <span>执行错误：{{exe.exeErrorCount ? exe.exeErrorCount : 0 }}件</span>
-        <span>耗时：{{exe.exeTime ? exe.exeTime : 1}}秒</span>
+        <span>耗时：{{exe.timeConsuming ? exe.timeConsuming : 1}}秒</span>
       </p>
       <el-table  :data="list" style="width: 100%" row-key="id"
                 :expand-row-keys="expands" @expand-change="showDetails">
@@ -46,7 +46,7 @@
           <template slot-scope="scope">
             <div style="text-align: center;">
               <span class="colLink mr-20" @click="showDetails(scope.row)">{{expands.indexOf(scope.row.id) != -1 ? '收起' : '展开'}}</span>
-              <span class="colLink">查看</span>
+              <!--<span class="colLink" @click="openView(scope.row)">查看</span>-->
             </div>
 
           </template>
@@ -66,6 +66,17 @@
 
 
       </el-table>
+      <div class="pagination">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="pager.currentNum"
+          :page-sizes="[5, 10, 15, 20]"
+          :page-size="pager.pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="pager.total">
+        </el-pagination>
+      </div>
 
 
     </div>
@@ -76,7 +87,7 @@
   export default {
     name: 'executeResult',
     props:{
-      exeId: String,
+      exeId: Number,
     },
     data() {
       return{
@@ -108,34 +119,42 @@
       showDetails(row){
         if(this.expands.indexOf(row.id) == -1){
 
-          if(!row.results || !row.results.length){
             this.$http.post('/ruleExe/queryRuleExeResultDetail.htm',{exeCaseId: row.id}).then(res => {
               if(res.code === '0000'){
                 row.results = res.result;
-                this.expands.push(row.id);
+                this.expands=[row.id];
               }
             })
-          }else{
-            this.expands.push(row.id);
-          }
+
         }
         else{
-          let idx = this.expands.indexOf(row.id);
-          this.expands.splice(idx,1);
+          this.expands=[];
 
         }
       },
 
-      //查询执行结果
-      queryExecutRes() {
-        this.$http.post('/ruleExe/queryRuleExeResult.htm',{exeId: this.exeId}).then(res => {
+      handleSizeChange(val){
+        this.pager.pageSize = val;
+        this.doQuery();
+      },
+
+      handleCurrentChange(val){
+        this.pager.currentNum = val;
+        this.doQuery();
+      },
+      doQuery() {
+        this.$http.post('/ruleExe/queryRuleExeResult.htm',{exeId: this.exeId, ...this.pager}).then(res => {
           if(res.code === '0000'){
             this.pager.total = res.result.caseCount,
 
-            this.list = res.result.list;
+              this.list = res.result.list;
 
           }
         });
+      },
+      //查询执行结果
+      queryExecutRes() {
+        this.doQuery();
         this.$http.post("/ruleExe/queryRuleExeResultCount.htm",{exeId: this.exeId}).then(res => {
           if(res.code === '0000'){
             this.exe = res.result;
