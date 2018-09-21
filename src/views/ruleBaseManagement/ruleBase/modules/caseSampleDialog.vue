@@ -21,14 +21,15 @@
               <el-table-column type="index" label="序号" width="50"> </el-table-column>
               <el-table-column prop="caseNo" label="案件编号" width="180"> </el-table-column>
               <el-table-column prop="resName" label="被申请人名字" width="180"> </el-table-column>
-              <el-table-column prop="resPhone" label="被申请人手机号" width="180"> </el-table-column>
+              <el-table-column prop="resPhone" label="被申请人手机号" width="188"> </el-table-column>
               <el-table-column prop="captureTime" label="抓取时间" width="180"> </el-table-column>
               <el-table-column prop="index" label="操作" width="180">
-                <div style="text-align: center;">
-                  <span class="colLink mr-20" @click="showDetails(scope.row)">查看</span>
-                  <span class="colLink" @click="openView(scope.row)">删除</span>
-
-                </div>
+                <template slot-scope="scope">
+                  <div style="text-align: center;">
+                    <span class="colLink mr-20" @click="showDetails(scope.row)">查看</span>
+                    <span class="colLink" @click="deleteCase(scope.row)">删除</span>
+                  </div>
+                </template>
               </el-table-column>
 
             </el-table>
@@ -75,26 +76,26 @@
 
 
               <el-table-column type="selection"  width="55"></el-table-column>
-              <el-table-column prop="loanBillNo" label="案件编号" width="190"></el-table-column>
-              <el-table-column prop="respondents" label="被申请人名字" width="190"> </el-table-column>
-              <el-table-column prop="phones" label="被申请人手机号" width="190"> </el-table-column>
-              <el-table-column prop="caseStatus" label="状态" width="190">
+              <el-table-column prop="loanBillNo" label="案件编号" width="230"></el-table-column>
+              <el-table-column prop="respondents" label="被申请人名字" width="234"> </el-table-column>
+              <el-table-column prop="phones" label="被申请人手机号" width="220"> </el-table-column>
+              <el-table-column prop="caseStatus" label="状态" width="220">
                 <template slot-scope="scope">
                   <span>{{caseStatusName(scope.row.caseStatus)}}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="loanBillNo" label="操作" width="180">
-                <template slot-scope="scope">
-                  <div style="text-align: center;">
-                    <span class="colLink mr-20" @click="showDetails(scope.row)">查看</span>
-                  </div>
-                </template>
-              </el-table-column>
+              <!--<el-table-column prop="loanBillNo" label="操作" width="180">-->
+                <!--<template slot-scope="scope">-->
+                  <!--<div style="text-align: center;">-->
+                    <!--<span class="colLink mr-20" @click="showDetails(scope.row)">查看</span>-->
+                  <!--</div>-->
+                <!--</template>-->
+              <!--</el-table-column>-->
 
             </el-table>
 
           </div>
-          <div class="pagination">
+          <div class="pagination" >
             <el-pagination
               @size-change="handleSizeChange1"
               @current-change="handleCurrentChange1"
@@ -168,6 +169,30 @@
 
     },
     methods : {
+      //删除案例
+      deleteCase(row){
+        this.$msgbox({
+          title: "提示",
+          message:  "确定删除该样例？",
+          center: true,
+          showCancelButton: true,
+          confirmButtonText: "确定",
+          cancelButtonText: "取消"
+        }).then(r => {
+          if(r){
+            this.$http.post("/caseSample/deleteCaseSample.htm",{sampleId:row.sampleId}).then(res => {
+              if(res.code ==='0000'){
+                this.$message.success('删除成功');
+                this.init();
+              }
+            })
+          }
+        })
+      },
+      //参数列表跳转
+      showDetails(row){
+        window.open(this.$router.resolve({path:'/ruleParameterList',query:{sampleId:row.sampleId}}).href,'_blank');
+      },
       //列表选择
       handleSelectionChange(val){
         this.selectedList = val;
@@ -269,13 +294,17 @@
       // 点击提交
       handleSubmit() {
 
-        console.log(123);
           let caseIds = [];
           this.selectedList.forEach( it => {
             caseIds.push(it.caseId);
           });
-          this.$http.post('/caseSample/captureCaseSampleList.htm',{caseIds: caseIds,levelId: this.rule.levelId}).then(res => {
-            if(res.code === 0){
+        this.$http({
+          method : 'get',
+          url : '/caseSample/captureCaseSampleList.htm',
+          params : {caseIds: (caseIds),levelId: this.rule.levelId}
+        })
+         .then(res => {
+            if(res.code === '0000'){
               this.tab = 0;
               this.init();
             }
@@ -291,5 +320,8 @@
 .rule-base-case-sample-dialog{
 
 }
+  .pagination{
+    margin-top: 10px;
+  }
 
 </style>

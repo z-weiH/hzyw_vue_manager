@@ -116,9 +116,36 @@
           }
       },
       mounted(){
-        this.initParamterList();
+        let sampleId = this.$route.query.sampleId;
+        if(!sampleId){
+          this.initParamterList();
+        }
+        else{
+          this.initParamterListBySampleId(sampleId);
+        }
       },
       methods:{
+        initParamterListBySampleId(sampleId){
+          this.$http.post("/caseSample/queryParamListBySampleId.htm",{sampleId: sampleId}).then(res => {
+            if(res.code === '0000'){
+              this.numList = new Array(res.result.fieldList.length);
+              this.result = res.result;
+              let compare = (a,b) => a.type-b.type;
+              this.result.eviList.forEach(it => {
+                it.sort(compare);
+              });
+              let compare2 = (a,b) => {
+                if(a.module != b.module){
+                  return a.module - b.module;
+                }else{
+                  return Number(a.returnCode) - Number(b.returnCode);
+                }
+              }
+              this.result.returnCodeList.sort(compare2);
+              this.initList();
+            }
+          })
+        },
         openView(url){
           window.open(url,"_blank");
         },
