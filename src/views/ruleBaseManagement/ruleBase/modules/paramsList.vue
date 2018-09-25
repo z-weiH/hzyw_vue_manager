@@ -246,7 +246,7 @@
           this.currentTitle = '字段列表（案件样例1）';
         },
         initParamterList(){
-          this.$http.post(' paramsList/queryParamsList.htm').then(res => {
+          this.$http.post('/paramsList/queryParamsList.htm').then(res => {
             if(res.code === '0000'){
               this.numList = new Array(res.result.fieldList.length);
               this.result = res.result;
