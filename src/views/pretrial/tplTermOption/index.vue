@@ -69,7 +69,7 @@
       handleAdd() {
         this.$refs.dialog.show('add');
       },
-      // 点击 修改 
+      // 点击 修改
       handleEdit(row) {
         this.$refs.dialog.show('edit',row);
       },

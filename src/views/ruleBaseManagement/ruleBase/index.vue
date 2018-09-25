@@ -565,6 +565,7 @@
             }
             else{
               this.$message.success("执行成功");
+              this.executing = false;
               this.isExecuting = true;
               this.$nextTick(() => {
                 this.$refs.executeResult.queryExecutRes();

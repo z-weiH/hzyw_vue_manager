@@ -16,7 +16,10 @@
               type === '2' ? '证据意见' : ''
             }}
           </el-form-item>
-          
+          <el-form-item label="编码" prop="code">
+            <el-input disabled type="text" v-model="ruleForm.code" />
+          </el-form-item>
+
           <el-form-item label="审核意见" prop="reasonMsg">
             <el-input type="textarea" v-model="ruleForm.reasonMsg" />
           </el-form-item>
@@ -61,10 +64,18 @@
       show(type,row) {
         this.status = type;
         this.dialogVisible = true;
+        //查询code值
         if(type === 'edit'){
           this.reasonId = row.reasonId;
-          this.ruleForm.reasonMsg = row.reasonMsg;
+          this.ruleForm.reasonMsg = row.negReasonMsg;
+          this.ruleForm.code = row.code;
         }else{
+          console.log('else');
+          this.$http.post("/reason/queryCodeByType.htm",{type: this.type}).then(res => {
+            if(res.code === '0000'){
+              this.$set(this.ruleForm, 'code',res.result);
+            }
+          })
           this.reasonId = '';
         }
       },
@@ -81,9 +92,10 @@
               method : 'post',
               url : '/reason/addCause.htm',
               data : {
-                reasonMsg : this.ruleForm.reasonMsg,
+                negReasonMsg : this.ruleForm.reasonMsg,
                 reasonType : this.type,
                 reasonId : this.reasonId,
+                code: this.ruleForm.code,
               },
             }).then((res) => {
               this.$message.success('操作成功');

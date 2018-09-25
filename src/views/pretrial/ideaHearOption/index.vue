@@ -23,12 +23,14 @@
         <ul>
           <template v-for="(item,index) in list">
             <li @mouseenter="handleMouseenter(item,index)" @mouseleave="handleMouseleave(item,index)" :key="item.reasonId + '' + index">
-              <span>{{index + 1}}.{{item.reasonMsg}}</span>
+              <span>{{index + 1}}.
+                <span v-if="item.code">[{{item.code}}]</span>
+                {{item.negReasonMsg}}</span>
               <div class="fr">
                 <template v-if="(index > (
                     activeName === '0' ? 5 :
                     activeName === '1' ? 2 : -1
-                  )) && (item.active === true) && (item.addType === 0)">
+                  )) && (item.active === true) ">
                   <el-button @click="handleEdit(item)" type="text">修改</el-button>
                   <span>|</span>
                   <el-button @click="handleDelete(item)" type="text">删除</el-button>

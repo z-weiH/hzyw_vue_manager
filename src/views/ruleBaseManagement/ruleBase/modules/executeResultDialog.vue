@@ -32,11 +32,11 @@
           <template slot-scope="scope">
             <div style="text-align: center;">
               <span>
-               <img class="mr-10" v-if="scope.row.exeStatus === 2"  src="@/assets/img/error_tag.png" alt="">
+               <img class="mr-10" v-if="scope.row.exeStatus === 0"  src="@/assets/img/error_tag_01.png" alt="">
               <img class="mr-5" v-if="scope.row.exeStatus === 1" src="@/assets/img/success_tag.png" alt="">
-              <img class="mr-15" v-if="scope.row.exeStatus === 0" src="@/assets/img/warning_tag.png" alt="">
-                <b v-if="scope.row.exeStatus === 0">检出错误</b>
-                <b v-if="scope.row.exeStatus === 2">执行错误</b>
+              <img class="mr-5" v-if="scope.row.exeStatus === 2" src="@/assets/img/warning_tag_01.png" alt="">
+                <b v-if="scope.row.exeStatus === 2">检出错误</b>
+                <b v-if="scope.row.exeStatus === 0">执行错误</b>
                 <b v-if="scope.row.exeStatus === 1">未检出错误</b>
               </span>
             </div>
@@ -57,8 +57,9 @@
             <ul>
               <li v-for="(item,idx) in props.row.results" style="margin:10px 0;">
                 <p class="result-content">{{item.ruleDesc}}</p>
-                <p class="result-content">{{item.returnResult}}</p>
                 <p class="result-content">{{item.exeResult}}</p>
+                <p class="result-content">{{item.returnResult ? item.returnResult : '--'}}</p>
+
               </li>
             </ul>
           </template>

@@ -27,7 +27,8 @@
     <!-- end -->
 
     <div class="card" :ref="card.subSortNo" v-for="(card, index) in idCardList" :key="index">
-      <div class="card_header" style="overflow: hidden">
+      <div class="card_header" style="overflow: hidden;position: relative;">
+
         <div class="fr mt-5" style="position: relative;" v-if="!disabled">
           <transition name="addmark">
             <el-button class="addmark" type="text" v-if="mark !== card.subSortNo" @click="HandleAddmark(card)">添加书签</el-button>
@@ -36,6 +37,9 @@
             <img  v-if="mark === card.subSortNo" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
           </transition>
           <el-button type="primary"  plain @click="HandleShow(card)">审核意见</el-button>
+        </div>
+        <div class="mt-5 rule_res">
+          <el-button type="text" @click="HandleRuleRes(card)">机审规则</el-button>
         </div>
         <span class="header_title">{{card.subSortNo}}/{{card.countCase}} {{card.personWrap.applicant}}与{{card.personWrap.respondent}}的借款合同纠纷</span>
         <div class="header_img">
@@ -134,11 +138,12 @@
     <audit :caseId="currentCaseId" :selValue="selValue" :type="0"></audit>
     <closeDlg :message="'已完成身份证审核，请关闭本页'" v-if="showCloseDlg"></closeDlg>
     <respondent-edit :currentRespodent="currentRespodent" :respondentItem="respondentItem"></respondent-edit>
-
+    <ruleResult ref="ruleResult"></ruleResult>
   </div>
 </template>
 
 <script>
+import ruleResult from  './modules/ruleResult'
 import respondentEdit from '../redoHearChildDetail/modules/respondentEdit'
 import Edits from '@/components/edits'
 import selectQuery from './../signatureHearDetail/modules/selectQuery'
@@ -225,6 +230,18 @@ export default {
 
   },
   methods: {
+
+    //机审规则
+    HandleRuleRes(card){
+      // this.$http.post("/againAudit/machineWhoseRules.htm",{caseId:card.caseId}).then(res => {
+      this.$http.post("/againAudit/machineWhoseRules.htm",{caseId:153682662852}).then(res => {
+        if(res.code === '0000'){
+          this.$refs.ruleResult.show(res.result);
+        }
+      })
+
+    },
+
 //获取修改配置
     getRespodent(){
       this.$http.post("/firstAudit/queryRespondent.htm").then(res => {
@@ -460,7 +477,8 @@ export default {
     imgZoom,
     selectQuery,
     Edits,
-    respondentEdit
+    respondentEdit,
+    ruleResult
   },
   mounted() {
     this.subBatchNo = this.$route.query.subBatchNo;
@@ -485,6 +503,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .rule_res{
+    position: absolute;
+    right: 185px;
+    top: 0;
+
+  }
   li.pointer > span{
     cursor: pointer;
   }
