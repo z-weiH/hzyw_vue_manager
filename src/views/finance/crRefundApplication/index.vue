@@ -54,8 +54,8 @@
         </el-table-column>
         <el-table-column label="操作" width="130px">
           <template slot-scope="scope">
-            <el-button @click="handleSee(scope.row)" type="text">查看</el-button>
             <el-button v-if="scope.row.isRefund === 0" @click="handleRefundApplication(scope.row)" type="text">退券申请</el-button>
+            <el-button @click="handleSee(scope.row)" type="text">查看</el-button>
           </template>
         </el-table-column>
       </el-table>
