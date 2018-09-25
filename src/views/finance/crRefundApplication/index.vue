@@ -52,10 +52,10 @@
             <span v-ellipsis.20>{{scope.row.submitTime}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="操作" width="130px">
           <template slot-scope="scope">
+            <el-button @click="handleSee(scope.row)" type="text">查看</el-button>
             <el-button v-if="scope.row.isRefund === 0" @click="handleRefundApplication(scope.row)" type="text">退券申请</el-button>
-            <span v-else>--</span>
           </template>
         </el-table-column>
       </el-table>
@@ -71,15 +71,18 @@
         :total="total">
       </el-pagination>
 
+      <detailDialog ref="detailDialog"></detailDialog>
     </div>
 	</div>
 </template>
 
 <script>
-	import timeFrame from '@/components/timeFrame.vue'
+  import timeFrame from '@/components/timeFrame.vue'
+  import detailDialog from '@/views/case/caseManagement/modules/detailDialog.vue'
 	export default {
 		components : {
-			timeFrame,
+      timeFrame,
+      detailDialog,
 		},
 		data() {
 			return {
@@ -151,6 +154,22 @@
             this.initTableList();
           });
         }).catch(() => {});
+      },
+      // 点击 查看
+      handleSee(row) {
+        let loading = this.$loading();
+        this.$http({
+          method : 'post',
+          url : '/casemanage/selectCaseDetailByCaseId.htm',
+          data : {
+            caseId : row.caseId,
+          },
+        }).then((res) => {
+          loading.close();
+          this.$refs.detailDialog.show(res.result);
+        },(err) => {
+          loading.close();
+        });
       },
 
 			// 表格相关 start
