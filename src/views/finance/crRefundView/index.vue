@@ -19,6 +19,14 @@
           </el-select>
         </el-form-item>
 
+        <el-form-item label=" " prop="refundStatus">
+          <el-select filterable clearable v-model="ruleForm.refundStatus" placeholder="请选择退款状态">
+            <el-option label="待审核" :value="1"></el-option>
+            <el-option label="已通过" :value="2"></el-option>
+            <el-option label="不通过" :value="3"></el-option>
+          </el-select>
+        </el-form-item>
+
         <el-button @click="handleSearch" type="warning">查询</el-button>
       </el-form>
     </div>
@@ -91,6 +99,8 @@
           keyWords : '',
           // 客户号
           clientCode : '',
+          // 退款状态
+          refundStatus : '',
 				},
         rules : {},
         // 客户 options
