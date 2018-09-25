@@ -3,7 +3,6 @@ import Vue from 'vue';
 // v-dialogDrag: 弹窗拖拽
 Vue.directive('dialogDrag', {
   bind(el, binding, vnode, oldVnode) {
-    console.log(el, binding, vnode, oldVnode);
     const dialogHeaderEl = el.querySelector('.el-dialog__header');
     const dragDom = el.querySelector('.el-dialog');
     dialogHeaderEl.style.cursor = 'move';
@@ -71,7 +70,7 @@ Vue.directive('ellipsis',{
   inserted(el,binding,vnode,oldVnode) {
     el.style.display = 'inline-block';
     el.style.whiteSpace = 'nowrap';
-    // 可以存储数据到 el中 
+    // 可以存储数据到 el中
     el.$mapp = new Vue({
       el : el,
       data() {

@@ -87,7 +87,7 @@
   export default {
     name: 'executeResult',
     props:{
-      exeId: Number,
+      exeId: {},
     },
     data() {
       return{

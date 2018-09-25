@@ -235,7 +235,7 @@
       },
       //在线样例查询
       queryOnlineCase(){
-        this.$http.post(' /rule/queryOnLineCaseListByBaseQuery.htm',{levelId: this.rule.levelId,ruleLevel: this.rule.ruleLevel,...this.form,...this.pager2}).then(res => {
+        this.$http.post('/rule/queryOnLineCaseListByBaseQuery.htm',{levelId: this.rule.levelId,ruleLevel: this.rule.ruleLevel,...this.form,...this.pager2}).then(res => {
           if(res.code === '0000'){
             this.list2 = res.result.list;
             this.pager2.count = res.result.count;

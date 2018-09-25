@@ -725,7 +725,7 @@
       HandleSave(){
         this.$refs['createForm'].validate((valid) => {
           if(valid){
-            this.$http.post("/ruleBase/saveRuleInfo.htm", {levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel, ...this.form}).then(res => {
+            this.$http.post("/ruleBase/saveRuleInfo.htm", {levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,parentId: this.currentMenu.parentId, ...this.form}).then(res => {
               if(res.code == '0000'){
                 this.$message.success(res.description);
                 this.editState = 0;
@@ -783,14 +783,20 @@
       },
       //树状结构去掉空的children属性
       deleteProperty(arr,property){
-        arr.forEach(it => {
+        if(arr && arr instanceof Array){
+          arr.forEach(it => {
             if(it[property].length == 0){
               it[property] = null;
             }else{
+              it[property].forEach(i => {
+                i.parentId = it.levelId;
+              });
               this.deleteProperty(it[property],property);
             }
 
-        })
+          })
+        }
+
         // if(arr.property){
         //   if(arr.property.Constructor == Array && arr.property.length == 0){
         //     arr.property = null;
@@ -807,7 +813,7 @@
         if(res.code === '0000'){
           // this.deleteProperty([res.result],"children");
           this.treeData = [res.result];
-          this.deleteProperty(res.result,"children");
+          this.deleteProperty(this.treeData,"children");
           // this.treeData = res.result;
 
           console.log(this.treeData)
