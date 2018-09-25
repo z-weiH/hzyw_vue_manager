@@ -336,7 +336,7 @@
         //执行选择参数
         selectLevel:{}, //选中层级
         treeId:"",//树id
-        startDate:'',//开始时间
+        startDate: new Date(),//开始时间
         endDate:'',//结束时间
 
         //案件数量
@@ -380,6 +380,13 @@
       }
     },
     mounted() {
+      // let myDate = new Date();
+      // let year = myDate.getFullYear();
+      // let month = myDate.getMonth() + 1 >= 10 ? myDate.getMonth() + 1 : '0' + (myDate.getMonth() + 1);
+      // let day = myDate.getDate() >= 10 ? myDate.getDate() : '0' + myDate.getDate();
+      // this.startDate = year + '-' + month + '-' + day;
+      //
+      console.log(this.startDate);
       setTimeout(() => {
         console.log(this.$refs,this.$refs.firstMenu);
         this.$refs.firstMenu[0].click();
@@ -552,10 +559,11 @@
             // exeId		string	0:执行中，1：执行完成
             // if(res.result.status == 0 ){
             this.exeId = item.exeId;
-            this.executProgress = res.result.currentCount+ '/' +res.result.totalCount;
 
-            if(!res.result.status  ){
+            if(res.result.status == 0){
               //执行中
+              this.executProgress = res.result.currentCount+ '/' +res.result.totalCount;
+
               if(!this.executing){
                 this.executing = true;
               }
@@ -808,7 +816,9 @@
 
       }
     },
+
     created(){
+
 
       this.$http.post('/rule/queryRuleTree.htm').then(res => {
         if(res.code === '0000'){
