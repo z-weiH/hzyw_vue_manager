@@ -100,7 +100,8 @@
                 notifyClient : this.ruleForm.notifyClient,
               },
             }).then((res) => {
-              this.$message.success('分配成功');
+              this.$message.success('操作成功');
+              this.handleClose();
             }).catch(() => {
               this.submitDisabled = false;
             });
