@@ -28,8 +28,8 @@
             </transition>
             <el-button type="primary"  plain @click="HandleShow(sign)">审核意见</el-button>
           </div>
-          <div class="mt-5 rule_res" >
-            <el-button type="text" @click="HandleRuleRes(card)">机审规则</el-button>
+          <div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">
+            <el-button type="text" @click="HandleRuleRes(sign)">机审规则</el-button>
           </div>
           <span class="header_title">{{sign.subSortNo}}/{{sign.totalCount}} {{sign.applicants}}与{{sign.respondents}}的借款合同纠纷</span>
           <div class="header_img">
@@ -325,7 +325,6 @@ export default {
 <style lang="scss" scoped>
   .rule_res{
     position: absolute;
-    right: 185px;
     top: 0;
 
   }

@@ -26,7 +26,7 @@
         <span class="arrow_left" @click="HandlePrev" :class="{disabled: canPrev}"></span>
         <span class="arrow_right" @click="HandleNext" :class="{disabled: canNext}"></span>
       </div>
-      <div class="card_header" style="overflow: hidden">
+      <div class="card_header" style="overflow: hidden;position: relative;">
         <div class="fr mt-5" style="position: relative" v-if="!disabled">
           <transition name="addmark" >
             <el-button class="addmark" type="text" v-if="mark !== evidence.subSortNo" @click="HandleAddmark(evidence)">添加书签</el-button>
@@ -35,6 +35,9 @@
             <img  v-if="mark === evidence.subSortNo" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
           </transition>
           <el-button type="primary"  plain @click="HandleShow(evidence)">审核意见</el-button>
+        </div>
+        <div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">
+          <el-button type="text" @click="HandleRuleRes(evidence)">机审规则</el-button>
         </div>
         <span class="header_title">{{evidence.subSortNo}}/{{evidence.totalCount}} {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷</span>
         <div class="header_img">
@@ -100,11 +103,12 @@
     <audit :caseId="currentCaseId" :type="2"></audit>
 
     <closeDlg :message="'已完成证据链审核，请关闭本页'"  v-if="showCloseDlg"></closeDlg>
-
+    <ruleResult ref="ruleResult"></ruleResult>
   </div>
 </template>
 
 <script>
+  import ruleResult from '../idCardHearDetail/modules/ruleResult'
   import audit from '../signatureHearDetail/modules/audit'
   import Mixins from '@/components/script/_mixin'
   import scrollY from "@/components/scroll-y";
@@ -167,6 +171,13 @@
       }
     },
     methods: {
+
+      //机审规则
+      HandleRuleRes(card){
+        // this.$http.post("/againAudit/machineWhoseRules.htm",{caseId:card.caseId}).then(res => {
+        this.$refs.ruleResult.show(card.caseId);
+
+      },
       //判斷是否是視頻
       checkMovie(url){
         let idx = url.lastIndexOf('.');
@@ -316,7 +327,8 @@
       audit,
       scrollY,
       closeDlg,
-      selectQuery
+      selectQuery,
+      ruleResult
     },
     mounted() {
       this.subBatchNo = this.$route.query.subBatchNo;
@@ -333,6 +345,11 @@
 </script>
 
 <style lang="scss" scoped>
+  .rule_res{
+    position: absolute;
+    top: 0;
+
+  }
   $themeColor: #193b8c;
   .bookmark-enter-active,.addmark-enter-active {
     transition: all 0.6s ease;

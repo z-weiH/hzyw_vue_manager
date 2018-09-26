@@ -57,6 +57,10 @@
             <div class="fr mt-5">
               <el-button v-if="subViewType == 1" @click="FooAuditReason(card)">审核意见</el-button>
             </div>
+            <div class="fr mt-5 mr-20">
+              <el-button  type="text" @click="HandleRuleRes(card)">机审规则</el-button>
+            </div>
+
           </el-col>
         </el-row>
 
@@ -213,12 +217,13 @@
 
     <backTop></backTop>
     <respondent-edit :currentRespodent="currentRespodent" :respondentItem="respondentItem"></respondent-edit>
-
+    <ruleResult ref="ruleResult"></ruleResult>
 
   </div>
 </template>
 
 <script>
+  import ruleResult from '../idCardHearDetail/modules/ruleResult'
   import respondentEdit from '../redoHearChildDetail/modules/respondentEdit'
 import selectQuery from './modules/query';
 import closeDig from '@/components/closeDlg.vue'
@@ -328,6 +333,13 @@ export default {
 	},
 
 	methods: {
+    //机审规则
+    HandleRuleRes(card){
+      // this.$http.post("/againAudit/machineWhoseRules.htm",{caseId:card.caseId}).then(res => {
+      this.$refs.ruleResult.show(card.caseId);
+
+    },
+
     getRespodent(){
       this.$http.post("/firstAudit/queryRespondent.htm").then(res => {
         if(res.code == "0000"){
@@ -562,7 +574,8 @@ export default {
 		closeDig,
 		backTop,
     selectQuery,
-    respondentEdit
+    respondentEdit,
+    ruleResult
 	},
 }
 </script>

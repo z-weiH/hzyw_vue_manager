@@ -59,7 +59,11 @@ export default {
   data(){
     return {
       showFlag: false,
-      data:{}
+      data:{
+        logList:[],
+        logList1:[],
+        logList2:[],
+      }
     }
   },
   methods:{
