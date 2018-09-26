@@ -82,8 +82,9 @@
               <el-pagination
                 @current-change="handleCurrentChange"
                 :current-page="pager.currentNum"
-                :page-size="5"
-                layout="prev, pager, next, jumper, total"
+                :page-size="pager.pageSize"
+                :page-sizes="[5, 10, 20, 30]"
+                layout="prev,sizes, pager, next, jumper, total"
                 :total="pager.count">
               </el-pagination>
             </div>
@@ -224,7 +225,7 @@
 
 
       <div slot="footer" class="dialog-footer clear" >
-          <el-button type="primary"  @click="executeRule">执 行</el-button>
+          <el-button type="primary" :disabled="canExecute"  @click="executeRule">执 行</el-button>
           <el-button @click="executeflag = false;">取 消</el-button>
         </div>
     </el-dialog>
@@ -403,6 +404,16 @@
       // title(){
       //   return this.editState == 1 ? "编辑规则" : "添加规则";
       // },
+      canExecute(){
+        if(!this.selectLevel.levelId )
+          return true;
+        if(this.castNum <= 0)
+          return true;
+        if(this.ruleIdList.length === 0)
+          return true;
+        else
+          return false;
+      },
       show :{
         get: function () {
           return this.editState != 0;
