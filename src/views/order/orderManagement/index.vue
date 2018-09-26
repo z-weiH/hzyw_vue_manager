@@ -4,7 +4,7 @@
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入借款单号"></el-input>
+          <el-input v-model.trim="ruleForm.keyWords" placeholder="借款单号、被申请人姓名"></el-input>
         </el-form-item>
 
         <el-form-item label=" " prop="merchantCode">
@@ -91,7 +91,8 @@
         <el-table-column label="操作" width="160px">
           <template slot-scope="scope">
             <!-- <el-button @click="handleReset(scope.row)" type="text">重新提交</el-button> -->
-            
+            <el-button @click="handleReset(scope.row)" type="text">状态返回</el-button>
+            <br />
             <el-button v-if="scope.row.orderStatus !== 1" @click="handleEditClaimant(scope.row)" type="text">修改被申请人</el-button>
             <el-button @click="handleSubmitEvidence(scope.row)" type="text">证据</el-button>
           </template>

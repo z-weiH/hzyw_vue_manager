@@ -141,7 +141,7 @@
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit">确 定</el-button>
+        <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit">确认并生成申请书</el-button>
         <el-button @click="handleClose">取 消</el-button>
       </span>
     </el-dialog>
