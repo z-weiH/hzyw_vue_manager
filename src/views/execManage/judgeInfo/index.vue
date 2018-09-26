@@ -84,11 +84,11 @@
         <el-table-column prop="role" label="角色" width="120px">
           <template slot-scope="scope">
             {{
-              scope.row.courtType === 1 ? '立案法官' :
-              scope.row.courtType === 2 ? '执行法官' :
-              scope.row.courtType === 3 ? '立案庭庭长' :
-              scope.row.courtType === 4 ? '执行庭庭长' :
-              scope.row.courtType === 5 ? '法院院长' : ''
+              scope.row.role === 1 ? '立案法官' :
+              scope.row.role === 2 ? '执行法官' :
+              scope.row.role === 3 ? '立案庭庭长' :
+              scope.row.role === 4 ? '执行庭庭长' :
+              scope.row.role === 5 ? '法院院长' : ''
             }}
           </template>
         </el-table-column>
