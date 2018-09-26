@@ -89,13 +89,13 @@
           </template>
         </el-table-column>
         <el-table-column label="操作" width="160px">
-          <template slot-scope="scope">
+          <div slot-scope="scope" class="handle-box">
             <!-- <el-button @click="handleReset(scope.row)" type="text">重新提交</el-button> -->
-            <el-button @click="handleReset(scope.row)" type="text">状态返回</el-button>
+            <el-button @click="handleState(scope.row)" type="text">状态返回</el-button>
             <br />
             <el-button v-if="scope.row.orderStatus !== 1" @click="handleEditClaimant(scope.row)" type="text">修改被申请人</el-button>
             <el-button @click="handleSubmitEvidence(scope.row)" type="text">证据</el-button>
-          </template>
+          </div>
         </el-table-column>
       </el-table>
       <!-- 分页 -->
@@ -118,6 +118,8 @@
       <evidenceDialog ref="evidenceDialog"></evidenceDialog>
       <!-- 批量上传 dialog -->
       <batchUploadDialog ref="batchUploadDialog"></batchUploadDialog>
+      <!-- 状态返回 dialog -->
+      <stateDialog ref="stateDialog"></stateDialog>
     </div>
 
   </div>
@@ -129,6 +131,7 @@
   import editDialog from './modules/editDialog.vue'
   import evidenceDialog from './modules/evidenceDialog.vue'
   import batchUploadDialog from './modules/batchUploadDialog.vue'
+  import stateDialog from './modules/stateDialog.vue'
   export default {
     components : {
       timeFrame,
@@ -136,6 +139,7 @@
       editDialog,
       evidenceDialog,
       batchUploadDialog,
+      stateDialog,
     },
     data() {
       return {
@@ -227,6 +231,10 @@
       handleSubmitEvidence(row) {
         this.$refs.evidenceDialog.show(row);
       },
+      // 点击 状态返回
+      handleState(row) {
+        this.$refs.stateDialog.show(row);
+      },
 
       // 表格相关 start
 
@@ -279,6 +287,11 @@
   }
   .el-form-item{
     margin-bottom: 0;
+  }
+  .handle-box{
+    button{
+      padding: 0;
+    }
   }
 }
 
