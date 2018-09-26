@@ -215,7 +215,7 @@
             districtCode : this.ruleForm.districtCode,
           },
         }).then((res) => {
-          this.courtOptions = res.result.list;
+          this.courtOptions = res.result;
           this.ruleForm.courtId = '';
         });
       },
