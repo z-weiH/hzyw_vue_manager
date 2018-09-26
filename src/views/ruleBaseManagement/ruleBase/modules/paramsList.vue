@@ -94,6 +94,26 @@
         </div>
         <div class="clear"></div>
       </div>
+
+      <el-dialog
+        :visible.sync="editFlag"
+        v-dialogDrag
+        title="修改字段值"
+        width="545px"
+        :close-on-click-modal="false"
+        center>
+        <el-form  :inline="true" class="form-box" :rules="rules" ref="fieldForm" :model="fieldForm">
+        <el-form-item   :label="fieldForm.fieldName" prop="fieldValue" class="mt-30">
+          <el-input style="width: 350px;"
+            v-model.trim="fieldForm.fieldValue">
+          </el-input>
+        </el-form-item>
+      </el-form>
+        <span slot="footer" class="dialog-footer">
+            <el-button type="primary"  @click="saveParamter">确认修改</el-button>
+            <el-button @click="editFlag = false;">取 消</el-button>
+          </span>
+      </el-dialog>
     </div>
 </template>
 
@@ -111,7 +131,15 @@
             //当前字段列表
             currentList: [],
             //当前title
-            currentTitle:''
+            currentTitle:'',
+            editFlag: false,
+            fieldForm: {},
+            rules : {
+              fieldValue : [
+                { required : true , message : '请输入内容' , trigger : 'blur'},
+              ],
+
+            },
 
           }
       },
@@ -126,6 +154,16 @@
         }
       },
       methods:{
+        //修改参数
+        saveParamter(){
+          console.log(this.$refs);
+          this.$refs.fieldForm.validate(res => {
+            if(res){
+              this.$http.post("/paramsList/saveParamsList.htm",{...this.fieldForm})
+            }
+          })
+        },
+
         initParamterListBySampleId(sampleId){
           this.$http.post("/caseSample/queryParamListBySampleId.htm",{sampleId: sampleId}).then(res => {
             if(res.code === '0000'){
@@ -152,7 +190,12 @@
         },
         //修改值
         cellClick(row, column, cell, event){
-          console.log(row);
+          console.log(row, column, cell, event);
+          if(column.property === 'fieldValue'){
+            this.editFlag = true;
+            this.fieldForm = {...row};
+            console.log(this.fieldForm);
+          }
         },
         getRowStyle(){
           return {'background':'#EEF3FF','font-weight':'bold'};
@@ -257,6 +300,13 @@
             if(res.code === '0000'){
               this.numList = new Array(res.result.fieldList.length);
               this.result = res.result;
+              this.result.fieldList.forEach(it => {
+                it.forEach(i => {
+                  if(i.fieldValue == 'null'){
+                    i.fieldValue = '';
+                  }
+                })
+              })
               let compare = (a,b) => a.type-b.type;
               this.result.eviList.forEach(it => {
                 it.sort(compare);
