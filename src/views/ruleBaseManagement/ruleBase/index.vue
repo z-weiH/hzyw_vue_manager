@@ -80,6 +80,7 @@
 
             <div class="pagination clear" v-if="pager.count > 0">
               <el-pagination
+                @size-change="handleSizeChange"
                 @current-change="handleCurrentChange"
                 :current-page="pager.currentNum"
                 :page-size="pager.pageSize"
@@ -96,7 +97,7 @@
                 <b v-if="currentMenu.ruleLevel <= 1">{{numObj.bizNum}}个业务、</b>
                 <b v-if="currentMenu.ruleLevel <= 2">{{numObj.productNum}}个产品、</b>
                 <b v-if="currentMenu.ruleLevel <= 3">{{numObj.templateNum}}个模版、</b>
-                <b v-if="currentMenu.ruleLevel <= 4">{{numObj.ruleNum}}条规则</b>
+                <b v-if="currentMenu.ruleLevel <= 4">{{numObj.ruleNum}}条已启用规则</b>
               </p>
             </div>
 
@@ -775,6 +776,10 @@
         this.handleNodeClick(this.currentMenu);
       },
 
+      handleSizeChange(val){
+        this.pager.pageSize = val;
+        this.handleNodeClick(this.currentMenu);
+      },
       handleNodeClick(item,flag){
         let obj = Object.assign({},item);
         obj.children = null;
