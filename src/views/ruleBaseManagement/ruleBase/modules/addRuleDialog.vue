@@ -87,7 +87,7 @@
         </div>
 
         <div class="content_footer">
-          <el-button style="margin-right: 20px;" type="primary" @click="HandleVerify" :disabled="canVerify">立即验证</el-button>
+          <el-button style="margin-right: 20px;" type="primary" @click="HandleVerify" :disabled="canVerify"></el-button>
           <el-button  @click="addRuleFlag = false;">取消</el-button>
         </div>
       </div>
@@ -190,7 +190,7 @@
           this.selectedList2.forEach(it => {
             arr.push(it.caseId);
           })
-          item.caseIdList = this.list2;
+          item.caseIdList = arr;
         }
         this.$http.post("/rule/executeRuleByRuleInfo.htm",item,{mheaders: true}).then(res => {
           if(res.code === '0000'){

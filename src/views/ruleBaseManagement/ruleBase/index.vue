@@ -680,6 +680,7 @@
         if(data.ruleLevel !== 4){
           return;
         }
+        this.iconName = 'el-icon-arrow-down';
         this.selectLevel = data;
       },
 
