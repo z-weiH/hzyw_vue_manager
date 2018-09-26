@@ -12,7 +12,7 @@
             active-text-color="#13367D"
             >
             <el-submenu index="1" >
-              <span slot="title">字段列表</span>
+              <span slot="title">字段列表 <b v-if="numList.length === 0">(暂无样例)</b></span>
 
               <el-menu-item-group>
                 <el-menu-item v-for="(item,idx) in numList"  :index="'1-'+ (idx+ 1)" :key="idx" @click="showFieldList(idx)">案件样例{{idx + 1}}</el-menu-item>
@@ -20,7 +20,7 @@
 
             </el-submenu>
             <el-submenu index="2" >
-              <span slot="title">证据列表</span>
+              <span slot="title">证据列表 <b v-if="numList.length === 0">(暂无样例)</b></span>
 
               <el-menu-item-group>
                 <el-menu-item v-for="(item,idx) in numList"  :index="'2-'+ (idx+ 1)" :key="idx" @click="showEviList(idx)">案件样例{{idx + 1}}</el-menu-item>
@@ -118,7 +118,8 @@
       mounted(){
         let sampleId = this.$route.query.sampleId;
         if(!sampleId){
-          this.initParamterList();
+          let levelId = this.$route.query.levelId;
+          this.initParamterList(levelId);
         }
         else{
           this.initParamterListBySampleId(sampleId);
@@ -240,13 +241,19 @@
         },
         //initList
         initList(){
-          this.tab = 0;
-          this.currentList = this.result.fieldList[0];
+          if(this.numList.length > 0){
+            this.tab = 0;
+            this.currentList = this.result.fieldList[0];
+            this.currentTitle = '字段列表（案件样例1）';
+          }else{
+            this.tab = 2;
+            this.currentList = this.result.returnCodeList;
+            this.currentTitle = '返回编码';
+          }
 
-          this.currentTitle = '字段列表（案件样例1）';
         },
-        initParamterList(){
-          this.$http.post('/paramsList/queryParamsList.htm').then(res => {
+        initParamterList(levelId){
+          this.$http.post('/paramsList/queryParamsList.htm',{levelId: levelId}).then(res => {
             if(res.code === '0000'){
               this.numList = new Array(res.result.fieldList.length);
               this.result = res.result;

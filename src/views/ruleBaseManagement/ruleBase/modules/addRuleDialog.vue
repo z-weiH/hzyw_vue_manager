@@ -87,7 +87,7 @@
         </div>
 
         <div class="content_footer">
-          <el-button style="margin-right: 20px;" type="primary" @click="HandleVerify" :disabled="canVerify"></el-button>
+          <el-button style="margin-right: 20px;" type="primary" @click="HandleVerify" :disabled="canVerify">立即验证</el-button>
           <el-button  @click="addRuleFlag = false;">取消</el-button>
         </div>
       </div>

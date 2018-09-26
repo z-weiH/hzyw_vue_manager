@@ -698,7 +698,7 @@
       //查看参数
       handleAvriable() {
 
-        window.open(this.$router.resolve({path:'/ruleParameterList'}).href,'_blank');
+        window.open(this.$router.resolve({path:'/ruleParameterList',query:{levelId: this.currentMenu.levelId}}).href,'_blank');
 
       },
       //編輯規則

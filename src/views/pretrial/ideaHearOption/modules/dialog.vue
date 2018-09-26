@@ -70,7 +70,6 @@
           this.ruleForm.reasonMsg = row.negReasonMsg;
           this.ruleForm.code = row.code;
         }else{
-          console.log('else');
           this.$http.post("/reason/queryCodeByType.htm",{type: this.type}).then(res => {
             if(res.code === '0000'){
               this.$set(this.ruleForm, 'code',res.result);

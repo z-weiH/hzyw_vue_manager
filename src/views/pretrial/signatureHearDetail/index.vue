@@ -28,6 +28,9 @@
             </transition>
             <el-button type="primary"  plain @click="HandleShow(sign)">审核意见</el-button>
           </div>
+          <div class="mt-5 rule_res">
+            <el-button type="text" @click="HandleRuleRes(card)">机审规则</el-button>
+          </div>
           <span class="header_title">{{sign.subSortNo}}/{{sign.totalCount}} {{sign.applicants}}与{{sign.respondents}}的借款合同纠纷</span>
           <div class="header_img">
             <img src="@/assets/img/idCard.png" alt="">
@@ -95,10 +98,12 @@
       <audit :selValue="selValue" :caseId="currentCaseId" :type="1"></audit>
     <closeDlg :message="'已完成签名审核，请关闭本页'" v-if="showCloseDlg"></closeDlg>
       <!--<rule></rule>-->
+      <ruleResult ref="ruleResult"></ruleResult>
     </div>
 </template>
 
 <script>
+  import ruleResult from './../idCardHearDetail/modules/ruleResult'
 import rule from "./modules/rule";
 import audit from "./modules/audit";
 import Mixins from "@/components/script/_mixin";
@@ -287,13 +292,20 @@ export default {
           })
         }
       })
-    }
+    },
+    //机审规则
+    HandleRuleRes(card){
+      // this.$http.post("/againAudit/machineWhoseRules.htm",{caseId:card.caseId}).then(res => {
+      this.$refs.ruleResult.show(card.caseId);
+
+    },
   },
   components: {
     audit,
     closeDlg,
     selectQuery,
-    rule
+    rule,
+    ruleResult
   },
   mounted() {
     this.subBatchNo = this.$route.query.subBatchNo;
@@ -311,6 +323,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .rule_res{
+    position: absolute;
+    right: 185px;
+    top: 0;
+
+  }
 .bookmark-enter-active,
 .addmark-enter-active {
   transition: all 0.6s ease;

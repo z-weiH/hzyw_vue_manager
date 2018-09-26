@@ -234,11 +234,7 @@ export default {
     //机审规则
     HandleRuleRes(card){
       // this.$http.post("/againAudit/machineWhoseRules.htm",{caseId:card.caseId}).then(res => {
-      this.$http.post("/againAudit/machineWhoseRules.htm",{caseId:153682662852}).then(res => {
-        if(res.code === '0000'){
-          this.$refs.ruleResult.show(res.result);
-        }
-      })
+          this.$refs.ruleResult.show(card.caseId);
 
     },
 
