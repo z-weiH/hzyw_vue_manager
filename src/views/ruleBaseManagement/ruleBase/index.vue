@@ -186,7 +186,7 @@
           </div>
           <div class="right fl">
             <el-date-picker
-              style="width: 135px; display: inline-block"
+              style="width: 143px; display: inline-block"
               v-model="startDate"
               value-format="yyyy-MM-dd"
               type="date"
@@ -194,7 +194,7 @@
             </el-date-picker>
              -
             <el-date-picker
-              style="width: 135px; display: inline-block"
+              style="width: 143px; display: inline-block"
               v-model="endDate"
               value-format="yyyy-MM-dd"
               type="date"
@@ -689,7 +689,12 @@
         this.executeflag = true;
         //执行选择参数初始化
         this.selectLevel={}; //选中层级
-        this.startDate=new　Date();//开始时间
+        let myDate = new Date();
+        let year = myDate.getFullYear();
+        let month = myDate.getMonth() + 1 >= 10 ? myDate.getMonth() + 1 : '0' + (myDate.getMonth() + 1);
+        let day = myDate.getDate() >= 10 ? myDate.getDate() : '0' + myDate.getDate();
+        this.startDate=year + '-' + month + '-' + day;//开始时间
+
         this.endDate='';//结束时间
         this.ruleIdList = [];
         this.castNum = '-';

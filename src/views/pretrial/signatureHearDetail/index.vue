@@ -18,7 +18,7 @@
         <div>没有符合要求的案件</div>
       </div>
       <div class="card"  v-for="(sign, index) in signatureItems" :key="index" :ref="sign.subSortNo">
-        <div class="card_header" style="overflow: hidden">
+        <div class="card_header" style="overflow: hidden;position: relative;">
           <div class="fr mt-5" style="position: relative;" v-if="!disabled">
             <transition name="addmark" >
               <el-button class="addmark" type="text" v-if="mark !== sign.subSortNo" @click="HandleAddmark(sign)">添加书签</el-button>
@@ -28,7 +28,7 @@
             </transition>
             <el-button type="primary"  plain @click="HandleShow(sign)">审核意见</el-button>
           </div>
-          <div class="mt-5 rule_res">
+          <div class="mt-5 rule_res" >
             <el-button type="text" @click="HandleRuleRes(card)">机审规则</el-button>
           </div>
           <span class="header_title">{{sign.subSortNo}}/{{sign.totalCount}} {{sign.applicants}}与{{sign.respondents}}的借款合同纠纷</span>
