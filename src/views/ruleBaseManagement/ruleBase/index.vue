@@ -336,7 +336,7 @@
         //执行选择参数
         selectLevel:{}, //选中层级
         treeId:"",//树id
-        startDate: new Date(),//开始时间
+        startDate: null,//开始时间
         endDate:'',//结束时间
 
         //案件数量
@@ -363,6 +363,9 @@
         //执行结果
         exeId: '',
 
+        //title
+        title: '',
+
         //执行进度
         executProgress: 0,
 
@@ -379,6 +382,7 @@
 
       }
     },
+
     mounted() {
       // let myDate = new Date();
       // let year = myDate.getFullYear();
@@ -396,9 +400,9 @@
     },
     computed: {
 
-      title(){
-        return this.editState == 1 ? "编辑规则" : "添加规则";
-      },
+      // title(){
+      //   return this.editState == 1 ? "编辑规则" : "添加规则";
+      // },
       show :{
         get: function () {
           return this.editState != 0;
@@ -410,6 +414,12 @@
       }
     },
     watch: {
+      'editState'(val,oldVal){
+        if(val == 1)
+          this.title = '编辑规则';
+        if(val == 2)
+          this.title = '添加规则';
+      },
       //控制全部规则，选中全部
       'ruleIdList'(val,oldVal){
         console.log(val);
@@ -666,8 +676,11 @@
         this.executeflag = true;
         //执行选择参数初始化
         this.selectLevel={}; //选中层级
-        this.startDate='';//开始时间
-        this.endDate=''//结束时间
+        this.startDate=new　Date();//开始时间
+        this.endDate='';//结束时间
+        this.ruleIdList = [];
+        this.castNum = '-';
+
       },
       //查看参数
       handleAvriable() {

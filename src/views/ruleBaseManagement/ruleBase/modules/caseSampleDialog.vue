@@ -50,7 +50,7 @@
         <div v-else>
           <div class="m-header" style="margin-bottom: 5px;">
 
-            <span style="line-height: 28px;">共{{pager1.count}}件样例</span>
+            <span style="line-height: 28px;">共{{pager2.count}}件样例</span>
             <el-form :inline="true" :model="form">
 
               <el-form-item style="margin: 0;margin-left: -12px;" label=" " prop="keyWords">
