@@ -2,7 +2,7 @@
 	<div class="courtInfo-box">
     <div class="wsbodyhead">
       <a>所在位置</a>
-      <a href="javascript:;" class="aside_tit">注册法官信息</a>
+      <a href="javascript:;" class="aside_tit">法院信息表</a>
     </div>
 
 		<div class="item-search">
