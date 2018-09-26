@@ -57,7 +57,7 @@
 				<el-table-column prop="userName" label="操作人"></el-table-column>
 				<el-table-column label="状态">
 					<template slot-scope="scope">
-						<template v-if="scope.row.status !== 0">
+						<template v-if="scope.row.status === 0">
               <el-button type="text" @click="handleExamine(scope.row)">待审核</el-button>
             </template>
             <template v-else-if="scope.row.status === 1">已通过</template>

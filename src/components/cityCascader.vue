@@ -136,7 +136,7 @@
       this.$http({
         url : '/court/queryProvinceInfo.htm',
       }).then((res) => {
-        this.provinceOptions = res.result.list;
+        this.provinceOptions = res.result;
       });
     },
     methods : {
@@ -149,7 +149,7 @@
               provinceCode : this.activeProvince,
             },
           }).then((res) => {
-            this.cityOptions = res.result.list;
+            this.cityOptions = res.result;
           });
         }
       },
@@ -162,7 +162,7 @@
               cityCode : this.activeCity,
             },
           }).then((res) => {
-            this.areaOptions = res.result.list;
+            this.areaOptions = res.result;
           });
         }
       },
