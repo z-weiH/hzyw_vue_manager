@@ -132,12 +132,12 @@
           cellphone : [
             {required : true , message : '请输入手机号' , trigger : 'blur'},
           ],
-          landlineTelephone : [
+          /* landlineTelephone : [
             {required : true , message : '请输入工作座机' , trigger : 'blur'},
           ],
           remark : [
             {required : true , message : '请输入备注' , trigger : 'blur'},
-          ],
+          ], */
         },
         type : '',
 
