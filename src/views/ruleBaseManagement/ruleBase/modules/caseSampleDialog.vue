@@ -191,7 +191,7 @@
       },
       //参数列表跳转
       showDetails(row){
-        window.open(this.$router.resolve({path:'/ruleParameterList',query:{sampleId:row.sampleId}}).href,'_blank');
+        window.open(this.$router.resolve({path:'/ruleParameterList',query:{sampleId:row.sampleId,levelId: this.$parent.currentMenu.levelId}}).href,'_blank');
       },
       //列表选择
       handleSelectionChange(val){

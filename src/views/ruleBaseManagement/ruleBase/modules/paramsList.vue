@@ -40,9 +40,21 @@
             <el-table  :data="currentList"  border  style="width: 100%" key="fieldList"
                        :header-cell-style="getRowStyle"
                        @cell-click="cellClick"
+                       :cell-style="styleFun"
+
+
             >
               <el-table-column prop="fieldName" label="字段名称" width="283"> </el-table-column>
-              <el-table-column prop="fieldCode" label="英文名称" width="283"> </el-table-column>
+              <el-table-column prop="fieldCode" label="英文名称" width="283">
+                <template slot-scope="scope">
+                  <el-popover trigger="hover" placement="right" width="80">
+                    <el-button type="primary" @click="copyStr(scope.row.fieldCode)">复制</el-button>
+                    <div slot="reference" class="name-wrapper">
+                      {{ scope.row.fieldCode }}
+                    </div>
+                  </el-popover>
+                </template>
+              </el-table-column>
               <el-table-column prop="fieldValue" label="值" width="283"> </el-table-column>
 
             </el-table>
@@ -104,7 +116,7 @@
         center>
         <el-form  :inline="true" class="form-box" :rules="rules" ref="fieldForm" :model="fieldForm">
         <el-form-item   :label="fieldForm.fieldName" prop="fieldValue" class="mt-30">
-          <el-input style="width: 350px;"
+          <el-input style="width: 320px;"
             v-model.trim="fieldForm.fieldValue">
           </el-input>
         </el-form-item>
@@ -118,6 +130,7 @@
 </template>
 
 <script>
+  import copy from '@/assets/js/copy.js'
     export default {
       name: 'paramsList',
       data(){
@@ -154,12 +167,30 @@
         }
       },
       methods:{
+        styleFun({row, column, rowIndex, columnIndex}){
+          if(columnIndex === 2){
+            return {'cursor':'pointer'};
+          }
+          return null;
+        },
+        //复制参数
+        copyStr(str){
+          copy(str,() => {this.$message.success(`已成功复制${str}`);});
+        },
         //修改参数
         saveParamter(){
           console.log(this.$refs);
           this.$refs.fieldForm.validate(res => {
             if(res){
-              this.$http.post("/paramsList/saveParamsList.htm",{...this.fieldForm})
+              this.$http.post("/paramsList/saveParamsList.htm",{...this.fieldForm,levelId: this.$route.query.levelId}).then(res => {
+                if(res.code === '0000'){
+                  this.$message.success("修改成功");
+                  this.editFlag = false;
+                  let item = this.currentList.find(it => it.fieldCode === this.fieldForm.fieldCode);
+                  if(item)
+                    this.$set(item,'fieldValue',this.fieldForm.fieldValue);
+                }
+              })
             }
           })
         },
