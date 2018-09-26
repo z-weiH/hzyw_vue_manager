@@ -1,6 +1,6 @@
 <template>
   <div class="city-cascader-box">
-    <el-select ref="sele1" @change="handleProvinceChange" v-model="activeProvince" clearable placeholder="请选择" style="width:130px;vertical-align:middle;">
+    <el-select @clear="handleClear" ref="sele1" @change="handleProvinceChange" v-model="activeProvince" clearable placeholder="请选择" style="width:130px;vertical-align:middle;">
       <el-option
         v-for="(item,index) in provinceOptions"
         :key="index"
@@ -10,7 +10,7 @@
       </el-option>
     </el-select>
 
-    <el-select ref="sele2" @change="handleCityChange" v-model="activeCity" clearable placeholder="请选择" style="width:130px;vertical-align:middle;">
+    <el-select @clear="handleClear" ref="sele2" @change="handleCityChange" v-model="activeCity" clearable placeholder="请选择" style="width:130px;vertical-align:middle;">
       <el-option
         v-for="(item,index) in cityOptions"
         :key="index"
@@ -20,7 +20,7 @@
       </el-option>
     </el-select>
 
-    <el-select ref="sele3" @change="handleAreaChange" v-model="activeArea" clearable placeholder="请选择" style="width:130px;vertical-align:middle;">
+    <el-select @clear="handleClear" ref="sele3" @change="handleAreaChange" v-model="activeArea" clearable placeholder="请选择" style="width:130px;vertical-align:middle;">
       <el-option
         v-for="(item,index) in areaOptions"
         :key="index"
@@ -150,6 +150,7 @@
             },
           }).then((res) => {
             this.cityOptions = res.result;
+            this.activeCity = '';
           });
         }
       },
@@ -163,6 +164,7 @@
             },
           }).then((res) => {
             this.areaOptions = res.result;
+            this.activeArea = '';
           });
         }
       },
@@ -188,6 +190,13 @@
             this.$emit('cancel');
           });
         }
+      },
+      // 地区 清除
+      handleClear() {
+        // 选择取消 回调
+        this.$nextTick(() => {
+          this.$emit('cancel');
+        });
       },
     },
   }

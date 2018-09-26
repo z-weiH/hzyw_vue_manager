@@ -20,8 +20,8 @@
         </el-form-item>
 
         <span class="inline">法院：</span>
-        <el-form-item label=" " prop="accountAge">
-          <el-select clearable v-model="ruleForm.accountAge" placeholder="请选择法院" style="width:185px;">
+        <el-form-item label=" " prop="courtId">
+          <el-select clearable v-model="ruleForm.courtId" placeholder="请选择法院" style="width:185px;">
             <el-option 
               v-for="(item,index) in courtOptions" 
               :key="index" 
@@ -39,8 +39,8 @@
 
 				<div class="mt-20">
           <span>角色：</span>
-          <el-form-item label=" " prop="accountAge">
-            <el-select clearable v-model="ruleForm.accountAge2" placeholder="请选择角色" style="width:150px;">
+          <el-form-item label=" " prop="role">
+            <el-select clearable v-model="ruleForm.role" placeholder="请选择角色" style="width:150px;">
               <el-option 
                 v-for="(item,index) in roleOptions" 
                 :key="index" 
