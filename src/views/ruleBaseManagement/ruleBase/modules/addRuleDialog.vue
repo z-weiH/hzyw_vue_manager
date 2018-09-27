@@ -17,7 +17,7 @@
 
       <div class="content_table">
         <div v-if="currentTab === 0">
-          <el-table ref="table1" border :data="list1" style="width: 100%" @selection-change="handleSelectionChange">
+          <el-table key="1" ref="table1" border :data="list1" style="width: 100%" @selection-change="handleSelectionChange">
             <el-table-column
               type="selection"
               width="55">
@@ -51,7 +51,7 @@
           </div>
 
         </div><div v-if="currentTab === 1">
-          <el-table ref="table2" border :data="list2" style="width: 100%" @selection-change="handleSelectionChange" >
+          <el-table key="2" ref="table2" border :data="list2" style="width: 100%" @selection-change="handleSelectionChange" >
             <el-table-column
               type="selection"
               width="55">
@@ -80,7 +80,7 @@
               @size-change="handleSizeChange2"
               @current-change="handleCurrentChange2"
               :current-page="pager2.currentNum"
-              :page-sizes="[1, 10, 15, 20]"
+              :page-sizes="[5, 10, 15, 20]"
               :page-size="pager2.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
               :total="pager2.count">
@@ -133,7 +133,7 @@
         pager2:{
           currentNum: 1,
           total: 1,
-          pageSize: 1
+          pageSize: 5
         },
         selectedList1: [],
         selectedList2: [],
@@ -185,8 +185,9 @@
         this.list2 = list2;
         this.localList1 = [];
         this.localList2 = [];
+        this.selectedNum = 0;
         this.pager1= {currentNum: 1,pageSize: 5, count: count1};
-        this.pager2= {currentNum: 1,pageSize: 1, count: count2};
+        this.pager2= {currentNum: 1,pageSize: 5, count: count2};
         this.currentMenu = menu;
       },
 

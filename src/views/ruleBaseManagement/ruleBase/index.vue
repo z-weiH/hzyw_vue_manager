@@ -533,7 +533,7 @@
         //   })
 
         // 线上案件
-        this.$http.post('/rule/queryOnLineCaseListByBaseQuery.htm',{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel, pagerNum: 1,pageSize: 1}).then(res => {
+        this.$http.post('/rule/queryOnLineCaseListByBaseQuery.htm',{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel, pagerNum: 1,pageSize: 5}).then(res => {
           if(res.code === '0000'){
             let arr1 = res.result.list;
             //案件样例
