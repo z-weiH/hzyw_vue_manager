@@ -49,9 +49,9 @@
                 <template slot-scope="scope">
                   <el-popover trigger="hover" placement="right" width="80">
                     <el-button type="primary" @click="copyStr(scope.row.fieldCode)">复制</el-button>
-                    <div slot="reference" class="name-wrapper">
+                    <span slot="reference" class="name-wrapper">
                       {{ scope.row.fieldCode }}
-                    </div>
+                    </span>
                   </el-popover>
                 </template>
               </el-table-column>
