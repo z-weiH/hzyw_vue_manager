@@ -71,7 +71,7 @@
                     <span class="edit_btn colLink" @click="handleEdit(rule)">编辑</span>
                     <span class="delete_btn colLink" @click="handleDelete(rule)">删除</span>
                   </div>
-                  <b >{{(pager.currentNum-1) * 5 + index + 1}}.</b>
+                  <b >{{(pager.currentNum-1) * pager.pageSize + index + 1}}.</b>
                   <span>{{rule.ruleDesc}}</span>
                 </div>
                 <div>{{rule.ruleInfo}}</div>
@@ -533,7 +533,7 @@
         //   })
 
         // 线上案件
-        this.$http.post('/rule/queryOnLineCaseListByBaseQuery.htm',{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel, pagerNum: 1,pageSize: 5}).then(res => {
+        this.$http.post('/rule/queryOnLineCaseListByBaseQuery.htm',{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel, pagerNum: 1,pageSize: 1}).then(res => {
           if(res.code === '0000'){
             let arr1 = res.result.list;
             //案件样例

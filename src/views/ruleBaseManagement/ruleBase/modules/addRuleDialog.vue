@@ -51,7 +51,7 @@
           </div>
 
         </div><div v-if="currentTab === 1">
-          <el-table ref="table1" border :data="list2" style="width: 100%" @selection-change="handleSelectionChange">
+          <el-table ref="table2" border :data="list2" style="width: 100%" @selection-change="handleSelectionChange" >
             <el-table-column
               type="selection"
               width="55">
@@ -63,6 +63,9 @@
             <el-table-column label="被申请人手机号" prop="phones">
             </el-table-column>
             <el-table-column label="状态" prop="caseStatus">
+              <template slot-scope="scope">
+                <span>{{caseStatusName(scope.row.caseStatus)}}</span>
+              </template>
             </el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
@@ -77,7 +80,7 @@
               @size-change="handleSizeChange2"
               @current-change="handleCurrentChange2"
               :current-page="pager2.currentNum"
-              :page-sizes="[5, 10, 15, 20]"
+              :page-sizes="[1, 10, 15, 20]"
               :page-size="pager2.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
               :total="pager2.count">
@@ -107,6 +110,8 @@
     },
     data(){
       return {
+        //选中数量
+        selectedNum: 0,
         //当前的rule模版
         currentMenu: {},
 
@@ -128,10 +133,13 @@
         pager2:{
           currentNum: 1,
           total: 1,
-          pageSize: 5
+          pageSize: 1
         },
         selectedList1: [],
         selectedList2: [],
+        //缓存的list
+        localList1: [],
+        localList2: []
       }
 
     },
@@ -140,37 +148,51 @@
       rule: Object,
     },
     computed:{
-        selectedNum(){
-          if(this.currentTab === 0){
-            return this.selectedList1.length;
-          }
-          else{
-            return this.selectedList2.length;
-          }
-        },
+
       canVerify(){
-          if(this.currentTab === 0){
-            return this.selectedList1.length === 0;
-          }else{
-            return this.selectedList2.length === 0;
-          }
+         return this.selectedNum === 0;
       }
     },
 
     methods: {
+      caseStatusName(status){
+        if(status === 0)
+          return '待分配';
+        else if(status === 1)
+          return '待初审';
+        else if(status === 2)
+          return '待复审';
+        else if(status === 3)
+          return '退回重审';
+        else if(status === 4)
+          return '预审通过';
+      },
+
+      selectedNumChange(){
+        this.selectedNum =  this.getArray2Length(this.localList1) + this.getArray2Length(this.localList2);
+      },
+      getArray2Length(arr){
+        let res =0;
+        arr.forEach(it => {
+          res += it.length;
+        })
+        return res;
+      },
 
       //验证初始化
       initVerify(list1,count1,list2,count2,menu) {
         this.list1 = list1;
         this.list2 = list2;
+        this.localList1 = [];
+        this.localList2 = [];
         this.pager1= {currentNum: 1,pageSize: 5, count: count1};
-        this.pager2= {currentNum: 1,pageSize: 5, count: count2};
+        this.pager2= {currentNum: 1,pageSize: 1, count: count2};
         this.currentMenu = menu;
       },
 
       //立即验证
       HandleVerify(){
-        console.log(this.currentMenu)
+        console.log(this.localList1,this.localList2)
         const loading =this.$loading({
           lock: true,
           text: '正在验证...',
@@ -179,19 +201,20 @@
           background: "hsla(0,0%,100%,.9)"
         });
         let item = this.rule;
-        if(this.currentTab === 0){
-          let arr = [];
-          this.selectedList1.forEach(it => {
-            arr.push(it.sampleId);
+
+          item.simpleIdList = [];
+          this.localList1.forEach(it => {
+            it.forEach((i) => {
+              item.simpleIdList.push(i.sampleId);
+            })
           })
-          item.simpleIdList = arr;
-        }else{
-          let arr = [];
-          this.selectedList2.forEach(it => {
-            arr.push(it.caseId);
+        item.caseIdList = [];
+          this.localList2.forEach(it => {
+            it.forEach(i => {
+              item.caseIdList.push(i.caseId);
+            })
           })
-          item.caseIdList = arr;
-        }
+
         this.$http.post("/rule/executeRuleByRuleInfo.htm",item,{mheaders: true}).then(res => {
           if(res.code === '0000'){
             this.execute({exeId: res.result},loading)
@@ -227,17 +250,55 @@
         })
       },
 
-      handleSelectionChange(val){
+      addLocalList(val){
         if(this.currentTab === 0){
-          this.selectedList1 = val;
+          this.localList1[this.pager1.currentNum-1] = val;
         }else{
-          this.selectedList2 = val;
+            this.localList2[this.pager2.currentNum-1] = val;
         }
+        this.selectedNumChange();
+
+      },
+      //切换table（刷新选中状态）
+      toggleSelection(){
+        if(this.currentTab === 0){
+          let currentList = this.localList1[this.pager1.currentNum-1];
+          console.log(123);
+          if(currentList && currentList.length > 0){
+            currentList.forEach(row => {
+              let item = this.list1.find(it => it.sampleId === row.sampleId)
+              if(item)
+                this.$refs.table1.toggleRowSelection(item,true);
+            })
+          }
+        }else{
+          let currentList = this.localList2[this.pager2.currentNum-1];
+          if(currentList && currentList.length > 0){
+            currentList.forEach(row => {
+              let item = this.list2.find(it => it.caseId === row.caseId)
+              if(item)
+                this.$refs.table2.toggleRowSelection(item,true);
+            })
+          }
+        }
+      },
+
+      handleSelectionChange(val){
+        console.log(val);
+        this.$nextTick(() => {
+          this.addLocalList(val);
+          this.toggleSelection();
+        })
+
+
       },
 
 
       HandleTabChange(tab){
         this.currentTab = tab;
+        this.$nextTick(() => {
+          this.toggleSelection();
+        })
       },
 
 
@@ -267,11 +328,17 @@
           this.$http.post("/rule/querySimpleCaseListByBaseQuery.htm",{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,keyWords: this.keyWords, ...this.pager1}).then(res =>　{
             this.list1 = res.result.list;
             this.pager1.count = res.result.count;
+            this.$nextTick(() => {
+              this.toggleSelection();
+            })
           })
         }else{
           this.$http.post("/rule/queryOnLineCaseListByBaseQuery.htm",{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,caseStatus: this.caseStatus,keyWords: this.keyWords, ...this.pager2}).then(res =>　{
             this.list2 = res.result.list;
             this.pager2.count = res.result.count;
+            this.$nextTick(() => {
+              this.toggleSelection();
+            })
           })
         }
       }
