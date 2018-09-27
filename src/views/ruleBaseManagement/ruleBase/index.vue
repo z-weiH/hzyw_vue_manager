@@ -214,9 +214,13 @@
         <div class="left fl">
           <sup style="color:red;margin-right:5px;">*</sup>执行规则:
         </div>
-        <div class="right fl" style="padding-left: 50px;">
+        <div class="right fl" v-if="allruleList.length === 0">
+          <span style="color: rgb(241, 181, 67)">{{ruleRes}}</span>
+        </div>
+        <div class="right clear" style="padding-left: 50px;">
+          <div></div>
           <el-checkbox-group v-model="ruleIdList">
-            <el-checkbox label="0000">全部规则</el-checkbox><br>
+            <el-checkbox label="0000" v-if="allruleList.length > 0">全部规则</el-checkbox><br>
             <p class="self-checkbox" style="width: 400px;" v-for="(rule,index) in allruleList" :key="index">
               <el-checkbox   :label="rule.ruleId" name="type">{{rule.ruleDesc}}</el-checkbox>
             </p>
@@ -226,7 +230,7 @@
 
 
       <div slot="footer" class="dialog-footer clear" >
-          <el-button type="primary" :disabled="canExecute"  @click="executeRule">执 行</el-button>
+          <el-button type="primary" :disabcreled="canExecute"  @click="executeRule">执 行</el-button>
           <el-button @click="executeflag = false;">取 消</el-button>
         </div>
     </el-dialog>
@@ -284,6 +288,9 @@
     data() {
       return {
 
+
+        //当前规则结果
+        ruleRes: '--',
         //控制内容显示
         contentFlag: false,
 
@@ -342,7 +349,7 @@
         endDate:'',//结束时间
 
         //案件数量
-        castNum:'-',
+        castNum:'--',
 
         //可执行规则
         allruleList: [],
@@ -658,6 +665,10 @@
         this.$http.post("/rule/queryAllRuleListByLevelId.htm",{ruleLevel: this.selectLevel.ruleLevel,levelId: this.selectLevel.levelId}).then(res => {
           if(res.code === '0000'){
             this.allruleList = res.result;
+            if(this.allruleList.length === 0){
+              this.ruleRes = '此模版下无可执行规则';
+            }
+
           }
         })
       },
@@ -697,7 +708,9 @@
 
         this.endDate='';//结束时间
         this.ruleIdList = [];
-        this.castNum = '-';
+        this.castNum = '--';
+        this.allruleList = [];
+        this.ruleRes = '--';
 
       },
       //查看参数
@@ -853,6 +866,8 @@
     },
 
     created(){
+      console.log(123);
+
 
 
       this.$http.post('/rule/queryRuleTree.htm').then(res => {

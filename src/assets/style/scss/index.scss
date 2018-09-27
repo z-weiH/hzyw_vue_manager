@@ -559,14 +559,16 @@ input.el-input__inner {
 }
 
 .self-checkbox{
-  .el-checkbox, .el-checkbox__input{
+  .el-checkbox{
+    width: 400px;
     white-space: inherit !important;
     .el-checkbox__input{
-      vertical-align: super;
+      vertical-align: middle;
+      display: table-cell;
     }
     .el-checkbox__label{
-      width: calc(100% - 40px);
-      display: inline-block;
+      width: 300px;
+      display: table-cell;
     }
   }
 }
