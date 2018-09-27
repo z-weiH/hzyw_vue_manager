@@ -214,10 +214,10 @@
         <div class="left fl">
           <sup style="color:red;margin-right:5px;">*</sup>执行规则:
         </div>
-        <div class="right fl">
+        <div class="right fl" style="padding-left: 50px;">
           <el-checkbox-group v-model="ruleIdList">
             <el-checkbox label="0000">全部规则</el-checkbox><br>
-            <p v-for="(rule,index) in allruleList" :key="index">
+            <p class="self-checkbox" style="width: 400px;" v-for="(rule,index) in allruleList" :key="index">
               <el-checkbox   :label="rule.ruleId" name="type">{{rule.ruleDesc}}</el-checkbox>
             </p>
           </el-checkbox-group>

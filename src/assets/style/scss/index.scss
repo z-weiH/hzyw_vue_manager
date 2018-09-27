@@ -557,3 +557,17 @@ input.el-input__inner {
 .el-popover{
   min-width: 0 !important;
 }
+
+.self-checkbox{
+  .el-checkbox, .el-checkbox__input{
+    white-space: inherit !important;
+    .el-checkbox__input{
+      vertical-align: super;
+    }
+    .el-checkbox__label{
+      width: calc(100% - 40px);
+      display: inline-block;
+    }
+  }
+}
+
