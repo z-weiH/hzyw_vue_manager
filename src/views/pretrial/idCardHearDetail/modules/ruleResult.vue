@@ -15,7 +15,7 @@
       <ul class="content-ul">
         <li v-for="(item,idx) in data.logList" :key="idx">
           <span class="desc">{{item.logInfo}}</span>
-          <span class="result">{{item.logStatus ? 0 : '执行错误' ? 1 : '未检出错误' ? 2 : '检出错误'}}</span>
+          <span class="result">{{item.logStatus === 0 ? '执行错误' :(item.logStatus === 1 ? '未检出错误' : '检出错误')}}</span>
           <span class="time">{{item.logTime}}</span>
         </li>
 
