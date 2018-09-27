@@ -14,7 +14,7 @@
 						<el-input style="width:100%;" v-model.trim="ruleForm.failReason" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="是否推送客户标志位：" prop="notifyClient">
+          <el-form-item label="是否推送客户：" prop="notifyClient">
 						<el-radio-group v-model="ruleForm.notifyClient">
               <el-radio :label="1">是</el-radio>
               <el-radio :label="0">否</el-radio>
@@ -44,7 +44,7 @@
           // 推送失败原因
           failReason : '',
           // 是否推送客户标志位 0否 1是
-          notifyClient : 1,
+          notifyClient : 0,
         },
         rules : {
           failReason : [
