@@ -100,8 +100,7 @@
       },
       show :{
         get: function () {
-          // return this.editState == 1 || this.editState == 2 || this.editState == 9
-          return true;
+          return this.editState == 1 || this.editState == 2 || this.editState == 9
         },
         set: function (v) {
           if(!v){
