@@ -160,7 +160,7 @@
         ],
         // 法院类型 options
         courtTypeOptions : [
-          {label : '基础人民法院' , value : 1},
+          {label : '基层人民法院' , value : 1},
           {label : '中级人民法院' , value : 2},
           {label : '高级人民法院' , value : 3},
           {label : '最高人民法院' , value : 4},
