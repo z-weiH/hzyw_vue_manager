@@ -171,6 +171,8 @@
 
         // 审核 id
         this.ruleForm.id = data.id;
+        // 当前数据 是否存在法院 id
+        this.isCourtId = !!data.courtId
         // 根据法院 id 回显数据
         if(data.courtId) {
           this.$http({
@@ -253,6 +255,9 @@
             // 提交数据
             this.submitDisabled = true;
             let form = {...this.ruleForm};
+            if(submitType === 2 && this.isCourtId === false) {
+              form.courtId = '';
+            }
             this.$http({
               method : 'post',
               url : '/judge/auditing.htm',
@@ -273,7 +278,7 @@
             });
           }).catch(() => {});
         };
-        
+
         if(submitType === 2) {
           submitFn();
         }else{
