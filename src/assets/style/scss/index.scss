@@ -573,3 +573,9 @@ input.el-input__inner {
   }
 }
 
+.self-tree{
+  .el-tree-node__content{
+    height: 40px;
+    font-size: 16px;
+  }
+}

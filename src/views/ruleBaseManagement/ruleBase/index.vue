@@ -43,7 +43,7 @@
             <!--</el-menu-item-group>-->
           <!--</el-submenu>-->
         <!--</el-menu>-->
-        <el-tree node-key="levelId" :data="treeData" :default-expanded-keys="keys" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+        <el-tree node-key="levelId" class="self-tree" :data="treeData" :default-expanded-keys="keys" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
       </div>
       <div class="fl m-right" style="height: 100%;">
           <div class="rule_title">
