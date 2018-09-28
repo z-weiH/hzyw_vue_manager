@@ -40,7 +40,7 @@
               @size-change="handleSizeChange1"
               @current-change="handleCurrentChange1"
               :current-page="pager1.currentNum"
-              :page-sizes="[5, 10, 15, 20]"
+              :page-sizes="[10,20,50]"
               :page-size="pager1.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
               :total="pager1.count">
@@ -102,7 +102,7 @@
               @size-change="handleSizeChange1"
               @current-change="handleCurrentChange1"
               :current-page="pager2.currentNum"
-              :page-sizes="[5, 10, 15, 20]"
+              :page-sizes="[10, 20, 50]"
               :page-size="pager2.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
               :total="pager2.count">
@@ -142,12 +142,12 @@
         form: {},
 
         pager1:{
-          pageSize:5,
+          pageSize:10,
           count:1,
           currentNum: 1
         },
         pager2:{
-          pageSize:5,
+          pageSize:10,
           count:1,
           currentNum: 1
         },

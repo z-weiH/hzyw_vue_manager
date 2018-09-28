@@ -43,7 +43,7 @@
               @size-change="handleSizeChange1"
               @current-change="handleCurrentChange1"
               :current-page="pager1.currentNum"
-              :page-sizes="[5, 10, 15, 20]"
+              :page-sizes="[10, 20,50]"
               :page-size="pager1.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
               :total="pager1.count">
@@ -80,7 +80,7 @@
               @size-change="handleSizeChange2"
               @current-change="handleCurrentChange2"
               :current-page="pager2.currentNum"
-              :page-sizes="[5, 10, 15, 20]"
+              :page-sizes="[ 10, 20,50]"
               :page-size="pager2.pageSize"
               layout="total, sizes, prev, pager, next, jumper"
               :total="pager2.count">
@@ -127,13 +127,13 @@
         pager1:{
           currentNum: 1,
           total: 1,
-          pageSize: 5
+          pageSize: 10
         },
 
         pager2:{
           currentNum: 1,
           total: 1,
-          pageSize: 5
+          pageSize: 10
         },
         selectedList1: [],
         selectedList2: [],
@@ -186,8 +186,8 @@
         this.localList1 = [];
         this.localList2 = [];
         this.selectedNum = 0;
-        this.pager1= {currentNum: 1,pageSize: 5, count: count1};
-        this.pager2= {currentNum: 1,pageSize: 5, count: count2};
+        this.pager1= {currentNum: 1,pageSize: 10, count: count1};
+        this.pager2= {currentNum: 1,pageSize: 10, count: count2};
         this.currentMenu = menu;
       },
 

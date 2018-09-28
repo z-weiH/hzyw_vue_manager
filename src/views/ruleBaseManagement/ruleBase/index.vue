@@ -84,7 +84,7 @@
                 @current-change="handleCurrentChange"
                 :current-page="pager.currentNum"
                 :page-size="pager.pageSize"
-                :page-sizes="[5, 10, 20, 30]"
+                :page-sizes="[10,  20, 50]"
                 layout="prev,sizes, pager, next, jumper, total"
                 :total="pager.count">
               </el-pagination>
@@ -385,7 +385,7 @@
         ruleList: [],
         pager: {
           currentNum: 1,
-          pageSize: 5,
+          pageSize: 10,
           count: 0,
         }
 
@@ -533,11 +533,11 @@
         //   })
 
         // 线上案件
-        this.$http.post('/rule/queryOnLineCaseListByBaseQuery.htm',{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel, pagerNum: 1,pageSize: 5}).then(res => {
+        this.$http.post('/rule/queryOnLineCaseListByBaseQuery.htm',{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel, pagerNum: 1,pageSize: 10}).then(res => {
           if(res.code === '0000'){
             let arr1 = res.result.list;
             //案件样例
-            this.$http.post("/rule/querySimpleCaseListByBaseQuery.htm",{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,pagerNum: 1,pageSize: 5}).then(re => {
+            this.$http.post("/rule/querySimpleCaseListByBaseQuery.htm",{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,pagerNum: 1,pageSize: 10}).then(re => {
               if(re.code === '0000'){
                 let arr2 = re.result.list;
                 //都没有案件
