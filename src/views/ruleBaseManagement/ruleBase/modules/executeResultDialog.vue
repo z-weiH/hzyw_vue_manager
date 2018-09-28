@@ -72,7 +72,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="pager.currentNum"
-          :page-sizes="[5, 10, 15, 20]"
+          :page-sizes="[10, 20, 50]"
           :page-size="pager.pageSize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="pager.total">
@@ -100,7 +100,7 @@
         pager:{
           currentNum: 1,
           total: 1,
-          pageSize: 20
+          pageSize:10
         }
       }
     },
@@ -146,7 +146,7 @@
       doQuery() {
         this.$http.post('/ruleExe/queryRuleExeResult.htm',{exeId: this.exeId, ...this.pager}).then(res => {
           if(res.code === '0000'){
-            this.pager.total = res.result.caseCount,
+            this.pager.total = res.result.count,
 
               this.list = res.result.list;
 

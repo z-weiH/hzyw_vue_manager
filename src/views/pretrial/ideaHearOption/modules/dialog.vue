@@ -27,7 +27,7 @@
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleSubmit">确 定</el-button>
+        <el-button type="primary" @click="handleSubmit" :disabled="!ruleForm.code">确 定</el-button>
         <el-button @click="handleClose">取 消</el-button>
       </span>
     </el-dialog>
@@ -51,7 +51,7 @@
         rules : {
           reasonMsg : [
             {required : true , message : '请输入审核意见' , trigger : 'blur'}
-          ],
+          ]
         },
         reasonId : '',
       }
