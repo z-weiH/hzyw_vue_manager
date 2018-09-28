@@ -43,7 +43,7 @@
             <!--</el-menu-item-group>-->
           <!--</el-submenu>-->
         <!--</el-menu>-->
-        <el-tree node-key="levelId" class="self-tree" :data="treeData" :default-expanded-keys="keys" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+        <el-tree node-key="levelId" class="self-tree" :data="treeData" :default-expanded-keys="keys" :props="defaultProps" @node-click="handleNodeClickPlus"></el-tree>
       </div>
       <div class="fl m-right" style="height: 100%;">
           <div class="rule_title">
@@ -74,6 +74,7 @@
                   </div>
                   <b >{{(pager.currentNum-1) * pager.pageSize + index + 1}}.</b>
                   <span>{{rule.ruleDesc}}</span>
+                  <span class="mark" v-if="checkRuleConfiged(rule.ruleId)">已配置</span>
                 </div>
                 <div>{{rule.ruleInfo}}</div>
               </li>
@@ -289,6 +290,9 @@
     data() {
       return {
 
+
+        //已配置规则
+        configurationRules: [],
 
         //默认展开的规则
         keys: [],
@@ -802,6 +806,28 @@
         this.pager.pageSize = val;
         this.handleNodeClick(this.currentMenu);
       },
+
+      //刷新规则
+      refreshRules(item){
+        this.$http.post('/collection/queryRuleCollectionList.htm',{levelId: item.levelId}).then(res => {
+          this.configurationRules = [];
+          res.result.exeCollectionList.forEach(it => {
+            this.configurationRules.push(it.ruleId);
+          })
+        })
+      },
+
+      //判断规则是否被配置
+      checkRuleConfiged(ruleId){
+        return this.configurationRules.indexOf(ruleId) != -1;
+      },
+
+      handleNodeClickPlus(item){
+        this.handleNodeClick(item);
+        this.refreshRules(item);
+      },
+
+
       handleNodeClick(item){
         let obj = Object.assign({},item);
         obj.children = null;
@@ -897,6 +923,15 @@
 </script>
 
 <style lang="scss" scoped>
+
+
+  .mark{
+    font-size: 12px;
+    padding: 2px 3px;
+    background: #EAB468;
+    color: #fff;
+    border-radius:8px;
+  }
 
   .textarea_select{
     position: absolute;

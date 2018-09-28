@@ -87,7 +87,7 @@
       }
     },
     mounted() {
-      
+
     },
     methods : {
       init() {
@@ -192,6 +192,7 @@
                 ruleIds : (this.checkList),
               },
             }).then((res) => {
+              this.$parent.refreshRules({levelId: this.levelId});
               this.submitDisabled = false;
 
               this.handleCancel();
