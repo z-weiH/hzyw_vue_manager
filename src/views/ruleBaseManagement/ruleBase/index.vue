@@ -148,7 +148,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button type="primary"  @click="HandleSave">保存并关闭</el-button>
+          <el-button type="primary"  @click="HandleSave" :disabled="disabled">保存并关闭</el-button>
           <el-button @click="editState = 0">取 消</el-button>
         </span>
     </el-dialog>
@@ -290,6 +290,8 @@
     data() {
       return {
 
+        //控制鼠标连点
+        disabled: false,
 
         //已配置规则
         configurationRules: [],
@@ -783,18 +785,26 @@
       },
       // 保存
       HandleSave(){
-        this.$refs['createForm'].validate((valid) => {
-          if(valid){
-            this.$http.post("/ruleBase/saveRuleInfo.htm", {levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,parentId: this.currentMenu.parentId, ...this.form}).then(res => {
-              if(res.code == '0000'){
-                this.$message.success(res.description);
-                this.editState = 0;
+        if(!this.disabled){
+          this.disabled = true;
+          setTimeout(() => {
+            this.disabled = false;
+          },2000)
+          this.$refs['createForm'].validate((valid) => {
+            if(valid){
+              this.$http.post("/ruleBase/saveRuleInfo.htm", {levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,parentId: this.currentMenu.parentId, ...this.form}).then(res => {
+                if(res.code == '0000'){
+                  this.$message.success(res.description);
+                  this.editState = 0;
 
-                this.handleNodeClick(this.currentMenu);
-              }
-            })
-          }
-        })
+
+                  this.handleNodeClick(this.currentMenu);
+                }
+              })
+            }
+          })
+
+        }
 
       },
       handleCurrentChange(val){
@@ -895,7 +905,7 @@
     },
 
     created(){
-      console.log(123);
+
 
 
 
