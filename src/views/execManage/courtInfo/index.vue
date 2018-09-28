@@ -85,9 +85,21 @@
         <el-table-column prop="province" label="省" width="120px"></el-table-column>
         <el-table-column prop="city" label="市" width="120px"></el-table-column>
         <el-table-column prop="district" label="区" width="120px"></el-table-column>
-        <el-table-column prop="courtName" label="法院名" width="120px"></el-table-column>
-        <el-table-column prop="courtAddress" label="地址" width="120px"></el-table-column>
-        <el-table-column prop="courtPhone" label="电话" width="120px"></el-table-column>
+        <el-table-column prop="courtName" label="法院名" width="120px">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.courtName}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="courtAddress" label="地址" width="120px">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.courtAddress}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="courtPhone" label="电话" width="120px">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.courtPhone}}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="120px" fixed="right" align="center">
           <template slot-scope="scope">
             <el-button @click="handleEdit(scope.row)" type="text">修改</el-button>
