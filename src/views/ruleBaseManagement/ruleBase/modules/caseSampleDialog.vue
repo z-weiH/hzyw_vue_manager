@@ -50,8 +50,8 @@
         <div v-else>
           <div class="m-header" style="margin-bottom: 5px;">
 
-            <span style="line-height: 28px;">共{{pager2.count}}件样例</span>
-            <el-form :inline="true" :model="form">
+            <span style="line-height: 28px;">请为产品模板“{{rule.labelName}}”选择案件样例</span>
+            <el-form ref="ruleForm" :inline="true" :model="form">
 
               <el-form-item style="margin: 0;margin-left: -12px;" label=" " prop="keyWords">
                 <el-input v-model.trim="form.keyWords" placeholder="请输入客户名称、账号"></el-input>
@@ -72,7 +72,7 @@
             </el-form>
           </div>
           <div class="m-table">
-            <el-table  key="table2"  :data="list2" style="width: 100%" border  empty-text="暂无线上案件，无法抓取样例"  @selection-change="handleSelectionChange">
+            <el-table ref="table2" key="table2"  :data="list2" style="width: 100%" border  empty-text="暂无线上案件，无法抓取样例"  @selection-change="handleSelectionChange">
 
 
               <el-table-column type="selection"  width="55"></el-table-column>
@@ -95,8 +95,10 @@
             </el-table>
 
           </div>
-          <div class="pagination" >
+          <div class="pagination"  >
+            <span class="fl">已选{{selectedNum}}件</span>
             <el-pagination
+              class="fr"
               @size-change="handleSizeChange1"
               @current-change="handleCurrentChange1"
               :current-page="pager2.currentNum"
@@ -112,7 +114,7 @@
 
       <span slot="footer" class="dialog-footer">
         <template v-if="tab === 1">
-           <el-button :disabled="!selectedList.length" type="primary" @click="handleSubmit">确 定</el-button>
+           <el-button :disabled="!selectedNum" type="primary" @click="handleSubmit">确 定</el-button>
            <el-button @click="tab = 0;">取 消</el-button>
         </template>
         <template v-else>
@@ -153,7 +155,11 @@
         list2:[],
 
         //选中案件
-        selectedList: []
+        selectedList: [],
+
+        //选中案件
+        localList:[],
+        selectedNum: 0,
       }
     },
     computed:{
@@ -168,7 +174,38 @@
     mounted() {
 
     },
+    watch:{
+      'tab'(val,oldval){
+        if(val === 0){
+          this.localList =[];
+          this.selectedNum = 0;
+        }
+      }
+    },
     methods : {
+
+      clacNum(){
+        this.selectedNum = 0;
+        this.localList.forEach(it => {
+          this.selectedNum += it.length;
+        })
+
+      },
+      addLocalList(val){
+        this.localList[this.pager2.currentNum - 1] = val;
+        this.clacNum();
+        },
+
+      toggleSelection(){
+        let currentList = this.localList[this.pager2.currentNum-1];
+        if(currentList && currentList.length > 0){
+          currentList.forEach(row => {
+            let item = this.list2.find(it => it.caseId === row.caseId)
+            if(item)
+              this.$refs.table2.toggleRowSelection(item,true);
+          })
+        }
+      },
       //删除案例
       deleteCase(row){
         this.$msgbox({
@@ -195,7 +232,10 @@
       },
       //列表选择
       handleSelectionChange(val){
-        this.selectedList = val;
+        // this.selectedList = val;
+        this.$nextTick(() => {
+          this.addLocalList(val);
+        })
       },
 
       //取消按钮
@@ -239,6 +279,9 @@
           if(res.code === '0000'){
             this.list2 = res.result.list;
             this.pager2.count = res.result.count;
+            this.$nextTick(() => {
+              this.toggleSelection();
+            })
           }
         })
       },
@@ -295,8 +338,10 @@
       handleSubmit() {
 
           let caseIds = [];
-          this.selectedList.forEach( it => {
-            caseIds.push(it.caseId);
+          this.localList.forEach( it => {
+            it.forEach(i => {
+              caseIds.push(i.caseId);
+            })
           });
         this.$http({
           method : 'get',
