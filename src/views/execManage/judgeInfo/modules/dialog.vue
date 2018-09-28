@@ -23,7 +23,7 @@
           </el-form-item>
 
           <el-form-item label="法院：" prop="courtId">
-            <el-select clearable style="width:400px;" v-model="ruleForm.courtId" placeholder="请选择">
+            <el-select @change="handleCourt" style="width:400px;" v-model="ruleForm.courtId" placeholder="请选择">
               <el-option :label="item.courtName" :value="item.courtId" v-for="(item,index) in courtOptions" :key="index"></el-option>
             </el-select>
           </el-form-item>
@@ -223,6 +223,11 @@
       cityCancel() {
         this.courtOptions = [];
         this.ruleForm.courtId = '';
+        this.ruleForm.courtAddress = '';
+      },
+      // 法院 cahnge
+      handleCourt(val) {
+        this.ruleForm.courtAddress = this.courtOptions.filter(v => v.courtId === val)[0].courtAddress;
       },
 
       // 关闭浮层
