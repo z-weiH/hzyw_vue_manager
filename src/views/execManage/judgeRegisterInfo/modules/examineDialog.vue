@@ -243,39 +243,46 @@
       },
       // 点击提交
       handleSubmit(submitType) {
-        this.$refs.ruleForm.validate((valid) => {
-          console.log(this.ruleForm);
+        let submitFn = () => {
+          this.$confirm(`确认${submitType === 1 ? '通过' : '拒绝'}（${this.ruleForm.judgeName}）的注册吗?`, "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            center: true
+          }).then(() => {
+            let cn = this.$refs.cityCascader.getCN();
+            // 提交数据
+            this.submitDisabled = true;
+            let form = {...this.ruleForm};
+            this.$http({
+              method : 'post',
+              url : '/judge/auditing.htm',
+              data : {
+                ...form,
+                province : cn[0],
+                city : cn[1],
+                district : cn[2],
+                courtName : this.$refs.Court.$el.querySelector('input').value,
+                status : submitType,
+              },
+            }).then((res) => {
+              this.$message.success('审核成功');
+              this.handleClose();
+              this.$emit('successCBK');
+            }).catch(() => {
+              this.submitDisabled = false;
+            });
+          }).catch(() => {});
+        };
+        
+        if(submitType === 2) {
+          submitFn();
+        }else{
+          this.$refs.ruleForm.validate((valid) => {
           if(valid) {
-            this.$confirm(`确认${submitType === 1 ? '通过' : '拒绝'}（${this.ruleForm.judgeName}）的注册吗?`, "提示", {
-              confirmButtonText: "确定",
-              cancelButtonText: "取消",
-              center: true
-            }).then(() => {
-              let cn = this.$refs.cityCascader.getCN();
-              // 提交数据
-              this.submitDisabled = true;
-              let form = {...this.ruleForm};
-              this.$http({
-                method : 'post',
-                url : '/judge/auditing.htm',
-                data : {
-                  ...form,
-                  province : cn[0],
-                  city : cn[1],
-                  district : cn[2],
-                  courtName : this.$refs.Court.$el.querySelector('input').value,
-                  status : submitType,
-                },
-              }).then((res) => {
-                this.$message.success('审核成功');
-                this.handleClose();
-                this.$emit('successCBK');
-              }).catch(() => {
-                this.submitDisabled = false;
-              });
-            }).catch(() => {});
+            submitFn();
           }
         });
+        }
       },
     },
   }
