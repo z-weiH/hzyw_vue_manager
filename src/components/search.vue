@@ -17,7 +17,7 @@
         </el-option>
       </el-select>
       <!--BEGIN 级联select -->
-      <el-cascader :data-hk="searchItem.cusClass" clearable v-if="searchItem.type == 'cascader'" :options="searchItem.options" v-model="item[searchItem.property]" @change="valueChange">
+      <el-cascader :change-on-select="searchItem.changeOnSelect || false" :data-hk="searchItem.cusClass" clearable v-if="searchItem.type == 'cascader'" :options="searchItem.options" v-model="item[searchItem.property]" @change="valueChange">
       </el-cascader>
       <!--END 级联select -->
       <el-date-picker :format="baseFmat" :value-format="baseFmat" v-if="searchItem.type == 'date' | searchItem.type == 'moment' | searchItem.type == 'month'  " v-model="item[searchItem.property]" :type="searchItem.type" :placeholder="searchItem.placeholder"
