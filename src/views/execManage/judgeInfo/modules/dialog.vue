@@ -73,6 +73,7 @@
 
 <script>
   import cityCascader from '@/components/cityCascader.vue'
+  import regexp from '@/assets/js/regexp'
   export default {
     components : {
       cityCascader,
@@ -131,6 +132,7 @@
           ],
           cellphone : [
             {required : true , message : '请输入手机号' , trigger : 'blur'},
+            {pattern : regexp.telOrPhone, message : '格式有误' , trigger : 'blur'},
           ],
           /* landlineTelephone : [
             {required : true , message : '请输入工作座机' , trigger : 'blur'},
