@@ -431,9 +431,9 @@ export default {
 
               }, 500);
             }
-            // else{
-            //   document.documentElement.querySelector('.body_container').scrollTo(0,0);
-            // }
+            else{
+              document.documentElement.querySelector('.body_container').scrollTo(0,0);
+            }
             // setTimeout(()=>{
             //   this.scrollFunc();
             // },300)
