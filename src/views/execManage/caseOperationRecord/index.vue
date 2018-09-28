@@ -40,7 +40,11 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="caseNo" label="案号"></el-table-column>
+				<el-table-column prop="caseNo" label="案号">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.caseNo}}</span>
+          </template>
+        </el-table-column>
 				<el-table-column prop="applicants" label="申请人"></el-table-column>
 				<el-table-column prop="respondents" label="被申请人"></el-table-column>
 				<el-table-column prop="forecastJudgeAmt" label="裁决金额"></el-table-column>
@@ -51,11 +55,27 @@
             }}
           </template>
         </el-table-column>
-				<el-table-column prop="operIp" label="操作IP"></el-table-column>
-				<el-table-column prop="courtName" label="法院"></el-table-column>
+				<el-table-column prop="operIp" label="操作IP">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.operIp}}</span>
+          </template>
+        </el-table-column>
+				<el-table-column prop="courtName" label="法院">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.courtName}}</span>
+          </template>
+        </el-table-column>
 				<el-table-column prop="judgeName" label="法官"></el-table-column>
-				<el-table-column prop="cellphone" label="法官手机"></el-table-column>
-				<el-table-column prop="operTime" label="操作时间"></el-table-column>
+				<el-table-column prop="cellphone" label="法官手机">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.cellphone}}</span>
+          </template>
+        </el-table-column>
+				<el-table-column prop="operTime" label="操作时间">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.operTime}}</span>
+          </template>
+        </el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination

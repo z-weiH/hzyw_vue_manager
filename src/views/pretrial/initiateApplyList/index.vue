@@ -139,6 +139,7 @@ export default {
 					property: 'resAddress1',
 					options: rawCitiesData,
 					cusClass: 'c_place',
+					changeOnSelect : true,
 				},
 				{
 					label: '还款情况',

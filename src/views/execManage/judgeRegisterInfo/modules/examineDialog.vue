@@ -171,6 +171,8 @@
 
         // 审核 id
         this.ruleForm.id = data.id;
+        // 当前数据 是否存在法院 id
+        this.isCourtId = !!data.courtId
         // 根据法院 id 回显数据
         if(data.courtId) {
           this.$http({
@@ -199,10 +201,10 @@
         }
         // 回显其他数据
         this.ruleForm.role = data.role || '';
-        this.ruleForm.judgeName = data.judgeName;
-        this.ruleForm.cellphone = data.cellphone;
-        this.ruleForm.landlineTelephone = data.landlineTelephone;
-        this.ruleForm.remark = data.remark;
+        this.ruleForm.judgeName = data.judgeName || '';
+        this.ruleForm.cellphone = data.cellphone || '';
+        this.ruleForm.landlineTelephone = data.landlineTelephone || '';
+        this.ruleForm.remark = data.remark || '';
       },
 
       // 地区 选择完成回调
@@ -243,39 +245,49 @@
       },
       // 点击提交
       handleSubmit(submitType) {
-        this.$refs.ruleForm.validate((valid) => {
-          console.log(this.ruleForm);
+        let submitFn = () => {
+          this.$confirm(`确认${submitType === 1 ? '通过' : '拒绝'}（${this.ruleForm.judgeName}）的注册吗?`, "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            center: true
+          }).then(() => {
+            let cn = this.$refs.cityCascader.getCN();
+            // 提交数据
+            this.submitDisabled = true;
+            let form = {...this.ruleForm};
+            if(submitType === 2 && this.isCourtId === false) {
+              form.courtId = '';
+            }
+            this.$http({
+              method : 'post',
+              url : '/judge/auditing.htm',
+              data : {
+                ...form,
+                province : cn[0],
+                city : cn[1],
+                district : cn[2],
+                courtName : this.$refs.Court.$el.querySelector('input').value,
+                status : submitType,
+              },
+            }).then((res) => {
+              this.$message.success('审核成功');
+              this.handleClose();
+              this.$emit('successCBK');
+            }).catch(() => {
+              this.submitDisabled = false;
+            });
+          }).catch(() => {});
+        };
+
+        if(submitType === 2) {
+          submitFn();
+        }else{
+          this.$refs.ruleForm.validate((valid) => {
           if(valid) {
-            this.$confirm(`确认${submitType === 1 ? '通过' : '拒绝'}（${this.ruleForm.judgeName}）的注册吗?`, "提示", {
-              confirmButtonText: "确定",
-              cancelButtonText: "取消",
-              center: true
-            }).then(() => {
-              let cn = this.$refs.cityCascader.getCN();
-              // 提交数据
-              this.submitDisabled = true;
-              let form = {...this.ruleForm};
-              this.$http({
-                method : 'post',
-                url : '/judge/auditing.htm',
-                data : {
-                  ...form,
-                  province : cn[0],
-                  city : cn[1],
-                  district : cn[2],
-                  courtName : this.$refs.Court.$el.querySelector('input').value,
-                  status : submitType,
-                },
-              }).then((res) => {
-                this.$message.success('审核成功');
-                this.handleClose();
-                this.$emit('successCBK');
-              }).catch(() => {
-                this.submitDisabled = false;
-              });
-            }).catch(() => {});
+            submitFn();
           }
         });
+        }
       },
     },
   }

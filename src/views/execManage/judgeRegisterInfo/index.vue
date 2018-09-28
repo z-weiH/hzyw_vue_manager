@@ -48,12 +48,32 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="courtName" label="法院"></el-table-column>
+				<el-table-column prop="courtName" label="法院">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.courtName}}</span>
+          </template>
+        </el-table-column>
 				<el-table-column prop="judgeName" label="姓名"></el-table-column>
-				<el-table-column prop="cellphone" label="手机号"></el-table-column>
-				<el-table-column prop="landlineTelephone" label="座机号"></el-table-column>
-				<el-table-column prop="submitTime" label="提交时间"></el-table-column>
-				<el-table-column prop="operTime" label="操作时间"></el-table-column>
+				<el-table-column prop="cellphone" label="手机号">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.cellphone}}</span>
+          </template>
+        </el-table-column>
+				<el-table-column prop="landlineTelephone" label="座机号">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.landlineTelephone}}</span>
+          </template>
+        </el-table-column>
+				<el-table-column prop="submitTime" label="提交时间">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.submitTime}}</span>
+          </template>
+        </el-table-column>
+				<el-table-column prop="operTime" label="操作时间">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.operTime}}</span>
+          </template>
+        </el-table-column>
 				<el-table-column prop="userName" label="操作人"></el-table-column>
 				<el-table-column label="状态">
 					<template slot-scope="scope">
