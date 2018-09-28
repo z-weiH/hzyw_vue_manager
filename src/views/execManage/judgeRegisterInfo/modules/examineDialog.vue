@@ -201,10 +201,10 @@
         }
         // 回显其他数据
         this.ruleForm.role = data.role || '';
-        this.ruleForm.judgeName = data.judgeName;
-        this.ruleForm.cellphone = data.cellphone;
-        this.ruleForm.landlineTelephone = data.landlineTelephone;
-        this.ruleForm.remark = data.remark;
+        this.ruleForm.judgeName = data.judgeName || '';
+        this.ruleForm.cellphone = data.cellphone || '';
+        this.ruleForm.landlineTelephone = data.landlineTelephone || '';
+        this.ruleForm.remark = data.remark || '';
       },
 
       // 地区 选择完成回调
