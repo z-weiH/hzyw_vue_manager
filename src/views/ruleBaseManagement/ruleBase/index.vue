@@ -12,37 +12,38 @@
     <div class="content-box">
       <div class="fl m-left">
 
-        <el-menu
-          background-color="#fff"
-          text-color="#7C7C7C"
-          active-text-color="#13367D"
-        >
-          <el-submenu :index="menu.levelId"  v-for="(menu,ii) in treeData" :key="ii">
-            <template slot="title">
-              <div @click="handleNodeClick(menu,true)" ref="firstMenu" :class="{'currentMenu': currentMenu.levelId === menu.levelId}">{{menu.labelName}}</div>
-            </template>
-            <el-menu-item-group v-for="(sub,index) in menu.children" :key="index">
-              <el-submenu :index="sub.levelId">
-                <template slot="title" >
-                  <div @click="handleNodeClick(sub,true)" :class="{'currentMenu': currentMenu.levelId === sub.levelId}">
-                    {{sub.labelName}}
-                  </div>
-                </template>
-                <el-menu-item-group v-for="(group,idx) in sub.children" :key="idx">
-                  <el-submenu :index="group.levelId">
-                    <template slot="title" >
-                      <div @click="handleNodeClick(group,true)" :class="{'currentMenu': currentMenu.levelId === group.levelId}">
-                      {{group.labelName}}
-                      </div>
-                    </template>
-                  <el-menu-item :index="item.levelId" v-for="(item,i) in group.children" :key="i" @click="handleNodeClick(item)" :class="{'currentMenu': currentMenu.levelId === item.levelId}">{{item.labelName}}</el-menu-item>
-                  </el-submenu>
+        <!--<el-menu-->
+          <!--background-color="#fff"-->
+          <!--text-color="#7C7C7C"-->
+          <!--active-text-color="#13367D"-->
+        <!--&gt;-->
+          <!--<el-submenu :index="menu.levelId"  v-for="(menu,ii) in treeData" :key="ii">-->
+            <!--<template slot="title">-->
+              <!--<div @click="handleNodeClick(menu,true)" ref="firstMenu" :class="{'currentMenu': currentMenu.levelId === menu.levelId}">{{menu.labelName}}</div>-->
+            <!--</template>-->
+            <!--<el-menu-item-group v-for="(sub,index) in menu.children" :key="index">-->
+              <!--<el-submenu :index="sub.levelId">-->
+                <!--<template slot="title" >-->
+                  <!--<div @click="handleNodeClick(sub,true)" :class="{'currentMenu': currentMenu.levelId === sub.levelId}">-->
+                    <!--{{sub.labelName}}-->
+                  <!--</div>-->
+                <!--</template>-->
+                <!--<el-menu-item-group v-for="(group,idx) in sub.children" :key="idx">-->
+                  <!--<el-submenu :index="group.levelId">-->
+                    <!--<template slot="title" >-->
+                      <!--<div @click="handleNodeClick(group,true)" :class="{'currentMenu': currentMenu.levelId === group.levelId}">-->
+                      <!--{{group.labelName}}-->
+                      <!--</div>-->
+                    <!--</template>-->
+                  <!--<el-menu-item :index="item.levelId" v-for="(item,i) in group.children" :key="i" @click="handleNodeClick(item)" :class="{'currentMenu': currentMenu.levelId === item.levelId}">{{item.labelName}}</el-menu-item>-->
+                  <!--</el-submenu>-->
 
-                </el-menu-item-group>
-              </el-submenu>
-            </el-menu-item-group>
-          </el-submenu>
-        </el-menu>
+                <!--</el-menu-item-group>-->
+              <!--</el-submenu>-->
+            <!--</el-menu-item-group>-->
+          <!--</el-submenu>-->
+        <!--</el-menu>-->
+        <el-tree node-key="levelId" :data="treeData" :default-expanded-keys="keys" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
       </div>
       <div class="fl m-right" style="height: 100%;">
           <div class="rule_title">
@@ -289,6 +290,8 @@
       return {
 
 
+        //默认展开的规则
+        keys: [],
         //当前规则结果
         ruleRes: '--',
         //控制内容显示
@@ -400,10 +403,10 @@
       // this.startDate = year + '-' + month + '-' + day;
       //
       console.log(this.startDate);
-      setTimeout(() => {
-        console.log(this.$refs,this.$refs.firstMenu);
-        this.$refs.firstMenu[0].click();
-      },1000)
+      // setTimeout(() => {
+      //   console.log(this.$refs,this.$refs.firstMenu);
+      //   this.$refs.firstMenu[0].click();
+      // },1000)
 
 
     },
@@ -799,13 +802,13 @@
         this.pager.pageSize = val;
         this.handleNodeClick(this.currentMenu);
       },
-      handleNodeClick(item,flag){
+      handleNodeClick(item){
         let obj = Object.assign({},item);
         obj.children = null;
         this.currentMenu = obj;
         this.currentRule = obj.labelName;
 
-        if(flag){
+        if(item.ruleLevel != 4){
           this.contentFlag = false;
           this.$http.post("/rule/queryRuleNumberByLevelIdAndRuleLevel.htm",item).then(res => {
             console.log(res);
@@ -875,6 +878,7 @@
           // this.deleteProperty([res.result],"children");
           this.treeData = [res.result];
           this.deleteProperty(this.treeData,"children");
+            this.keys = [this.treeData[0].levelId];
           // this.treeData = res.result;
 
           console.log(this.treeData)
@@ -932,7 +936,7 @@
     overflow-y: auto;
     z-index:999;
     width: 300px;
-    height: 130px;
+    height: 210px;
     border: 1px solid #dcdfe6;
     position: absolute;
     background: #fff;
