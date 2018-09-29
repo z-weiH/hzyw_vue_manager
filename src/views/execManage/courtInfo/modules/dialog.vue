@@ -36,7 +36,7 @@
 					</el-form-item>
 
           <el-form-item label="电话：" prop="courtPhone">
-						<el-input style="width:400px;" v-model.trim="ruleForm.courtPhone" placeholder="请输入"></el-input>
+						<el-input style="width:400px;" type="number" v-model.trim="ruleForm.courtPhone" placeholder="请输入"></el-input>
 					</el-form-item>
 
         </el-form>
@@ -52,7 +52,6 @@
 
 <script>
   import cityCascader from '@/components/cityCascader.vue'
-  import regexp from '@/assets/js/regexp'
   export default {
     components : {
       cityCascader,
@@ -105,7 +104,6 @@
           ],
           courtPhone : [
             {required : true , message : '请输入电话' , trigger : 'blur'},
-            {pattern : regexp.telOrPhone, message : '格式有误' , trigger : 'blur'},
           ],
         },
         type : '',
