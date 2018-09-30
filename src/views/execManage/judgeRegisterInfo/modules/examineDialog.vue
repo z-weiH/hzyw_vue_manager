@@ -207,6 +207,7 @@
         this.ruleForm.cellphone = data.cellphone || '';
         this.ruleForm.landlineTelephone = data.landlineTelephone || '';
         this.ruleForm.remark = data.remark || '';
+        this.ruleForm.courtAddress = data.courtAddress || '';
       },
 
       // 地区 选择完成回调
