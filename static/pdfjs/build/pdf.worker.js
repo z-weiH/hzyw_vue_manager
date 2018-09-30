@@ -27826,7 +27826,7 @@ var WidgetAnnotation = function WidgetAnnotationClosure() {
     }
     data.readOnly = this.hasFieldFlag(_util.AnnotationFieldFlag.READONLY);
     if (data.fieldType === 'Sig') {
-      this.setFlags(_util.AnnotationFlag.HIDDEN);
+      // this.setFlags(_util.AnnotationFlag.HIDDEN);
     }
   }
   _util.Util.inherit(WidgetAnnotation, Annotation, {

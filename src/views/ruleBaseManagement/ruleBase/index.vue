@@ -131,11 +131,12 @@
 
 
         <el-form-item label="机审规则：" prop="ruleInfo">
-          <el-input type="textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @kep.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
+          <el-input type="textarea" class="rule_textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @kep.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
           <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:24px;" v-html="ruleInfo_html" ></div>
-          <ul class="textarea_select" v-if="showSelect" ref="textarea_select">
-            <li v-for="(name,index) in ruleNames" :key="index" :class="{'active': index == ruleIndex}">{{name}}</li>
-          </ul>
+          <!--<ul class="textarea_select" v-if="showSelect" ref="textarea_select">-->
+            <!--<li v-for="(name,index) in ruleNames" :key="index" :class="{'active': index == ruleIndex}">{{name}}</li>-->
+          <!--</ul>-->
+          <button class="showPdf_btn"  v-if="showSelect"  ref="textarea_select" @click="pdfFlagChange">获取字段</button>
           <div class="rightBtns" >
             <el-button size="mini" @click="handleAvriable">查看参数</el-button>
 
@@ -261,7 +262,7 @@
       </div>
     </el-dialog>
 
-
+    <pdfSelector ref="pdfSelector" ></pdfSelector>
 
     <executeResult ref="executeResult" :exeId="exeId"></executeResult>
 
@@ -289,6 +290,10 @@
     },
     data() {
       return {
+
+
+        //pdf获取字段的方法
+        pdfFuctionName: ['getNumTypeContent','getContent'],
 
         //控制鼠标连点
         disabled: false,
@@ -483,44 +488,84 @@
           document.removeEventListener("keydown",this.InputHelper);
         }
       },
-      // 'form.ruleInfo'(val,oldVal){
-      //   //规则输入的交互逻辑
-      //   if(val){
-      //     if(val.indexOf("$") == -1 && this.showSelect){
-      //       this.showSelect = false;
-      //     }
-      //     if(this.showSelect){
-      //       let index = val.lastIndexOf("$");
-      //       let find = val.substr(index+1);
-      //       this.ruleNames = this.allNames.filter(it => it.indexOf(find) != -1);
-      //       this.ruleIndex = 0;
-      //     }
-      //     if(val[val.length - 1] === '$'){
-      //       let str = val;
-      //       this.ruleInfo_html = str.substr(0,val.length -1 ).replace(/\n/g,'<br/>') + "<span>$</span>";
-      //       !this.showSelect && (this.showSelect = true);
-      //       this.$nextTick(() => {
-      //         let elms = this.$refs.textarea_warpar.querySelectorAll('span');
-      //         let elm = elms[elms.length - 1];
-      //         this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
-      //         this.$refs.textarea_select.style.top = elm.offsetTop+12 + 'px';
-      //       });
-      //
-      //     }else{
-      //       this.ruleInfo_html = val;
-      //       console.log(this.ruleInfo_html.indexOf('\n'))
-      //       this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>');
-      //       console.log(this.ruleInfo_html);
-      //     }
-      //   }else{
-      //     this.showSelect = false;
-      //   }
-      //
-      //
-      //
-      // }
+      'form.ruleInfo'(val,oldVal){
+        //规则输入的交互逻辑
+        this.ruleInfo_html = val;
+        console.log(this.ruleInfo_html.indexOf('\n'))
+        this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>');
+        console.log(this.ruleInfo_html);
+        if(val){
+          if(val[val.length -1] === ','){
+            console.error(',出现');
+            let strcopy = val.replace(/\s+/g, "");
+            let type = -1;
+            let idx = strcopy.lastIndexOf('(');
+            if(strcopy.substring(strcopy.length -19) === 'getNumTypeContent(,'){
+              type = 0;
+            }else if(strcopy.substring(strcopy.length -12) === 'getContent(,'){
+              type = 1;
+            }
+            if(type != -1){
+              this.ruleInfo_html += "<span style='font-size: 10px;padding: 2px 3px;'>获取字段</span>"
+              this.showSelect = true;
+                  this.$nextTick(() => {
+                    let elms = this.$refs.textarea_warpar.querySelectorAll('span');
+                    let elm = elms[elms.length - 1];
+                    this.$refs.textarea_select.style.left = elm.offsetLeft + 'px';
+                    this.$refs.textarea_select.style.top = elm.offsetTop + 'px';
+                  });
+            }
+          }else{
+            this.showSelect && (this.showSelect = false);
+          }
+        }
+        //   if(val.indexOf("$") == -1 && this.showSelect){
+        //     this.showSelect = false;
+        //   }
+        //   if(this.showSelect){
+        //     let index = val.lastIndexOf("$");
+        //     let find = val.substr(index+1);
+        //     this.ruleNames = this.allNames.filter(it => it.indexOf(find) != -1);
+        //     this.ruleIndex = 0;
+        //   }
+        //   if(val[val.length - 1] === '$'){
+        //     let str = val;
+        //     this.ruleInfo_html = str.substr(0,val.length -1 ).replace(/\n/g,'<br/>') + "<span>$</span>";
+        //     !this.showSelect && (this.showSelect = true);
+        //     this.$nextTick(() => {
+        //       let elms = this.$refs.textarea_warpar.querySelectorAll('span');
+        //       let elm = elms[elms.length - 1];
+        //       this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
+        //       this.$refs.textarea_select.style.top = elm.offsetTop+12 + 'px';
+        //     });
+        //
+        //   }else{
+        //     this.ruleInfo_html = val;
+        //     console.log(this.ruleInfo_html.indexOf('\n'))
+        //     this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>');
+        //     console.log(this.ruleInfo_html);
+        //   }
+        // }else{
+        //   this.showSelect = false;
+        // }
+
+
+
+      }
     },
     methods : {
+
+
+
+      //pdf展开
+      pdfFlagChange(){
+        let idx = this.form.ruleInfo.lastIndexOf('(');
+        let pdfParam = this.form.ruleInfo.substring(idx+1,this.form.ruleInfo.length -1).trim();
+        this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: pdfParam});
+
+      },
+
+
       //案件样例
       showCaseSample(){
         this.$refs.caseSampleDialog.show();
@@ -709,12 +754,13 @@
         this.executeflag = true;
         //执行选择参数初始化
         this.selectLevel={}; //选中层级
-        let myDate = new Date();
-        let year = myDate.getFullYear();
-        let month = myDate.getMonth() + 1 >= 10 ? myDate.getMonth() + 1 : '0' + (myDate.getMonth() + 1);
-        let day = myDate.getDate() >= 10 ? myDate.getDate() : '0' + myDate.getDate();
-        this.startDate=year + '-' + month + '-' + day;//开始时间
+        // let myDate = new Date();
+        // let year = myDate.getFullYear();
+        // let month = myDate.getMonth() + 1 >= 10 ? myDate.getMonth() + 1 : '0' + (myDate.getMonth() + 1);
+        // let day = myDate.getDate() >= 10 ? myDate.getDate() : '0' + myDate.getDate();
+        // this.startDate=year + '-' + month + '-' + day;//开始时间
 
+        this.startDate='';//结束时间
         this.endDate='';//结束时间
         this.ruleIdList = [];
         this.castNum = '--';
@@ -935,6 +981,18 @@
 <style lang="scss" scoped>
 
 
+  .showPdf_btn{
+    font-size: 10px;
+    padding: 2px 3px;
+    background: #66CC33;
+    color: #fff;
+    border-radius: 5px;
+    position: absolute;
+    outline: none;
+    border: none;
+    line-height: 14px;
+    cursor: pointer;
+  }
   .mark{
     font-size: 12px;
     padding: 2px 3px;

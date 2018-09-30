@@ -5,6 +5,10 @@
 
 /* end */
 
+@font-face{
+  font-family: 'YaHei Consolas Hybrid';
+  src : url('../../font/consola.ttf');
+}
 body {
     // 清除浮动
     .clear {
@@ -81,6 +85,9 @@ body {
     }
     .mr-30 {
         margin-right: 30px;
+    }
+    .mr-35 {
+        margin-right: 35px;
     }
     .mb-30 {
         margin-bottom: 30px;
@@ -578,4 +585,8 @@ input.el-input__inner {
     height: 40px;
     font-size: 16px;
   }
+}
+.rule_textarea textarea{
+  font-family: YaHei Consolas Hybrid;
+  font-style: italic;
 }
