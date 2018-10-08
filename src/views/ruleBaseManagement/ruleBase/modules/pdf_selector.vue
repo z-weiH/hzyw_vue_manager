@@ -26,7 +26,7 @@
         </div>
         <div class="mt-20" >
           <div class="button" style="text-align: center;">
-            <el-button  class="mr-35">确 定</el-button>
+            <el-button  class="mr-35" @click="submitRes">确 定</el-button>
             <el-button  class="mr-35" @click="refresh">重新选择</el-button>
             <el-button @click="pdfFlag = false;">取 消</el-button>
           </div>
@@ -96,7 +96,8 @@ export default {
         width: '',
         height: '',
         pdfUrl: '',
-        scale: 1.3
+        scale: 1.3,
+        type: 0,
       }
   },
   components:{
@@ -110,23 +111,40 @@ export default {
     PDFJS.cMapPacked = true;
   },
   methods:{
+    //確定提交結果
+    submitRes(){
+      this.pdfFlag = false;
+      this.$parent.refreshRuleInfo(this.pdfRange);
+    },
     getRangeValue(){
       let arr = [];
       if(this.showEditor1){
-        arr.push({coordinates:`${this.pageNum -1},${this.$refs.edit1.getResult().substring(1,this.$refs.edit1.getResult().length-1)}`});
+        arr.push({coordinates:`${this.$refs.edit1.getResult().substring(1,this.$refs.edit1.getResult().length-1)}`});
       }
       if(this.showEditor2){
-        arr.push({coordinates:`${this.pageNum -1},${this.$refs.edit2.getResult().substring(1,this.$refs.edit2.getResult().length-1)}`});
+        arr.push({coordinates:`${this.$refs.edit2.getResult().substring(1,this.$refs.edit2.getResult().length-1)}`});
       }
-      this.$http.post("/ruleBase/queryPdfCoordinates.htm",{type: 1,pdfUrl: this.pdfUrl,list:arr},{mheaders: true}).then(res => {
+      this.$http.post("/ruleBase/queryPdfCoordinates.htm",{type: this.type,pdfUrl: this.pdfUrl,list:arr},{mheaders: true}).then(res => {
         console.log(res);
         if(res.code === '0000'){
-          this.pdfValue = res.result.coordinates;
+
+          let value = '';
+          res.result.forEach( it => {
+            if(this.type === 0){
+              if(it.numCoordinates != null)
+                value += it.numCoordinates;
+            }else{
+              if(it.coordinates != null)
+                value += it.coordinates;
+            }
+          })
+          this.pdfValue = value;
         }
       } )
     },
 
     show(item){
+      this.type = item.type;
       this.$http.post("/ruleBase/queryPdfUrlAndWithHigh.htm",item).then(res => {
         if(res.code === "0000"){
           this.pdfFlag = true;

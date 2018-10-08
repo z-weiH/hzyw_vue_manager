@@ -291,6 +291,8 @@
     data() {
       return {
 
+        //規則類型
+        ruleType: 0,
 
         //pdf获取字段的方法
         pdfFuctionName: ['getNumTypeContent','getContent'],
@@ -504,11 +506,12 @@
             if(idx1 != -1 && new RegExp("^getNumTypeContent\\([A-Z_0-9]+,$").test(strcopy.substring(idx1))){
               type = 0;
             }
-            else if(idx2 != -1 && new RegExp("^getContent\\([A-Z_0-9]+,$").test(strcopy.substring(idx1))){
+            else if(idx2 != -1 && new RegExp("^getContent\\([A-Z_0-9]+,$").test(strcopy.substring(idx2))){
               type = 1;
             }
             if(type != -1){
-              this.ruleInfo_html += `<span  style='font-size: 10px;padding: 2px 3px;'>获取字段</span>`
+              this.ruleType = type;
+              this.ruleInfo_html += `<span style='font-size: 10px;padding: 2px 3px;'>获取字段</span>`
               this.showSelect = true;
                   this.$nextTick(() => {
                     let elms = this.$refs.textarea_warpar.querySelectorAll('span');
@@ -558,12 +561,30 @@
     methods : {
 
 
+      refreshRuleInfo(val) {
+        let idx = val.indexOf('],');
+        if(idx != -1){
+          if(this.ruleType === 0){
+            let idx1 = this.form.ruleInfo.lastIndexOf('getNumTypeContent');
+            let affix = this.form.ruleInfo.substr(idx1);
+            this.form.ruleInfo += val.substring(1,idx) + ')' + '+' + affix+ val.substring(idx+3,val.length -1) + ')';
+          }else{
+            let idx1 = this.form.ruleInfo.lastIndexOf('getContent');
+            let affix = this.form.ruleInfo.substr(idx1);
+            this.form.ruleInfo += val.substring(1,idx) + ')' + '+' +affix+ val.substring(idx+3,val.length - 1) + ')';
+          }
+        }else{
+          this.form.ruleInfo += val.substring(1,val.length - 1) + ')';
+        }
+        this.$refs.textarea_rule.focus();
+      },
 
       //pdf展开
       pdfFlagChange(){
+        console.error(this.ruleType);
         let idx = this.form.ruleInfo.lastIndexOf('(');
         let pdfParam = this.form.ruleInfo.substring(idx+1,this.form.ruleInfo.length -1).trim();
-        this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: pdfParam});
+        this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: pdfParam, type: this.ruleType});
 
       },
 

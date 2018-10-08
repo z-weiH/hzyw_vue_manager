@@ -71,7 +71,9 @@
           }
           // this.$refs.innerNice.style.cursor = 'default';
           this.$parent.clacResult();
-          this.$refs.innerNice.onmousemove = null;
+          this.$nextTick( () => {
+            this.$refs.innerNice.onmousemove = null;
+          })
 
         },
 
@@ -138,7 +140,6 @@
             var y = e.pageY - this.$refs.testDiv.offsetTop;//获得鼠标指针离DIV元素上边界的距离
             this.$refs.innerNice.onmousemove=(ev) =>//绑定鼠标的移动事件，因为光标在DIV元素外面也要有效果，所以要用doucment的事件，而不用DIV元素的事件
             {
-              console.error("innerMove");
               ev.stopPropagation();
               let h=this.$refs.testDiv.offsetHeight;
               let w=this.$refs.testDiv.offsetWidth;
@@ -156,7 +157,7 @@
           }
         },
         getResult(){
-          return '['+ this.calcScale(this.$refs.testDiv.style.left.substring(0,this.$refs.testDiv.style.left.length-2)) + ',' + this.calcScale(this.$refs.testDiv.style.top.substring(0,this.$refs.testDiv.style.top.length -2))+ ',' +this.calcScale(this.$refs.testDiv.offsetWidth)+ ',' +this.calcScale(this.$refs.testDiv.offsetHeight) + ']';
+          return '['+ (this.$parent.pageNum -1) + ',' + this.calcScale(this.$refs.testDiv.style.left.substring(0,this.$refs.testDiv.style.left.length-2)) + ',' + this.calcScale(this.$refs.testDiv.style.top.substring(0,this.$refs.testDiv.style.top.length -2))+ ',' +this.calcScale(this.$refs.testDiv.offsetWidth)+ ',' +this.calcScale(this.$refs.testDiv.offsetHeight) + ']';
         },
         setTopLeft(left,top){
           this.$refs.testDiv.style.top = top + 'px';
