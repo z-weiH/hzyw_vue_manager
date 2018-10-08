@@ -496,7 +496,7 @@
         console.log(this.ruleInfo_html);
         if(val){
           if(val[val.length -1] === ','){
-            console.error(',出现');
+            // console.error(',出现');
             let strcopy = val.replace(/\s+/g, "");
             let type = -1;
             let idx1 = strcopy.lastIndexOf('getNumTypeContent(');
@@ -508,7 +508,7 @@
               type = 1;
             }
             if(type != -1){
-              this.ruleInfo_html += "<span style='font-size: 10px;padding: 2px 3px;'>获取字段</span>"
+              this.ruleInfo_html += `<span  style='font-size: 10px;padding: 2px 3px;'>获取字段</span>`
               this.showSelect = true;
                   this.$nextTick(() => {
                     let elms = this.$refs.textarea_warpar.querySelectorAll('span');

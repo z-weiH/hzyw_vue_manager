@@ -53,7 +53,7 @@
           <!--<pdf ref="pdf" style="width:595.3px;" src="../../../../../static/借款协议.pdf"-->
           <!--@num-pages="pageCount = $event"-->
           <!--&gt;</pdf>-->
-          <canvas ref="canvas" id="the-canvas" :style="{'width': width}"></canvas>
+          <canvas ref="canvas" id="the-canvas" :style="{'width': width,'height': height}"></canvas>
           <!--<div class="resizeMe" id="testDiv" ref="testDiv">-->
             <!--<div id="innerNice" ref="innerNice">-->
 
@@ -94,7 +94,9 @@ export default {
         scale: 0.9,
         numpages: 0,
         width: '',
+        height: '',
         pdfUrl: '',
+        scale: 1.3
       }
   },
   components:{
@@ -133,9 +135,11 @@ export default {
           this.pdfRange = this.pdfValue = '';
           // this.showPDF("http://filetest.arbexpress.cn/150217103521/15325763740/1533178221498/C1ABFA9D87A9A00497018676957F924F0.pdf");
           this.pdfUrl= res.result.pdfUrl;
-          this.width = res.result.width + 'px';
+          this.width = res.result.width * this.scale  + 'px';
+          this.height = res.result.height * this.scale  + 'px';
           this.$nextTick(() => {
-            document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
+            // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
+            document.querySelector("#canvas").onmousedown = (e) => { this.doDown(e)};
           })
 
         }
@@ -226,7 +230,6 @@ export default {
           this.$refs.edit1.init();
           this.$refs.edit1.setTopLeft(e.offsetX,e.offsetY);
           document.querySelector("#canvas").onmousemove=(el) => {
-            el.stopPropagation();
 
             this.$refs.edit1.setWH(el.offsetX -e.offsetX,el.offsetY -e.offsetY);
           }
@@ -234,6 +237,7 @@ export default {
             // e.stopPropagation();
             this.clacResult();
             document.querySelector("#canvas").onmousemove = null;
+            document.querySelector("#canvas").onmouseup = null;
           }
         })
       }else if(!this.showEditor2){
@@ -244,7 +248,6 @@ export default {
           this.$refs.edit2.init();
           this.$refs.edit2.setTopLeft(e.offsetX,e.offsetY);
           document.querySelector("#canvas").onmousemove=(el) => {
-            el.stopPropagation();
 
             this.$refs.edit2.setWH(el.offsetX -e.offsetX,el.offsetY -e.offsetY);
           }
@@ -252,6 +255,7 @@ export default {
             // e.stopPropagation();
             this.clacResult();
             document.querySelector("#canvas").onmousemove = null;
+            document.querySelector("#canvas").onmouseup = null;
           }
         })
       }else{
@@ -261,7 +265,8 @@ export default {
     refresh(){
       this.showEditor1 = this.showEditor2 = false;
       this.pdfRange ='';
-    }
+    },
+
 
 
 
@@ -280,7 +285,7 @@ export default {
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
+    min-height: 100vh;
     background: #5C5C5C;
     z-index: 99999;
     .pdf_warpper{

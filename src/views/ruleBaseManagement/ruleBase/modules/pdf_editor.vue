@@ -29,14 +29,16 @@
         },
 
         doDown(e) {
-          console.log("down");
+
 
           var el = this.getReal(event.srcElement, "className", "resizeMe");
 
 
+          console.log(el);
 
           if (el == null) {
             this.theobject = null;
+
             return;
           }
 
@@ -63,14 +65,14 @@
         },
 
         doUp(e) {
-          console.log("up");
 
           if (this.theobject != null) {
             this.theobject = null;
           }
           // this.$refs.innerNice.style.cursor = 'default';
-          this.$refs.innerNice.onmousemove=null;
           this.$parent.clacResult();
+          this.$refs.innerNice.onmousemove = null;
+
         },
 
         doMove(e) {
@@ -83,8 +85,9 @@
           if (el.className == "resizeMe") {
             str = this.getDirection(el,e);
 
+
             //Fix the cursor
-            if (str == "") str = "default";
+            if (!str) str = "move";
             else str += "-resize";
             el.style.cursor = str;
 
@@ -129,13 +132,13 @@
           document.addEventListener('mouseup',(e)=>{this.doUp(e)});
           document.addEventListener('mousemove',(e)=>{this.doMove(e)});
           this.$refs.innerNice.onmousedown=(e) => {
-            console.log('innerMousedown')
             e.stopPropagation();
             this.$refs.innerNice.style.cursor='move';
             var x = e.pageX - this.$refs.testDiv.offsetLeft;//获得鼠标指针离DIV元素左边界的距离
             var y = e.pageY - this.$refs.testDiv.offsetTop;//获得鼠标指针离DIV元素上边界的距离
             this.$refs.innerNice.onmousemove=(ev) =>//绑定鼠标的移动事件，因为光标在DIV元素外面也要有效果，所以要用doucment的事件，而不用DIV元素的事件
             {
+              console.error("innerMove");
               ev.stopPropagation();
               let h=this.$refs.testDiv.offsetHeight;
               let w=this.$refs.testDiv.offsetWidth;
@@ -153,17 +156,18 @@
           }
         },
         getResult(){
-          // console.log(this.$refs.testDiv.style.left,this.$refs.testDiv.style.top,this.$refs.testDiv.offsetWidth,this.$refs.testDiv.offsetHeight,);
-          return '['+ this.$refs.testDiv.style.left.substring(0,this.$refs.testDiv.style.left.length-2) + ',' + this.$refs.testDiv.style.top.substring(0,this.$refs.testDiv.style.top.length -2)+ ',' +this.$refs.testDiv.offsetWidth+ ',' +this.$refs.testDiv.offsetHeight + ']';
+          return '['+ this.calcScale(this.$refs.testDiv.style.left.substring(0,this.$refs.testDiv.style.left.length-2)) + ',' + this.calcScale(this.$refs.testDiv.style.top.substring(0,this.$refs.testDiv.style.top.length -2))+ ',' +this.calcScale(this.$refs.testDiv.offsetWidth)+ ',' +this.calcScale(this.$refs.testDiv.offsetHeight) + ']';
         },
         setTopLeft(left,top){
-          console.log(left,top);
           this.$refs.testDiv.style.top = top + 'px';
           this.$refs.testDiv.style.left = left + 'px';
         },
         setWH(width,height){
           this.$refs.testDiv.style.width = width + 'px';
           this.$refs.testDiv.style.height = height + 'px';
+        },
+        calcScale(num){
+          return (num/this.$parent.scale).toFixed(0);
         }
       },
       mounted() {
