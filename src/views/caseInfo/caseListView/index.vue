@@ -254,6 +254,10 @@ export default {
 					label: '申请人',
 					property: 'applicants',
 					width: 100,
+					isLink: true,
+					linkShowPanel: (item) => {
+						item.caseNoticeUrl && window.open(item.caseNoticeUrl,'_blank');
+					},
 				},
 				{
 					label: '被申请人',
