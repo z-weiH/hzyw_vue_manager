@@ -68,7 +68,7 @@
           if (this.theobject != null) {
             this.theobject = null;
           }
-          this.$refs.innerNice.style.cursor = 'default';
+          // this.$refs.innerNice.style.cursor = 'default';
           this.$refs.innerNice.onmousemove=null;
           this.$parent.clacResult();
         },

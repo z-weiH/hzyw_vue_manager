@@ -119,7 +119,7 @@ export default {
       this.$http.post("/ruleBase/queryPdfCoordinates.htm",{type: 1,pdfUrl: this.pdfUrl,list:arr},{mheaders: true}).then(res => {
         console.log(res);
         if(res.code === '0000'){
-          this.pdfValue = res.result.numCoordinates;
+          this.pdfValue = res.result.coordinates;
         }
       } )
     },
@@ -129,6 +129,8 @@ export default {
         if(res.code === "0000"){
           this.pdfFlag = true;
           this.showPDF(res.result.pdfUrl);
+          this.showEditor1 = this.showEditor2 = false;
+          this.pdfRange = this.pdfValue = '';
           // this.showPDF("http://filetest.arbexpress.cn/150217103521/15325763740/1533178221498/C1ABFA9D87A9A00497018676957F924F0.pdf");
           this.pdfUrl= res.result.pdfUrl;
           this.width = res.result.width + 'px';
@@ -199,7 +201,7 @@ export default {
 
 
     clacResult(){
-      console.error("clacResult");
+      // console.error("clacResult");
       let res = '';
       if(this.showEditor1){
         res += this.$refs.edit1.getResult() + ',';
@@ -229,7 +231,7 @@ export default {
             this.$refs.edit1.setWH(el.offsetX -e.offsetX,el.offsetY -e.offsetY);
           }
           document.querySelector("#canvas").onmouseup = (e) => {
-            e.stopPropagation();
+            // e.stopPropagation();
             this.clacResult();
             document.querySelector("#canvas").onmousemove = null;
           }
@@ -247,7 +249,7 @@ export default {
             this.$refs.edit2.setWH(el.offsetX -e.offsetX,el.offsetY -e.offsetY);
           }
           document.querySelector("#canvas").onmouseup = (e) => {
-            e.stopPropagation();
+            // e.stopPropagation();
             this.clacResult();
             document.querySelector("#canvas").onmousemove = null;
           }

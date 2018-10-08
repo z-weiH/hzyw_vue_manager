@@ -499,10 +499,12 @@
             console.error(',出现');
             let strcopy = val.replace(/\s+/g, "");
             let type = -1;
-            let idx = strcopy.lastIndexOf('(');
-            if(strcopy.substring(strcopy.length -19) === 'getNumTypeContent(,'){
+            let idx1 = strcopy.lastIndexOf('getNumTypeContent(');
+            let idx2 = strcopy.lastIndexOf('getContent(');
+            if(idx1 != -1 && new RegExp("^getNumTypeContent\\([A-Z_0-9]+,$").test(strcopy.substring(idx1))){
               type = 0;
-            }else if(strcopy.substring(strcopy.length -12) === 'getContent(,'){
+            }
+            else if(idx2 != -1 && new RegExp("^getContent\\([A-Z_0-9]+,$").test(strcopy.substring(idx1))){
               type = 1;
             }
             if(type != -1){
@@ -511,7 +513,7 @@
                   this.$nextTick(() => {
                     let elms = this.$refs.textarea_warpar.querySelectorAll('span');
                     let elm = elms[elms.length - 1];
-                    this.$refs.textarea_select.style.left = elm.offsetLeft + 'px';
+                    this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
                     this.$refs.textarea_select.style.top = elm.offsetTop + 'px';
                   });
             }
