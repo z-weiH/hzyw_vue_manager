@@ -624,7 +624,7 @@ let router = new Router({
         {
           path: 'crRefundApplication',
           component: () =>
-            import ('@/views/finance/crRefundApplication'), // 案件仲卷退款申请
+            import ('@/views/finance/crRefundApplication'), // 案件仲券退款申请
           meta: {
             name: 'crRefundApplication',
           },
@@ -632,7 +632,7 @@ let router = new Router({
         {
           path: 'crRefundAudit',
           component: () =>
-            import ('@/views/finance/crRefundAudit'), // 案件仲卷退款审核
+            import ('@/views/finance/crRefundAudit'), // 案件仲券退款审核
           meta: {
             name: 'crRefundAudit',
           },
@@ -640,7 +640,7 @@ let router = new Router({
         {
           path: 'crRefundView',
           component: () =>
-            import ('@/views/finance/crRefundView'), // 案件仲卷退款查看
+            import ('@/views/finance/crRefundView'), // 案件仲券退款查看
           meta: {
             name: 'crRefundView',
           },

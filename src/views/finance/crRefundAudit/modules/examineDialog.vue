@@ -1,7 +1,7 @@
 <template>
   <div class="cr-refund-audit-examine-dialog">
     <el-dialog
-      title="案件仲卷退款审核"
+      title="案件仲券退款审核"
       :visible.sync="dialogVisible"
       width="580px"
       @close="handleClose"

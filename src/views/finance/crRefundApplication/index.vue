@@ -2,7 +2,7 @@
 	<div class="cr-refund-application-box">
     <div class="wsbodyhead">
       <a>所在位置</a>
-      <a href="javascript:;" class="aside_tit">案件仲卷退款申请</a>
+      <a href="javascript:;" class="aside_tit">案件仲券退款申请</a>
     </div>
 
 		<div class="item-search">
