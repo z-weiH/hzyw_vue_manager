@@ -52,6 +52,11 @@
             <span v-ellipsis.20>{{scope.row.submitTime}}</span>
           </template>
         </el-table-column>
+        <el-table-column prop="caseStatusWz" label="案件状态">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.caseStatusWz}}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="操作" width="130px">
           <template slot-scope="scope">
             <el-button v-if="scope.row.isRefund === 0" @click="handleRefundApplication(scope.row)" type="text">退券申请</el-button>
@@ -99,7 +104,7 @@
 				// 表格数据
         tableData : [],
         // 数据总数
-        total : 11,
+        total : 0,
         // 当前页数
         currentPage : 1,
         // 每页数量
