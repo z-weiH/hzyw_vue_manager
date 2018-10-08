@@ -2,7 +2,7 @@
 	<div class="cr-refund-application-box">
     <div class="wsbodyhead">
       <a>所在位置</a>
-      <a href="javascript:;" class="aside_tit">案件仲卷退款申请</a>
+      <a href="javascript:;" class="aside_tit">案件仲券退款申请</a>
     </div>
 
 		<div class="item-search">
@@ -108,7 +108,7 @@
 			}
     },
     mounted() {
-      this.initTableList();
+      //this.initTableList();
 
       // 获取所有 客户
       this.$http({
@@ -121,6 +121,10 @@
 		methods : {
 			// 点击搜索
 			handleSearch() {
+        if(!this.ruleForm.keyWords && !this.ruleForm.clientCode) {
+          this.$message.warning('请输入关键字、或者选择客户进行查询');
+          return;
+        }
 				this.currentPage = 1;
         this.initTableList();
       },
