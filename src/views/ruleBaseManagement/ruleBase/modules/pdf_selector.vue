@@ -26,8 +26,8 @@
         </div>
         <div class="mt-20" >
           <div class="button" style="text-align: center;">
-            <el-button  class="mr-35" @click="submitRes">确 定</el-button>
-            <el-button  class="mr-35" @click="refresh">重新选择</el-button>
+            <el-button  class="mr-35" @click="submitRes($event)">确 定</el-button>
+            <el-button  class="mr-35" @click="refresh($event)">重新选择</el-button>
             <el-button @click="pdfFlag = false;">取 消</el-button>
           </div>
         </div>
@@ -113,7 +113,8 @@ export default {
   },
   methods:{
     //確定提交結果
-    submitRes(){
+    submitRes(e){
+      e.stopPropagation();
       this.pdfFlag = false;
       this.$parent.refreshRuleInfo(this.pdfRange);
     },
@@ -224,7 +225,6 @@ export default {
 
 
     clacResult(){
-      // console.error("clacResult");
       let res = '';
       if(this.showEditor1){
         res += this.$refs.edit1.getResult() + ',';
@@ -261,7 +261,6 @@ export default {
         })
       }else if(!this.showEditor2){
         this.showEditor2 = true;
-        console.error(this.showEditor1, this.showEditor2);
 
         this.$nextTick(() => {
           this.$refs.edit2.init();
@@ -281,9 +280,11 @@ export default {
         return ;
       }
     },
-    refresh(){
+    refresh(e){
       this.showEditor1 = this.showEditor2 = false;
-      this.pdfRange ='';
+      this.$nextTick(() => {
+        this.pdfRange = this.pdfValue = '';
+      })
     },
 
 

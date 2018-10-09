@@ -70,10 +70,10 @@
             this.theobject = null;
           }
           // this.$refs.innerNice.style.cursor = 'default';
-          this.$parent.clacResult();
-          this.$nextTick( () => {
-            this.$refs.innerNice.onmousemove = null;
-          })
+          this.$refs.innerNice.onmousemove = null;
+          if(e.target.nodeName != 'BUTTON'){
+            this.$parent.clacResult();
+          }
 
         },
 
@@ -130,9 +130,9 @@
         },
         init(){
           this.$refs.testDiv.style.border= '1px solid red';
-          this.$refs.testDiv.addEventListener('mousedown',(e)=>{this.doDown(e)});
-          document.addEventListener('mouseup',(e)=>{this.doUp(e)});
-          document.addEventListener('mousemove',(e)=>{this.doMove(e)});
+          this.$refs.testDiv.onmousedown = (e)=>{this.doDown(e)};
+          document.onmouseup = (e)=>{this.doUp(e)};
+          document.onmousemove = (e)=>{this.doMove(e)};
           this.$refs.innerNice.onmousedown=(e) => {
             e.stopPropagation();
             this.$refs.innerNice.style.cursor='move';
@@ -173,6 +173,13 @@
       },
       mounted() {
         // this.init();
+      },
+      beforeDestroy() {
+        console.error("beforeDestroy");
+        this.$refs.testDiv.onmousedown = null;
+        document.onmouseup = null;
+        document.onmousemove = null;
+        this.$refs.innerNice.onmousedown = null;
       }
     }
 </script>
