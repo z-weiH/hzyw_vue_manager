@@ -40,6 +40,8 @@
                   <el-dropdown-item :command="12">事实与理由-结束</el-dropdown-item>
                   <el-dropdown-item :command="13">仲裁请求-开始</el-dropdown-item>
                   <el-dropdown-item :command="14">仲裁请求-结束</el-dropdown-item>
+                  <el-dropdown-item :command="15">表格-开始</el-dropdown-item>
+                  <el-dropdown-item :command="16">表格-结束</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
               
@@ -211,6 +213,10 @@
           message = '<span class="asdf">startRequest</span>';
         }else if(type === 14) {
           message = '<span class="asdf">endRequest</span>';
+        }else if(type === 15) {
+          message = '<span class="asdf">startTable</span>';
+        }else if(type === 16) {
+          message = '<span class="asdf">endTable</span>';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
