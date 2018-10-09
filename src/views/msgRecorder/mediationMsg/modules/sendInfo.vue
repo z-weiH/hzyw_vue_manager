@@ -47,6 +47,35 @@
               <el-button type="primary" @click="showConfirm(2)">进展报告</el-button>
             </td>
           </tr>
+          <tr>
+            <td colspan="2">
+              <el-select style="width: 150px;" placeholder="请选择调解人员" v-model="mediatorIdz1">
+                <template  v-for="(opt,idx) in MediatorList">
+                  <el-option :key="idx"  :value="opt.id" :label="opt.name" ></el-option>
+                </template>
+              </el-select>
+              <el-select style="width: 150px;" placeholder="请选择发送方式" v-model="smsType">
+                <el-option :value="0" label="全部" ></el-option>
+                <el-option :value="1" label="闪信" ></el-option>
+                <el-option :value="2" label="普通" ></el-option>
+              </el-select>
+            </td>
+            <td colspan="1">
+              <el-button type="primary" @click="showConfirm(5)">中止调解</el-button>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2">
+              <el-select style="width: 150px;" placeholder="请选择调解人员" v-model="mediatorIdz2">
+                <template  v-for="(opt,idx) in MediatorList">
+                  <el-option :key="idx"  :value="opt.id" :label="opt.name" ></el-option>
+                </template>
+              </el-select>
+            </td>
+            <td colspan="1">
+              <el-button type="primary" @click="showConfirm(6)">出裁决书</el-button>
+            </td>
+          </tr>
         <tr>
           <td colspan="2">
             <el-date-picker
@@ -128,7 +157,15 @@
         hour3: '',
         mediatorId4: '',
         payment4: '',
-        sendtype: 0
+        sendtype: 0,
+
+        // 发送方式 0全部 1闪信 2普通
+        smsType : '',
+        // 调解员id
+        mediatorIdz1 : '',
+        // 调解员id
+        mediatorIdz2 : '',
+
       }
     },
     computed: {
@@ -196,6 +233,22 @@
             return this.$message.error('请选择还款方式');
           this.confirmMsg = `将对${this.$parent.selection.length}个被申请人发送还款方式告知，短信内容中的调解员是${mediator.name}，还款账户是${payment.accountInformation}账户，确定发送吗？`;
           //
+        }else if(num === 5) {
+          if(!this.mediatorIdz1) {
+            return this.$message.error('请选择调解员');
+          }else if(this.smsType === '') {
+            return this.$message.error('请选择发送方式');
+          }
+          // this.confirmMsg = '';
+          this.HandleSubmit();
+          return;
+        }else if(num === 6) {
+          if(!this.mediatorIdz2) {
+            return this.$message.error('请选择调解员');
+          }
+          // this.confirmMsg = '';
+          this.HandleSubmit();
+          return;
         }
         this.showDialog = true;
       },
@@ -214,6 +267,19 @@
           item= {caseIds: caseIds, type: this.sendtype,  date: this.date3, hour: this.hour3};
         }else if(this.sendtype === 4){
           item= {caseIds: caseIds, type: this.sendtype, mediatorId: this.mediatorId4, adjustPaymentAccId: this.payment4};
+        }else if(this.sendtype === 5) {
+          item = {
+            caseIds,
+            type: this.sendtype,
+            mediatorId : this.mediatorIdz1,
+            smsType : this.smsType,
+          };
+        }else if(this.sendtype === 6) {
+          item = {
+            caseIds,
+            type: this.sendtype,
+            mediatorId : this.mediatorIdz1,
+          };
         }
         this.$http.post(URL_JSON['sendMediationMsg'],item)
           .then(res => {
