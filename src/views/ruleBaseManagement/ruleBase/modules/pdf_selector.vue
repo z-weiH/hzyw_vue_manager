@@ -57,12 +57,13 @@
           <!--<div class="resizeMe" id="testDiv" ref="testDiv">-->
             <!--<div id="innerNice" ref="innerNice">-->
 
-
-            <!--</div>-->
-          <!--</div>-->
           <pdfEditor key="edit1" ref="edit1" v-if="showEditor1"></pdfEditor>
           <pdfEditor key="edit2" ref="edit2" v-if="showEditor2"></pdfEditor>
+            <!--</div>-->
+          <!--</div>-->
+
         </div>
+
       </div>
       <div class="clear"></div>
       </div>
