@@ -258,7 +258,9 @@ export default {
           }
           document.querySelector("#canvas").onmouseup = (e) => {
             // e.stopPropagation();
-            this.clacResult();
+            if(e.target.nodeName !== 'BUTTON'){
+              this.clacResult();
+            }
             document.querySelector("#canvas").onmousemove = null;
             document.querySelector("#canvas").onmouseup = null;
           }
