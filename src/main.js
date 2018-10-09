@@ -52,6 +52,10 @@ Vue.use(ElementUI);
 //}
 
 
+String.prototype.splice = function(idx, rem, str) {
+  return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
+};
+
 /* eslint-disable no-new */
 export default new Vue({
     el: '#app',

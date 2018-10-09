@@ -132,7 +132,7 @@
 
 
         <el-form-item label="机审规则：" prop="ruleInfo">
-          <el-input type="textarea" class="rule_textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @kep.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
+          <el-input type="textarea" class="rule_textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @keyup.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
           <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:24px;" v-html="ruleInfo_html" ></div>
           <!--<ul class="textarea_select" v-if="showSelect" ref="textarea_select">-->
             <!--<li v-for="(name,index) in ruleNames" :key="index" :class="{'active': index == ruleIndex}">{{name}}</li>-->
@@ -291,6 +291,10 @@
     },
     data() {
       return {
+
+        currentFunction: {},
+        //證據鏈參數
+        pdfParam: '',
 
         //規則類型
         ruleType: 0,
@@ -493,25 +497,32 @@
       },
       'form.ruleInfo'(val,oldVal){
         //规则输入的交互逻辑
+        console.log(this.$refs.textarea_rule.$el.querySelector("textarea").selectionStart);
+        let lastVal = val.substring(this.getCursorPos(this.$refs.textarea_rule.$el.querySelector("textarea"))).trim();
+          val = val.substring(0, this.getCursorPos(this.$refs.textarea_rule.$el.querySelector("textarea")));
         this.ruleInfo_html = val;
-        console.log(this.ruleInfo_html.indexOf('\n'))
         this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>');
         console.log(this.ruleInfo_html);
         if(val){
-          if(val[val.length -1] === ','){
+          if(val[val.length -1] === ',' && this.checkcomma(lastVal)){
             // console.error(',出现');
+            this.currentFunction.idx = val.length-1;
             let strcopy = val.replace(/\s+/g, "");
             let type = -1;
             let idx1 = strcopy.lastIndexOf('getNumTypeContent(');
             let idx2 = strcopy.lastIndexOf('getContent(');
             if(idx1 != -1 && new RegExp("^getNumTypeContent\\([A-Z_0-9]+,$").test(strcopy.substring(idx1))){
               type = 0;
+              this.currentFunction.affix = strcopy.substring(idx1);
             }
             else if(idx2 != -1 && new RegExp("^getContent\\([A-Z_0-9]+,$").test(strcopy.substring(idx2))){
               type = 1;
+              this.currentFunction.affix = strcopy.substring(idx2);
             }
             if(type != -1){
               this.ruleType = type;
+              let idx = val.lastIndexOf('(');
+              this.pdfParam = val.substring(idx+1,val.length -1).trim();
               this.ruleInfo_html += `<span style='font-size: 10px;padding: 2px 3px;'>获取字段</span>`
               this.showSelect = true;
                   this.$nextTick(() => {
@@ -562,30 +573,65 @@
     methods : {
 
 
+      checkcomma(str){
+        if(str.indexOf(',') === -1){
+          return true;
+        }
+        if(str.indexOf(',') > 5){
+          return true;
+        }
+        return false;
+      },
+      getCursorPos(pTextArea) {
+        var cursurPosition= this.form.ruleInfo.length;
+        if(pTextArea.selectionStart){//非IE浏览器
+           cursurPosition= pTextArea.selectionStart;
+         }else{//IE
+          try{
+            var range = document.selection.createRange();
+            range.moveStart("character",-pTextArea.value.length);
+            cursurPosition=range.text.length;
+          }catch (e) {
+
+          }
+
+        }
+        return cursurPosition;
+      },
+
+      checkBracket(){
+        let str = this.form.ruleInfo.substring(this.currentFunction.idx+1).trim();
+        if(!str)
+          return ')';
+        else
+          return  this.form.ruleInfo.substring(this.currentFunction.idx+1).trim()[0] === ')' ? '' : ')';
+      },
+
       refreshRuleInfo(val) {
+        console.log(val);
         let idx = val.indexOf('],');
         if(idx != -1){
           if(this.ruleType === 0){
-            let idx1 = this.form.ruleInfo.lastIndexOf('getNumTypeContent');
-            let affix = this.form.ruleInfo.substr(idx1);
-            this.form.ruleInfo += val.substring(1,idx) + ')' + '+' + affix+ val.substring(idx+3,val.length -1) + ')';
+            this.form.ruleInfo = this.form.ruleInfo.splice(this.currentFunction.idx + 1, 0 , val.substring(1,idx) + this.checkBracket() + '+' + this.currentFunction.affix+ val.substring(idx+3,val.length -1) + ')');
           }else{
-            let idx1 = this.form.ruleInfo.lastIndexOf('getContent');
-            let affix = this.form.ruleInfo.substr(idx1);
-            this.form.ruleInfo += val.substring(1,idx) + ')' + '+' +affix+ val.substring(idx+3,val.length - 1) + ')';
+            this.form.ruleInfo = this.form.ruleInfo.splice(this.currentFunction.idx + 1, 0 ,val.substring(1,idx) + this.checkBracket() + '+' +this.currentFunction.affix+ val.substring(idx+3,val.length - 1) + ')');
           }
         }else{
-          this.form.ruleInfo += val.substring(1,val.length - 1) + ')';
+          this.form.ruleInfo = this.form.ruleInfo.splice(this.currentFunction.idx+ 1, 0,val.substring(1,val.length - 1) + this.checkBracket());
+          console.log(this.form.ruleInfo);
         }
         this.$refs.textarea_rule.focus();
+        setTimeout(() => {
+          this.showSelect = false;
+        },300)
+
       },
 
       //pdf展开
       pdfFlagChange(){
         console.error(this.ruleType);
-        let idx = this.form.ruleInfo.lastIndexOf('(');
-        let pdfParam = this.form.ruleInfo.substring(idx+1,this.form.ruleInfo.length -1).trim();
-        this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: pdfParam, type: this.ruleType});
+
+        this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: this.pdfParam, type: this.ruleType});
 
       },
 

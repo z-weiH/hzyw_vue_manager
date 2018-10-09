@@ -215,6 +215,7 @@ export default {
       }
       this.pageNum--
       this.queueRenderPage(this.pageNum)
+      this.refresh();
     },
     onNextPage () {
       if (this.pageNum >= this.pdfDoc.numPages) {
@@ -222,6 +223,8 @@ export default {
       }
       this.pageNum++
       this.queueRenderPage(this.pageNum)
+      this.refresh();
+
     },
 
 
