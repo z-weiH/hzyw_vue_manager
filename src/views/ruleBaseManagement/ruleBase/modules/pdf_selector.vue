@@ -64,6 +64,7 @@
           <pdfEditor key="edit2" ref="edit2" v-if="showEditor2"></pdfEditor>
         </div>
       </div>
+      <div class="clear"></div>
       </div>
 
 
@@ -303,7 +304,8 @@ export default {
     top: 0;
     left: 0;
     right: 0;
-    min-height: 100vh;
+    height: 100%;
+    overflow-y: scroll;
     background: #5C5C5C;
     z-index: 99999;
     .pdf_warpper{
