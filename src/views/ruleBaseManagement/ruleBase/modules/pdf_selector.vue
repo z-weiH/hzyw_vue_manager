@@ -145,17 +145,21 @@ export default {
     },
 
     show(item){
+      console.log(item);
       this.type = item.type;
+
+      this.pdfFlag = true;
+
       this.$http.post("/ruleBase/queryPdfUrlAndWithHigh.htm",item).then(res => {
         if(res.code === "0000"){
           this.pdfFlag = true;
-          this.showPDF(res.result.pdfUrl);
           this.showEditor1 = this.showEditor2 = false;
           this.pdfRange = this.pdfValue = '';
-          // this.showPDF("http://filetest.arbexpress.cn/150217103521/15325763740/1533178221498/C1ABFA9D87A9A00497018676957F924F0.pdf");
           this.pdfUrl= res.result.pdfUrl;
           this.width = res.result.width * this.scale  + 'px';
           this.height = res.result.height * this.scale  + 'px';
+          this.showPDF(res.result.pdfUrl);
+
           this.$nextTick(() => {
             // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
             document.querySelector("#canvas").onmousedown = (e) => { this.doDown(e)};
@@ -249,16 +253,18 @@ export default {
         this.$nextTick(() => {
 
           this.$refs.edit1.init();
-          this.$refs.edit1.setTopLeft(e.offsetX,e.offsetY);
+          this.$refs.edit1.setTopLeft(e.offsetX,e.offsetY);0.
+
+
           document.querySelector("#canvas").onmousemove=(el) => {
 
             this.$refs.edit1.setWH(el.offsetX -e.offsetX,el.offsetY -e.offsetY);
           }
           document.querySelector("#canvas").onmouseup = (e) => {
             // e.stopPropagation();
-            if(e.target.nodeName !== 'BUTTON'){
+            console.log(e);
               this.clacResult();
-            }
+
             document.querySelector("#canvas").onmousemove = null;
             document.querySelector("#canvas").onmouseup = null;
           }
