@@ -548,7 +548,43 @@
                 menuUrl: 'caseOperationRecord'
               }
             ]
-          }
+          },
+          {
+            menuName: '送达系统',
+            menuId: 'sdxt',
+            children: [
+              {
+                menuName: '渠道管理',
+                menuId: 'sdxt1',
+                menuUrl: 'serChannelManage'
+              },
+              {
+                menuName: '业务管理',
+                menuId: 'sdxt2',
+                menuUrl: 'serBusinessManage'
+              },
+              {
+                menuName: '客户管理',
+                menuId: 'sdxt3',
+                menuUrl: 'serCustomerManage'
+              },
+              {
+                menuName: '模板管理',
+                menuId: 'sdxt4',
+                menuUrl: 'serTemplateManage'
+              },
+              {
+                menuName: '短信发送',
+                menuId: 'sdxt5',
+                menuUrl: 'serSmsSend'
+              },
+              {
+                menuName: '邮件发送',
+                menuId: 'sdxt6',
+                menuUrl: 'serEmailSend'
+              },
+            ]
+          },
         ],
         // 当前高亮的 menu
         active : '/main/demo',

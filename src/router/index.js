@@ -879,6 +879,57 @@ let router = new Router({
           }
         },
         /* 执行管理 module end */
+
+        /* 送达系统 module start  */
+        {
+          path: 'serChannelManage',
+          component: () =>
+            import ('@/views/deliverySystem/serChannelManage'), // 渠道管理
+          meta: {
+            name: 'serChannelManage',
+          },
+        },
+        {
+          path: 'serBusinessManage',
+          component: () =>
+            import ('@/views/deliverySystem/serBusinessManage'), // 业务管理
+          meta: {
+            name: 'serBusinessManage',
+          },
+        },
+        {
+          path: 'serCustomerManage',
+          component: () =>
+            import ('@/views/deliverySystem/serCustomerManage'), // 客户管理
+          meta: {
+            name: 'serCustomerManage',
+          },
+        },
+        {
+          path: 'serTemplateManage',
+          component: () =>
+            import ('@/views/deliverySystem/serTemplateManage'), // 模板管理
+          meta: {
+            name: 'serTemplateManage',
+          },
+        },
+        {
+          path: 'serSmsSend',
+          component: () =>
+            import ('@/views/deliverySystem/serSmsSend'), // 短信发送
+          meta: {
+            name: 'serSmsSend',
+          },
+        },
+        {
+          path: 'serEmailSend',
+          component: () =>
+            import ('@/views/deliverySystem/serEmailSend'), // 邮件发送
+          meta: {
+            name: 'serEmailSend',
+          },
+        },
+        /* 送达系统 module end  */
       ],
     },
     {
