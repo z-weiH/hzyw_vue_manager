@@ -137,7 +137,7 @@
           <!--<ul class="textarea_select" v-if="showSelect" ref="textarea_select">-->
             <!--<li v-for="(name,index) in ruleNames" :key="index" :class="{'active': index == ruleIndex}">{{name}}</li>-->
           <!--</ul>-->
-          <button class="showPdf_btn"  v-if="showSelect"  ref="textarea_select" @click="pdfFlagChange">获取字段</button>
+          <span class="showPdf_btn"  v-if="showSelect"  ref="textarea_select" @click="pdfFlagChange">获取字段</span>
           <div class="rightBtns" >
             <el-button size="mini" @click="handleAvriable">查看参数</el-button>
 

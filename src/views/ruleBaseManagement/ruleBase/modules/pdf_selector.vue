@@ -1,5 +1,5 @@
 <template>
-  <div class="pdf-slector" v-if="pdfFlag">
+  <div class="pdf-slector" v-show="pdfFlag">
     <div class="pdf_warpper">
       <div class="fl w-352 left-content">
         <div class="content">
@@ -157,10 +157,11 @@ export default {
           this.pdfUrl= res.result.pdfUrl;
           this.width = res.result.width * this.scale  + 'px';
           this.height = res.result.height * this.scale  + 'px';
-          this.showPDF(res.result.pdfUrl);
 
           this.$nextTick(() => {
             // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
+            this.showPDF(res.result.pdfUrl);
+
             document.querySelector("#canvas").onmousedown = (e) => { this.doDown(e)};
           })
 
@@ -310,7 +311,7 @@ export default {
 <style scoped lang="scss">
 
   .pdf-slector{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
