@@ -271,6 +271,10 @@ export default {
       this.$refs['sendInfoDlg'].hour3 = 24;
       this.$refs['sendInfoDlg'].mediatorId4 = '';
       this.$refs['sendInfoDlg'].payment4 = '';
+
+      this.$refs['sendInfoDlg'].smsType = '';
+      this.$refs['sendInfoDlg'].mediatorIdz1 = '';
+      this.$refs['sendInfoDlg'].mediatorIdz2 = '';
     },
     slectionChange(selection){
       console.log(selection);
