@@ -145,10 +145,9 @@ export default {
     },
 
     show(item){
-      console.log(item);
+      console.error(item);
       this.type = item.type;
 
-      this.pdfFlag = true;
 
       this.$http.post("/ruleBase/queryPdfUrlAndWithHigh.htm",item).then(res => {
         if(res.code === "0000"){
