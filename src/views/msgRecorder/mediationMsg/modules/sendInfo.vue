@@ -278,7 +278,7 @@
           item = {
             caseIds,
             type: this.sendtype,
-            mediatorId : this.mediatorIdz1,
+            mediatorId : this.mediatorIdz2,
           };
         }
         this.$http.post(URL_JSON['sendMediationMsg'],item)

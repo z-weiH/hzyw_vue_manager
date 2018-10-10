@@ -122,7 +122,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       minChunks: 3
     }),
 
-    new BundleAnalyzerPlugin({
+    /* new BundleAnalyzerPlugin({
       //  可以是`server`，`static`或`disabled`。
       //  在`server`模式下，分析器将启动HTTP服务器来显示软件包报告。
       //  在“静态”模式下，会生成带有报告的单个HTML文件。
@@ -151,7 +151,7 @@ const webpackConfig = merge(baseWebpackConfig, {
       //  在这里查看更多选项：https：  //github.com/webpack/webpack/blob/webpack-1/lib/Stats.js#L21
       statsOptions: null,
       // logLevel: 'info' 日志级别。可以是'信息'，'警告'，'错误'或'沉默'。
-    }),
+    }), */
     // 打包文件最终生成zip版本
     new ZipPlugin({
       path: path.join(__dirname, '../'),
