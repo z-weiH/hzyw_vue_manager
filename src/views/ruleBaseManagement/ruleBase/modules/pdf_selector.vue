@@ -170,7 +170,7 @@ export default {
     },
 
     showPDF (url) {
-      let _this = this
+      let _this = this;
       PDFJS.getDocument(url).then(function (pdf) {
         _this.numpages = pdf.numPages;
         _this.pdfDoc = pdf
