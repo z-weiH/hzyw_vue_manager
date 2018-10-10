@@ -76,7 +76,6 @@
 </template>
 
 <script>
-  import pdf from 'vue-pdf'
   import pdfEditor from './pdf_editor'
   // import PDFJS from 'pdfjs-dist'
 export default {
@@ -103,7 +102,6 @@ export default {
       }
   },
   components:{
-    pdf,
     pdfEditor
   },
   created(){
