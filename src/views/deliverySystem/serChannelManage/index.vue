@@ -7,15 +7,12 @@
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入渠道名称"></el-input>
-        </el-form-item>
-        <el-form-item label=" " prop="keyWords2">
-          <el-input v-model.trim="ruleForm.keyWords2" placeholder="请输入渠道编码"></el-input>
+          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入渠道名称、渠道编码"></el-input>
         </el-form-item>
         <el-button @click="handleSearch" type="warning">查询</el-button>
 
         <div class="fr">
-          <el-button type="primary">新增</el-button>
+          <el-button type="primary" @click="handleAdd">新增</el-button>
         </div>
       </el-form>
     </div>
@@ -30,14 +27,14 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="respondents" label="渠道编码"></el-table-column>
-        <el-table-column prop="respondents" label="渠道名称"></el-table-column>
-        <el-table-column prop="respondents" label="渠道号码"></el-table-column>
-        <el-table-column prop="respondents" label="创建时间"></el-table-column>
+				<el-table-column prop="channelId" label="渠道编码"></el-table-column>
+        <el-table-column prop="channelName" label="渠道名称"></el-table-column>
+        <el-table-column prop="channelPhone" label="渠道号码"></el-table-column>
+        <el-table-column prop="createTime" label="创建时间"></el-table-column>
         <el-table-column prop="platName" label="操作" align="center">
           <template slot-scope="scope">
-            <el-button type="text">编辑</el-button>
-            <el-button type="text">删除</el-button>
+            <el-button @click="handleEdit(scope.row)" type="text">编辑</el-button>
+            <el-button @click="handleDelete(scope.row)" type="text">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -52,16 +49,17 @@
         layout="total, sizes, prev, pager, next, jumper"
         :total="total">
       </el-pagination>
-
     </div>
+
+    <mdialog @successCBK="handleSearch" ref="mdialog"></mdialog>
 	</div>
 </template>
 
 <script>
-	import timeFrame from '@/components/timeFrame.vue'
+	import mdialog from './modules/dialog.vue'
 	export default {
 		components : {
-			timeFrame,
+			mdialog,
 		},
 		data() {
 			return {
@@ -90,14 +88,46 @@
 			handleSearch() {
 				this.currentPage = 1;
         this.initTableList();
-			},
+      },
+      
+      // 点击 新增
+      handleAdd() {
+        this.$refs.mdialog.show('add');
+      },
+      // 点击 修改
+      handleEdit(row) {
+        this.$refs.mdialog.show('edit',row);
+      },
+      // 点击 删除
+      handleDelete(row) {
+        this.$confirm('确认删除?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          cancelButtonClass: 'cancel',
+          confirmButtonClass: 'confirm',
+          center: true,
+        }).then(() => {
+          this.$http({
+            method : 'post',
+            url : '/channel/deletedChannelByChannelId.htm',
+            data : {
+              channelId : row.channelId,
+            },
+          }).then((res) => {
+            this.$message.success('删除成功');
+            this.handleSearch();
+          });
+        },() => {
+          console.log('已取消');
+        });
+      },
 
 			// 表格相关 start
 
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
+          url : '/channel/queryChannelInfoByBaseQuery.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,

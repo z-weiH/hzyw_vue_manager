@@ -115,7 +115,7 @@
             },
           }).then((res) => {
             this.$message.success('删除成功');
-            this.initTableList();
+            this.handleSearch();
           });
         },() => {
           console.log('已取消');
