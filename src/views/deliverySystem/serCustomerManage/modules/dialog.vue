@@ -1,25 +1,25 @@
 <template>
-  <div class="ser-channel-manage-dialog">
+  <div class="ser-business-manage-dialog">
     <el-dialog
-      :title="type === 'add' ? '新增渠道' : '修改渠道'"
+      :title="type === 'add' ? '新增客户' : '修改客户'"
       :visible.sync="dialogVisible"
       width="580px"
       @close="handleClose"
 			ref="dialog"
     >
       <div class="m-conetnt">
-        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
+        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
           
-					<el-form-item label="渠道名称：" prop="channelName">
-						<el-input style="width:400px;" v-model.trim="ruleForm.channelName" placeholder="请输入"></el-input>
+					<el-form-item label="客户名称：" prop="clientName">
+						<el-input style="width:400px;" v-model.trim="ruleForm.clientName" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="渠道号码：" prop="channelPhone">
-						<el-input style="width:400px;" v-model.trim="ruleForm.channelPhone" placeholder="请输入"></el-input>
+          <el-form-item label="客户签名：" prop="clientSigner">
+						<el-input style="width:400px;" v-model.trim="ruleForm.clientSigner" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="渠道信息：" prop="channelInfo">
-						<el-input type="textarea" style="width:400px;" v-model.trim="ruleForm.channelInfo" placeholder="请输入"></el-input>
+          <el-form-item label="客户信息描述：" prop="clientInfo">
+						<el-input type="textarea" style="width:400px;" v-model.trim="ruleForm.clientInfo" placeholder="请输入"></el-input>
 					</el-form-item>
 
         </el-form>
@@ -42,19 +42,19 @@
         submitDisabled : false,
 
         ruleForm : {
-          // 渠道名称
-          channelName : '',
-          // 渠道号码
-          channelPhone : '',
-          // 渠道信息
-          channelInfo : '',
+          // 客户名称
+          clientName : '',
+          // 客户签名
+          clientSigner : '',
+          // 客户信息描述
+          clientInfo : '',
         },
         rules : {
-          channelName : [
-            {required : true , message : '请输入渠道名称' , trigger : 'blur'},
+          clientName : [
+            {required : true , message : '请输入客户名称' , trigger : 'blur'},
           ],
-          channelPhone : [
-            {required : true , message : '请输入渠道号码' , trigger : 'blur'},
+          clientSigner : [
+            {required : true , message : '请输入客户签名' , trigger : 'blur'},
           ],
         },
 
@@ -77,13 +77,16 @@
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
           this.type = type;
           if(type === 'edit') {
-            this.channelId = data.channelId;
-            // 数据回显
+            this.clientId = data.clientId;
+            // 回显数据
+            this.ruleForm.clientName = data.clientName;
+            this.ruleForm.clientSigner = data.clientSigner;
+            this.ruleForm.clientInfo = data.clientInfo;
             this.$http({
               method : 'post',
-              url : '/channel/queryChannelInfoDetails.htm',
+              url : '/clientManagement/queryDeliveryClientInfoDetail.htm',
               data : {
-                channelId : data.channelId,
+                clientId : data.clientId,
               },
             }).then((res) => {
               this.ruleForm = Object.assign(this.ruleForm,res.result);
@@ -116,11 +119,11 @@
               ...this.ruleForm,
             };
             if(this.type === 'edit') {
-              form.channelId = this.channelId;
+              form.clientId = this.clientId;
             }
 						this.$http({
               method : 'post',
-              url : '/channel/saveChannelInfoByChannelId.htm',
+              url : '/clientManagement/saveDeliveryClientInfoByClientId.htm',
               data : form,
             }).then((res) => {
               this.$message.success('操作成功');
@@ -138,7 +141,7 @@
 
 <style scoped lang="scss">
 
-.ser-channel-manage-dialog{
+.ser-business-manage-dialog{
 
 }
 
