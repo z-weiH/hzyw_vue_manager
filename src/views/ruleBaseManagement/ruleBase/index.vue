@@ -300,7 +300,7 @@
         ruleType: 0,
 
         //pdf获取字段的方法
-        pdfFuctionName: ['getNumTypeContent','getContent'],
+        pdfFuctionName: ['getnum','get'],
 
         //控制鼠标连点
         disabled: false,
@@ -511,13 +511,13 @@
             this.currentFunction.idx = val.length-1;
             let strcopy = val.replace(/\s+/g, "");
             let type = -1;
-            let idx1 = strcopy.lastIndexOf('getNumTypeContent(');
-            let idx2 = strcopy.lastIndexOf('getContent(');
-            if(idx1 != -1 && new RegExp("^getNumTypeContent\\([A-Z_0-9]+,$").test(strcopy.substring(idx1))){
+            let idx1 = strcopy.lastIndexOf('getnum(');
+            let idx2 = strcopy.lastIndexOf('get(');
+            if(idx1 != -1 && new RegExp("^getnum\\([A-Z_0-9]+,$").test(strcopy.substring(idx1))){
               type = 0;
               this.currentFunction.affix = strcopy.substring(idx1);
             }
-            else if(idx2 != -1 && new RegExp("^getContent\\([A-Z_0-9]+,$").test(strcopy.substring(idx2))){
+            else if(idx2 != -1 && new RegExp("^get\\([A-Z_0-9]+,$").test(strcopy.substring(idx2))){
               type = 1;
               this.currentFunction.affix = strcopy.substring(idx2);
             }
