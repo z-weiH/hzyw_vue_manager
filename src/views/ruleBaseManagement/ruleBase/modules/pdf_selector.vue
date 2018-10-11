@@ -158,6 +158,7 @@ export default {
           this.width = res.result.width * this.scale  + 'px';
           this.height = res.result.height * this.scale  + 'px';
 
+
           this.$nextTick(() => {
             // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
             this.showPDF(res.result.pdfUrl);
@@ -175,6 +176,7 @@ export default {
         _this.numpages = pdf.numPages;
         _this.pdfDoc = pdf
         _this.renderPage(1)
+        this.pageNum = 1;
       })
     },
     renderPage (num) {
