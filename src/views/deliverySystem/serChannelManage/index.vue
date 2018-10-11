@@ -137,7 +137,7 @@
 
 <style lang="scss">
 
-.demo-box{
+.ser-channel-manage{
   .item-search{
     .el-form-item{
       margin-bottom: 0;
