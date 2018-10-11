@@ -1,7 +1,7 @@
 <template>
   <div class="pdf-slector" v-show="pdfFlag">
     <div class="pdf_warpper">
-      <div class="fl w-352 left-content">
+      <div class="w-352 left-content">
         <div class="content">
           <p class="left-title">选中参数</p>
           <div>
@@ -326,6 +326,9 @@ export default {
       width: 1200px;
       margin: 30px auto;
       .left-content{
+        position: fixed;
+        top: 30px;
+        left: calc(50vw - 600px);
         .content{
           background: #fff;
           color: #000;
