@@ -125,13 +125,17 @@
       width="800px"
       center>
       <!--<edits ref="edits" :edit-items="createItems" :item="item" :label-width="'120px'"></edits>-->
-      <el-form  ref="createForm" :model="form"  label-width="100px" :rules="rules">
-        <el-form-item label="规则描述：" prop="ruleDesc">
-          <el-input v-model="form.ruleDesc" placeholder="请填写规则描述,如“标的金额是否正确”"></el-input>
+      <el-form  ref="createForm" :model="form"  label-width="100px">
+        <el-form-item label="规则描述：" prop="ruleDesc" :rules="
+  [{required : true , message : '请输入规则描述' , trigger : 'blur'}]
+">
+          <el-input v-model="form.ruleDesc" @keyup.native="refreshBtn" placeholder="请填写规则描述,如“标的金额是否正确”"></el-input>
         </el-form-item>
 
 
-        <el-form-item label="机审规则：" prop="ruleInfo">
+        <el-form-item label="机审规则：" prop="ruleInfo" :rules="
+  [{required : true , message : '请输入机审规则' , trigger : 'blur'}]
+">
           <el-input type="textarea" class="rule_textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @keyup.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
           <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:24px;" v-html="ruleInfo_html" ></div>
           <!--<ul class="textarea_select" v-if="showSelect" ref="textarea_select">-->
@@ -141,7 +145,7 @@
           <div class="rightBtns" >
             <el-button size="mini" @click="handleAvriable">查看参数</el-button>
 
-            <el-button size="mini" type="primary" @click="handleRun" :disabled="!form.ruleInfo || !form.ruleDesc">验证</el-button>
+            <el-button size="mini" type="primary" @click="handleRun" :disabled="canYanZheng">验证</el-button>
           </div>
           <!--<div class="runRes" v-if="runRes != 0">-->
             <!--<i :class="runRes == 1 ? 'error' : 'succ'"></i>-->
@@ -348,14 +352,14 @@
         iconName: 'el-icon-arrow-down',
 
         //规则表单
-        form: {},
+        form: {ruleDesc: '',ruleInfo: ''},
 
         //表單規則
         rules: {
-          ruleDesc: [
+          'ruleDesc': [
             { required: true, message: '请输入规则描述', trigger: 'blur' },
           ],
-          ruleInfo: [
+          'ruleInfo': [
             { required: true, message: '请输入机审规则', trigger: 'blur' },
           ],
 
@@ -408,7 +412,8 @@
           currentNum: 1,
           pageSize: 10,
           count: 0,
-        }
+        },
+        canYanZheng: true
 
       }
     },
@@ -430,9 +435,6 @@
     },
     computed: {
 
-      // title(){
-      //   return this.editState == 1 ? "编辑规则" : "添加规则";
-      // },
       canExecute(){
         if(!this.selectLevel.levelId )
           return true;
@@ -495,7 +497,10 @@
           document.removeEventListener("keydown",this.InputHelper);
         }
       },
+
       'form.ruleInfo'(val,oldVal){
+        this.refreshBtn();
+        console.error(123123123);
         //规则输入的交互逻辑
         console.log(this.$refs.textarea_rule.$el.querySelector("textarea").selectionStart);
         let lastVal = val.substring(this.getCursorPos(this.$refs.textarea_rule.$el.querySelector("textarea"))).trim();
@@ -572,6 +577,11 @@
     },
     methods : {
 
+
+      refreshBtn(){
+        this.canYanZheng = !this.form.ruleInfo || !this.form.ruleDesc;
+        console.error(this.canYanZheng);
+      },
 
       checkcomma(str){
         if(str.indexOf(',') === -1){
