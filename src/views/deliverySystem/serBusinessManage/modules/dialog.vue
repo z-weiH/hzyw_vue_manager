@@ -69,6 +69,9 @@
           this.type = type;
           if(type === 'edit') {
             this.busiCode = data.busiCode;
+            // 回显数据
+            this.ruleForm.busiName = data.busiName;
+            this.ruleForm.busiInfo = data.busiInfo;
           }
         });
       },
