@@ -125,17 +125,13 @@
       width="800px"
       center>
       <!--<edits ref="edits" :edit-items="createItems" :item="item" :label-width="'120px'"></edits>-->
-      <el-form  ref="createForm" :model="form"  label-width="100px">
-        <el-form-item label="规则描述：" prop="ruleDesc" :rules="
-  [{required : true , message : '请输入规则描述' , trigger : 'blur'}]
-">
-          <el-input v-model="form.ruleDesc" @keyup.native="refreshBtn" placeholder="请填写规则描述,如“标的金额是否正确”"></el-input>
+      <el-form  ref="createForm" :model="form"  label-width="100px" :rules="rules">
+        <el-form-item label="规则描述：" prop="ruleDesc" >
+          <el-input v-model="form.ruleDesc"  placeholder="请填写规则描述,如“标的金额是否正确”"></el-input>
         </el-form-item>
 
 
-        <el-form-item label="机审规则：" prop="ruleInfo" :rules="
-  [{required : true , message : '请输入机审规则' , trigger : 'blur'}]
-">
+        <el-form-item label="机审规则：" prop="ruleInfo">
           <el-input type="textarea" class="rule_textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @keyup.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
           <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:24px;" v-html="ruleInfo_html" ></div>
           <!--<ul class="textarea_select" v-if="showSelect" ref="textarea_select">-->
@@ -413,7 +409,7 @@
           pageSize: 10,
           count: 0,
         },
-        canYanZheng: true
+        // canYanZheng: true
 
       }
     },
@@ -435,6 +431,9 @@
     },
     computed: {
 
+      canYanZheng(){
+        return this.canYanZheng = !this.form.ruleInfo || !this.form.ruleDesc;
+      },
       canExecute(){
         if(!this.selectLevel.levelId )
           return true;
@@ -499,8 +498,6 @@
       },
 
       'form.ruleInfo'(val,oldVal){
-        this.refreshBtn();
-        console.error(123123123);
         //规则输入的交互逻辑
         console.log(this.$refs.textarea_rule.$el.querySelector("textarea").selectionStart);
         let lastVal = val.substring(this.getCursorPos(this.$refs.textarea_rule.$el.querySelector("textarea"))).trim();
@@ -578,10 +575,7 @@
     methods : {
 
 
-      refreshBtn(){
-        this.canYanZheng = !this.form.ruleInfo || !this.form.ruleDesc;
-        console.error(this.canYanZheng);
-      },
+
 
       checkcomma(str){
         if(str.indexOf(',') === -1){
@@ -908,6 +902,7 @@
         });
         this.form = { levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel};
         this.$set(this.form,'ruleInfo','');
+        this.$set(this.form,'ruleDesc','');
       },
       // 保存
       HandleSave(){
