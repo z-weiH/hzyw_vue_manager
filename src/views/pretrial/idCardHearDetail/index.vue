@@ -354,7 +354,7 @@ export default {
       this.pager.currentNum = page;
       this.HandleQuery();
     },
-    HandleQuery(mark) {
+    HandleQuery(mark,mark1) {
       const loading =this.$loading({
         lock: true,
         text: '拼命加载中',
@@ -430,6 +430,9 @@ export default {
                 }
 
               }, 500);
+            }
+            else if(mark1){
+
             }
             else{
               document.documentElement.querySelector('.body_container').scrollTo(0,0);
