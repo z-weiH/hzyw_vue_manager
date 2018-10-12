@@ -239,16 +239,18 @@
           }else if(this.smsType === '') {
             return this.$message.error('请选择发送方式');
           }
-          // this.confirmMsg = '';
-          this.HandleSubmit();
-          return;
+          let obj = this.MediatorList.filter((v,k) => {
+            return v.id === this.mediatorIdz1
+          })[0];
+          this.confirmMsg = `将对${this.$parent.selection.length}个被申请人发送进展告知，短信内容中联系电话是${obj.phone}（调解员${obj.name}），确定发送吗？`;
         }else if(num === 6) {
           if(!this.mediatorIdz2) {
             return this.$message.error('请选择调解员');
           }
-          // this.confirmMsg = '';
-          this.HandleSubmit();
-          return;
+          let obj = this.MediatorList.filter((v,k) => {
+            return v.id === this.mediatorIdz2
+          })[0];
+          this.confirmMsg = `将对${this.$parent.selection.length}个被申请人发送裁决通知，短信内容中联系电话是${obj.phone}（调解员${obj.name}），确定发送吗？`;
         }
         this.showDialog = true;
       },
