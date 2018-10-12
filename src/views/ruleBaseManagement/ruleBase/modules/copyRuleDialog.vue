@@ -94,12 +94,16 @@ export default {
       },
       show(item){
 
-        this.checkedNodes = [];
-        this.keys = item.keys;
-        this.treeData = item.treeData;
-        this.rules = item.rules;
-
         this.addRuleFlag =true;
+        this.$nextTick(() => {
+          this.checkedNodes = [];
+          this.$refs.tree.setCheckedNodes(this.checkedNodes);
+          this.keys = item.keys;
+          this.treeData = item.treeData;
+          this.rules = item.rules;
+        })
+
+
 
       }
     }
