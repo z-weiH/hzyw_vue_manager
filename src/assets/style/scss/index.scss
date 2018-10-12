@@ -590,3 +590,10 @@ input.el-input__inner {
   font-family: YaHei Consolas Hybrid;
   font-style: italic;
 }
+
+.self_checked_tree{
+  label.el-checkbox.is-disabled{
+    display: none;
+  }
+}
+

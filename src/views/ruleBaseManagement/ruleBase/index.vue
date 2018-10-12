@@ -56,6 +56,7 @@
           <div v-if="contentFlag">
             <div class="rule_desc">
               <div style="margin-top: 5px; color:#aaa;" class="fr">
+                <el-button plain @click="copyRules">复制规则</el-button>
                 <el-button plain @click="handleAvriable">参数列表</el-button>
                 <el-button plain @click="runSet">执行集合</el-button>
                 <el-button plain @click="showCaseSample">案件样例</el-button>
@@ -66,11 +67,11 @@
             </div>
             <img src="@/assets/img/no_rule.png" style="width:100%;" alt="" v-if="pager.count === 0">
             <ul class="rule_list" v-if="pager.count > 0">
-              <li class="rule_item" v-for="(rule,index) in ruleList" :key="index">
+              <li :class="{'active': rule.selected,'rule_item': true}" v-for="(rule,index) in ruleList" :key="index" @click="ruleSelect(rule)">
                 <div class="ruleDesc">
                   <div class="btns fr">
-                    <span class="edit_btn colLink" @click="handleEdit(rule)">编辑</span>
-                    <span class="delete_btn colLink" @click="handleDelete(rule)">删除</span>
+                    <span class="edit_btn colLink" @click="handleEdit(rule,$event)">编辑</span>
+                    <span class="delete_btn colLink" @click="handleDelete(rule,$event)">删除</span>
                   </div>
                   <b >{{(pager.currentNum-1) * pager.pageSize + index + 1}}.</b>
                   <span>{{rule.ruleDesc}}</span>
@@ -270,6 +271,7 @@
     <addRule ref="addRule" :rule="form" > </addRule>
     <executionSet ref="executionSetDialog"></executionSet>
     <caseSample ref="caseSampleDialog" :rule="currentMenu"></caseSample>
+    <copyRule ref="copyRule"/>
   </div>
 </template>
 
@@ -280,6 +282,7 @@
   import addRule from './modules/addRuleDialog'
   import executionSet from './modules/executionSetDialog'
   import caseSample from './modules/caseSampleDialog'
+  import copyRule from './modules/copyRuleDialog'
   export default {
     components : {
       'm-progress' : progress,
@@ -287,7 +290,8 @@
       executeResult,
       addRule,
       executionSet,
-      caseSample
+      caseSample,
+      copyRule
     },
     data() {
       return {
@@ -575,8 +579,40 @@
     methods : {
 
 
+      //复制规则
+      copyRules(){
+        let  arr = this.ruleList.filter(it => it.selected);
+        if(arr.length === 0){
+          this.$message({
+            message: '请先选择规则',
+            type:'error'
+          });
+        }else{
+          this.manageArr(this.treeData);
+          this.$refs.copyRule.show({treeData: this.treeData, keys: [this.currentMenu.parentId],rules: this.ruleList.filter(it => it.selected)});
+        }
+      },
 
 
+      manageArr(arr){
+
+        arr.forEach((it,idx) => {
+          if(it.ruleLevel !== 4){
+            it.disabled = true;
+            if(it.children){
+              this.manageArr(it.children);
+            }
+          }else{
+            if( it.levelId === this.currentMenu.levelId){
+              it.disabled = true;
+            }
+          }
+        })
+      },
+
+      ruleSelect(rule){
+        rule.selected = !rule.selected;
+      },
       checkcomma(str){
         if(str.indexOf(',') === -1){
           return true;
@@ -849,7 +885,8 @@
 
       },
       //編輯規則
-      handleEdit(rule) {
+      handleEdit(rule,e) {
+        e.stopPropagation();
         this.$http.post("/ruleBase/queryRuleInfoDetailsByRuleId.htm",{ruleId: rule.ruleId}).then(res => {
           if(res.code ==='0000'){
             this.editState = 1;
@@ -866,7 +903,8 @@
         })
       },
       //删除规则
-      handleDelete(rule){
+      handleDelete(rule,e){
+        e.stopPropagation();
         let h = this.$createElement;
         this.$msgbox({
           title: "提示",
@@ -982,6 +1020,9 @@
           this.$http.post("/ruleBase/queryRuleInfoByBaseQuery.htm",Object.assign(obj,this.pager)).then(res => {
             if(res.code === '0000'){
               this.ruleList = res.result.list;
+              this.ruleList.forEach(it => {
+                this.$set(it,'selected',false);
+              })
               this.pager.count = res.result.count;
             }
           })
@@ -1209,8 +1250,12 @@
 
       .rule_item{
         border:1px solid #F3F5F7;
+        cursor: pointer;
         margin: 20px 0;
         padding: 10px;
+        &.active{
+          border: 1px solid #46629C;
+        }
         div{
           padding-left: 20px;
           color: #aaa;

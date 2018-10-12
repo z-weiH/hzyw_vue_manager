@@ -31,7 +31,7 @@
           <div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">
             <el-button type="text" @click="HandleRuleRes(sign)">机审规则</el-button>
           </div>
-          <span class="header_title">{{sign.subSortNo}}/{{sign.totalCount}} {{sign.applicants}}与{{sign.respondents}}的借款合同纠纷</span>
+          <span class="header_title">{{sign.subSortNo}}/{{sign.totalCount}} {{sign.lender}}与{{sign.respondents}}的借款合同纠纷</span>
           <div class="header_img">
             <img src="@/assets/img/idCard.png" alt="">
             <img class="icon" src="@/assets/img/success.png" v-if="sign.idStatus === 1" alt="">
