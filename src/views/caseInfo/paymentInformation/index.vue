@@ -32,7 +32,7 @@ export default {
 			misShow : (() => {
 				try{
 					let userName = JSON.parse(localStorage.getItem('loginInfo')).userName;
-					let arr = ['费玉琳','金凤','蔣慧芳'];
+					let arr = ['费玉琳','金凤','蔣慧芳','超级管理员'];
 					if(arr.indexOf(userName) !== -1) {
 						return true;
 					}else {
