@@ -116,6 +116,9 @@
         currentMenu: {},
 
         addRuleFlag: false,
+
+
+
         isExecuting: false,
         currentTab: 0,
         //验证任务的id

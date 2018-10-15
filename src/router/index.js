@@ -80,6 +80,22 @@ let router = new Router({
           },
         },
         {
+          path: 'permissionAllot',
+          component: () =>
+            import ('@/views/system/permissionAllot'), //权限分配
+          meta: {
+            name: 'permissionAllot',
+          },
+        },
+        {
+          path: 'permissionList',
+          component: () =>
+            import ('@/views/system/permissionList'), //权限列表
+          meta: {
+            name: 'permissionList',
+          },
+        },
+        {
           path: 'changePwd',
           component: () =>
             import ('@/views/system/changePwd'),
@@ -87,6 +103,7 @@ let router = new Router({
             name: 'changePwd',
           },
         },
+
         /* 系统管理module end */
 
         /* 开户管理 start */

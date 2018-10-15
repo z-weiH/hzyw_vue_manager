@@ -83,6 +83,16 @@
                 menuName : '修改密码',
                 menuId : 7,
                 menuUrl : 'changePwd',
+              },
+              {
+                menuName : '权限分配',
+                menuId : 8,
+                menuUrl : 'permissionAllot',
+              },
+              {
+                menuName : '权限列表',
+                menuId : 9,
+                menuUrl : 'permissionList',
               }
             ],
           },
@@ -596,6 +606,7 @@
       if(process.env.NODE_ENV !== 'development'){
         // 从 缓存读取 左侧树
         this.menuList = JSON.parse(localStorage.getItem('menuInfoList'));
+        console.error(this.menuList);
       }
       // 获取menu 树 , 高亮选中
       this.getMeun().then(this.setMuenActive);
