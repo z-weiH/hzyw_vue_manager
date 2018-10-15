@@ -6,7 +6,7 @@
     </div>
     <searchs @valueChange="searchItemChange"  class="item-search" :search-items="searchItems" :item="searchItem" :query-url="queryUrl">
         <template slot="moreBtn">
-              <el-button class="ml-20" type="primary" @click="handleExport">导出Excel</el-button>
+              <el-button v-if="misShow" class="ml-20" type="primary" @click="handleExport">导出Excel</el-button>
         </template>
     </searchs>
     <div class="item-title">
@@ -29,6 +29,19 @@ export default {
   mixins: [Mixins],
   data() {
     return {
+      misShow : (() => {
+				try{
+					let userName = JSON.parse(localStorage.getItem('loginInfo')).userName;
+					let arr = ['费玉琳','金凤','蔣慧芳'];
+					if(arr.indexOf(userName) !== -1) {
+						return true;
+					}else {
+						return false;
+					}
+				}catch(err) {
+					return false;
+				}
+			})(),
       searchItems: [
         {
           label: "案件查询",

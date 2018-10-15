@@ -6,7 +6,7 @@
         <router-link :to='$options.name' class='aside_tit'>发送记录</router-link>
       </div>
       <searchs class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
-        <template slot='moreBtn'><el-button class='ml-20' type='primary' @click='exportFileFoo'>导出Excel</el-button></template>
+        <template slot='moreBtn'><el-button v-if="misShow" class='ml-20' type='primary' @click='exportFileFoo'>导出Excel</el-button></template>
       </searchs>
 <div class='item-title'>
   发送记录列表
@@ -29,6 +29,19 @@ export default {
   mixins: [Mixins],
   data() {
     return {
+      misShow : (() => {
+				try{
+					let userName = JSON.parse(localStorage.getItem('loginInfo')).userName;
+					let arr = ['费玉琳','金凤','蔣慧芳'];
+					if(arr.indexOf(userName) !== -1) {
+						return true;
+					}else {
+						return false;
+					}
+				}catch(err) {
+					return false;
+				}
+			})(),
       item: {},
       exportUrl: URL_JSON["exportEsmqLogView"],
       queryUrl: URL_JSON["queryEsmqLogView"], ///14/send/querySmsSendByBaseQuery.htm
