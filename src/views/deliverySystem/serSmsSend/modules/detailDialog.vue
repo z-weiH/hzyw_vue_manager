@@ -130,7 +130,7 @@
         submitDisabled : false,
 
         ruleForm : {
-          list : [],
+
         },
         rules : {
 
@@ -157,7 +157,8 @@
               smsId : data.smsId,
             },
           }).then((res) => {
-            this.ruleForm = Object.assign(this.ruleForm,res.result);
+            res.result.list = res.result.list || [];
+            this.ruleForm = res.result;
           });
         });
       },
