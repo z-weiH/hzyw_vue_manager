@@ -74,7 +74,7 @@
         function applyHighlights(text) {
           text = text
             .replace(/\n$/g, '\n\n')
-            .replace(/\/\/([\u4e00-\u9fa5]*)?/g,'<span class="m-notes">$&</span>')
+            .replace(/\/\/([\u4e00-\u9fa5]+)/g,'<span class="m-notes">$&</span>')
             .replace(/[\u4e00-\u9fa5].*?/g, '<span class="m-mark">$&</span>');
           if (isIE) {
             // IE wraps whitespace differently in a div vs textarea, this fixes it
@@ -158,7 +158,6 @@
 .gz-textarea{
   .container{
     display: block;
-    margin: 0 auto;
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
     -webkit-text-size-adjust: none;
