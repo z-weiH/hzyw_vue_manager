@@ -1026,6 +1026,14 @@ let router = new Router({
       },
     },
     {
+      path: '/ruleTemplate',
+      component: () =>
+        import ('@/views/ruleBaseManagement/ruleTemplate'), // 规则库
+      meta: {
+        name: 'ruleTemplate',
+      },
+    },
+    {
       path: '/caseDetail',
       component: () =>
         import("@/views/caseInfo/caseListView/module/caseDetail"), //案件复核详情(案件列表)

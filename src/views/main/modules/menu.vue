@@ -531,6 +531,11 @@
                 menuId : 'gzk2',
                 menuUrl : 'ruleBaseNavigation'
               },
+              {
+                menuName : '规则模版',
+                menuId : 'gzmb',
+                menuUrl : 'ruleTemplate'
+              },
             ],
           },
           {
