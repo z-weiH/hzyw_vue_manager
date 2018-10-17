@@ -32,8 +32,36 @@
                   </el-select>
                 </el-form-item>
               </td>
-              <td colspan="1">案件标的：</td>
+              <td colspan="1">案由：</td>
               <td colspan="1">
+                <el-form-item label=" " prop="caseCause">
+                  <el-select filterable v-model="ruleForm.caseCause" placeholder="请选择">
+                    <template v-for="(item,index) in caseCauseOptions">
+                      <el-option :key="item.caseCause + index" :label="item.desc" :value="item.caseCause"></el-option>
+                    </template>
+                  </el-select>
+                </el-form-item>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="1">案件受理费：</td>
+              <td colspan="1">
+                <el-form-item label=" " prop="caseAmt">
+                  <el-input placeholder="请输入案件受理费" v-model="ruleForm.caseAmt"></el-input>
+                </el-form-item>
+              </td>
+              <td colspan="1">案件仲券：</td>
+              <td colspan="1">
+                <el-form-item label=" " prop="caseTicket">
+                  <el-input placeholder="请输入案件仲券" v-model="ruleForm.caseTicket"></el-input>
+                </el-form-item>
+              </td>
+            </tr>
+
+            <tr>
+              <td colspan="1">案件标的：</td>
+              <td colspan="3">
                 <el-form-item label=" " prop="amtBorrow">
                   <el-input placeholder="请输入案件标的" v-model="ruleForm.amtBorrow"></el-input>
                 </el-form-item>
@@ -54,21 +82,6 @@
               <td colspan="3">
                 <el-form-item label=" " prop="factsReason">
                   <el-input :autosize="{ minRows: 3}" type="textarea" placeholder="请输入事实与理由" v-model="ruleForm.factsReason"></el-input>
-                </el-form-item>
-              </td>
-            </tr>
-
-            <tr>
-              <td colspan="1">案件受理费：</td>
-              <td colspan="1">
-                <el-form-item label=" " prop="caseAmt">
-                  <el-input placeholder="请输入案件受理费" v-model="ruleForm.caseAmt"></el-input>
-                </el-form-item>
-              </td>
-              <td colspan="1">案件仲券：</td>
-              <td colspan="1">
-                <el-form-item label=" " prop="caseTicket">
-                  <el-input placeholder="请输入案件仲券" v-model="ruleForm.caseTicket"></el-input>
                 </el-form-item>
               </td>
             </tr>
@@ -452,6 +465,8 @@
         ruleForm : {
           // 申请人
           userId : '',
+          // 案由
+          caseCause : '',
           // 案件标的
           amtBorrow : '',
           // 诉讼请求
@@ -608,6 +623,10 @@
         userOptions : [
           {name : '张三' , userId : '张三'}
         ],
+        // 案由 options
+        caseCauseOptions : [
+          {caseCause : '案由id' , desc : '案由label'}
+        ],
       }
     },
     mounted() {
@@ -617,6 +636,13 @@
         url : '/casemanage/queryUsers.htm',
       }).then((res) => {
         this.userOptions = res.result;
+      });
+      // 获取案由 options
+      this.$http({
+        method : 'post',
+        url : '/casemanage/queryCaseCauseSelect.htm',
+      }).then((res) => {
+        this.caseCauseOptions = res.result;
       });
     },
     methods : {
