@@ -115,7 +115,7 @@
         <el-table-column prop="remark" label="备注">
           <template slot-scope="scope">
             <el-tooltip :content="scope.row.remark" placement="top-start">
-              <span class="ellipsis" style="max-width:78px;">{{scope.row.remark}}</span>
+              <a @click.stop="handleEditRemarks(scope.row)" class="ellipsis" style="max-width:78px;">{{scope.row.remark}}</a>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -133,7 +133,7 @@
       </el-pagination>
 
       <templateDialog @successCBK="successCBK" ref="templateDialog"></templateDialog>
-
+      <remarkDialog @successCBK="successCBK" ref="remarkDialog"></remarkDialog>
     </div>
 	</div>
 </template>
@@ -141,10 +141,12 @@
 <script>
   import timeFrame from '@/components/timeFrame.vue'
   import templateDialog from './modules/templateDialog.vue'
+  import remarkDialog from './modules/remarkDialog.vue'
 	export default {
 		components : {
       timeFrame,
       templateDialog,
+      remarkDialog,
 		},
 		data() {
 			return {
@@ -197,6 +199,10 @@
       // 添加新模板 成功回调
       successCBK() {
         this.handleSearch();
+      },
+      // 点击修改 备注
+      handleEditRemarks(row) {
+        this.$refs.remarkDialog.show(row);
       },
 
 			// 表格相关 start
