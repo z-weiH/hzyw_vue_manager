@@ -863,6 +863,14 @@ let router = new Router({
             name: 'ruleBaseNavigation',
           },
         },
+        {
+          path: 'ruleTemplate',
+          component: () =>
+            import ('@/views/ruleBaseManagement/ruleTemplate'), // 规则库
+          meta: {
+            name: 'ruleTemplate',
+          },
+        },
         /* 规则库管理 module end */
 
         /* 执行管理 module start */
@@ -1025,14 +1033,7 @@ let router = new Router({
         name: 'ruleBase',
       },
     },
-    {
-      path: '/ruleTemplate',
-      component: () =>
-        import ('@/views/ruleBaseManagement/ruleTemplate'), // 规则库
-      meta: {
-        name: 'ruleTemplate',
-      },
-    },
+
     {
       path: '/caseDetail',
       component: () =>
