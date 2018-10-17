@@ -14,8 +14,61 @@
         </p>
         <div class="innerContent">
 
-          <div class="item-table">
-          </div>
+          <el-form :inline="true" :model="searchItem" style="padding: 0;">
+            <el-form-item label="" style="margin: 0;">
+              <el-input v-model="searchItem.keyWords" placeholder="权限表达式与按钮名称搜索" ></el-input>
+            </el-form-item>
+            <el-button type="warning" @click="doQuery">查询</el-button>
+          </el-form>
+
+          <el-table
+            ref="table"
+            :data="tableData"
+            tooltip-effect="dark"
+            border
+            @select="handleSelectionChange"
+            @select-all="handleSelectionChange"
+          >
+            <el-table-column
+              show-overflow-tooltip
+              type="selection"
+              width="55">
+            </el-table-column>
+            <el-table-column
+              label="权限表达式"
+              width="238">
+              <template slot-scope="scope">
+                  <el-tooltip :content="scope.row.btnExpression" placement="top-start">
+                    <span class="ellipsis">
+                                      {{ scope.row.btnExpression }}
+                    </span>
+                  </el-tooltip>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="按钮名称"
+              show-overflow-tooltip
+              width="153">
+              <template slot-scope="scope">
+                <div style="overflow: hidden;white-space: nowrap;
+    text-overflow: ellipsis;">
+                  <el-tooltip :content="scope.row.btnName" placement="top-start">
+                    <span class="ellipsis">
+                                          {{ scope.row.btnName }}
+                    </span>
+                  </el-tooltip>
+                </div>
+              </template>
+            </el-table-column>
+          </el-table>
+
+          <el-pagination
+            @current-change="handleCurrentChange"
+            :current-page="pager.currentNum"
+            :page-size="pager.pageSize"
+            layout="total, prev, pager, next, jumper"
+            :total="pager.count">
+          </el-pagination>
 
         </div>
       </div>
@@ -27,7 +80,7 @@
           <ul class="innerUl">
             <li v-for="(rule, idx) in checkedNodes" :key="idx">
               <span @click="deleteLevelId(idx)"></span>
-              {{rule.labelName}}
+              {{rule.btnName}}
             </li>
           </ul>
         </div>
@@ -46,7 +99,6 @@ export default {
   name: 'allot',
   components:{
     Searchs,
-    TableComponent,
   },
   data(){
     return{
@@ -54,25 +106,62 @@ export default {
       checkedNodes: [],
       tableData: [],
       pager:{
-
+        currentNum: 1,
+        pageSize: 5,
+        count: 1
       },
-      columnDefine:[
-        {label: '权限表达式',property: 'btnExpression',width: 214},
-        {label: '按钮名称',property: 'btnName',width: 180}
-      ]
+      queryUrl: '/btnInfo/queryBtnListByBaseQuery.htm',
+      searchItem : {keyWords: ''},
+      selectedItems: []
     }
   },
   methods:{
     show(){
       this.addRuleFlag = true;
+      this.doQuery();
+
     },
+    doQuery(){
+      this.$http.post('/btnInfo/queryBtnListByBaseQuery.htm',Object.assign(this.searchItem, this.pager)).then(res => {
+        this.tableData = res.result.list;
+        this.pager.count = res.result.count;
+      })
+    },
+    handleCurrentChange(){
+      this.refreshTable();
+    },
+
+    handleSelectionChange(selection, row){
+      // console.error(selection,row);
+      this.selectedItems[this.pager.currentNum-1] = selection;
+      this.initcheckedNodes();
+    },
+
+    initcheckedNodes(){
+      this.checkedNodes = [];
+      this.selectedItems.forEach( it => {
+        it.forEach(i => {
+          this.checkedNodes. push(i);
+        })
+      })
+    },
+    refreshTable(){
+      this.$refs.table.clearSelection();
+      let arr =this.tableData.filter(it => this.checkedNodes.find(i => i.btnId === it.btnId));
+      arr.forEach(it => {
+        this.$refs.table.toggleRowSelection(it,true);
+      })
+    },
+
     //确定选择
     confirmHandle(){
 
+
     },
     //删除选中
-    deleteLevelId(){
-
+    deleteLevelId(idx){
+      this.checkedNodes.splice(idx,1);
+      this.refreshTable()
     }
   }
 }
