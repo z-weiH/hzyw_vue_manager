@@ -35,6 +35,7 @@
             </td>
             <td colspan="1">
               <el-tree
+                :check-strictly="true"
                 :data="treeList"
                 show-checkbox
                 node-key="id"
@@ -121,9 +122,25 @@
         console.log(this.$refs['tree'].getHalfCheckedKeys().join(','));
         this.$refs['ruleForm'].validate(res => {
           if(res){
-            this.item.menus = this.$refs['tree'].getCheckedKeys().join(',');
+            let items = this.$refs['tree'].getCheckedNodes().filter(it => it.type !== 3);
+            this.item.menus = '';
+            items.forEach((it) => {
+              this.item.menus += it.id+ ',';
+            })
+            if(this.item.menus){
+              this.item.menus = this.item.menus.substring(0,this.item.menus.length -1);
+            }
             if(this.$refs['tree'].getHalfCheckedKeys().join(','))
               this.item.menus += ','+this.$refs['tree'].getHalfCheckedKeys().join(',');
+            let arr = this.$refs['tree'].getCheckedNodes().filter(it => it.type === 3);
+            this.item.btnIds = '';
+            arr.forEach((it) => {
+              this.item.btnIds += it.id+ ',';
+            })
+            if(this.item.btnIds){
+              this.item.btnIds = this.item.btnIds.substring(0,this.item.btnIds.length -1);
+            }
+
             this.$http.post(URL_JSON['saveRoleManage'],this.item)
               .then(res => {
                 this.$message.success(res.description);

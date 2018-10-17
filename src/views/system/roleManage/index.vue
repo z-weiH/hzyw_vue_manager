@@ -77,6 +77,8 @@
             setTimeout(() => {
               let items= []
               res.result.menus && (items=res.result.menus.split(','));
+              res.result.btnIds && (items= items.concat(res.result.btnIds.split(',')));
+              console.log(items);
               this.$refs['create'].$refs['tree'].setCheckedKeys(items);
             },100)
           })

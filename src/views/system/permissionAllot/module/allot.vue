@@ -145,13 +145,7 @@ export default {
         })
       })
     },
-    refreshTable(){
-      this.$refs.table.clearSelection();
-      let arr =this.tableData.filter(it => this.checkedNodes.find(i => i.btnId === it.btnId));
-      arr.forEach(it => {
-        this.$refs.table.toggleRowSelection(it,true);
-      })
-    },
+
 
     //确定选择
     confirmHandle(){
