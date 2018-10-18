@@ -50,16 +50,16 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="mailId" label="邮件ID"></el-table-column>
-        <el-table-column prop="clientName" label="所属客户名称" width="120px"></el-table-column>
-        <el-table-column prop="clientMailId" label="邮件调用方的定义该邮件的唯一ID" width="150px"></el-table-column>
-        <el-table-column prop="senderAddress" label="发送邮件邮箱地址" width="135px"></el-table-column>
-        <el-table-column prop="fromSmtp" label="发送邮件邮箱SMTP地址" width="110px"></el-table-column>
-        <el-table-column prop="port" label="发送邮件邮箱SMTP端口号" width="110px"></el-table-column>
-        <el-table-column prop="senderName" label="发送邮件人名称"></el-table-column>
-        <el-table-column prop="toEmail" label="接收邮件地址"></el-table-column>
-        <el-table-column prop="mailReceiver" label="接收邮件人名称"></el-table-column>
-        <el-table-column prop="mailTitle" label="邮件标题"></el-table-column>
+				<el-table-column prop="mailId" label="邮件ID" width="155px"></el-table-column>
+        <el-table-column prop="clientName" label="所属客户名称" width="155px"></el-table-column>
+        <el-table-column prop="clientMailId" label="邮件调用方的定义该邮件的唯一ID" width="155px"></el-table-column>
+        <el-table-column prop="senderAddress" label="发送邮件邮箱地址" width="155px"></el-table-column>
+        <el-table-column prop="fromSmtp" label="发送邮件邮箱SMTP地址" width="155px"></el-table-column>
+        <el-table-column prop="port" label="发送邮件邮箱SMTP端口号" width="155px"></el-table-column>
+        <el-table-column prop="senderName" label="发送邮件人名称" width="155px"></el-table-column>
+        <el-table-column prop="toEmail" label="接收邮件地址" width="155px"></el-table-column>
+        <el-table-column prop="mailReceiver" label="接收邮件人名称" width="155px"></el-table-column>
+        <el-table-column prop="mailTitle" label="邮件标题" width="155px"></el-table-column>
         <el-table-column prop="mailStatus" label="邮件发送状态">
           <template slot-scope="scope">
             {{
@@ -69,7 +69,7 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间"></el-table-column>
+        <el-table-column prop="createTime" label="创建时间" width="155px"></el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="handleDetail(scope.row)" type="text">详情</el-button>

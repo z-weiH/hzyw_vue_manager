@@ -174,8 +174,8 @@
               <tr>
                 <td colspan="1">法定代表人：</td>
                 <td colspan="1">
-                  <el-form-item label=" " prop="legaller">
-                    <el-input placeholder="请输入法定代表人" v-model="ruleForm.legaller"></el-input>
+                  <el-form-item label=" " prop="legalPerson">
+                    <el-input placeholder="请输入法定代表人" v-model="ruleForm.legalPerson"></el-input>
                   </el-form-item>
                 </td>
                 <td colspan="1">法定代表人职务：</td>
@@ -522,7 +522,7 @@
           evidenceIndex : '',
 
           // 法定代表人
-          legaller : '',
+          legalPerson : '',
           // 法定代表人职务
           position : '',
 
@@ -607,7 +607,7 @@
             {required : true , message : '请上传仲裁申请书' , trigger : 'change'},
           ],
           // 法定代表人
-          legaller : [
+          legalPerson : [
             {required : true , message : '请输入法定代表人' , trigger : 'blur'},
           ],
           // 法定代表人职务
@@ -658,7 +658,7 @@
         // 重置相关数据
         let arr = [
           'name' , 'nation' , 'phone' , 'email' , 'idcard' , 'img01' , 'img02' , 'idaddress' , 'address' ,
-          'legaller' , 'position' , 'img01FileName' , 'img02FileName' ,
+          'legalPerson' , 'position' , 'img01FileName' , 'img02FileName' ,
         ];
         arr.map((v,k) => {
           this.ruleForm[v] = '';

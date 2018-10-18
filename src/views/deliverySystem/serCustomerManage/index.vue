@@ -109,7 +109,7 @@
         }).then(() => {
           this.$http({
             method : 'post',
-            url : '/clientmanagment/deleteDeliverClientInfoByClientId.htm',
+            url : '/clientManagement/deleteDeliverClientInfoByClientId.htm',
             data : {
               clientId : row.clientId,
             },

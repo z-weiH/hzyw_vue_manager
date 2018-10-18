@@ -108,7 +108,7 @@
         }).then(() => {
           this.$http({
             method : 'post',
-            url : '/templateManagment/deleteTemplateInfoByTemplateId.htm',
+            url : '/templateManagement/deleteTemplateInfoByTemplateId.htm',
             data : {
               templateId : row.templateId,
             },
