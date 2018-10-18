@@ -84,12 +84,12 @@
             // 回显数据
             this.$http({
               method : 'post',
-              url : '/templateManagment/saveTemplateInfoDetails.htm',
+              url : '/templateManagement/queryTemplateInfoDetails.htm',
               data : {
                 templateId : data.templateId,
               },
             }).then((res) => {
-              this.ruleForm = Object.assign(this.ruleForm,res.result);
+              this.ruleForm = Object.assign(this.ruleForm,res.result[0]);
             });
           }
         });
@@ -123,7 +123,7 @@
             }
 						this.$http({
               method : 'post',
-              url : '/templateManagment/saveTemplateInfoByTemplateId.htm',
+              url : '/templateManagement/saveTemplateInfoByTemplateId.htm',
               data : form,
             }).then((res) => {
               this.$message.success('操作成功');
