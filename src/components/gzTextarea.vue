@@ -10,7 +10,7 @@
 </template>
 
 <script>
-  /* 
+  /*
     <gzTextarea ref="gzTextarea" :width="500" :height="300" v-model="value"></gzTextarea>
     // this.$refs.gzTextarea.getVal()
   */
@@ -37,7 +37,13 @@
       this.$nextTick(() => {
         this.init();
       });
+      $('textarea').blur((e) => {
+        console.log(e,'blur');
+        this.$emit("valueChange",this.getVal());
+      })
+
     },
+
     watch : {
       value(val) {
         this.key = +new Date();
@@ -80,7 +86,7 @@
             // IE wraps whitespace differently in a div vs textarea, this fixes it
             text = text.replace(/ /g, ' <wbr>');
           }
-          
+
           return text;
         }
         function handleInput() {
@@ -113,9 +119,9 @@
         function handleScroll() {
           var scrollTop = $textarea.scrollTop();
           $backdrop.scrollTop(scrollTop);
-          
+
           var scrollLeft = $textarea.scrollLeft();
-          $backdrop.scrollLeft(scrollLeft);  
+          $backdrop.scrollLeft(scrollLeft);
         }
         function bindEvents() {
           $textarea.on({
@@ -125,7 +131,7 @@
 
           $toggle.on('click', function() {
             $container.toggleClass('perspective');
-          });  
+          });
         }
         bindEvents();
         handleInput();
@@ -173,7 +179,7 @@
     .backdrop {
       position: absolute;
       z-index: 1;
-      border: 2px solid #685972;
+      border: 2px solid #DCDFE6;
       background-color: #fff;
       overflow: auto;
       pointer-events: none;
@@ -194,7 +200,7 @@
       position: absolute;
       z-index: 2;
       margin: 0;
-      border: 2px solid #74637f;
+      border: 2px solid #DCDFE6;
       border-radius: 0;
       color: #444;
       background-color: transparent;
@@ -257,7 +263,7 @@
 
     textarea:focus, button:focus {
       outline: none;
-      box-shadow: 0 0 0 2px #c6aada;
+      /*box-shadow: 0 0 0 2px #c6aada;*/
     }
   }
 }
