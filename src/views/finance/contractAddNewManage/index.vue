@@ -147,7 +147,7 @@
       // 点击导出
       handleExport() {
         exportFile({
-          url : '/contractOrder/exportExcel.htm',
+          url : '/contractOrder/exportExcelForManager.htm',
           data : {
             keyWords : this.ruleForm.keyWords,
             startDate : this.ruleForm.startDate,

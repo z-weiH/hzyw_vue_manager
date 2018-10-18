@@ -6,7 +6,7 @@
     </div>
     <searchs @valueChange="searchItemChange"  class="item-search" :search-items="searchItems" :item="searchItem" :query-url="queryUrl">
         <template slot="moreBtn">
-              <el-button v-if="misShow" class="ml-20" type="primary" @click="handleExport">导出Excel</el-button>
+              <el-button class="ml-20" type="primary" @click="handleExport">导出Excel</el-button>
         </template>
     </searchs>
     <div class="item-title">

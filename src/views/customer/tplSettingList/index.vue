@@ -115,7 +115,7 @@
         <el-table-column prop="remark" label="备注">
           <template slot-scope="scope">
             <el-tooltip :content="scope.row.remark" placement="top-start">
-              <span class="ellipsis" style="max-width:78px;">{{scope.row.remark}}</span>
+              <a @click.stop="handleEditRemarks(scope.row)" class="ellipsis" style="max-width:78px;">{{scope.row.remark}}</a>
             </el-tooltip>
           </template>
         </el-table-column>
