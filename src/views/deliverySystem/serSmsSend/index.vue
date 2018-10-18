@@ -33,7 +33,9 @@
         </el-form-item>
 
         <el-form-item label="所属模板：" prop="templateName">
-          <el-input v-model.trim="ruleForm.templateName" placeholder="请输入所属模板" style="width:170px;"></el-input>
+          <el-select filterable clearable style="width:170px;" v-model="ruleForm.templateName" placeholder="请选择模板">
+            <el-option :label="item.templateName" :value="item.templateName" v-for="(item,index) in templateOptions" :key="index"></el-option>
+          </el-select>
         </el-form-item>
 
 
@@ -151,12 +153,23 @@
         // 当前页数
         currentPage : 1,
         // 每页数量
-				pageSize : 10,
+        pageSize : 10,
+        
+        // 所属模板 options
+        templateOptions : [],
 				
 			}
     },
     mounted() {
       this.initTableList();
+
+      // 获取所属 模板options
+      this.$http({
+        method : 'post',
+        url : '/templateManagement/queryTemplateNameList.htm',
+      }).then((res) => {
+        this.templateOptions = res.result;
+      });
     },
 		methods : {
 			// 点击搜索
