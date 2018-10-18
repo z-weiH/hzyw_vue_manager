@@ -140,6 +140,8 @@
           <!--</ul>-->
           <span class="showPdf_btn"  v-if="showSelect"  ref="textarea_select" @click="pdfFlagChange">获取字段</span>
           <div class="rightBtns" >
+            <el-button size="mini" @click="handleInputTemplate" v-if="editState === 2">导入模版</el-button>
+
             <el-button size="mini" @click="handleAvriable">查看参数</el-button>
 
             <el-button size="mini" type="primary" @click="handleRun" :disabled="canYanZheng">验证</el-button>
@@ -272,6 +274,7 @@
     <executionSet ref="executionSetDialog"></executionSet>
     <caseSample ref="caseSampleDialog" :rule="currentMenu"></caseSample>
     <copyRule ref="copyRule"/>
+    <inputTemplate ref="inputTemplate"></inputTemplate>
   </div>
 </template>
 
@@ -283,6 +286,7 @@
   import executionSet from './modules/executionSetDialog'
   import caseSample from './modules/caseSampleDialog'
   import copyRule from './modules/copyRuleDialog'
+  import inputTemplate from './modules/inputTemplate'
   export default {
     components : {
       'm-progress' : progress,
@@ -291,7 +295,8 @@
       addRule,
       executionSet,
       caseSample,
-      copyRule
+      copyRule,
+      inputTemplate
     },
     data() {
       return {
@@ -578,7 +583,11 @@
     },
     methods : {
 
-
+      //导入模版
+      handleInputTemplate() {
+        console.log(this.$refs.inputTemplate);
+        this.$refs.inputTemplate.init();
+      },
       //复制规则
       copyRules(){
         let  arr = this.ruleList.filter(it => it.selected);

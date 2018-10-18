@@ -162,6 +162,7 @@
 <style lang="scss" scoped>
 
 .gz-textarea{
+
   .container{
     display: block;
     -webkit-transform: translateZ(0);
