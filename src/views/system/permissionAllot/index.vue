@@ -69,7 +69,7 @@
             <el-table-column
             label="按钮名称"
             show-overflow-tooltip
-            width="173">
+            width="175">
             <template slot-scope="scope">
             <div style="overflow: hidden;white-space: nowrap;
             text-overflow: ellipsis;">
@@ -96,9 +96,11 @@
             </el-table>
             <el-pagination
             @current-change="handleCurrentChange"
+            @size-change="handleSizeChange"
             :current-page="pager.currentNum"
             :page-size="pager.pageSize"
-            layout="total, prev, pager, next, jumper"
+            :page-sizes="[10, 20, 30, 40]"
+            layout="total, sizes ,prev, pager, next, jumper"
             :total="pager.count">
             </el-pagination>
           </div>
@@ -137,7 +139,7 @@ export default {
       tableData: [],
       pager:{
         currentNum: 1,
-        pageSize: 5,
+        pageSize: 10,
         count: 1
       },
       queryUrl: '/btnInfo/queryBtnListByBaseQuery.htm',
@@ -225,6 +227,11 @@ export default {
 
     handleCurrentChange(num){
       this.pager.currentNum = num;
+      this.doQueryBtn();
+      this.refreshTable();
+    },
+    handleSizeChange(num){
+      this.pager.pageSize = num;
       this.doQueryBtn();
       this.refreshTable();
     },
