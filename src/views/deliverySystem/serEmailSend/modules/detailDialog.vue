@@ -157,6 +157,7 @@
       word-break: break-all;
       word-wrap: break-word;
       white-space: pre-wrap;
+      width: calc(100% - 220px);
     }
   }
   .m-table-title{

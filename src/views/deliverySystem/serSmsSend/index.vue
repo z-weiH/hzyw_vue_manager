@@ -62,11 +62,11 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="smsId" label="短信ID"></el-table-column>
-        <el-table-column prop="clientSmsId" label="客户短信ID" width="100px"></el-table-column>
-        <el-table-column prop="clientName" label="所属客户"></el-table-column>
-        <el-table-column prop="clientSigner" label="短信签名"></el-table-column>
-        <el-table-column prop="templateId" label="模板ID"></el-table-column>
+				<el-table-column prop="smsId" label="短信ID" width="155px"></el-table-column>
+        <el-table-column prop="clientSmsId" label="客户短信ID" width="155px"></el-table-column>
+        <el-table-column prop="clientName" label="所属客户" width="155px"></el-table-column>
+        <el-table-column prop="clientSigner" label="短信签名" width="155px"></el-table-column>
+        <el-table-column prop="templateName" label="所属模板" width="155px"></el-table-column>
         <el-table-column prop="smsType" label="短信类型">
           <template slot-scope="scope">
             {{
@@ -77,9 +77,9 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="fromPhone" label="发送号码"></el-table-column>
-        <el-table-column prop="toPhone" label="接收号码"></el-table-column>
-        <el-table-column prop="smsTime" label="发送时间"></el-table-column>
+        <el-table-column prop="fromPhone" label="发送号码" width="155px"></el-table-column>
+        <el-table-column prop="toPhone" label="接收号码" width="155px"></el-table-column>
+        <el-table-column prop="smsTime" label="发送时间" width="160px"></el-table-column>
         <el-table-column prop="smsStatus" label="发送状态">
           <template slot-scope="scope">
             {{

@@ -20,7 +20,7 @@
 
         <div class="m-item">
           <div class="m-title">所属客户：</div>
-          <div class="m-content">{{ruleForm.clientId}}</div> 
+          <div class="m-content">{{ruleForm.clientName}}</div> 
         </div>
 
         <div class="m-item">
@@ -193,6 +193,7 @@
       word-break: break-all;
       word-wrap: break-word;
       white-space: pre-wrap;
+      width: calc(100% - 100px);
     }
   }
   .m-table-title{
