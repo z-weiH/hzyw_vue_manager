@@ -84,12 +84,12 @@
 
         <div class="m-item">
           <div class="m-title">发送参数内容：</div>
-          <div class="m-content">{{ruleForm.smsContent}}</div> 
+          <div class="m-content" v-html="urlMatching(ruleForm.smsContent)"></div> 
         </div>
 
         <div class="m-item">
           <div class="m-title">实际短信内容：</div>
-          <div class="m-content">{{ruleForm.content}}</div> 
+          <div class="m-content" v-html="urlMatching(ruleForm.content)"></div> 
         </div>
 
         <div>
@@ -161,6 +161,11 @@
             this.ruleForm = res.result;
           });
         });
+      },
+
+      // url 匹配
+      urlMatching(str) {
+        return str ? str.replace(/(https?|ftp|file):\/\/[-A-Za-z0-9+&@#/%?=~_|!:,.;]+[-A-Za-z0-9+&@#/%=~_|]/g,`<a target="_blank" href=$&>$&</a>`) : '';
       },
 
       // 关闭浮层
