@@ -31,9 +31,14 @@
           <el-input v-model.trim="ruleForm.mailTitle" placeholder="请输入邮件标题" style="width:170px;"></el-input>
         </el-form-item>
 
-        <el-form-item label="模板类型：" prop="templateName">
-          <el-input v-model.trim="ruleForm.templateName" placeholder="请输入模板类型" style="width:170px;"></el-input>
+        <el-form-item label="发送时间：">
         </el-form-item>
+        <timeFrame
+          style="margin-left:-15px;"
+          :startDate.sync="ruleForm.startDate"
+          :endDate.sync="ruleForm.endDate"
+        >
+        </timeFrame>
 
         <el-button @click="handleSearch" type="warning">查询</el-button>
 
@@ -116,8 +121,10 @@
           mailReceiver : '',
           // 邮件标题
           mailTitle : '',
-          // 模板类型
-          templateName : '',
+          // 开始时间
+          startDate : '',
+          // 结束时间
+          endDate : '',
 				},
 				rules : {},
 
