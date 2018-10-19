@@ -134,7 +134,7 @@
 
         <el-form-item label="机审规则：" prop="ruleInfo">
           <el-input type="textarea" class="rule_textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @keyup.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
-          <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:18px;box-sizing: border-box;"  v-html="ruleInfo_html" ></div>
+          <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:21px;box-sizing: border-box;"  v-html="ruleInfo_html" ></div>
           <!--<ul class="textarea_select" v-if="showSelect" ref="textarea_select">-->
             <!--<li v-for="(name,index) in ruleNames" :key="index" :class="{'active': index == ruleIndex}">{{name}}</li>-->
           <!--</ul>-->
@@ -508,7 +508,8 @@
 
       'form.ruleInfo'(val,oldVal){
         //规则输入的交互逻辑
-        console.log(this.$refs.textarea_rule.$el.querySelector("textarea").selectionStart);
+        this.$refs.textarea_warpar.style.height = this.$refs.textarea_rule.$el.offsetHeight + 'px';
+        console.log(this.$refs.textarea_warpar.offsetHeight);
         let lastVal = val.substring(this.getCursorPos(this.$refs.textarea_rule.$el.querySelector("textarea"))).trim();
           val = val.substring(0, this.getCursorPos(this.$refs.textarea_rule.$el.querySelector("textarea")));
         this.ruleInfo_html = val;
@@ -529,15 +530,16 @@
             // it.style.color = "#13367D";
             if(it.parentElement.className != 'm-notes'){
               console.log(it.offsetTop, it.offsetLeft,it.innerHtml,it.offsetWidth);
+              let scrollTop = this.$refs.textarea_rule.$el.querySelector('textarea').scrollTop;
               let span =it.cloneNode();
               span.style.position = 'absolute';
               span.style.opacity = '.4';
-              span.style.top = it.offsetTop + 5 + 'px';
+              span.style.top = it.offsetTop - scrollTop +3 + 'px';
               span.style.left = it.offsetLeft + 'px';
               // span.style.background = '#13367D';
               span.style.width = it.offsetWidth + 'px';
               // span.style.height = it.style.height;
-              console.log(span.style);
+              console.log(span.style,);
               this.$refs.textarea_rule.$el.appendChild(span);
             }
 

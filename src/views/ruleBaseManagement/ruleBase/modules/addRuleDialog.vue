@@ -51,6 +51,22 @@
           </div>
 
         </div><div v-if="currentTab === 1">
+            <el-form :inline="true" :model="searchItem" style="padding: 10px 0;">
+              <el-form-item label="" style="margin: 0; ">
+                <el-input style="width: 300px;" v-model="searchItem.keyWords" placeholder="案件编号、被申请人姓名、被申请人手机号" ></el-input>
+              </el-form-item>
+              <el-form-item label="" style="margin: 0;">
+                <el-select filterable v-model="searchItem.caseStatus" placeholder="请选择">
+                  <!--0-待分配，1-待初审，2-待复审，3-退回重审，4-预审通过-->
+                    <el-option  label="待分配" value="0"></el-option>
+                    <el-option  label="待初审" value="1"></el-option>
+                    <el-option  label="待复审" value="2"></el-option>
+                    <el-option  label="退回重审" value="3"></el-option>
+                    <el-option  label="预审通过" value="4"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-button type="warning" @click="doQuery">查询</el-button>
+            </el-form>
           <el-table key="2" ref="table2" border :data="list2" style="width: 100%" @selection-change="handleSelectionChange" >
             <el-table-column
               type="selection"
@@ -110,6 +126,8 @@
     },
     data(){
       return {
+
+        searchItem: {},
         //选中数量
         selectedNum: 0,
         //当前的rule模版
@@ -337,7 +355,7 @@
             })
           })
         }else{
-          this.$http.post("/rule/queryOnLineCaseListByBaseQuery.htm",{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,caseStatus: this.caseStatus,keyWords: this.keyWords, ...this.pager2}).then(res =>　{
+          this.$http.post("/rule/queryOnLineCaseListByBaseQuery.htm",{levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel,caseStatus: this.searchItem.caseStatus,keyWords: this.searchItem.keyWords, ...this.pager2}).then(res =>　{
             this.list2 = res.result.list;
             this.pager2.count = res.result.count;
             this.$nextTick(() => {
