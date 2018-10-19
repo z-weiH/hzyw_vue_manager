@@ -24,11 +24,8 @@
         </el-form-item>
 
         <el-form-item label="短信类型：" prop="smsType">
-          <el-select clearable v-model="ruleForm.smsType" placeholder="请选择短信类型" style="width:170px;">
-            <el-option label="普通短信" value="10"></el-option>
-            <el-option label="验证码" value="11"></el-option>
-            <el-option label="闪信" value="12"></el-option>
-            <el-option label="弹窗" value="13"></el-option>
+          <el-select clearable style="width:170px;" v-model="ruleForm.smsType" placeholder="请选择">
+            <el-option :label="item.busiName" :value="item.busiCode" v-for="(item,index) in smsTypeOptions" :key="index"></el-option>
           </el-select>
         </el-form-item>
 
@@ -69,16 +66,7 @@
         <el-table-column prop="clientName" label="所属客户" width="155px"></el-table-column>
         <el-table-column prop="clientSigner" label="短信签名" width="155px"></el-table-column>
         <el-table-column prop="templateName" label="所属模板" width="155px"></el-table-column>
-        <el-table-column prop="smsType" label="短信类型">
-          <template slot-scope="scope">
-            {{
-              scope.row.smsType === '10' ? '普通短信' :
-              scope.row.smsType === '11' ? '验证码' :
-              scope.row.smsType === '12' ? '闪信' :
-              scope.row.smsType === '13' ? '弹窗' : ''
-            }}
-          </template>
-        </el-table-column>
+        <el-table-column prop="busiName" label="短信类型"></el-table-column>
         <el-table-column prop="fromPhone" label="发送号码" width="155px"></el-table-column>
         <el-table-column prop="toPhone" label="接收号码" width="155px"></el-table-column>
         <el-table-column prop="smsTime" label="发送时间" width="160px"></el-table-column>
@@ -157,6 +145,8 @@
         
         // 所属模板 options
         templateOptions : [],
+        // 短信类型 options
+        smsTypeOptions : [],
 				
 			}
     },
@@ -169,6 +159,17 @@
         url : '/templateManagement/queryTemplateNameList.htm',
       }).then((res) => {
         this.templateOptions = res.result;
+      });
+      // 短信类型 模板options
+      this.$http({
+        method : 'post',
+        url : '/busiManagement/queryDeliveryBusiInfoByBaseQuery.htm',
+        data : {
+          pageSize : 1000,
+          currentNum: 1,
+        },
+      }).then((res) => {
+        this.smsTypeOptions = res.result.list;
       });
     },
 		methods : {
