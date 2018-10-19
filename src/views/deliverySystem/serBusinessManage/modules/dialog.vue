@@ -10,7 +10,7 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
 
-          <el-form-item label="业务编码：" prop="busiCode">
+          <el-form-item v-if="type === 'edit'" label="业务编码：" prop="busiCode">
 						<el-input :disabled="true" style="width:400px;" v-model.trim="ruleForm.busiCode" placeholder="请输入"></el-input>
 					</el-form-item>
           

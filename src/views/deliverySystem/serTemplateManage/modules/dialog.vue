@@ -10,12 +10,12 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
 
-          <el-form-item label="模板ID：" prop="templateId">
+          <el-form-item v-if="type === 'edit'" label="模板ID：" prop="templateId">
 						<el-input :disabled="true" style="width:400px;" v-model.trim="ruleForm.templateId" placeholder="请输入"></el-input>
 					</el-form-item>
 
           <el-form-item label="模板编号：" prop="templateCode">
-						<el-input :disabled="true" style="width:400px;" v-model.trim="ruleForm.templateCode" placeholder="请输入"></el-input>
+						<el-input :disabled="type === 'edit' ? true : false" style="width:400px;" v-model.trim="ruleForm.templateCode" placeholder="请输入"></el-input>
 					</el-form-item>
           
 					<el-form-item label="模板名称：" prop="templateName">

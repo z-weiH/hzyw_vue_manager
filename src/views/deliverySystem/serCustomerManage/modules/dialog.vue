@@ -10,7 +10,7 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
 
-          <el-form-item label="客户编码：" prop="clientId">
+          <el-form-item v-if="type === 'edit'" label="客户编码：" prop="clientId">
 						<el-input :disabled="true" style="width:400px;" v-model.trim="ruleForm.clientId" placeholder="请输入"></el-input>
 					</el-form-item>
           
