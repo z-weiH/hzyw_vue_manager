@@ -134,7 +134,7 @@
 
         <el-form-item label="机审规则：" prop="ruleInfo">
           <el-input type="textarea" class="rule_textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @keyup.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
-          <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:24px;" v-html="ruleInfo_html" ></div>
+          <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:18px;box-sizing: border-box;"  v-html="ruleInfo_html" ></div>
           <!--<ul class="textarea_select" v-if="showSelect" ref="textarea_select">-->
             <!--<li v-for="(name,index) in ruleNames" :key="index" :class="{'active': index == ruleIndex}">{{name}}</li>-->
           <!--</ul>-->
@@ -441,7 +441,7 @@
     computed: {
 
       canYanZheng(){
-        return this.canYanZheng = !this.form.ruleInfo || !this.form.ruleDesc;
+        return !this.form.ruleInfo || !this.form.ruleDesc;
       },
       canExecute(){
         if(!this.selectLevel.levelId )
@@ -512,7 +512,40 @@
         let lastVal = val.substring(this.getCursorPos(this.$refs.textarea_rule.$el.querySelector("textarea"))).trim();
           val = val.substring(0, this.getCursorPos(this.$refs.textarea_rule.$el.querySelector("textarea")));
         this.ruleInfo_html = val;
-        this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>');
+        this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>')
+        .replace(/\s/g,'&nbsp;')
+        .replace(/\/\/([\u4e00-\u9fa5]+)/g,'<span class="m-notes">$&</span>')
+        .replace(/[\u4e00-\u9fa5]+/g,'<span class="mark" style="height: 16px; line-height: 16px;background: #13367D; color: #13367D; opacity: .4;box-sizing: border-box;display: inline-block;">$&</span>')
+
+        this.$nextTick(() => {
+          console.log(this.$refs.textarea_warpar.querySelectorAll('span'));
+          this.$refs.textarea_rule.$el.querySelectorAll('span').forEach(node => {
+
+            this.$refs.textarea_rule.$el.removeChild(node);
+          })
+          this.$refs.textarea_warpar.querySelectorAll('span.mark').forEach(it => {
+            // let span =document.createElement("span");
+            // it.style.background = "#13367D";
+            // it.style.color = "#13367D";
+            if(it.parentElement.className != 'm-notes'){
+              console.log(it.offsetTop, it.offsetLeft,it.innerHtml,it.offsetWidth);
+              let span =it.cloneNode();
+              span.style.position = 'absolute';
+              span.style.opacity = '.4';
+              span.style.top = it.offsetTop + 5 + 'px';
+              span.style.left = it.offsetLeft + 'px';
+              // span.style.background = '#13367D';
+              span.style.width = it.offsetWidth + 'px';
+              // span.style.height = it.style.height;
+              console.log(span.style);
+              this.$refs.textarea_rule.$el.appendChild(span);
+            }
+
+          })
+
+        })
+
+
         console.log(this.ruleInfo_html);
         if(val){
           if(val[val.length -1] === ',' && this.checkcomma(lastVal)){
@@ -899,15 +932,16 @@
         this.$http.post("/ruleBase/queryRuleInfoDetailsByRuleId.htm",{ruleId: rule.ruleId}).then(res => {
           if(res.code ==='0000'){
             this.editState = 1;
-            this.$nextTick(()=> {
+            setTimeout(()=> {
               this.$refs.createForm.resetFields();
               console.log(this.$refs.textarea_warpar);
-              this.ruleInfo_html = this.form.ruleInfo;
               this.form = res.result;
+              // this.ruleInfo_html = this.form.ruleInfo;
+
               // for(let key in res.result){
               //   this.$set(this.form,key,res.result[key]);
               // }
-            });
+            },500);
           }
         })
       },
