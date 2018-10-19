@@ -597,4 +597,7 @@ input.el-input__inner {
     display: none;
   }
 }
+textarea::-webkit-scrollbar {
+  width: 6px;
+}
 

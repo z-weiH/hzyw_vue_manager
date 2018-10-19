@@ -133,8 +133,9 @@
 
 
         <el-form-item label="机审规则：" prop="ruleInfo">
-          <el-input type="textarea" class="rule_textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @keyup.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
+          <el-input type="textarea" class="rule_textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @keyup.native.13="changeLine"  :rows="12" placeholder="请填写机审规则"></el-input>
           <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:21px;box-sizing: border-box;"  v-html="ruleInfo_html" ></div>
+          <div class="textarea_warpar" ref="textarea_warpar1" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:21px;box-sizing: border-box;"  v-html="ruleInfo_html1" ></div>
           <!--<ul class="textarea_select" v-if="showSelect" ref="textarea_select">-->
             <!--<li v-for="(name,index) in ruleNames" :key="index" :class="{'active': index == ruleIndex}">{{name}}</li>-->
           <!--</ul>-->
@@ -463,12 +464,23 @@
         }
       }
     },
+
     watch: {
       'editState'(val,oldVal){
-        if(val == 1)
-          this.title = '编辑规则';
-        if(val == 2)
-          this.title = '添加规则';
+        if(val == 1 || val == 2){
+            if(val == 1)
+              this.title = '编辑规则';
+            if(val == 2)
+              this.title = '添加规则';
+            this.$nextTick(() => {
+              this.$refs.textarea_rule.$el.querySelector("textarea").onscroll =() => {
+                console.log('what');
+                this.textareaValueChange(this.form.ruleInfo);
+                this.textareaValueChange1(this.form.ruleInfo);
+              }
+            })
+          }
+
       },
       //控制全部规则，选中全部
       'ruleIdList'(val,oldVal){
@@ -507,24 +519,30 @@
       },
 
       'form.ruleInfo'(val,oldVal){
-        //规则输入的交互逻辑
-        this.$refs.textarea_warpar.style.height = this.$refs.textarea_rule.$el.offsetHeight + 'px';
-        console.log(this.$refs.textarea_warpar.offsetHeight);
-        let lastVal = val.substring(this.getCursorPos(this.$refs.textarea_rule.$el.querySelector("textarea"))).trim();
-          val = val.substring(0, this.getCursorPos(this.$refs.textarea_rule.$el.querySelector("textarea")));
-        this.ruleInfo_html = val;
-        this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>')
-        .replace(/\s/g,'&nbsp;')
-        .replace(/\/\/([\u4e00-\u9fa5]+)/g,'<span class="m-notes">$&</span>')
-        .replace(/[\u4e00-\u9fa5]+/g,'<span class="mark" style="height: 16px; line-height: 16px;background: #13367D; color: #13367D; opacity: .4;box-sizing: border-box;display: inline-block;">$&</span>')
+
+
+       this.textareaValueChange(val);
+       this.textareaValueChange1(val);
+
+
+
+      }
+    },
+    methods : {
+
+      textareaValueChange1(val){
+        this.ruleInfo_html1 = val.replace(/\n/g,'<br/>')
+          .replace(/\s/g,'&nbsp;')
+          .replace(/\/\/([\u4e00-\u9fa5]+)/g,'<span class="m-notes">$&</span>')
+          .replace(/[\u4e00-\u9fa5]+/g,'<span class="mark" style="height: 16px; line-height: 16px;background: #13367D; color: #13367D; opacity: .4;box-sizing: border-box;display: inline-block;">$&</span>')
 
         this.$nextTick(() => {
-          console.log(this.$refs.textarea_warpar.querySelectorAll('span'));
+          console.log(this.$refs.textarea_warpar1.querySelectorAll('span'));
           this.$refs.textarea_rule.$el.querySelectorAll('span').forEach(node => {
 
             this.$refs.textarea_rule.$el.removeChild(node);
           })
-          this.$refs.textarea_warpar.querySelectorAll('span.mark').forEach(it => {
+          this.$refs.textarea_warpar1.querySelectorAll('span.mark').forEach(it => {
             // let span =document.createElement("span");
             // it.style.background = "#13367D";
             // it.style.color = "#13367D";
@@ -538,6 +556,9 @@
               span.style.left = it.offsetLeft + 'px';
               // span.style.background = '#13367D';
               span.style.width = it.offsetWidth + 'px';
+              if(it.offsetTop - scrollTop +3 < 0 || it.offsetTop - scrollTop +3 > this.$refs.textarea_rule.$el.querySelector("textarea").offsetHeight - 16 ){
+                span.style.display = 'none';
+              }
               // span.style.height = it.style.height;
               console.log(span.style,);
               this.$refs.textarea_rule.$el.appendChild(span);
@@ -546,7 +567,17 @@
           })
 
         })
+      },
 
+
+      textareaValueChange(val){
+        //规则输入的交互逻辑
+        console.log(this.$refs.textarea_warpar.offsetHeight);
+        let lastVal = val.substring(this.getCursorPos(this.$refs.textarea_rule.$el.querySelector("textarea"))).trim();
+        val = val.substring(0, this.getCursorPos(this.$refs.textarea_rule.$el.querySelector("textarea")));
+        this.ruleInfo_html = val;
+        this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>')
+          .replace(/\s/g,'&nbsp;');
 
         console.log(this.ruleInfo_html);
         if(val){
@@ -571,52 +602,19 @@
               this.pdfParam = val.substring(idx+1,val.length -1).trim();
               this.ruleInfo_html += `<span style='font-size: 10px;padding: 2px 3px;'>获取字段</span>`
               this.showSelect = true;
-                  this.$nextTick(() => {
-                    let elms = this.$refs.textarea_warpar.querySelectorAll('span');
-                    let elm = elms[elms.length - 1];
-                    this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
-                    this.$refs.textarea_select.style.top = elm.offsetTop + 'px';
-                  });
+              this.$nextTick(() => {
+                let elms = this.$refs.textarea_warpar.querySelectorAll('span');
+                let elm = elms[elms.length - 1];
+                this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
+                this.$refs.textarea_select.style.top = elm.offsetTop + 'px';
+              });
             }
           }else{
             this.showSelect && (this.showSelect = false);
           }
         }
-        //   if(val.indexOf("$") == -1 && this.showSelect){
-        //     this.showSelect = false;
-        //   }
-        //   if(this.showSelect){
-        //     let index = val.lastIndexOf("$");
-        //     let find = val.substr(index+1);
-        //     this.ruleNames = this.allNames.filter(it => it.indexOf(find) != -1);
-        //     this.ruleIndex = 0;
-        //   }
-        //   if(val[val.length - 1] === '$'){
-        //     let str = val;
-        //     this.ruleInfo_html = str.substr(0,val.length -1 ).replace(/\n/g,'<br/>') + "<span>$</span>";
-        //     !this.showSelect && (this.showSelect = true);
-        //     this.$nextTick(() => {
-        //       let elms = this.$refs.textarea_warpar.querySelectorAll('span');
-        //       let elm = elms[elms.length - 1];
-        //       this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
-        //       this.$refs.textarea_select.style.top = elm.offsetTop+12 + 'px';
-        //     });
-        //
-        //   }else{
-        //     this.ruleInfo_html = val;
-        //     console.log(this.ruleInfo_html.indexOf('\n'))
-        //     this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>');
-        //     console.log(this.ruleInfo_html);
-        //   }
-        // }else{
-        //   this.showSelect = false;
-        // }
+      },
 
-
-
-      }
-    },
-    methods : {
 
       //导入模版
       handleInputTemplate() {
