@@ -19,7 +19,7 @@
 					</el-form-item>
 
           <el-form-item label="模板内容：" prop="templateContent">
-						<el-input type="textarea" style="width:400px;" v-model.trim="ruleForm.templateContent" placeholder="请输入"></el-input>
+						<el-input :rows="7" type="textarea" style="width:400px;" v-model.trim="ruleForm.templateContent" placeholder="请输入"></el-input>
 					</el-form-item>
 
         </el-form>
