@@ -24,7 +24,7 @@
       </div>
     </div>
     <div slot="footer">
-      <el-button type="primary" @click="handleClick">保存并关闭</el-button>
+      <el-button type="primary" :disabled="disabled" @click="handleClick">保存并关闭</el-button>
       <el-button @click="show = false;">取消</el-button>
     </div>
 
@@ -40,6 +40,7 @@ export default {
   },
   data(){
     return {
+      disabled: false,
       title: '',
       show: false,
       rules: {
@@ -56,12 +57,14 @@ export default {
       if(!id){
         this.title='添加规则模版';
         this.ruleForm = {templateDesc: '',templateInfo: ''};
+        this.disabled = false;
         this.show= true;
       }else{
         this.title = "编辑规则模版";
         this.$http.post("/ruleTem/queryRuleTemplateDetails.htm",{id: id}).then(res => {
           console.log(res);
           this.ruleForm = res.result;
+          this.disabled = false;
           this.show = true;
         })
       }
@@ -88,13 +91,18 @@ export default {
       if(!this.ruleForm.templateInfo || !this.ruleForm.templateDesc){
         return ;
       }else{
-        this.$http.post("/ruleTem/saveRuleTemplateInfoById.htm",this.ruleForm).then(res => {
-          this.$message.success("保存模版成功");
-          this.show = false;
-          this.$nextTick(() => {
-            this.$parent.doQuery(this.$parent.queryUrl, this.$parent.searchItem)
+        if(!this.disabled){
+          this.$http.post("/ruleTem/saveRuleTemplateInfoById.htm",this.ruleForm).then(res => {
+            this.$message.success("保存模版成功");
+            this.disabled = true;
+            this.show = false;
+            this.$nextTick(() => {
+              this.$parent.doQuery(this.$parent.queryUrl, this.$parent.searchItem)
+            })
+
           })
-        })
+        }
+
       }
     }
   }
