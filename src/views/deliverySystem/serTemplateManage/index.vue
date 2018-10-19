@@ -27,6 +27,7 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
+        <el-table-column prop="templateId" label="模板ID"></el-table-column>
 				<el-table-column prop="templateCode" label="模板编码"></el-table-column>
         <el-table-column prop="templateName" label="模板名称"></el-table-column>
         <el-table-column prop="createTime" label="创建时间"></el-table-column>
