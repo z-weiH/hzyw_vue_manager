@@ -9,6 +9,10 @@
     >
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
+
+          <el-form-item label="客户编码：" prop="clientId">
+						<el-input :disabled="true" style="width:400px;" v-model.trim="ruleForm.clientId" placeholder="请输入"></el-input>
+					</el-form-item>
           
 					<el-form-item label="客户名称：" prop="clientName">
 						<el-input style="width:400px;" v-model.trim="ruleForm.clientName" placeholder="请输入"></el-input>
@@ -48,6 +52,8 @@
           clientSigner : '',
           // 客户信息描述
           clientInfo : '',
+          // 客户编码
+          clientId : '',
         },
         rules : {
           clientName : [
