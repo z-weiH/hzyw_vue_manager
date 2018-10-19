@@ -10,8 +10,8 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
 
-          <el-form-item v-if="type === 'edit'" label="模板ID：" prop="templateId">
-						<el-input :disabled="true" style="width:400px;" v-model.trim="ruleForm.templateId" placeholder="请输入"></el-input>
+          <el-form-item label="模板ID：" prop="templateId">
+						<el-input :disabled="type === 'edit' ? true : false" style="width:400px;" v-model.trim="ruleForm.templateId" placeholder="请输入"></el-input>
 					</el-form-item>
 
           <el-form-item label="模板编号：" prop="templateCode">
@@ -64,6 +64,9 @@
           ],
           templateContent : [
             {required : true , message : '请输入模板内容' , trigger : 'blur'},
+          ],
+          templateId : [
+            {required : true , message : '请输入模板ID' , trigger : 'blur'},
           ],
         },
 
