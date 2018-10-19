@@ -19,6 +19,7 @@
             node-key="id"
             ref="tree"
             :props="defaultProps"
+            :highlight-current="true"
             @node-click="showDailog"
             >
             <div class="custom-tree-node" style="width: 100%;" slot-scope="{ node, data }" >
@@ -152,8 +153,9 @@ export default {
   },
   methods:{
     changeBtn(num,row){
+      console.error(this.currentNode);
       if(num === 1){
-        this.currentNode.children.push(row);
+        this.currentNode.children.push(Object.assign({},row));
         row.isHave = true;
       }else{
         let idx = this.currentNode.children.findIndex(it => it.btnId === row.btnId);
@@ -236,7 +238,6 @@ export default {
       this.refreshTable();
     },
     addRoleBtnList(){
-      console.log(this.currentNode);
       let item = this.roleBtnList.find(it => it.menuId === this.currentNode.id);
       if(item){
         item.btnList = [];
