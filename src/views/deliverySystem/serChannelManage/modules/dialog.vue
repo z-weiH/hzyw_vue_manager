@@ -9,6 +9,10 @@
     >
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
+
+          <el-form-item label="渠道编码：" prop="channelId">
+						<el-input :disabled="true" style="width:400px;" v-model.trim="ruleForm.channelId" placeholder="请输入"></el-input>
+					</el-form-item>
           
 					<el-form-item label="渠道名称：" prop="channelName">
 						<el-input style="width:400px;" v-model.trim="ruleForm.channelName" placeholder="请输入"></el-input>
@@ -48,6 +52,8 @@
           channelPhone : '',
           // 渠道信息
           channelInfo : '',
+          // 渠道编码
+          channelId : '',
         },
         rules : {
           channelName : [

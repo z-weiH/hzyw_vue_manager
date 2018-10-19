@@ -9,6 +9,10 @@
     >
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
+
+          <el-form-item label="业务编码：" prop="busiCode">
+						<el-input :disabled="true" style="width:400px;" v-model.trim="ruleForm.busiCode" placeholder="请输入"></el-input>
+					</el-form-item>
           
 					<el-form-item label="业务名称：" prop="busiName">
 						<el-input style="width:400px;" v-model.trim="ruleForm.busiName" placeholder="请输入"></el-input>
@@ -42,6 +46,8 @@
           busiName : '',
           // 业务描述
           busiInfo : '',
+          // 业务编码
+          busiCode : '',
         },
         rules : {
           busiName : [
@@ -72,6 +78,7 @@
             // 回显数据
             this.ruleForm.busiName = data.busiName;
             this.ruleForm.busiInfo = data.busiInfo;
+            this.ruleForm.busiCode = data.busiCode;
           }
         });
       },

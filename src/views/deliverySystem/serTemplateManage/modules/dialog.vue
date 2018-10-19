@@ -9,17 +9,21 @@
     >
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
+
+          <el-form-item label="模板ID：" prop="templateId">
+						<el-input :disabled="true" style="width:400px;" v-model.trim="ruleForm.templateId" placeholder="请输入"></el-input>
+					</el-form-item>
+
+          <el-form-item label="模板编号：" prop="templateCode">
+						<el-input :disabled="true" style="width:400px;" v-model.trim="ruleForm.templateCode" placeholder="请输入"></el-input>
+					</el-form-item>
           
 					<el-form-item label="模板名称：" prop="templateName">
 						<el-input style="width:400px;" v-model.trim="ruleForm.templateName" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="模板编号：" prop="templateCode">
-						<el-input style="width:400px;" v-model.trim="ruleForm.templateCode" placeholder="请输入"></el-input>
-					</el-form-item>
-
           <el-form-item label="模板内容：" prop="templateContent">
-						<el-input type="textarea" style="width:400px;" v-model.trim="ruleForm.templateContent" placeholder="请输入"></el-input>
+						<el-input :rows="7" type="textarea" style="width:400px;" v-model.trim="ruleForm.templateContent" placeholder="请输入"></el-input>
 					</el-form-item>
 
         </el-form>
@@ -48,6 +52,8 @@
           templateCode : '',
           // 模板内容
           templateContent : '',
+          // 模板ID
+          templateId : '',
         },
         rules : {
           templateName : [
