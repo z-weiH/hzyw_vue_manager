@@ -603,10 +603,11 @@
               this.ruleInfo_html += `<span style='font-size: 10px;padding: 2px 3px;'>获取字段</span>`
               this.showSelect = true;
               this.$nextTick(() => {
+                let scrollTop = this.$refs.textarea_rule.$el.querySelector('textarea').scrollTop;
                 let elms = this.$refs.textarea_warpar.querySelectorAll('span');
                 let elm = elms[elms.length - 1];
                 this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
-                this.$refs.textarea_select.style.top = elm.offsetTop + 'px';
+                this.$refs.textarea_select.style.top = elm.offsetTop - scrollTop + 'px';
               });
             }
           }else{
