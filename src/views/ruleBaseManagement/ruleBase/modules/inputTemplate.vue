@@ -22,6 +22,7 @@
         <ul>
           <li v-for="(rule,idx) in list" :key="idx" :class="{'active':rule.active}" @click="templateSelect(rule)">{{rule.templateDesc}}</li>
         </ul>
+        <img src="@/assets/img/no_template.png" style="width:100%;" alt="" v-if="list.length === 0">
       </div>
       <div class="btns">
         <el-button type="primary" @click="handleInputTemplate"  :disabled="canClick">导入</el-button>
@@ -101,6 +102,7 @@ export default {
       line-height: 36px;
     }
     .list{
+      min-height:30px;
       li{
         font-size: 14px;
         line-height: 30px;
