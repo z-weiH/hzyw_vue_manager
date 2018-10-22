@@ -934,7 +934,7 @@
         this.$http.post("/ruleBase/queryRuleInfoDetailsByRuleId.htm",{ruleId: rule.ruleId}).then(res => {
           if(res.code ==='0000'){
             this.editState = 1;
-            setTimeout(()=> {
+            this.$nextTick(()=> {
               this.$refs.createForm.resetFields();
               console.log(this.$refs.textarea_warpar);
               this.form = res.result;
@@ -943,7 +943,7 @@
               // for(let key in res.result){
               //   this.$set(this.form,key,res.result[key]);
               // }
-            },500);
+            });
           }
         })
       },
