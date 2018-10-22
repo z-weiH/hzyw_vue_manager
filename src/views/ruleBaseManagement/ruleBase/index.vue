@@ -696,12 +696,12 @@
         let idx = val.indexOf('],');
         if(idx != -1){
           if(this.ruleType === 0){
-            this.form.ruleInfo = this.form.ruleInfo.splice(this.currentFunction.idx + 1, 0 , val.substring(1,idx) + this.checkBracket() + '+' + this.currentFunction.affix+ val.substring(idx+3,val.length -1) + ')');
+            this.form.ruleInfo = this.form.ruleInfo.splice(this.currentFunction.idx + 1, 0 , ',' + val.substring(1,idx) + ')' + '+' + this.currentFunction.affix+ ',' + val.substring(idx+3,val.length -1) );
           }else{
-            this.form.ruleInfo = this.form.ruleInfo.splice(this.currentFunction.idx + 1, 0 ,val.substring(1,idx) + this.checkBracket() + '+' +this.currentFunction.affix+ val.substring(idx+3,val.length - 1) + ')');
+            this.form.ruleInfo = this.form.ruleInfo.splice(this.currentFunction.idx + 1, 0 ,',' + val.substring(1,idx) +')' + '+' +this.currentFunction.affix+ ',' + val.substring(idx+3,val.length - 1) );
           }
         }else{
-          this.form.ruleInfo = this.form.ruleInfo.splice(this.currentFunction.idx+ 1, 0,val.substring(1,val.length - 1) + this.checkBracket());
+          this.form.ruleInfo = this.form.ruleInfo.splice(this.currentFunction.idx+ 1, 0,',' + val.substring(1,val.length - 1));
           console.log(this.form.ruleInfo);
         }
         this.$refs.textarea_rule.focus();
