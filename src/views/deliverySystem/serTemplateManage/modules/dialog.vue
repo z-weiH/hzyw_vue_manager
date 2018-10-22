@@ -123,16 +123,19 @@
           if(valid) {
 						// 提交数据
             this.submitDisabled = true;
-            
+            let sendUrl = '';
             let form = {
               ...this.ruleForm,
             };
             if(this.type === 'edit') {
               form.templateId = this.templateId;
+              sendUrl = '/templateManagement/updateTemplateInfoByTemplateId.htm';
+            }else{
+              sendUrl = '/templateManagement/saveTemplateInfoByTemplateId.htm';
             }
 						this.$http({
               method : 'post',
-              url : '/templateManagement/saveTemplateInfoByTemplateId.htm',
+              url : sendUrl,
               data : form,
             }).then((res) => {
               this.$message.success('操作成功');

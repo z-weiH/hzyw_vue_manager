@@ -74,7 +74,7 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="创建时间" width="155px"></el-table-column>
+        <el-table-column prop="createTime" label="创建时间" width="160px"></el-table-column>
         <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="handleDetail(scope.row)" type="text">详情</el-button>
