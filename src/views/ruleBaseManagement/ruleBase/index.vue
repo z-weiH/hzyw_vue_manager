@@ -346,6 +346,7 @@
 
         //html内容
         ruleInfo_html: '',
+        ruleInfo_html1: '',
 
 
         //tree config
@@ -468,6 +469,7 @@
     watch: {
       'editState'(val,oldVal){
         if(val == 1 || val == 2){
+          this.showSelect = false;
             if(val == 1)
               this.title = '编辑规则';
             if(val == 2)
@@ -520,7 +522,7 @@
 
       'form.ruleInfo'(val,oldVal){
 
-
+      console.error(val,'valueChange');
        this.textareaValueChange(val);
        this.textareaValueChange1(val);
 
@@ -554,7 +556,7 @@
               span.style.opacity = '.4';
               span.style.top = it.offsetTop - scrollTop +3 + 'px';
               span.style.left = it.offsetLeft + 'px';
-              // span.style.background = '#13367D';
+              span.style.background = '#f9ef4a';
               span.style.width = it.offsetWidth + 'px';
               if(it.offsetTop - scrollTop +3 < 0 || it.offsetTop - scrollTop +3 > this.$refs.textarea_rule.$el.querySelector("textarea").offsetHeight - 16 ){
                 span.style.display = 'none';
@@ -579,27 +581,26 @@
         this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>')
           .replace(/\s/g,'&nbsp;');
 
-        console.log(this.ruleInfo_html);
+        console.log(this.ruleInfo_html,val);
         if(val){
-          if(val[val.length -1] === ',' && this.checkcomma(lastVal)){
             // console.error(',出现');
             this.currentFunction.idx = val.length-1;
             let strcopy = val.replace(/\s+/g, "");
             let type = -1;
             let idx1 = strcopy.lastIndexOf('getnum(');
             let idx2 = strcopy.lastIndexOf('get(');
-            if(idx1 != -1 && new RegExp("^getnum\\([A-Z_0-9]+,$").test(strcopy.substring(idx1))){
+            if(idx1 != -1 && new RegExp("^getnum\\([A-Z_0-9]+$").test(strcopy.substring(idx1))){
               type = 0;
               this.currentFunction.affix = strcopy.substring(idx1);
             }
-            else if(idx2 != -1 && new RegExp("^get\\([A-Z_0-9]+,$").test(strcopy.substring(idx2))){
+            else if(idx2 != -1 && new RegExp("^get\\([A-Z_0-9]+$").test(strcopy.substring(idx2))){
               type = 1;
               this.currentFunction.affix = strcopy.substring(idx2);
             }
             if(type != -1){
               this.ruleType = type;
               let idx = val.lastIndexOf('(');
-              this.pdfParam = val.substring(idx+1,val.length -1).trim();
+              this.pdfParam = val.substring(idx+1).trim();
               this.ruleInfo_html += `<span style='font-size: 10px;padding: 2px 3px;'>获取字段</span>`
               this.showSelect = true;
               this.$nextTick(() => {
@@ -609,10 +610,10 @@
                 this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
                 this.$refs.textarea_select.style.top = elm.offsetTop - scrollTop + 'px';
               });
+            }else{
+              this.showSelect && (this.showSelect = false);
             }
-          }else{
-            this.showSelect && (this.showSelect = false);
-          }
+
         }
       },
 
