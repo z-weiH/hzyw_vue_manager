@@ -70,7 +70,7 @@
         <div class="m-item">
           <div class="m-title">邮件内容：</div>
           <div class="m-content">
-            <iframe src="/" class="mailContent" frameborder="0"></iframe>
+            <iframe name="mailContent" class="mailContent" frameborder="0"></iframe>
           </div> 
         </div>
 
@@ -134,7 +134,8 @@
             },
           }).then((res) => {
             // 处理 邮件内容
-            document.querySelector('.mailContent').srcdoc = res.result.mailContent;
+            // document.querySelector('.mailContent').srcdoc = res.result.mailContent; 存在兼容性问题
+            frames['mailContent'].document.body.outerHTML = res.result.mailContent;
             // 处理 附件内容
             try{
               if(res.result.mailAttachment === '' || res.result.mailAttachment === 'null') {
