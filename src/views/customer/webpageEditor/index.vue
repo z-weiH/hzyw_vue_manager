@@ -24,6 +24,7 @@
               <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
               <el-button @click="handleInsertGrammar(2)">插入判断条件</el-button>
               <el-button @click="handleInsertGrammar(3)">插入多判断条件</el-button>
+              <el-button @click="handleInsertGrammar(17)">日期计算</el-button>
               <p class="mb-10">
                 复制样式 - 
                 <el-switch
@@ -276,6 +277,8 @@
           message = '<span class="asdf">startTable</span>';
         }else if(type === 16) {
           message = '<span class="asdf">endTable</span>';
+        }else if(type === 17) {
+          message = '&lt;@dateOffsetCalc date=myDate days=3 /&gt;';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
