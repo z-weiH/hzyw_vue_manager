@@ -102,14 +102,16 @@
             this.loading = this.$loading({
               text : '模板生成中'
             });
+            let content = this.textarea;
             // 解决 后台不识别 &lt; 以及 &gt; 问题
-            let content = this.textarea.replace(/&lt;/g,'<');
+            /* content = content.replace(/&lt;/g,'<');
             content = content.replace(/&gt;/g,'>');
             content = content.replace(/&quot;/g,'"');
             content = content.replace(/&nbsp;/g,' ');
-              // 高级过滤 过滤a标签 提取出中间内容
+            // 高级过滤 过滤a标签 提取出中间内容
             content = content.replace(/<a.*?>(.*?)<\/a>/g,'$1');
-            // '<a>我是内容222</a>'.replace(/<a.*?>(.*?)<\/a>/g,'$1');  "我是内容222"
+            // 过滤 带样式的table if
+            content = content.replace(/<p class="m-style">(.*?)<\/p>/g,'$1'); */
             this.$http({
               url : '/templateSetting/reviewTemplateContent.htm',
               method : 'post',
