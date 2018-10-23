@@ -3,7 +3,7 @@
     <el-dialog
       title="详情"
       :visible.sync="dialogVisible"
-      width="680px"
+      width="900px"
       @close="handleClose"
 			ref="dialog"
     >
@@ -69,12 +69,21 @@
 
         <div class="m-item">
           <div class="m-title">邮件内容：</div>
-          <div class="m-content">{{ruleForm.mailContent}}</div> 
+          <div class="m-content">
+            <iframe src="/" class="mailContent" frameborder="0"></iframe>
+          </div> 
         </div>
 
         <div class="m-item">
           <div class="m-title">附件内容：</div>
-          <div class="m-content">{{ruleForm.mailAttachment}}</div> 
+          <div class="m-content">
+            <template v-if="enclosureLegitimate">
+              <div v-for="(item,index) in ruleForm.mailAttachment" :key="index">
+                <a :href="item.href" target="_blank">{{item.name}}</a>
+              </div>
+            </template>
+            <template v-else>{{ruleForm.mailAttachment}}</template>
+          </div> 
         </div>
 
       </div>
@@ -100,6 +109,8 @@
         rules : {
 
         },
+        // 判读 附件内容是否 合法
+        enclosureLegitimate : '',
       }
     },
     mounted() {
@@ -122,6 +133,28 @@
               mailId : data.mailId,
             },
           }).then((res) => {
+            // 处理 邮件内容
+            document.querySelector('.mailContent').srcdoc = res.result.mailContent;
+            // 处理 附件内容
+            try{
+              if(res.result.mailAttachment === '' || res.result.mailAttachment === 'null') {
+                throw '附件内容为空或者为null'
+              }
+              let mailAttachment = JSON.parse(res.result.mailAttachment);
+              let arr = [];
+              this.enclosureLegitimate = true;
+              for(let key in mailAttachment) {
+                arr.push({
+                  name : mailAttachment[key],
+                  href : key,
+                });
+              }
+              res.result.mailAttachment = arr;
+            }catch(err) {
+              this.enclosureLegitimate = false;
+              console.log('附件内容 catch : ',err);
+            }
+
             this.ruleForm = res.result;
           });
         });
@@ -164,6 +197,11 @@
     text-align: center;
     font-weight: bold;
     margin-bottom: 15px;
+  }
+  .mailContent{
+    width: 100%;
+    min-height: 300px;
+    max-height: 500px;
   }
 }
 
