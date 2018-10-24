@@ -2,7 +2,7 @@
   <div class="webpage-editor-box">
     <div class="webpage-editor-title">
       <div class="width-1200">
-        <span>网页版编辑模板</span>
+        <span>{{title}}</span>
       </div>
     </div>
     <div class="webpage-editor-content">
@@ -99,6 +99,7 @@
     },
     data() {
       return {
+        title : '',
         imgShow : true,
         boxShow : false,
         // 符文本编辑器 height
@@ -135,6 +136,20 @@
           document.querySelector('iframe').contentDocument.addEventListener('click',this.globalClickFn);
           document.addEventListener('click',this.globalClickFn);
           document.querySelector('iframe').contentDocument.body.oncopy = this.globalCopyFn;
+          // 初始化 title
+          this.$http({
+            url : '/templateSetting/queryTemplateInfoByProdTempId.htm',
+            method : 'post',
+            data : {
+              prodTempId : this.$route.query.prodTempId,
+            },
+          }).then((res) => {
+            this.title = (
+              this.$route.query.type === 'applyContent' ? '申请书' :
+              this.$route.query.type === 'judgeContent' ? '裁决书' :
+              this.$route.query.type === 'enforceContent' ? '强制申请书' : ''
+            ) + ' - ' + res.result.prodTempName
+          });
         }catch(err){
           setTimeout(() => {
             fn(data)
