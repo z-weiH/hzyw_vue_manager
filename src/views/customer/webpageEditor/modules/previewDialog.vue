@@ -103,15 +103,15 @@
               text : '模板生成中'
             });
             let content = this.textarea;
+            // 过滤 带样式的table if
+            /* content = content.replace(/<p class="m-style">(.*?)<\/p>/g,(str) => str.replace(/<.*?>/g,''));
             // 解决 后台不识别 &lt; 以及 &gt; 问题
-            /* content = content.replace(/&lt;/g,'<');
+            content = content.replace(/&lt;/g,'<');
             content = content.replace(/&gt;/g,'>');
             content = content.replace(/&quot;/g,'"');
             content = content.replace(/&nbsp;/g,' ');
             // 高级过滤 过滤a标签 提取出中间内容
-            content = content.replace(/<a.*?>(.*?)<\/a>/g,'$1');
-            // 过滤 带样式的table if
-            content = content.replace(/<p class="m-style">(.*?)<\/p>/g,'$1'); */
+            content = content.replace(/<a.*?>(.*?)<\/a>/g,'$1'); */
             this.$http({
               url : '/templateSetting/reviewTemplateContent.htm',
               method : 'post',
