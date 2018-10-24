@@ -66,7 +66,7 @@
         <el-table-column prop="clientName" label="所属客户" width="155px"></el-table-column>
         <el-table-column prop="clientSigner" label="短信签名" width="155px"></el-table-column>
         <el-table-column prop="templateName" label="所属模板" width="155px"></el-table-column>
-        <el-table-column prop="busiName" label="短信类型"></el-table-column>
+        <el-table-column prop="busiName" label="短信类型" width="100px"></el-table-column>
         <el-table-column prop="fromPhone" label="发送号码" width="155px"></el-table-column>
         <el-table-column prop="toPhone" label="接收号码" width="155px"></el-table-column>
         <el-table-column prop="smsTime" label="发送时间" width="160px"></el-table-column>

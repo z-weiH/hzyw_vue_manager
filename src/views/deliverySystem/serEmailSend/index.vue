@@ -58,7 +58,7 @@
 				<el-table-column prop="mailId" label="邮件ID" width="155px"></el-table-column>
         <el-table-column prop="clientName" label="所属客户名称" width="155px"></el-table-column>
         <el-table-column prop="clientMailId" label="邮件调用方的定义该邮件的唯一ID" width="155px"></el-table-column>
-        <el-table-column prop="senderAddress" label="发送邮件邮箱地址" width="155px"></el-table-column>
+        <el-table-column prop="senderAddress" label="发送邮件邮箱地址" width="160px"></el-table-column>
         <el-table-column prop="fromSmtp" label="发送邮件邮箱SMTP地址" width="155px"></el-table-column>
         <el-table-column prop="port" label="发送邮件邮箱SMTP端口号" width="155px"></el-table-column>
         <el-table-column prop="senderName" label="发送邮件人名称" width="155px"></el-table-column>
