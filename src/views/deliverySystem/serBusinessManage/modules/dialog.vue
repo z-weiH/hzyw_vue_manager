@@ -108,6 +108,8 @@
             };
             if(this.type === 'edit') {
               form.busiCode = this.busiCode;
+            }else{
+              form.busiCode = '';
             }
 						this.$http({
               method : 'post',
