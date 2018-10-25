@@ -189,15 +189,15 @@
         </div>
       </div>
       <!-- 传统分页 -->
-      <!-- <div class="pagination clear">
+      <div class="pagination clear">
               <el-pagination
                 @current-change="handleCurrentChange"
-                :current-page="pager.currentNum"
-                :page-size="20"
+                :current-page="currentNum"
+                :page-size="1"
                 layout="prev, pager, next, jumper, total"
-                :total="pager.total">
+                :total="count">
               </el-pagination>
-              </div> -->
+              </div>
       <!-- end -->
       <!-- 左右分页 tool -->
 
@@ -546,8 +546,13 @@ export default {
           })
         }
       })
-    }
+    },
+    handleCurrentChange(val){
+      this.currentNum = val;
+      this.getRecheckDetail();
+    },
 	},
+
 	mounted() {
 		console.log('---', this.$route.query.subBatchId)
 
@@ -1019,4 +1024,7 @@ body {
 		vertical-align: middle;
 	}
 }
+  .pagination{
+    margin-bottom: 20px;
+  }
 </style>
