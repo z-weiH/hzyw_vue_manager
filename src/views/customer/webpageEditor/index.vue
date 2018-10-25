@@ -22,17 +22,14 @@
             <div class="operation" v-if="boxShow">
               <span @click="handleBox">x</span>
               <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
-              <el-button @click="handleInsertGrammar(2)">插入判断条件</el-button>
-              <el-button @click="handleInsertGrammar(3)">插入多判断条件</el-button>
               <el-button @click="handleInsertGrammar(17)">日期计算</el-button>
-              <p class="mb-10">
-                复制样式 - 
-                <el-switch
-                  @change="handleCopyChange"
-                  v-model="copyStyle"
-                >
-                </el-switch>
-              </p>
+              <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
+                <el-button>判断<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item :command="2">插入判断条件</el-dropdown-item>
+                  <el-dropdown-item :command="3">插入多判断条件</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
               <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>分页<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
@@ -46,7 +43,7 @@
                 </el-dropdown-menu>
               </el-dropdown>
               
-              <el-dropdown @command="handleInsertGrammar" style="width:100%;">
+              <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>插入表格<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item :command="5">普通表格</el-dropdown-item>
@@ -57,6 +54,15 @@
                   <el-dropdown-item :command="10">带合计+标题</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
+
+              <p>
+                复制样式
+                <el-switch
+                  @change="handleCopyChange"
+                  v-model="copyStyle"
+                >
+                </el-switch>
+              </p>
             </div>
           </transition>
         </div>
