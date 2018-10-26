@@ -103,8 +103,23 @@
               text : '模板生成中'
             });
             let content = this.textarea;
-            // 过滤 带样式的table if
-            /* content = content.replace(/<p class="m-style">(.*?)<\/p>/g,(str) => str.replace(/<.*?>/g,''));
+            // 过滤 if
+            /* let $content = $(content);
+            let fn = () => {
+              if($content.find('.style-if').length !== 0){
+                $content.find('.style-if').each((k,v) => {
+                  if($(v).find('style-if').length === 0){
+                    console.log($(v)[0].innerHTML);
+                    $(v).prop("outerHTML",$(v)[0].innerHTML.replace(/&nbsp;/g,''));
+                  }
+                });
+                fn();
+              }
+            }
+            fn();
+            content = $content[0].outerHTML.replace(/<!--#if-->/g,'</#if>');
+            // 过滤 table
+            content = content.replace(/<p class="m-style">(.*?)<\/p>/g,(str) => str.replace(/<.*?>/g,''));
             // 解决 后台不识别 &lt; 以及 &gt; 问题
             content = content.replace(/&lt;/g,'<');
             content = content.replace(/&gt;/g,'>');
