@@ -483,7 +483,7 @@ export default {
 				this.$message.warning('已经是最后一条数据了！')
 			}
 		},
-		getRecheckDetail() {
+		getRecheckDetail(flag) {
 			this.screenLoader()
 			this.$http
 				.post(URL_JSON['queryRecheckDetailView'], {
@@ -524,6 +524,10 @@ export default {
 							console.log(it)
 							it.sign.signAuditList.reverse()
 						})
+
+            if(flag){
+              document.documentElement.querySelector('.body_container').scrollTo(0,0);
+            }
 					}
 				})
 		},
@@ -549,7 +553,7 @@ export default {
     },
     handleCurrentChange(val){
       this.currentNum = val;
-      this.getRecheckDetail();
+      this.getRecheckDetail(true);
     },
 	},
 
