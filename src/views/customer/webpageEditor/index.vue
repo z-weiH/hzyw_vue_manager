@@ -210,68 +210,68 @@
         if(type === 1) {
           message = '${参数}';
         }else if(type === 2) {
-          // message = '&lt;#if 参数 &lt;= 0&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
-          message = `<span class="style-if" style="display:block">&lt;#if 参数 &lt;= 0&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;第一结果</span><span class="style-if" style="display:block">&lt;#else&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;第二结果</span><span class="style-if" style="display:block">&lt;/#if&gt;</span>`;
+          message = '&lt;#if 参数 &lt;= 0&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
+          // message = `<span class="style-if" style="display:block">&lt;#if 参数 &lt;= 0&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;第一结果</span><span class="style-if" style="display:block">&lt;#else&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;第二结果</span><span class="style-if" style="display:block">&lt;/#if&gt;</span>`;
         }else if(type === 3) {
-          // message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
-          message = `<span class="style-if" style="display:block">&lt;#if x == 1&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is 1</span><span class="style-if" style="display:block">&lt;#elseif x == 2&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is 2</span><span class="style-if" style="display:block">&lt;#else&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is not 1 nor 2</span><span class="style-if" style="display:block">&lt;/#if&gt;</span>`;
+          message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
+          //message = `<span class="style-if" style="display:block">&lt;#if x == 1&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is 1</span><span class="style-if" style="display:block">&lt;#elseif x == 2&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is 2</span><span class="style-if" style="display:block">&lt;#else&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is not 1 nor 2</span><span class="style-if" style="display:block">&lt;/#if&gt;</span>`;
         }else if(type === 4) {
           message = '&lt;@myPage /&gt;';
         }else if(type === 5) {
-          // message = '&lt;@tableCol colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
-          message = `
+          message = '&lt;@tableCol colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
+          /* message = `
             <p class="m-style">&lt;@tableCol&nbsp;</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
             <p class="m-style">/&gt;</p>
-          `;
+          `; */
         }else if(type === 6) {
-          // message = '&lt;@tableCol title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
-          message = `
+          message = '&lt;@tableCol title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
+          /* message = `
             <p class="m-style">&lt;@tableCol&nbsp;</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;title="标题"</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
             <p class="m-style">/&gt;</p>
-          `;
+          `; */
         }else if(type === 7) {
-          // message = '&lt;@tableCol lastLine="说明"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
-          message = `
+          message = '&lt;@tableCol lastLine="说明"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
+          /* message = `
             <p class="m-style">&lt;@tableCol&nbsp;</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;lastLine="说明"</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
             <p class="m-style">/&gt;</p>
-          `;
+          `; */
         }else if(type === 8) {
-          // message = '&lt;@tableCol lastLine="说明" title="标题"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
-          message = `
+          message = '&lt;@tableCol lastLine="说明" title="标题"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
+          /* message = `
             <p class="m-style">&lt;@tableCol&nbsp;</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;lastLine="说明"</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;title="标题"</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
             <p class="m-style">/&gt;</p>
-          `;
+          `; */
         }else if(type === 9) {
-          // message = '&lt;@tableCol stat=true colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
-          message = `
+          message = '&lt;@tableCol stat=true colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
+          /* message = `
             <p class="m-style">&lt;@tableCol&nbsp;</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;stat=true</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
             <p class="m-style">/&gt;</p>
-          `;
+          `; */
         }else if(type === 10) {
-          // message = '&lt;@tableCol stat=true title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
-          message = `
+          message = '&lt;@tableCol stat=true title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
+          /* message = `
             <p class="m-style">&lt;@tableCol&nbsp;</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;stat=true</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;title="标题"</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
             <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
             <p class="m-style">/&gt;</p>
-          `;
+          `; */
         }else if(type === 11) {
           message = '<span class="asdf">startFact</span>';
         }else if(type === 12) {
