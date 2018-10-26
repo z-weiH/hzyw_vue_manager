@@ -292,10 +292,12 @@ export default {
 				{
 					label: '案件阶段',
 					property: 'caseProcessDesc',
+					width: 100,
 				},
 				{
 					label: '案件状态',
 					property: 'caseStatusDesc',
+					width: 100,
 				},
 				{
 					label: '提交日期',

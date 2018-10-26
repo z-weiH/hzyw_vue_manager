@@ -211,24 +211,10 @@
           message = '${参数}';
         }else if(type === 2) {
           // message = '&lt;#if 参数 &lt;= 0&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
-          message = `
-            <p class="m-style">&lt;#if 参数 &lt;= 0&gt;</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;第一结果</p>
-            <p class="m-style">&lt;#else&gt;</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;第二结果</p>
-            <p class="m-style">&lt;/#if&gt;</p>
-          `;
+          message = `<span class="style-if" style="display:block">&lt;#if 参数 &lt;= 0&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;第一结果</span><span class="style-if" style="display:block">&lt;#else&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;第二结果</span><span class="style-if" style="display:block">&lt;/#if&gt;</span>`;
         }else if(type === 3) {
           // message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
-          message = `
-            <p class="m-style">&lt;#if x == 1&gt;</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;x is 1</p>
-            <p class="m-style">&lt;#elseif x == 2&gt;</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;x is 2</p>
-            <p class="m-style">&lt;#else&gt;</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;x is not 1 nor 2</p>
-            <p class="m-style">&lt;/#if&gt;</p>
-          `;
+          message = `<span class="style-if" style="display:block">&lt;#if x == 1&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is 1</span><span class="style-if" style="display:block">&lt;#elseif x == 2&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is 2</span><span class="style-if" style="display:block">&lt;#else&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is not 1 nor 2</span><span class="style-if" style="display:block">&lt;/#if&gt;</span>`;
         }else if(type === 4) {
           message = '&lt;@myPage /&gt;';
         }else if(type === 5) {
