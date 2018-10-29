@@ -53,6 +53,7 @@
             type="date"
             placeholder="选择日期"
             :picker-options="pickerOptions1"
+            value-format="yyyy-MM-dd"
           >
           </el-date-picker>
         </el-form-item>
@@ -62,6 +63,7 @@
             type="date"
             placeholder="选择日期"
             :picker-options="pickerOptions2"
+            value-format="yyyy-MM-dd"
           >
           </el-date-picker>
         </el-form-item>

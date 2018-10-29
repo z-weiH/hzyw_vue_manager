@@ -19,6 +19,7 @@ let exportFile = (obj) => {
   try{
     arr.push(`token=${JSON.parse(localStorage.getItem('loginInfo')).token}`);
     iframe.src = host.target + url + '?' + arr.join('&');
+    console.log(iframe.src)
     iframe.onload = function() {
       // 获取 iframe window对象
       let i_window = window.frames[name];
