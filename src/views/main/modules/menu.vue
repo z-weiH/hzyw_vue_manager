@@ -600,6 +600,17 @@
               },
             ]
           },
+          {
+            menuName: '强制执行管理',
+            menuId: 'qzzx',
+            children: [
+              {
+                menuName: '法院案件关联',
+                menuId: 'fyajgl',
+                menuUrl: 'courtCaseRelation'
+              },
+            ]
+          }
         ],
         // 当前高亮的 menu
         active : '/main/demo',

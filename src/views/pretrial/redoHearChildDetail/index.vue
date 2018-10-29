@@ -238,6 +238,9 @@ import reback from './modules/reback'
 import backTop from '@/components/backTop.vue'
 import imgEvi from '@/components/script/imgEvi';
 
+
+import $ from 'jquery'
+
 export default {
   mixins:[imgEvi],
 	data() {

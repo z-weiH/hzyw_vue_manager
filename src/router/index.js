@@ -955,6 +955,15 @@ let router = new Router({
           },
         },
         /* 送达系统 module end  */
+        {
+          path: 'courtCaseRelation',
+          component: () =>
+            import("@/views/enforceManagement/courtCaseRelation"),
+          meta: {
+            name: 'courtCaseRelation'
+          }
+        }
+
       ],
     },
     {
@@ -1042,6 +1051,9 @@ let router = new Router({
         name: 'caseDetail'
       }
     },
+
+
+
 
   ]
 })
