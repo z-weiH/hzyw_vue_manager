@@ -75,7 +75,7 @@
         法院案件关联
       </div>
 
-      <div class="item-table" style="max-height: 700px;">
+      <div class="item-table" style="max-height: 650px;overflow: auto">
 
         <el-table
           :data="tableData"
@@ -171,18 +171,19 @@
           </el-table-column>
         </el-table>
 
-        <el-pagination
-          class="mt-10 mb-10"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="pager.currentNum"
-          :page-sizes="[10, 20, 30, 50, 100, 200, 500, 1000]"
-          :page-size="10"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="pager.total">
-        </el-pagination>
+
 
       </div>
+      <el-pagination style="background: #fff"
+        class="mt-10 mb-10"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="pager.currentNum"
+        :page-sizes="[10, 20, 30, 50, 100, 200, 500, 1000]"
+        :page-size="10"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="pager.total">
+      </el-pagination>
 
       <edit ref="edit"></edit>
 
