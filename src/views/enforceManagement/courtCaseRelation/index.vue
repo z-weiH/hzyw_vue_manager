@@ -4,7 +4,7 @@
         <a>所在位置</a>
         <router-link :to='$options.name' class='aside_tit'>法院案件关联</router-link>
       </div>
-      <el-form :inline="true" class="searchs item-search">
+      <el-form :inline="true" class="searchs item-search" >
 
             <el-form-item label="案件查询">
               <el-input style="width: 230px;" v-model="searchItem.keyWords" placeholder="案号、申请人、被申请人、法院名称"></el-input>
@@ -75,12 +75,12 @@
         法院案件关联
       </div>
 
-      <div class="item-table">
+      <div class="item-table" style="max-height: 700px;">
 
         <el-table
           :data="tableData"
           border
-          style="width: 100%">
+          style="width: 100%;">
           <el-table-column
             type="index"
             width="50"
@@ -213,6 +213,7 @@ export default {
         closeTimeBegin: '',
         closeTimeEnd: ''
       },
+      searchItemTemp: {},
       provinceOptions: [],
       cityOptions: [],
       districtOptions: [],
@@ -268,10 +269,10 @@ export default {
         {
           url: '/court/excelCourtCaseInfos.htm',
           data: {
-            keyWords: this.searchItem.keyWords,
-            closeTimeBegin: this.searchItem.closeTimeBegin,
-            closeTimeEnd: this.searchItem.closeTimeEnd,
-            courtId: this.searchItem.courtId
+            keyWords: this.searchItemTemp.keyWords,
+            closeTimeBegin: this.searchItemTemp.closeTimeBegin,
+            closeTimeEnd: this.searchItemTemp.closeTimeEnd,
+            courtId: this.searchItemTemp.courtId
           }
         }
       );
@@ -306,7 +307,8 @@ export default {
       this.doQuery();
     },
     doQuery(){
-      this.$http.post("/court/caseList.htm",{closeTimeBegin: this.searchItem.closeTimeBegin,closeTimeEnd: this.searchItem.closeTimeEnd, courtId: this.searchItem.courtId,keyWords: this.searchItem.keyWords,...this.pager}).then(res => {
+      this.$http.post("/court/caseList.htm",{...this.searchItem,...this.pager}).then(res => {
+        this.searchItemTemp = {...this.searchItem};
         this.tableData = res.result.list;
         this.pager.total = res.result.count;
       })

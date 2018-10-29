@@ -11,9 +11,10 @@
         <el-input v-model="form.caseNo" disabled></el-input>
       </el-form-item>
       <el-form-item label="法院选择" prop="courtId">
-        <el-select v-model="form.courtId"
+        <el-select clearable v-model="form.courtId"
                    filterable
                    remote
+
                    reserve-keyword placeholder="请选择"
                    :remote-method="remoteMethod"
                    :loading="loading"
@@ -78,7 +79,8 @@ export default {
   methods:{
 
     remoteMethod(keyWords,init){
-      if(keyWords !== ''){
+      console.log(keyWords)
+      if(keyWords){
         this.loading = true;
         this.$http.post('/court/queryCourtInfosByBasicQuery.htm',{keyWords: keyWords}).then(res => {
           this.courtlist = res.result;
@@ -92,6 +94,11 @@ export default {
         })
       }else{
         this.loading = false;
+        if(init){
+          this.courtlist = [];
+          this.form = {...this.row};
+          this.show = true;
+        }
       }
 
     },
