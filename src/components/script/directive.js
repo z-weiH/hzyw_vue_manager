@@ -94,7 +94,7 @@ Vue.directive('ellipsis',{
           <template v-else>
             <el-tooltip :content="text" placement="top-start">
               <span 
-                style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;"
+                style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:inline-block;vertical-align: bottom;"
                 :style="{maxWidth : parentWidth + 'px'}">{{text}}</span>
             </el-tooltip>
           </template>

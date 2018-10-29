@@ -11,7 +11,13 @@
         <el-input v-model="form.caseNo" disabled></el-input>
       </el-form-item>
       <el-form-item label="法院选择" prop="courtId">
-        <el-select v-model="form.courtId" filterable placeholder="请选择">
+        <el-select v-model="form.courtId"
+                   filterable
+                   remote
+                   reserve-keyword placeholder="请选择"
+                   :remote-method="remoteMethod"
+                   :loading="loading"
+        >
           <el-option
             v-for="item in courtlist"
             :key="item.courtId"
@@ -43,13 +49,15 @@ export default {
       form: {
         localtionLabel: '',
         caseNo: '',
-        courtId: ''
+        courtId: '',
       },
       courtlist: [],
       rules: {
         courtId: [
           { required: true, message: '请选择要关联的法院', trigger: 'blur' },
-        ]}
+        ]},
+      loading: false
+
     }
   },
   watch:{
@@ -68,10 +76,31 @@ export default {
     }
   },
   methods:{
+
+    remoteMethod(keyWords,init){
+      if(keyWords !== ''){
+        this.loading = true;
+        this.$http.post('/court/queryCourtInfosByBasicQuery.htm',{keyWords: keyWords}).then(res => {
+          this.courtlist = res.result;
+          this.$nextTick(() => {
+            this.loading = false;
+            if(init){
+              this.form = {...this.row};
+              this.show = true;
+            }
+          })
+        })
+      }else{
+        this.loading = false;
+      }
+
+    },
+
     init(row){
       this.row = row;
-      this.form = {...row};
-      this.show = true;
+
+      this.remoteMethod(row.courtName,true);
+
     },
 
     getlocaltionLabel(){
@@ -103,10 +132,10 @@ export default {
     }
   },
   created(){
-    this.$http.post("/court/queryCourtlist.htm").then(res => {
-      console.log(res);
-      this.courtlist = res.result.list;
-    })
+    // this.$http.post("/court/queryCourtlist.htm").then(res => {
+    //   console.log(res);
+    //   this.courtlist = res.result.list;
+    // })
   }
 }
 </script>

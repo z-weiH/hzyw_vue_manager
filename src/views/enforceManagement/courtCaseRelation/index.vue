@@ -162,8 +162,8 @@
           <el-table-column
             fixed="right"
             label="操作"
-            aligin="center"
-            width="100">
+            width="100"
+            header-align="center">
             <template slot-scope="scope">
               <!--<el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>-->
               <el-button type="text" @click="handleClick(scope.row)" size="small">修改</el-button>
