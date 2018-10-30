@@ -271,12 +271,7 @@ export default {
       exportFile(
         {
           url: '/court/excelCourtCaseInfos.htm',
-          data: {
-            keyWords: this.searchItemTemp.keyWords,
-            closeTimeBegin: this.searchItemTemp.closeTimeBegin,
-            closeTimeEnd: this.searchItemTemp.closeTimeEnd,
-            courtId: this.searchItemTemp.courtId
-          }
+          data: this.searchItem
         }
       );
     },
