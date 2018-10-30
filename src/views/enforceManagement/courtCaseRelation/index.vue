@@ -271,7 +271,7 @@ export default {
       exportFile(
         {
           url: '/court/excelCourtCaseInfos.htm',
-          data: this.searchItem
+          data: this.searchItemTemp
         }
       );
     },
