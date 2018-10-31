@@ -16,8 +16,8 @@
               { validator: validatePass, trigger: 'blur' },
             ]"
           >
-						<el-input style="width:400px;" v-model.trim="ruleForm.keyWords" placeholder="请输入"></el-input>
-					</el-form-item>
+            <autoTextarea style="width:400px;" v-model.trim="ruleForm.keyWords" :enter="false"></autoTextarea>
+          </el-form-item>
 
         </el-form>
       </div>
@@ -31,7 +31,11 @@
 </template>
 
 <script>
+  import autoTextarea from '@/components/autoTextarea.vue'
   export default {
+    components : {
+      autoTextarea,
+    },
     data() {
       return {
         dialogVisible : false,

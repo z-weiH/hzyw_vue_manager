@@ -11,8 +11,8 @@
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
           
 					<el-form-item label="证据对象" prop="eviObject">
-						<el-input style="width:400px;" v-model.trim="ruleForm.eviObject" placeholder="请输入"></el-input>
-					</el-form-item>
+            <autoTextarea style="width:400px;" v-model.trim="ruleForm.eviObject" :enter="false"></autoTextarea>
+          </el-form-item>
 
         </el-form>
       </div>
@@ -26,7 +26,11 @@
 </template>
 
 <script>
+  import autoTextarea from '@/components/autoTextarea.vue'
   export default {
+    components : {
+      autoTextarea,
+    },
     data() {
       return {
         dialogVisible : false,
@@ -39,7 +43,7 @@
         },
         rules : {
           eviObject : [
-            {required : true , message : '请选择证据对象' , trigger : 'change'},
+            {required : true , message : '请选择证据对象' , trigger : 'blur'},
           ],
         },
         type : '',
