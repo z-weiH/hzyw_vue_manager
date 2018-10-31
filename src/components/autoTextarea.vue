@@ -45,6 +45,7 @@
       }
     },
     mounted() {
+      this.textareaVal = this.value;
       this.$nextTick(() => {
         autosize(this.$refs.textarea.$el.querySelector('textarea'));
       });
