@@ -12,6 +12,7 @@
     "build:stats": "webpack --env production --json > stats.json"
   },
   "dependencies": {
+    "autosize": "^4.0.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuedraggable": "^2.16.0"
