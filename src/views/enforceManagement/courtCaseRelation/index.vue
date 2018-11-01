@@ -92,7 +92,7 @@
           <el-table-column
             prop="caseNo"
             label="案号"
-            width="100">
+            width="200">
             <template slot-scope="scope">
               <span v-ellipsis.20>{{scope.row.caseNo}}</span>
             </template>
