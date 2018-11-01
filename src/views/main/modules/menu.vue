@@ -244,6 +244,16 @@
                 menuId : 38,
                 menuUrl : 'dataManagement',
               },
+              {
+                menuName : '模板联调',
+                menuId : 310,
+                menuUrl : 'templateJoint',
+              },
+              {
+                menuName : '参数列表',
+                menuId : 311,
+                menuUrl : 'ctParameterList',
+              },
             ],
           },
           {

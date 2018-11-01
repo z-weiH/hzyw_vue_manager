@@ -429,6 +429,22 @@ let router = new Router({
             name: 'dataManagement',
           },
         },
+        {
+          path: 'templateJoint',
+          component: () =>
+            import ('@/views/customer/templateJoint'), // 模板联调
+          meta: {
+            name: 'templateJoint',
+          },
+        },
+        {
+          path: 'ctParameterList',
+          component: () =>
+            import ('@/views/customer/ctParameterList'), // 参数列表
+          meta: {
+            name: 'ctParameterList',
+          },
+        },
         /* 客户管理module end */
 
         /* 案件订单module start */
@@ -1052,6 +1068,22 @@ let router = new Router({
       }
     },
 
+    {
+      path: '/ctJointCase',
+      component: () =>
+        import ('@/views/customer/ctJointCase'), // 客户管理-模板联调-联调案件
+      meta: {
+        name: 'ctJointCase',
+      },
+    },
+    {
+      path: '/ctInterfaceList',
+      component: () =>
+        import ('@/views/customer/ctInterfaceList'), // 客户管理-模板联调-接口列表
+      meta: {
+        name: 'ctInterfaceList',
+      },
+    },
 
 
 
