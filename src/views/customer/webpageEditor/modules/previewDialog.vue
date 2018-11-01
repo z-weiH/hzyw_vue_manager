@@ -104,20 +104,23 @@
             });
             let content = this.textarea;
             // 过滤 if
-            /* let $content = $(content);
-            let fn = () => {
-              if($content.find('.style-if').length !== 0){
-                $content.find('.style-if').each((k,v) => {
-                  if($(v).find('style-if').length === 0){
-                    console.log($(v)[0].innerHTML);
-                    $(v).prop("outerHTML",$(v)[0].innerHTML.replace(/&nbsp;/g,''));
-                  }
-                });
-                fn();
+            /* let fn = (str) => {
+              if(str.indexOf('<span class="style-if" style="display:block">') === -1) {
+                return content = str;
               }
-            }
-            fn();
-            content = $content[0].outerHTML.replace(/<!--#if-->/g,'</#if>');
+              let res = str.replace(/<span class="style-if" style="display:block">(.*?)<\/span>/g,(n,$1) => {
+                let span = $1.indexOf('<span');
+                // 单个
+                if(span === -1) {
+                  return n.replace(/<.*?>/g,'').replace(/&nbsp;/g,'');
+                // 多个
+                }else{
+                  return `<span class="style-if" style="display:block">${n.replace(/<.*?>/g,'').replace(/&nbsp;/g,'')}`
+                }
+              });
+              fn(res);
+            };
+            fn(content);
             // 过滤 table
             content = content.replace(/<p class="m-style">(.*?)<\/p>/g,(str) => str.replace(/<.*?>/g,''));
             // 解决 后台不识别 &lt; 以及 &gt; 问题
