@@ -285,7 +285,7 @@
         }else if(type === 16) {
           message = '<span class="asdf">endTable</span>';
         }else if(type === 17) {
-          message = '&lt;@dateOffsetCalc myDate=date days=3 /&gt;';
+          message = '&lt;@dateOffsetCalc date=myDate days=1 /&gt;';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
