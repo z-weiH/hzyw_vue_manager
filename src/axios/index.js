@@ -43,7 +43,7 @@ axios.interceptors.response.use((res) => {
   console.error(res.data);
   // 登录超时 拦截
   if(res.data.code === '8888') {
-    Message({
+    ({
       type: 'error',
       message: res.data.description,
       duration: 5000,

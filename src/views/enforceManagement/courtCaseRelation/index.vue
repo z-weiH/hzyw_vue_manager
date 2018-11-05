@@ -85,7 +85,7 @@
           style="width: 100%;">
           <el-table-column
             type="index"
-            width="50"
+            width="70"
             label="序号"
           >
           </el-table-column>
