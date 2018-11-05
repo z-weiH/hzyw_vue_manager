@@ -1,13 +1,17 @@
 import { throttle } from '@/assets/js/tool'
+
+const AnchorsClass = '.scroll-top-item';
+const RollingContainer = '.main';
+
 let scrollFn;
 
 export default {
   init(callback) {
     scrollFn = throttle(() => {
       // 高亮判断的位置元素
-      let arr = Array.map(document.querySelectorAll('.scroll-top-item'),v => v.offsetTop);
+      let arr = Array.map(document.querySelectorAll(AnchorsClass),v => v.offsetTop);
       // 当前滚动条距离 顶部的距离
-      let top = document.querySelector('.main').scrollTop;
+      let top = document.querySelector(RollingContainer).scrollTop;
       // 判断当前滚动距离 距离哪个元素范围
       for(let index = 0 ; index < arr.length ; index ++) {
         let current = arr[index];
@@ -18,12 +22,12 @@ export default {
         }
       };
     },60);
-    document.querySelector('.main').addEventListener('scroll',scrollFn,false);
+    document.querySelector(RollingContainer).addEventListener('scroll',scrollFn,false);
     scrollFn();
   },
 
   unbind() {
-    document.querySelector('.main').removeEventListener('scroll',scrollFn);
+    document.querySelector(RollingContainer).removeEventListener('scroll',scrollFn);
   },
 
 }
