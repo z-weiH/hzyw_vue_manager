@@ -168,6 +168,9 @@
             <li v-for="(msg, index) in card.evi.checkAuditList">{{index + 1}}.{{msg.reasonMsg}}</li>
           </ul>
         </div>
+        <div class="bdje" style="margin-bottom: 20px;;font-size: 16px;">
+          <span style="color: #193b8c;font-size: 18px;">标的金额：</span>{{card.amtCase}}元
+        </div>
         <div class="applybook_title of-hidden">
           <div class="tit fl">仲裁申请书</div>
           <div class="scroll_toolbar fr">

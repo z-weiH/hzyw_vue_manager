@@ -276,6 +276,7 @@
     <caseSample ref="caseSampleDialog" :rule="currentMenu"></caseSample>
     <copyRule ref="copyRule"/>
     <inputTemplate ref="inputTemplate"></inputTemplate>
+    <pdfHtml ref="pdfHtml"></pdfHtml>
   </div>
 </template>
 
@@ -288,6 +289,7 @@
   import caseSample from './modules/caseSampleDialog'
   import copyRule from './modules/copyRuleDialog'
   import inputTemplate from './modules/inputTemplate'
+  import pdfHtml from './modules/pdf_html'
   export default {
     components : {
       'm-progress' : progress,
@@ -297,7 +299,8 @@
       executionSet,
       caseSample,
       copyRule,
-      inputTemplate
+      inputTemplate,
+      pdfHtml
     },
     data() {
       return {
@@ -589,6 +592,7 @@
             let type = -1;
             let idx1 = strcopy.lastIndexOf('getnum(');
             let idx2 = strcopy.lastIndexOf('get(');
+            // let idx3 = strcopy.lastIndexOf('getId(');
             if(idx1 != -1 && new RegExp("^getnum\\([A-Z_0-9]+$").test(strcopy.substring(idx1))){
               type = 0;
               this.currentFunction.affix = strcopy.substring(idx1);
@@ -597,6 +601,10 @@
               type = 1;
               this.currentFunction.affix = strcopy.substring(idx2);
             }
+            // else if(idx3 != -1 && new RegExp("^getId\\([A-Z_0-9]+$").test(strcopy.substring(idx3))){
+            //   type = 3;
+            //   this.currentFunction.affix = strcopy.substring(idx2);
+            // }
             if(type != -1){
               this.ruleType = type;
               let idx = val.lastIndexOf('(');
@@ -715,7 +723,13 @@
       pdfFlagChange(){
         console.error(this.ruleType);
 
-        this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: this.pdfParam, type: this.ruleType});
+        if(this.ruleType !== 3){
+          this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: this.pdfParam, type: this.ruleType});
+        }else {
+          this.$http.post("/ruleBase/queryPdfUrlAndWithHigh.htm",{levelId: this.currentMenu.levelId, pdfParam: this.pdfParam}).then(res => {
+            this.$refs.pdfHtml.show(res.result);
+          })
+        }
 
       },
 
