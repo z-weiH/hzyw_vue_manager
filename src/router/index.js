@@ -971,15 +971,96 @@ let router = new Router({
           },
         },
         /* 送达系统 module end  */
+        /* 强制执行管理 module start  */
         {
           path: 'courtCaseRelation',
           component: () =>
-            import("@/views/enforceManagement/courtCaseRelation"),
+            import("@/views/enforceManagement/courtCaseRelation"), // 法院案件关联
           meta: {
             name: 'courtCaseRelation'
-          }
-        }
-
+          },
+        },
+        {
+          path: 'emEnforcementCases',
+          component: () =>
+            import("@/views/enforceManagement/emEnforcementCases"), // 强制执行案件
+          meta: {
+            name: 'emEnforcementCases'
+          },
+        },
+        {
+          path: 'emBatchDownload',
+          component: () =>
+            import("@/views/enforceManagement/emBatchDownload"), // 批量下载
+          meta: {
+            name: 'emBatchDownload'
+          },
+        },
+        {
+          path: 'emDownloadTask',
+          component: () =>
+            import("@/views/enforceManagement/emDownloadTask"), // 下载任务页
+          meta: {
+            name: 'emDownloadTask'
+          },
+        },
+        {
+          path: 'emGenerationRecord',
+          component: () =>
+            import("@/views/enforceManagement/emGenerationRecord"), // 文书生成记录
+          meta: {
+            name: 'emGenerationRecord'
+          },
+        },
+        {
+          path: 'emChannelManagement',
+          component: () =>
+            import("@/views/enforceManagement/emChannelManagement"), // 渠道管理
+          meta: {
+            name: 'emChannelManagement'
+          },
+        },
+        {
+          path: 'emClientManagement',
+          component: () =>
+            import("@/views/enforceManagement/emClientManagement"), // 委托人管理
+          meta: {
+            name: 'emClientManagement'
+          },
+        },
+        {
+          path: 'emPropertyStatus',
+          component: () =>
+            import("@/views/enforceManagement/emPropertyStatus"), // 被执行人财产状况
+          meta: {
+            name: 'emPropertyStatus'
+          },
+        },
+        {
+          path: 'emBankAccount',
+          component: () =>
+            import("@/views/enforceManagement/emBankAccount"), // 申请执行人银行账户
+          meta: {
+            name: 'emBankAccount'
+          },
+        },
+        {
+          path: 'emMaterialAllocation',
+          component: () =>
+            import("@/views/enforceManagement/emMaterialAllocation"), // 法院材料配置
+          meta: {
+            name: 'emMaterialAllocation'
+          },
+        },
+        {
+          path: 'emMaterialAllocationPage',
+          component: () =>
+            import("@/views/enforceManagement/emMaterialAllocationPage"), // 法院材料配置 - 配置页面
+          meta: {
+            name: 'emMaterialAllocation'
+          },
+        },
+        /* 强制执行管理 module end  */
       ],
     },
     {
