@@ -615,8 +615,48 @@
             menuId: 'qzzx',
             children: [
               {
+                menuName: '强制执行案件',
+                menuId: 'fyajgl1',
+                menuUrl: 'emEnforcementCases'
+              },
+              {
+                menuName: '下载任务页',
+                menuId: 'fyajgl2',
+                menuUrl: 'emDownloadTask'
+              },
+              {
+                menuName: '文书生成记录',
+                menuId: 'fyajgl3',
+                menuUrl: 'emGenerationRecord'
+              },
+              {
+                menuName: '渠道管理',
+                menuId: 'fyajgl4',
+                menuUrl: 'emChannelManagement'
+              },
+              {
+                menuName: '委托人管理',
+                menuId: 'fyajgl5',
+                menuUrl: 'emClientManagement'
+              },
+              {
+                menuName: '被执行人财产状况',
+                menuId: 'fyajgl6',
+                menuUrl: 'emPropertyStatus'
+              },
+              {
+                menuName: '申请执行人银行账户',
+                menuId: 'fyajgl7',
+                menuUrl: 'emBankAccount'
+              },
+              {
+                menuName: '法院材料配置',
+                menuId: 'fyajgl8',
+                menuUrl: 'emMaterialAllocation'
+              },
+              {
                 menuName: '法院案件关联',
-                menuId: 'fyajgl',
+                menuId: 'fyajgl9',
                 menuUrl: 'courtCaseRelation'
               },
             ]
