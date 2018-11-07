@@ -103,6 +103,13 @@
               text : '模板生成中'
             });
             let content = this.textarea;
+            /* content = content.replace(/\n/g,(str) => '').replace(/<pre class="brush:js;toolbar:false;">.*?(<\/pre>)/g,(str) => {
+              return str.replace(/<.*?>/g,'').replace(/&nbsp;/g,'')
+                .replace(/&lt;#if(.*?)&gt;/g,(str,$1) => `&lt;#if ${$1}&gt;`)
+                .replace(/&lt;#elseif(.*?)&gt;/g,(str,$1) => `&lt;#elseif ${$1}&gt;`)
+                .replace(/&lt;@tableCol(.*?)\/&gt;/g,(str,$1) => `&lt;@tableCol ${$1} \/&gt;`);
+            }); */
+            
             // 过滤 if
             /* let fn = (str) => {
               if(str.indexOf('<span class="style-if" style="display:block">') === -1) {
