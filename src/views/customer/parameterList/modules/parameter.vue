@@ -76,6 +76,9 @@
             if(row.valueType === 4) {
               money = '${money('+ row.paramCode +')}';
             }
+            if(row.paramCode.search(/^rate/g) !== -1) {
+              money = '${money('+ row.paramCode +')}%';
+            }
             this.$parent.handleCopy(money || '${'+ row.paramCode +'}');
           }else if(this.$route.query.fromRule) {
             copy(row.paramCode,() => {
