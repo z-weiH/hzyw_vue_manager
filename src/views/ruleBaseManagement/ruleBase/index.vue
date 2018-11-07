@@ -592,7 +592,7 @@
             let type = -1;
             let idx1 = strcopy.lastIndexOf('getnum(');
             let idx2 = strcopy.lastIndexOf('get(');
-            let idx3 = strcopy.lastIndexOf('getId(');
+            let idx3 = strcopy.lastIndexOf('takeContentById(');
             if(idx1 != -1 && new RegExp("^getnum\\([A-Z_0-9]+$").test(strcopy.substring(idx1))){
               type = 0;
               this.currentFunction.affix = strcopy.substring(idx1);
@@ -601,7 +601,7 @@
               type = 1;
               this.currentFunction.affix = strcopy.substring(idx2);
             }
-            else if(idx3 != -1 && new RegExp("^getId\\([A-Z_0-9]+$").test(strcopy.substring(idx3))){
+            else if(idx3 != -1 && new RegExp("^takeContentById\\([A-Z_0-9]+$").test(strcopy.substring(idx3))){
               type = 3;
               this.currentFunction.affix = strcopy.substring(idx2);
             }
