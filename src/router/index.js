@@ -993,7 +993,7 @@ let router = new Router({
           component: () =>
             import("@/views/enforceManagement/emBatchDownload"), // 批量下载
           meta: {
-            name: 'emBatchDownload'
+            name: 'emEnforcementCases'
           },
         },
         {

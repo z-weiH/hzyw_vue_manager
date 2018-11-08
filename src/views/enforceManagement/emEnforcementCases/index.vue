@@ -6,22 +6,101 @@
     </div>
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
+        <span class="search-span">案件查询：</span>
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入"></el-input>
+          <el-input v-model.trim="ruleForm.keyWords" placeholder="案号、申请人、被申请人、手机号" style="width:306px;"></el-input>
         </el-form-item>
 
-        <el-form-item label=" " prop="accountAge">
-          <el-select clearable v-model="ruleForm.accountAge" placeholder="请选择账龄">
-            <el-option label="1~30天" value="M1"></el-option>
-            <el-option label="31~60天" value="M2"></el-option>
+        <el-form-item label=" " prop="dateType">
+          <el-select clearable v-model="ruleForm.dateType" placeholder="日期选择" style="width:120px;">
+            <el-option label="借款时间" :value="1"></el-option>
+            <el-option label="逾期时间" :value="2"></el-option>
+            <el-option label="提交时间" :value="3"></el-option>
+            <el-option label="裁决时间" :value="4"></el-option>
           </el-select>
         </el-form-item>
 
-				<timeFrame
+        <timeFrame
           :startDate.sync="ruleForm.startDate"
           :endDate.sync="ruleForm.endDate"
         >
         </timeFrame>
+
+        <div class="mt-10"></div>
+        <span class="search-span">所在地区：</span>
+        <el-form-item label=" " prop="provinceCode">
+          <cityCascader
+            :provinceCode.sync="ruleForm.provinceCode"
+            :cityCode.sync="ruleForm.cityCode"
+            :districtCode.sync="ruleForm.districtCode"  
+            ref="cityCascader"
+            @finish="cityFinish"
+            @cancel="cityCancel"
+          >
+          </cityCascader>
+        </el-form-item>
+
+        <el-form-item label=" " prop="courtId">
+          <el-select clearable v-model="ruleForm.courtId" placeholder="请选择法院" style="width:145px;">
+            <el-option 
+              v-for="(item,index) in courtOptions" 
+              :key="index" 
+              :label="item.courtName" 
+              :value="item.courtId"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <span class="search-span">下载状态：</span>
+        <el-form-item label=" " prop="downloadStatus">
+          <el-select clearable v-model="ruleForm.downloadStatus" placeholder="请选择" style="width:120px;">
+            <el-option label="已处理" :value="0"></el-option>
+            <el-option label="未处理" :value="1"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <div class="mt-10"></div>
+        <span class="search-span" style="width: 70px;">客户：</span>
+        <el-form-item label=" " prop="customerId">
+          <el-select @change="handleCustomerChange" clearable filterable  v-model="ruleForm.customerId" placeholder="请选择" class="chang-item">
+            <el-option :label="item.merchantName" :value="item.code" v-for="(item,index) in customerOptions" :key="index"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <span class="search-span">产品名称：</span>
+        <el-form-item label=" " prop="productId">
+          <el-select @change="handleProductChange" clearable filterable  v-model="ruleForm.productId" placeholder="请选择" class="chang-item">
+            <el-option :label="item.prodName" :value="item.prodCode" v-for="(item,index) in productOptions" :key="index"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <span class="search-span">模板编码：</span>
+        <el-form-item label=" " prop="templateCode">
+          <el-select clearable filterable  v-model="ruleForm.templateCode" placeholder="请选择" class="chang-item">
+            <el-option :label="item" :value="item" v-for="(item,index) in templateOptions" :key="index"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <div class="mt-10"></div>
+        <span class="search-span">配置状态：</span>
+        <el-form-item label=" " prop="settingStatus">
+          <el-select clearable v-model="ruleForm.settingStatus" placeholder="请选择" style="width:120px;">
+            <el-option label="已完成" :value="1"></el-option>
+            <el-option label="未完成" :value="2"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <span class="search-span">还款情况：</span>
+        <el-form-item label=" " prop="aaaaa">
+          <el-select clearable v-model="ruleForm.aaaaa" placeholder="请选择" style="width:120px;">
+            <el-option label="有还款" :value="1"></el-option>
+            <el-option label="无还款" :value="2"></el-option>
+            <el-option label="有仲裁后还款" :value="3"></el-option>
+            <el-option label="无仲裁后还款" :value="4"></el-option>
+          </el-select>
+        </el-form-item>
+
 
         <el-button @click="handleSearch" type="warning">查询</el-button>
       </el-form>
@@ -62,19 +141,27 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55"></el-table-column>
-				<el-table-column prop="respondents" label="案号"></el-table-column>
-        <el-table-column prop="respondents" label="仲裁申请人" width="120"></el-table-column>
-        <el-table-column prop="respondents" label="执行标的"></el-table-column>
-        <el-table-column prop="respondents" label="固定金额"></el-table-column>
+				<el-table-column prop="caseNo" label="案号"></el-table-column>
+        <el-table-column prop="applicants" label="仲裁申请人" width="120"></el-table-column>
+        <el-table-column prop="executedBorrowAmt" label="执行标的"></el-table-column>
+        <el-table-column prop="fixedAmount" label="固定金额"></el-table-column>
         <el-table-column prop="respondents" label="仲裁被申请人" width="120"></el-table-column>
-        <el-table-column prop="respondents" label="手机号"></el-table-column>
-        <el-table-column prop="respondents" label="借款日期"></el-table-column>
-        <el-table-column prop="respondents" label="逾期开始日" width="120"></el-table-column>
-        <el-table-column prop="respondents" label="裁决时间"></el-table-column>
-        <el-table-column prop="respondents" label="法院"></el-table-column>
-        <el-table-column prop="respondents" label="模板编码"></el-table-column>
-        <el-table-column prop="respondents" label="材料配置状态" width="120"></el-table-column>
-        <el-table-column prop="respondents" label="下载状态"></el-table-column>
+        <el-table-column prop="resPhone" label="手机号"></el-table-column>
+        <el-table-column prop="dateOfBorrowing" label="借款日期"></el-table-column>
+        <el-table-column prop="lateStartDate" label="逾期开始日" width="120"></el-table-column>
+        <el-table-column prop="timeOfAdjudication" label="裁决时间"></el-table-column>
+        <el-table-column prop="courtName" label="法院"></el-table-column>
+        <el-table-column prop="templateCode" label="模板编码"></el-table-column>
+        <el-table-column prop="settingStatus" label="材料配置状态" width="120">
+          <template slot-scope="scope">
+            {{scope.row.settingStatus === 1 ? '已完成' : '未完成'}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="downloadStatus" label="下载状态">
+          <template slot-scope="scope">
+            {{scope.row.downloadStatus === 1 ? '未处理' : '已处理'}}
+          </template>
+        </el-table-column>
         <el-table-column label="操作" fixed="right" width="120" align="center">
           <template slot-scope="scope">
             <el-button @click="handlePreview(scope.row)" type="text">预览</el-button>
@@ -99,10 +186,13 @@
 </template>
 
 <script>
-	import timeFrame from '@/components/timeFrame.vue'
+  import timeFrame from '@/components/timeFrame.vue'
+  import exportFile from '@/assets/js/exportFile.js'
+  import cityCascader from '@/components/cityCascader.vue'
 	export default {
 		components : {
-			timeFrame,
+      timeFrame,
+      cityCascader,
 		},
 		data() {
 			return {
@@ -117,18 +207,53 @@
 
 				ruleForm : {
 					// 关键字
-					keyWords : '',
+          keyWords : '',
+          // 日期选择 1：借款日期；2：逾期日期；3：提交日期；4：裁决日期
+          dateType : '',
 					// 开始时间
 					startDate : '',
 					// 结束时间
-					endDate : '',
+          endDate : '',
+          // 配置状态 1:已完成；2：未完成
+          settingStatus : '',
+          // 下载状态 0：已处理；1：未处理
+          downloadStatus : '',
+
+          // 省
+          provinceCode : '',
+          // 市
+          cityCode : '',
+          // 区
+          districtCode : '',
+          // 法院
+          courtId : '',
+
+          // 客户id
+          customerId : '',
+          // 产品id
+          productId : '',
+          // 模板id
+          templateCode : '',
 				},
         rules : {},
         // 表格选中数据
         multipleSelection : [],
+        // 法院 options
+        courtOptions : [
+          /* {courtName : '法院1' , courtId : '1'},
+          {courtName : '法院2' , courtId : '2'},
+          {courtName : '法院3' , courtId : '3'},
+          {courtName : '法院4' , courtId : '4'}, */
+        ],
+        // 客户options
+        customerOptions : [],
+        // 产品options
+        productOptions : [],
+        // 模板options
+        templateOptions : [],
 
 				// 表格数据
-        tableData : [],
+        tableData : [{}],
         // 数据总数
         total : 11,
         // 当前页数
@@ -140,12 +265,76 @@
     },
     mounted() {
       this.initTableList();
+
+      // 获取客户 options
+      this.$http({
+        method : 'post',
+        url : '/case/queryCustomerList.htm',
+      }).then((res) => {
+        this.customerOptions = res.result;
+      });
     },
 		methods : {
 			// 点击搜索
 			handleSearch() {
 				this.currentPage = 1;
         this.initTableList();
+      },
+      // 地区 选择完成回调
+      cityFinish() {
+        console.log('选择成功');
+        this.$http({
+          url : '/court/queryCourtInfoByDistrictCode.htm',
+          method : 'post',
+          data : {
+            districtCode : this.ruleForm.districtCode,
+          },
+        }).then((res) => {
+          this.courtOptions = res.result;
+          this.ruleForm.courtId = '';
+        });
+      },
+      // 地区 取消回调
+      cityCancel() {
+        this.courtOptions = [];
+        this.ruleForm.courtId = '';
+      },
+      // 客户 change
+      handleCustomerChange(val) {
+        if(!val) {
+          this.productOptions = [];
+          this.templateOptions = [];
+          this.ruleForm.productId = '';
+          this.ruleForm.templateCode = '';
+        }else{
+          this.$http({
+            method : 'post',
+            url : '/case/queryProducts.htm',
+            data : {
+              merchantCode : val,
+            },
+          }).then((res) => {
+            this.productOptions = res.result;
+          });
+        }
+      },
+      // 产品 change
+      handleProductChange(val) {
+        if(!val) {
+          this.templateOptions = [];
+          this.ruleForm.templateCode = '';
+        }else{
+          this.$http({
+            method : 'post',
+            url : '/case/queryTemplatesByProductCode.htm',
+            data : {
+              merchantCode: this.ruleForm.customerId,
+              prodCode: val,
+            },
+          }).then((res) => {
+            this.templateOptions = res.result;
+          });
+        }
       },
 
       // 点击 导出列表
@@ -154,7 +343,10 @@
       },
       // 点击 表格模板下载
       handleTableTemplateDownload() {
-        alert('表格模板下载');
+        exportFile({
+          url : '/execution/moduleExcelDownload.htm',
+          data : {},
+        });
       },
       // 点击 批量导入查询
       handleBatchImportTemplate() {
@@ -186,16 +378,43 @@
         if(this.multipleSelection.length === 0) {
           return;
         }
-        alert('批量下载');
+        this.$router.push({
+          path : 'emBatchDownload',
+          query : {
+            aaa : '11'
+          },
+        });
       },
 
       // 点击 预览
       handlePreview(row) {
-        alert('预览');
+        this.$http({
+          method : 'post',
+          url : '/forceManager/previewCaseDoc.htm',
+          data : {
+            bsqbccns : true,
+            cczksm : true,
+            fwxy : true,
+            jkxy : true,
+            qzzxsqs : true,
+            sfzzfm : true,
+            sqwts : true,
+            xzgxfsms : true,
+            zxkyhzhqds : true,
+
+            caseId : row.caseId,
+            templateCode : row.templateCode,
+          },
+        });
       },
       // 点击 下载
       handleDownload(row) {
-        alert('下载');
+        exportFile({
+          url : '/forceManager/downloadDocs.htm',
+          data : {
+            caseIds : row.caseId,
+          },
+        });
       },
 
 			// 表格相关 start
@@ -255,8 +474,16 @@
       cursor: auto;
     }
   }
+  .search-span{
+    display: inline-block;
+    margin-top: 15px;
+    text-align: right;
+  }
   .upload-box{
     display: inline-block;
+  }
+  .chang-item{
+    width: 197px;
   }
 }
 
@@ -268,6 +495,11 @@
   .item-search{
     .el-form-item{
       margin-bottom: 0;
+    }
+    .city-cascader-box{
+      .el-select{
+        /* width: 100px!important; */
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="city-cascader-box">
-    <el-select @clear="handleClear" ref="sele1" @change="handleProvinceChange" v-model="activeProvince" clearable placeholder="请选择" style="width:130px;vertical-align:middle;">
+    <el-select @clear="handleClear" ref="sele1" @change="handleProvinceChange" v-model="activeProvince" clearable placeholder="省" style="width:130px;vertical-align:middle;">
       <el-option
         v-for="(item,index) in provinceOptions"
         :key="index"
@@ -10,7 +10,7 @@
       </el-option>
     </el-select>
 
-    <el-select @clear="handleClear" ref="sele2" @change="handleCityChange" v-model="activeCity" clearable placeholder="请选择" style="width:130px;vertical-align:middle;">
+    <el-select @clear="handleClear" ref="sele2" @change="handleCityChange" v-model="activeCity" clearable placeholder="市" style="width:130px;vertical-align:middle;">
       <el-option
         v-for="(item,index) in cityOptions"
         :key="index"
@@ -20,7 +20,7 @@
       </el-option>
     </el-select>
 
-    <el-select @clear="handleClear" ref="sele3" @change="handleAreaChange" v-model="activeArea" clearable placeholder="请选择" style="width:130px;vertical-align:middle;">
+    <el-select @clear="handleClear" ref="sele3" @change="handleAreaChange" v-model="activeArea" clearable placeholder="区" style="width:130px;vertical-align:middle;">
       <el-option
         v-for="(item,index) in areaOptions"
         :key="index"
