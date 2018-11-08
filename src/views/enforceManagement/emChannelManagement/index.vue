@@ -11,11 +11,12 @@
           <el-input style="width: 240px;" v-model.trim="searchItem.keyWords" placeholder="渠道名称、联系电话、联系人"></el-input>
         </el-form-item>
 
-        <el-button @click="handleSearch" type="warning">查询</el-button>
+        <el-button @click="doQuery" type="warning">查询</el-button>
       </el-form>
     </div>
 
-    <div class="item-title of-hidden">
+    <div class="item-title of-hidden" style="position: relative;">
+      <el-button style="position: absolute;top: 6px;right: 10px;" type="primary" @click="addChannel">添加</el-button>
       <span class="item-title-sign">渠道管理</span>
     </div>
 
@@ -99,12 +100,17 @@
       </el-pagination>
     </div>
 
+    <channelEdit ref="channelEdit"/>
   </div>
 </template>
 
 <script>
+  import channelEdit from './module/channelEdit'
   export default {
     name: 'emChannelManagement',
+    components:{
+      channelEdit
+    },
     data(){
       return {
         tableData: [],
@@ -117,6 +123,8 @@
       }
     },
     methods:{
+      // <!--1：自营渠道：2：律所代理：3：线下代理-->
+
       doQuery(){
         this.$http.get("/channel/queryCourtMandatoryChannelInfo.htm",{...this.searchItem,...this.pager}).then(res => {
           this.tableData = res.result.list;
@@ -132,10 +140,20 @@
         this.doQuery();
       },
       handleDelClick(item){
-
+        this.$confirm('确定要删除该渠道吗?', '提示', {
+          center: true,
+        }).then(res => {
+          this.$http.post("/channel/deleteCourtMandatoryChannelInfo.htm",{channelId: item.channelId}).then(res => {
+            this.$message.success("渠道删除成功");
+          })
+        }).catch(err => {
+        })
       },
       handleEditClick(item){
-
+        this.$refs.channelEdit.show(item.channelId);
+      },
+      addChannel(){
+        this.$refs.channelEdit.show();
       }
     },
     created(){
