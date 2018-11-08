@@ -8,7 +8,7 @@
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="80px">
         <el-form-item label="批次号：" prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入"></el-input>
+          <el-input v-model.trim="ruleForm.batchNo" placeholder="强制执行批次号"></el-input>
         </el-form-item>
 
         <el-button @click="handleSearch" type="warning">查询</el-button>
@@ -31,12 +31,17 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="respondents" label="批次号"></el-table-column>
-        <el-table-column prop="respondents" label="生成状态"></el-table-column>
-        <el-table-column prop="respondents" label="生成文书" width="280px"></el-table-column>
-        <el-table-column prop="respondents" label="文书落款日期" width="120px"></el-table-column>
-        <el-table-column prop="respondents" label="下载次数"></el-table-column>
-        <el-table-column prop="respondents" label="操作人"></el-table-column>
+				<el-table-column prop="batchNo" label="批次号" width="180px"></el-table-column>
+        <!--0:进行中；1：已完成；2：失败-->
+        <el-table-column prop="createStatus" label="生成状态">
+          <template slot-scope="scope">
+           <span>{{scope.row.createStatus === 0 ? "进行中" : scope.row.createStatus === 1 ? '已完成' : '失败'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="createDocs" label="生成文书" width="280px"></el-table-column>
+        <el-table-column prop="docDate" label="文书落款日期" width="120px"></el-table-column>
+        <el-table-column prop="downloadTimes" label="下载次数"></el-table-column>
+        <el-table-column prop="userName" label="操作人"></el-table-column>
         <el-table-column prop="respondents" label="操作">
           <template slot-scope="scope">
             <el-button @click="handleDownload(scope.row)" type="text">下载</el-button>
@@ -81,10 +86,10 @@
         currentPage : 1,
         // 每页数量
 				pageSize : 10,
-				
+
 			}
     },
-    mounted() {
+    created() {
       this.initTableList();
     },
 		methods : {
@@ -93,7 +98,7 @@
 				this.currentPage = 1;
         this.initTableList();
       },
-      
+
       // 点击下载
       handleDownload() {
         alert('下载');
@@ -104,8 +109,8 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
-          method : 'post',
+          url : '/download/downloadList.htm',
+          method : 'get',
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
@@ -125,7 +130,7 @@
       },
       // 分页 change
       handleCurrentChange(val) {
-        this.currentPage = val; 
+        this.currentPage = val;
         this.initTableList();
       },
 
@@ -137,7 +142,7 @@
 <style lang="scss" scoped>
 
 .em-download-task{
-	
+
 }
 
 </style>
