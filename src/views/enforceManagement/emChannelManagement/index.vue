@@ -1,12 +1,146 @@
 <template>
   <div>
+    <div class="wsbodyhead">
+      <a>所在位置</a>
+      <a href="javascript:;" class="aside_tit">渠道管理</a>
+    </div>
+
+    <div class="item-search">
+      <el-form :inline="true" ref="ruleForm" :model="searchItem" >
+        <el-form-item label="" prop="keyWords" >
+          <el-input style="width: 240px;" v-model.trim="searchItem.keyWords" placeholder="渠道名称、联系电话、联系人"></el-input>
+        </el-form-item>
+
+        <el-button @click="handleSearch" type="warning">查询</el-button>
+      </el-form>
+    </div>
+
+    <div class="item-title of-hidden">
+      <span class="item-title-sign">渠道管理</span>
+    </div>
+
+    <div class="item-table" >
+      <el-table
+        :data="tableData"
+        border
+        style="width: 100%;">
+        <el-table-column
+          type="index"
+          width="70"
+          label="序号"
+        >
+        </el-table-column>
+
+        <el-table-column
+          prop="channelType"
+          label="渠道类型"
+          width="100">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.channelType}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="channelName"
+          label="渠道名称"
+          width="100">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.channelName}}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column
+          prop="channelLinkman"
+          label="联系人"
+          width="120">
+          <template slot-scope="scope">
+            {{scope.row.channelLinkman}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="channelPhone"
+          label="联系电话"
+          width="180">
+          <template slot-scope="scope">
+            {{scope.row.channelPhone}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="channelAddress"
+          label="详细地址"
+          width="230">
+          <template slot-scope="scope">
+            {{scope.row.channelAddress}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="courtSettingStatus"
+          label="操作"
+          width="156">
+          <template slot-scope="scope">
+            <el-button type="text" @click="handleDelClick(scope.row)" size="small">删除</el-button>
+            <el-button type="text" @click="handleEditClick(scope.row)" size="small">修改</el-button>
+          </template>
+        </el-table-column>
+
+
+
+      </el-table>
+
+
+      <el-pagination
+        class="mt-10 mb-10"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="pager.currentNum"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="pager.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="pager.count">
+      </el-pagination>
+    </div>
 
   </div>
 </template>
 
 <script>
   export default {
-    
+    name: 'emChannelManagement',
+    data(){
+      return {
+        tableData: [],
+        searchItem: {},
+        pager:{
+          currentNum: 1,
+          count: 1,
+          pageSize: 10
+        }
+      }
+    },
+    methods:{
+      doQuery(){
+        this.$http.get("/channel/queryCourtMandatoryChannelInfo.htm",{...this.searchItem,...this.pager}).then(res => {
+          this.tableData = res.result.list;
+          this.pager.count = res.result.count;
+        })
+      },
+      handleSizeChange(val){
+        this.pager.pageSize = val;
+        this.doQuery();
+      },
+      handleCurrentChange(val){
+        this.pager.currentNum = val;
+        this.doQuery();
+      },
+      handleDelClick(item){
+
+      },
+      handleEditClick(item){
+
+      }
+    },
+    created(){
+      this.doQuery();
+    }
   }
 </script>
 

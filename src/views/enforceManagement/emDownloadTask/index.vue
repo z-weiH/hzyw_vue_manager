@@ -7,7 +7,7 @@
 
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="80px">
-        <el-form-item label="批次号：" prop="keyWords">
+        <el-form-item label="批次号：" prop="batchNo">
           <el-input v-model.trim="ruleForm.batchNo" placeholder="强制执行批次号"></el-input>
         </el-form-item>
 
@@ -17,8 +17,6 @@
 
     <div class="item-title of-hidden">
       <span class="item-title-sign">下载任务列表</span>
-      <div class="fr">
-      </div>
     </div>
 
 		<div class="item-table">
