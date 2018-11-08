@@ -602,3 +602,11 @@ textarea::-webkit-scrollbar {
   width: 6px;
 }
 
+.self_dialog{
+  .el-dialog__header{
+    padding: 0;
+  }
+  .el-dialog__headerbtn{
+    top: 8px;
+  }
+}

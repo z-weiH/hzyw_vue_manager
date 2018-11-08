@@ -1063,12 +1063,12 @@
       },
 
       handleNodeClickPlus(item){
-        this.handleNodeClick(item);
+        this.handleNodeClick(item, true);
         this.refreshRules(item);
       },
 
 
-      handleNodeClick(item){
+      handleNodeClick(item, flag){
         let obj = Object.assign({},item);
         obj.children = null;
         this.currentMenu = obj;
@@ -1088,7 +1088,10 @@
         this.contentFlag = true;
         //模版需要去查询列表
         if(this.currentMenu.ruleLevel === 4){
-          this.$http.post("/ruleBase/queryRuleInfoByBaseQuery.htm",Object.assign(obj,this.pager)).then(res => {
+          if(flag){
+            this.pager.currentNum = 1;
+          }
+            this.$http.post("/ruleBase/queryRuleInfoByBaseQuery.htm",Object.assign(obj,this.pager)).then(res => {
             if(res.code === '0000'){
               this.ruleList = res.result.list;
               this.ruleList.forEach(it => {
