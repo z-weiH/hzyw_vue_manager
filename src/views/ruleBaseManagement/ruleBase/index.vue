@@ -257,7 +257,7 @@
       center>
       <div class="m-bar" style="width: 300px; margin: 20px auto;text-align: center;">
         <p style="margin: 20px 0;font-size: 18px;">正在执行规则...</p>
-        <m-progress :width="executProgress"  :height="20">执行中</m-progress>
+        <m-progress :width="executProgress" :px="progressWidth" :height="20">执行中</m-progress>
         <!--<template v-if="!isExecuting">-->
           <!--<p>机审执行完毕！</p>-->
           <!--<p>本次机审共对365件案件执行了4条规则，检出错误34处</p>-->
@@ -412,6 +412,7 @@
 
         //执行进度
         executProgress: 0,
+        progressWidth: 0,
 
         currentRule:'',
         currentMenu: {},
@@ -826,7 +827,8 @@
             if(res.result.status == 0){
               //执行中
               this.executProgress = res.result.currentCount+ '/' +res.result.totalCount;
-
+              this.progressWidth = +((res.result.currentCount/res.result.totalCount).toFixed(0));
+              // this.progressWidth ++;
               if(!this.executing){
                 this.executing = true;
               }
