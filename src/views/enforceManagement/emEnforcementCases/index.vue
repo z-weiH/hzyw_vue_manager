@@ -116,13 +116,12 @@
           <span class="handle-line">|</span>
           <el-upload
             class="upload-box"
-            :action="`${$host}/file/upload.htm`"
+            :action="`${$host}/forceManager/queryForceCaseListByExcelImplort.htm`"
             :show-file-list="false"
             :before-upload="uploadBefore"
             :on-success="uploadSuccess"
             :on-error="uploadError"
             :data="{
-              path : 'hzuser/idcard',
               token : token,
             }"
           >
@@ -171,6 +170,7 @@
       </el-table>
       <!-- 分页 -->
       <el-pagination
+        v-if="importQueryState === false"
         class="mt-10 mb-10"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
@@ -204,6 +204,8 @@
             return '';
           }
         })(),
+        // 判断当前 批量导入查询 状态
+        importQueryState : false,
 
 				ruleForm : {
 					// 关键字
@@ -277,6 +279,7 @@
 		methods : {
 			// 点击搜索
 			handleSearch() {
+        this.importQueryState = false;
 				this.currentPage = 1;
         this.initTableList();
       },
@@ -339,7 +342,22 @@
 
       // 点击 导出列表
       handleExportList() {
-        alert('导出列表');
+        // 当前是  批量导入查询
+        if(this.importQueryState) {
+          exportFile({
+            url : '/forceManager/excelExportByExportImport.htm',
+            data : {
+              caseNos : this.tableData.map(v => v.caseNo).join(','),
+            },
+          });
+        }else{
+          exportFile({
+            url : '/forceManager/queryForceCaseListByBaseQuery.htm',
+            data : {
+              ...this.ruleForm,
+            },
+          });
+        }
       },
       // 点击 表格模板下载
       handleTableTemplateDownload() {
@@ -347,10 +365,6 @@
           url : '/execution/moduleExcelDownload.htm',
           data : {},
         });
-      },
-      // 点击 批量导入查询
-      handleBatchImportTemplate() {
-        alert('批量导入查询');
       },
       // 批量导入相关事件
 
@@ -364,8 +378,10 @@
         }
         return true;
       },
-      uploadSuccess(response, file, fileList) {
-        let res = response.result;
+      // 文件上传成功
+      uploadSuccess(res, file, fileList) {
+        this.importQueryState = true;
+        this.tableData = res.result.list;
       },
       // 文件上传失败
       uploadError() {
@@ -381,7 +397,7 @@
         this.$router.push({
           path : 'emBatchDownload',
           query : {
-            aaa : '11'
+            caseIds : JSON.stringify(this.multipleSelection.map(v => v.caseId)),
           },
         });
       },
