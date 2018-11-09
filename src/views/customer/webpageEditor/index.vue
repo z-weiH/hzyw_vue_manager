@@ -24,6 +24,13 @@
               <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
               <el-button @click="handleInsertGrammar(17)">日期计算</el-button>
               <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
+                <el-button>当事人<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item :command="18">申请人</el-dropdown-item>
+                  <el-dropdown-item :command="19">被申请人</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+              <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>判断<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item :command="2">插入判断条件</el-dropdown-item>
@@ -286,6 +293,10 @@
           message = '<span class="asdf">endTable</span>';
         }else if(type === 17) {
           message = '&lt;@dateOffsetCalc date=myDate days=1 /&gt;';
+        }else if(type === 18) {
+          message = '&lt;@multiApp /&gt;';
+        }else if(type === 19) {
+          message = '&lt;@multiRes /&gt;';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
