@@ -27,7 +27,9 @@
                 <el-button>当事人<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item :command="18">申请人</el-dropdown-item>
+                  <el-dropdown-item :command="20">申请人名字</el-dropdown-item>
                   <el-dropdown-item :command="19">被申请人</el-dropdown-item>
+                  <el-dropdown-item :command="21">被申请人名字</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
               <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
@@ -297,6 +299,10 @@
           message = '&lt;@multiApp /&gt;';
         }else if(type === 19) {
           message = '&lt;@multiRes /&gt;';
+        }else if(type === 20) {
+          message = '&lt;@multiPartyInfo list="multiApp" index=1 field="appAddress" /&gt;';
+        }else if(type === 21) {
+          message = '&lt;@multiPartyInfo list="multiRes" index=1 field="appAddress" /&gt;';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
