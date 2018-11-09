@@ -109,18 +109,21 @@
 
 
       </el-table>
+
+      <el-pagination style="background: #fff"
+                     class="mt-10 mb-10"
+                     @size-change="handleSizeChange"
+                     @current-change="handleCurrentChange"
+                     :current-page="pager.currentNum"
+                     :page-sizes="[10, 20, 30, 40]"
+                     :page-size="pager.pageSize"
+                     layout="total, sizes, prev, pager, next, jumper"
+                     :total="pager.count">
+      </el-pagination>
+
     </div>
 
-    <el-pagination style="background: #fff"
-                   class="mt-10 mb-10"
-                   @size-change="handleSizeChange"
-                   @current-change="handleCurrentChange"
-                   :current-page="pager.currentNum"
-                   :page-sizes="[10, 20, 30, 40]"
-                   :page-size="pager.pageSize"
-                   layout="total, sizes, prev, pager, next, jumper"
-                   :total="pager.count">
-    </el-pagination>
+
 
 
     </div>
@@ -151,6 +154,7 @@
       }
     },
     methods:{
+
       handleClick(row){
         this.$router.push({path: 'emMaterialAllocationPage',query:{courtId: row.courtId,courtName: row.courtName}});
       },

@@ -176,7 +176,7 @@ export default {
         _this.numpages = pdf.numPages;
         _this.pdfDoc = pdf
         _this.renderPage(1)
-        this.pageNum = 1;
+        _this.pageNum = 1;
       })
     },
     renderPage (num) {

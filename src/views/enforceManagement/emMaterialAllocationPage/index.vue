@@ -14,6 +14,7 @@
         <div class="table">
           <el-table
             :data="swtrList"
+            :header-cell-style="getRowStyle"
             border
             style="width: 100%;">
             <el-table-column
@@ -86,6 +87,7 @@
         <div class="table">
           <el-table
             :data="yhzhList"
+            :header-cell-style="getRowStyle"
             border
             style="width: 100%;">
             <el-table-column
@@ -215,6 +217,16 @@
             <!--1：自营渠道：2：律所代理：3：线下代理-->
             <el-form-item label="受托人类型" prop="region">
               <el-select v-model="swtrObj.channelType" placeholder="请选择受托人类型">
+                <el-option v-for="(item,idx) in channelList" :key="idx" label="自营渠道" value="1"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="渠道选择" prop="channelId">
+              <el-select v-model="swtrObj.channelId" placeholder="请选择受渠道">
+                <el-option label="自营渠道" value="1"></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="受委托人" prop="mandatoryId">
+              <el-select v-model="swtrObj.mandatoryId" placeholder="请选择受托人">
                 <el-option label="自营渠道" value="1"></el-option>
                 <el-option label="律所代理" value="2"></el-option>
                 <el-option label="线下代理" value="3"></el-option>
@@ -254,9 +266,9 @@
       </div>
       <hr style="clear:both;margin-top: 20px;">
       <span slot="footer" class="dialog-footer">
-          <el-button @click="clfsFlag = false">取 消</el-button>
           <el-button type="primary"  @click="clfsSave">确 定</el-button>
-        </span>
+          <el-button @click="clfsFlag = false">取 消</el-button>
+      </span>
     </el-dialog>
 
   </div>
@@ -274,11 +286,15 @@
         clfsList: [],
         clfsFlag: false,
         clfsObj: {},
-        clfsListClone: []
-
+        clfsListClone: [],
+        channelList: [],
+        mandatoryList: []
       }
     },
     methods:{
+      getRowStyle(){
+        return {'background':'#EEF3FF','font-weight':'bold'};
+      },
       goBack(){
         this.$router.push({path: 'emMaterialAllocation'})
       },
@@ -308,7 +324,7 @@
       },
       //保存设置
       clfsSave(){
-        
+
       },
       arrClone(arr){
         let newArr =[];

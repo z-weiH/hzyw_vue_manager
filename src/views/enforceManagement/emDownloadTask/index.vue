@@ -42,7 +42,8 @@
         <el-table-column prop="userName" label="操作人"></el-table-column>
         <el-table-column prop="respondents" label="操作">
           <template slot-scope="scope">
-            <el-button @click="handleDownload(scope.row)" type="text">下载</el-button>
+            <el-button @click="handleDownload(scope.row)" v-if="scope.row.createStatus === 1" type="text">下载</el-button>
+            <span v-else style="color: #CCCCCC;">下载</span>
           </template>
         </el-table-column>
       </el-table>
