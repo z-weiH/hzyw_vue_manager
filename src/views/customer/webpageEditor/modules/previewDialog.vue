@@ -103,31 +103,13 @@
               text : '模板生成中'
             });
             let content = this.textarea;
-            /* content = content.replace(/\n/g,(str) => '').replace(/<pre class="brush:js;toolbar:false;">.*?(<\/pre>)/g,(str) => {
-              return str.replace(/<.*?>/g,'').replace(/&nbsp;/g,'')
-                .replace(/&lt;#if(.*?)&gt;/g,(str,$1) => `&lt;#if ${$1}&gt;`)
-                .replace(/&lt;#elseif(.*?)&gt;/g,(str,$1) => `&lt;#elseif ${$1}&gt;`)
-                .replace(/&lt;@tableCol(.*?)\/&gt;/g,(str,$1) => `&lt;@tableCol ${$1} \/&gt;`);
-            }); */
-            
             // 过滤 if
-            /* let fn = (str) => {
-              if(str.indexOf('<span class="style-if" style="display:block">') === -1) {
-                return content = str;
-              }
-              let res = str.replace(/<span class="style-if" style="display:block">(.*?)<\/span>/g,(n,$1) => {
-                let span = $1.indexOf('<span');
-                // 单个
-                if(span === -1) {
-                  return n.replace(/<.*?>/g,'').replace(/&nbsp;/g,'');
-                // 多个
-                }else{
-                  return `<span class="style-if" style="display:block">${n.replace(/<.*?>/g,'').replace(/&nbsp;/g,'')}`
-                }
-              });
-              fn(res);
-            };
-            fn(content);
+            /* content = content.replace(/\n/g,(str) => '').replace(/<\/p><pre class="brush:js;toolbar:false;">(.*?)(<\/pre><p.*?>)/g, (str,$1) => {
+              return $1.replace(/&nbsp;/g,'')
+              .replace(/&lt;#if(.*?)&gt;/g,(str,$1) => `&lt;#if ${$1}&gt;`)
+              .replace(/&lt;#elseif(.*?)&gt;/g,(str,$1) => `&lt;#elseif ${$1}&gt;`)
+              .replace(/&lt;@tableCol(.*?)\/&gt;/g,(str,$1) => `&lt;@tableCol ${$1} \/&gt;`);
+            });
             // 过滤 table
             content = content.replace(/<p class="m-style">(.*?)<\/p>/g,(str) => str.replace(/<.*?>/g,''));
             // 解决 后台不识别 &lt; 以及 &gt; 问题

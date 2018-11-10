@@ -29,7 +29,7 @@
     </div>
 
     <setDialog ref="setDialog"></setDialog>
-    <timeDialog ref="timeDialog"></timeDialog>
+    <timeDialog @successCBK="timeSuccess" ref="timeDialog"></timeDialog>
   </div>
 </template>
 
@@ -114,6 +114,10 @@
       handleDownload() {
         this.$refs.setDialog.show();
       },
+      // 是否配置校验
+      verifyConfit() {
+        
+      },
       // 全选事件
       handleCheckAllChange(val) {
         this.isIndeterminate = false;
@@ -127,6 +131,11 @@
         let checkLenth = this.checkList.filter(v => v.checked).length;
         this.isIndeterminate = checkLenth > 0 && checkLenth < this.checkList.length;
         this.checkAll = checkLenth === this.checkList.length;
+      },
+
+      // 时间dialog 回调
+      timeSuccess(time) {
+        console.log(time);
       },
     },
   }

@@ -182,6 +182,9 @@
       </el-pagination>
 
     </div>
+
+    <setDialog ref="setDialog"></setDialog>
+    <timeDialog @successCBK="timeSuccess" ref="timeDialog"></timeDialog>
 	</div>
 </template>
 
@@ -189,10 +192,14 @@
   import timeFrame from '@/components/timeFrame.vue'
   import exportFile from '@/assets/js/exportFile.js'
   import cityCascader from '@/components/cityCascader.vue'
+  import setDialog from '../emBatchDownload/modules/setDialog.vue'
+  import timeDialog from '../emBatchDownload/modules/timeDialog.vue'
 	export default {
 		components : {
       timeFrame,
       cityCascader,
+      setDialog,
+      timeDialog,
 		},
 		data() {
 			return {
@@ -404,6 +411,8 @@
 
       // 点击 预览
       handlePreview(row) {
+        this.$refs.timeDialog.show();
+        return;
         this.$http({
           method : 'post',
           url : '/forceManager/previewCaseDoc.htm',
@@ -425,12 +434,22 @@
       },
       // 点击 下载
       handleDownload(row) {
+        this.$refs.setDialog.show();
+        return;
         exportFile({
           url : '/forceManager/downloadDocs.htm',
           data : {
             caseIds : row.caseId,
           },
         });
+      },
+      // 是否配置校验
+      verifyConfit() {
+        
+      },
+      // 时间dialog 回调
+      timeSuccess(time) {
+        console.log(time);
       },
 
 			// 表格相关 start

@@ -40,7 +40,7 @@
 
         ruleForm : {
           // 落款日期
-          time : '',
+          time : new Date(),
         },
         rules : {
           time : [
@@ -82,19 +82,8 @@
       handleSubmit(submitType) {
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
-						// 提交数据
-						this.submitDisabled = true;
-						this.$http({
-              method : 'post',
-              url : '/preCaseLib/distributeCaseByDistributeCaseQuery.htm',
-              data : {
-                time : this.ruleForm.time,
-              },
-            }).then((res) => {
-              this.$message.success('分配成功');
-            }).catch(() => {
-              this.submitDisabled = false;
-            });
+            this.$emit('successCBK',this.ruleForm.time);
+            this.handleClose();
           }
         });
       },
