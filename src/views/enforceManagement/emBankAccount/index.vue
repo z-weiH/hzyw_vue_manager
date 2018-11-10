@@ -1,9 +1,9 @@
 <template>
 	<div class="em-bank-account">
     <div class="item-title of-hidden">
-      <span class="item-title-sign" style="display:inline-block;margin-top:7px;">申请执行人银行账户</span>
+      <span class="item-title-sign" style="display:inline-block;margin-top:12px;">申请执行人银行账户</span>
       <div class="fr">
-        <el-button @click="handleAdd" type="primary" size="small">新增</el-button>
+        <el-button @click="handleAdd" type="primary">新增</el-button>
       </div>
     </div>
 		<div class="item-table">
@@ -163,6 +163,9 @@
     .el-form-item{
       margin-bottom: 0;
     }
+  }
+  .item-title{
+    padding: 10px;
   }
 }
 
