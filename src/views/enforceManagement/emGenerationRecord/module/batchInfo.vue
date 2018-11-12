@@ -41,7 +41,7 @@
           <div class="title">{{currentItem.caseList.length}}个案件</div>
           <div class="table">
             <el-table
-              :data="tableData"
+              :data="currentItem.tableData"
               border
             >
               <el-table-column prop="caseNo" label="案号"></el-table-column>
@@ -82,9 +82,12 @@ export default {
       currentItem: {
         customerList:[],
         courtList: [],
-        caseList: []
+        caseList: [],
+        tableData:[]
+
       },
-      infoFlag: false
+      infoFlag: false,
+
     }
   },
   methods:{

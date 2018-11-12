@@ -29,7 +29,11 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="batchNo" label="批次号" width="180px"></el-table-column>
+				<el-table-column prop="batchNo" label="批次号" width="180px">
+          <template slot-scope="scope">
+            <span class="colLink" @click="getRecordInfo(scope.row)">{{scope.row.batchNo}}</span>
+          </template>
+        </el-table-column>
         <!--0:进行中；1：已完成；2：失败-->
         <el-table-column prop="createStatus" label="生成状态">
           <template slot-scope="scope">
@@ -60,14 +64,19 @@
       </el-pagination>
 
     </div>
+
+
+    <batchInfo ref="batchInfo"></batchInfo>
 	</div>
 </template>
 
 <script>
+  import batchInfo from '../emGenerationRecord/module/batchInfo'
 	import timeFrame from '@/components/timeFrame.vue'
 	export default {
 		components : {
 			timeFrame,
+      batchInfo
 		},
 		data() {
 			return {
@@ -92,6 +101,12 @@
       this.initTableList();
     },
 		methods : {
+
+
+      getRecordInfo(row){
+        this.$refs.batchInfo.show(row);
+      },
+
 			// 点击搜索
 			handleSearch() {
 				this.currentPage = 1;
