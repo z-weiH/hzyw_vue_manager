@@ -86,7 +86,7 @@
         <div class="mt-10"></div>
         <span class="search-span">配置状态：</span>
         <el-form-item label=" " prop="settingStatus">
-          <el-select clearable v-model="ruleForm.settingStatus" placeholder="请选择" style="width:120px;">
+          <el-select clearable v-model="ruleForm.settingStatus" placeholder="请选择" style="width:197px;">
             <el-option label="已完成" :value="1"></el-option>
             <el-option label="未完成" :value="2"></el-option>
           </el-select>
@@ -94,7 +94,7 @@
 
         <span class="search-span">还款情况：</span>
         <el-form-item label=" " prop="aaaaa">
-          <el-select clearable v-model="ruleForm.aaaaa" placeholder="请选择" style="width:120px;">
+          <el-select clearable v-model="ruleForm.aaaaa" placeholder="请选择" style="width:197px;">
             <el-option label="有还款" :value="1"></el-option>
             <el-option label="无还款" :value="2"></el-option>
             <el-option label="有仲裁后还款" :value="3"></el-option>
