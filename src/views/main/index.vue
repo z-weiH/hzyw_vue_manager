@@ -4,13 +4,21 @@
     <div class="box">
       <!-- 左侧菜单 -->
       <div class="menu fl">
-        <menuL></menuL>
+        <div class="m-scrollbar-box">
+          <el-scrollbar :native="false">
+            <menuL></menuL>
+          </el-scrollbar>
+        </div>
       </div>
       <!-- router 内容 -->
       <div class="page-content fl">
-          <transition name="el-fade-in-linear" mode="out-in">
-            <router-view/>
-          </transition>
+        <div class="m-scrollbar-box">
+          <el-scrollbar :native="false">
+            <transition name="el-fade-in-linear" mode="out-in">
+              <router-view/>
+            </transition>
+          </el-scrollbar>
+        </div>
       </div>
     </div>
     <backTop></backTop>
@@ -40,18 +48,39 @@
   min-height: 100%;
    @include customScrollBar;
   .box{
-    width: 1200px;
+    width: 100%;
     margin: 0 auto;
-    margin-bottom:50px;
     .menu{
-      width: 230px;
-      margin-right: 10px;
-      margin-bottom: 100px;
+      width: 220px;
+      height: calc(100vh - 60px);
+      /* margin-right: 10px; */
+      overflow-y: auto;
     }
     .page-content{
-      width: 960px;
+      width: calc(100% - 230px);
+      height: calc(100vh - 60px);
+      overflow-y: auto;
     }
   }
 }
 
 </style>
+
+<style lang="scss">
+
+.m-scrollbar-box{
+  height: 100%;
+  overflow: hidden;
+  .el-scrollbar{
+    height: 100%;
+  }
+  .el-scrollbar__wrap{
+    height: 100%;
+    overflow-x: hidden;
+  }
+  .el-scrollbar__view{
+    padding-right: 10px;
+  }
+}
+
+</style> 
