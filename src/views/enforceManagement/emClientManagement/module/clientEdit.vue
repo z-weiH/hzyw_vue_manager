@@ -22,9 +22,9 @@
         <el-form-item label="身份证号" prop="identityCard">
           <el-input v-model="item.identityCard"></el-input>
         </el-form-item>
-        <el-form-item label="工作单位" prop="channelName">
+        <el-form-item label="工作单位" prop="channelId">
           <!--<el-input v-model="item.channelName"></el-input>-->
-          <el-select v-model="item.channelName">
+          <el-select v-model="item.channelId">
             <el-option
               v-for="item in channerList"
               :key="item.channelId"
@@ -41,9 +41,9 @@
         </el-form-item>
       </template>
       <template v-else>
-        <el-form-item label="律所名称" prop="channelName">
+        <el-form-item label="律所名称" prop="channelId">
           <!--<el-input v-model="item.channelName"></el-input>-->
-          <el-select v-model="item.channelName">
+          <el-select v-model="item.channelId">
             <el-option
               v-for="item in channerList"
               :key="item.channelId"
@@ -83,8 +83,8 @@
           channelType : [
             { required : true , message : '请选择类型' , trigger : 'blur'},
           ],
-          channelName : [
-            { required : true , message : '请输入名称' , trigger : 'blur'},
+          channelId : [
+            { required : true , message : '请选择' , trigger : 'blur'},
           ],
         },
         channerList: []
@@ -97,8 +97,9 @@
         }
       },
       'item.channelType'(val,oldval){
-        this.$http.post("/channel/queryChannelInfoByChannelId.htm",{channelType: val}).then(res => {
-          this.channerList = res.result.list;
+        this.item.channelId = '';
+        this.$http.post("/channel/queryChannelByList.htm",{channelType: val}).then(res => {
+          this.channerList = res.result;
         })
       }
     },
@@ -107,12 +108,12 @@
         console.log(mandatoryId)
         if(mandatoryId){
           this.$http.post('/mandatory/queryCourtmandatorInfoDetails.htm',{mandatoryId: mandatoryId}).then(res => {
-            this.item= {...res.result,mandatoryId: mandatoryId};
+            this.item= res.result;
             this.title = '修改受委托人';
             this.flag =true;
           })
         }else{
-          this.item = {channelType: 1};
+          this.item = {channelType: 1,channelId: ''};
           this.title = '添加受委托人';
           this.flag = true;
         }
@@ -120,7 +121,7 @@
       save(){
         this.$refs.form.validate((valid) => {
           if (valid) {
-            this.$http.post('/mandatory/insertOrUpdateCourtMandatoryInfo.htm',item).then(res => {
+            this.$http.post('/mandatory/insertOrUpdateCourtMandatoryInfo.htm',this.item).then(res => {
               this.$message.success(this.item.mandatoryId ? '修改成功' : '添加成功');
               this.flag = false;
               this.$parent.doQuery();

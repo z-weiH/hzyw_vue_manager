@@ -58,11 +58,16 @@
               <el-form-item label="" style="margin: 0;">
                 <el-select filterable v-model="searchItem.caseStatus" placeholder="请选择">
                   <!--0-待分配，1-待初审，2-待复审，3-退回重审，4-预审通过-->
-                    <el-option  label="待分配" value="0"></el-option>
+                  <!--// 0-待分配，1-待初审，2-待复审，3-退回重审，4-预审通过，5-预审未通过，6-立案申请成功，7-立案申请失败-->
+
+                  <el-option  label="待分配" value="0"></el-option>
                     <el-option  label="待初审" value="1"></el-option>
                     <el-option  label="待复审" value="2"></el-option>
                     <el-option  label="退回重审" value="3"></el-option>
                     <el-option  label="预审通过" value="4"></el-option>
+                    <el-option  label="预审未通过" value="5"></el-option>
+                    <el-option  label="立案申请成功" value="6"></el-option>
+                    <el-option  label="立案申请失败" value="7"></el-option>
                 </el-select>
               </el-form-item>
               <el-button type="warning" @click="doQuery">查询</el-button>
@@ -177,6 +182,7 @@
 
     methods: {
       caseStatusName(status){
+        // 0-待分配，1-待初审，2-待复审，3-退回重审，4-预审通过，5-预审未通过，6-立案申请成功，7-立案申请失败
         if(status === 0)
           return '待分配';
         else if(status === 1)
@@ -187,6 +193,13 @@
           return '退回重审';
         else if(status === 4)
           return '预审通过';
+        else if(status === 5)
+          return '预审未通过';
+        else if(status === 6)
+          return '立案申请成功';
+        else if(status === 7)
+          return '立案申请失败';
+
       },
 
       selectedNumChange(){

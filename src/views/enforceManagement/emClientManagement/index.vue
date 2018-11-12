@@ -10,8 +10,8 @@
         <el-form-item label="" prop="keyWords">
           <el-input style="width: 250px;" v-model.trim="searchItem.keyWords" placeholder="受托人姓名、手机号、身份证号"></el-input>
         </el-form-item>
-        <el-form-item label="类型" prop="mandatoryType">
-          <el-select style="width: 180px;"  clearable v-model="searchItem.mandatoryType" placeholder="选择">
+        <el-form-item label="类型" prop="channelType">
+          <el-select style="width: 180px;"  clearable v-model="searchItem.channelType" placeholder="选择">
             <el-option label="内部员工" value="1"></el-option>
             <el-option label="律所代理" value="2"></el-option>
             <el-option label="线下代理" value="3"></el-option>
@@ -57,7 +57,7 @@
           label="类型"
           width="100">
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.channelName}}</span>
+            <span v-ellipsis.20>{{scope.row.channelType === 1 ? '内部员工' : scope.row.channelType === 2 ? '律所代理' : '线下代理'}}</span>
           </template>
         </el-table-column>
         <el-table-column

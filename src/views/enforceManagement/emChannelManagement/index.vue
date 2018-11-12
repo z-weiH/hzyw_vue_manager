@@ -37,7 +37,7 @@
           label="渠道类型"
           width="100">
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.channelType}}</span>
+            <span v-ellipsis.20>{{scope.row.channelType === 1 ? '自营渠道' : scope.row.channelType === 2 ? '律所代理' : '线下代理'}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -126,7 +126,8 @@
       // <!--1：自营渠道：2：律所代理：3：线下代理-->
 
       doQuery(){
-        this.$http.get("/channel/queryCourtMandatoryChannelInfo.htm",{...this.searchItem,...this.pager}).then(res => {
+        console.log(this.searchItem);
+        this.$http.post("/channel/queryCourtMandatoryChannelInfo.htm",{...this.searchItem,...this.pager}).then(res => {
           this.tableData = res.result.list;
           this.pager.count = res.result.count;
         })
@@ -145,6 +146,7 @@
         }).then(res => {
           this.$http.post("/channel/deleteCourtMandatoryChannelInfo.htm",{channelId: item.channelId}).then(res => {
             this.$message.success("渠道删除成功");
+            this.doQuery();
           })
         }).catch(err => {
         })
