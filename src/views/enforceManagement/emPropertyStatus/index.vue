@@ -25,7 +25,7 @@
               token : token,
             }"
           >
-            <el-button @click="handleDownload">批量导入</el-button>
+            <el-button>批量导入</el-button>
           </el-upload>
         <el-button @click="handleAdd" type="primary">新增</el-button>
       </div>

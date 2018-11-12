@@ -431,6 +431,8 @@
   }
   td{
     border: 1px solid #ebeef5;
+    word-wrap: break-word;
+    word-break: normal;
   }
 }
 

@@ -36,6 +36,7 @@
             ref="cityCascader"
             @finish="cityFinish"
             @cancel="cityCancel"
+            :secondLevel="cityFinish"
           >
           </cityCascader>
         </el-form-item>
@@ -85,7 +86,7 @@
         <div class="mt-10"></div>
         <span class="search-span">配置状态：</span>
         <el-form-item label=" " prop="settingStatus">
-          <el-select clearable v-model="ruleForm.settingStatus" placeholder="请选择" style="width:120px;">
+          <el-select clearable v-model="ruleForm.settingStatus" placeholder="请选择" style="width:197px;">
             <el-option label="已完成" :value="1"></el-option>
             <el-option label="未完成" :value="2"></el-option>
           </el-select>
@@ -93,7 +94,7 @@
 
         <span class="search-span">还款情况：</span>
         <el-form-item label=" " prop="aaaaa">
-          <el-select clearable v-model="ruleForm.aaaaa" placeholder="请选择" style="width:120px;">
+          <el-select clearable v-model="ruleForm.aaaaa" placeholder="请选择" style="width:197px;">
             <el-option label="有还款" :value="1"></el-option>
             <el-option label="无还款" :value="2"></el-option>
             <el-option label="有仲裁后还款" :value="3"></el-option>
@@ -185,6 +186,7 @@
 
     <setDialog ref="setDialog"></setDialog>
     <timeDialog @successCBK="timeSuccess" ref="timeDialog"></timeDialog>
+    <batchImportDialog ref="batchImportDialog"></batchImportDialog>
 	</div>
 </template>
 
@@ -194,12 +196,14 @@
   import cityCascader from '@/components/cityCascader.vue'
   import setDialog from '../emBatchDownload/modules/setDialog.vue'
   import timeDialog from '../emBatchDownload/modules/timeDialog.vue'
+  import batchImportDialog from './modules/batchImportDialog.vue'
 	export default {
 		components : {
       timeFrame,
       cityCascader,
       setDialog,
       timeDialog,
+      batchImportDialog,
 		},
 		data() {
 			return {
@@ -227,6 +231,8 @@
           settingStatus : '',
           // 下载状态 0：已处理；1：未处理
           downloadStatus : '',
+          // 还款情况
+          aaaaa : '',
 
           // 省
           provinceCode : '',
@@ -291,8 +297,9 @@
         this.initTableList();
       },
       // 地区 选择完成回调
-      cityFinish() {
-        console.log('选择成功');
+      cityFinish(val) {
+        console.log('选择成功',val);
+        // val存在表示当前选到市 ， 不存在表示选择到区
         this.$http({
           url : '/court/queryCourtInfoByDistrictCode.htm',
           method : 'post',

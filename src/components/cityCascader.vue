@@ -50,6 +50,10 @@
         type : String,
         default : '',
       },
+      // 选择市 回调
+      secondLevel : {
+        type : Function,
+      },
 
       _this : {},
     },
@@ -165,6 +169,8 @@
           }).then((res) => {
             this.areaOptions = res.result;
             this.activeArea = '';
+            // 市回调
+            this.secondLevel && this.secondLevel(val);
           });
         }
       },
