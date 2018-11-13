@@ -277,10 +277,12 @@
     <copyRule ref="copyRule"/>
     <inputTemplate ref="inputTemplate"></inputTemplate>
     <pdfHtml ref="pdfHtml"></pdfHtml>
+    <executeRuleDialog></executeRuleDialog>
   </div>
 </template>
 
 <script>
+  import executeRuleDialog from './modules/executeRuleDialog'
   import progress from './modules/progress.vue'
   import pdfSelector from './modules/pdf_selector'
   import executeResult from './modules/executeResultDialog'
@@ -300,7 +302,8 @@
       caseSample,
       copyRule,
       inputTemplate,
-      pdfHtml
+      pdfHtml,
+      executeRuleDialog
     },
     data() {
       return {
