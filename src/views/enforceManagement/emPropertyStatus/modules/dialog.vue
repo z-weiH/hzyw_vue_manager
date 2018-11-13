@@ -10,8 +10,8 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
 
-					<el-form-item label="被执行人：" prop="excutedName">
-						<el-input style="width:400px;" v-model.trim="ruleForm.excutedName" placeholder="请输入"></el-input>
+					<el-form-item label="被执行人：" prop="executedName">
+						<el-input style="width:400px;" v-model.trim="ruleForm.executedName" placeholder="请输入"></el-input>
 					</el-form-item>
 
           <el-form-item label="身份证号：" prop="idCard">
@@ -23,10 +23,10 @@
 					</el-form-item>
           
           <el-form-item label="银行卡号：" prop="accountName">
-						<el-input style="width:400px;" v-model.trim="ruleForm.accountName" placeholder="请输入"></el-input>
+						<el-input @blur="handleBankBlur" style="width:400px;" v-model.trim="ruleForm.accountName" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="银行名称：" prop="bankName">
+          <el-form-item label="开户银行：" prop="bankName">
 						<el-input style="width:400px;" v-model.trim="ruleForm.bankName" placeholder="请输入"></el-input>
 					</el-form-item>
 
@@ -56,20 +56,20 @@
 
         ruleForm : {
           // 被执行人
-          excutedName : '',
+          executedName : '',
           // 身份证号
           idCard : '',
           // 手机号
           phone : '',
           // 银行卡号
           accountName : '',
-          // 银行名称
+          // 开户银行
           bankName : '',
           // 数据来源
           clientName : '',
         },
         rules : {
-          excutedName : [
+          executedName : [
             {required : true , message : '请输入被执行人' , trigger : 'blur'},
           ],
           idCard : [
@@ -82,7 +82,7 @@
             {required : true , message : '请输入银行卡号' , trigger : 'blur'},
           ],
           bankName : [
-            {required : true , message : '请输入银行名称' , trigger : 'blur'},
+            {required : true , message : '请输入开户银行' , trigger : 'blur'},
           ],
         },
         // 数据来源 options
@@ -118,6 +118,19 @@
           }
         });
       },
+      // 银行卡号 失去焦点
+      handleBankBlur(event) {
+        let val = event.target.value;
+        this.$http({
+          method : 'post',
+          url : '/executedProperty/queryBankName.htm',
+          data : {
+            bankNum : val,
+          },
+        }).then((res) => {
+          this.ruleForm.bankName = res.result || '';
+        });
+      },
 
       // 关闭浮层
       handleClose() {
@@ -144,10 +157,12 @@
             };
             if(this.type === 'edit') {
               form.propertyId = this.propertyId;
+            }else{
+              delete form.propertyId;
             }
 						this.$http({
               method : 'post',
-              url : '/executedproperty/saveOrUpdateCourtExecutedProperty.htm',
+              url : '/executedProperty/saveOrUpdateCourtExecutedProperty.htm',
               data : form,
             }).then((res) => {
               this.$message.success('操作成功');

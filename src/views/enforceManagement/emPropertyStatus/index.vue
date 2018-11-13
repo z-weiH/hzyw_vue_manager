@@ -16,7 +16,7 @@
         <el-button @click="handleDownload">表格模板下载</el-button>
         <el-upload
             class="upload-box"
-            :action="`${$host}/forceManager/queryForceCaseListByExcelImplort.htm`"
+            :action="`${$host}/executedProperty/importExcelMandatory.htm?token=${token}`"
             :show-file-list="false"
             :before-upload="uploadBefore"
             :on-success="uploadSuccess"
@@ -40,12 +40,12 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="accountName" label="被执行人姓名"></el-table-column>
-        <el-table-column prop="depositBank" label="身份证号"></el-table-column>
-        <el-table-column prop="accountNumber" label="手机号"></el-table-column>
-        <el-table-column prop="branchName" label="银行卡号"></el-table-column>
-        <el-table-column prop="subbranch" label="银行名称"></el-table-column>
-        <el-table-column prop="bankAddress" label="数据来源"></el-table-column>
+				<el-table-column prop="executedName" label="被执行人"></el-table-column>
+        <el-table-column prop="idCard" label="身份证号"></el-table-column>
+        <el-table-column prop="phone" label="手机号"></el-table-column>
+        <el-table-column prop="accountName" label="银行卡号"></el-table-column>
+        <el-table-column prop="bankName" label="开户银行"></el-table-column>
+        <el-table-column prop="clientName" label="数据来源"></el-table-column>
         <el-table-column prop="platName" label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="handleEdit(scope.row)" type="text">编辑</el-button>
@@ -71,7 +71,8 @@
 </template>
 
 <script>
-	import mdialog from './modules/dialog.vue'
+  import mdialog from './modules/dialog.vue'
+  import exportFile from '@/assets/js/exportFileForm.js'
 	export default {
 		components : {
 			mdialog,
@@ -115,7 +116,9 @@
       },
       // 表格模板下载
       handleDownload() {
-        alert('表格模板下载');
+        exportFile({
+          url : '/executedProperty/excelExport.htm',
+        });
       },
       
       // 点击 新增
@@ -137,7 +140,7 @@
         }).then(() => {
           this.$http({
             method : 'post',
-            url : '/executedproperty/deleteCourtExecutedProperty.htm',
+            url : '/executedProperty/deleteCourtExecutedProperty.htm',
             data : {
               propertyId : row.propertyId,
             },
@@ -155,7 +158,7 @@
       // 文件上传前回调
       uploadBefore(file) {
         let fileType = file.name.split('.').pop();
-        let arr = ['xlsx'];
+        let arr = ['xlsx','xls'];
         if(arr.indexOf(fileType) === -1){
           this.$message.warning('文件格式有误');
           return false;
@@ -164,6 +167,9 @@
       },
       // 文件上传成功
       uploadSuccess(res, file, fileList) {
+        if(res.code !== '0000') {
+          this.$message.warning(res.description || '文件上传失败');
+        }
         this.initTableList();
       },
       // 文件上传失败
@@ -178,7 +184,7 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/executedproperty/courtExecutedPropertyInfoBaseQuery.htm',
+          url : '/executedProperty/courtExecutedPropertyInfoBaseQuery.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
