@@ -6,7 +6,7 @@
     </div>
 
     <div class="item-title of-hidden" draggable="true" ref="dragbox">
-      <span class="item-title-sign">证据设置</span>
+      <span class="item-title-sign">证据设置（{{title}}）</span>
     </div>
 
     <div class="item-table">
@@ -96,6 +96,7 @@
     },
     data() {
       return {
+        title : '',
         // 证据组 列表
         evidenceList : [
           {
@@ -144,6 +145,17 @@
       this.$refs.dragbox.addEventListener('dragstart',this.dragstartFn);
       // 目标
       this.$refs.dragbox.addEventListener('drop',this.dropFn);
+
+      // 获取产品 模板号
+      this.$http({
+        url : '/templateSetting/queryTemplateInfoByProdTempId.htm',
+        method : 'post',
+        data : {
+          prodTempId : this.$route.query.prodTempId,
+        },
+      }).then((res) => {
+        this.title = res.result.prodTempName;
+      });
     },
     methods : {
       // 初始化 列表
