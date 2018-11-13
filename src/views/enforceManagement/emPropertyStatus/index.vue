@@ -169,6 +169,8 @@
       uploadSuccess(res, file, fileList) {
         if(res.code !== '0000') {
           this.$message.warning(res.description || '文件上传失败');
+        }else{
+          this.$message.success('导入成功');
         }
         this.initTableList();
       },

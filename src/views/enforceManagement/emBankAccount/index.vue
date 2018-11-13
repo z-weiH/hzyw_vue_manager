@@ -102,7 +102,7 @@
             method : 'post',
             url : '/applicantBankCard/deleteExecutionApplicantBankCardInfo.htm',
             data : {
-              channelId : row.applicantCardId,
+              applicantCardId : row.applicantCardId,
             },
           }).then((res) => {
             this.$message.success('删除成功');
