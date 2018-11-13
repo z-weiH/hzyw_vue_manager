@@ -83,6 +83,16 @@
                 menuName : '修改密码',
                 menuId : 7,
                 menuUrl : 'changePwd',
+              },
+              {
+                menuName : '权限分配',
+                menuId : 8,
+                menuUrl : 'permissionAllot',
+              },
+              {
+                menuName : '权限列表',
+                menuId : 9,
+                menuUrl : 'permissionList',
               }
             ],
           },
@@ -233,6 +243,16 @@
                 menuName : '数据管理',
                 menuId : 38,
                 menuUrl : 'dataManagement',
+              },
+              {
+                menuName : '模板联调',
+                menuId : 310,
+                menuUrl : 'templateJoint',
+              },
+              {
+                menuName : '参数列表',
+                menuId : 311,
+                menuUrl : 'ctParameterList',
               },
             ],
           },
@@ -521,6 +541,11 @@
                 menuId : 'gzk2',
                 menuUrl : 'ruleBaseNavigation'
               },
+              {
+                menuName : '规则模版',
+                menuId : 'gzmb',
+                menuUrl : 'ruleTemplate'
+              },
             ],
           },
           {
@@ -548,6 +573,93 @@
                 menuUrl: 'caseOperationRecord'
               }
             ]
+          },
+          {
+            menuName: '送达系统',
+            menuId: 'sdxt',
+            children: [
+              {
+                menuName: '渠道管理',
+                menuId: 'sdxt1',
+                menuUrl: 'serChannelManage'
+              },
+              {
+                menuName: '业务管理',
+                menuId: 'sdxt2',
+                menuUrl: 'serBusinessManage'
+              },
+              {
+                menuName: '客户管理',
+                menuId: 'sdxt3',
+                menuUrl: 'serCustomerManage'
+              },
+              {
+                menuName: '模板管理',
+                menuId: 'sdxt4',
+                menuUrl: 'serTemplateManage'
+              },
+              {
+                menuName: '短信发送',
+                menuId: 'sdxt5',
+                menuUrl: 'serSmsSend'
+              },
+              {
+                menuName: '邮件发送',
+                menuId: 'sdxt6',
+                menuUrl: 'serEmailSend'
+              },
+            ]
+          },
+          {
+            menuName: '强制执行管理',
+            menuId: 'qzzx',
+            children: [
+              {
+                menuName: '强制执行案件',
+                menuId: 'fyajgl1',
+                menuUrl: 'emEnforcementCases'
+              },
+              {
+                menuName: '下载任务页',
+                menuId: 'fyajgl2',
+                menuUrl: 'emDownloadTask'
+              },
+              {
+                menuName: '文书生成记录',
+                menuId: 'fyajgl3',
+                menuUrl: 'emGenerationRecord'
+              },
+              {
+                menuName: '渠道管理',
+                menuId: 'fyajgl4',
+                menuUrl: 'emChannelManagement'
+              },
+              {
+                menuName: '委托人管理',
+                menuId: 'fyajgl5',
+                menuUrl: 'emClientManagement'
+              },
+              {
+                menuName: '被执行人财产状况',
+                menuId: 'fyajgl6',
+                menuUrl: 'emPropertyStatus'
+              },
+              {
+                menuName: '申请执行人银行账户',
+                menuId: 'fyajgl7',
+                menuUrl: 'emBankAccount'
+              },
+              {
+                menuName: '法院材料配置',
+                menuId: 'fyajgl8',
+                menuUrl: 'emMaterialAllocation'
+              },
+              {
+                menuName: '法院案件关联',
+                menuId: 'fyajgl9',
+                menuUrl: 'courtCaseRelation'
+              },
+            ]
           }
         ],
         // 当前高亮的 menu
@@ -560,6 +672,7 @@
       if(process.env.NODE_ENV !== 'development'){
         // 从 缓存读取 左侧树
         this.menuList = JSON.parse(localStorage.getItem('menuInfoList'));
+        console.error(this.menuList);
       }
       // 获取menu 树 , 高亮选中
       this.getMeun().then(this.setMuenActive);

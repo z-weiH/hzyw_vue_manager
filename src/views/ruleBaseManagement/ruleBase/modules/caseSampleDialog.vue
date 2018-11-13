@@ -60,11 +60,15 @@
               <el-form-item style="margin: 0;" label=" " prop="caseStatus">
                 <el-select clearable v-model="form.caseStatus" placeholder="状态">
                   <!--0-待分配，1-待初审，2-待复审，3-退回重审，4-预审通过-->
+
                     <el-option label="待分配"  :value="0" > </el-option>
                     <el-option label="待初审"  :value="1" > </el-option>
                     <el-option label="待复审"  :value="2" > </el-option>
                     <el-option label="退回重审"  :value="3" > </el-option>
                     <el-option label="预审通过"  :value="4" > </el-option>
+                  <el-option  label="预审未通过" :value="5"></el-option>
+                  <el-option  label="立案申请成功" :value="6"></el-option>
+                  <el-option  label="立案申请失败" :value="7"></el-option>
                 </el-select>
               </el-form-item>
 
@@ -265,6 +269,12 @@
           return '退回重审';
         else if(status === 4)
           return '预审通过';
+        else if(status === 5)
+          return '预审未通过';
+        else if(status === 6)
+          return '立案申请成功';
+        else if(status === 7)
+          return '立案申请失败';
       },
 
 

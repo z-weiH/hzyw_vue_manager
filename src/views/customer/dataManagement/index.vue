@@ -41,7 +41,7 @@
         </div>
 
         <div v-if="paramLevel === 1" class="m-c2">
-          <el-select style="width:268px;" v-model="bizType" placeholder="请选择账龄">
+          <el-select style="width:268px;" v-model="bizType" placeholder="请选择业务类型">
             <el-option label="现金贷" value="10"></el-option>
             <el-option label="消费分期" value="20"></el-option>
             <el-option label="融资租赁" value="30"></el-option>

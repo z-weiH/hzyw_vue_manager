@@ -65,24 +65,31 @@ export default {
 <style lang="scss" scoped>
 .top-header {
   background-color: #fff;
-  height: 33px;
-  line-height: 33px;
-  padding: 23px 0 19px 0;
+  height: 50px;
+  box-sizing: border-box;
   border-bottom: 1px solid #e0e4e8;
   .content {
-    width: 1200px;
-    margin: 0 auto;
+    width: 100%;
     .left {
       color: #0f357f;
+      padding-left: 18px;
       a {
         font-size: 37px;
         font-family: "stlitiregular";
+        display: inline-block;
+        vertical-align: middle;
+        margin-top: 9px;
       }
       > span {
-        font-size: 27px;
+        font-size: 18px;
+        display: inline-block;
+        vertical-align: middle;
+        margin-top: 3px;
       }
     }
     .right {
+      padding-right: 18px;
+      line-height: 50px;
       .iconfont {
         font-size: 16px;
       }

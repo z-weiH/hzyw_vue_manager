@@ -71,8 +71,9 @@
           }
           // this.$refs.innerNice.style.cursor = 'default';
           this.$refs.innerNice.onmousemove = null;
-          if(e.target.nodeName != 'BUTTON'){
-            this.$parent.clacResult();
+          console.log(e);
+          if(e.target.nodeName !== 'SPAN' &&  e.target.nodeName !== 'BUTTON' && e.target.className !== 'fr mr-10' &&  e.target.className !== 'fl ml-10'){
+              this.$parent.clacResult();
           }
 
         },

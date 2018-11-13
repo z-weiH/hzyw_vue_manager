@@ -30,6 +30,19 @@ export default {
 	mixins: [Mixins],
 	data() {
 		return {
+			misShow : (() => {
+				try{
+					let userName = JSON.parse(localStorage.getItem('loginInfo')).userName;
+					let arr = ['费玉琳','金凤','蒋慧芳','超级管理员'];
+					if(arr.indexOf(userName) !== -1) {
+						return true;
+					}else {
+						return false;
+					}
+				}catch(err) {
+					return false;
+				}
+			})(),
 			searchItems: [
 				{
 					label: '案件查询',
@@ -254,6 +267,10 @@ export default {
 					label: '申请人',
 					property: 'applicants',
 					width: 100,
+					isLink: true,
+					linkShowPanel: (item) => {
+						item.caseNoticeUrl && window.open(item.caseNoticeUrl,'_blank');
+					},
 				},
 				{
 					label: '被申请人',
@@ -275,10 +292,12 @@ export default {
 				{
 					label: '案件阶段',
 					property: 'caseProcessDesc',
+					width: 100,
 				},
 				{
 					label: '案件状态',
 					property: 'caseStatusDesc',
+					width: 100,
 				},
 				{
 					label: '提交日期',

@@ -30,6 +30,19 @@ export default {
 	mixins: [Mixins],
 	data() {
 		return {
+			misShow : (() => {
+				try{
+					let userName = JSON.parse(localStorage.getItem('loginInfo')).userName;
+					let arr = ['费玉琳','金凤','蒋慧芳','超级管理员'];
+					if(arr.indexOf(userName) !== -1) {
+						return true;
+					}else {
+						return false;
+					}
+				}catch(err) {
+					return false;
+				}
+			})(),
 			item: {},
 			exportUrl: URL_JSON['exportRespondentsOperateRecord'],
 			queryUrl: URL_JSON['queryRespondentsOperateRecord'], ///11/respondents/queryOperRecordList.htm

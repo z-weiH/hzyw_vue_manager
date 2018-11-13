@@ -13,7 +13,7 @@
         <span>案件总数：{{exe.currentCount}}件</span>
         <span>规则总数：{{exe.ruleCount}}条</span>
         <span>检出错误：{{exe.checkErrorCount}}件</span>
-        <span>执行错误：{{exe.exeErrorCount ? exe.exeErrorCount : 0 }}件</span>
+        <span>执行错误：{{exe.performErrorCount ? exe.performErrorCount : 0 }}件</span>
         <span>耗时：{{exe.timeConsuming ? exe.timeConsuming : 1}}秒</span>
       </p>
       <el-table  :data="list" style="width: 100%" row-key="id"

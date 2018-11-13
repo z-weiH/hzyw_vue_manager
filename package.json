@@ -9,10 +9,10 @@
     "dll": "webpack --config build/webpack.dll.conf.js",
     "start": "npm run dev",
     "build": "node build/build.js",
-    "build:stats": "webpack --env production --json > stats.json",
-    "analyz": "set NODE_ENV=production npm_config_report=true && npm run build"
+    "build:stats": "webpack --env production --json > stats.json"
   },
   "dependencies": {
+    "autosize": "^4.0.2",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuedraggable": "^2.16.0"

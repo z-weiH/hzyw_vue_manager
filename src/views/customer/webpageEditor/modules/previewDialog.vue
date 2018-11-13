@@ -102,14 +102,23 @@
             this.loading = this.$loading({
               text : '模板生成中'
             });
+            let content = this.textarea;
+            // 过滤 if
+            /* content = content.replace(/\n/g,(str) => '').replace(/<\/p><pre class="brush:js;toolbar:false;">(.*?)(<\/pre><p.*?>)/g, (str,$1) => {
+              return $1.replace(/&nbsp;/g,'')
+              .replace(/&lt;#if(.*?)&gt;/g,(str,$1) => `&lt;#if ${$1}&gt;`)
+              .replace(/&lt;#elseif(.*?)&gt;/g,(str,$1) => `&lt;#elseif ${$1}&gt;`)
+              .replace(/&lt;@tableCol(.*?)\/&gt;/g,(str,$1) => `&lt;@tableCol ${$1} \/&gt;`);
+            });
+            // 过滤 table
+            content = content.replace(/<p class="m-style">(.*?)<\/p>/g,(str) => str.replace(/<.*?>/g,''));
             // 解决 后台不识别 &lt; 以及 &gt; 问题
-            let content = this.textarea.replace(/&lt;/g,'<');
+            content = content.replace(/&lt;/g,'<');
             content = content.replace(/&gt;/g,'>');
             content = content.replace(/&quot;/g,'"');
             content = content.replace(/&nbsp;/g,' ');
-              // 高级过滤 过滤a标签 提取出中间内容
-            content = content.replace(/<a.*?>(.*?)<\/a>/g,'$1');
-            // '<a>我是内容222</a>'.replace(/<a.*?>(.*?)<\/a>/g,'$1');  "我是内容222"
+            // 高级过滤 过滤a标签 提取出中间内容
+            content = content.replace(/<a.*?>(.*?)<\/a>/g,'$1'); */
             this.$http({
               url : '/templateSetting/reviewTemplateContent.htm',
               method : 'post',

@@ -136,6 +136,7 @@ body {
     }
     textarea {
         resize: none;
+        font: 400 13.3333px Arial;
     }
     /* a标签 样式 _不带下划线 */
     .fn-a {
@@ -525,6 +526,7 @@ body {
             background-color: #fff !important;
             border: 0 !important;
             color: #606266 !important;
+          line-height: 40px;
         }
         &+.el-input__suffix {
             .el-input__suffix-inner {
@@ -586,7 +588,25 @@ input.el-input__inner {
     font-size: 16px;
   }
 }
-.rule_textarea textarea{
+.rule_textarea textarea, .textarea_warpar,.gz-textarea .highlights,.gz-textarea textarea{
   font-family: YaHei Consolas Hybrid;
-  font-style: italic;
+  //font-style: italic;
+}
+
+.self_checked_tree{
+  label.el-checkbox.is-disabled{
+    display: none;
+  }
+}
+textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.self_dialog{
+  .el-dialog__header{
+    padding: 0;
+  }
+  .el-dialog__headerbtn{
+    top: 8px;
+  }
 }

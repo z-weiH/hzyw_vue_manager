@@ -74,13 +74,7 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <!-- 未签约 才有修改 -->
-            <template v-if="scope.row.isSigned === 0">
-              <el-button @click="handleEditUser(scope.row)" type="text">修改</el-button>
-            </template>
-            <template v-else>
-              <el-button @click="handleDetail(scope.row)" type="text">查看</el-button>
-            </template>
+            <el-button @click="handleEditUser(scope.row)" type="text">修改</el-button>
             <el-button @click="handleQzMent(scope.row)" type="text">签章管理</el-button>
           </template>
         </el-table-column>

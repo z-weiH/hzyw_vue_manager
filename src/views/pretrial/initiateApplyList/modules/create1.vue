@@ -24,7 +24,7 @@
         </ul>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="confirmApCase" :disabled = "zqdata.resultType === 3">确 定</el-button>
+        <el-button type="primary" @click="confirmApCase" :disabled = "zqdata.resultType === 3 || disabled">确 定</el-button>
         <el-button @click="$parent.editState1 = false">取 消</el-button>
       </span>
     </el-dialog>
@@ -42,26 +42,28 @@ export default {
 	data() {
 		return {
 			//  editState1:0
-			itsObj: {},
+      itsObj: {},
+      disabled : false,
 		}
 	},
 	methods: {
 		confirmApCase() {
 			this.itsObj = this.item
-			this.itsObj.loanBillNos = this.zqdata.loanBillNos
-      // 请求开关控制
-			let isHold = true;
-			if (isHold) {
-        isHold = false;
-				this.$http.post(URL_JSON['confirmApplyCase'], this.itsObj).then(res => {
-					console.log('成功！', res.result)
-					this.$parent.$parent.initQuery(this.$parent.$parent.queryUrl, this.$parent.$parent.searchItem)
-					this.$parent.editState1 = false
-					this.$parent.$parent.editState = 0
-          this.$message.success('立案成功')
-          isHold = true;
-				})
-			}
+      this.itsObj.loanBillNos = this.zqdata.loanBillNos;
+      this.disabled = true;
+      this.$http.post(URL_JSON['confirmApplyCase'], this.itsObj).then(res => {
+        console.log('成功！', res.result)
+        this.$parent.$parent.initQuery(this.$parent.$parent.queryUrl, this.$parent.$parent.searchItem)
+        this.$parent.editState1 = false
+        this.$parent.$parent.editState = 0
+        this.$message.success('立案成功');
+
+        setTimeout(() => {
+          this.disabled = false;
+        },500);
+      }).catch(() => {
+        this.disabled = false;
+      });
 		},
 	},
 	mounted() {

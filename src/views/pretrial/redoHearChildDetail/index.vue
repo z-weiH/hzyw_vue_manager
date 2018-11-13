@@ -168,6 +168,9 @@
             <li v-for="(msg, index) in card.evi.checkAuditList">{{index + 1}}.{{msg.reasonMsg}}</li>
           </ul>
         </div>
+        <div class="bdje" style="margin-bottom: 20px;;font-size: 16px;">
+          <span style="color: #193b8c;font-size: 18px;">标的金额：</span>{{card.amtCase}}元
+        </div>
         <div class="applybook_title of-hidden">
           <div class="tit fl">仲裁申请书</div>
           <div class="scroll_toolbar fr">
@@ -189,15 +192,15 @@
         </div>
       </div>
       <!-- 传统分页 -->
-      <!-- <div class="pagination clear">
+      <div class="pagination clear">
               <el-pagination
                 @current-change="handleCurrentChange"
-                :current-page="pager.currentNum"
-                :page-size="20"
+                :current-page="currentNum"
+                :page-size="1"
                 layout="prev, pager, next, jumper, total"
-                :total="pager.total">
+                :total="count">
               </el-pagination>
-              </div> -->
+              </div>
       <!-- end -->
       <!-- 左右分页 tool -->
 
@@ -237,6 +240,9 @@ import passview from './modules/passview'
 import reback from './modules/reback'
 import backTop from '@/components/backTop.vue'
 import imgEvi from '@/components/script/imgEvi';
+
+
+import $ from 'jquery'
 
 export default {
   mixins:[imgEvi],
@@ -483,7 +489,7 @@ export default {
 				this.$message.warning('已经是最后一条数据了！')
 			}
 		},
-		getRecheckDetail() {
+		getRecheckDetail(flag) {
 			this.screenLoader()
 			this.$http
 				.post(URL_JSON['queryRecheckDetailView'], {
@@ -524,6 +530,10 @@ export default {
 							console.log(it)
 							it.sign.signAuditList.reverse()
 						})
+
+            if(flag){
+              document.documentElement.querySelector('.body_container').scrollTo(0,0);
+            }
 					}
 				})
 		},
@@ -546,8 +556,13 @@ export default {
           })
         }
       })
-    }
+    },
+    handleCurrentChange(val){
+      this.currentNum = val;
+      this.getRecheckDetail(true);
+    },
 	},
+
 	mounted() {
 		console.log('---', this.$route.query.subBatchId)
 
@@ -1019,4 +1034,7 @@ body {
 		vertical-align: middle;
 	}
 }
+  .pagination{
+    margin-bottom: 20px;
+  }
 </style>

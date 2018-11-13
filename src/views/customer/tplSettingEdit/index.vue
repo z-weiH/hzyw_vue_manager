@@ -44,6 +44,7 @@
             <el-option label="借款合同纠纷" :value="0"></el-option>
             <el-option label="追偿权纠纷" :value="1"></el-option>
             <el-option label="融资租赁合同纠纷" :value="2"></el-option>
+            <el-option label="买卖合同纠纷" :value="3"></el-option>
           </el-select>
         </div>
       </div>

@@ -2,7 +2,7 @@
   <div class="webpage-editor-box">
     <div class="webpage-editor-title">
       <div class="width-1200">
-        <span>网页版编辑模板</span>
+        <span>{{title}}</span>
       </div>
     </div>
     <div class="webpage-editor-content">
@@ -22,16 +22,23 @@
             <div class="operation" v-if="boxShow">
               <span @click="handleBox">x</span>
               <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
-              <el-button @click="handleInsertGrammar(2)">插入判断条件</el-button>
-              <el-button @click="handleInsertGrammar(3)">插入多判断条件</el-button>
-              <p class="mb-10">
-                复制样式 - 
-                <el-switch
-                  @change="handleCopyChange"
-                  v-model="copyStyle"
-                >
-                </el-switch>
-              </p>
+              <el-button @click="handleInsertGrammar(17)">日期计算</el-button>
+              <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
+                <el-button>当事人<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item :command="18">申请人</el-dropdown-item>
+                  <el-dropdown-item :command="20">申请人名字</el-dropdown-item>
+                  <el-dropdown-item :command="19">被申请人</el-dropdown-item>
+                  <el-dropdown-item :command="21">被申请人名字</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+              <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
+                <el-button>判断<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item :command="2">插入判断条件</el-dropdown-item>
+                  <el-dropdown-item :command="3">插入多判断条件</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
               <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>分页<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
@@ -40,10 +47,12 @@
                   <el-dropdown-item :command="12">事实与理由-结束</el-dropdown-item>
                   <el-dropdown-item :command="13">仲裁请求-开始</el-dropdown-item>
                   <el-dropdown-item :command="14">仲裁请求-结束</el-dropdown-item>
+                  <el-dropdown-item :command="15">表格-开始</el-dropdown-item>
+                  <el-dropdown-item :command="16">表格-结束</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
               
-              <el-dropdown @command="handleInsertGrammar" style="width:100%;">
+              <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>插入表格<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item :command="5">普通表格</el-dropdown-item>
@@ -54,6 +63,15 @@
                   <el-dropdown-item :command="10">带合计+标题</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
+
+              <p>
+                复制样式
+                <el-switch
+                  @change="handleCopyChange"
+                  v-model="copyStyle"
+                >
+                </el-switch>
+              </p>
             </div>
           </transition>
         </div>
@@ -96,6 +114,7 @@
     },
     data() {
       return {
+        title : '',
         imgShow : true,
         boxShow : false,
         // 符文本编辑器 height
@@ -132,6 +151,20 @@
           document.querySelector('iframe').contentDocument.addEventListener('click',this.globalClickFn);
           document.addEventListener('click',this.globalClickFn);
           document.querySelector('iframe').contentDocument.body.oncopy = this.globalCopyFn;
+          // 初始化 title
+          this.$http({
+            url : '/templateSetting/queryTemplateInfoByProdTempId.htm',
+            method : 'post',
+            data : {
+              prodTempId : this.$route.query.prodTempId,
+            },
+          }).then((res) => {
+            this.title = (
+              this.$route.query.type === 'applyContent' ? '申请书' :
+              this.$route.query.type === 'judgeContent' ? '裁决书' :
+              this.$route.query.type === 'enforceContent' ? '强制申请书' : ''
+            ) + ' - ' + res.result.prodTempName
+          });
         }catch(err){
           setTimeout(() => {
             fn(data)
@@ -186,23 +219,68 @@
         if(type === 1) {
           message = '${参数}';
         }else if(type === 2) {
-          message = '&lt;#if 参数 &lt;= 0>第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
+          message = '&lt;#if 参数 &lt;= 0&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
+          // message = `<span class="style-if" style="display:block">&lt;#if 参数 &lt;= 0&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;第一结果</span><span class="style-if" style="display:block">&lt;#else&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;第二结果</span><span class="style-if" style="display:block">&lt;/#if&gt;</span>`;
         }else if(type === 3) {
           message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
+          //message = `<span class="style-if" style="display:block">&lt;#if x == 1&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is 1</span><span class="style-if" style="display:block">&lt;#elseif x == 2&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is 2</span><span class="style-if" style="display:block">&lt;#else&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is not 1 nor 2</span><span class="style-if" style="display:block">&lt;/#if&gt;</span>`;
         }else if(type === 4) {
           message = '&lt;@myPage /&gt;';
         }else if(type === 5) {
           message = '&lt;@tableCol colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
+          /* message = `
+            <p class="m-style">&lt;@tableCol&nbsp;</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
+            <p class="m-style">/&gt;</p>
+          `; */
         }else if(type === 6) {
           message = '&lt;@tableCol title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
+          /* message = `
+            <p class="m-style">&lt;@tableCol&nbsp;</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;title="标题"</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
+            <p class="m-style">/&gt;</p>
+          `; */
         }else if(type === 7) {
           message = '&lt;@tableCol lastLine="说明"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
+          /* message = `
+            <p class="m-style">&lt;@tableCol&nbsp;</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;lastLine="说明"</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
+            <p class="m-style">/&gt;</p>
+          `; */
         }else if(type === 8) {
           message = '&lt;@tableCol lastLine="说明" title="标题"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
+          /* message = `
+            <p class="m-style">&lt;@tableCol&nbsp;</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;lastLine="说明"</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;title="标题"</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
+            <p class="m-style">/&gt;</p>
+          `; */
         }else if(type === 9) {
           message = '&lt;@tableCol stat=true colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
+          /* message = `
+            <p class="m-style">&lt;@tableCol&nbsp;</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;stat=true</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
+            <p class="m-style">/&gt;</p>
+          `; */
         }else if(type === 10) {
           message = '&lt;@tableCol stat=true title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
+          /* message = `
+            <p class="m-style">&lt;@tableCol&nbsp;</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;stat=true</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;title="标题"</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
+            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
+            <p class="m-style">/&gt;</p>
+          `; */
         }else if(type === 11) {
           message = '<span class="asdf">startFact</span>';
         }else if(type === 12) {
@@ -211,6 +289,20 @@
           message = '<span class="asdf">startRequest</span>';
         }else if(type === 14) {
           message = '<span class="asdf">endRequest</span>';
+        }else if(type === 15) {
+          message = '<span class="asdf">startTable</span>';
+        }else if(type === 16) {
+          message = '<span class="asdf">endTable</span>';
+        }else if(type === 17) {
+          message = '&lt;@dateOffsetCalc date=myDate days=1 /&gt;';
+        }else if(type === 18) {
+          message = '&lt;@multiApp /&gt;';
+        }else if(type === 19) {
+          message = '&lt;@multiRes /&gt;';
+        }else if(type === 20) {
+          message = '&lt;@multiPartyInfo list="multiApps" index=1 field="appAddress" /&gt;';
+        }else if(type === 21) {
+          message = '&lt;@multiPartyInfo list="multiReses" index=1 field="appAddress" /&gt;';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();

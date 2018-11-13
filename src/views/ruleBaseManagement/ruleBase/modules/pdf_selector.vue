@@ -1,7 +1,7 @@
 <template>
-  <div class="pdf-slector" v-if="pdfFlag">
+  <div class="pdf-slector" v-show="pdfFlag">
     <div class="pdf_warpper">
-      <div class="fl w-352 left-content">
+      <div class="w-352 left-content">
         <div class="content">
           <p class="left-title">选中参数</p>
           <div>
@@ -76,7 +76,6 @@
 </template>
 
 <script>
-  import pdf from 'vue-pdf'
   import pdfEditor from './pdf_editor'
   // import PDFJS from 'pdfjs-dist'
 export default {
@@ -103,7 +102,6 @@ export default {
       }
   },
   components:{
-    pdf,
     pdfEditor
   },
   created(){
@@ -147,19 +145,24 @@ export default {
     },
 
     show(item){
+      console.error(item);
       this.type = item.type;
+
+
       this.$http.post("/ruleBase/queryPdfUrlAndWithHigh.htm",item).then(res => {
         if(res.code === "0000"){
           this.pdfFlag = true;
-          this.showPDF(res.result.pdfUrl);
           this.showEditor1 = this.showEditor2 = false;
           this.pdfRange = this.pdfValue = '';
-          // this.showPDF("http://filetest.arbexpress.cn/150217103521/15325763740/1533178221498/C1ABFA9D87A9A00497018676957F924F0.pdf");
           this.pdfUrl= res.result.pdfUrl;
           this.width = res.result.width * this.scale  + 'px';
           this.height = res.result.height * this.scale  + 'px';
+
+
           this.$nextTick(() => {
             // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
+            this.showPDF(res.result.pdfUrl);
+
             document.querySelector("#canvas").onmousedown = (e) => { this.doDown(e)};
           })
 
@@ -168,11 +171,12 @@ export default {
     },
 
     showPDF (url) {
-      let _this = this
+      let _this = this;
       PDFJS.getDocument(url).then(function (pdf) {
         _this.numpages = pdf.numPages;
         _this.pdfDoc = pdf
         _this.renderPage(1)
+        _this.pageNum = 1;
       })
     },
     renderPage (num) {
@@ -215,6 +219,7 @@ export default {
       }
       this.pageNum--
       this.queueRenderPage(this.pageNum)
+      this.refresh();
     },
     onNextPage () {
       if (this.pageNum >= this.pdfDoc.numPages) {
@@ -222,6 +227,8 @@ export default {
       }
       this.pageNum++
       this.queueRenderPage(this.pageNum)
+      this.refresh();
+
     },
 
 
@@ -248,14 +255,18 @@ export default {
         this.$nextTick(() => {
 
           this.$refs.edit1.init();
-          this.$refs.edit1.setTopLeft(e.offsetX,e.offsetY);
+          this.$refs.edit1.setTopLeft(e.offsetX,e.offsetY);0.
+
+
           document.querySelector("#canvas").onmousemove=(el) => {
 
             this.$refs.edit1.setWH(el.offsetX -e.offsetX,el.offsetY -e.offsetY);
           }
           document.querySelector("#canvas").onmouseup = (e) => {
             // e.stopPropagation();
-            this.clacResult();
+            console.log(e);
+              this.clacResult();
+
             document.querySelector("#canvas").onmousemove = null;
             document.querySelector("#canvas").onmouseup = null;
           }
@@ -302,7 +313,7 @@ export default {
 <style scoped lang="scss">
 
   .pdf-slector{
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -315,6 +326,9 @@ export default {
       width: 1200px;
       margin: 30px auto;
       .left-content{
+        position: fixed;
+        top: 30px;
+        left: calc(50vw - 600px);
         .content{
           background: #fff;
           color: #000;

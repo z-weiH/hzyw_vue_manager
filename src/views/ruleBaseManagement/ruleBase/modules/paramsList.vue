@@ -35,7 +35,12 @@
           </el-menu>
         </div>
         <div class="m-right">
-          <div class="m-header">{{currentTitle}}</div>
+          <div class="m-header">
+            <div class="fr add_btn" v-if="tab === 2">
+              <span @click="addCode">+添加</span>
+            </div>
+            {{currentTitle}}
+          </div>
           <div class="fieldList" v-if="tab === 0">
             <el-table  :data="currentList"  border  style="width: 100%" key="fieldList"
                        :header-cell-style="getRowStyle"
@@ -71,7 +76,16 @@
               style="width: 100%; margin-top: 20px" key="eviList">
               <el-table-column prop="type" label="序号" width="130"> </el-table-column>
               <el-table-column prop="eviName" label="证据名称" width="189"> </el-table-column>
-              <el-table-column prop="eviCode" label="英文名称" width="180"> </el-table-column>
+              <el-table-column prop="eviCode" label="英文名称" width="180">
+                <template slot-scope="scope">
+                  <el-popover trigger="hover" placement="right" width="80">
+                    <el-button type="primary" @click="copyStr(scope.row.eviCode)">复制</el-button>
+                    <span slot="reference" class="name-wrapper">
+                      {{ scope.row.eviCode }}
+                    </span>
+                  </el-popover>
+                </template>
+              </el-table-column>
               <el-table-column prop="eviFormat" label="格式" width="170"> </el-table-column>
               <el-table-column  label="操作" width="180">
                 <template slot-scope="scope">
@@ -98,7 +112,16 @@
                   </div>
                 </template>
               </el-table-column>
-              <el-table-column prop="returnCode" label="返回编码" width="283"> </el-table-column>
+              <el-table-column prop="returnCode" label="返回编码" width="283">
+                <template slot-scope="scope">
+                  <el-popover trigger="hover" placement="right" width="80">
+                    <el-button type="primary" @click="copyStr(scope.row.returnCode)">复制</el-button>
+                    <span slot="reference" class="name-wrapper">
+                      {{ scope.row.returnCode }}
+                    </span>
+                  </el-popover>
+                </template>
+              </el-table-column>
               <el-table-column prop="desc" label="含义（审核意见）" width="283"> </el-table-column>
             </el-table>
           </div>
@@ -126,13 +149,19 @@
             <el-button @click="editFlag = false;">取 消</el-button>
           </span>
       </el-dialog>
+
+      <addCodeDialog ref="addCodeDialog"></addCodeDialog>
     </div>
 </template>
 
 <script>
+  import addCodeDialog from './addCodeDialog'
   import copy from '@/assets/js/copy.js'
     export default {
       name: 'paramsList',
+      components: {
+        addCodeDialog
+      },
       data(){
           return{
             //当前的激活的tab 0-字段列表, 1-证据列表,2-返回编码
@@ -167,6 +196,12 @@
         }
       },
       methods:{
+
+
+        addCode(){
+          this.$refs.addCodeDialog.init();
+        },
+
         styleFun({row, column, rowIndex, columnIndex}){
           if(columnIndex === 2){
             return {'cursor':'pointer'};
@@ -432,6 +467,11 @@
         padding: 20px 25px 30px 15px;
       }
     }
+  }
+  .add_btn{
+    font-size: 16px;
+    margin-right: 20px;
+    cursor: pointer;
   }
 
 

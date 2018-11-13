@@ -56,6 +56,7 @@
           <div v-if="contentFlag">
             <div class="rule_desc">
               <div style="margin-top: 5px; color:#aaa;" class="fr">
+                <el-button plain @click="copyRules">复制规则</el-button>
                 <el-button plain @click="handleAvriable">参数列表</el-button>
                 <el-button plain @click="runSet">执行集合</el-button>
                 <el-button plain @click="showCaseSample">案件样例</el-button>
@@ -66,11 +67,11 @@
             </div>
             <img src="@/assets/img/no_rule.png" style="width:100%;" alt="" v-if="pager.count === 0">
             <ul class="rule_list" v-if="pager.count > 0">
-              <li class="rule_item" v-for="(rule,index) in ruleList" :key="index">
+              <li :class="{'active': rule.selected,'rule_item': true}" v-for="(rule,index) in ruleList" :key="index" @click="ruleSelect(rule)">
                 <div class="ruleDesc">
                   <div class="btns fr">
-                    <span class="edit_btn colLink" @click="handleEdit(rule)">编辑</span>
-                    <span class="delete_btn colLink" @click="handleDelete(rule)">删除</span>
+                    <span class="edit_btn colLink" @click="handleEdit(rule,$event)">编辑</span>
+                    <span class="delete_btn colLink" @click="handleDelete(rule,$event)">删除</span>
                   </div>
                   <b >{{(pager.currentNum-1) * pager.pageSize + index + 1}}.</b>
                   <span>{{rule.ruleDesc}}</span>
@@ -126,22 +127,25 @@
       center>
       <!--<edits ref="edits" :edit-items="createItems" :item="item" :label-width="'120px'"></edits>-->
       <el-form  ref="createForm" :model="form"  label-width="100px" :rules="rules">
-        <el-form-item label="规则描述：" prop="ruleDesc">
-          <el-input v-model="form.ruleDesc" placeholder="请填写规则描述,如“标的金额是否正确”"></el-input>
+        <el-form-item label="规则描述：" prop="ruleDesc" >
+          <el-input v-model="form.ruleDesc"  placeholder="请填写规则描述,如“标的金额是否正确”"></el-input>
         </el-form-item>
 
 
         <el-form-item label="机审规则：" prop="ruleInfo">
-          <el-input type="textarea" class="rule_textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @kep.native.13="changeLine"  :rows="7" placeholder="请填写机审规则"></el-input>
-          <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:24px;" v-html="ruleInfo_html" ></div>
+          <el-input type="textarea" class="rule_textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @keyup.native.13="changeLine"  :rows="12" placeholder="请填写机审规则"></el-input>
+          <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:21px;box-sizing: border-box;"  v-html="ruleInfo_html" ></div>
+          <div class="textarea_warpar" ref="textarea_warpar1" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:21px;box-sizing: border-box;"  v-html="ruleInfo_html1" ></div>
           <!--<ul class="textarea_select" v-if="showSelect" ref="textarea_select">-->
             <!--<li v-for="(name,index) in ruleNames" :key="index" :class="{'active': index == ruleIndex}">{{name}}</li>-->
           <!--</ul>-->
-          <button class="showPdf_btn"  v-if="showSelect"  ref="textarea_select" @click="pdfFlagChange">获取字段</button>
+          <span class="showPdf_btn"  v-if="showSelect"  ref="textarea_select" @click="pdfFlagChange">获取字段</span>
           <div class="rightBtns" >
+            <el-button size="mini" @click="handleInputTemplate" v-if="editState === 2">导入模版</el-button>
+
             <el-button size="mini" @click="handleAvriable">查看参数</el-button>
 
-            <el-button size="mini" type="primary" @click="handleRun" :disabled="!form.ruleInfo || !form.ruleDesc">验证</el-button>
+            <el-button size="mini" type="primary" @click="handleRun" :disabled="canYanZheng">验证</el-button>
           </div>
           <!--<div class="runRes" v-if="runRes != 0">-->
             <!--<i :class="runRes == 1 ? 'error' : 'succ'"></i>-->
@@ -253,7 +257,7 @@
       center>
       <div class="m-bar" style="width: 300px; margin: 20px auto;text-align: center;">
         <p style="margin: 20px 0;font-size: 18px;">正在执行规则...</p>
-        <m-progress :width="executProgress"  :height="20">执行中</m-progress>
+        <m-progress :width="executProgress" :px="progressWidth" :height="20">执行中</m-progress>
         <!--<template v-if="!isExecuting">-->
           <!--<p>机审执行完毕！</p>-->
           <!--<p>本次机审共对365件案件执行了4条规则，检出错误34处</p>-->
@@ -270,6 +274,9 @@
     <addRule ref="addRule" :rule="form" > </addRule>
     <executionSet ref="executionSetDialog"></executionSet>
     <caseSample ref="caseSampleDialog" :rule="currentMenu"></caseSample>
+    <copyRule ref="copyRule"/>
+    <inputTemplate ref="inputTemplate"></inputTemplate>
+    <pdfHtml ref="pdfHtml"></pdfHtml>
   </div>
 </template>
 
@@ -280,6 +287,9 @@
   import addRule from './modules/addRuleDialog'
   import executionSet from './modules/executionSetDialog'
   import caseSample from './modules/caseSampleDialog'
+  import copyRule from './modules/copyRuleDialog'
+  import inputTemplate from './modules/inputTemplate'
+  import pdfHtml from './modules/pdf_html'
   export default {
     components : {
       'm-progress' : progress,
@@ -287,16 +297,23 @@
       executeResult,
       addRule,
       executionSet,
-      caseSample
+      caseSample,
+      copyRule,
+      inputTemplate,
+      pdfHtml
     },
     data() {
       return {
+
+        currentFunction: {},
+        //證據鏈參數
+        pdfParam: '',
 
         //規則類型
         ruleType: 0,
 
         //pdf获取字段的方法
-        pdfFuctionName: ['getNumTypeContent','getContent'],
+        pdfFuctionName: ['getnum','get'],
 
         //控制鼠标连点
         disabled: false,
@@ -332,6 +349,7 @@
 
         //html内容
         ruleInfo_html: '',
+        ruleInfo_html1: '',
 
 
         //tree config
@@ -344,14 +362,14 @@
         iconName: 'el-icon-arrow-down',
 
         //规则表单
-        form: {},
+        form: {ruleDesc: '',ruleInfo: ''},
 
         //表單規則
         rules: {
-          ruleDesc: [
+          'ruleDesc': [
             { required: true, message: '请输入规则描述', trigger: 'blur' },
           ],
-          ruleInfo: [
+          'ruleInfo': [
             { required: true, message: '请输入机审规则', trigger: 'blur' },
           ],
 
@@ -394,6 +412,7 @@
 
         //执行进度
         executProgress: 0,
+        progressWidth: 0,
 
         currentRule:'',
         currentMenu: {},
@@ -404,7 +423,8 @@
           currentNum: 1,
           pageSize: 10,
           count: 0,
-        }
+        },
+        // canYanZheng: true
 
       }
     },
@@ -426,9 +446,9 @@
     },
     computed: {
 
-      // title(){
-      //   return this.editState == 1 ? "编辑规则" : "添加规则";
-      // },
+      canYanZheng(){
+        return !this.form.ruleInfo || !this.form.ruleDesc;
+      },
       canExecute(){
         if(!this.selectLevel.levelId )
           return true;
@@ -449,12 +469,24 @@
         }
       }
     },
+
     watch: {
       'editState'(val,oldVal){
-        if(val == 1)
-          this.title = '编辑规则';
-        if(val == 2)
-          this.title = '添加规则';
+        if(val == 1 || val == 2){
+          this.showSelect = false;
+            if(val == 1)
+              this.title = '编辑规则';
+            if(val == 2)
+              this.title = '添加规则';
+            this.$nextTick(() => {
+              this.$refs.textarea_rule.$el.querySelector("textarea").onscroll =() => {
+                console.log('what');
+                this.textareaValueChange(this.form.ruleInfo);
+                this.textareaValueChange1(this.form.ruleInfo);
+              }
+            })
+          }
+
       },
       //控制全部规则，选中全部
       'ruleIdList'(val,oldVal){
@@ -491,69 +523,12 @@
           document.removeEventListener("keydown",this.InputHelper);
         }
       },
+
       'form.ruleInfo'(val,oldVal){
-        //规则输入的交互逻辑
-        this.ruleInfo_html = val;
-        console.log(this.ruleInfo_html.indexOf('\n'))
-        this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>');
-        console.log(this.ruleInfo_html);
-        if(val){
-          if(val[val.length -1] === ','){
-            // console.error(',出现');
-            let strcopy = val.replace(/\s+/g, "");
-            let type = -1;
-            let idx1 = strcopy.lastIndexOf('getNumTypeContent(');
-            let idx2 = strcopy.lastIndexOf('getContent(');
-            if(idx1 != -1 && new RegExp("^getNumTypeContent\\([A-Z_0-9]+,$").test(strcopy.substring(idx1))){
-              type = 0;
-            }
-            else if(idx2 != -1 && new RegExp("^getContent\\([A-Z_0-9]+,$").test(strcopy.substring(idx2))){
-              type = 1;
-            }
-            if(type != -1){
-              this.ruleType = type;
-              this.ruleInfo_html += `<span style='font-size: 10px;padding: 2px 3px;'>获取字段</span>`
-              this.showSelect = true;
-                  this.$nextTick(() => {
-                    let elms = this.$refs.textarea_warpar.querySelectorAll('span');
-                    let elm = elms[elms.length - 1];
-                    this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
-                    this.$refs.textarea_select.style.top = elm.offsetTop + 'px';
-                  });
-            }
-          }else{
-            this.showSelect && (this.showSelect = false);
-          }
-        }
-        //   if(val.indexOf("$") == -1 && this.showSelect){
-        //     this.showSelect = false;
-        //   }
-        //   if(this.showSelect){
-        //     let index = val.lastIndexOf("$");
-        //     let find = val.substr(index+1);
-        //     this.ruleNames = this.allNames.filter(it => it.indexOf(find) != -1);
-        //     this.ruleIndex = 0;
-        //   }
-        //   if(val[val.length - 1] === '$'){
-        //     let str = val;
-        //     this.ruleInfo_html = str.substr(0,val.length -1 ).replace(/\n/g,'<br/>') + "<span>$</span>";
-        //     !this.showSelect && (this.showSelect = true);
-        //     this.$nextTick(() => {
-        //       let elms = this.$refs.textarea_warpar.querySelectorAll('span');
-        //       let elm = elms[elms.length - 1];
-        //       this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
-        //       this.$refs.textarea_select.style.top = elm.offsetTop+12 + 'px';
-        //     });
-        //
-        //   }else{
-        //     this.ruleInfo_html = val;
-        //     console.log(this.ruleInfo_html.indexOf('\n'))
-        //     this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>');
-        //     console.log(this.ruleInfo_html);
-        //   }
-        // }else{
-        //   this.showSelect = false;
-        // }
+
+      console.error(val,'valueChange');
+       this.textareaValueChange(val);
+       this.textareaValueChange1(val);
 
 
 
@@ -561,31 +536,213 @@
     },
     methods : {
 
+      textareaValueChange1(val){
+        this.ruleInfo_html1 = val.replace(/\n/g,'<br/>')
+          .replace(/\s/g,'&nbsp;')
+          .replace(/\/\/([\u4e00-\u9fa5]+)/g,'<span class="m-notes">$&</span>')
+          .replace(/[\u4e00-\u9fa5]+/g,'<span class="mark" style="height: 16px; line-height: 16px;background: #13367D; color: #13367D; opacity: .4;box-sizing: border-box;display: inline-block;">$&</span>')
+
+        this.$nextTick(() => {
+          console.log(this.$refs.textarea_warpar1.querySelectorAll('span'));
+          this.$refs.textarea_rule.$el.querySelectorAll('span').forEach(node => {
+
+            this.$refs.textarea_rule.$el.removeChild(node);
+          })
+          this.$refs.textarea_warpar1.querySelectorAll('span.mark').forEach(it => {
+            // let span =document.createElement("span");
+            // it.style.background = "#13367D";
+            // it.style.color = "#13367D";
+            if(it.parentElement.className != 'm-notes'){
+              console.log(it.offsetTop, it.offsetLeft,it.innerHtml,it.offsetWidth);
+              let scrollTop = this.$refs.textarea_rule.$el.querySelector('textarea').scrollTop;
+              let span =it.cloneNode();
+              span.style.position = 'absolute';
+              span.style.opacity = '.4';
+              span.style.top = it.offsetTop - scrollTop +3 + 'px';
+              span.style.left = it.offsetLeft + 'px';
+              span.style.background = '#f9ef4a';
+              span.style.width = it.offsetWidth + 'px';
+              if(it.offsetTop - scrollTop +3 < 0 || it.offsetTop - scrollTop +3 > this.$refs.textarea_rule.$el.querySelector("textarea").offsetHeight - 16 ){
+                span.style.display = 'none';
+              }
+              // span.style.height = it.style.height;
+              console.log(span.style,);
+              this.$refs.textarea_rule.$el.appendChild(span);
+            }
+
+          })
+
+        })
+      },
+
+
+      textareaValueChange(val){
+        //规则输入的交互逻辑
+        console.log(this.$refs.textarea_warpar.offsetHeight);
+        let lastVal = val.substring(this.getCursorPos(this.$refs.textarea_rule.$el.querySelector("textarea"))).trim();
+        val = val.substring(0, this.getCursorPos(this.$refs.textarea_rule.$el.querySelector("textarea")));
+        this.ruleInfo_html = val;
+        this.ruleInfo_html = this.ruleInfo_html.replace(/\n/g,'<br/>')
+          .replace(/\s/g,'&nbsp;');
+
+        console.log(this.ruleInfo_html,val);
+        if(val){
+            // console.error(',出现');
+            this.currentFunction.idx = val.length-1;
+            let strcopy = val.replace(/\s+/g, "");
+            let type = -1;
+            let idx1 = strcopy.lastIndexOf('getnum(');
+            let idx2 = strcopy.lastIndexOf('get(');
+            let idx3 = strcopy.lastIndexOf('takeContentById(');
+            let idx4 = strcopy.lastIndexOf('takeNumContentById(');
+            if(idx1 != -1 && new RegExp("^getnum\\([A-Z_0-9]+$").test(strcopy.substring(idx1))){
+              type = 0;
+              this.currentFunction.affix = strcopy.substring(idx1);
+            }
+            else if(idx2 != -1 && new RegExp("^get\\([A-Z_0-9]+$").test(strcopy.substring(idx2))){
+              type = 1;
+              this.currentFunction.affix = strcopy.substring(idx2);
+            }
+            else if(idx3 != -1 && new RegExp("^takeContentById\\([A-Z_0-9]+$").test(strcopy.substring(idx3))){
+              type = 3;
+              this.currentFunction.affix = strcopy.substring(idx3);
+            }
+            else if(idx4 != -1 && new RegExp("^takeNumContentById\\([A-Z_0-9]+$").test(strcopy.substring(idx4))){
+              type = 3;
+              this.currentFunction.affix = strcopy.substring(idx4);
+            }
+            if(type != -1){
+              this.ruleType = type;
+              let idx = val.lastIndexOf('(');
+              this.pdfParam = val.substring(idx+1).trim();
+              this.ruleInfo_html += `<span style='font-size: 10px;padding: 2px 3px;'>获取字段</span>`
+              this.showSelect = true;
+              this.$nextTick(() => {
+                let scrollTop = this.$refs.textarea_rule.$el.querySelector('textarea').scrollTop;
+                let elms = this.$refs.textarea_warpar.querySelectorAll('span');
+                let elm = elms[elms.length - 1];
+                this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
+                this.$refs.textarea_select.style.top = elm.offsetTop - scrollTop + 'px';
+              });
+            }else{
+              this.showSelect && (this.showSelect = false);
+            }
+
+        }
+      },
+
+
+      //导入模版
+      handleInputTemplate() {
+        console.log(this.$refs.inputTemplate);
+        this.$refs.inputTemplate.init();
+      },
+      //复制规则
+      copyRules(){
+        let  arr = this.ruleList.filter(it => it.selected);
+        if(arr.length === 0){
+          this.$message({
+            message: '请先选择规则',
+            type:'error'
+          });
+        }else{
+          this.manageArr(this.treeData);
+          this.$refs.copyRule.show({treeData: this.treeData, keys: [this.currentMenu.parentId],rules: this.ruleList.filter(it => it.selected)});
+        }
+      },
+
+
+      manageArr(arr){
+
+        arr.forEach((it,idx) => {
+          if(it.ruleLevel !== 4){
+            it.disabled = true;
+            if(it.children){
+              this.manageArr(it.children);
+            }
+          }else{
+            if( it.levelId === this.currentMenu.levelId){
+              it.disabled = true;
+            }
+          }
+        })
+      },
+
+      ruleSelect(rule){
+        rule.selected = !rule.selected;
+      },
+      checkcomma(str){
+        if(str.indexOf(',') === -1){
+          return true;
+        }
+        if(str.indexOf(',') > 5){
+          return true;
+        }
+        return false;
+      },
+      getCursorPos(pTextArea) {
+        var cursurPosition= this.form.ruleInfo.length;
+        if(pTextArea.selectionStart){//非IE浏览器
+           cursurPosition= pTextArea.selectionStart;
+         }else{//IE
+          try{
+            var range = document.selection.createRange();
+            range.moveStart("character",-pTextArea.value.length);
+            cursurPosition=range.text.length;
+          }catch (e) {
+
+          }
+
+        }
+        return cursurPosition;
+      },
+
+      checkBracket(){
+        let str = this.form.ruleInfo.substring(this.currentFunction.idx+1).trim();
+        if(!str)
+          return ')';
+        else
+          return  this.form.ruleInfo.substring(this.currentFunction.idx+1).trim()[0] === ')' ? '' : ')';
+      },
 
       refreshRuleInfo(val) {
+        console.log(val);
         let idx = val.indexOf('],');
         if(idx != -1){
           if(this.ruleType === 0){
-            let idx1 = this.form.ruleInfo.lastIndexOf('getNumTypeContent');
-            let affix = this.form.ruleInfo.substr(idx1);
-            this.form.ruleInfo += val.substring(1,idx) + ')' + '+' + affix+ val.substring(idx+3,val.length -1) + ')';
+            this.form.ruleInfo = this.form.ruleInfo.splice(this.currentFunction.idx + 1, 0 , ',' + val.substring(1,idx) + ')' + ' +' + this.currentFunction.affix+ ',' + val.substring(idx+3,val.length -1) );
           }else{
-            let idx1 = this.form.ruleInfo.lastIndexOf('getContent');
-            let affix = this.form.ruleInfo.substr(idx1);
-            this.form.ruleInfo += val.substring(1,idx) + ')' + '+' +affix+ val.substring(idx+3,val.length - 1) + ')';
+            this.form.ruleInfo = this.form.ruleInfo.splice(this.currentFunction.idx + 1, 0 ,',' + val.substring(1,idx) +')' + ' +' +this.currentFunction.affix+ ',' + val.substring(idx+3,val.length - 1) );
           }
         }else{
-          this.form.ruleInfo += val.substring(1,val.length - 1) + ')';
+          this.form.ruleInfo = this.form.ruleInfo.splice(this.currentFunction.idx+ 1, 0,',' + val.substring(1,val.length - 1));
+          console.log(this.form.ruleInfo);
         }
         this.$refs.textarea_rule.focus();
+        setTimeout(() => {
+          this.showSelect = false;
+        },300)
+
+      },
+      setPid(val){
+        this.form.ruleInfo = this.form.ruleInfo.splice(this.currentFunction.idx+ 1, 0,',' + val) +this.checkBracket();
+        this.$refs.textarea_rule.focus();
+        setTimeout(() => {
+          this.showSelect = false;
+        },300)
       },
 
       //pdf展开
       pdfFlagChange(){
         console.error(this.ruleType);
-        let idx = this.form.ruleInfo.lastIndexOf('(');
-        let pdfParam = this.form.ruleInfo.substring(idx+1,this.form.ruleInfo.length -1).trim();
-        this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: pdfParam, type: this.ruleType});
+
+        if(this.ruleType !== 3){
+          this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: this.pdfParam, type: this.ruleType});
+        }else {
+          this.$http.post("/ruleBase/queryPdfUrlAndWithHigh.htm",{levelId: this.currentMenu.levelId, pdfParam: this.pdfParam}).then(res => {
+            this.$refs.pdfHtml.show(res.result);
+          })
+        }
 
       },
 
@@ -670,7 +827,8 @@
             if(res.result.status == 0){
               //执行中
               this.executProgress = res.result.currentCount+ '/' +res.result.totalCount;
-
+              this.progressWidth = +((res.result.currentCount/res.result.totalCount).toFixed(0));
+              // this.progressWidth ++;
               if(!this.executing){
                 this.executing = true;
               }
@@ -799,15 +957,17 @@
 
       },
       //編輯規則
-      handleEdit(rule) {
+      handleEdit(rule,e) {
+        e.stopPropagation();
         this.$http.post("/ruleBase/queryRuleInfoDetailsByRuleId.htm",{ruleId: rule.ruleId}).then(res => {
           if(res.code ==='0000'){
             this.editState = 1;
             this.$nextTick(()=> {
               this.$refs.createForm.resetFields();
               console.log(this.$refs.textarea_warpar);
-              this.ruleInfo_html = this.form.ruleInfo;
               this.form = res.result;
+              // this.ruleInfo_html = this.form.ruleInfo;
+
               // for(let key in res.result){
               //   this.$set(this.form,key,res.result[key]);
               // }
@@ -816,7 +976,8 @@
         })
       },
       //删除规则
-      handleDelete(rule){
+      handleDelete(rule,e){
+        e.stopPropagation();
         let h = this.$createElement;
         this.$msgbox({
           title: "提示",
@@ -852,6 +1013,7 @@
         });
         this.form = { levelId: this.currentMenu.levelId, ruleLevel: this.currentMenu.ruleLevel};
         this.$set(this.form,'ruleInfo','');
+        this.$set(this.form,'ruleDesc','');
       },
       // 保存
       HandleSave(){
@@ -903,12 +1065,12 @@
       },
 
       handleNodeClickPlus(item){
-        this.handleNodeClick(item);
+        this.handleNodeClick(item, true);
         this.refreshRules(item);
       },
 
 
-      handleNodeClick(item){
+      handleNodeClick(item, flag){
         let obj = Object.assign({},item);
         obj.children = null;
         this.currentMenu = obj;
@@ -928,9 +1090,15 @@
         this.contentFlag = true;
         //模版需要去查询列表
         if(this.currentMenu.ruleLevel === 4){
-          this.$http.post("/ruleBase/queryRuleInfoByBaseQuery.htm",Object.assign(obj,this.pager)).then(res => {
+          if(flag){
+            this.pager.currentNum = 1;
+          }
+            this.$http.post("/ruleBase/queryRuleInfoByBaseQuery.htm",Object.assign(obj,this.pager)).then(res => {
             if(res.code === '0000'){
               this.ruleList = res.result.list;
+              this.ruleList.forEach(it => {
+                this.$set(it,'selected',false);
+              })
               this.pager.count = res.result.count;
             }
           })
@@ -1158,8 +1326,12 @@
 
       .rule_item{
         border:1px solid #F3F5F7;
+        cursor: pointer;
         margin: 20px 0;
         padding: 10px;
+        &.active{
+          border: 1px solid #46629C;
+        }
         div{
           padding-left: 20px;
           color: #aaa;

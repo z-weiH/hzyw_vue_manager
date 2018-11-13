@@ -80,6 +80,22 @@ let router = new Router({
           },
         },
         {
+          path: 'permissionAllot',
+          component: () =>
+            import ('@/views/system/permissionAllot'), //权限分配
+          meta: {
+            name: 'permissionAllot',
+          },
+        },
+        {
+          path: 'permissionList',
+          component: () =>
+            import ('@/views/system/permissionList'), //权限列表
+          meta: {
+            name: 'permissionList',
+          },
+        },
+        {
           path: 'changePwd',
           component: () =>
             import ('@/views/system/changePwd'),
@@ -87,6 +103,7 @@ let router = new Router({
             name: 'changePwd',
           },
         },
+
         /* 系统管理module end */
 
         /* 开户管理 start */
@@ -410,6 +427,22 @@ let router = new Router({
             import ('@/views/customer/dataManagement'), // 数据管理
           meta: {
             name: 'dataManagement',
+          },
+        },
+        {
+          path: 'templateJoint',
+          component: () =>
+            import ('@/views/customer/templateJoint'), // 模板联调
+          meta: {
+            name: 'templateJoint',
+          },
+        },
+        {
+          path: 'ctParameterList',
+          component: () =>
+            import ('@/views/customer/ctParameterList'), // 参数列表
+          meta: {
+            name: 'ctParameterList',
           },
         },
         /* 客户管理module end */
@@ -846,6 +879,14 @@ let router = new Router({
             name: 'ruleBaseNavigation',
           },
         },
+        {
+          path: 'ruleTemplate',
+          component: () =>
+            import ('@/views/ruleBaseManagement/ruleTemplate'), // 规则库
+          meta: {
+            name: 'ruleTemplate',
+          },
+        },
         /* 规则库管理 module end */
 
         /* 执行管理 module start */
@@ -879,6 +920,147 @@ let router = new Router({
           }
         },
         /* 执行管理 module end */
+
+        /* 送达系统 module start  */
+        {
+          path: 'serChannelManage',
+          component: () =>
+            import ('@/views/deliverySystem/serChannelManage'), // 渠道管理
+          meta: {
+            name: 'serChannelManage',
+          },
+        },
+        {
+          path: 'serBusinessManage',
+          component: () =>
+            import ('@/views/deliverySystem/serBusinessManage'), // 业务管理
+          meta: {
+            name: 'serBusinessManage',
+          },
+        },
+        {
+          path: 'serCustomerManage',
+          component: () =>
+            import ('@/views/deliverySystem/serCustomerManage'), // 客户管理
+          meta: {
+            name: 'serCustomerManage',
+          },
+        },
+        {
+          path: 'serTemplateManage',
+          component: () =>
+            import ('@/views/deliverySystem/serTemplateManage'), // 模板管理
+          meta: {
+            name: 'serTemplateManage',
+          },
+        },
+        {
+          path: 'serSmsSend',
+          component: () =>
+            import ('@/views/deliverySystem/serSmsSend'), // 短信发送
+          meta: {
+            name: 'serSmsSend',
+          },
+        },
+        {
+          path: 'serEmailSend',
+          component: () =>
+            import ('@/views/deliverySystem/serEmailSend'), // 邮件发送
+          meta: {
+            name: 'serEmailSend',
+          },
+        },
+        /* 送达系统 module end  */
+        /* 强制执行管理 module start  */
+        {
+          path: 'courtCaseRelation',
+          component: () =>
+            import("@/views/enforceManagement/courtCaseRelation"), // 法院案件关联
+          meta: {
+            name: 'courtCaseRelation'
+          },
+        },
+        {
+          path: 'emEnforcementCases',
+          component: () =>
+            import("@/views/enforceManagement/emEnforcementCases"), // 强制执行案件
+          meta: {
+            name: 'emEnforcementCases'
+          },
+        },
+        {
+          path: 'emBatchDownload',
+          component: () =>
+            import("@/views/enforceManagement/emBatchDownload"), // 批量下载
+          meta: {
+            name: 'emEnforcementCases'
+          },
+        },
+        {
+          path: 'emDownloadTask',
+          component: () =>
+            import("@/views/enforceManagement/emDownloadTask"), // 下载任务页
+          meta: {
+            name: 'emDownloadTask'
+          },
+        },
+        {
+          path: 'emGenerationRecord',
+          component: () =>
+            import("@/views/enforceManagement/emGenerationRecord"), // 文书生成记录
+          meta: {
+            name: 'emGenerationRecord'
+          },
+        },
+        {
+          path: 'emChannelManagement',
+          component: () =>
+            import("@/views/enforceManagement/emChannelManagement"), // 渠道管理
+          meta: {
+            name: 'emChannelManagement'
+          },
+        },
+        {
+          path: 'emClientManagement',
+          component: () =>
+            import("@/views/enforceManagement/emClientManagement"), // 委托人管理
+          meta: {
+            name: 'emClientManagement'
+          },
+        },
+        {
+          path: 'emPropertyStatus',
+          component: () =>
+            import("@/views/enforceManagement/emPropertyStatus"), // 被执行人财产状况
+          meta: {
+            name: 'emPropertyStatus'
+          },
+        },
+        {
+          path: 'emBankAccount',
+          component: () =>
+            import("@/views/enforceManagement/emBankAccount"), // 申请执行人银行账户
+          meta: {
+            name: 'emBankAccount'
+          },
+        },
+        {
+          path: 'emMaterialAllocation',
+          component: () =>
+            import("@/views/enforceManagement/emMaterialAllocation"), // 法院材料配置
+          meta: {
+            name: 'emMaterialAllocation'
+          },
+        },
+        {
+          path: 'emMaterialAllocationPage',
+          component: () =>
+            import("@/views/enforceManagement/emMaterialAllocationPage"), // 法院材料配置 - 配置页面
+          meta: {
+            name: 'emMaterialAllocation'
+          },
+        },
+        /* 强制执行管理 module end  */
       ],
     },
     {
@@ -957,6 +1139,7 @@ let router = new Router({
         name: 'ruleBase',
       },
     },
+
     {
       path: '/caseDetail',
       component: () =>
@@ -965,6 +1148,25 @@ let router = new Router({
         name: 'caseDetail'
       }
     },
+
+    {
+      path: '/ctJointCase',
+      component: () =>
+        import ('@/views/customer/ctJointCase'), // 客户管理-模板联调-联调案件
+      meta: {
+        name: 'ctJointCase',
+      },
+    },
+    {
+      path: '/ctInterfaceList',
+      component: () =>
+        import ('@/views/customer/ctInterfaceList'), // 客户管理-模板联调-接口列表
+      meta: {
+        name: 'ctInterfaceList',
+      },
+    },
+
+
 
   ]
 })

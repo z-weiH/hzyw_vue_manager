@@ -51,7 +51,7 @@
           respondentEditItems:[
             {type: 'text', property:'resName', label: '姓名',rule:'require', hidden:() => this.$parent.respondentEidtConfig.nameStatus === 1},
             {type: 'select', property:'resSex', label: '性别', rule:'require',options: [{label:'女',value: 0},{label:'男',value: 1}],hidden:() => this.$parent.respondentEidtConfig.sexStatus === 1},
-            {type: 'select', property:'resNation', label: '民族', options: [],rule:'require',hidden:() => this.$parent.respondentEidtConfig.nationStatus === 1},
+            {type: 'queryselect', property:'resNation', label: '民族', options: [],rule:'require',hidden:() => this.$parent.respondentEidtConfig.nationStatus === 1},
             {type: 'text', property:'resIdaddress', label: '住址', rule:'require',hidden:() => this.$parent.respondentEidtConfig.idaddressStatus === 1},
             {type: 'text', property:'resIdcard', label: '证号',rule:'require,certificate',hidden:() => this.$parent.respondentEidtConfig.idcardStatus === 1},
           ],
@@ -73,7 +73,7 @@
                   }
                   this.$parent.respondentEditFlag = false;
                   if(this.$parent.HandleQuery && this.$parent.HandleQuery instanceof Function){
-                    this.$parent.HandleQuery();
+                    this.$parent.HandleQuery(null,true);
                   }
                   //复审
                   if(this.$parent.getRecheckDetail && this.$parent.getRecheckDetail instanceof Function){
@@ -107,7 +107,14 @@
         let arr = ["汉","蒙古","回","藏","维吾尔","苗","彝","壮","布依","朝鲜","满","侗","瑶","白","土家",
           "哈尼","哈萨克","傣","黎","傈僳","佤","畲","高山","拉祜","水","东乡","纳西","景颇","柯尔克孜",
           "土","达斡尔","仫佬","羌","布朗","撒拉","毛南","仡佬","锡伯","阿昌","普米","塔吉克","怒", "乌孜别克",
-          "俄罗斯","鄂温克","德昂","保安","裕固","京","塔塔尔","独龙","鄂伦春","赫哲","门巴","珞巴","基诺"];
+          "俄罗斯","鄂温克","德昂","保安","裕固","京","塔塔尔","独龙","鄂伦春","赫哲","门巴","珞巴","基诺",
+          "艾努人/阿布达里人","克里雅人","托茂人","古格人","康家人","曼咪人","昆格人","八甲人","阿克人","老品人",
+          "老缅人","毕苏人","木佬人","菜族人","蔡家人","龙家人","僜人","诶人","标族人","茶洞人","哥隆人","革家人",
+          "东家人","西家人","绕家人","布努人","阿侬人","包瑙人","格鲁人","顾羌人","茂人","木雅人","白马人（氐族人）",
+          "尔苏人","纳木依人","尔龚人","却域人","克木人","苦聪人","拉基族","土生葡人","莽人","摩梭人","普标人","掸族人",
+          "载瓦人","夏尔巴人","图瓦人","布里亚特人","回辉人","卢人","羿人","土生犹太人","者来寨人","阿尔巴津人","富裕柯尔克孜人（哈卡斯人）",
+          "瓦乡人","穿青人","雅库特人"
+        ];
         let item = this.respondentEditItems.find(it => it.property === 'resNation');
         if(item){
           item.options = [];

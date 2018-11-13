@@ -63,6 +63,9 @@
             <li v-for="(audit, idx) in evidence.checkAuditList" :index="idx">{{idx+1}}.{{audit.reasonMsg}}</li>
           </ul>
         </div>
+        <div class="bdje" style="line-height: 50px;font-size: 16px;">
+          <span style="color: #193b8c;font-size: 18px;">标的金额：</span>{{evidence.amtCase}}元
+        </div>
         <div class="applybook_body">
           <div class="applybook_title of-hidden">
             <div class="tit fl part_tit f_18">仲裁申请书</div>

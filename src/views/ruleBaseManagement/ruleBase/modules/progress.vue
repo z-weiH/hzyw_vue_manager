@@ -1,6 +1,6 @@
 <template>
   <div class="m-progress" :style="{height : height + 'px'}">
-    <div :style="{width : width + '%'}" class="progress-bar progress-bar-striped active progress-color">
+    <div ref="bar" :style="{width : width + '%'}" class="progress-bar progress-bar-striped active progress-color">
       <span class="present">{{width}}</span>
     </div>
     <div class="slot" :style="{'line-height' : height - 2 + 'px'}">
@@ -13,14 +13,24 @@
   export default {
     props : {
       width : {
-        type : Number,
-        default : 0,
+        type : String,
+        default : '',
       },
       height : {
         type : Number,
         default : 30,
       },
+      px:{
+        type: Number,
+        default: 0
+      }
     },
+    watch:{
+      'px'(val,oldval){
+        console.log(val);
+        this.$refs.bar.style.width = val + '%';
+      }
+    }
   }
 </script>
 
