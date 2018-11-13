@@ -17,8 +17,8 @@
           </template>
         </el-table-column>
 				<el-table-column prop="accountName" label="户名"></el-table-column>
-        <el-table-column prop="depositBank" label="开户银行"></el-table-column>
         <el-table-column prop="accountNumber" label="银行卡号"></el-table-column>
+        <el-table-column prop="depositBank" label="开户银行"></el-table-column>
         <el-table-column prop="branchName" label="支行名称"></el-table-column>
         <el-table-column prop="subbranch" label="联行号"></el-table-column>
         <el-table-column prop="bankAddress" label="银行地址"></el-table-column>

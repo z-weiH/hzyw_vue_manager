@@ -6,104 +6,123 @@
     </div>
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
-        <span class="search-span">案件查询：</span>
-        <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="案号、申请人、被申请人、手机号" style="width:306px;"></el-input>
-        </el-form-item>
 
-        <el-form-item label=" " prop="dateType">
-          <el-select clearable v-model="ruleForm.dateType" placeholder="日期选择" style="width:120px;">
-            <el-option label="借款时间" :value="1"></el-option>
-            <el-option label="逾期时间" :value="2"></el-option>
-            <el-option label="提交时间" :value="3"></el-option>
-            <el-option label="裁决时间" :value="4"></el-option>
-          </el-select>
-        </el-form-item>
+        <el-row>
+          <el-col :span="24">
+            <span class="search-span">案件查询：</span>
+            <el-form-item label=" " prop="keyWords">
+              <el-input v-model.trim="ruleForm.keyWords" placeholder="案号、申请人、被申请人、手机号" style="width:306px;"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
-        <timeFrame
-          :startDate.sync="ruleForm.startDate"
-          :endDate.sync="ruleForm.endDate"
-        >
-        </timeFrame>
+        <el-row class="mt-10">
+          <el-col :span="24">
+            <span class="search-span">日期选择：</span>
+            <el-form-item label=" " prop="dateType">
+              <el-select clearable v-model="ruleForm.dateType" placeholder="请选择" style="width:120px;">
+                <el-option label="借款时间" :value="1"></el-option>
+                <el-option label="逾期时间" :value="2"></el-option>
+                <el-option label="提交时间" :value="3"></el-option>
+                <el-option label="裁决时间" :value="4"></el-option>
+              </el-select>
+            </el-form-item>
 
-        <div class="mt-10"></div>
-        <span class="search-span">所在地区：</span>
-        <el-form-item label=" " prop="provinceCode">
-          <cityCascader
-            :provinceCode.sync="ruleForm.provinceCode"
-            :cityCode.sync="ruleForm.cityCode"
-            :districtCode.sync="ruleForm.districtCode"  
-            ref="cityCascader"
-            @finish="cityFinish"
-            @cancel="cityCancel"
-            :secondLevel="cityFinish"
-          >
-          </cityCascader>
-        </el-form-item>
-
-        <el-form-item label=" " prop="courtId">
-          <el-select clearable v-model="ruleForm.courtId" placeholder="请选择法院" style="width:145px;">
-            <el-option 
-              v-for="(item,index) in courtOptions" 
-              :key="index" 
-              :label="item.courtName" 
-              :value="item.courtId"
+            <timeFrame
+              :startDate.sync="ruleForm.startDate"
+              :endDate.sync="ruleForm.endDate"
             >
-            </el-option>
-          </el-select>
-        </el-form-item>
+            </timeFrame>
+          </el-col>
+        </el-row>
 
-        <span class="search-span">下载状态：</span>
-        <el-form-item label=" " prop="downloadStatus">
-          <el-select clearable v-model="ruleForm.downloadStatus" placeholder="请选择" style="width:120px;">
-            <el-option label="已处理" :value="0"></el-option>
-            <el-option label="未处理" :value="1"></el-option>
-          </el-select>
-        </el-form-item>
+        <el-row class="mt-10">
+          <el-col :span="24">
+            <span class="search-span">所在地区：</span>
+            <el-form-item label=" " prop="provinceCode">
+              <cityCascader
+                :provinceCode.sync="ruleForm.provinceCode"
+                :cityCode.sync="ruleForm.cityCode"
+                :districtCode.sync="ruleForm.districtCode"  
+                ref="cityCascader"
+                @finish="cityFinish"
+                @cancel="cityCancel"
+                :secondLevel="cityFinish"
+              >
+              </cityCascader>
+            </el-form-item>
 
-        <div class="mt-10"></div>
-        <span class="search-span" style="width: 70px;">客户：</span>
-        <el-form-item label=" " prop="customerId">
-          <el-select @change="handleCustomerChange" clearable filterable  v-model="ruleForm.customerId" placeholder="请选择" class="chang-item">
-            <el-option :label="item.merchantName" :value="item.code" v-for="(item,index) in customerOptions" :key="index"></el-option>
-          </el-select>
-        </el-form-item>
+            <el-form-item label=" " prop="courtId">
+              <el-select clearable v-model="ruleForm.courtId" placeholder="请选择法院" style="width:145px;">
+                <el-option 
+                  v-for="(item,index) in courtOptions" 
+                  :key="index" 
+                  :label="item.courtName" 
+                  :value="item.courtId"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
-        <span class="search-span">产品名称：</span>
-        <el-form-item label=" " prop="productId">
-          <el-select @change="handleProductChange" clearable filterable  v-model="ruleForm.productId" placeholder="请选择" class="chang-item">
-            <el-option :label="item.prodName" :value="item.prodCode" v-for="(item,index) in productOptions" :key="index"></el-option>
-          </el-select>
-        </el-form-item>
+        <el-row class="mt-10">
+          <el-col :span="24">
+            <span class="search-span" style="width: 70px;">客户：</span>
+            <el-form-item label=" " prop="customerId">
+              <el-select @change="handleCustomerChange" clearable filterable  v-model="ruleForm.customerId" placeholder="请选择" class="chang-item">
+                <el-option :label="item.merchantName" :value="item.code" v-for="(item,index) in customerOptions" :key="index"></el-option>
+              </el-select>
+            </el-form-item>
 
-        <span class="search-span">模板编码：</span>
-        <el-form-item label=" " prop="templateCode">
-          <el-select clearable filterable  v-model="ruleForm.templateCode" placeholder="请选择" class="chang-item">
-            <el-option :label="item" :value="item" v-for="(item,index) in templateOptions" :key="index"></el-option>
-          </el-select>
-        </el-form-item>
+            <span class="search-span">产品名称：</span>
+            <el-form-item label=" " prop="productId">
+              <el-select @change="handleProductChange" clearable filterable  v-model="ruleForm.productId" placeholder="请选择" class="chang-item">
+                <el-option :label="item.prodName" :value="item.prodCode" v-for="(item,index) in productOptions" :key="index"></el-option>
+              </el-select>
+            </el-form-item>
 
-        <div class="mt-10"></div>
-        <span class="search-span">配置状态：</span>
-        <el-form-item label=" " prop="settingStatus">
-          <el-select clearable v-model="ruleForm.settingStatus" placeholder="请选择" style="width:197px;">
-            <el-option label="已完成" :value="1"></el-option>
-            <el-option label="未完成" :value="2"></el-option>
-          </el-select>
-        </el-form-item>
+            <span class="search-span">模板编码：</span>
+            <el-form-item label=" " prop="templateCode">
+              <el-select clearable filterable  v-model="ruleForm.templateCode" placeholder="请选择" class="chang-item">
+                <el-option :label="item" :value="item" v-for="(item,index) in templateOptions" :key="index"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
-        <span class="search-span">还款情况：</span>
-        <el-form-item label=" " prop="aaaaa">
-          <el-select clearable v-model="ruleForm.aaaaa" placeholder="请选择" style="width:197px;">
-            <el-option label="有还款" :value="1"></el-option>
-            <el-option label="无还款" :value="2"></el-option>
-            <el-option label="有仲裁后还款" :value="3"></el-option>
-            <el-option label="无仲裁后还款" :value="4"></el-option>
-          </el-select>
-        </el-form-item>
+        <el-row class="mt-10">
+          <el-col :span="24">
+            <span class="search-span">下载状态：</span>
+            <el-form-item label=" " prop="downloadStatus">
+              <el-select clearable v-model="ruleForm.downloadStatus" placeholder="请选择" style="width:197px;">
+                <el-option label="已处理" :value="0"></el-option>
+                <el-option label="未处理" :value="1"></el-option>
+              </el-select>
+            </el-form-item>
 
+            <span class="search-span">配置状态：</span>
+            <el-form-item label=" " prop="settingStatus">
+              <el-select clearable v-model="ruleForm.settingStatus" placeholder="请选择" style="width:197px;">
+                <el-option label="已完成" :value="1"></el-option>
+                <el-option label="未完成" :value="2"></el-option>
+              </el-select>
+            </el-form-item>
 
-        <el-button @click="handleSearch" type="warning">查询</el-button>
+            <span class="search-span">还款情况：</span>
+            <el-form-item label=" " prop="aaaaa">
+              <el-select clearable v-model="ruleForm.aaaaa" placeholder="请选择" style="width:197px;">
+                <el-option label="有还款" :value="1"></el-option>
+                <el-option label="无还款" :value="2"></el-option>
+                <el-option label="有仲裁后还款" :value="3"></el-option>
+                <el-option label="无仲裁后还款" :value="4"></el-option>
+              </el-select>
+            </el-form-item>
+
+            <el-button @click="handleSearch" type="warning">查询</el-button>
+          </el-col>
+        </el-row>
+
       </el-form>
     </div>
 
