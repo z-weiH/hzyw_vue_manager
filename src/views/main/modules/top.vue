@@ -4,11 +4,11 @@
       <div class="left fl">
         <a class="cursor">
           互仲科技
-          <span>•</span>
+          <!-- <span>•</span> -->
         </a>
-        <span class="ml-5">
+        <!-- <span class="ml-5">
           业务后台管理系统
-        </span>
+        </span> -->
       </div>
 
       <div class="right fr">
@@ -72,13 +72,14 @@ export default {
     width: 100%;
     .left {
       color: #0f357f;
-      padding-left: 18px;
       a {
         font-size: 37px;
         font-family: "stlitiregular";
         display: inline-block;
         vertical-align: middle;
         margin-top: 9px;
+        width: 210px;
+        text-align: center;
       }
       > span {
         font-size: 18px;
