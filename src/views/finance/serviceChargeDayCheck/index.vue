@@ -85,33 +85,27 @@ export default {
         {
           label: "时间",
           property: "detailTime",
-          width:'110px'
         },
         {
           label: "收付方名称",
           property: "debitName",
-          width:'150px'
 
         },
         {
           label: "收付方开户行",
           property: "bankName",
-           width:'150px'
         },
         {
           label: "收付方账号",
           property: "bankAcctno",
-          width:'150px'
         },
         {
           label: "银行流水单号",
           property: "bankOrderno",
-          width:'150px'
         },
         {
           label: "操作人",
           property: "operName",
-          width:'110px'
         },
       ]
     };

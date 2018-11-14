@@ -38,9 +38,7 @@
         <el-table-column prop="caseId" label="案件号"></el-table-column>
         <el-table-column prop="merchantName" label="所属企业">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.merchantName" placement="top-start">
-              <span class="ellipsis" style="max-width:130px;">{{scope.row.merchantName}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.merchantName}}</span>
           </template>
         </el-table-column>
         <el-table-column label="当事人">
@@ -51,9 +49,7 @@
         <el-table-column prop="caseStatusCn" label="案件状态"></el-table-column>
         <el-table-column prop="submitTime" label="提交时间">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.submitTime" placement="top-start">
-              <span class="ellipsis" style="max-width:130px;">{{scope.row.submitTime}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.submitTime}}</span>
           </template>
         </el-table-column>
         <el-table-column label="操作" width="160px">

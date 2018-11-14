@@ -31,10 +31,10 @@
         ],
         searchItem: {},
         columnDefine: [
-          {label: '仲裁委全称',property: 'fullName',width: 150},
-          {label: '仲裁委简称',property: 'shortName',width: 150},
-          {label: '通知邮箱账号',property: 'emailUsername',width: 230},
-          {label: '创建时间',property: 'createTime',width: 150},
+          {label: '仲裁委全称',property: 'fullName'},
+          {label: '仲裁委简称',property: 'shortName'},
+          {label: '通知邮箱账号',property: 'emailUsername'},
+          {label: '创建时间',property: 'createTime'},
         ],
         actions: [
           {label: '操作',btns: [

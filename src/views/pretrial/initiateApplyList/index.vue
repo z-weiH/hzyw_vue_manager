@@ -44,7 +44,7 @@ export default {
 					label: '互金企业',
 					type: 'select',
 					placeholder: '请输入关键字进行搜索',
-					colSpan: 6,
+					colSpan: 4,
 					property: 'merchantCode',
 					options: [],
 					labelfield: 'merchantName',

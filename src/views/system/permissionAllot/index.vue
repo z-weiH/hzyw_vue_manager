@@ -58,7 +58,7 @@
 
             <el-table-column
             label="权限表达式"
-            width="338">
+            >
             <template slot-scope="scope">
             <el-tooltip :content="scope.row.btnExpression" placement="top-start">
             <span class="ellipsis">
@@ -70,7 +70,7 @@
             <el-table-column
             label="按钮名称"
             show-overflow-tooltip
-            width="175">
+            >
             <template slot-scope="scope">
             <div style="overflow: hidden;white-space: nowrap;
             text-overflow: ellipsis;">
@@ -84,7 +84,7 @@
             </el-table-column>
               <el-table-column
                 label="操作"
-                width="65">
+              >
                 <template slot-scope="scope">
                   <div style="overflow: hidden;white-space: nowrap;
             text-overflow: ellipsis;">
@@ -298,12 +298,12 @@ export default {
     }
     .content_left{
       float: left;
-      width: 350px;
+      width: 40%;
 
     }
     .content_right{
       float: right;
-      width: 580px;
+      width: 60%;
     }
 
   }

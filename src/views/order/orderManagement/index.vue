@@ -54,32 +54,24 @@
         </el-table-column>
         <el-table-column label="借款单号">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.loanBillNo" placement="top-start">
-              <a class="fn-a ellipsis" style="max-width:112px;" @click="handleDetail(scope.row)" type="text">{{scope.row.loanBillNo}}</a>
-            </el-tooltip>
+            <a class="fn-a" @click="handleDetail(scope.row)" type="text">{{scope.row.loanBillNo}}</a>
           </template>
         </el-table-column>
         <el-table-column prop="platName" label="所属平台名称">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.platName" placement="top-start">
-              <span class="ellipsis" style="max-width:108px;">{{scope.row.platName}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.platName}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column prop="orderStatusCn" label="案件状态"></el-table-column>
         <el-table-column prop="createTime" label="订单提交时间">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.createTime" placement="top-start">
-              <span class="ellipsis" style="max-width:108px;">{{scope.row.createTime}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.createTime}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="processResult" label="处理结果">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.processResult" placement="top-start">
-              <span class="ellipsis" style="max-width:108px;">{{scope.row.processResult}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.processResult}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="applicationUrl" label="仲裁申请书" width="100px">

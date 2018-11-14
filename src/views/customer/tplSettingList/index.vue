@@ -55,16 +55,12 @@
         </el-table-column>
         <el-table-column prop="clientName" label="客户">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.clientName" placement="top-start">
-              <span class="ellipsis" style="max-width:80px;">{{scope.row.clientName}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.clientName}}</span>
           </template>
         </el-table-column>
 				<el-table-column prop="productName" label="产品">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.productName  + '' + scope.row.prodCode" placement="top-start">
-              <span class="ellipsis" style="max-width:78px;">{{scope.row.productName  + '' + scope.row.prodCode}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.productName  + '' + scope.row.prodCode}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="templateCode" label="模板"></el-table-column>
@@ -105,7 +101,7 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="firstUseTime" label="初次启用日期" width="120px">
+        <el-table-column prop="firstUseTime" label="初次启用日期">
           <template slot-scope="scope">
             {{
               scope.row.firstUseTime || '--'
@@ -114,9 +110,7 @@
         </el-table-column>
         <el-table-column prop="remark" label="备注">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.remark" placement="top-start">
-              <a @click.stop="handleEditRemarks(scope.row)" class="ellipsis" style="max-width:78px;">{{scope.row.remark}}</a>
-            </el-tooltip>
+            <a @click.stop="handleEditRemarks(scope.row)">{{scope.row.remark}}</a>
           </template>
         </el-table-column>
       </el-table>
