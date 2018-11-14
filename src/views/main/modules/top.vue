@@ -2,8 +2,8 @@
   <div class="top-header">
     <div class="content">
       <div class="left fl">
-        <a class="cursor">
-          互仲科技
+        <a class="cursor css15b692d27d1e8e3">
+          互仲科技业务后台管理系统
           <!-- <span>•</span> -->
         </a>
         <!-- <span class="ml-5">
@@ -13,11 +13,8 @@
 
       <div class="right fr">
         <div class="fl">
-          <i class="iconfont icon-rili mr-10"></i>
-          {{new Date() | TimeMomentChina}}
-          <span class="ml-10 mr-10">|</span>
-          欢迎登录业务后台管理系统
-          <span class="ml-10 mr-10">|</span>
+          <!-- {{new Date() | TimeMomentChina}}
+          <span class="ml-10 mr-10">|</span> -->
           {{userName}}
           <el-button @click="handleSignOut" class="m-btn">
             <i class="iconfont icon-tuichu"></i>
@@ -73,13 +70,13 @@ export default {
     .left {
       color: #0f357f;
       a {
-        font-size: 37px;
-        font-family: "stlitiregular";
+        font-size: 26px;
+        /* font-family: "stlitiregular"; */
         display: inline-block;
         vertical-align: middle;
-        margin-top: 9px;
-        width: 210px;
+        margin-top: 11px;
         text-align: center;
+        padding-left: 18px;
       }
       > span {
         font-size: 18px;
