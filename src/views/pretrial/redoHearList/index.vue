@@ -82,7 +82,7 @@ export default {
         {
           type: "select",
           placeholder: "批次状态",
-          colSpan: 4,
+          colSpan: 3,
           property: "reviewStatus",
           options: [
             {
@@ -104,27 +104,22 @@ export default {
         {
           label: "互金企业",
           property: "clientName",
-          width:150
         },
         {
           label: "模版",
           property: "productName",
-          width:216
         },
         {
           label: "案件数量",
           property: "countCase",
-          width:89
         },
         {
           label: "子批次数",
           property: "countSubBatch",
-          width:92
         },
         {
           label: "初审人",
           property: "firstAuditName",
-          width:120
         }
       ]
     };

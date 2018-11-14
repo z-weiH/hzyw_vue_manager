@@ -67,7 +67,7 @@ export default {
         {
           type: "select",
           placeholder: "选择类型",
-          colSpan: 4,
+          colSpan: 3,
           property: "inoutFlag",
           options: [
             {

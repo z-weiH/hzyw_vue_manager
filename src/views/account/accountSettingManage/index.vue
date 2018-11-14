@@ -40,7 +40,7 @@
           {placeholder: '请输入企业名称、合同号', colSpan: 7, property: 'keyWords'},
           {placeholder: '起始时间', colSpan: 4, property: 'startTime',type: 'date',lt: 'endTime'},
           {placeholder: '结束时间', colSpan: 4, property: 'endTime',type: 'date',gt: 'startTime'},
-          {placeholder: '开户状态', colSpan: 5, property: 'orderStatus',type: 'select', options: [
+          {placeholder: '开户状态', colSpan: 3, property: 'orderStatus',type: 'select', options: [
               {label:'待处理', value: 0},
               {label:'待审核', value: 1},
               {label:'通过', value: 2},
@@ -50,18 +50,18 @@
         searchItem: {},
         queryUrl: URL_JSON['queryAccountSettingManage'],
         columnDefine: [
-          {label: '企业名称', property: 'custName', width: 160,isLink: 1, linkShowPanel: (row) => {
+          {label: '企业名称', property: 'custName', isLink: 1, linkShowPanel: (row) => {
               this.queryDetail(URL_JSON['editAccountApply'],{customerId: row.custId}).then(res => {
                 if(res.code == '0000'){
                   this.item = res.result;
                   this.editState = 9;
                 }
               })} },
-          {label: '合同号', property: 'contactNo',isLink: true, linkShowPanel: this.doView,width: 160},
-          {label: '技术服务费(元)', property: 'serveAmount',width: 120},
-          {label: '开户仲券(张)', property: 'ticketCount',width: 120},
-          {label: '开户受理费(元)', property: 'caseAmount', width: 120},
-          {label: '申请时间', property: 'submitTime',width: 100},
+          {label: '合同号', property: 'contactNo',isLink: true, linkShowPanel: this.doView},
+          {label: '技术服务费(元)', property: 'serveAmount'},
+          {label: '开户仲券(张)', property: 'ticketCount'},
+          {label: '开户受理费(元)', property: 'caseAmount'},
+          {label: '申请时间', property: 'submitTime'},
         ],
         item: {}
       }

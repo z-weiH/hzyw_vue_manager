@@ -23,9 +23,7 @@
 
         <el-button @click="handleSearch" type="warning">查询</el-button>
 
-        <div class="fr">
-          <el-button @click="handleAddUser" type="primary">新增用户</el-button>
-        </div>
+        <el-button @click="handleAddUser" type="primary">新增用户</el-button>
 
       </el-form>
     </div>

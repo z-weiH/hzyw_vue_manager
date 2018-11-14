@@ -1,7 +1,7 @@
 <template>
   <div class="customerCase">
     <searchs class="item-search" :searchItems="searchItems" :item="searchItem" :queryUrl="queryUrl">
-      <div class="fr" slot="moreBtn">
+      <div class="fl ml-10" slot="moreBtn">
         <el-button type="primary" @click="create">新增案例</el-button>
       </div>
     </searchs>
@@ -29,7 +29,7 @@
         searchItems: [
           {placeholder: '请输入客户名称', colSpan: 7, property: 'keyWords'},
           // 0待上线 1已上线 2已下线
-          {placeholder: '请选择上线状态', colSpan: 5, property: 'custStatus',type: 'select', options: [
+          {placeholder: '请选择上线状态', colSpan: 3, property: 'custStatus',type: 'select', options: [
               {label:'待上线', value: 0},
               {label:'已上线', value: 1},
               {label:'已下线', value: 2},

@@ -11,9 +11,7 @@
         </el-form-item>
         <el-button @click="handleSearch" type="warning">查询</el-button>
 
-        <div class="fr">
-          <el-button type="primary" @click="handleAdd">新增</el-button>
-        </div>
+        <el-button type="primary" @click="handleAdd">新增</el-button>
       </el-form>
     </div>
 

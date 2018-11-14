@@ -6,7 +6,7 @@
     </div>
     <div class="item-search">
       <searchs :search-items="searchItems" :item="searchItem" :queryUrl="queryUrl">
-        <div class="fr" slot="moreBtn">
+        <div class="fl ml-10" slot="moreBtn">
           <el-button @click="handleCreate" type="primary">新增用户</el-button>
         </div>
       </searchs>
@@ -48,11 +48,11 @@
         searchItem: {},
         columnDefine: [
           // { label: "客户号", property: "clientCode",width: 80 },
-          { label: "用户名称", property: "userName",width:110},
-          { label: "登录账户", property: "loginName",width: 185 },
-          { label: "邮箱地址", property: "userEmail",width: 185 },
-          { label: "用户手机号", property: "userPhone",width: 130 },
-          { label: "创建时间", property: "createTime",width: 115 },
+          { label: "用户名称", property: "userName"},
+          { label: "登录账户", property: "loginName"},
+          { label: "邮箱地址", property: "userEmail"},
+          { label: "用户手机号", property: "userPhone"},
+          { label: "创建时间", property: "createTime"},
         ],
         searchItems : [
           {type: 'text',placeholder: '请输入客户名称', property: 'keyWords', colSpan: 7}

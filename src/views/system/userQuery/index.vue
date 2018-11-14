@@ -23,7 +23,7 @@
     data () {
       return {
         searchItems : [
-          {type:'text', placeholder: '请输入用户名、真实名字、手机号码', colSpan: 8, property: 'keyWords'},
+          {type:'text', placeholder: '请输入用户名、真实名字、手机号码', colSpan: 4, property: 'keyWords'},
           {type:'select', placeholder: '请选择角色', options: [], colSpan: 4, property: 'roleId', labelfield: "roleName", valuefield: "roleId"},
         ],
         searchItem : {},

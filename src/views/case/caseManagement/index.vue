@@ -16,9 +16,7 @@
 
         <el-button @click="handleSearch" type="warning">查询</el-button>
 
-        <div class="fr">
-          <el-button @click="handleAdd" type="primary">新增案件</el-button>
-        </div>
+        <el-button @click="handleAdd" type="primary">新增案件</el-button>
 
       </el-form>
     </div>

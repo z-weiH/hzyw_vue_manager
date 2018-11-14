@@ -71,7 +71,7 @@ export default {
       searchItems : [
         {type: 'text',placeholder: '请输入关键词进行搜索', property: 'keyWords', colSpan: 6},
         // 0启用 ，1停用
-        {type: 'select',placeholder: '启用状态', property: 'templateStatus', colSpan: 4,options: [{label:'启用',value: 0},{label:'停用',value: 1}]}
+        {type: 'select',placeholder: '启用状态', property: 'templateStatus', colSpan: 3,options: [{label:'启用',value: 0},{label:'停用',value: 1}]}
       ],
       searchItem: {},
       queryUrl:  '/ruleTem/queryTemplateInfoByBaseQuery.htm',

@@ -54,9 +54,7 @@
 
           <el-button @click="handleSearch" type="warning">查询</el-button>
 
-          <div class="fr">
-            <el-button @click="handleAdd" type="primary" class="mr-10"><i class="el-icon-plus"></i>新增</el-button>
-          </div>
+          <el-button @click="handleAdd" type="primary" class="mr-10"><i class="el-icon-plus"></i>新增</el-button>
 
         </div>
       </el-form>
@@ -82,25 +80,25 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="province" label="省" width="120px"></el-table-column>
-        <el-table-column prop="city" label="市" width="120px"></el-table-column>
-        <el-table-column prop="district" label="区" width="120px"></el-table-column>
-        <el-table-column prop="courtName" label="法院名" width="120px">
+        <el-table-column prop="province" label="省"></el-table-column>
+        <el-table-column prop="city" label="市"></el-table-column>
+        <el-table-column prop="district" label="区"></el-table-column>
+        <el-table-column prop="courtName" label="法院名">
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.courtName}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="courtAddress" label="地址" width="120px">
+        <el-table-column prop="courtAddress" label="地址">
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.courtAddress}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="courtPhone" label="电话" width="120px">
+        <el-table-column prop="courtPhone" label="电话">
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.courtPhone}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="120px" fixed="right" align="center">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="handleEdit(scope.row)" type="text">修改</el-button>
           </template>

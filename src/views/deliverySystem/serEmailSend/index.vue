@@ -17,8 +17,9 @@
         <el-form-item label="发送邮件人名称：" prop="senderName">
           <el-input v-model.trim="ruleForm.senderName" placeholder="请输入发送邮件人名称" style="width:170px;"></el-input>
         </el-form-item>
-        
 
+        <div class="mt-10"></div> 
+        
         <el-form-item label="接收邮件地址：" prop="toEmail">
           <el-input v-model.trim="ruleForm.toEmail" placeholder="请输入接收邮件地址" style="width:170px;"></el-input>
         </el-form-item>
@@ -30,6 +31,8 @@
         <el-form-item label="邮件标题：" prop="mailTitle">
           <el-input v-model.trim="ruleForm.mailTitle" placeholder="请输入邮件标题" style="width:170px;"></el-input>
         </el-form-item>
+
+        <div class="mt-10"></div> 
 
         <el-form-item label="发送时间：">
         </el-form-item>

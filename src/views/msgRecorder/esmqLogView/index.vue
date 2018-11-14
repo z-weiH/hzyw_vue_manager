@@ -51,7 +51,7 @@ export default {
         {
           label: "短信类型",
           type: "select",
-          colSpan: 6,
+          colSpan: 3,
           property: "messageType",
           options: [
             {
@@ -124,52 +124,42 @@ export default {
         {
           label: "案件编号",
           property: "caseNum",
-          width: 100
         },
         {
           label: "申请人",
           property: "applicants",
-          width: 100
         },
         {
           label: "被申请人",
           property: "respondents",
-          width: 100
         },
         {
           label: "发送手机号",
           property: "sendPhone",
-          width: 130
         },
         {
           label: "发送时间",
           property: "sendTime",
-          width: 100
         },
         {
           label: "发送结果",
           property: "sendResult",
-          width: 100
         },
         {
           label: "接收结果",
           property: "receiveResult",
-          width: 100
         },
         {
           label: "短信类型",
           property: "messageType",
-          width: 100
         },
         {
           label: "返回详情",
           property: "returnDetails",
-          width: 100
         },
         {
           label: "短信内容",
           property: "messageContent",
-          width: 100
         }
       ]
     };
