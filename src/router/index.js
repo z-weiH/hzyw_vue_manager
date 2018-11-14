@@ -1165,6 +1165,14 @@ let router = new Router({
         name: 'ctInterfaceList',
       },
     },
+    {
+      path: '/ruleExeDetail',
+      component: () =>
+        import ('@/views/ruleBaseManagement/ruleExeDetail'), // 执行详情
+      meta: {
+        name: 'ruleExeDetail',
+      },
+    },
 
 
 

@@ -1,22 +1,23 @@
 <template>
   <div class="time-frame">
     <el-form-item :prop="requiredName[0]"
+                  :label="label"
       :rules="[
         {
-          required : required === true ? true : 
+          required : required === true ? true :
                      required === false ? false :
-                     required === 'single' ? ( !end && !start ? true : !end ? true : false) : 
-                     required.length && required[0] ? required[0] : '', 
-          message : required === 'single' ? 
-                      (  !end && !start ? `请至少选择一个时间段` : `请输入${startPlaceholder}` ) : 
-                      `请输入${startPlaceholder}`, 
+                     required === 'single' ? ( !end && !start ? true : !end ? true : false) :
+                     required.length && required[0] ? required[0] : '',
+          message : required === 'single' ?
+                      (  !end && !start ? `请至少选择一个时间段` : `请输入${startPlaceholder}` ) :
+                      `请输入${startPlaceholder}`,
           trigger: ['blur', 'change'],
         },
       ]"
     >
-      <el-date-picker 
-        type="date" style="width:144px;" 
-        :placeholder="startPlaceholder" 
+      <el-date-picker
+        type="date" style="width:144px;"
+        :placeholder="startPlaceholder"
         v-model="start"
         :picker-options="pickerOptions1"
         value-format="yyyy-MM-dd"
@@ -27,20 +28,20 @@
     <el-form-item :prop="requiredName[1]"
       :rules="[
         {
-          required : required === true ? true : 
+          required : required === true ? true :
                      required === false ? false :
-                     required === 'single' ? ( !end && !start ? true : !start ? true : false) : 
-                     required.length && required[1] ? required[1] : '', 
-          message : required === 'single' ? 
-                      (  !end && !start ? ` ` : `请输入${endPlaceholder}` ) : 
-                      `请输入${endPlaceholder}`, 
+                     required === 'single' ? ( !end && !start ? true : !start ? true : false) :
+                     required.length && required[1] ? required[1] : '',
+          message : required === 'single' ?
+                      (  !end && !start ? ` ` : `请输入${endPlaceholder}` ) :
+                      `请输入${endPlaceholder}`,
           trigger: ['blur', 'change'],
         },
       ]"
     >
-      <el-date-picker 
-        type="date" style="width:144px;" 
-        :placeholder="endPlaceholder" 
+      <el-date-picker
+        type="date" style="width:144px;"
+        :placeholder="endPlaceholder"
         v-model="end"
         :picker-options="pickerOptions2"
         value-format="yyyy-MM-dd"
@@ -53,6 +54,12 @@
 <script>
   export default {
     props : {
+
+      label:{
+        type: String,
+        default: ''
+      },
+
       /* 开始时间 */
       startDate : {
         required: true,
