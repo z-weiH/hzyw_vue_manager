@@ -161,17 +161,17 @@
       >
         <el-table-column type="selection" width="55"></el-table-column>
 				<el-table-column prop="caseNo" label="案号"></el-table-column>
-        <el-table-column prop="applicants" label="仲裁申请人" width="120"></el-table-column>
+        <el-table-column prop="applicants" label="仲裁申请人" min-width="120"></el-table-column>
         <el-table-column prop="executedBorrowAmt" label="执行标的"></el-table-column>
         <el-table-column prop="fixedAmount" label="固定金额"></el-table-column>
-        <el-table-column prop="respondents" label="仲裁被申请人" width="120"></el-table-column>
+        <el-table-column prop="respondents" label="仲裁被申请人" min-width="120"></el-table-column>
         <el-table-column prop="resPhone" label="手机号"></el-table-column>
         <el-table-column prop="dateOfBorrowing" label="借款日期"></el-table-column>
-        <el-table-column prop="lateStartDate" label="逾期开始日" width="120"></el-table-column>
+        <el-table-column prop="lateStartDate" label="逾期开始日" min-width="120"></el-table-column>
         <el-table-column prop="timeOfAdjudication" label="裁决时间"></el-table-column>
         <el-table-column prop="courtName" label="法院"></el-table-column>
         <el-table-column prop="templateCode" label="模板编码"></el-table-column>
-        <el-table-column prop="settingStatus" label="材料配置状态" width="120">
+        <el-table-column prop="settingStatus" label="材料配置状态" min-width="120">
           <template slot-scope="scope">
             {{scope.row.settingStatus === 1 ? '已完成' : '未完成'}}
           </template>
@@ -181,7 +181,7 @@
             {{scope.row.downloadStatus === 1 ? '未处理' : '已处理'}}
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="120" align="center">
+        <el-table-column label="操作" align="center" min-width="120">
           <template slot-scope="scope">
             <el-button @click="handlePreview(scope.row)" type="text">预览</el-button>
             <el-button @click="handleDownload(scope.row)" type="text">下载</el-button>
@@ -213,8 +213,11 @@
   import timeFrame from '@/components/timeFrame.vue'
   import exportFile from '@/assets/js/exportFile.js'
   import cityCascader from '@/components/cityCascader.vue'
+  // 未配置校验 dialog
   import setDialog from '../emBatchDownload/modules/setDialog.vue'
+  // 时间选择 dialog
   import timeDialog from '../emBatchDownload/modules/timeDialog.vue'
+  // 批量导入异常 dialog
   import batchImportDialog from './modules/batchImportDialog.vue'
 	export default {
 		components : {
@@ -436,7 +439,8 @@
 
       // 点击 预览
       handlePreview(row) {
-        this.$refs.timeDialog.show();
+        this.$refs.batchImportDialog.show();
+        // this.$refs.timeDialog.show();
         return;
         this.$http({
           method : 'post',

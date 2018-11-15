@@ -94,7 +94,7 @@
         ],
         editItems2: [
             {type: 'text', property:'loginName', label: '登录账号', disabled: true},
-            {type: 'password', property:'oldPwd', label: '用户旧密码', rule:'require'},
+            /* {type: 'password', property:'oldPwd', label: '用户旧密码', rule:'require'}, */
             {type: 'password', property:'newPwd', label: '	用户新密码', rule:'require'},
             {type: 'password', property:'confirmPwd', label: '用户确认密码', rule:[
                 { required : true , message : '不能为空' , trigger : 'blur'},
