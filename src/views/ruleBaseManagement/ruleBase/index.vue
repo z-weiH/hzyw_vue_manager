@@ -990,7 +990,6 @@
           this.deleteProperty(this.treeData,"children");
             this.keys = [this.treeData[0].levelId];
           // this.treeData = res.result;
-
           console.log(this.treeData)
           this.handleNodeClick(Object.assign({},this.treeData[0]));
         }
