@@ -385,7 +385,7 @@
           });
         }else{
           exportFile({
-            url : '/forceManager/queryForceCaseListByBaseQuery.htm',
+            url : '/forceManager/excelExportByBaseQuery.htm',
             data : {
               ...this.ruleForm,
             },
@@ -396,7 +396,6 @@
       handleTableTemplateDownload() {
         exportFile({
           url : '/execution/moduleExcelDownload.htm',
-          data : {},
         });
       },
       // 批量导入相关事件
@@ -483,7 +482,7 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
+          url : '/forceManager/queryForceCaseListByBaseQuery.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
