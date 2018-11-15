@@ -1,108 +1,114 @@
 <template>
-  <div class="body_container">
-    <div class="header_container">
+  <div style="height: 100%;background: #F7F7F7">
+    <el-scrollbar  style="height:100%;">
+      <div class="body_container">
+        <div class="header_container">
 
-      <div class="header">
-        <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
-        <span class="header_title">证据链审核</span>
-        <!--<el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>-->
-        <!--<template v-if="disabled">-->
-          <!--<el-radio v-model="passStatus" :label="0">全部</el-radio>-->
-          <!--<el-radio v-model="passStatus" :label="1">已通过</el-radio>-->
-          <!--<el-radio v-model="passStatus" :label="2">未通过</el-radio>-->
-        <!--</template>-->
-        <selectQuery ref="query" :disabled="disabled" :queryConfig="queryConfig" style="display: inline-block;"></selectQuery>
-      </div>
-    </div>
-    <!-- 无匹配案件区域 -->
-    <div class="noCase_panel" v-if="evidenceItems.length === 0">
-      <div class="search_ico"></div>
-      <div>没有符合要求的案件</div>
-    </div>
-    <!-- end -->
+          <div class="header">
+            <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
+            <span class="header_title">证据链审核</span>
+            <!--<el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>-->
+            <!--<template v-if="disabled">-->
+            <!--<el-radio v-model="passStatus" :label="0">全部</el-radio>-->
+            <!--<el-radio v-model="passStatus" :label="1">已通过</el-radio>-->
+            <!--<el-radio v-model="passStatus" :label="2">未通过</el-radio>-->
+            <!--</template>-->
+            <selectQuery ref="query" :disabled="disabled" :queryConfig="queryConfig" style="display: inline-block;"></selectQuery>
+          </div>
+        </div>
+        <!-- 无匹配案件区域 -->
+        <div class="noCase_panel" v-if="evidenceItems.length === 0">
+          <div class="search_ico"></div>
+          <div>没有符合要求的案件</div>
+        </div>
+        <!-- end -->
 
-    <div class="card" style="position:relative;" v-for="(evidence, index) in evidenceItems" :key="index">
-      <div class="fix_screen" v-if="evidenceItems.length > 0">
-        <span class="arrow_left" @click="HandlePrev" :class="{disabled: canPrev}"></span>
-        <span class="arrow_right" @click="HandleNext" :class="{disabled: canNext}"></span>
-      </div>
-      <div class="card_header" style="overflow: hidden;position: relative;">
-        <div class="fr mt-5" style="position: relative" v-if="!disabled">
-          <transition name="addmark" >
-            <el-button class="addmark" type="text" v-if="mark !== evidence.subSortNo" @click="HandleAddmark(evidence)">添加书签</el-button>
-          </transition>
-          <transition name="bookmark">
-            <img  v-if="mark === evidence.subSortNo" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
-          </transition>
-          <el-button type="primary"  plain @click="HandleShow(evidence)">审核意见</el-button>
-        </div>
-        <div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">
-          <el-button type="text" @click="HandleRuleRes(evidence)">机审规则</el-button>
-        </div>
-        <span class="header_title">{{evidence.subSortNo}}/{{evidence.totalCount}} {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷</span>
-        <div class="header_img">
-          <img src="@/assets/img/idCard.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" v-if="evidence.idStatus === 1" alt="">
-          <img class="icon" src="@/assets/img/error.png"  v-if="evidence.idStatus === 2" alt="">
-        </div>
-        <div class="header_img">
-          <img src="@/assets/img/signature.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" v-if="evidence.signStatus === 1" alt="">
-          <img class="icon" src="@/assets/img/error.png" v-if="evidence.signStatus === 2" alt="">
-        </div>
-        <div class="header_img">
-          <img src="@/assets/img/evidence.png" alt="">
-          <img class="icon" src="@/assets/img/success.png" v-if="evidence.eviStatus === 1" alt="">
-          <img class="icon" src="@/assets/img/error.png" v-if="evidence.eviStatus === 2" alt="">
-        </div>
-      </div>
-      <div class="card_body">
-        <div class="audit" v-if="evidence.checkAuditList && evidence.checkAuditList.length > 0">
-          <p class="audit_title">审核意见:</p>
-          <ul>
-            <li v-for="(audit, idx) in evidence.checkAuditList" :index="idx">{{idx+1}}.{{audit.reasonMsg}}</li>
-          </ul>
-        </div>
-        <div class="bdje" style="line-height: 50px;font-size: 16px;">
-          <span style="color: #193b8c;font-size: 18px;">标的金额：</span>{{evidence.amtCase}}元
-        </div>
-        <div class="applybook_body">
-          <div class="applybook_title of-hidden">
-            <div class="tit fl part_tit f_18">仲裁申请书</div>
-            <div class="scroll_toolbar fr">
+        <div class="card" style="position:relative;" v-for="(evidence, index) in evidenceItems" :key="index">
+          <div class="fix_screen" v-if="evidenceItems.length > 0">
+            <span class="arrow_left" @click="HandlePrev" :class="{disabled: canPrev}"></span>
+            <span class="arrow_right" @click="HandleNext" :class="{disabled: canNext}"></span>
+          </div>
+          <div class="card_header" style="overflow: hidden;position: relative;">
+            <div class="fr mt-5" style="position: relative" v-if="!disabled">
+              <transition name="addmark" >
+                <el-button class="addmark" type="text" v-if="mark !== evidence.subSortNo" @click="HandleAddmark(evidence)">添加书签</el-button>
+              </transition>
+              <transition name="bookmark">
+                <img  v-if="mark === evidence.subSortNo" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
+              </transition>
+              <el-button type="primary"  plain @click="HandleShow(evidence)">审核意见</el-button>
+            </div>
+            <div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">
+              <el-button type="text" @click="HandleRuleRes(evidence)">机审规则</el-button>
+            </div>
+            <span class="header_title">{{evidence.subSortNo}}/{{evidence.totalCount}} {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷</span>
+            <div class="header_img">
+              <img src="@/assets/img/idCard.png" alt="">
+              <img class="icon" src="@/assets/img/success.png" v-if="evidence.idStatus === 1" alt="">
+              <img class="icon" src="@/assets/img/error.png"  v-if="evidence.idStatus === 2" alt="">
+            </div>
+            <div class="header_img">
+              <img src="@/assets/img/signature.png" alt="">
+              <img class="icon" src="@/assets/img/success.png" v-if="evidence.signStatus === 1" alt="">
+              <img class="icon" src="@/assets/img/error.png" v-if="evidence.signStatus === 2" alt="">
+            </div>
+            <div class="header_img">
+              <img src="@/assets/img/evidence.png" alt="">
+              <img class="icon" src="@/assets/img/success.png" v-if="evidence.eviStatus === 1" alt="">
+              <img class="icon" src="@/assets/img/error.png" v-if="evidence.eviStatus === 2" alt="">
+            </div>
+          </div>
+          <div class="card_body">
+            <div class="audit" v-if="evidence.checkAuditList && evidence.checkAuditList.length > 0">
+              <p class="audit_title">审核意见:</p>
               <ul>
-                <li class="fl evi_bar" :class="{active: eviDetail.eviFileurl == currentUrl}" v-for="(eviDetail,idx) in evidence.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
+                <li v-for="(audit, idx) in evidence.checkAuditList" :index="idx">{{idx+1}}.{{audit.reasonMsg}}</li>
               </ul>
-              <!-- <scroll-y label="eviTitle" @handleClick="scrollbarClick" :options="evidence.eviDetailList" :defaultWidth="520"></scroll-y> -->
+            </div>
+            <div class="bdje" style="line-height: 50px;font-size: 16px;">
+              <span style="color: #193b8c;font-size: 18px;">标的金额：</span>{{evidence.amtCase}}元
+            </div>
+            <div class="applybook_body">
+              <div class="applybook_title of-hidden">
+                <div class="tit fl part_tit f_18">仲裁申请书</div>
+                <div class="scroll_toolbar fr">
+                  <ul>
+                    <li class="fl evi_bar" :class="{active: eviDetail.eviFileurl == currentUrl}" v-for="(eviDetail,idx) in evidence.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
+                  </ul>
+                  <!-- <scroll-y label="eviTitle" @handleClick="scrollbarClick" :options="evidence.eviDetailList" :defaultWidth="520"></scroll-y> -->
+                </div>
+              </div>
+              <div class="applybook_content of-hidden">
+                <div class="article_left fl">
+                  <!--<pdf :src="evidence.applicationUrl"></pdf>-->
+                  <iframe  :src="evidence.applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+                </div>
+                <div  ref="evidenceWarper" class="article_right fr">
+                  <iframe ref="evidence" v-if="checkPdf(currentUrl)"  :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+                  <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="applybook_content of-hidden">
-            <div class="article_left fl">
-              <!--<pdf :src="evidence.applicationUrl"></pdf>-->
-              <iframe  :src="evidence.applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
-            </div>
-            <div  ref="evidenceWarper" class="article_right fr">
-              <iframe ref="evidence" v-if="checkPdf(currentUrl)"  :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
-              <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
-            </div>
-          </div>
+
+
+
         </div>
+
+
+        <div class="pagination clear" v-if="evidenceItems.length > 0">
+          <el-pagination
+            @current-change="handleCurrentChange"
+            :current-page="pager.currentNum"
+            :page-size="1"
+            layout="prev, pager, next, jumper, total"
+            :total="pager.total">
+          </el-pagination>
+        </div>
+
       </div>
+    </el-scrollbar>
 
-
-
-    </div>
-
-
-    <div class="pagination clear" v-if="evidenceItems.length > 0">
-      <el-pagination
-        @current-change="handleCurrentChange"
-        :current-page="pager.currentNum"
-        :page-size="1"
-        layout="prev, pager, next, jumper, total"
-        :total="pager.total">
-      </el-pagination>
-    </div>
     <audit :caseId="currentCaseId" :type="2"></audit>
 
     <closeDlg :message="'已完成证据链审核，请关闭本页'"  v-if="showCloseDlg"></closeDlg>
@@ -537,8 +543,11 @@
       color: $themeColor;
       padding-bottom: 13px;
       .scroll_toolbar {
-        width: 645px;
         font-size: 14px;
+        width: 610px;
+        overflow: auto;
+        margin-right: 30px;
+        max-height: 150px;
         .evi_bar{
           cursor: pointer;
           line-height: 24px;

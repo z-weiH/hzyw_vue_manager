@@ -1,45 +1,47 @@
 <template>
-  <div class="body_container">
-    <div class="header_container">
-      <div class="header">
-        <el-row>
-          <el-col :span="3">
-            <span class="header_title">案件复审</span>
-          </el-col>
-          <!--<el-col :span="6">-->
-            <!--<el-radio-group v-model="auditStatus" class="mt-30">-->
+  <div style="height: 100%;background: #F7F7F7">
+    <el-scrollbar style="height: 100%;">
+      <div class="body_container">
+        <div class="header_container">
+          <div class="header">
+            <el-row>
+              <el-col :span="3">
+                <span class="header_title">案件复审</span>
+              </el-col>
+              <!--<el-col :span="6">-->
+              <!--<el-radio-group v-model="auditStatus" class="mt-30">-->
               <!--<el-radio :label="0">全部</el-radio>-->
               <!--<el-radio :label="1">已通过</el-radio>-->
               <!--<el-radio :label="2">未通过</el-radio>-->
-            <!--</el-radio-group>-->
-          <!--</el-col>-->
-          <el-col :span="3" style="padding-top:30px;">
-            <selectQuery ref="query" :disabled="subViewType" :queryConfig="queryConfig"></selectQuery>
-          </el-col>
-          <el-col :span="15">
-            <el-button v-if="subViewType == 1" type="primary" class="fr mr-10 mt-20" @click="FooPassCheck">通过</el-button>
-            <el-button v-if="subViewType == 1" class="fr mr-10 mt-20" @click="FooRebak">退回</el-button>
-          </el-col>
-        </el-row>
-      </div>
-    </div>
-    <!-- 无匹配案件区域 -->
-    <div class="noCase_panel" v-if="screenWaitType && idCardList.length == 0">
-      <div class="search_ico"></div>
-      <div>没有符合要求的案件</div>
-    </div>
-    <!-- end -->
-    <div class="card"  v-for="(card, index) in idCardList" :key="index">
-      <div class="fix_screen" v-if="idCardList.length != 0">
-        <span class="arrow_left" @click="gotoPrevPage(card)"></span><span class="arrow_right" @click="gotoNextPage(card)"></span>
-      </div>
-      <div class="card_header">
-        <el-row>
-          <el-col :span="18">
-            <div class="smallBatch_title mt-10 f_18">
-              <span class="f_14">{{card.subSortNo}}</span>/<span class="f_14">{{card.totalCount}}</span>
-              <span>{{card.lender}}</span>与<span>{{card.respondents}}</span>的借款合同纠纷
-              <span class="ico_group">
+              <!--</el-radio-group>-->
+              <!--</el-col>-->
+              <el-col :span="3" style="padding-top:30px;">
+                <selectQuery ref="query" :disabled="subViewType" :queryConfig="queryConfig"></selectQuery>
+              </el-col>
+              <el-col :span="15">
+                <el-button v-if="subViewType == 1" type="primary" class="fr mr-10 mt-20" @click="FooPassCheck">通过</el-button>
+                <el-button v-if="subViewType == 1" class="fr mr-10 mt-20" @click="FooRebak">退回</el-button>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
+        <!-- 无匹配案件区域 -->
+        <div class="noCase_panel" v-if="screenWaitType && idCardList.length == 0">
+          <div class="search_ico"></div>
+          <div>没有符合要求的案件</div>
+        </div>
+        <!-- end -->
+        <div class="card"  v-for="(card, index) in idCardList" :key="index">
+          <div class="fix_screen" v-if="idCardList.length != 0">
+            <span class="arrow_left" @click="gotoPrevPage(card)"></span><span class="arrow_right" @click="gotoNextPage(card)"></span>
+          </div>
+          <div class="card_header">
+            <el-row>
+              <el-col :span="18">
+                <div class="smallBatch_title mt-10 f_18">
+                  <span class="f_14">{{card.subSortNo}}</span>/<span class="f_14">{{card.totalCount}}</span>
+                  <span>{{card.lender}}</span>与<span>{{card.respondents}}</span>的借款合同纠纷
+                  <span class="ico_group">
                         <i class="ico_idcard" v-if="card.idStatus === 0"></i>
                         <i class="ico_idcard right" v-if="card.idStatus === 1"></i>
                         <i class="ico_idcard wrong" v-if="card.idStatus === 2"></i>
@@ -51,165 +53,173 @@
                         <i class="ico_computer wrong" v-if="card.eviStatus === 2"></i>
                       </span>
 
-            </div>
-          </el-col>
-          <el-col :span="6">
-            <div class="fr mt-5">
-              <el-button v-if="subViewType == 1" @click="FooAuditReason(card)">审核意见</el-button>
-            </div>
-            <div class="fr mt-5 mr-20">
-              <el-button  type="text" @click="HandleRuleRes(card)">机审规则</el-button>
-            </div>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="fr mt-5">
+                  <el-button v-if="subViewType == 1" @click="FooAuditReason(card)">审核意见</el-button>
+                </div>
+                <div class="fr mt-5 mr-20">
+                  <el-button  type="text" @click="HandleRuleRes(card)">机审规则</el-button>
+                </div>
 
-          </el-col>
-        </el-row>
+              </el-col>
+            </el-row>
 
-      </div>
+          </div>
 
-      <div class="card_body">
-        <div class="part_tit f_18">身份证信息</div>
-        <div class="card_part">
-          <div class="img zhen">
-            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
-            <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
-          </div>
-          <div class="img fan">
-            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image01+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image01+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
-            <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
-          </div>
-          <div class="img_desc">
-            <ul>
-              <li :class="{'pointer': respondentEidtConfig.nameStatus == 1 && subViewType == 1}">
-                <i v-if="card.idCard.nameStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.nameStatus%2 === 1" class="i_pass"></i>
-                <i v-if="card.idCard.nameStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resName')">{{card.idCard.resName}}</span>
-                <b style="color:#aaa;" v-if="card.idCard.nameStatus === 3">(已修正)</b>
-              </li>
-              <li :class="{'pointer': respondentEidtConfig.sexStatus == 1 && subViewType == 1}">
-                <i v-if="card.idCard.sexStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.sexStatus%2 === 1" class="i_pass"></i>
-                <i v-if="card.idCard.sexStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resSex')">{{card.idCard.resSex === 0 ? '女':'男'}}</span>
-                <b style="color:#aaa;" v-if="card.idCard.sexStatus === 3">(已修正)</b>
-              </li>
-              <li :class="{'pointer': respondentEidtConfig.nationStatus == 1 && subViewType == 1}">
-                <i v-if="card.idCard.nationStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.nationStatus%2 === 1" class="i_pass"></i>
-                <i v-if="card.idCard.nationStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resNation')">{{card.idCard.resNation}}</span>
-                <b style="color:#aaa;" v-if="card.idCard.nationStatus === 3">(已修正)</b>
-              </li>
-              <li :class="{'pointer': respondentEidtConfig.idaddressStatus == 1 && subViewType == 1}">
-                <i v-if="card.idCard.idaddressStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.idaddressStatus%2 === 1" class="i_pass"></i>
-                <i v-if="card.idCard.idaddressStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdaddress')">{{card.idCard.resIdaddress}}</span>
-                <b style="color:#aaa;" v-if="card.idCard.idaddressStatus === 3">(已修正)</b>
-              </li>
-              <li :class="{'pointer': respondentEidtConfig.idcardStatus == 1 && subViewType == 1}">
-                <i v-if="card.idCard.idcardStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.idcardStatus%2 === 1" class="i_pass"></i>
-                <i v-if="card.idCard.idcardStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdcard')">{{card.idCard.resIdcard}}</span>
-                <b style="color:#aaa;" v-if="card.idCard.idcardStatus === 3">(已修正)</b>
-              </li>
-              <li>
-                <i v-if="card.idCard.effctDateStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.effctDateStatus === 1" class="i_pass"></i>
-                <i v-if="card.idCard.effctDateStatus === 2" class="i_warn"></i> {{card.idCard.resEffctDate}}
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="audit">
-          <p class="audit_title" v-if="card.idCard.failReasonList.length != 0">审核意见:</p>
-          <ul>
-            <li v-for="(msg, index) in card.idCard.failReasonList">{{index + 1}}.{{msg.reasonMsg}}</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="sign_body sTopborder">
-        <div class="part_tit f_18">签名信息</div>
-        <div class="of-hidden">
-          <div class="mockTable fl">
-            <div class="cellTr" v-for="(cellTr,index) in card.sign.signList">
-              <div class="cell">签名时间</div>
-              <div class="cell">{{cellTr.signTime}}</div>
-              <div class="cell">签名实体</div>
-              <div class="cell">{{cellTr.signDesc}}</div>
-            </div>
-            <div class="cellTr">
-              <div class="cell">借款开始时间</div>
-              <div class="cell">{{card.sign.borrowStartDate}}</div>
-              <div class="cell">借款合同</div>
-              <div class="cell"><a class="btn_link" :href="card.sign.borrowContractUrl" target="_blank">点击查看</a></div>
-            </div>
-          </div>
-          <div class="sign_info fl">
-            <ul>
-              <li v-for="(msg,idx) in card.sign.signAuditList">
-                <i v-if="msg.auditStatus == 0" class="i_nopass"></i>
-                <i v-if="msg.auditStatus == 1" class="i_pass"></i>
-                <i v-if="msg.auditStatus == 2" class="i_warn"></i> {{msg.auditMsg}}
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="audit">
-          <p class="audit_title" v-if="card.sign.checkSignList.length != 0">审核意见:</p>
-          <ul>
-            <li v-for="(line,idx) in card.sign.checkSignList">{{idx + 1}}.{{line.reasonMsg}}</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="applybook_body sTopborder">
-        <div class="part_tit f_18">证据链信息</div>
-        <div class="audit">
-          <p class="audit_title" v-if="card.evi.checkAuditList.length != 0">审核意见:</p>
-          <ul class="mb-30">
-            <li v-for="(msg, index) in card.evi.checkAuditList">{{index + 1}}.{{msg.reasonMsg}}</li>
-          </ul>
-        </div>
-        <div class="bdje" style="margin-bottom: 20px;;font-size: 16px;">
-          <span style="color: #193b8c;font-size: 18px;">标的金额：</span>{{card.amtCase}}元
-        </div>
-        <div class="applybook_title of-hidden">
-          <div class="tit fl">仲裁申请书</div>
-          <div class="scroll_toolbar fr">
-						   <ul>
-                <li class="fl evi_bar" :class="{active: eviDetail.eviFileurl == currentUrl}" v-for="(eviDetail,idx) in card.evi.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
-              </ul>
-            <!-- <scroll-y @handleClick="scrollbarClick" :options="card.evi.eviDetailList" label="eviTitle" :defaultWidth="520"></scroll-y> -->
-          </div>
-        </div>
-        <div class="applybook_content of-hidden">
-          <div class="article_left fl">
-            <iframe :src="card.evi.applicationUrl" width="100%" height="100%">
-                      </iframe>
-          </div>
-          <div ref="evidenceWarper" class="article_right fr">
-            <iframe v-if="checkPdf(currentUrl)" :src="currentUrl" width="100%" height="100%"></iframe>
-            <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
-          </div>
-        </div>
-      </div>
-      <!-- 传统分页 -->
-      <div class="pagination clear">
-              <el-pagination
-                @current-change="handleCurrentChange"
-                :current-page="currentNum"
-                :page-size="1"
-                layout="prev, pager, next, jumper, total"
-                :total="count">
-              </el-pagination>
+          <div class="card_body">
+            <div class="part_tit f_18">身份证信息</div>
+            <div class="card_part">
+              <div class="img zhen">
+                <img-zoom v-if="card.idCard.image02" :src="card.idCard.image02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+                <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
               </div>
-      <!-- end -->
-      <!-- 左右分页 tool -->
+              <div class="img fan">
+                <img-zoom v-if="card.idCard.image02" :src="card.idCard.image01+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image01+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+                <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
+              </div>
+              <div class="img_desc">
+                <ul>
+                  <li :class="{'pointer': respondentEidtConfig.nameStatus == 1 && subViewType == 1}">
+                    <i v-if="card.idCard.nameStatus === 0" class="i_nopass"></i>
+                    <i v-if="card.idCard.nameStatus%2 === 1" class="i_pass"></i>
+                    <i v-if="card.idCard.nameStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resName')">{{card.idCard.resName}}</span>
+                    <b style="color:#aaa;" v-if="card.idCard.nameStatus === 3">(已修正)</b>
+                  </li>
+                  <li :class="{'pointer': respondentEidtConfig.sexStatus == 1 && subViewType == 1}">
+                    <i v-if="card.idCard.sexStatus === 0" class="i_nopass"></i>
+                    <i v-if="card.idCard.sexStatus%2 === 1" class="i_pass"></i>
+                    <i v-if="card.idCard.sexStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resSex')">{{card.idCard.resSex === 0 ? '女':'男'}}</span>
+                    <b style="color:#aaa;" v-if="card.idCard.sexStatus === 3">(已修正)</b>
+                  </li>
+                  <li :class="{'pointer': respondentEidtConfig.nationStatus == 1 && subViewType == 1}">
+                    <i v-if="card.idCard.nationStatus === 0" class="i_nopass"></i>
+                    <i v-if="card.idCard.nationStatus%2 === 1" class="i_pass"></i>
+                    <i v-if="card.idCard.nationStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resNation')">{{card.idCard.resNation}}</span>
+                    <b style="color:#aaa;" v-if="card.idCard.nationStatus === 3">(已修正)</b>
+                  </li>
+                  <li :class="{'pointer': respondentEidtConfig.idaddressStatus == 1 && subViewType == 1}">
+                    <i v-if="card.idCard.idaddressStatus === 0" class="i_nopass"></i>
+                    <i v-if="card.idCard.idaddressStatus%2 === 1" class="i_pass"></i>
+                    <i v-if="card.idCard.idaddressStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdaddress')">{{card.idCard.resIdaddress}}</span>
+                    <b style="color:#aaa;" v-if="card.idCard.idaddressStatus === 3">(已修正)</b>
+                  </li>
+                  <li :class="{'pointer': respondentEidtConfig.idcardStatus == 1 && subViewType == 1}">
+                    <i v-if="card.idCard.idcardStatus === 0" class="i_nopass"></i>
+                    <i v-if="card.idCard.idcardStatus%2 === 1" class="i_pass"></i>
+                    <i v-if="card.idCard.idcardStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdcard')">{{card.idCard.resIdcard}}</span>
+                    <b style="color:#aaa;" v-if="card.idCard.idcardStatus === 3">(已修正)</b>
+                  </li>
+                  <li>
+                    <i v-if="card.idCard.effctDateStatus === 0" class="i_nopass"></i>
+                    <i v-if="card.idCard.effctDateStatus === 1" class="i_pass"></i>
+                    <i v-if="card.idCard.effctDateStatus === 2" class="i_warn"></i> {{card.idCard.resEffctDate}}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="audit">
+              <p class="audit_title" v-if="card.idCard.failReasonList.length != 0">审核意见:</p>
+              <ul>
+                <li v-for="(msg, index) in card.idCard.failReasonList">{{index + 1}}.{{msg.reasonMsg}}</li>
+              </ul>
+            </div>
+          </div>
 
-      <!-- ** -->
+          <div class="sign_body sTopborder">
+            <div class="part_tit f_18">签名信息</div>
+            <div class="of-hidden">
+              <div class="mockTable fl" >
+                <div class="cellTr" v-for="(cellTr,index) in card.sign.signList">
+                  <div class="cell">签名时间</div>
+                  <div class="cell">{{cellTr.signTime}}</div>
+                  <div class="cell">签名实体</div>
+                  <div class="cell">
+                    {{cellTr.signDesc}}
+                  </div>
+                </div>
+                <div class="cellTr">
+                  <div class="cell">借款开始时间</div>
+                  <div class="cell">{{card.sign.borrowStartDate}}</div>
+                  <div class="cell">借款合同</div>
+                  <div class="cell"><a class="btn_link" :href="card.sign.borrowContractUrl" target="_blank">点击查看</a></div>
+                </div>
+              </div>
+              <div class="sign_info fl">
+                <ul>
+                  <li v-for="(msg,idx) in card.sign.signAuditList">
+                    <i v-if="msg.auditStatus == 0" class="i_nopass"></i>
+                    <i v-if="msg.auditStatus == 1" class="i_pass"></i>
+                    <i v-if="msg.auditStatus == 2" class="i_warn"></i> {{msg.auditMsg}}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="audit">
+              <p class="audit_title" v-if="card.sign.checkSignList.length != 0">审核意见:</p>
+              <ul>
+                <li v-for="(line,idx) in card.sign.checkSignList">{{idx + 1}}.{{line.reasonMsg}}</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="applybook_body sTopborder">
+            <div class="part_tit f_18">证据链信息</div>
+            <div class="audit">
+              <p class="audit_title" v-if="card.evi.checkAuditList.length != 0">审核意见:</p>
+              <ul class="mb-30">
+                <li v-for="(msg, index) in card.evi.checkAuditList">{{index + 1}}.{{msg.reasonMsg}}</li>
+              </ul>
+            </div>
+            <div class="bdje" style="margin-bottom: 20px;;font-size: 16px;">
+              <span style="color: #193b8c;font-size: 18px;">标的金额：</span>{{card.amtCase}}元
+            </div>
+            <div class="applybook_title of-hidden">
+              <div class="tit fl">仲裁申请书</div>
+              <div class="scroll_toolbar fr">
+                <ul>
+                  <li class="fl evi_bar" :class="{active: eviDetail.eviFileurl == currentUrl}" v-for="(eviDetail,idx) in card.evi.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
+                </ul>
+                <!-- <scroll-y @handleClick="scrollbarClick" :options="card.evi.eviDetailList" label="eviTitle" :defaultWidth="520"></scroll-y> -->
+              </div>
+            </div>
+            <div class="applybook_content of-hidden">
+              <div class="article_left fl">
+                <iframe :src="card.evi.applicationUrl" width="100%" height="100%">
+                </iframe>
+              </div>
+              <div ref="evidenceWarper" class="article_right fr">
+                <iframe v-if="checkPdf(currentUrl)" :src="currentUrl" width="100%" height="100%"></iframe>
+                <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
+              </div>
+            </div>
+          </div>
+          <!-- 传统分页 -->
+          <div class="pagination clear">
+            <el-pagination
+              @current-change="handleCurrentChange"
+              :current-page="currentNum"
+              :page-size="1"
+              layout="prev, pager, next, jumper, total"
+              :total="count">
+            </el-pagination>
+          </div>
+          <!-- end -->
+          <!-- 左右分页 tool -->
+
+          <!-- ** -->
 
 
-    </div>
+        </div>
 
 
+
+
+
+
+      </div>
+    </el-scrollbar>
 
 
     <audit ref="audit" :subBatchNo="subBatchId" :curCardObj="curCardObj" :auditOptsByCase="auditOptsByCase"></audit>
@@ -221,7 +231,6 @@
     <backTop></backTop>
     <respondent-edit :currentRespodent="currentRespodent" :respondentItem="respondentItem"></respondent-edit>
     <ruleResult ref="ruleResult"></ruleResult>
-
   </div>
 </template>
 
@@ -911,7 +920,8 @@ li.pointer > span{
 // 小表格样式
 .mockTable {
 	// width: 762px;
-	display: table;
+  max-height: 400px;
+  overflow: auto;
 	border-collapse: collapse;
 	// table-layout: fixed;
 	border-spacing: 0;
@@ -938,6 +948,7 @@ li.pointer > span{
 		padding: 2px 8px;
 		text-align: center;
 		width: 250px;
+    max-width: 250px;
 		// text-indent: 20px;
 		border-left-width: 1px;
 		border-right-width: 1px;
@@ -945,6 +956,8 @@ li.pointer > span{
 		border-top-width: 0;
 		border-style: solid;
 		border-color: #e5eaee;
+
+
 	}
 }
 
@@ -966,8 +979,11 @@ li.pointer > span{
 		padding-bottom: 30px;
 		.scroll_toolbar {
 			padding-right: 30px;
-			width: 645px;
 			font-size: 14px;
+      max-height: 150px;
+      width: 610px;
+      overflow: auto;
+      margin-right: 30px;
 			.evi_bar {
 				cursor: pointer;
 				line-height: 24px;

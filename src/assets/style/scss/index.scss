@@ -610,3 +610,6 @@ textarea::-webkit-scrollbar {
     top: 8px;
   }
 }
+.el-scrollbar__wrap{
+  overflow-x: hidden !important;
+}
