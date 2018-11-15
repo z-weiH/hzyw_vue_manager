@@ -628,3 +628,41 @@ textarea::-webkit-scrollbar {
 
   }
 }
+
+.error_checkbox{
+  .el-checkbox__input{
+    &.is-checked{
+      .el-checkbox__inner{
+        background: #fff;
+        &::before{
+          content: '';
+          position: absolute;
+          top: 5px;
+          width: 10px;
+          height: 2px;
+          left: 1px;
+          background: red;
+          transform: rotate(45deg) scaleY(1);
+
+        }
+        &::after{
+          content: '';
+          position: absolute;
+          top: 5px;
+          width: 10px;
+          left: 1px;
+          height: 2px;
+          background: red;
+          transform: rotate(-45deg) scaleY(1);
+          border: none;
+        }
+      }
+    }
+  }
+}
+
+.is-disabled{
+  .el-checkbox__inner{
+    border-color: transparent !important;
+  }
+}

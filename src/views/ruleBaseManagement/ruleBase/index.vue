@@ -975,7 +975,7 @@
     },
 
     mounted(){
-      this.$refs.executeResult.show(921);
+      // this.$refs.executeResult.show(921);
 
     },
     created(){

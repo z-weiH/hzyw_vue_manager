@@ -1,96 +1,165 @@
 <template>
-  <div class="body_container">
-    <div class="header_container">
+  <el-scrollbar style="height:100%;">
+    <div class="body_container">
+      <div class="header_container">
 
-      <div class="header">
-        <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">采纳已选规则的审核意见</el-button>
-        <span class="header_title">案件详情</span>
+        <div class="header">
+          <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!evidenceItems[0].takeEffectStatus">采纳已选规则的审核意见</el-button>
+          <span class="fr mr-10 mt-20" v-else style="color: #999;font-size: 16px;line-height: 38px;">审核意见已采纳</span>
+          <span class="header_title">案件详情</span>
 
-      </div>
-    </div>
+          <div class="select_parent" >
+          <span class="select_box" @click="showQueryHandle">
+          <b style="padding-right: 20px;">筛选案件({{queryConfig.count}})</b>
+           <i :class="{'el-icon-arrow-down': !showQuery,'el-icon-arrow-up': showQuery}"></i>
+          </span>
+            <div class="query_box" v-if="showQuery">
+              <div class="form" style="padding: 10px;">
+                <div style="line-height: 30px;" >
+                  <span class="form_desc">执行结果</span>
+                  <el-radio-group v-model="searchItem.exeStatus" >
+                    <el-radio :label="''">全部({{queryConfig.totalCaseCount}})</el-radio>
+                    <el-radio :label="2">检出错误({{queryConfig.errorCount}})</el-radio>
+                    <el-radio :label="1">未检出错误({{queryConfig.noErrorCount}})</el-radio>
+                  </el-radio-group>
 
 
-    <div class="card" style="position:relative;" v-for="(evidence, index) in evidenceItems" :key="index">
-      <div class="fix_screen" v-if="evidenceItems.length > 0">
-        <span class="arrow_left" @click="HandlePrev" :class="{disabled: canPrev}"></span>
-        <span class="arrow_right" @click="HandleNext" :class="{disabled: canNext}"></span>
-      </div>
-      <div class="card_header" style="overflow: hidden;position: relative;">
+                </div>
 
-        <span class="header_title">
-          {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷
-          <i>{{evidence.exameStatus === 1 ? '已核对' : '未核对'}}</i>
-        </span>
-        <p>
-          <span>{{pager.currentNum}}/{{pager.total}}</span>
-          <span>案件编号：{{evidence.loanBillNo}}</span>
-          <span>案件状态：{{caseStatusName(evidence.caseStatus)}}</span>
-        </p>
-
-      </div>
-      <div class="card_body">
-        <div class="applybook_body">
-          <div class="applybook_title of-hidden">
-            <div class="tit fl part_tit f_18">仲裁申请书</div>
-            <div class="scroll_toolbar fr">
-              <ul>
-                <li class="fl evi_bar" :class="{active: eviDetail.eviFileurl == currentUrl}" v-for="(eviDetail,idx) in evidence.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
-              </ul>
+                <div style="line-height: 30px;" v-if="!evidenceItems[0].takeEffectStatus">
+                  <span class="form_desc" >案件状态</span>
+                  <el-radio-group v-model="searchItem.caseStatus">
+                    <el-radio  :label="''">全部({{queryConfig.totalCaseCount}})</el-radio>
+                    <el-radio  :label="0">可修改审核意见({{queryConfig.canModifyCaseCount}})</el-radio>
+                    <el-radio  :label="1">不可修改审核意见({{queryConfig.noModifyCaseCount}})</el-radio>
+                  </el-radio-group>
+                </div>
+                <div style="line-height: 30px;" v-if="!evidenceItems[0].takeEffectStatus">
+                  <span class="form_desc">核对状态</span>
+                  <el-radio-group v-model="searchItem.exameStatus">
+                    <el-radio  :label="''">全部({{queryConfig.totalCaseCount}})</el-radio>
+                    <el-radio  :label="0">未核对({{queryConfig.noExameCount}})</el-radio>
+                    <el-radio  :label="1">已核对({{queryConfig.exameCount}})</el-radio>
+                  </el-radio-group>
+                </div>
+                <div style="line-height: 30px;margin-top:10px;">
+                  <span class="form_desc" >案件搜索</span>
+                  <el-input style="display: inline-block;width: 430px" v-model="keyWords" placeholder="请输入案件编号或被申请人姓名进行搜索"></el-input>
+                </div>
+              </div>
+              <p style="color: #aaa; font-size: 10px;" v-if="!evidenceItems[0].takeEffectStatus">* “不可修改审核意见”的状态指“立案申请成功”及“预审未通过”状态，“可修改审核意见”的状态为其余状态。</p>
+              <div style="padding: 10px;overflow: hidden;text-align: center;">
+                <el-button   type="primary" @click="HandleQuery">确定</el-button>
+              </div>
             </div>
           </div>
-          <div class="applybook_content of-hidden">
-            <div class="article_left fl">
-              <iframe  :src="evidence.applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
-            </div>
-            <div  ref="evidenceWarper" class="article_right fr">
-              <iframe ref="evidence" v-if="checkPdf(currentUrl)"  :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
-              <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
-            </div>
-          </div>
+
         </div>
       </div>
 
 
 
+
+      <div class="card" style="position:relative;" v-for="(evidence, index) in evidenceItems" :key="index">
+        <div class="fix_screen" v-if="evidenceItems.length > 0">
+          <span class="arrow_left" @click="HandlePrev" :class="{disabled: canPrev}"></span>
+          <span class="arrow_right" @click="HandleNext" :class="{disabled: canNext}"></span>
+        </div>
+        <div class="card_header" style="overflow: hidden;position: relative;">
+
+        <span class="header_title">
+          {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷
+          <i>{{evidence.exameStatus === 1 ? '已核对' : '未核对'}}</i>
+        </span>
+          <p>
+            <span>{{pager.currentNum}}/{{pager.total}}</span>
+            <span>案件编号：{{evidence.loanBillNo}}</span>
+            <span>案件状态：{{caseStatusName(evidence.caseStatus)}}</span>
+          </p>
+
+        </div>
+        <div class="card_body">
+          <div class="applybook_body">
+            <div class="applybook_title of-hidden">
+            <div class="tit fl part_tit f_18">
+              本次执行的脚本规则
+              <span style="color: #aaa;">（选中即视为案件该信息有误）</span>
+            </div>
+            </div>
+          </div>
+          <div class="rule_list">
+            <ul>
+              <li :class="{'mr-20': idx/2 === 0}" v-for="(item,idx) in evidence.ruleExeResultList" :key="idx" style="width: 645px; float: left;margin-bottom: 15px;">
+                <el-checkbox class="error_checkbox" :disabled="disabled"  :label="item.id" v-model="item.isSelected" @change="saveSelectedStatus(item)" :key="item.id">
+                  {{item.ruleDesc}}
+                  <span v-if="item.ruleExeStatus===2" class="exeStatus2">检出错误</span>
+                  <span v-if="item.ruleExeStatus===0" class="exeStatus0">执行错误</span>
+                </el-checkbox>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="card_body">
+          <div class="applybook_body">
+            <div class="applybook_title of-hidden">
+              <div class="tit fl part_tit f_18">仲裁申请书</div>
+              <div class="scroll_toolbar fr">
+                <ul>
+                  <li class="fl evi_bar" :class="{active: eviDetail.eviFileurl == currentUrl}" v-for="(eviDetail,idx) in evidence.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
+                </ul>
+              </div>
+            </div>
+            <div class="applybook_content of-hidden">
+              <div class="article_left fl">
+                <iframe  :src="evidence.applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+              </div>
+              <div  ref="evidenceWarper" class="article_right fr">
+                <iframe ref="evidence" v-if="checkPdf(currentUrl)"  :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+                <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+
+      <div class="pagination clear" v-if="evidenceItems.length > 0">
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :current-page="pager.currentNum"
+          layout="prev, pager, next, jumper, total"
+          :total="pager.total">
+        </el-pagination>
+      </div>
+
     </div>
-
-
-    <div class="pagination clear" v-if="evidenceItems.length > 0">
-      <el-pagination
-        @current-change="handleCurrentChange"
-        :current-page="pager.currentNum"
-        :page-size="1"
-        layout="prev, pager, next, jumper, total"
-        :total="pager.total">
-      </el-pagination>
-    </div>
-
-    <closeDlg :message="'已完成证据链审核，请关闭本页'"  v-if="showCloseDlg"></closeDlg>
-  </div>
+  </el-scrollbar>
 </template>
 
 <script>
   import Mixins from '@/components/script/_mixin'
   import scrollY from "@/components/scroll-y";
-  import closeDlg from '@/components/closeDlg';
   export default {
     extends: Mixins,
     data(){
       return {
-        //查询条件
-        queryConfig:{},
-        keyWords:'',
 
-        auditStatus: 0,
-        passStatus: 0,//查看状态
-        editState: 0,
+        searchItem: {},
+        //查询条件
+        queryConfig:{
+          count: 0
+        },
+        keyWords:'',
+        showQuery: false,
         count: 0,
-        correctionStatus: 1,//修正數
         disabled: false,
-        evidenceItems: [],
-        currentCaseId: '', //当前案件
+        evidenceItems: [
+          {}
+        ],
         scrollList:[],
-        showCloseDlg: false,
         batchNo: '',
         pager: {
           currentNum: 1,
@@ -116,6 +185,50 @@
     },
     methods: {
 
+      HandleAudit(){
+        // this.$confirm
+        const h = this.$createElement;
+        this.$msgbox({
+          title: '提示',
+          message: h('div',null,[
+            h('p',null,'确定采纳当前已选择的审核意见？'),
+            h('p',null,'（仅对未提交立案申请的案件有效。）')
+          ]),
+          center: true,
+          showCancelButton: true,
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+        }).then(() => {
+          this.$http.post('/ruleCase/updatePreCaseStatusByRuleExeResult.htm',{exeId: this.exeId}).then(res => {
+            this.searchItem.caseStatus = '';
+            this.searchItem.exameStatus = '';
+            this.searchItem.exeStatus = '';
+            this.HandleQuery();
+
+          })
+        }).catch(() => {});
+
+      },
+
+      saveExeCaseId(){
+        if(this.evidenceItems[0].takeEffectStatus === 1){
+          return Promise.resolve(true);
+        }
+        return this.$http.post('/ruleCase/updateExameStatusByExeCaseId.htm',{exeCaseId: this.evidenceItems[0].exeCaseId}).then(res => {
+          return res;
+        })
+      },
+
+
+      saveSelectedStatus(item){
+        this.$http.post('/ruleCase/updateIsSelectedStatusByResultId.htm',{id: item.id,isSelected: +item.isSelected}).then(res => {
+        });
+      },
+
+
+      showQueryHandle(){
+        this.showQuery= true;
+      },
       caseStatusName(status){
         if(status === 0)
           return '待分配';
@@ -160,76 +273,29 @@
         console.log(e);
         this.currentUrl = e.eviFileurl;
       },
-      HandleShow(evidence) {
-        this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: evidence.caseId,type: 2})
-          .then(res => {
-            if(res.code === '0000'){
-              this.activeItem = {mmmType : 'zjl' , ...evidence};
-              console.log(res);
-              this.auditLists = res.result;
-              this.editState = 1;
-              this.currentCaseId = evidence.caseId;
-            }
-          })
-      },
-      HandleAudit() {
-        const h = this.$createElement;
-        this.$msgbox({
-          title: '提示',
-          message: h('div',null,[
-            h('p',null,'即将提交证据链初审结果。提交后将无法修改。'),
-            h('p',null,'确定提交？')
-          ]),
-          center: true,
-          showCancelButton: true,
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-        }).then(res => {
-          this.$http.post('/firstAudit/idCardFirstAuditFinished.htm',{subBatchNo: this.subBatchNo,type: 2})
-            .then(r =>{
-              if(r.code === '0000'){
-                this.showCloseDlg = true;
-                window.opener.location.reload();
-
-                // this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
-              }
-            })
-        }).catch(() => {})
-      },
-      HandleAddmark(evidence) {
-        //接口调用
-        console.log(this.selfflag,this.mark)
-        this.$http.post('/firstAudit/addMark.htm',{subBatchNo: this.subBatchNo, subSortNo: evidence.subSortNo, type: 2})
-          .then(res => {
-            if(res.code === '0000'){
-              console.log(res,evidence);
-              this.selfflag = evidence.subSortNo;
-              this.$message.success('书签添加成功');
-              //改变url
-              let baseUrl = this.$router.currentRoute.fullPath.split('markflag')[0] + 'markflag='+evidence.subSortNo;
-              console.log(baseUrl);
-              this.$router.push(baseUrl);
-              // window.opener.history.go(0);
-              window.opener.location.reload();
-
-            }
-          })
-      },
       HandlePrev() {
         if(!this.canPrev){
           this.pager.currentNum-- ;
-          this.HandleQuery();
+          this.saveExeCaseId().then(res => {
+            this.HandleQuery();
+          })
         }
       },
       HandleNext() {
         if(!this.canNext){
-          this.pager.currentNum++ ;
-          this.HandleQuery();
+          if(this.evidenceItems[0].takeEffectStatus === 1){
+            this.pager.currentNum++ ;
+          }
+          this.saveExeCaseId().then(res => {
+            this.HandleQuery();
+          })
         }
       },
       handleCurrentChange(page) {
         this.pager.currentNum = page;
-        this.HandleQuery();
+        this.saveExeCaseId().then(res => {
+          this.HandleQuery();
+        })
       },
       HandleQuery() {
         const loading =this.$loading({
@@ -239,7 +305,7 @@
           lock: true,
           background: "hsla(0,0%,100%,.9)"
         });
-        this.$http.post('/ruleCase/queryRuleExeResultByBaseQuery.htm',{exeId: this.exeId,...this.pager})
+        this.$http.post('/ruleCase/queryRuleExeResultByBaseQuery.htm',{exeId: this.exeId,...this.pager,...this.searchItem})
           .then(res => {
             console.log(res);
             if(res.code === '0000'){
@@ -250,37 +316,65 @@
                 this.pager.currentNum = res.result.count;
               }
               console.log(this.evidenceItems)
+              this.disabled = this.evidenceItems[0].caseStatus === 3 || this.evidenceItems[0].caseStatus === 7 || this.evidenceItems[0].takeEffectStatus === 1;
               this.$set(this.queryConfig,'count',res.result.count);
 
 
               if(this.evidenceItems.length > 0){
                 this.currentUrl = this.evidenceItems[0].eviDetailList[0].eviFileurl;
+                this.evidenceItems[0].ruleExeResultList.forEach(it => {
+                  // it.isSelected = Boolean(it.isSelected);
+                  this.$set(it,'isSelected',Boolean(it.isSelected))
+                })
               }
               // this.scrollList =
-
-
             }
             loading.close();
+            this.showQuery && (this.showQuery = false);
           })
       },
-      //初审身份证、签名、证据链搜索是案件数量统计接口
-      handleCountQuery(item){
-        this.$http.post('/firstAudit/countAuditCaseByBaseQuery.htm',item).then(res =>{
-          if(res.code === '0000'){
-            Object.keys(res.result).forEach(key => {
-              this.queryConfig[key] = res.result[key];
-            })
-          }
+
+
+
+      handleQueryConfig(){
+        this.$http.post('/ruleCase/countCaseInfoByExeId.htm',{exeId: this.exeId}).then(res => {
+          this.queryConfig = res.result;
         })
-      }
+      },
+
+      checkClick(elm){
+        if(elm.className ==='select_parent'){
+          return true;
+        }
+        if(elm.parentElement){
+          return this.checkClick(elm.parentElement);
+        }else{
+          return false;
+        }
+      },
     },
     components: {
       scrollY,
-      closeDlg,
+    },
+
+    created(){
+      window.onbeforeunload = () => {
+        this.saveExeCaseId();
+      }
     },
     mounted() {
       this.exeId = this.$route.query.exeId;
+      this.searchItem = {exeStatus: 2, caseStatus: 0, exameStatus: 0};
       this.HandleQuery();
+      this.handleQueryConfig();
+      document.addEventListener('click',(e) => {
+        if(this.showQuery){
+          if(!this.checkClick(e.target)){
+            this.showQuery = false;
+          }
+        }
+      })
+
     }
   }
 </script>
@@ -550,5 +644,41 @@
       vertical-align: middle;
     }
   }
-
+  .select_parent{
+    position: relative;
+    display: inline-block;
+    margin-left: 45px;
+    z-index: 999;
+    width: 180px;
+  }
+  .select_box{
+    font-size: 14px;
+    color: #999999;
+    padding: 5px 8px;
+    cursor: pointer;
+    border: 1px solid #EBEFF2;
+  }
+  .query_box{
+    position: absolute;
+    top: 21px;
+    width: 640px;
+    border: 1px solid #E5EAEE;
+    background: #fff;
+    .form_desc{
+      font-weight: bold;
+      display: inline-block;
+      padding-right: 10px;
+    }
+  }
+  .exeStatus2,.exeStatus0{
+    color: #999;
+    border: 1px solid #F2F2F2;
+    font-size: 10px;
+    padding: 2px 3px;
+    margin-left: 10px;
+  }
+  .exeStatus0{
+    color: #FFCC33;
+    border: 1px solid #FFCC33;
+  }
 </style>
