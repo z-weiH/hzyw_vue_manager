@@ -95,11 +95,25 @@
         editItems2: [
             {type: 'text', property:'loginName', label: '登录账号', disabled: true},
             /* {type: 'password', property:'oldPwd', label: '用户旧密码', rule:'require'}, */
-            {type: 'password', property:'newPwd', label: '	用户新密码', rule:'require'},
+            {type: 'password', property:'newPwd', label: '	用户新密码', rule:[
+                { required : true , message : '不能为空' , trigger : 'blur'},
+                { validator:
+                    (rule, value, callback) => {
+                    if(value.length < 6) {
+                      callback(new Error('请输入至少6位'));
+                    }else{
+                      callback();
+                    }
+                    },
+                    trigger: 'blur' }
+            ]},
             {type: 'password', property:'confirmPwd', label: '用户确认密码', rule:[
                 { required : true , message : '不能为空' , trigger : 'blur'},
                 { validator:
                     (rule, value, callback) => {
+                    if(value.length < 6) {
+                      callback(new Error('请输入至少6位'));
+                    }
                     if (value !== this.editItem.newPwd) {
                         callback(new Error('两次输入密码不一致!'));
                     } else {
