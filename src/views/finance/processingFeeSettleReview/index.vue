@@ -25,9 +25,7 @@
           </el-select>
         </el-form-item>
 
-        <div class="fr">
-          <el-button @click="handleSearch" type="warning">查询</el-button>
-        </div>
+        <el-button @click="handleSearch" type="warning">查询</el-button>
       </el-form>
 
     </div>

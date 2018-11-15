@@ -6,7 +6,7 @@
     </div>
 
     <div class="item-title of-hidden" draggable="true" ref="dragbox">
-      <span class="item-title-sign">证据设置</span>
+      <span class="item-title-sign">证据设置（{{title}}）</span>
     </div>
 
     <div class="item-table">
@@ -25,7 +25,7 @@
                   {{item.eviObject}}
                 </div>
               </el-col>
-              <el-col :span="9">
+              <el-col :span="9" style="text-align:right;">
                 <el-button @click="handleEditEvidenceGroup(item,index)" size="medium" round style="margin-left:33px">修改</el-button>
                 <el-button @click="handleAddEvidence(item,index)" type="primary" size="medium" round>新增证据</el-button>
                 <el-button @click="handleDeleteEvidenceGroup(item,index)" size="medium" round>删除证据组</el-button>
@@ -96,6 +96,7 @@
     },
     data() {
       return {
+        title : '',
         // 证据组 列表
         evidenceList : [
           {
@@ -144,6 +145,17 @@
       this.$refs.dragbox.addEventListener('dragstart',this.dragstartFn);
       // 目标
       this.$refs.dragbox.addEventListener('drop',this.dropFn);
+
+      // 获取产品 模板号
+      this.$http({
+        url : '/templateSetting/queryTemplateInfoByProdTempId.htm',
+        method : 'post',
+        data : {
+          prodTempId : this.$route.query.prodTempId,
+        },
+      }).then((res) => {
+        this.title = res.result.prodTempName;
+      });
     },
     methods : {
       // 初始化 列表

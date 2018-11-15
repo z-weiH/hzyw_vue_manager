@@ -14,14 +14,14 @@
 						<el-input style="width:400px;" v-model.trim="ruleForm.accountName" placeholder="请输入"></el-input>
 					</el-form-item>
 
+          <el-form-item label="银行卡号：" prop="accountNumber">
+						<el-input @blur="handleBankBlur" style="width:400px;" v-model.trim="ruleForm.accountNumber" placeholder="请输入"></el-input>
+					</el-form-item>
+
           <el-form-item label="开户银行：" prop="depositBank">
 						<el-input style="width:400px;" v-model.trim="ruleForm.depositBank" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="账号：" prop="accountNumber">
-						<el-input style="width:400px;" v-model.trim="ruleForm.accountNumber" placeholder="请输入"></el-input>
-					</el-form-item>
-          
           <el-form-item label="支行名称：" prop="branchName">
 						<el-input style="width:400px;" v-model.trim="ruleForm.branchName" placeholder="请输入"></el-input>
 					</el-form-item>
@@ -57,7 +57,7 @@
           accountName : '',
           // 开户银行
           depositBank : '',
-          // 账号
+          // 银行卡号
           accountNumber : '',
           // 支行名称
           branchName : '',
@@ -74,7 +74,7 @@
             {required : true , message : '请输入开户银行' , trigger : 'blur'},
           ],
           accountNumber : [
-            {required : true , message : '请输入账号' , trigger : 'blur'},
+            {required : true , message : '请输入银行卡号' , trigger : 'blur'},
           ],
         },
 
@@ -100,6 +100,19 @@
             this.applicantCardId = data.applicantCardId;
             this.ruleForm = Object.assign(this.ruleForm,data);
           }
+        });
+      },
+      // 银行卡号 失去焦点
+      handleBankBlur(event) {
+        let val = event.target.value;
+        this.$http({
+          method : 'post',
+          url : '/executedProperty/queryBankName.htm',
+          data : {
+            bankNum : val,
+          },
+        }).then((res) => {
+          this.ruleForm.depositBank = res.result || '';
         });
       },
 
@@ -128,6 +141,8 @@
             };
             if(this.type === 'edit') {
               form.applicantCardId = this.applicantCardId;
+            }else{
+              delete form.applicantCardId;
             }
 						this.$http({
               method : 'post',

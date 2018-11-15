@@ -1,7 +1,7 @@
 <template>
   <div class="customerCase">
     <searchs class="item-search" :searchItems="searchItems" :item="searchItem" :queryUrl="queryUrl">
-      <div class="fr" slot="moreBtn">
+      <div class="fl ml-10" slot="moreBtn">
         <el-button type="primary" @click="create">新增新闻</el-button>
       </div>
     </searchs>
@@ -30,7 +30,7 @@
           {placeholder: '新闻标题', colSpan: 7, property: 'keyWords'},
           {placeholder: '起始时间', colSpan: 4, property: 'startDate',type: 'date',lt: 'endDate'},
           {placeholder: '结束时间', colSpan: 4, property: 'endDate',type: 'date',gt: 'startDate'},
-          {placeholder: '请选择状态', colSpan: 4, property: 'newsStatus',type: 'select', options: [
+          {placeholder: '请选择状态', colSpan: 3, property: 'newsStatus',type: 'select', options: [
               {label:'待上线', value: 0},
               {label:'已上线', value: 1},
               {label:'已下线', value: 2},

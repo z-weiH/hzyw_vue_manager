@@ -2,7 +2,7 @@
   <div>
 
       <searchs class="item-search" :search-items="searchItems" :item="searchItem" :queryUrl="queryUrl">
-        <div class="fr" slot="moreBtn">
+        <div class="fl ml-10" slot="moreBtn">
           <el-button type="primary" @click="create">新增用户</el-button>
         </div>
       </searchs>
@@ -33,7 +33,7 @@
       return {
         searchItems : [
           {type:'text', placeholder: '请输入用户名、真实名字、手机号码', colSpan: 8, property: 'keyWords'},
-          {type:'select', options: [], valuefield: 'roleId', labelfield: 'roleName', colSpan: 4, property: 'roleId'},
+          {type:'select', options: [], valuefield: 'roleId', labelfield: 'roleName', colSpan: 3, property: 'roleId'},
         ],
         searchItem : {},
         tableData : [],

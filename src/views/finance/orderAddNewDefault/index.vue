@@ -65,6 +65,7 @@ export default {
         {
           type: "select",
           property: "orderStatus",
+          colSpan: 3,
           options: [
             {
               label: "待提交",

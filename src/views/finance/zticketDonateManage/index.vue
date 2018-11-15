@@ -61,7 +61,7 @@ export default {
         {
           type: "select",
           placeholder: "请选择仲券赠送状态",
-          colSpan: 4,
+          colSpan: 3,
           property: "ticketStatus",
           options: [
             {
@@ -84,27 +84,22 @@ export default {
           label: "企业名称",
           property: "merchantName",
           isLink: true, linkShowPanel: this.showDialog,
-          width:140
         },
         {
           label: "企业邮箱（账户）",
           property: "loginName",
-          width:140
         },
         {
           label: "企业累计充值（元）",
           property: "totalRecharge",
-          width:148
         },
         {
           label: "累计赠送（张）",
           property: "totalGift",
-          width:140
         },
         {
           label: "申请时间",
           property: "submitTime",
-          width:150
         }
       ]
     };

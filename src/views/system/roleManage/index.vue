@@ -2,7 +2,7 @@
   <div>
     <div class="item-search">
       <searchs :search-items="searchItems" :item="searchItem" :queryUrl="queryUrl">
-        <div class="fr" slot="moreBtn">
+        <div class="fl ml-10" slot="moreBtn">
           <el-button type="primary" @click="create">新增角色</el-button>
         </div>
       </searchs>

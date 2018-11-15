@@ -84,36 +84,28 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-        <el-table-column prop="platName" label="互金企业" width="150px" align="center">
+        <el-table-column prop="platName" label="互金企业" align="center">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.platName" placement="top-start">
-              <span class="ellipsis" style="max-width:129px;">{{scope.row.platName}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.platName}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="productName" label="模板" width="150px">
+        <el-table-column prop="productName" label="模板">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.productName" placement="top-start">
-              <span class="ellipsis" style="max-width:129px;">{{scope.row.productName}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.productName}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="respondents" label="被申请人" width="150px"></el-table-column>
-        <el-table-column prop="resPhone" label="被申请人手机" width="150px"></el-table-column>
-        <el-table-column prop="amtCase" label="标的金额" width="150px"></el-table-column>
-        <el-table-column prop="dayOverDue" label="逾期天数" width="150px"></el-table-column>
-        <el-table-column prop="pushTime" label="推送时间" width="150px">
+        <el-table-column prop="respondents" label="被申请人"></el-table-column>
+        <el-table-column prop="resPhone" label="被申请人手机"></el-table-column>
+        <el-table-column prop="amtCase" label="标的金额"></el-table-column>
+        <el-table-column prop="dayOverDue" label="逾期天数"></el-table-column>
+        <el-table-column prop="pushTime" label="推送时间">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.pushTime" placement="top-start">
-              <span class="ellipsis" style="max-width:129px;">{{scope.row.pushTime}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.pushTime}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="finishDate" label="预审完成时间" width="150px">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.finishDate" placement="top-start">
-              <span class="ellipsis" style="max-width:129px;">{{scope.row.finishDate}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.finishDate}}</span>
           </template>
         </el-table-column>
         <el-table-column align="center" prop="status" label="状态" width="150px">

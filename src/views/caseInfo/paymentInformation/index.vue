@@ -141,6 +141,7 @@ export default {
 					options: this.opHkCaseStage,
 					labelfield: 'desc',
 					valuefield: 'status',
+					newline : true,
 				},
 				{
 					label: '还款案件状态',

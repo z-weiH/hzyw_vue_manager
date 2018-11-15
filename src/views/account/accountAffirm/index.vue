@@ -50,7 +50,7 @@ export default {
         {type: 'date',placeholder: '请输入开始时间', property: 'startTime', colSpan: 5},
         {type: 'date',placeholder: '请输入结束时间', property: 'endTime', colSpan: 5},
         //<!--10待提交11 待审核20待开户设置30待确认40开户成功41开户失败-->
-        {type: 'select',placeholder: '开户状态', property: 'custStatus', colSpan: 4,options:[
+        {type: 'select',placeholder: '开户状态', property: 'custStatus', colSpan: 3,options:[
             {label:'全部', value: ''},
             {label:'待提交', value: 10},
             {label:'待审核', value: 11},
@@ -61,12 +61,12 @@ export default {
           ]},
       ],
       columnDefine: [
-        {label: '企业名称',property: 'custName',width: 120},
-        {label: '合同号',property: 'contactNo',isLink: 1, linkShowPanel: this.doView, width: 100},
-        {label: '技术服务费 （元）',property: 'serveAmount', width: 140},
-        {label: '开户仲券（张）',property: 'ticketCount', width: 120},
-        {label: '开户受理费（元）',property: 'caseAmount', width: 140},
-        {label: '申请时间',property: 'submitTime', width: 160},
+        {label: '企业名称',property: 'custName'},
+        {label: '合同号',property: 'contactNo',isLink: 1, linkShowPanel: this.doView},
+        {label: '技术服务费 （元）',property: 'serveAmount'},
+        {label: '开户仲券（张）',property: 'ticketCount'},
+        {label: '开户受理费（元）',property: 'caseAmount'},
+        {label: '申请时间',property: 'submitTime'},
       ],
       queryUrl: URL_JSON['queryAccountAffirm'],
       searchItem: {}

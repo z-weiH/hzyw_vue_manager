@@ -52,14 +52,14 @@
         ],
         searchItem: {},
         columnDefine: [
-          { label: "客户", property: "clientName",width: 80},
-          { label: "产品", property: "productName",width: 80 },
-          { label: "模板", property: "templateCode",width: 80 },
-          { label: "启用状态", property: "templateStatus",width: 100, type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
-          { label: "申请书", property: "applyStatus",width: 100, type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
-          { label: "裁决书", property: "adjudeStatus",width: 100, type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
-          { label: "强制执行书", property: "enforceStatus",width: 140, type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
-          { label: "初次启用日期", property: "firstUseTime",width: 140 },
+          { label: "客户", property: "clientName"},
+          { label: "产品", property: "productName"},
+          { label: "模板", property: "templateCode"},
+          { label: "启用状态", property: "templateStatus",type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
+          { label: "申请书", property: "applyStatus",type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
+          { label: "裁决书", property: "adjudeStatus",type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
+          { label: "强制执行书", property: "enforceStatus",type: 'select', options: [{label: '启用',value: '1'},{label:'停用',value:'0'}] },
+          { label: "初次启用日期", property: "firstUseTime"},
           { label: "备注", property: "remark" },
         ]
       }

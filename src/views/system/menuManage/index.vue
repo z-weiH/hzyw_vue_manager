@@ -3,7 +3,7 @@
       <div>
         <div class="item-search">
           <searchs :search-items="searchItems" :item="searchItem" :queryUrl="queryUrl">
-            <div class="fr" slot="moreBtn">
+            <div class="fl ml-10" slot="moreBtn">
               <el-button type="primary" @click="create">新增菜单</el-button>
             </div>
           </searchs>
@@ -33,7 +33,7 @@
         searchItems : [
           {type: 'text',placeholder: '请输入菜单名称', property: 'keyWords', colSpan: 6},
           // {type: 'select',placeholder: '请选择菜单', property: 'keyWords', colSpan: 4,options:[],labelfield: 'name',valuefield: 'id'},
-          {type: 'select',placeholder: '请选择菜单层级', property: 'level', colSpan: 5,options: [{label:'一级菜单',value: 1},{label:'二级菜单',value: 2}]},
+          {type: 'select',placeholder: '请选择菜单层级', property: 'level', colSpan: 3,options: [{label:'一级菜单',value: 1},{label:'二级菜单',value: 2}]},
         ],
         searchItem: {},
         columnDefine: [

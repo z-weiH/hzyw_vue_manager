@@ -17,6 +17,8 @@
         <el-form-item label="所属客户：" prop="clientName">
           <el-input v-model.trim="ruleForm.clientName" placeholder="请输入所属客户" style="width:170px;"></el-input>
         </el-form-item>
+
+        <div class="mt-10"></div> 
         
 
         <el-form-item label="接收号码：" prop="toPhone">
@@ -35,6 +37,7 @@
           </el-select>
         </el-form-item>
 
+        <div class="mt-10"></div> 
 
         <el-form-item label="发送时间：">
         </el-form-item>

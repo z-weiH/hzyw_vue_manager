@@ -124,9 +124,9 @@
         ],
         searchItem:{},
         columnDefine:[
-          { label: "数据名称", property: "dataName",width: 200},
-          { label: "创建日期", property: "startDate",width: 200},
-          { label: "备注", property: "remark",width: 200},
+          { label: "数据名称", property: "dataName"},
+          { label: "创建日期", property: "startDate"},
+          { label: "备注", property: "remark"},
         ],
         //控制弹窗
         showDailog: false,

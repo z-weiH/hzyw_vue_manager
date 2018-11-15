@@ -71,6 +71,7 @@ export default {
         {
           type: "select",
           property: "orderStatus",
+          colSpan: 3,
           options: [
             {
               label: "待复核",
@@ -96,14 +97,13 @@ export default {
             console.info("orderNo:::", el, this);
             this.showDialog(el, 9);
           },
-          width: 120
         },
-        { label: "申请时间", property: "orderDate", width:150 },
-        { label: "客户名称", property: "merchantName" , width:120},
-        { label: "联系电话", property: "orderPhone" , width:110},
-        { label: "订单金额", property: "orderAmt" , width:100},
-        { label: "已到账", property: "factAmt" , width:100},
-        { label: "未到账金额", property: "unArriveAmt" , width:100}
+        { label: "申请时间", property: "orderDate"},
+        { label: "客户名称", property: "merchantName"},
+        { label: "联系电话", property: "orderPhone"},
+        { label: "订单金额", property: "orderAmt"},
+        { label: "已到账", property: "factAmt"},
+        { label: "未到账金额", property: "unArriveAmt" }
       ]
     };
   },

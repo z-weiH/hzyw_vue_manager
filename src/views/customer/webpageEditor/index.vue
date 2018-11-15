@@ -23,7 +23,7 @@
               <span @click="handleBox">x</span>
               <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
               <el-button @click="handleInsertGrammar(17)">日期计算</el-button>
-              <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
+              <!-- <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>当事人<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item :command="18">申请人</el-dropdown-item>
@@ -31,7 +31,7 @@
                   <el-dropdown-item :command="19">被申请人</el-dropdown-item>
                   <el-dropdown-item :command="21">被申请人名字</el-dropdown-item>
                 </el-dropdown-menu>
-              </el-dropdown>
+              </el-dropdown> -->
               <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>判断<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">

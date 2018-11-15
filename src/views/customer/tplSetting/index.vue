@@ -45,16 +45,12 @@
         </el-table-column>
         <el-table-column prop="loginName" label="账户">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.loginName" placement="top-start">
-              <span class="ellipsis" style="max-width:112px;">{{scope.row.loginName}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.loginName}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="createTime" label="开户时间">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.createTime" placement="top-start">
-              <span class="ellipsis" style="max-width:112px;">{{scope.row.createTime}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.createTime}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="usingCount" label="启用数量"></el-table-column>

@@ -1,7 +1,7 @@
 <template>
     <div>
       <searchs class="item-search" :search-items="searchItems" :item="searchItem" :queryUrl="queryUrl">
-        <div class="fr" slot="moreBtn">
+        <div class="fl ml-10" slot="moreBtn">
           <el-button type="primary" @click="initPermissionList">初始化权限</el-button>
         </div>
       </searchs>
@@ -24,8 +24,8 @@ export default {
   data() {
     return {
       columnDefine: [
-        {label: '权限表达式',property: 'btnExpression',width: 507},
-        {label: '按钮名称',property: 'btnName',width: 400}
+        {label: '权限表达式',property: 'btnExpression'},
+        {label: '按钮名称',property: 'btnName'}
       ],
       queryUrl: '/btnInfo/queryBtnListByBaseQuery.htm',
       searchItems : [
