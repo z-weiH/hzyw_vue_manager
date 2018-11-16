@@ -546,6 +546,11 @@
                 menuId : 'gzmb',
                 menuUrl : 'ruleTemplate'
               },
+              {
+                menuName : '执行记录',
+                menuId : 'zxjl',
+                menuUrl : 'exeRecord'
+              },
             ],
           },
           {

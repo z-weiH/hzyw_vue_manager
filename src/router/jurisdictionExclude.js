@@ -28,4 +28,5 @@ export default [
   '/ctJointCase', // 客户管理-模板联调-联调案件
   '/ctInterfaceList', // 客户管理-模板联调-接口列表
   '/ruleExeDetail',//规则执行详情
+  '/main/exeRecordDetail',//执行几率详情
 ]

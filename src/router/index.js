@@ -887,6 +887,24 @@ let router = new Router({
             name: 'ruleTemplate',
           },
         },
+        {
+          path: 'exeRecord',
+          component: () =>
+            import ('@/views/ruleBaseManagement/exeRecord'), // 执行记录
+          meta: {
+            name: 'exeRecord',
+          },
+
+        },
+        {
+          path: 'exeRecordDetail',
+          component: () =>
+            import ('@/views/ruleBaseManagement/exeRecordDetail'), // 执行记录
+          meta: {
+            name: 'exeRecordDetail',
+          },
+
+        },
         /* 规则库管理 module end */
 
         /* 执行管理 module start */
@@ -1139,6 +1157,7 @@ let router = new Router({
         name: 'ruleBase',
       },
     },
+
 
     {
       path: '/caseDetail',

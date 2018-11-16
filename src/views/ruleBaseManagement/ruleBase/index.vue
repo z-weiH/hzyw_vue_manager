@@ -403,7 +403,7 @@
 
 
       showList(){
-        this.$refs.executeResult.show(this.exeResult.exeId);
+        this.$refs.executeResult.show(this.exeResult.exeId,true);
       },
       setExeItem(item){
         this.exeItem = item;

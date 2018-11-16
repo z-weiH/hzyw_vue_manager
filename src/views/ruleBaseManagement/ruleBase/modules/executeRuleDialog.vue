@@ -14,8 +14,9 @@
 
 
 
-            <el-form-item class="slect_tree_warpar" required style="margin-right: 5px;margin-bottom: 5px;" label="案件模板" prop="labelName">
+            <el-form-item class="slect_tree_warpar"  style="margin-right: 5px;margin-bottom: 5px;" label="案件模板" prop="labelName">
               <el-input
+                clearable
                 style="width:200px;"
                 placeholder="请选择范围"
                 :suffix-icon="iconName"
@@ -24,7 +25,7 @@
                 v-model="form.labelName">
               </el-input>
               <div class="ruleLevel_select" v-if="iconName == 'el-icon-arrow-up'">
-                <el-tree :data="treeData" :props="defaultProps" @node-click="handleSelect"></el-tree>
+                <el-tree node-key="levelId" ref="tree" :data="treeData" :props="defaultProps" @node-click="handleSelect" :default-expanded-keys="keys"></el-tree>
               </div>
             </el-form-item>
 
@@ -61,6 +62,7 @@
               :startDate.sync="form.startApplyTime"
               :endDate.sync="form.endApplyTime"
               label="提交立案日期"
+              :disabled="form.caseStatus !== 6"
             >
             </timeFrame>
 
@@ -133,7 +135,7 @@
           </div>
           <div class="rule fl" style="width: calc( 100% - 170px);">
             <el-checkbox-group v-model="ruleIdList">
-              <el-checkbox label="0000" v-if="allruleList.length > 0">全部规则</el-checkbox><br>
+              <el-checkbox label="0000" v-if="allruleList.length > 0" @change="selectAll">全部规则</el-checkbox><br>
               <p class="self-checkbox" style="width: 400px;" v-for="(rule,index) in allruleList" :key="index">
                 <el-checkbox   :label="rule.ruleId" name="type">{{rule.ruleDesc}}</el-checkbox>
               </p>
@@ -202,11 +204,13 @@
           currentNum: 1,
           count: 1
         },
+        keys: [],
         canstep1: false,
         allruleList: [],
         ruleIdList: [],
         caseIdList: [],
 
+        timer: null,
         //执行进度
         executProgress: 0,
         progressWidth: 0,
@@ -218,6 +222,8 @@
         this.doQuery();
       },
       'form.caseStatus'(){
+        this.form.startApplyTime &&(this.form.startApplyTime = '');
+        this.form.endApplyTime &&(this.form.endApplyTime = '');
         this.doQuery();
       },
       'form.pushStartDate'(){
@@ -234,10 +240,62 @@
       }
     },
   methods:{
+    refreshData(){
+      this.form = {};
+      //下拉框图标
+      this.iconName ='el-icon-arrow-down';
+      this.caseList= [];
+        this.selectedList= [];
+      this.pager= {
+        pageSize: 100,
+          currentNum: 1,
+          count: 1
+      };
+      this.canstep1=false;
+        this.allruleList= [];
+        this.ruleIdList= [];
+        this.caseIdList= [];
+
+        //执行进度
+      this.executProgress= 0;
+        this.progressWidth= 0;
+        this.exeId= '';//当前执行任务
+    } ,
+
     cancelExe(){
+
+      const h = this.$createElement;
+      this.$msgbox({
+        title: '提示',
+        message: h('div',null,[
+          h('p',null,'确定取消执行？'),
+        ]),
+        center: true,
+        showCancelButton: true,
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+      }).then(() => {
+        this.$http.post('/ruleCase/cancelTaskByExeId.htm',{exeId: this.exeId}).then(res => {
+          if(this.timer){
+            clearTimeout(this.timer);
+            this.flag3 = false;
+          }
+        })
+      }).catch(() => {})
 
     },
 
+    selectAll(val){
+      console.log(val);
+      if(val){
+        this.ruleIdList = ['0000'];
+        this.allruleList.forEach(it => {
+          this.ruleIdList.push(it.ruleId);
+        })
+      }
+      console.log(this.ruleIdList);
+
+    },
 
 
     caseStatusName(status){
@@ -262,6 +320,10 @@
     //选择范围
     handleFocus(){
       this.iconName ='el-icon-arrow-up';
+      this.$nextTick(() => {
+        console.log(this.$refs.tree)
+        // this.$refs.tree.setCurrentKey()
+      })
     },
     handleSelect(data){
       if(data.ruleLevel !== 4){
@@ -273,9 +335,14 @@
       this.doQuery();
     },
     show(item){
+        this.refreshData()
         this.treeData = item.treeData;
+        this.keys = [this.treeData[0].levelId];
         this.flag1= true;
-      this.doQuery();
+        this.doQuery();
+        this.$nextTick(() => {
+          this.$refs.ruleForm.resetFields();
+        })
     },
 
     doQuery(){
@@ -322,7 +389,13 @@
         // console.log(JSON.stringify(){levelId: this.form.levelId,ruleIdList: this.ruleIdList, caseIdList: this.caseIdList});
         this.flag3 = true;
         this.flag2 = false;
-      this.$http.post("/rule/executeRuleByBaseQuery.htm",{levelId: this.form.levelId,ruleIdList: this.ruleIdList, caseIdList: this.caseIdList},{mheaders: true}).then(res => {
+        let arr = [];
+        this.ruleIdList.forEach(it => {
+          if(it !==  '0000'){
+            arr.push(it);
+          }
+        })
+      this.$http.post("/rule/executeRuleByBaseQuery.htm",{levelId: this.form.levelId,ruleIdList: arr, caseIdList: this.caseIdList},{mheaders: true}).then(res => {
         this.exeId = res.result;
         this.execute({exeId: res.result});
       })
@@ -352,7 +425,7 @@
 
                 // this.progressWidth ++;
 
-                setTimeout(() => {
+                this.timer = setTimeout(() => {
                   this.execute(item);
                 },2000);
               }

@@ -2,6 +2,7 @@
   <div class="time-frame">
     <el-form-item :prop="requiredName[0]"
                   :label="label"
+                  :class="{'noMargin': nomargin}"
       :rules="[
         {
           required : required === true ? true :
@@ -21,12 +22,15 @@
         v-model="start"
         :picker-options="pickerOptions1"
         value-format="yyyy-MM-dd"
+        :readonly="disabled"
       >
       </el-date-picker>
     </el-form-item>
     <span v-if="bar" class="mr-10 m-span">-</span>
     <el-form-item :prop="requiredName[1]"
-      :rules="[
+                  :class="{'noMargin': nomargin}"
+
+                  :rules="[
         {
           required : required === true ? true :
                      required === false ? false :
@@ -45,6 +49,8 @@
         v-model="end"
         :picker-options="pickerOptions2"
         value-format="yyyy-MM-dd"
+        :readonly="disabled"
+
       >
       </el-date-picker>
     </el-form-item>
@@ -55,9 +61,17 @@
   export default {
     props : {
 
+      disabled:{
+        type: Boolean,
+        default: false
+      },
       label:{
         type: String,
         default: ''
+      },
+      nomargin:{
+        type:Boolean,
+        default: false
       },
 
       /* 开始时间 */
@@ -159,5 +173,8 @@
     border-color: #f56c6c!important;
   }
 }
+  .noMargin{
+    margin-bottom: 0;
+  }
 
 </style>

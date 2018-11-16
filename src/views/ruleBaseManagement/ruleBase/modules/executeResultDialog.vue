@@ -10,7 +10,7 @@
     <div style="width: 850px; margin: 20px auto;">
 
       <p class="content-title">
-        <el-button class="fr" type="primary" size="mini" @click="openView">查看详情</el-button>
+        <el-button class="fr" type="primary" size="mini" @click="openView" v-if="isRuleExe">查看详情</el-button>
 
         <span>案件总数：{{exe.currentCount}}件</span>
         <span>规则总数：{{exe.ruleCount}}条</span>
@@ -94,6 +94,7 @@
         //展开行列表
         expands:[],
 
+        isRuleExe: false,
         exe: {},
         list: [],
         pager:{
@@ -115,8 +116,9 @@
         window.open(routeData.href, '_blank')
       },
 
-      show(exeId){
+      show(exeId,isRuleExe){
         this.flag = true;
+        this.isRuleExe = isRuleExe;
         this.exeId = exeId;
         this.queryExecutRes();
       },
