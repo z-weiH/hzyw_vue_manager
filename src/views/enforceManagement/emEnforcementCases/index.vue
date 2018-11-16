@@ -296,7 +296,20 @@
         // 当前页数
         currentPage : 1,
         // 每页数量
-				pageSize : 10,
+        pageSize : 10,
+        
+        checkList : {
+          bsqbccns : true,
+          cczksm : true,
+          fwxy : true,
+          jkxy : true,
+          qzzxsqs : true,
+          sfzzfm : true,
+          sqwts : true,
+          xzgxfsms : true,
+          zxkyhzhqds : true,
+          zqzrxy : true,
+        },
 				
 			}
     },
@@ -439,46 +452,82 @@
 
       // 点击 预览
       handlePreview(row) {
-        this.$refs.batchImportDialog.show();
-        // this.$refs.timeDialog.show();
+        this.$refs.timeDialog.show({...row,mtype:'yulan'});
         return;
+        // 预览前校验
         this.$http({
           method : 'post',
-          url : '/forceManager/previewCaseDoc.htm',
+          url : '/forceManager/previewCaseDocPre.htm',
           data : {
-            bsqbccns : true,
-            cczksm : true,
-            fwxy : true,
-            jkxy : true,
-            qzzxsqs : true,
-            sfzzfm : true,
-            sqwts : true,
-            xzgxfsms : true,
-            zxkyhzhqds : true,
+            ...this.checkList,
 
             caseId : row.caseId,
-            templateCode : row.templateCode,
           },
+        }).then((res) => {
+          // 未配置
+          if(res.result.settingIsOk === false) {
+            this.$refs.setDialog.show(res.result);
+          // 已配置选择预览时间
+          }else{
+            this.$refs.timeDialog.show({...row,mtype:'yulan'});
+          }
         });
       },
       // 点击 下载
       handleDownload(row) {
-        this.$refs.setDialog.show();
+        this.$refs.timeDialog.show({...row,mtype:'xiazai'});
         return;
-        exportFile({
-          url : '/forceManager/downloadDocs.htm',
+        // 预览前校验
+        this.$http({
+          method : 'post',
+          url : '/forceManager/downloadDocsPre.htm',
           data : {
+            ...this.checkList,
+
             caseIds : row.caseId,
           },
+        }).then((res) => {
+          // 未配置
+          if(res.result.settingIsOk === false) {
+            this.$refs.setDialog.show(res.result);
+          // 已配置选择预览时间
+          }else{
+            this.$refs.timeDialog.show({...row,mtype:'xiazai'});
+          }
         });
       },
-      // 是否配置校验
-      verifyConfit() {
-        
-      },
       // 时间dialog 回调
-      timeSuccess(time) {
-        console.log(time);
+      timeSuccess(time,row) {
+        // 预览逻辑
+        if(row.mtype === 'yulan') {
+          this.$http({
+            method : 'post',
+            url : '/forceManager/previewCaseDocPost.htm',
+            data : {
+              ...this.checkList,
+
+              caseId : row.caseId,
+              docDate : time,
+            },
+          }).then((res) => {
+            window.open(res.result);
+          });
+        // 下载逻辑
+        }else{
+          this.$http({
+            method : 'post',
+            url : '/forceManager/downloadDocsPost.htm',
+            data : {
+              ...this.checkList,
+
+              caseIds : row.caseId,
+              docDate : time,
+            },
+          }).then((res) => {
+            this.$message.success('操作成功');
+            this.$router.push('emDownloadTask');
+          });
+        }
       },
 
 			// 表格相关 start

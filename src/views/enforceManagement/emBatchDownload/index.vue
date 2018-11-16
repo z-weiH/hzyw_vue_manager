@@ -36,6 +36,7 @@
 <script>
   import setDialog from './modules/setDialog.vue'
   import timeDialog from './modules/timeDialog.vue'
+  import exportFile from '@/assets/js/exportFile.js'
   export default {
     components : {
       setDialog,
@@ -108,15 +109,55 @@
       },
       // 点击预览
       handlePreview() {
-        this.$refs.timeDialog.show();
+        this.$refs.timeDialog.show({mtype:'yulan'});
+        return;
+        // 预览前校验
+        this.$http({
+          method : 'post',
+          url : '/forceManager/previewCaseDocPre.htm',
+          data : {
+            ...this.checkedStatus(),
+
+            caseId : this.caseIds.split(',')[0],
+          },
+        }).then((res) => {
+          // 未配置
+          if(res.result.settingIsOk === false) {
+            this.$refs.setDialog.show(res.result);
+          // 已配置选择预览时间
+          }else{
+            this.$refs.timeDialog.show({mtype:'yulan'});
+          }
+        });
       },
       // 点击拼接下载
       handleDownload() {
-        this.$refs.setDialog.show();
+        this.$refs.timeDialog.show({mtype:'xiazai'});
+        return;
+        // 预览前校验
+        this.$http({
+          method : 'post',
+          url : '/forceManager/downloadDocsPre.htm',
+          data : {
+            ...this.checkedStatus(),
+
+            caseIds : this.caseIds,
+          },
+        }).then((res) => {
+          // 未配置
+          if(res.result.settingIsOk === false) {
+            this.$refs.setDialog.show(res.result);
+          // 已配置选择预览时间
+          }else{
+            this.$refs.timeDialog.show({mtype:'xiazai'});
+          }
+        });
       },
-      // 是否配置校验
-      verifyConfit() {
-        
+      // 获取选中状态
+      checkedStatus() {
+        let obj = {};
+        this.checkList.map((v) => {obj[v.value] = v.checked});
+        return obj;
       },
       // 全选事件
       handleCheckAllChange(val) {
@@ -134,8 +175,37 @@
       },
 
       // 时间dialog 回调
-      timeSuccess(time) {
-        console.log(time);
+      timeSuccess(time,row) {
+        // 预览逻辑
+        if(row.mtype === 'yulan') {
+          this.$http({
+            method : 'post',
+            url : '/forceManager/previewCaseDocPost.htm',
+            data : {
+              ...this.checkedStatus(),
+
+              caseId : this.caseIds.split(',')[0],
+              docDate : time,
+            },
+          }).then((res) => {
+            window.open(res.result);
+          });
+        // 下载逻辑
+        }else{
+          this.$http({
+            method : 'post',
+            url : '/forceManager/downloadDocsPost.htm',
+            data : {
+              ...this.checkedStatus(),
+
+              caseIds : this.caseIds,
+              docDate : time,
+            },
+          }).then((res) => {
+            this.$message.success('操作成功');
+            this.$router.push('emDownloadTask');
+          });
+        }
       },
     },
   }

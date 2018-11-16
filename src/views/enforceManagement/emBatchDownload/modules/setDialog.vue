@@ -8,14 +8,14 @@
     >
       <div class="m-conetnt">
         <div>强制执行申请书模板未配置</div>
-        <div class="error">
-          浙江阿拉丁电子商务股份有限公司-51返呗10-01  
+        <div class="error" v-for="(item,index) in unSettingTemplateList" :key="index">
+           {{item}}
         </div> 
-        <div>被执行人银行卡未配置</div>
-        <div>3个法院材料未配置</div>
-        <div class="error">xxxxxxxxxxx法院</div>
-        <div class="error">xxxxxxxxxxx法院</div>
-        <div class="error">xxxxxxxxxxx法院</div>
+        <div v-if="unSettingBankCardList.length > 0">被执行人银行卡未配置</div>
+        <div v-if="unSettingCourtNameList.length > 0">{{unSettingCourtNameList.length}}个法院材料未配置</div>
+        <div class="error" v-for="(item,index) in unSettingCourtNameList" :key="index">
+           {{item}}
+        </div>
       </div>
 
       <span slot="footer" class="dialog-footer">
@@ -30,6 +30,12 @@
     data() {
       return {
         dialogVisible : false,
+        // 强制执行申请书模板未配置
+        unSettingTemplateList : ['浙江阿拉丁电子商务股份有限公司-51返呗10-01 '],
+        // 被执行人银行卡未配置
+        unSettingBankCardList : [],
+        // 法院材料未配置
+        unSettingCourtNameList : ['xxxxxxxxxxx法院'],
       }
     },
     mounted() {
@@ -45,6 +51,9 @@
 
         this.$nextTick(() => {
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
+          this.unSettingTemplateList = data.unSettingTemplateList;
+          this.unSettingBankCardList = data.unSettingBankCardList;
+          this.unSettingCourtNameList = data.unSettingCourtNameList;
         });
       },
     },

@@ -37,10 +37,11 @@
         dialogVisible : false,
         // 提交按钮禁用状态
         submitDisabled : false,
+        data : {},
 
         ruleForm : {
           // 落款日期
-          time : new Date(),
+          time : '',
         },
         rules : {
           time : [
@@ -62,6 +63,8 @@
 
         this.$nextTick(() => {
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
+          this.ruleForm.time = this.$moment().format('YYYY-MM-DD');
+          this.data = data;
         });
       },
 
@@ -82,7 +85,7 @@
       handleSubmit(submitType) {
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
-            this.$emit('successCBK',this.ruleForm.time);
+            this.$emit('successCBK',this.ruleForm.time,this.data);
             this.handleClose();
           }
         });
