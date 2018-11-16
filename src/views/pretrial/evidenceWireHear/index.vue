@@ -544,9 +544,8 @@
       padding-bottom: 13px;
       .scroll_toolbar {
         font-size: 14px;
-        width: 610px;
+        width: 645px;
         overflow: auto;
-        margin-right: 30px;
         max-height: 150px;
         .evi_bar{
           cursor: pointer;

@@ -922,6 +922,7 @@ li.pointer > span{
 	// width: 762px;
   max-height: 400px;
   overflow: auto;
+  overflow-x: hidden;
 	border-collapse: collapse;
 	// table-layout: fixed;
 	border-spacing: 0;
@@ -981,9 +982,8 @@ li.pointer > span{
 			padding-right: 30px;
 			font-size: 14px;
       max-height: 150px;
-      width: 610px;
+      width: 645px;
       overflow: auto;
-      margin-right: 30px;
 			.evi_bar {
 				cursor: pointer;
 				line-height: 24px;

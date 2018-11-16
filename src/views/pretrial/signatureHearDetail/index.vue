@@ -504,6 +504,7 @@ export default {
     // width: 762px;
     max-height: 400px;
     overflow: auto;
+    overflow-x: hidden;
     border-collapse: collapse;
     // table-layout: fixed;
     border-spacing: 0;
