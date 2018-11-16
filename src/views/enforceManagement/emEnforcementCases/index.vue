@@ -290,7 +290,7 @@
         templateOptions : [],
 
 				// 表格数据
-        tableData : [{}],
+        tableData : [{caseId : 'lalala'}],
         // 数据总数
         total : 11,
         // 当前页数
@@ -445,7 +445,7 @@
         this.$router.push({
           path : 'emBatchDownload',
           query : {
-            caseIds : JSON.stringify(this.multipleSelection.map(v => v.caseId)),
+            caseIds : this.multipleSelection.map(v => v.caseId).join(','),
           },
         });
       },

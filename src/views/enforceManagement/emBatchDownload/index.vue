@@ -9,7 +9,7 @@
 
     <div class="item-table">
       <div class="select-case">
-        <p class="ft-20 fl case-num">已选择{{caseIds.length}}个案件</p>
+        <p class="ft-20 fl case-num">已选择{{caseIds.split(',').length}}个案件</p>
         <div class="fr">
           <el-button :disabled="verifyChecked()" @click="handlePreview">预览</el-button>
           <el-button :disabled="verifyChecked()" @click="handleDownload" type="primary">拼接下载</el-button>
@@ -44,7 +44,7 @@
     },
     data() {
       return {
-        caseIds : JSON.parse(this.$route.query.caseIds),
+        caseIds : this.$route.query.caseIds,
 
         checkList : [
           {
