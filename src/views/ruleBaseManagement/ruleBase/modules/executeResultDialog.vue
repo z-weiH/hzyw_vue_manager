@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :visible.sync="isExecuting"
+    :visible.sync="flag"
     v-dialogDrag
     title="执行结果"
     :close-on-click-modal="false"
@@ -10,6 +10,8 @@
     <div style="width: 850px; margin: 20px auto;">
 
       <p class="content-title">
+        <el-button class="fr" type="primary" size="mini" @click="openView" v-if="isRuleExe">查看详情</el-button>
+
         <span>案件总数：{{exe.currentCount}}件</span>
         <span>规则总数：{{exe.ruleCount}}条</span>
         <span>检出错误：{{exe.checkErrorCount}}件</span>
@@ -46,7 +48,6 @@
           <template slot-scope="scope">
             <div style="text-align: center;">
               <span class="colLink mr-20" @click="showDetails(scope.row)">{{expands.indexOf(scope.row.id) != -1 ? '收起' : '展开'}}</span>
-              <!--<span class="colLink" @click="openView(scope.row)">查看</span>-->
             </div>
 
           </template>
@@ -87,35 +88,40 @@
 <script>
   export default {
     name: 'executeResult',
-    props:{
-      exeId: {},
-    },
+
     data() {
       return{
         //展开行列表
         expands:[],
 
+        isRuleExe: false,
         exe: {},
         list: [],
         pager:{
           currentNum: 1,
           total: 1,
           pageSize:10
-        }
-      }
-    },
-    computed:{
-      isExecuting :{
-        get: function () {
-          return this.$parent.isExecuting;
         },
-        set: function (v) {
-          if(!v)
-            this.$parent.isExecuting = false;
-        }
+        flag: false,
+        exeId: 0
       }
     },
     methods:{
+
+      openView(){
+        let routeData = this.$router.resolve({
+          path: '/ruleExeDetail',
+          query: { exeId: this.exeId },
+        })
+        window.open(routeData.href, '_blank')
+      },
+
+      show(exeId,isRuleExe){
+        this.flag = true;
+        this.isRuleExe = isRuleExe;
+        this.exeId = exeId;
+        this.queryExecutRes();
+      },
       //展开 收起 详细信息
       showDetails(row){
         if(this.expands.indexOf(row.id) == -1){
@@ -144,7 +150,7 @@
         this.doQuery();
       },
       doQuery() {
-        this.$http.post('/ruleExe/queryRuleExeResult.htm',{exeId: this.exeId, ...this.pager}).then(res => {
+        this.$http.post('/ruleExe/queryRuleExeResult.htm',{exeId: this.exeId, ...this.pager},{mheaders: true}).then(res => {
           if(res.code === '0000'){
             this.pager.total = res.result.count,
 

@@ -887,6 +887,24 @@ let router = new Router({
             name: 'ruleTemplate',
           },
         },
+        {
+          path: 'exeRecord',
+          component: () =>
+            import ('@/views/ruleBaseManagement/exeRecord'), // 执行记录
+          meta: {
+            name: 'exeRecord',
+          },
+
+        },
+        {
+          path: 'exeRecordDetail',
+          component: () =>
+            import ('@/views/ruleBaseManagement/exeRecordDetail'), // 执行记录
+          meta: {
+            name: 'exeRecordDetail',
+          },
+
+        },
         /* 规则库管理 module end */
 
         /* 执行管理 module start */
@@ -1140,6 +1158,7 @@ let router = new Router({
       },
     },
 
+
     {
       path: '/caseDetail',
       component: () =>
@@ -1163,6 +1182,14 @@ let router = new Router({
         import ('@/views/customer/ctInterfaceList'), // 客户管理-模板联调-接口列表
       meta: {
         name: 'ctInterfaceList',
+      },
+    },
+    {
+      path: '/ruleExeDetail',
+      component: () =>
+        import ('@/views/ruleBaseManagement/ruleExeDetail'), // 执行详情
+      meta: {
+        name: 'ruleExeDetail',
       },
     },
 

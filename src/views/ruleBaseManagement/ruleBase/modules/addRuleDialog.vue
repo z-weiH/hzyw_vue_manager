@@ -277,7 +277,7 @@
               loading.close();
               this.isExecuting = true;
               this.$nextTick(() => {
-                this.$refs.executeResult.queryExecutRes();
+                this.$refs.executeResult.show(item.exeId,false);
               })
 
             }

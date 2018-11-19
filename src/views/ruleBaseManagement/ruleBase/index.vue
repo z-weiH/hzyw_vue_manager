@@ -5,44 +5,26 @@
       <div>
         <span class="m-title">规则库</span>
         <div class="fr">
-          <el-button type="primary" class="mt-20" @click="handleExecute">执行规则</el-button>
+          <div class="fl mt-20" style="line-height: 21px;" v-if="exeResult != null">
+            <p class="fl" style="color: #999; text-align: center">
+              上次执行完成时间<br>
+              {{exeResult.overTime | TimeMomentChina }}
+            </p>
+            <span @click="showList" class="colLink fl" style="margin: 0 20px;font-size: 16px;line-height: 37px;">
+            查看
+            </span>
+          </div>
+          <el-button v-if="!executing" type="primary" class="mt-20" @click="handleExecute">执行规则</el-button>
+          <span class="exe_span" v-else>
+          正在执行 {{exeItem.currentCount}} / {{exeItem.totalCount}}
+          </span>
         </div>
       </div>
     </div>
     <div class="content-box">
       <div class="fl m-left">
 
-        <!--<el-menu-->
-          <!--background-color="#fff"-->
-          <!--text-color="#7C7C7C"-->
-          <!--active-text-color="#13367D"-->
-        <!--&gt;-->
-          <!--<el-submenu :index="menu.levelId"  v-for="(menu,ii) in treeData" :key="ii">-->
-            <!--<template slot="title">-->
-              <!--<div @click="handleNodeClick(menu,true)" ref="firstMenu" :class="{'currentMenu': currentMenu.levelId === menu.levelId}">{{menu.labelName}}</div>-->
-            <!--</template>-->
-            <!--<el-menu-item-group v-for="(sub,index) in menu.children" :key="index">-->
-              <!--<el-submenu :index="sub.levelId">-->
-                <!--<template slot="title" >-->
-                  <!--<div @click="handleNodeClick(sub,true)" :class="{'currentMenu': currentMenu.levelId === sub.levelId}">-->
-                    <!--{{sub.labelName}}-->
-                  <!--</div>-->
-                <!--</template>-->
-                <!--<el-menu-item-group v-for="(group,idx) in sub.children" :key="idx">-->
-                  <!--<el-submenu :index="group.levelId">-->
-                    <!--<template slot="title" >-->
-                      <!--<div @click="handleNodeClick(group,true)" :class="{'currentMenu': currentMenu.levelId === group.levelId}">-->
-                      <!--{{group.labelName}}-->
-                      <!--</div>-->
-                    <!--</template>-->
-                  <!--<el-menu-item :index="item.levelId" v-for="(item,i) in group.children" :key="i" @click="handleNodeClick(item)" :class="{'currentMenu': currentMenu.levelId === item.levelId}">{{item.labelName}}</el-menu-item>-->
-                  <!--</el-submenu>-->
 
-                <!--</el-menu-item-group>-->
-              <!--</el-submenu>-->
-            <!--</el-menu-item-group>-->
-          <!--</el-submenu>-->
-        <!--</el-menu>-->
         <el-tree node-key="levelId" class="self-tree" :data="treeData" :default-expanded-keys="keys" :props="defaultProps" @node-click="handleNodeClickPlus"></el-tree>
       </div>
       <div class="fl m-right" style="height: 100%;">
@@ -50,7 +32,6 @@
             {{currentRule}}
           </div>
 
-          <!--<pdf-selector ></pdf-selector>-->
 
         <div class="rule_body" >
           <div v-if="contentFlag">
@@ -159,117 +140,10 @@
         </span>
     </el-dialog>
 
-    <el-dialog
-      :visible.sync="executeflag"
-      v-dialogDrag
-      title="执行规则"
-      @open="resetForm"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      width="495px"
-      center>
-      <!--<edits ref="edits" :edit-items="createItems" :item="item" :label-width="'120px'"></edits>-->
-        <div class="form-item">
-          <div class="left fl " >
-            <sup style="color:red;margin-right:5px;">*</sup>执行范围:
-          </div>
-          <div class="right fl slect_tree_warpar">
-            <el-input
-              style="width:300px;"
-              placeholder="请选择范围"
-              :suffix-icon="iconName"
-              @focus="handleFocus"
-
-              readonly
-              v-model="selectLevel.labelName">
-            </el-input>
-            <div class="ruleLevel_select" v-if="iconName == 'el-icon-arrow-up'">
-              <el-tree :data="treeData" :props="defaultProps" @node-click="handleSelect"></el-tree>
-            </div>
-          </div>
-        </div>
-        <div class="form-item">
-          <div class="left fl " >
-            推送日期:
-          </div>
-          <div class="right fl">
-            <el-date-picker
-              style="width: 143px; display: inline-block"
-              v-model="startDate"
-              value-format="yyyy-MM-dd"
-              type="date"
-              placeholder="选择日期">
-            </el-date-picker>
-             -
-            <el-date-picker
-              style="width: 143px; display: inline-block"
-              v-model="endDate"
-              value-format="yyyy-MM-dd"
-              type="date"
-              placeholder="选择日期">
-            </el-date-picker>
-          </div>
-        </div>
-      <div class="form-item">
-        <div class="left fl " >
-          案件数量:
-        </div>
-        <div class="right fl" style="color:#F1B543;">
-          {{castNum}}
-        </div>
-      </div>
-      <div class="form-item">
-        <div class="left fl">
-          <sup style="color:red;margin-right:5px;">*</sup>执行规则:
-        </div>
-        <div class="right fl" v-if="allruleList.length === 0">
-          <span style="color: rgb(241, 181, 67)">{{ruleRes}}</span>
-        </div>
-        <div class="right clear" style="padding-left: 50px;">
-          <div></div>
-          <el-checkbox-group v-model="ruleIdList">
-            <el-checkbox label="0000" v-if="allruleList.length > 0">全部规则</el-checkbox><br>
-            <p class="self-checkbox" style="width: 400px;" v-for="(rule,index) in allruleList" :key="index">
-              <el-checkbox   :label="rule.ruleId" name="type">{{rule.ruleDesc}}</el-checkbox>
-            </p>
-          </el-checkbox-group>
-        </div>
-      </div>
-
-
-      <div slot="footer" class="dialog-footer clear" >
-          <el-button type="primary" :disabcreled="canExecute"  @click="executeRule">执 行</el-button>
-          <el-button @click="executeflag = false;">取 消</el-button>
-        </div>
-    </el-dialog>
-
-
-
-    <el-dialog
-      :visible.sync="executing"
-      v-dialogDrag
-      :show-close="false"
-      title="提示"
-      @open="resetForm"
-      :close-on-click-modal="false"
-      :close-on-press-escape="false"
-      width="495px"
-      center>
-      <div class="m-bar" style="width: 300px; margin: 20px auto;text-align: center;">
-        <p style="margin: 20px 0;font-size: 18px;">正在执行规则...</p>
-        <m-progress :width="executProgress" :px="progressWidth" :height="20">执行中</m-progress>
-        <!--<template v-if="!isExecuting">-->
-          <!--<p>机审执行完毕！</p>-->
-          <!--<p>本次机审共对365件案件执行了4条规则，检出错误34处</p>-->
-          <!--<el-button type="primary"  @click="executing = false;">确 定</el-button>-->
-        <!--</template>-->
-
-      </div>
-    </el-dialog>
 
     <pdfSelector ref="pdfSelector" ></pdfSelector>
 
-    <executeResult ref="executeResult" :exeId="exeId"></executeResult>
+    <executeResult ref="executeResult"></executeResult>
 
     <addRule ref="addRule" :rule="form" > </addRule>
     <executionSet ref="executionSetDialog"></executionSet>
@@ -277,10 +151,12 @@
     <copyRule ref="copyRule"/>
     <inputTemplate ref="inputTemplate"></inputTemplate>
     <pdfHtml ref="pdfHtml"></pdfHtml>
+    <executeRuleDialog ref="executeRule" @hiddenDialog="executing = true;" @progress="setExeItem" @progressDown="exeOver"></executeRuleDialog>
   </div>
 </template>
 
 <script>
+  import executeRuleDialog from './modules/executeRuleDialog'
   import progress from './modules/progress.vue'
   import pdfSelector from './modules/pdf_selector'
   import executeResult from './modules/executeResultDialog'
@@ -300,7 +176,8 @@
       caseSample,
       copyRule,
       inputTemplate,
-      pdfHtml
+      pdfHtml,
+      executeRuleDialog
     },
     data() {
       return {
@@ -395,14 +272,16 @@
         //控制弹窗
         editState: 0, // 1编辑 2新增
 
-        //执行弹窗
-        executeflag: false,
+
 
         //执行中弹窗
         executing: false,
 
-        //是否执行完成
-        isExecuting: false,
+        exeItem: {currentCount: 0, totalCount: 0},
+
+        //執行結果
+        exeResult: null,
+
 
         //执行结果
         exeId: '',
@@ -429,21 +308,7 @@
       }
     },
 
-    mounted() {
-      // let myDate = new Date();
-      // let year = myDate.getFullYear();
-      // let month = myDate.getMonth() + 1 >= 10 ? myDate.getMonth() + 1 : '0' + (myDate.getMonth() + 1);
-      // let day = myDate.getDate() >= 10 ? myDate.getDate() : '0' + myDate.getDate();
-      // this.startDate = year + '-' + month + '-' + day;
-      //
-      console.log(this.startDate);
-      // setTimeout(() => {
-      //   console.log(this.$refs,this.$refs.firstMenu);
-      //   this.$refs.firstMenu[0].click();
-      // },1000)
 
-
-    },
     computed: {
 
       canYanZheng(){
@@ -535,6 +400,20 @@
       }
     },
     methods : {
+
+
+      showList(){
+        this.$refs.executeResult.show(this.exeResult.exeId,true);
+      },
+      setExeItem(item){
+        this.exeItem = item;
+      },
+
+      exeOver(item){
+        this.executing = false;
+        this.exeResult = item;
+      },
+
 
       textareaValueChange1(val){
         this.ruleInfo_html1 = val.replace(/\n/g,'<br/>')
@@ -799,55 +678,6 @@
 
       },
 
-      //执行规则
-      executeRule() {
-        let arr = [].concat(this.ruleIdList);
-        let idx = arr.findIndex(it => it === '0000');
-        if(idx != -1){
-          arr.splice(idx,1);
-        }
-        console.log(this.ruleIdList)
-
-        this.$http.post("/rule/executeRuleByBaseQuery.htm",{endDate: this.endDate,levelId: this.selectLevel.levelId,ruleIdList:arr,ruleLevel: this.selectLevel.ruleLevel,startDate: this.startDate},{mheaders: true}).then(res => {
-          if(res.code === '0000'){
-            //轮训规则执行结果
-            this.execute({exeId: res.result});
-          }
-        })
-      },
-
-      //轮训规则执行结果
-      execute(item){
-        this.$http.post('/rule/queryRuleExecuteInfoByExeId.htm',item).then(res => {
-          if(res.code === '0000'){
-            // exeId		string	0:执行中，1：执行完成
-            // if(res.result.status == 0 ){
-            this.exeId = item.exeId;
-
-            if(res.result.status == 0){
-              //执行中
-              this.executProgress = res.result.currentCount+ '/' +res.result.totalCount;
-              this.progressWidth = +((res.result.currentCount/res.result.totalCount).toFixed(0));
-              // this.progressWidth ++;
-              if(!this.executing){
-                this.executing = true;
-              }
-              setTimeout(() => {
-                this.execute(item);
-              },2000);
-            }
-            else{
-              this.$message.success("执行成功");
-              this.executing = false;
-              this.isExecuting = true;
-              this.$nextTick(() => {
-                this.$refs.executeResult.queryExecutRes();
-              })
-
-            }
-          }
-        })
-      },
 
 
 
@@ -933,23 +763,26 @@
 
 
       handleExecute(){
-        this.executeflag = true;
-        //执行选择参数初始化
-        this.selectLevel={}; //选中层级
-        // let myDate = new Date();
-        // let year = myDate.getFullYear();
-        // let month = myDate.getMonth() + 1 >= 10 ? myDate.getMonth() + 1 : '0' + (myDate.getMonth() + 1);
-        // let day = myDate.getDate() >= 10 ? myDate.getDate() : '0' + myDate.getDate();
-        // this.startDate=year + '-' + month + '-' + day;//开始时间
+        this.$refs.executeRule.show({treeData: this.treeData});
+        // this.executeflag = true;
+        // //执行选择参数初始化
+        // this.selectLevel={}; //选中层级
+        // // let myDate = new Date();
+        // // let year = myDate.getFullYear();
+        // // let month = myDate.getMonth() + 1 >= 10 ? myDate.getMonth() + 1 : '0' + (myDate.getMonth() + 1);
+        // // let day = myDate.getDate() >= 10 ? myDate.getDate() : '0' + myDate.getDate();
+        // // this.startDate=year + '-' + month + '-' + day;//开始时间
+        //
+        // this.startDate='';//结束时间
+        // this.endDate='';//结束时间
+        // this.ruleIdList = [];
+        // this.castNum = '--';
+        // this.allruleList = [];
+        // this.ruleRes = '--';
 
-        this.startDate='';//结束时间
-        this.endDate='';//结束时间
-        this.ruleIdList = [];
-        this.castNum = '--';
-        this.allruleList = [];
-        this.ruleRes = '--';
 
       },
+
       //查看参数
       handleAvriable() {
 
@@ -1142,6 +975,10 @@
       }
     },
 
+    mounted(){
+      // this.$refs.executeResult.show(921);
+
+    },
     created(){
 
 
@@ -1154,18 +991,17 @@
           this.deleteProperty(this.treeData,"children");
             this.keys = [this.treeData[0].levelId];
           // this.treeData = res.result;
-
           console.log(this.treeData)
           this.handleNodeClick(Object.assign({},this.treeData[0]));
         }
       })
-      document.addEventListener("click",(e) => {
-        if(this.executeflag && !this.checkClick(e.target)){
-          if(this.iconName == 'el-icon-arrow-up'){
-            this.iconName = 'el-icon-arrow-down';
-          }
-        }
-      })
+      // document.addEventListener("click",(e) => {
+      //   if(this.executeflag && !this.checkClick(e.target)){
+      //     if(this.iconName == 'el-icon-arrow-up'){
+      //       this.iconName = 'el-icon-arrow-down';
+      //     }
+      //   }
+      // })
     }
   }
 </script>
@@ -1381,4 +1217,11 @@
   }
 
 
+  .exe_span{
+    float: right;
+    font-size: 16px;
+    color: #999;
+    margin-top: 20px;
+    line-height: 38px;
+  }
 </style>
