@@ -155,7 +155,10 @@
         this.$router.push({
           path: '/main/exeRecordDetail',
           query: {
-            exeId: row.id
+            exeId: row.id,
+            createTime: row.createTime,
+            productTemplate: row.productTemplate,
+            takeEffectStatus: row.takeEffectStatus
           },
         })
       }

@@ -29,7 +29,7 @@
           </el-col>
           <el-col :span="12">
             <span class="label">执行开始时间</span>
-            <span>{{exe.createTime}}</span>
+            <span>{{$route.query.createTime}}</span>
           </el-col>
           <el-col :span="12">
             <span class="label">耗时</span>
@@ -37,11 +37,11 @@
           </el-col>
           <el-col :span="12">
             <span class="label">产品模板</span>
-            <span>{{exe.firstAuditorName}}</span>
+            <span>{{$route.query.productTemplate}}</span>
           </el-col>
           <el-col :span="12">
             <span class="label">执行状态</span>
-            <span></span>
+            <span>{{$route.query.takeEffectStatus === 0 ? '未采纳' : '已采纳'}}</span>
           </el-col>
         </el-row>
       </div>
