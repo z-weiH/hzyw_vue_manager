@@ -150,7 +150,7 @@
         this.doQuery();
       },
       doQuery() {
-        this.$http.post('/ruleExe/queryRuleExeResult.htm',{exeId: this.exeId, ...this.pager}).then(res => {
+        this.$http.post('/ruleExe/queryRuleExeResult.htm',{exeId: this.exeId, ...this.pager},{mheaders: true}).then(res => {
           if(res.code === '0000'){
             this.pager.total = res.result.count,
 

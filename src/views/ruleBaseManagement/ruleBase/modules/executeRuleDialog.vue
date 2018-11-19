@@ -189,7 +189,7 @@
         flag1: false,
         flag2: false,
         flag3: false,
-        form: {},
+        form: {caseStatus: ''},
         //下拉框图标
         iconName: 'el-icon-arrow-down',
         //tree config
@@ -241,7 +241,7 @@
     },
   methods:{
     refreshData(){
-      this.form = {};
+      this.form = {caseStatus: ''};
       //下拉框图标
       this.iconName ='el-icon-arrow-down';
       this.caseList= [];
@@ -292,6 +292,8 @@
         this.allruleList.forEach(it => {
           this.ruleIdList.push(it.ruleId);
         })
+      }else{
+        this.ruleIdList = [];
       }
       console.log(this.ruleIdList);
 

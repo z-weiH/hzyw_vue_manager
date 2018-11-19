@@ -8,7 +8,7 @@
           <div class="fl mt-20" style="line-height: 21px;" v-if="exeResult != null">
             <p class="fl" style="color: #999; text-align: center">
               上次执行完成时间<br>
-              {{exeResult.overTime}}
+              {{exeResult.overTime | TimeMomentChina }}
             </p>
             <span @click="showList" class="colLink fl" style="margin: 0 20px;font-size: 16px;line-height: 37px;">
             查看
@@ -782,6 +782,7 @@
 
 
       },
+
       //查看参数
       handleAvriable() {
 

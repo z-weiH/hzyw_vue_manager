@@ -62,9 +62,15 @@
           </el-table-column>
           <el-table-column label="被申请人姓名" prop="respondents">
           </el-table-column>
-          <el-table-column label="被申请人手机号" prop="phones">
+          <el-table-column label="产品模版" prop="phones">
+            <template slot-scope="scope">
+              <span>{{scope.row.clientName + '-'+ scope.row.prodTempCode}}</span>
+            </template>
           </el-table-column>
           <el-table-column label="案件状态" prop="caseStatus" :render-header="headerRender">
+            <template slot-scope="scope">
+              <span>{{caseStatusName(scope.row.caseStatus)}}</span>
+            </template>
           </el-table-column>
 
           <el-table-column label="执行结果" prop="exeStatus" :render-header="headerRender">
@@ -85,7 +91,7 @@
             <template slot-scope="scope">
               <div style="text-align: center;">
                 <span class="colLink mr-20" @click="showDetails(scope.row)">{{expands.indexOf(scope.row.id) != -1 ? '收起' : '展开'}}</span>
-                <span class="colLink" @click="signalDetail(scope.$index)">查看</span>
+                <span class="colLink" @click="signalDetail(scope.row)">查看</span>
               </div>
 
             </template>
@@ -106,7 +112,7 @@
 
 
         </el-table>
-        <div class="pagination">
+        <div class="pagination " style="background: #fff;">
           <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -118,6 +124,72 @@
           </el-pagination>
         </div>
 
+      <el-dialog
+        :visible.sync="queryFlag"
+        v-dialogDrag
+        :title="title"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        width="500"
+      >
+
+        <div class="content" style="overflow: hidden;">
+          <el-row v-if="queryStatus === 0">
+            <el-col :span="24">
+              <el-checkbox @change="selectAll">展示全部状态</el-checkbox>
+            </el-col>
+            <el-checkbox-group v-model="caseStatusList">
+
+            <el-col :span="12">
+              <el-checkbox label="0">待分配</el-checkbox>
+            </el-col>
+            <el-col :span="12">
+              <el-checkbox label="1">待初审</el-checkbox>
+            </el-col>
+            <el-col :span="12">
+              <el-checkbox label="2">待复审</el-checkbox>
+            </el-col>
+            <el-col :span="12">
+              <el-checkbox label="3">退回重审</el-checkbox>
+            </el-col>
+            <el-col :span="12">
+              <el-checkbox label="4">预审通过</el-checkbox>
+            </el-col>
+            <el-col :span="12">
+              <el-checkbox label="5">预审未通过</el-checkbox>
+            </el-col>
+            <el-col :span="12">
+              <el-checkbox label="6">立案申请成功</el-checkbox>
+            </el-col>
+            <el-col :span="12">
+              <el-checkbox label="7">立案申请失败</el-checkbox>
+            </el-col>
+            </el-checkbox-group>
+          </el-row>
+
+          <el-row v-if="queryStatus === 1">
+            <el-row>
+              <el-checkbox @change="selectAll">展示全部执行结果</el-checkbox>
+            </el-row>
+            <el-checkbox-group v-model="exeStatusList">
+              <el-row>
+                <el-checkbox label="0">执行错误</el-checkbox>
+              </el-row>
+              <el-row>
+                <el-checkbox label="2">检出错误</el-checkbox>
+              </el-row>
+              <el-row>
+                <el-checkbox label="1">未检出错误</el-checkbox>
+
+              </el-row>
+            </el-checkbox-group>
+          </el-row>
+        </div>
+        <div class="dialog-footer mt-30" style="clear: both;text-align: center;">
+          <el-button type="primary" class="mr-30" @click="doQuery">确定</el-button>
+          <el-button  @click="queryFlag = false;">取消</el-button>
+        </div>
+      </el-dialog>
 
     </div>
 
@@ -128,8 +200,13 @@
       name: 'index',
       data(){
         return {
+          caseStatusList: [],
+          exeStatusList: [],
+          queryStatus: 0,  //0 案件状态  1 执行状态
           expands:[],
           exe: {},
+          title: '',
+          queryFlag: false,
           list: [],
           pager:{
             currentNum: 1,
@@ -141,11 +218,64 @@
         }
       },
       methods:{
-        signalDetail(idx){
 
+        selectAll(val){
+          console.log(this.caseStatusList,val);
+          if(val){
+            if(this.queryStatus === 0){
+              this.caseStatusList = ['0','1','2','3','4','5','6','7'];
+            }else if(this.queryStatus === 1){
+              this.exeStatusList = ['0','1','2'];
+            }
+          }else{
+            if(this.queryStatus === 0){
+              this.caseStatusList = [];
+            }else if(this.queryStatus === 1){
+              this.exeStatusList = [];
+            }
+          }
+        },
+
+
+        caseStatusName(status){
+          // 0-待分配，1-待初审，2-待复审，3-退回重审，4-预审通过，5-预审未通过，6-立案申请成功，7-立案申请失败
+          if(status === 0)
+            return '待分配';
+          else if(status === 1)
+            return '待初审';
+          else if(status === 2)
+            return '待复审';
+          else if(status === 3)
+            return '退回重审';
+          else if(status === 4)
+            return '预审通过';
+          else if(status === 5)
+            return '预审未通过';
+          else if(status === 6)
+            return '立案申请成功';
+          else if(status === 7)
+            return '立案申请失败';
+
+        },
+
+        signalDetail(row){
+          let routeData = this.$router.resolve({
+            path: '/ruleExeDetail',
+            query: { exeId: this.exeId ,sortNum: row.sortNum},
+          });
+          window.open(routeData.href, '_blank')
         },
         showDialog(col){
           console.log(col);
+          if(col.property === "caseStatus"){
+            this.title = '筛选案件状态';
+            this.queryStatus = 0;
+            this.queryFlag = true;
+          }else if(col.property === "exeStatus"){
+            this.title = "筛选执行结果";
+            this.queryStatus = 1;
+            this.queryFlag = true;
+          }
         },
         headerRender(createElement,{$index,column}){
             let ele = createElement(
@@ -215,12 +345,11 @@
 
         },
         doQuery(){
-          this.$http.post('/ruleExe/queryRuleExeResult.htm',{exeId: this.exeId, ...this.pager}).then(res => {
+          this.$http.post('/ruleExe/queryRuleExeResult.htm',{exeId: this.exeId, ...this.pager,caseStatusList: this.caseStatusList, exeStatusList: this.exeStatusList},{mheaders: true}).then(res => {
             if(res.code === '0000'){
-              this.pager.total = res.result.count,
-
-                this.list = res.result.list;
-
+              this.pager.total = res.result.count;
+              this.list = res.result.list;
+              this.queryFlag && (this.queryFlag = false);
             }
           });
         },
