@@ -15,7 +15,7 @@ let exportFile = (obj) => {
   let arr = [];
 
   for(let key in data) {
-    data[key] && arr.push(`${key}=${data[key]}`);
+    (data[key] !== void 0) && arr.push(`${key}=${data[key]}`);
   };
   try{
     arr.push(`token=${JSON.parse(localStorage.getItem('loginInfo')).token}`);

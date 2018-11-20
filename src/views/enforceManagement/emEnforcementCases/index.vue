@@ -335,16 +335,29 @@
       cityFinish(val) {
         console.log('选择成功',val);
         // val存在表示当前选到市 ， 不存在表示选择到区
-        this.$http({
-          url : '/court/queryCourtInfoByDistrictCode.htm',
-          method : 'post',
-          data : {
-            districtCode : this.ruleForm.districtCode,
-          },
-        }).then((res) => {
-          this.courtOptions = res.result;
-          this.ruleForm.courtId = '';
-        });
+        if(!val) {
+          this.$http({
+            url : '/court/queryCourtInfoByDistrictCode.htm',
+            method : 'post',
+            data : {
+              districtCode : this.ruleForm.districtCode,
+            },
+          }).then((res) => {
+            this.courtOptions = res.result;
+            this.ruleForm.courtId = '';
+          });
+        }else{
+          this.$http({
+            url : '/court/queryCourtInfoByCityCode.htm',
+            method : 'post',
+            data : {
+              cityCode : val,
+            },
+          }).then((res) => {
+            this.courtOptions = res.result;
+            this.ruleForm.courtId = '';
+          });
+        }
       },
       // 地区 取消回调
       cityCancel() {
