@@ -378,9 +378,7 @@
     },
 
     created(){
-      window.onbeforeunload = () => {
-        this.saveExeCaseId();
-      }
+
     },
     mounted() {
       this.exeId = this.$route.query.exeId;
@@ -400,7 +398,9 @@
           }
         }
       })
-
+      window.onbeforeunload = () => {
+        this.saveExeCaseId();
+      }
     }
   }
 </script>

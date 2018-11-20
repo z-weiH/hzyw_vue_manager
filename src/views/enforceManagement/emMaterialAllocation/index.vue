@@ -77,7 +77,7 @@
           label="受委托人"
           width="200">
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.mandatoryName ? scope.row.mandatoryName : '-'}}</span>
+            <span v-ellipsis.20>{{scope.row.mandatoryName ? scope.row.mandatoryName : scope.row.mandatoryName === '' ? '空委托人' : '-'}}</span>
           </template>
         </el-table-column>
 

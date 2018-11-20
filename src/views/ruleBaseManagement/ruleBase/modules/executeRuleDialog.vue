@@ -84,7 +84,7 @@
               </template>
             </el-table-column>
             <el-table-column prop="pushTime" label="案件推送时间" width="160"> </el-table-column>
-            <el-table-column prop="applyTime" label="立案提交时间" width="160">
+            <el-table-column prop="applyTime" label="提交立案日期" width="160">
               <template slot-scope="scope">
                 <span>{{scope.row.applyTime ? scope.row.applyTime : '--'}}</span>
               </template>

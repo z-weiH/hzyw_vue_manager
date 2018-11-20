@@ -81,7 +81,7 @@
       </div>
       <div class="yhzh li">
         <div class="title">
-          <el-button style="margin-top: 10px;color: #0F357F;" class="fr" @click="addyhzh">添加</el-button>
+          <el-button style="margin-top: 10px;color: #0F357F;" class="fr" @click="addyhzh" :disabled="yhzhList.length === 1">添加</el-button>
           2.申请执行人银行账户
         </div>
         <div class="table">
@@ -281,7 +281,7 @@
       center>
       <div class="dialog-content">
         <p style="text-align: right;">
-          <span @click="setswtr" class='colLink'>无选项去设置</span>
+          <span @click="setyhzh" class='colLink'>无选项去设置</span>
         </p>
         <div class="form">
           <el-form :rules="rules" ref="yhzhform" :model="yhzhObj" label-width="130px" class="demo-ruleForm">
@@ -392,7 +392,11 @@
         this.$refs.swtrform.validate(res => {
           console.log(res);
           if(res){
-            this.$http.post('/court/addMandatory.htm',{channelId: this.swtrObj.channelId  ,mandatoryId: this.swtrObj.mandatoryId,courtId: this.$route.query.courtId}).then(res => {
+            let obj ={channelId: this.swtrObj.channelId  ,mandatoryId: this.swtrObj.mandatoryId};
+            if(this.swtrObj.mandatoryId === '0000'){
+              obj ={channelId: this.swtrObj.channelId};
+            }
+            this.$http.post('/court/addMandatory.htm',{...obj,courtId: this.$route.query.courtId}).then(res => {
               // console.log()
               this.$message.success("配置受委托人成功");
               this.swtrFlag = false;
@@ -427,6 +431,10 @@
       setswtr(){
         window.open(`//${window.location.host}/#/main/emClientManagement`,'_blank');
       },
+      setyhzh(){
+        window.open(`//${window.location.host}/#/main/emBankAccount`,'_blank')
+      },
+
       addswtr(){
         this.swtrObj = {channelType: '', channelId: '', mandatoryId: ''};
         this.swtrFlag = true;
@@ -530,8 +538,12 @@
       initPage(){
         this.$http.post('/court/materialsettingdetail.htm',{courtId: this.$route.query.courtId}).then(res => {
           console.log('init',res);
-          this.swtrList = res.result.mandatoryList;
-          this.yhzhList = res.result.bankList;
+          if(res.result.mandatoryList){
+            this.swtrList = res.result.mandatoryList;
+          }
+          if(res.result.bankList){
+            this.yhzhList = res.result.bankList;
+          }
           if(res.result.materialNumSetting){
             this.clfsList = res.result.materialNumSetting;
           }
