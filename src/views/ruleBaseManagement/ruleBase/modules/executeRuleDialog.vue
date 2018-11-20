@@ -241,7 +241,7 @@
     },
   methods:{
     refreshData(){
-      this.form = {caseStatus: ''};
+      this.form = {caseStatus: '',keyWords:''};
       //下拉框图标
       this.iconName ='el-icon-arrow-down';
       this.caseList= [];

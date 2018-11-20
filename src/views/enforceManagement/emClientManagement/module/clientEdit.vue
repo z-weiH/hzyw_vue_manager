@@ -19,6 +19,12 @@
         <el-form-item label="受委托人" prop="mandatoryName">
           <el-input v-model="item.mandatoryName"></el-input>
         </el-form-item>
+        <el-form-item label="性别" prop="gender">
+          <el-select v-model="item.gender">
+            <el-option label="女" :value="0"></el-option>
+            <el-option label="男" :value="1"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="身份证号" prop="identityCard">
           <el-input v-model="item.identityCard"></el-input>
         </el-form-item>
@@ -55,6 +61,12 @@
         <el-form-item label="受委托人" prop="mandatoryName">
           <el-input v-model="item.mandatoryName"></el-input>
         </el-form-item>
+        <el-form-item label="性别" prop="gender">
+          <el-select v-model="item.gender">
+            <el-option label="女" :value="0"></el-option>
+            <el-option label="男" :value="1"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="联系电话" prop="phone">
           <el-input v-model="item.phone"></el-input>
         </el-form-item>
@@ -80,6 +92,9 @@
         title: '',
         item: {},
         rules : {
+          mandatoryName: [
+            { required : true , message : '请输入受委托人姓名' , trigger : 'blur'},
+          ],
           channelType : [
             { required : true , message : '请选择类型' , trigger : 'blur'},
           ],

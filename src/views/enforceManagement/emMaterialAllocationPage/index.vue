@@ -167,6 +167,7 @@
         </div>
         <div class="table">
           <el-table
+            ref="clfsTable"
             :data="clfsList"
             border
             style="width: 100%;">
@@ -213,23 +214,24 @@
           <span @click="setswtr" class='colLink'>无选项去设置</span>
         </p>
         <div class="form">
-          <el-form :model="swtrObj" label-width="100px" class="demo-ruleForm">
+          <el-form :model="swtrObj" ref="swtrform" :rules="rules2" label-width="100px" class="demo-ruleForm">
             <!--1：自营渠道：2：律所代理：3：线下代理-->
-            <el-form-item label="受托人类型" prop="region">
-              <el-select v-model="swtrObj.channelType" placeholder="请选择受托人类型">
-                <el-option v-for="(item,idx) in channelList" :key="idx" label="自营渠道" value="1"></el-option>
+            <el-form-item label="受托人类型" prop="channelType">
+              <el-select style="width: 100%;" v-model="swtrObj.channelType" placeholder="请选择受托人类型">
+                <el-option label="内部员工" value="1"></el-option>
+                <el-option label="律所代理" value="2"></el-option>
+                <el-option label="线下代理" value="3"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="渠道选择" prop="channelId">
-              <el-select v-model="swtrObj.channelId" placeholder="请选择受渠道">
-                <el-option label="自营渠道" value="1"></el-option>
+              <el-select style="width: 100%;" v-model="swtrObj.channelId" placeholder="请选择渠道">
+                <el-option v-for="(item,idx) in channelIdList" :value="item.channelId" :label="item.channelName" :key="idx"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="受委托人" prop="mandatoryId">
-              <el-select v-model="swtrObj.mandatoryId" placeholder="请选择受托人">
-                <el-option label="自营渠道" value="1"></el-option>
-                <el-option label="律所代理" value="2"></el-option>
-                <el-option label="线下代理" value="3"></el-option>
+              <el-select style="width: 100%;" v-model="swtrObj.mandatoryId" placeholder="请选择受托人">
+                <el-option value="0000" label="受托人为空"></el-option>
+                <el-option v-for="(item,idx) in mandatoryIdList" :value="item.mandatoryId" :label="item.mandatoryName" :key="idx"></el-option>
               </el-select>
             </el-form-item>
           </el-form>
@@ -238,7 +240,7 @@
       </div>
       <span slot="footer" class="dialog-footer">
           <el-button @click="swtrFlag = false">取 消</el-button>
-          <el-button type="primary"  @click="save">确 定</el-button>
+          <el-button type="primary"  @click="saveswtr">确 定</el-button>
         </span>
     </el-dialog>
 
@@ -271,6 +273,41 @@
       </span>
     </el-dialog>
 
+    <el-dialog
+      :visible.sync="yhzhFlag"
+      v-dialogDrag
+      title="添加配置申请执行人银行账户"
+      width="555px"
+      center>
+      <div class="dialog-content">
+        <p style="text-align: right;">
+          <span @click="setswtr" class='colLink'>无选项去设置</span>
+        </p>
+        <div class="form">
+          <el-form :rules="rules" ref="yhzhform" :model="yhzhObj" label-width="130px" class="demo-ruleForm">
+            <!--1：自营渠道：2：律所代理：3：线下代理-->
+            <el-form-item label="执行款账户户名" prop="accountName">
+              <el-select style="width: 100%;" v-model="yhzhObj.accountName" placeholder="请选择执行款账户户名">
+                <el-option  v-for="(item,idx) in bankNameList" :key="idx" :value="item">{{item}}</el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="开户银行" prop="applicantCardId">
+              <el-select style="width: 100%;" v-model="yhzhObj.applicantCardId" placeholder="请选择开户银行">
+                <el-option  v-for="(item,idx) in bankInfoList" :key="idx" :value="item.applicantCardId" :label="item.depositBank"></el-option>
+
+              </el-select>
+            </el-form-item>
+          </el-form>
+        </div>
+
+      </div>
+      <span slot="footer" class="dialog-footer">
+          <el-button @click="yhzhFlag = false">取 消</el-button>
+          <el-button type="primary"  @click="saveyhzh">确 定</el-button>
+        </span>
+    </el-dialog>
+
+
   </div>
 </template>
 
@@ -280,18 +317,107 @@
     data(){
       return {
         swtrList: [],
+        channelIdList: [],
+        mandatoryIdList: [],
         swtrFlag: false,
-        swtrObj: {},
+        swtrObj: {channelId: ''},
+        yhzhFlag: false,
+        yhzhObj: {applicantCardId:'',accountName: ''},
         yhzhList: [],
-        clfsList: [],
+        bankNameList: [],
+        bankInfoList: [],
+        clfsList: [
+          {materialType: 1,materialNum: 0 },
+          {materialType: 2,materialNum: 0 },
+          {materialType: 3,materialNum: 0 },
+          {materialType: 4,materialNum: 0 },
+          {materialType: 5,materialNum: 0 },
+          {materialType: 6,materialNum: 0 },
+          {materialType: 7,materialNum: 0 },
+          {materialType: 8,materialNum: 0 },
+          {materialType: 9,materialNum: 0 },
+          {materialType: 10,materialNum: 0 },
+          ],
         clfsFlag: false,
         clfsObj: {},
         clfsListClone: [],
         channelList: [],
-        mandatoryList: []
+        mandatoryList: [],
+        rules : {
+          accountName : [
+            { required : true , message : '请选择执行款账户户名' , trigger : 'blur'},
+          ],
+          applicantCardId : [
+            { required : true , message : '请选择开户银行' , trigger : 'blur'},
+          ],
+        },
+        rules2:{
+          channelType : [
+            { required : true , message : '请选择受托人类型' , trigger : 'blur'},
+          ],
+          channelId : [
+            { required : true , message : '请选择渠道' , trigger : 'blur'},
+          ],
+          mandatoryId:[
+            { required : true , message : '请选择受托人' , trigger : 'blur'},
+
+          ]
+        }
+      }
+    },
+    watch:{
+      'swtrObj.channelType'(val,oldval){
+        this.swtrObj.channelId = '';
+        this.$http.post('/mandatory/queryChannelInfoByChannelId.htm',{channelType: val}).then(res => {
+          this.channelIdList = res.result;
+        })
+      },
+      'swtrObj.channelId'(val,oldval){
+        if(val){
+          this.$http.post('/mandatory/queryCourtMandatoryInfo.htm',{channelId: val,pageSize: 100,currentNum: 1}).then(res => {
+            this.mandatoryIdList = res.result.list;
+          })
+        }
+      },
+      'yhzhObj.accountName'(val,oldval){
+        this.yhzhObj.applicantCardId = '';
+        this.$http.post("/forceManager/queryApplicateBankInfoByAccountName.htm",{accountName: val}).then(res => {
+          this.bankInfoList = res.result;
+        })
       }
     },
     methods:{
+
+      saveswtr(){
+        this.$refs.swtrform.validate(res => {
+          console.log(res);
+          if(res){
+            this.$http.post('/court/addMandatory.htm',{channelId: this.swtrObj.channelId  ,mandatoryId: this.swtrObj.mandatoryId,courtId: this.$route.query.courtId}).then(res => {
+              // console.log()
+              this.$message.success("配置受委托人成功");
+              this.swtrFlag = false;
+              this.initPage();
+            })
+          }
+
+        })
+      },
+
+      saveyhzh(){
+        this.$refs.yhzhform.validate(res => {
+          console.log(res);
+          if(res){
+            this.$http.post('/court/addApplicateCardInfo.htm',{applicantCardId: this.yhzhObj.applicantCardId,courtId: this.$route.query.courtId}).then(res => {
+              // console.log()
+              this.$message.success("配置申请执行人银行账户成功");
+              this.yhzhFlag = false;
+              this.initPage();
+            })
+          }
+
+        })
+      },
+
       getRowStyle(){
         return {'background':'#EEF3FF','font-weight':'bold'};
       },
@@ -302,29 +428,71 @@
         window.open(`//${window.location.host}/#/main/emClientManagement`,'_blank');
       },
       addswtr(){
+        this.swtrObj = {channelType: '', channelId: '', mandatoryId: ''};
         this.swtrFlag = true;
+        this.$nextTick(() => {
+          this.$refs.swtrform.resetFields();
+        });
       },
       delswtr(row){
-        this.$http.get("/court/deleteMandatoryInfo.htm",{courtId: this.$route.query.courtId, mandatoryId: row.mandatoryId}).then(res => {
-          let idx = this.swtrList.findIndex(it => it.mandatoryId === row.mandatoryId);
-          this.swtrList.splice(idx,1);
+        this.$confirm('确定要删除该条记录吗?', '提示', {
+          center: true,
+        }).then( () => {
+          this.$http.post("/court/deleteMandatoryInfo.htm",{courtId: this.$route.query.courtId, mandatoryId: row.mandatoryId,id: row.id}).then(res => {
+            let idx = this.swtrList.findIndex(it => it.mandatoryId === row.mandatoryId);
+            this.swtrList.splice(idx,1);
+          })
         })
-      },
-      addyhzh(){
 
       },
-      delyhzh(row){
-        this.$http.get("/court/deleteApplicantCardInfo.htm",{courtId: this.$route.query.courtId, applicantCardId: row.applicantCardId}).then(res => {
-          let idx = this.yhzhList.findIndex(it => it.applicantCardId === row.applicantCardId);
-          this.yhzhList.splice(idx,1);
+      addyhzh(){
+        this.yhzhObj= {accountName: '',applicantCardId: ''};
+        this.yhzhFlag = true;
+        this.$nextTick(() => {
+          this.$refs.yhzhform.resetFields();
+        });
+        this.$http.post('/forceManager/queryDistinctApplicateBank.htm').then(res => {
+          this.bankNameList= res.result;
+          console.log(this.bankNameList)
         })
       },
+      delyhzh(row){
+
+        this.$confirm('确定要删除该条记录吗?', '提示', {
+          center: true,
+        }).then( () => {
+          this.$http.post("/court/deleteApplicantCardInfo.htm",{courtId: this.$route.query.courtId, applicantCardId: row.applicantCardId}).then(res => {
+            let idx = this.yhzhList.findIndex(it => it.applicantCardId === row.applicantCardId);
+            this.yhzhList.splice(idx,1);
+          })
+        })
+
+
+      },
       configclfs(){
+        this.clfsListClone = this.arrClone(this.clfsList);
         this.clfsFlag =true;
       },
       //保存设置
       clfsSave(){
-
+        this.$http.post("/court/addMaterialNum.htm",
+          {
+            courtId: this.$route.query.courtId,
+            bsqbccns: this.clfsListClone[2].materialNum,
+            cczksm: this.clfsListClone[5].materialNum,
+            fwxy: this.clfsListClone[7].materialNum,
+            jkxy: this.clfsListClone[6].materialNum,
+            qzzxsqs: this.clfsListClone[0].materialNum,
+            sfzzfm: this.clfsListClone[4].materialNum,
+            sqwts: this.clfsListClone[1].materialNum,
+            xzgxfsms: this.clfsListClone[8].materialNum,
+            zxkyhzhqds: this.clfsListClone[3].materialNum,
+          }).then(res => {
+            console.log(res);
+            this.$message.success("配置修改成功");
+            this.initPage();
+            this.clfsFlag = false;
+        })
       },
       arrClone(arr){
         let newArr =[];
@@ -360,11 +528,16 @@
 
       },
       initPage(){
-        this.$http.get('/court/materialsettingdetail.htm',{courtId: this.$route.query.courtId}).then(res => {
+        this.$http.post('/court/materialsettingdetail.htm',{courtId: this.$route.query.courtId}).then(res => {
+          console.log('init',res);
           this.swtrList = res.result.mandatoryList;
           this.yhzhList = res.result.bankList;
-          this.clfsList = res.result.materialNumSetting;
-          this.clfsListClone = this.arrClone(this.clfsList);
+          if(res.result.materialNumSetting){
+            this.clfsList = res.result.materialNumSetting;
+          }
+          console.log(this.clfsList);
+
+
         })
       }
     },

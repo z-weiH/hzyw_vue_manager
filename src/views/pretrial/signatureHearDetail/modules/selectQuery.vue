@@ -86,13 +86,14 @@
         this.showQuery = !this.showQuery;
       },
       HandleQuery(){
-        this.$parent.auditStatus = this.auditStatus;
-        this.$parent.passStatus = this.passStatus;
-        this.$parent.keyWords = this.keyWords;
-        this.$parent.correctionStatus = this.correctionStatus;
+        this.$parent.$parent.auditStatus = this.auditStatus;
+        this.$parent.$parent.passStatus = this.passStatus;
+        this.$parent.$parent.keyWords = this.keyWords;
+        this.$parent.$parent.correctionStatus = this.correctionStatus;
+        console.log(this.$parent.$parent.correctionStatus);
         this.showQuery = false;
-        if(this.$parent.HandleQuery && this.$parent.HandleQuery instanceof Function){
-          this.$parent.HandleQuery();
+        if(this.$parent.$parent.HandleQuery && this.$parent.$parent.HandleQuery instanceof Function){
+          this.$parent.$parent.HandleQuery();
         }
       },
       checkClick(elm){

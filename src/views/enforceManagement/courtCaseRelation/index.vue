@@ -252,7 +252,9 @@ export default {
     },
     'searchItem.cityCode'(val,oldval){
       this.districtSearch(val);
+      this.courtSearchByCityCode(val);
       this.searchItem.districtCode = '';
+      this.searchItem.courtId = '';
     },
     'searchItem.districtCode'(val,oldval){
       this.courtSearch(val);
@@ -292,6 +294,11 @@ export default {
     },
     courtSearch(districtCode){
       this.$http.post("/court/queryCourtInfoByDistrictCode.htm",{districtCode: districtCode}).then(res => {
+        this.courtOptions = res.result;
+      })
+    },
+    courtSearchByCityCode(cityCode){
+      this.$http.post("/court/queryCourtInfoByCityCode.htm",{cityCode: cityCode}).then(res => {
         this.courtOptions = res.result;
       })
     },

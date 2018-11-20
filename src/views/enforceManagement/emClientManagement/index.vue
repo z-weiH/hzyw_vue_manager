@@ -68,6 +68,14 @@
             <span v-ellipsis.20>{{scope.row.mandatoryName}}</span>
           </template>
         </el-table-column>
+        <el-table-column
+          prop="gender"
+          label="性别"
+          width="120">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.gender === 0 ? "女" : scope.row.gender === 1 ? '男' : '-'}}</span>
+          </template>
+        </el-table-column>
 
         <el-table-column
           prop="identityCard"
@@ -171,6 +179,7 @@
       }).then(res => {
         this.$http.post("/mandatory/deleteCourtMandatoryInfo.htm",{mandatoryId: row.mandatoryId}).then(res => {
           this.$message.success("受委托人删除成功");
+          this.doQuery();
         })
       }).catch(err => {
 

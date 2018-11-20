@@ -330,7 +330,6 @@
         this.$http.post('/ruleCase/queryRuleExeResultByBaseQuery.htm',{exeId: this.exeId,...this.pager,...this.searchItem})
           .then(res => {
             console.log(res);
-            if(res.code === '0000'){
               this.evidenceItems = res.result.list;
               this.count = res.result.totalCount;
               this.pager.total = res.result.count;
@@ -350,7 +349,6 @@
                 })
               }
               // this.scrollList =
-            }
             loading.close();
             this.showQuery && (this.showQuery = false);
           })

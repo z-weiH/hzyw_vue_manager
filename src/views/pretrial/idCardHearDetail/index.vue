@@ -375,7 +375,7 @@ export default {
         )
       }else{
         Object.assign(obj,
-          { subBatchNo: this.subBatchNo, passStatus: +this.passStatus ,keyWords: this.keyWords},
+          { subBatchNo: this.subBatchNo, passStatus: +this.passStatus ,keyWords: this.keyWords,correctionStatus: this.correctionStatus},
           this.pager
         )
       }

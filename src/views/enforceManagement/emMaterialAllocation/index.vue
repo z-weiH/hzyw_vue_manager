@@ -73,11 +73,11 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="mandatory"
+          prop="mandatoryName"
           label="受委托人"
           width="200">
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.mandatory}}</span>
+            <span v-ellipsis.20>{{scope.row.mandatoryName ? scope.row.mandatoryName : '-'}}</span>
           </template>
         </el-table-column>
 
@@ -86,7 +86,7 @@
           label="申请执行人银行账户"
           width="180">
           <template slot-scope="scope">
-            {{scope.row.executionStatus === 0 ? '未设置' : '已设置'}}
+            {{scope.row.executionStatus === 1 ? '已设置' : '未设置'}}
           </template>
         </el-table-column>
         <el-table-column
@@ -94,7 +94,7 @@
           label="强制执行文书材料下载份数"
           width="200">
           <template slot-scope="scope">
-            {{scope.row.courtSettingStatus === 0 ? '未设置' : '已设置'}}
+            {{scope.row.courtSettingStatus === 1 ? '已设置' : '未设置'}}
           </template>
         </el-table-column>
         <el-table-column
@@ -153,6 +153,23 @@
         }
       }
     },
+    watch:{
+      'searchItem.provinceCode'(val,oldval){
+        this.citySearch(val);
+        this.searchItem.cityCode = '';
+
+      },
+      'searchItem.cityCode'(val,oldval){
+        this.districtSearch(val);
+        this.courtSearchByCityCode(val);
+        this.searchItem.districtCode = '';
+        this.searchItem.courtId = '';
+      },
+      'searchItem.districtCode'(val,oldval){
+        this.courtSearch(val);
+        this.searchItem.courtId = '';
+      }
+    },
     methods:{
 
       handleClick(row){
@@ -169,14 +186,43 @@
         this.doQuery();
       },
       doQuery(){
-        this.$http.get("/court/materialsettinglist.htm",{...this.searchItem,...this.pager}).then(res  => {
+        this.$http.post("/court/materialsettinglist.htm",{...this.searchItem,...this.pager}).then(res  => {
           this.tableData = res.result.list;
           this.pager.count = res.result.count;
         })
+      },
+
+
+      provinceSearch(){
+        this.$http.post("/court/queryProvinceInfo.htm").then(res => {
+          this.provinceOptions = res.result;
+        })
+      },
+      citySearch(provinceCode){
+        this.$http.post("/court/queryCityInfoByProvinceCode.htm",{provinceCode:provinceCode}).then(res => {
+          this.cityOptions = res.result;
+        })
+      },
+      districtSearch(cityCode){
+        this.$http.post("/court/queryDistrictInfoByCityCode.htm",{cityCode: cityCode}).then(res => {
+          this.districtOptions = res.result;
+        })
+      },
+      courtSearch(districtCode){
+        this.$http.post("/court/queryCourtInfoByDistrictCode.htm",{districtCode: districtCode}).then(res => {
+          this.courtOptions = res.result;
+        })
+      },
+      courtSearchByCityCode(cityCode){
+        this.$http.post("/court/queryCourtInfoByCityCode.htm",{cityCode: cityCode}).then(res => {
+          this.courtOptions = res.result;
+        })
       }
+
     },
     created(){
       this.doQuery();
+      this.provinceSearch();
     }
   }
 </script>

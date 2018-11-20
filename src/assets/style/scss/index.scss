@@ -612,6 +612,7 @@ textarea::-webkit-scrollbar {
 }
 .el-scrollbar__wrap {
   overflow-x: hidden !important;
+  margin-bottom: 0 !important;
 }
 .move-top-left{
   transition: all 1s ease;
