@@ -11,7 +11,7 @@
           <el-col :span="24">
             <span class="search-span">案件查询：</span>
             <el-form-item label=" " prop="keyWords">
-              <el-input v-model.trim="ruleForm.keyWords" placeholder="案号、申请人、被申请人、手机号" style="width:306px;"></el-input>
+              <el-input v-model.trim="ruleForm.keyWords" placeholder="案号、申请人、被申请人、手机号" style="width:456px;"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -53,7 +53,7 @@
             </el-form-item>
 
             <el-form-item label=" " prop="courtId">
-              <el-select clearable v-model="ruleForm.courtId" placeholder="请选择法院" style="width:145px;">
+              <el-select clearable v-model="ruleForm.courtId" placeholder="请选择法院" style="width:145px;margin-left:-20px;">
                 <el-option 
                   v-for="(item,index) in courtOptions" 
                   :key="index" 
@@ -168,12 +168,12 @@
         <el-table-column prop="resPhone" label="手机号"></el-table-column>
         <el-table-column prop="dateOfBorrowing" label="借款日期"></el-table-column>
         <el-table-column prop="lateStartDate" label="逾期开始日" min-width="120"></el-table-column>
-        <el-table-column prop="timeOfAdjudication" label="裁决时间"></el-table-column>
+        <el-table-column prop="closeTime" label="裁决时间"></el-table-column>
         <el-table-column prop="courtName" label="法院"></el-table-column>
         <el-table-column prop="templateCode" label="模板编码"></el-table-column>
-        <el-table-column prop="settingStatus" label="材料配置状态" min-width="120">
+        <el-table-column prop="configurationStatus" label="材料配置状态" min-width="120">
           <template slot-scope="scope">
-            {{scope.row.settingStatus === 1 ? '已完成' : '未完成'}}
+            {{scope.row.configurationStatus === 1 ? '已完成' : '未完成'}}
           </template>
         </el-table-column>
         <el-table-column prop="downloadStatus" label="下载状态">
@@ -419,7 +419,7 @@
       // 文件上传前回调
       uploadBefore(file) {
         let fileType = file.name.split('.').pop();
-        let arr = ['xlsx'];
+        let arr = ['xlsx','xls'];
         if(arr.indexOf(fileType) === -1){
           this.$message.warning('文件格式有误');
           return false;
