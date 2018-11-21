@@ -9,28 +9,29 @@
   <el-form :inline="true" class="searchs item-search" >
 
     <el-form-item style="margin-bottom: 0;" label="">
-      <el-input style="width: 230px;" v-model="searchItem.keyWords" placeholder="请输入产品模板"></el-input>
+      <el-input clearable style="width: 230px;" v-model="searchItem.keyWords" placeholder="请输入产品模板"></el-input>
     </el-form-item>
     <timeFrame
-      :startDate.sync="searchItem.pushStartDate"
-      :endDate.sync="searchItem.pushEndDate"
+      :startDate.sync="searchItem.startTime"
+      :endDate.sync="searchItem.endTime"
       startPlaceholder="执行开始日期"
       endPlaceholder="执行结束日期"
       :nomargin="true"
     >
     </timeFrame>
-    <el-button type="primary" class="fr">查询</el-button>
+    <el-button type="primary"@click="doQuery" class="fr">查询</el-button>
 
   </el-form>
   <div class="item-title">
     执行记录
   </div>
 
-  <div class="item-table" style="max-height: 650px;overflow: auto">
+  <div class="item-table" >
 
     <el-table
       :data="tableData"
       border
+      max-height="650"
       style="width: 100%;">
       <el-table-column
         type="index"
