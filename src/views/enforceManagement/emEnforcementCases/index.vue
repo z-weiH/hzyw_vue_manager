@@ -376,12 +376,12 @@
       },
       // 客户 change
       handleCustomerChange(val) {
-        if(!val) {
-          this.productOptions = [];
-          this.templateOptions = [];
-          this.ruleForm.productId = '';
-          this.ruleForm.templateCode = '';
-        }else{
+        this.productOptions = [];
+        this.templateOptions = [];
+        this.ruleForm.productId = '';
+        this.ruleForm.templateCode = '';
+
+        if(val) {
           this.$http({
             method : 'post',
             url : '/case/queryProducts.htm',
@@ -395,10 +395,10 @@
       },
       // 产品 change
       handleProductChange(val) {
-        if(!val) {
-          this.templateOptions = [];
-          this.ruleForm.templateCode = '';
-        }else{
+        this.templateOptions = [];
+        this.ruleForm.templateCode = '';
+
+        if(val) {
           this.$http({
             method : 'post',
             url : '/case/queryTemplatesByProductCode.htm',
