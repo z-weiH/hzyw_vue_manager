@@ -37,7 +37,7 @@
           label="渠道类型"
           width="100">
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.channelType === 1 ? '自营渠道' : scope.row.channelType === 2 ? '律所代理' : '线下代理'}}</span>
+            <span v-ellipsis.20>{{scope.row.channelType === 1 ? '自营渠道' : scope.row.channelType === 2 ? '律所代理' : scope.row.channelType === 3 ?  '线下代理' : '个人代理'}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -71,6 +71,14 @@
           width="230">
           <template slot-scope="scope">
             {{scope.row.channelAddress}}
+          </template>
+        </el-table-column>
+        <el-table-column
+          prop="courtSettingStatus"
+          label="员工管理"
+          width="156">
+          <template slot-scope="scope">
+            <el-button type="text" @click="handleManageClick(scope.row)" size="small">管理</el-button>
           </template>
         </el-table-column>
         <el-table-column
@@ -154,6 +162,11 @@
       handleEditClick(item){
         this.$refs.channelEdit.show(item.channelId);
       },
+      handleManageClick(item){
+
+      },
+
+
       addChannel(){
         this.$refs.channelEdit.show();
       }

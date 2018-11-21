@@ -3,7 +3,7 @@
     :visible.sync="flag"
     v-dialogDrag
     :title="title"
-    width="495px"
+    width="540px"
     center>
 
     <el-form ref="form" :rules="rules" :model="item" label-width="80px">
@@ -13,6 +13,7 @@
           <el-radio :label="1">自营渠道</el-radio>
           <el-radio :label="2">律所代理</el-radio>
           <el-radio :label="3">线下代理</el-radio>
+          <el-radio :label="4">个人代理</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item v-else label="渠道类型" prop="channelName">
@@ -73,7 +74,7 @@
             this.item= {...res.result,channelId: channelId};
             // <!--1：自营渠道：2：律所代理：3：线下代理-->
 
-            this.item.channelTypeCN = this.item.channelType === 1 ? '自营渠道' : this.item.channelType === 2 ? '律所代理' : '线下代理';
+            this.item.channelTypeCN = this.item.channelType === 1 ? '自营渠道' : this.item.channelType === 2 ? '律所代理' : this.item.channelType === 3 ?  '线下代理' : this.item.channelType === 4 ? '个人代理' : '-';
             this.title = '修改渠道';
             this.flag =true;
           })

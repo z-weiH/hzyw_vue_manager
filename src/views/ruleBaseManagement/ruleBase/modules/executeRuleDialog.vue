@@ -69,8 +69,8 @@
             <!--<el-button  type="warning" @click="queryOnlineCase">查询</el-button>-->
           </el-form>
         </div>
-        <div class="table" ref="table_warper" style="max-height: 400px;overflow: auto;">
-          <el-table ref="caseTable" border :data="caseList" @selection-change="handleSelectionChange">
+        <div class="table" ref="table_warper"  >
+          <el-table ref="caseTable" max-height="400" border :data="caseList" @selection-change="handleSelectionChange">
             <el-table-column type="selection"  width="55"></el-table-column>
             <el-table-column prop="loanBillNo"  label="案件编号" width="174">
               <template slot-scope="scope">
@@ -352,7 +352,7 @@
         this.caseList = res.result.list;
         this.pager.count = res.result.count;
         this.$nextTick(() => {
-          this.$refs.table_warper.scrollTo(0,0);
+          this.$refs.caseTable.$el.querySelector('.el-table__body-wrapper').scrollTo(0,0);
             this.caseList.forEach( it => {
               this.$refs.caseTable.toggleRowSelection(it , true);
             })
