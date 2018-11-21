@@ -14,10 +14,11 @@
 
 
 
-            <el-form-item class="slect_tree_warpar"  style="margin-right: 5px;margin-bottom: 5px;" label="案件模板" prop="labelName">
+            <el-form-item required class="slect_tree_warpar"  style="margin-right: 5px;margin-bottom: 5px;" label="案件模板" prop="labelName">
               <el-input
                 clearable
                 style="width:200px;"
+
                 placeholder="请选择范围"
                 :suffix-icon="iconName"
                 @focus="handleFocus"
@@ -189,7 +190,7 @@
         flag1: false,
         flag2: false,
         flag3: false,
-        form: {caseStatus: ''},
+        form: {caseStatus: '',keyWords:''},
         //下拉框图标
         iconName: 'el-icon-arrow-down',
         //tree config
@@ -337,11 +338,12 @@
       this.doQuery();
     },
     show(item){
+
         this.refreshData()
         this.treeData = item.treeData;
         this.keys = [this.treeData[0].levelId];
         this.flag1= true;
-        this.doQuery();
+        // this.doQuery();
         this.$nextTick(() => {
           this.$refs.ruleForm.resetFields();
         })

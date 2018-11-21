@@ -206,13 +206,16 @@
           confirmButtonText: '确定',
           cancelButtonText: '取消',
         }).then(() => {
-          this.$http.post('/ruleCase/updatePreCaseStatusByRuleExeResult.htm',{exeId: this.exeId}).then(res => {
-            this.searchItem.caseStatus = '';
-            this.searchItem.exameStatus = '';
-            this.searchItem.exeStatus = '';
-            this.HandleQuery();
+          this.saveExeCaseId().then(() => {
+            this.$http.post('/ruleCase/updatePreCaseStatusByRuleExeResult.htm',{exeId: this.exeId}).then(res => {
+              this.searchItem.caseStatus = '';
+              this.searchItem.exameStatus = '';
+              this.searchItem.exeStatus = '';
+              this.HandleQuery();
 
+            })
           })
+
         }).catch(() => {});
 
       },
@@ -301,7 +304,7 @@
             this.HandleQuery();
           }else{
             this.saveExeCaseId().then(res => {
-              if(this.searchItem.exameStatus != 1){
+              if(this.searchItem.exameStatus != 0){
                 this.pager.currentNum++ ;
               }
               this.HandleQuery();
