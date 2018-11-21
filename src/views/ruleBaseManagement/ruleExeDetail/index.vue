@@ -90,7 +90,7 @@
             </div>
             <div class="rule_list">
               <ul>
-                <li :class="{'mr-20': idx/2 === 0}" v-for="(item,idx) in evidence.ruleExeResultList" :key="idx" style="width: 645px; float: left;margin-bottom: 15px;">
+                <li :class="{'mr-20': idx%2 === 0}" v-for="(item,idx) in evidence.ruleExeResultList" :key="idx" style="width: 645px; float: left;margin-bottom: 15px;">
                   <el-checkbox class="error_checkbox" :disabled="disabled"  :label="item.id" v-model="item.isSelected" @change="saveSelectedStatus(item)" :key="item.id">
                     {{item.ruleDesc}}
                     <span v-if="item.ruleExeStatus===2" class="exeStatus2">检出错误</span>
@@ -100,7 +100,7 @@
               </ul>
             </div>
           </div>
-          <div class="card_body">
+          <div class="card_body" style="clear: both;">
             <div class="applybook_body">
               <div class="applybook_title of-hidden">
                 <div class="tit fl part_tit f_18">仲裁申请书</div>

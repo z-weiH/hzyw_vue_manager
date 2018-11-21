@@ -197,7 +197,7 @@
 
 <script>
     export default {
-      name: 'index',
+      name: 'exeRecord',
       data(){
         return {
           caseStatusList: [],
