@@ -70,7 +70,7 @@
 
         <span class="header_title">
           {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷
-          <i>{{evidence.exameStatus === 1 ? '已核对' : '未核对'}}</i>
+          <i v-if="evidence.takeEffectStatus === 0">{{evidence.exameStatus === 1 ? '已核对' : '未核对'}}</i>
         </span>
             <p>
               <span>{{pager.currentNum}}/{{pager.total}}</span>
@@ -225,6 +225,7 @@
           return Promise.resolve(true);
         }
         return this.$http.post('/ruleCase/updateExameStatusByExeCaseId.htm',{exeCaseId: this.evidenceItems[0].exeCaseId}).then(res => {
+          this.handleQueryConfig();
           return res;
         })
       },
