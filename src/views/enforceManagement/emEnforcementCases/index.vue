@@ -110,8 +110,8 @@
             </el-form-item>
 
             <span class="search-span">还款情况：</span>
-            <el-form-item label=" " prop="aaaaa">
-              <el-select clearable v-model="ruleForm.aaaaa" placeholder="请选择" style="width:197px;">
+            <el-form-item label=" " prop="repaymentStatus">
+              <el-select clearable v-model="ruleForm.repaymentStatus" placeholder="请选择" style="width:197px;">
                 <el-option label="有还款" :value="1"></el-option>
                 <el-option label="无还款" :value="2"></el-option>
                 <el-option label="有仲裁后还款" :value="3"></el-option>
@@ -168,6 +168,16 @@
         <el-table-column prop="resPhone" label="手机号"></el-table-column>
         <el-table-column prop="dateOfBorrowing" label="借款日期"></el-table-column>
         <el-table-column prop="lateStartDate" label="逾期开始日" min-width="120"></el-table-column>
+        <el-table-column prop="repaymentStatus" label="还款情况">
+          <template slot-scope="scope">
+            {{
+              scope.row.repaymentStatus === 1 ? '有还款' :
+              scope.row.repaymentStatus === 2 ? '无还款' :
+              scope.row.repaymentStatus === 3 ? '有仲裁后还款' :
+              scope.row.repaymentStatus === 4 ? '无仲裁后还款' : ''
+            }}
+          </template>
+        </el-table-column>
         <el-table-column prop="closeTime" label="裁决时间"></el-table-column>
         <el-table-column prop="courtName" label="法院"></el-table-column>
         <el-table-column prop="templateCode" label="模板编码"></el-table-column>
@@ -254,7 +264,7 @@
           // 下载状态 0：已处理；1：未处理
           downloadStatus : '',
           // 还款情况
-          aaaaa : '',
+          repaymentStatus : '',
 
           // 省
           provinceCode : '',
@@ -488,25 +498,11 @@
       },
       // 点击 下载
       handleDownload(row) {
-        this.$refs.timeDialog.show({...row,mtype:'xiazai'});
-        return;
-        // 预览前校验
-        this.$http({
-          method : 'post',
-          url : '/forceManager/downloadDocsPre.htm',
-          data : {
-            ...this.checkList,
-
-            caseIds : row.caseId,
+        this.$router.push({
+          path : 'emBatchDownload',
+          query : {
+            caseIds : row.caseId + '',
           },
-        }).then((res) => {
-          // 未配置
-          if(res.result.settingIsOk === false) {
-            this.$refs.setDialog.show(res.result);
-          // 已配置选择预览时间
-          }else{
-            this.$refs.timeDialog.show({...row,mtype:'xiazai'});
-          }
         });
       },
       // 时间dialog 回调
