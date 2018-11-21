@@ -40,9 +40,9 @@
               </transition>
               <el-button type="primary"  plain @click="HandleShow(card)">审核意见</el-button>
             </div>
-            <div class="mt-5 rule_res"  :style="{right: disabled ? '25px' : '185px'}">
-              <el-button type="text" @click="HandleRuleRes(card)">机审规则</el-button>
-            </div>
+            <!--<div class="mt-5 rule_res"  :style="{right: disabled ? '25px' : '185px'}">-->
+              <!--<el-button type="text" @click="HandleRuleRes(card)">机审规则</el-button>-->
+            <!--</div>-->
             <span class="header_title">{{card.subSortNo}}/{{card.countCase}} {{card.personWrap.applicant}}与{{card.personWrap.respondent}}的借款合同纠纷</span>
             <div class="header_img">
               <img src="@/assets/img/idCard.png" alt="">

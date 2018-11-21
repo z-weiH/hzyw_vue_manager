@@ -38,9 +38,9 @@
               </transition>
               <el-button type="primary"  plain @click="HandleShow(evidence)">审核意见</el-button>
             </div>
-            <div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">
-              <el-button type="text" @click="HandleRuleRes(evidence)">机审规则</el-button>
-            </div>
+            <!--<div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">-->
+              <!--<el-button type="text" @click="HandleRuleRes(evidence)">机审规则</el-button>-->
+            <!--</div>-->
             <span class="header_title">{{evidence.subSortNo}}/{{evidence.totalCount}} {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷</span>
             <div class="header_img">
               <img src="@/assets/img/idCard.png" alt="">
