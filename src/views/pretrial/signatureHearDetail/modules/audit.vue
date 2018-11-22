@@ -63,64 +63,64 @@ export default {
             this.$message.success(res.description);
             //刷新审核结果
             this.$parent.handleCountQuery({check: this.$parent.disabled ? 0 : 1,subBatchNo:this.$parent.subBatchNo, type: this.type+1});
-            let keyStr= '';
-            if(this.type === 0){
-              keyStr = 'idCardList.auditListWrap';
-            }
-            else if(this.type === 1){
-              keyStr = 'signatureItems.checkSignList';
-            }
-            else if(this.type === 2){
-              keyStr = 'evidenceItems.checkAuditList';
-            }
-            let keyArray = keyStr.split('.');
-            let item = this.$parent[keyArray[0]].find(it => it.caseId === this.$parent.currentCaseId);
-
-            if(item){
-              if(this.type === 0){
-                item.idStatus = this.status === 0 ? 2 : 1;
-                let arr = ['effctDateStatus','idaddressStatus','idcardStatus','nameStatus','nationStatus','sexStatus'];
-                arr.map(key => {
-                  if(item.auditInfoWrap[key] != 3){
-                    item.auditInfoWrap[key] = 1;
-                  }
-                  // if(it.code && auditList.find(i => i.code === it.code)){
-                  //   it.auditStatus = 0;
-                  // }
-                  if(auditList.find(it => it.code == 1001)){
-                    item.auditInfoWrap.sexStatus = 0;
-                  }
-                  if(auditList.find(it => it.code == 1002)){
-                    item.auditInfoWrap.nationStatus = 0;
-                  }
-                  if(auditList.find(it => it.code == 1003)){
-                    item.auditInfoWrap.idaddressStatus = 0;
-                  }
-                  if(auditList.find(it => it.code == 1004)){
-                    item.auditInfoWrap.idcardStatus = 0;
-                  }
-                  if(auditList.find(it => it.code == 1005)){
-                    item.auditInfoWrap.effctDateStatus = 0;
-                  }
-                  if(auditList.find(it => it.code == 1000)){
-                    item.auditInfoWrap.nameStatus = 0;
-                  }
-                })
-              }
-              else if(this.type === 1){
-                item.signStatus = this.status === 0 ? 2 : 1;
-                item.signAuditList.forEach(it => {
-                  it.auditStatus = 1;
-                  if(it.code && auditList.find(i => i.code === it.code)){
-                    it.auditStatus = 0;
-                  }
-                })
-              }
-              item[keyArray[1]] = auditList;
-
-            }
-            console.log(this.$parent[keyArray[0]]);
+            // let keyStr= '';
+            // if(this.type === 0){
+            //   keyStr = 'idCardList.auditListWrap';
+            // }
+            // else if(this.type === 1){
+            //   keyStr = 'signatureItems.checkSignList';
+            // }
+            // else if(this.type === 2){
+            //   keyStr = 'evidenceItems.checkAuditList';
+            // }
+            // let keyArray = keyStr.split('.');
+            // let item = this.$parent[keyArray[0]].find(it => it.caseId === this.$parent.currentCaseId);
+            //
+            // if(item){
+            //   if(this.type === 0){
+            //     item.idStatus = this.status === 0 ? 2 : 1;
+            //     let arr = ['effctDateStatus','idaddressStatus','idcardStatus','nameStatus','nationStatus','sexStatus'];
+            //     arr.map(key => {
+            //       if(item.auditInfoWrap[key] != 3){
+            //         item.auditInfoWrap[key] = 1;
+            //       }
+            //       // if(it.code && auditList.find(i => i.code === it.code)){
+            //       //   it.auditStatus = 0;
+            //       // }
+            //       if(auditList.find(it => it.code == 1001)){
+            //         item.auditInfoWrap.sexStatus = 0;
+            //       }
+            //       if(auditList.find(it => it.code == 1002)){
+            //         item.auditInfoWrap.nationStatus = 0;
+            //       }
+            //       if(auditList.find(it => it.code == 1003)){
+            //         item.auditInfoWrap.idaddressStatus = 0;
+            //       }
+            //       if(auditList.find(it => it.code == 1004)){
+            //         item.auditInfoWrap.idcardStatus = 0;
+            //       }
+            //       if(auditList.find(it => it.code == 1005)){
+            //         item.auditInfoWrap.effctDateStatus = 0;
+            //       }
+            //       if(auditList.find(it => it.code == 1000)){
+            //         item.auditInfoWrap.nameStatus = 0;
+            //       }
+            //     })
+            //   }
+            //   else if(this.type === 1){
+            //     item.signStatus = this.status === 0 ? 2 : 1;
+            //     item.signAuditList.forEach(it => {
+            //       it.auditStatus = 1;
+            //       if(it.code && auditList.find(i => i.code === it.code)){
+            //         it.auditStatus = 0;
+            //       }
+            //     })
+            //   }
+            //   item[keyArray[1]] = auditList;
+            //
+            // }
             this.$parent.editState = 0;
+            this.$parent.HandleQuery();
           }
         })
     },
