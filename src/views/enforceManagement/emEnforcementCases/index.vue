@@ -101,13 +101,13 @@
               </el-select>
             </el-form-item>
 
-            <span class="search-span">配置状态：</span>
-            <el-form-item label=" " prop="settingStatus">
-              <el-select clearable v-model="ruleForm.settingStatus" placeholder="请选择" style="width:197px;">
-                <el-option label="已完成" :value="1"></el-option>
-                <el-option label="未完成" :value="2"></el-option>
+            <!-- <span class="search-span">配置状态：</span>
+            <el-form-item label=" " prop="configurationStatus">
+              <el-select clearable v-model="ruleForm.configurationStatus" placeholder="请选择" style="width:197px;">
+                <el-option label="已完成" :value="0"></el-option>
+                <el-option label="未完成" :value="1"></el-option>
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
 
             <span class="search-span">还款情况：</span>
             <el-form-item label=" " prop="repaymentStatus">
@@ -180,7 +180,7 @@
         <el-table-column prop="resPhone" label="手机号" width="120"></el-table-column>
         <el-table-column prop="dateOfBorrowing" label="借款日期"></el-table-column>
         <el-table-column prop="lateStartDate" label="逾期开始日" min-width="120"></el-table-column>
-        <el-table-column prop="repaymentStatus" label="还款情况">
+        <el-table-column prop="repaymentStatus" label="还款情况" width="120">
           <template slot-scope="scope">
             {{
               scope.row.repaymentStatus === 1 ? '有还款' :
@@ -203,7 +203,7 @@
         <el-table-column prop="templateCode" label="模板编码"></el-table-column>
         <el-table-column prop="configurationStatus" label="材料配置状态" min-width="120">
           <template slot-scope="scope">
-            {{scope.row.configurationStatus === 1 ? '已完成' : '未完成'}}
+            {{scope.row.configurationStatus === 1 ? '未完成' : '已完成'}}
           </template>
         </el-table-column>
         <el-table-column prop="downloadStatus" label="下载状态">
@@ -279,8 +279,8 @@
 					startDate : '',
 					// 结束时间
           endDate : '',
-          // 配置状态 1:已完成；2：未完成
-          settingStatus : '',
+          // 配置状态 0：已经配置；1：未配置
+          configurationStatus : '',
           // 下载状态 0：已处理；1：未处理
           downloadStatus : '',
           // 还款情况
@@ -494,6 +494,7 @@
           path : 'emBatchDownload',
           query : {
             caseIds : this.multipleSelection.map(v => v.caseId).join(','),
+            type : '2',
           },
         });
       },
@@ -527,6 +528,7 @@
           path : 'emBatchDownload',
           query : {
             caseIds : row.caseId + '',
+            type : '2',
           },
         });
       },

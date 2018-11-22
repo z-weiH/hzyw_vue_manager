@@ -3,7 +3,7 @@
     <div class="item-title of-hidden">
       <span class="item-title-sign">强制执行-材料选择</span>
       <div class="fr">
-        <a class="cursor" @click="$router.push({path : 'emEnforcementCases'})">返回&gt;&gt;</a>
+        <a class="cursor" @click="handleGoBack">返回&gt;&gt;</a>
       </div>
     </div>
 
@@ -103,6 +103,14 @@
       }
     },
     methods : {
+      // 点击返回
+      handleGoBack() {
+        if(this.$route.query.type === '2') {
+          this.$router.push({path : 'emEnforcementCases'})
+        }else{
+          this.$router.push({path : 'emGenerationRecord'})
+        }
+      },
       // 校验按钮 disabled
       verifyChecked() {
         return this.checkList.filter(v => v.checked).length === 0;
