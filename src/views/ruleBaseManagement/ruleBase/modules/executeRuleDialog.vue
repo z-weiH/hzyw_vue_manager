@@ -26,7 +26,6 @@
                 placeholder="请选择范围"
                 :suffix-icon="iconName"
                 @focus="handleFocus"
-                readonly
                 v-model="form.labelName">
               </el-input>
               <div class="ruleLevel_select" v-if="iconName == 'el-icon-arrow-up'">
