@@ -343,9 +343,9 @@
               console.log(this.evidenceItems)
               this.$set(this.queryConfig,'count',res.result.count);
 
-              this.disabled = true;
+              this.disabled = false;
               if(this.evidenceItems.length > 0){
-                this.disabled = this.evidenceItems[0].caseStatus === 3 || this.evidenceItems[0].caseStatus === 7 || this.evidenceItems[0].takeEffectStatus === 1;
+                this.disabled = this.evidenceItems[0].caseStatus === 5 || this.evidenceItems[0].caseStatus === 7 || this.evidenceItems[0].takeEffectStatus === 1;
                 this.currentUrl = this.evidenceItems[0].eviDetailList[0].eviFileurl;
                 this.evidenceItems[0].ruleExeResultList.forEach(it => {
                   // it.isSelected = Boolean(it.isSelected);
