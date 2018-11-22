@@ -14,12 +14,7 @@
 
 
 
-            <el-form-item :rules="[
-        {
-          required : true,trigger: ['change']
-
-          }
-          ]"  class="slect_tree_warpar"  style="margin-right: 5px;margin-bottom: 5px;" label="案件模板123123123123123" prop="labelName">
+            <el-form-item required class="slect_tree_warpar"  style="margin-right: 5px;margin-bottom: 5px;" label="案件模板" prop="labelName">
               <el-input
                 clearable
                 style="width:200px;"
@@ -339,6 +334,7 @@
       this.iconName = 'el-icon-arrow-down';
       this.form.levelId = data.levelId;
       this.form.labelName = data.labelName;
+      this.$set(this.form, 'labelName', data.labelName);
       this.doQuery();
     },
     show(item){
