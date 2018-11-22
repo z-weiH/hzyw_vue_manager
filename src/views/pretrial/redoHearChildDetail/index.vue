@@ -186,11 +186,11 @@
             </div>
             <div class="applybook_content of-hidden">
               <div class="article_left fl">
-                <iframe :src="card.evi.applicationUrl" width="100%" height="100%">
+                <iframe :src="card.evi.applicationUrl.replace(/http:|https:/g,'')" width="100%" height="100%">
                 </iframe>
               </div>
               <div ref="evidenceWarper" class="article_right fr">
-                <iframe v-if="checkPdf(currentUrl)" :src="currentUrl" width="100%" height="100%"></iframe>
+                <iframe v-if="checkPdf(currentUrl)" :src="currentUrl.replace(/http:|https:/g,'')" width="100%" height="100%"></iframe>
                 <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
               </div>
             </div>
