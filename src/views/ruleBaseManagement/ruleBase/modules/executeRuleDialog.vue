@@ -19,7 +19,7 @@
           required : true,trigger: ['change']
 
           }
-          ]"  class="slect_tree_warpar"  style="margin-right: 5px;margin-bottom: 5px;" label="案件模板" prop="labelName">
+          ]"  class="slect_tree_warpar"  style="margin-right: 5px;margin-bottom: 5px;" label="案件模板123123123123123" prop="labelName">
               <el-input
                 clearable
                 style="width:200px;"
