@@ -140,6 +140,7 @@
         <el-form  :inline="true" class="form-box" :rules="rules" ref="fieldForm" :model="fieldForm">
         <el-form-item   :label="fieldForm.fieldName" prop="fieldValue" class="mt-30">
           <el-input style="width: 320px;"
+                    clearable
             v-model.trim="fieldForm.fieldValue">
           </el-input>
         </el-form-item>
