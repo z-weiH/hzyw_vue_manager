@@ -160,12 +160,24 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55"></el-table-column>
-				<el-table-column prop="caseNo" label="案号"></el-table-column>
-        <el-table-column prop="applicants" label="仲裁申请人" min-width="120"></el-table-column>
+				<el-table-column prop="caseNo" label="案号" width="180">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.caseNo}}</span>  
+          </template>
+        </el-table-column>
+        <el-table-column prop="applicants" label="仲裁申请人" min-width="120">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.applicants}}</span>  
+          </template>
+        </el-table-column>
         <el-table-column prop="executedBorrowAmt" label="执行标的"></el-table-column>
         <el-table-column prop="fixedAmount" label="固定金额"></el-table-column>
-        <el-table-column prop="respondents" label="仲裁被申请人" min-width="120"></el-table-column>
-        <el-table-column prop="resPhone" label="手机号"></el-table-column>
+        <el-table-column prop="respondents" label="仲裁被申请人" min-width="120">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.respondents}}</span>  
+          </template>
+        </el-table-column>
+        <el-table-column prop="resPhone" label="手机号" width="120"></el-table-column>
         <el-table-column prop="dateOfBorrowing" label="借款日期"></el-table-column>
         <el-table-column prop="lateStartDate" label="逾期开始日" min-width="120"></el-table-column>
         <el-table-column prop="repaymentStatus" label="还款情况">
@@ -178,8 +190,16 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="closeTime" label="裁决时间"></el-table-column>
-        <el-table-column prop="courtName" label="法院"></el-table-column>
+        <el-table-column prop="closeTime" label="裁决时间" width="120">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.closeTime}}</span>  
+          </template>
+        </el-table-column>
+        <el-table-column prop="courtName" label="法院" width="120">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.courtName}}</span>  
+          </template>
+        </el-table-column>
         <el-table-column prop="templateCode" label="模板编码"></el-table-column>
         <el-table-column prop="configurationStatus" label="材料配置状态" min-width="120">
           <template slot-scope="scope">
@@ -434,7 +454,7 @@
       // 点击 表格模板下载
       handleTableTemplateDownload() {
         exportFile({
-          url : '/execution/moduleExcelDownload.htm',
+          url : '/forceManager/moduleExcelDownload.htm',
         });
       },
       // 批量导入相关事件
@@ -453,6 +473,11 @@
       uploadSuccess(res, file, fileList) {
         this.importQueryState = true;
         this.tableData = res.result.list;
+        
+        this.$refs.batchImportDialog.show({
+          total : res.result.caseNum,
+          errorList : res.result.noResultCaseList,
+        });
       },
       // 文件上传失败
       uploadError() {
