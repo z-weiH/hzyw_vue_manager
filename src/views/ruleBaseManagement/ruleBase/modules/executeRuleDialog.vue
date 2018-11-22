@@ -14,7 +14,12 @@
 
 
 
-            <el-form-item required class="slect_tree_warpar"  style="margin-right: 5px;margin-bottom: 5px;" label="案件模板" prop="labelName">
+            <el-form-item
+
+              :rules="[
+                    {required : true  , trigger : 'change'}
+                  ]"
+              class="slect_tree_warpar"  style="margin-right: 5px;margin-bottom: 5px;" label="案件模板" prop="labelName">
               <el-input
                 clearable
                 style="width:200px;"
