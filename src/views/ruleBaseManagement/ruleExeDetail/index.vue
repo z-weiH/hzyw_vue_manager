@@ -471,12 +471,12 @@
     }
     .arrow_left {
       top:20%;
-      left: -90px;
+      left: 0px;
       background-image: url(./../../../assets/img/rct_page01.png);
     }
     .arrow_right {
       top:20%;
-      right: -90px;
+      right: 0px;
       background-image: url(./../../../assets/img/rct_page02.png);
     }
     .arrow_left.disabled{

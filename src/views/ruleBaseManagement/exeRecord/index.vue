@@ -42,7 +42,7 @@
       <el-table-column
         prop="productTemplate"
         label="产品模板"
-        width="300">
+        width="220">
         <template slot-scope="scope">
           <span v-ellipsis.20>{{scope.row.productTemplate}}</span>
         </template>
