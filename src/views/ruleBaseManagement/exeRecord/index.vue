@@ -67,7 +67,7 @@
       <el-table-column
         prop="userName"
         label="操作人"
-        width="150">
+        width="140">
         <template slot-scope="scope">
           <span v-ellipsis.20>{{scope.row.userName}}</span>
         </template>
@@ -75,7 +75,7 @@
       <el-table-column
         prop="createTime"
         label="执行开始时间"
-        width="200">
+        width="186">
         <template slot-scope="scope">
           <span v-ellipsis.20>{{scope.row.createTime}}</span>
         </template>
@@ -83,7 +83,7 @@
       <el-table-column
         prop="takeEffectStatus"
         label="是否采纳"
-        width="150">
+        width="130">
         <template slot-scope="scope">
           <span v-ellipsis.20>{{scope.row.takeEffectStatus === 0 ? '未采纳' : '已采纳'}}</span>
         </template>

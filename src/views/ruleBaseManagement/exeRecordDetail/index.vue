@@ -40,7 +40,7 @@
             <span>{{$route.query.productTemplate}}</span>
           </el-col>
           <el-col :span="12">
-            <span class="label">执行状态</span>
+            <span class="label">采纳状态</span>
             <span>{{$route.query.takeEffectStatus === 0 ? '未采纳' : '已采纳'}}</span>
           </el-col>
         </el-row>
@@ -136,7 +136,7 @@
         <div class="content" style="overflow: hidden;">
           <el-row v-if="queryStatus === 0">
             <el-col :span="24">
-              <el-checkbox @change="selectAll">展示全部状态</el-checkbox>
+              <el-checkbox @change="selectAll" checked>展示全部状态</el-checkbox>
             </el-col>
             <el-checkbox-group v-model="caseStatusList">
 
@@ -169,7 +169,7 @@
 
           <el-row v-if="queryStatus === 1">
             <el-row>
-              <el-checkbox @change="selectAll">展示全部执行结果</el-checkbox>
+              <el-checkbox @change="selectAll" checked>展示全部执行结果</el-checkbox>
             </el-row>
             <el-checkbox-group v-model="exeStatusList">
               <el-row>
@@ -200,8 +200,8 @@
       name: 'exeRecord',
       data(){
         return {
-          caseStatusList: [],
-          exeStatusList: [],
+          caseStatusList: ['0','1','2','3','4','5','6','7'],
+          exeStatusList: ['0','1','2'],
           queryStatus: 0,  //0 案件状态  1 执行状态
           expands:[],
           exe: {},
