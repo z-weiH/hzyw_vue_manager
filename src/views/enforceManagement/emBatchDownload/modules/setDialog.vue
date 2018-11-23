@@ -7,11 +7,16 @@
 			ref="dialog"
     >
       <div class="m-conetnt">
-        <div>强制执行申请书模板未配置</div>
+        <div v-if="unSettingTemplateList.length > 0">强制执行申请书模板未配置</div>
         <div class="error" v-for="(item,index) in unSettingTemplateList" :key="index">
            {{item}}
         </div> 
+
         <div v-if="unSettingBankCardList.length > 0">被执行人银行卡未配置</div>
+        <div class="error" v-for="(item,index) in unSettingBankCardList" :key="index">
+           {{item}}
+        </div>
+
         <div v-if="unSettingCourtNameList.length > 0">{{unSettingCourtNameList.length}}个法院材料未配置</div>
         <div class="error" v-for="(item,index) in unSettingCourtNameList" :key="index">
            {{item}}
@@ -31,18 +36,18 @@
       return {
         dialogVisible : false,
         // 强制执行申请书模板未配置
-        unSettingTemplateList : ['浙江阿拉丁电子商务股份有限公司-51返呗10-01 '],
+        unSettingTemplateList : [],
         // 被执行人银行卡未配置
         unSettingBankCardList : [],
         // 法院材料未配置
-        unSettingCourtNameList : ['xxxxxxxxxxx法院'],
+        unSettingCourtNameList : [],
       }
     },
     mounted() {
 
     },
     methods : {
-      show(type,data) {
+      show(data) {
 				this.dialogVisible = true;
 				// dialog 返回顶部
         this.$nextTick(() => {

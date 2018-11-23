@@ -501,8 +501,6 @@
 
       // 点击 预览
       handlePreview(row) {
-        this.$refs.timeDialog.show({...row,mtype:'yulan'});
-        return;
         // 预览前校验
         this.$http({
           method : 'post',

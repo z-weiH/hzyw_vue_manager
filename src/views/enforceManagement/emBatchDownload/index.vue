@@ -19,7 +19,7 @@
       <div class="choice-doc">
         <ul>
           <li class="doc-list">
-            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">选择文书材料</el-checkbox>
+            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全部</el-checkbox>
           </li>
           <li v-for="(item,index) in checkList" :key="index" class="doc-list">
             <el-checkbox @change="handleChange" v-model="item.checked">{{item.label}}</el-checkbox>
@@ -117,8 +117,6 @@
       },
       // 点击预览
       handlePreview() {
-        this.$refs.timeDialog.show({mtype:'yulan'});
-        return;
         // 预览前校验
         this.$http({
           method : 'post',
@@ -140,8 +138,6 @@
       },
       // 点击拼接下载
       handleDownload() {
-        this.$refs.timeDialog.show({mtype:'xiazai'});
-        return;
         // 预览前校验
         this.$http({
           method : 'post',
