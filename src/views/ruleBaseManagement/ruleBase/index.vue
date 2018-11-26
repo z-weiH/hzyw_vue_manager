@@ -618,7 +618,15 @@
         if(this.ruleType !== 3){
           this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: this.pdfParam, type: this.ruleType});
         }else {
+          const loading =this.$loading({
+            lock: true,
+            text: '正在加载...',
+            fullscreen: true,
+            spinner: 'el-icon-loading',
+            background: "hsla(0,0%,100%,.9)"
+          });
           this.$http.post("/ruleBase/queryPdfUrlAndWithHigh.htm",{levelId: this.currentMenu.levelId, pdfParam: this.pdfParam}).then(res => {
+            loading.close();
             this.$refs.pdfHtml.show(res.result);
           })
         }

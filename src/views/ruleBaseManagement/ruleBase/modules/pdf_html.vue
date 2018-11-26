@@ -43,7 +43,7 @@ export default {
     },
     setPId(){
       this.pdfFlag = false;
-      this.$parent.setPid(this.pId);
+      this.$parent.setPid("'"+this.pId + "'");
     }
 
 

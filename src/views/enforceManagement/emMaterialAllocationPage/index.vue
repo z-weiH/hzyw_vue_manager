@@ -483,19 +483,27 @@
       },
       //保存设置
       clfsSave(){
-        this.$http.post("/court/addMaterialNum.htm",
-          {
-            courtId: this.$route.query.courtId,
-            bsqbccns: this.clfsListClone[2].materialNum,
-            cczksm: this.clfsListClone[5].materialNum,
-            fwxy: this.clfsListClone[7].materialNum,
-            jkxy: this.clfsListClone[6].materialNum,
-            qzzxsqs: this.clfsListClone[0].materialNum,
-            sfzzfm: this.clfsListClone[4].materialNum,
-            sqwts: this.clfsListClone[1].materialNum,
-            xzgxfsms: this.clfsListClone[8].materialNum,
-            zxkyhzhqds: this.clfsListClone[3].materialNum,
-          }).then(res => {
+        let obj = {
+          courtId: this.$route.query.courtId,
+          bsqbccns: this.clfsListClone[2].materialNum,
+          cczksm: this.clfsListClone[5].materialNum,
+          fwxy: this.clfsListClone[7].materialNum,
+          jkxy: this.clfsListClone[6].materialNum,
+          qzzxsqs: this.clfsListClone[0].materialNum,
+          sfzzfm: this.clfsListClone[4].materialNum,
+          sqwts: this.clfsListClone[1].materialNum,
+          xzgxfsms: this.clfsListClone[8].materialNum,
+          zxkyhzhqds: this.clfsListClone[3].materialNum,
+        };
+        let obj1 = {};
+        for(let key in obj){
+          if(obj[key] !== 0){
+            obj1[key] = obj[key];
+          }
+        }
+
+        this.$http.post("/court/addMaterialNum.htm",obj1
+          ).then(res => {
             console.log(res);
             this.$message.success("配置修改成功");
             this.initPage();
