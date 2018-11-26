@@ -75,7 +75,7 @@
           </el-form>
         </div>
         <div class="table" ref="table_warper"  >
-          <el-table ref="caseTable" max-height="400" border :data="caseList" @selection-change="handleSelectionChange">
+          <el-table ref="caseTable" max-height="400" border :data="caseList" @selection-change="handleSelectionChange" :empty-text="emptyText">
             <el-table-column type="selection"  width="55"></el-table-column>
             <el-table-column prop="loanBillNo"  label="案件编号" width="174">
               <template slot-scope="scope">
@@ -192,6 +192,7 @@
     },
     data(){
       return {
+        emptyText: '请先选择案件模版',
         flag1: false,
         flag2: false,
         flag3: false,
@@ -231,19 +232,29 @@
       'form.caseStatus'(){
         this.form.startApplyTime &&(this.form.startApplyTime = '');
         this.form.endApplyTime &&(this.form.endApplyTime = '');
-        this.doQuery();
+        if(this.form.levelId){
+          this.doQuery();
+        }
       },
       'form.pushStartDate'(){
-        this.doQuery();
+        if(this.form.levelId){
+          this.doQuery();
+        }
       },
       'form.pushEndDate'(){
-        this.doQuery();
+        if(this.form.levelId){
+          this.doQuery();
+        }
       },
       'form.startApplyTime'(){
-        this.doQuery();
+        if(this.form.levelId){
+          this.doQuery();
+        }
       },
       'form.endApplyTime'(){
-        this.doQuery();
+        if(this.form.levelId){
+          this.doQuery();
+        }
       }
     },
   methods:{
@@ -360,6 +371,9 @@
 
     doQuery(){
       this.$http.post("/rule/queryCaseInfoListByBaseQuery.htm",{...this.form, ...this.pager}).then(res => {
+        if(res.result.list.length === 0){
+          this.emptyText = "暂无数据";
+        }
         this.caseList = res.result.list;
         this.pager.count = res.result.count;
         this.$nextTick(() => {
@@ -367,7 +381,6 @@
             this.caseList.forEach( it => {
               this.$refs.caseTable.toggleRowSelection(it , true);
             })
-
         })
         // caseTable
       })

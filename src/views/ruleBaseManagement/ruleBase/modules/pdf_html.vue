@@ -5,7 +5,7 @@
           <i class="el-icon-arrow-left"></i>
           返回
         </div>
-        <iframe ref="iframe" style="cursor: pointer;"  :src="src" scrolling="auto"   frameborder="0" ></iframe>
+        <iframe ref="iframe" style="cursor: pointer;"  :src="src.replace(/http:|https:/g,'')" scrolling="auto"   frameborder="0" ></iframe>
 
         <div ref="tap" class="tap">
           <div class="top">
@@ -37,8 +37,15 @@ export default {
   methods:{
     show(item){
       this.$http.post('/ruleBase/getHtmlUrlByPdf.htm',{url: item.pdfUrl}).then(res => {
+        // if(window.location.href.indexOf('https') === 0){
+        //   this.src = 'https' + res.result.substr(4);
+
           this.src = res.result;
-          this.pdfFlag = true;
+
+        // }
+        console.log(window.location.href,this.src);
+
+        this.pdfFlag = true;
       })
     },
     setPId(){
