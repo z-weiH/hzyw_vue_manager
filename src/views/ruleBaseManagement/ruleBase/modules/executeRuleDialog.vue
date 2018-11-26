@@ -227,7 +227,9 @@
     },
     watch:{
       'form.keyWords'(){
-        this.doQuery();
+        if(this.form.levelId){
+          this.doQuery();
+        }
       },
       'form.caseStatus'(){
         this.form.startApplyTime &&(this.form.startApplyTime = '');
@@ -274,6 +276,7 @@
         this.ruleIdList= [];
         this.caseIdList= [];
         this.stopExe = false;
+        this.emptyText = '请先选择案件模版',
 
         //执行进度
       this.executProgress= 0;
