@@ -217,6 +217,7 @@
         caseIdList: [],
 
         timer: null,
+        stopExe: true,
         //执行进度
         executProgress: 0,
         progressWidth: 0,
@@ -261,6 +262,7 @@
         this.allruleList= [];
         this.ruleIdList= [];
         this.caseIdList= [];
+        this.stopExe = false;
 
         //执行进度
       this.executProgress= 0;
@@ -282,6 +284,7 @@
         cancelButtonText: '取消',
       }).then(() => {
         this.$http.post('/ruleCase/cancelTaskByExeId.htm',{exeId: this.exeId}).then(res => {
+          this.stopExe= true;
           if(this.timer){
             clearTimeout(this.timer);
           }
@@ -435,8 +438,11 @@
 
                 // this.progressWidth ++;
 
-                this.timer = setTimeout(() => {
-                  this.execute(item);
+
+                this.timer = setTimeout( () => {
+                  if(!this.stopExe){
+                    this.execute(item)
+                  }
                 },2000);
               }
               else{
