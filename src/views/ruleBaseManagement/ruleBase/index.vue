@@ -339,6 +339,7 @@
       'editState'(val,oldVal){
         if(val == 1 || val == 2){
           this.showSelect = false;
+          console.log(this.showSelect);
             if(val == 1)
               this.title = '编辑规则';
             if(val == 2)
@@ -805,6 +806,7 @@
             this.editState = 1;
             this.$nextTick(()=> {
               this.$refs.createForm.resetFields();
+              this.$refs.textarea_rule.select();
               console.log(this.$refs.textarea_warpar);
               this.form = res.result;
               // this.ruleInfo_html = this.form.ruleInfo;

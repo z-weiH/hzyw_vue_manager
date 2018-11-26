@@ -76,6 +76,9 @@
        * passCaseCount 通过案件数
        * totalCaseCount 总案件数
        * */
+      parent: {
+        type: Object
+      },
       queryConfig:{
         type: Object
       },
@@ -116,12 +119,12 @@
         return false;
       },
       HandleQuery(){
-        this.$parent.$parent.$parent.auditStatus = this.passStatus;
-        this.$parent.$parent.$parent.passStatus = this.passStatus;
-        this.$parent.$parent.$parent.keyWords = this.keyWords;
-        this.$parent.$parent.$parent.maxAmtCapital = this.maxAmtCapital;
-        this.$parent.$parent.$parent.minAmtCapital = this.minAmtCapital;
-        this.$parent.$parent.$parent.correctionStatus = this.correctionStatus;
+        this.parent.auditStatus = this.passStatus;
+        this.parent.passStatus = this.passStatus;
+        this.parent.keyWords = this.keyWords;
+        this.parent.maxAmtCapital = this.maxAmtCapital;
+        this.parent.minAmtCapital = this.minAmtCapital;
+        this.parent.correctionStatus = this.correctionStatus;
         if(!this.isEmpty(this.minAmtCapital) && (!this.isEmpty(this.maxAmtCapital))){
           console.log(this.minAmtCapital , this.maxAmtCapital)
           if(+this.minAmtCapital > (+this.maxAmtCapital)){
@@ -131,8 +134,8 @@
         this.showQuery = false;
         this.calcError = false;
         console.log(this.$parent);
-        if(this.$parent.$parent.$parent.getRecheckDetail && this.$parent.$parent.$parent.getRecheckDetail instanceof Function){
-          this.$parent.$parent.$parent.getRecheckDetail();
+        if(this.parent.getRecheckDetail && this.parent.getRecheckDetail instanceof Function){
+          this.parent.getRecheckDetail();
         }
       },
       checkClick(elm){

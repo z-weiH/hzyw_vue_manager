@@ -16,7 +16,7 @@
               <!--</el-radio-group>-->
               <!--</el-col>-->
               <el-col :span="3" style="padding-top:30px;">
-                <selectQuery ref="query" :disabled="subViewType" :queryConfig="queryConfig"></selectQuery>
+                <selectQuery ref="query" :parent="this" :disabled="subViewType" :queryConfig="queryConfig"></selectQuery>
               </el-col>
               <el-col :span="15">
                 <el-button v-if="subViewType == 1" type="primary" class="fr mr-10 mt-20" @click="FooPassCheck">通过</el-button>
