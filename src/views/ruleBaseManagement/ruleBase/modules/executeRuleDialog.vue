@@ -167,8 +167,9 @@
         width="495px"
         center>
         <div class="m-bar" style="width: 300px; margin: 20px auto;text-align: center;" >
-          <p style="margin: 20px 0;font-size: 18px;">正在执行规则...</p>
-          <m-progress :width="executProgress" :px="progressWidth" :height="20">执行中</m-progress>
+          <p style="margin: 20px 0;font-size: 18px;" v-if="progressWidth != 0">正在执行规则...</p>
+          <p style="margin: 20px 0;font-size: 18px;" v-else>准备执行中...</p>
+          <m-progress :width="executProgress" :px="progressWidth" :height="20"></m-progress>
         </div>
         <div class="dialog-footer" style="clear: both;text-align: center;">
           <el-button style="margin-right: 20px;" type="primary" @click="step3"  >在后台执行</el-button>
@@ -283,8 +284,8 @@
         this.$http.post('/ruleCase/cancelTaskByExeId.htm',{exeId: this.exeId}).then(res => {
           if(this.timer){
             clearTimeout(this.timer);
-            this.flag3 = false;
           }
+          this.flag3 = false;
         })
       }).catch(() => {})
 
