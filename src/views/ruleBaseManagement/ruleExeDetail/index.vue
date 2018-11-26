@@ -44,7 +44,7 @@
                 </div>
                 <div style="line-height: 30px;margin-top:10px;">
                   <span class="form_desc" >案件搜索</span>
-                  <el-input style="display: inline-block;width: 430px" v-model="keyWords" placeholder="请输入案件编号或被申请人姓名进行搜索"></el-input>
+                  <el-input style="display: inline-block;width: 430px" v-model="searchItem.keyWords" placeholder="请输入案件编号或被申请人姓名进行搜索"></el-input>
                 </div>
               </div>
               <p style="color: #aaa; font-size: 10px;" v-if="evidenceItems.length === 0 || !evidenceItems[0].takeEffectStatus">* “不可修改审核意见”的状态指“立案申请成功”及“预审未通过”状态，“可修改审核意见”的状态为其余状态。</p>
