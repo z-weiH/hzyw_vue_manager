@@ -226,7 +226,7 @@
       },
 
       saveExeCaseId(){
-        if(this.evidenceItems[0].takeEffectStatus === 1){
+        if(!this.evidenceItems[0] || this.evidenceItems[0].takeEffectStatus === 1){
           return Promise.resolve(true);
         }
         return this.$http.post('/ruleCase/updateExameStatusByExeCaseId.htm',{exeCaseId: this.evidenceItems[0].exeCaseId}).then(res => {
