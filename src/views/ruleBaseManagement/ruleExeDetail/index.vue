@@ -49,7 +49,7 @@
               </div>
               <p style="color: #aaa; font-size: 10px;" v-if="evidenceItems.length === 0 || !evidenceItems[0].takeEffectStatus">* “不可修改审核意见”的状态指“立案申请成功”及“预审未通过”状态，“可修改审核意见”的状态为其余状态。</p>
               <div style="padding: 10px;overflow: hidden;text-align: center;">
-                <el-button   type="primary" @click="HandleQuery(true)">确定</el-button>
+                <el-button   type="primary" @click="HandleBtnQuery">确定</el-button>
               </div>
             </div>
           </div>
@@ -192,6 +192,11 @@
     },
     methods: {
 
+      HandleBtnQuery(){
+        this.saveExeCaseId().then(res => {
+          this.HandleQuery(true);
+        })
+      },
       HandleAudit(){
         // this.$confirm
         const h = this.$createElement;
@@ -321,6 +326,7 @@
         })
       },
       HandleQuery(btnClick) {
+
         if(btnClick){
           this.pager.currentNum = 1;
         }
