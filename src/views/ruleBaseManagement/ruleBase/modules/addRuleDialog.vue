@@ -30,13 +30,13 @@
             </el-table-column>
             <el-table-column label="抓取时间" prop="createTime">
             </el-table-column>
-            <el-table-column label="操作">
-              <template slot-scope="scope">
-                <div style="text-align: center;">
-                  <span class="colLink">查看</span>
-                </div>
-              </template>
-            </el-table-column>
+            <!--<el-table-column label="操作">-->
+              <!--<template slot-scope="scope">-->
+                <!--<div style="text-align: center;">-->
+                  <!--<span class="colLink">查看</span>-->
+                <!--</div>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
           </el-table>
           <div class="pagination">
             <el-pagination
@@ -88,13 +88,13 @@
                 <span>{{caseStatusName(scope.row.caseStatus)}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="操作">
-              <template slot-scope="scope">
-                <div style="text-align: center;">
-                  <span class="colLink">查看</span>
-                </div>
-              </template>
-            </el-table-column>
+            <!--<el-table-column label="操作">-->
+              <!--<template slot-scope="scope">-->
+                <!--<div style="text-align: center;">-->
+                  <!--<span class="colLink">查看</span>-->
+                <!--</div>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
           </el-table>
           <div class="pagination">
             <el-pagination
