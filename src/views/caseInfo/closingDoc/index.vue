@@ -16,55 +16,44 @@
           </el-form-item>
 
           <span class="form-item">客户名称：</span>
-          <el-form-item label=" " prop="accountAge">
-            <el-select clearable v-model="ruleForm.accountAge" placeholder="请选择">
-              <el-option label="1~30天" value="M1"></el-option>
-              <el-option label="31~60天" value="M2"></el-option>
+          <el-form-item label=" " prop="clientCode">
+            <el-select clearable v-model="ruleForm.clientCode" placeholder="请选择">
+              <template v-for="(item,index) in merchantOptions">
+                <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
+              </template>
             </el-select>
           </el-form-item>
 
           <span class="form-item">文书类型：</span>
-          <el-form-item label=" " prop="accountAge">
-            <el-select clearable v-model="ruleForm.accountAge" placeholder="请选择">
-              <el-option label="裁决书" value="M1"></el-option>
-              <el-option label="撤回决定书" value="M2"></el-option>
-              <el-option label="调解书" value="M3"></el-option>
+          <el-form-item label=" " prop="docType">
+            <el-select clearable v-model="ruleForm.docType" placeholder="请选择">
+              <el-option label="裁决书" :value="1"></el-option>
+              <el-option label="撤回决定书" :value="2"></el-option>
+              <el-option label="调解书" :value="3"></el-option>
             </el-select>
           </el-form-item>
         </div>
 
         <div class="mt-10">
-          <span class="form-item">结案日期：</span>
+          <span>结案日期：</span>
 
           <timeFrame
-            :startDate.sync="ruleForm.startDate"
-            :endDate.sync="ruleForm.endDate"
+            :startDate.sync="ruleForm.closeStartDate"
+            :endDate.sync="ruleForm.closeEndDate"
             startPlaceholder="预审开始"
             endPlaceholder="预审结束"
           >
           </timeFrame>
 
-          <span class="form-item">文书申请日期：</span>
+          <span>文书申请日期：</span>
 
           <timeFrame
-            :startDate.sync="ruleForm.startDate"
-            :endDate.sync="ruleForm.endDate"
+            :startDate.sync="ruleForm.applyStartDate"
+            :endDate.sync="ruleForm.applyEndDate"
             startPlaceholder="预审开始"
             endPlaceholder="预审结束"
           >
           </timeFrame>
-        </div>
-
-        <div class="mt-10">
-          
-
-          <span class="form-item" style="margin-top:0;">申请状态：</span>
-          <el-form-item label=" " prop="accountAge">
-            <el-select clearable v-model="ruleForm.accountAge" placeholder="请选择">
-              <el-option label="已申请" value="M1"></el-option>
-              <el-option label="未申请" value="M2"></el-option>
-            </el-select>
-          </el-form-item>
 
           <el-button @click="handleSearch" type="warning">查询</el-button>
           <el-button @click="handleExport" type="primary" :disabled="exportDisabled">导出</el-button>
@@ -83,14 +72,22 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="respondents" label="仲裁案号"></el-table-column>
-        <el-table-column prop="respondents" label="申请人"></el-table-column>
+				<el-table-column prop="caseNoZw" label="仲裁案号"></el-table-column>
+        <el-table-column prop="applicants" label="申请人"></el-table-column>
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
-        <el-table-column prop="respondents" label="被申请人电话"></el-table-column>
-        <el-table-column prop="respondents" label="结案时间"></el-table-column>
-        <el-table-column prop="respondents" label="文书类型"></el-table-column>
-        <el-table-column prop="respondents" label="文书申请时间"></el-table-column>
-        <el-table-column prop="respondents" label="申请份数"></el-table-column>
+        <el-table-column prop="resPhone" label="被申请人电话"></el-table-column>
+        <el-table-column prop="closeTime" label="结案时间"></el-table-column>
+        <el-table-column prop="docType" label="文书类型">
+          <template slot-scope="scope">
+            {{
+              scope.row.docType === 1 ? '裁决书' :
+              scope.row.docType === 2 ? '撤回决定书' :
+              scope.row.docType === 3 ? '调解书' : ''
+            }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="applyTime" label="文书申请时间"></el-table-column>
+        <el-table-column prop="applyCount" label="申请份数"></el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -109,8 +106,8 @@
 </template>
 
 <script>
-	import timeFrame from '@/components/timeFrame.vue'
-import { setTimeout } from 'timers';
+  import timeFrame from '@/components/timeFrame.vue'
+  import exportFile from '@/assets/js/exportFile.js'
 	export default {
 		components : {
 			timeFrame,
@@ -121,12 +118,25 @@ import { setTimeout } from 'timers';
 				ruleForm : {
 					// 关键字
 					keyWords : '',
-					// 开始时间
-					startDate : '',
-					// 结束时间
-					endDate : '',
+          // 客户 id
+          clientCode : '',
+          // 文书类型  1裁决书2撤回决定书3调解书
+          docType : '',
+          // 结案日期 开始
+          closeStartDate : '',
+          // 结案日期 结束
+          closeEndDate : '',
+          // 文书申请日期 开始
+          applyStartDate : '',
+          // 文书申请如期 结束
+          applyEndDate : '',
 				},
-				rules : {},
+        rules : {},
+        
+        // 客户options
+        merchantOptions : [
+          /* {merchantName : '李四' , code : '李四'} */
+        ],
 
 				// 表格数据
         tableData : [],
@@ -141,6 +151,14 @@ import { setTimeout } from 'timers';
     },
     mounted() {
       this.initTableList();
+
+      // 获取所有 商户
+      this.$http({
+        method : 'post',
+        url : '/merchant/queryMerchants.htm',
+      }).then((res) => {
+        this.merchantOptions = res.result.list;
+      });
     },
 		methods : {
 			// 点击搜索
@@ -154,6 +172,13 @@ import { setTimeout } from 'timers';
         setTimeout(() => {
           this.exportDisabled = false;
         },2000);
+
+        exportFile({
+          url : '/caseSettle/exportExcel.htm',
+          data : {
+            ...this.ruleForm,
+          },
+        });
       },
 
 			// 表格相关 start
@@ -161,7 +186,7 @@ import { setTimeout } from 'timers';
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
+          url : '/caseSettle/queryCaseSettleApplyList.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
