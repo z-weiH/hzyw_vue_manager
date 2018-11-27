@@ -453,6 +453,14 @@ let router = new Router({
             name: 'ctParameterList',
           },
         },
+        {
+          path: 'contractedCustomers',
+          component: () =>
+            import ('@/views/customer/contractedCustomers'), // 签约客户
+          meta: {
+            name: 'contractedCustomers',
+          },
+        },
         /* 客户管理module end */
 
         /* 案件订单module start */

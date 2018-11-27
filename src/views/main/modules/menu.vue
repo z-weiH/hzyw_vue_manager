@@ -254,6 +254,11 @@
                 menuId : 311,
                 menuUrl : 'ctParameterList',
               },
+              {
+                menuName : '签约客户',
+                menuId : 312,
+                menuUrl : 'contractedCustomers',
+              },
             ],
           },
           {
