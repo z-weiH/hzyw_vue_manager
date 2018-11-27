@@ -42,7 +42,7 @@
       <el-table-column
         prop="productTemplate"
         label="产品模板"
-        width="220">
+        >
         <template slot-scope="scope">
           <span v-ellipsis.20>{{scope.row.productTemplate}}</span>
         </template>
@@ -51,7 +51,7 @@
       <el-table-column
         prop="toatalCount"
         label="案件数量"
-        width="100">
+        >
         <template slot-scope="scope">
           <span v-ellipsis.20>{{scope.row.toatalCount}}</span>
         </template>
@@ -59,7 +59,7 @@
       <el-table-column
         prop="ruleCount"
         label="规则数量"
-        width="100">
+        >
         <template slot-scope="scope">
           <span v-ellipsis.20>{{scope.row.ruleCount}}</span>
         </template>
@@ -67,7 +67,7 @@
       <el-table-column
         prop="userName"
         label="操作人"
-        width="140">
+        >
         <template slot-scope="scope">
           <span v-ellipsis.20>{{scope.row.userName}}</span>
         </template>
@@ -75,7 +75,7 @@
       <el-table-column
         prop="createTime"
         label="执行开始时间"
-        width="186">
+        >
         <template slot-scope="scope">
           <span v-ellipsis.20>{{scope.row.createTime}}</span>
         </template>
@@ -83,17 +83,16 @@
       <el-table-column
         prop="takeEffectStatus"
         label="是否采纳"
-        width="130">
+        >
         <template slot-scope="scope">
           <span v-ellipsis.20>{{scope.row.takeEffectStatus === 0 ? '未采纳' : '已采纳'}}</span>
         </template>
       </el-table-column>
       <el-table-column
         prop="takeEffectStatus"
-        fixed="right"
         header-align="center"
         label="操作"
-        width="150">
+        >
         <template slot-scope="scope">
           <span class="colLink" @click="viewDetail(scope.row)" >查看</span>
         </template>

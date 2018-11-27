@@ -211,11 +211,19 @@
           confirmButtonText: '确定',
           cancelButtonText: '取消',
         }).then(() => {
+          const loading =this.$loading({
+            lock: true,
+            text: '案件采纳中...',
+            fullscreen: true,
+            spinner: 'el-icon-loading',
+            background: "hsla(0,0%,100%,.9)"
+          });
           this.saveExeCaseId().then(() => {
             this.$http.post('/ruleCase/updatePreCaseStatusByRuleExeResult.htm',{exeId: this.exeId}).then(res => {
               this.searchItem.caseStatus = '';
               this.searchItem.exameStatus = '';
               this.searchItem.exeStatus = '';
+              loading.close();
               this.HandleQuery();
 
             })
