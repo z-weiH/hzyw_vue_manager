@@ -186,7 +186,7 @@
             </div>
             <div class="applybook_content of-hidden">
               <div class="article_left fl">
-                <iframe :src="card.evi.applicationUrl.replace(/http:|https:/g,'')" width="100%" height="100%">
+                <iframe :src="card.evi.applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime()" width="100%" height="100%">
                 </iframe>
               </div>
               <div ref="evidenceWarper" class="article_right fr">

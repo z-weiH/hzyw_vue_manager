@@ -68,10 +68,10 @@
          </div>
          <p style="line-height: 30px;color: #193b8c;font-size: 17px;">仲裁申请书</p>
         <div class="pdf fl clear">
-          <iframe  :src="item.applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+          <iframe  :src="item.applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime()" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
         </div>
          <div ref="evidenceWarper"  class="pdf fr" >
-           <iframe v-if="checkPdf(currentUrl)" :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+           <iframe v-if="checkPdf(currentUrl)" :src="currentUrl.replace(/http:|https:/g,'')" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
            <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
          </div>
          <div class="clear"></div>

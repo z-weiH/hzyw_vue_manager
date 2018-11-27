@@ -27,8 +27,8 @@
         <div style="line-height: 30px;">
             <span class="form_desc">信息修正</span>
             <el-radio-group v-model="correctionStatus">
-              <el-radio  :label="0">已修正({{queryConfig.correctionCount}})</el-radio>
-              <el-radio  :label="1">全部案件({{queryConfig.totalCaseCount}})</el-radio>
+              <el-radio  :label="1">已修正({{queryConfig.correctionCount}})</el-radio>
+              <el-radio  :label="0">全部案件({{queryConfig.totalCaseCount}})</el-radio>
             </el-radio-group>
           </div>
         <div style="line-height: 30px;margin-top:10px;">
