@@ -64,6 +64,23 @@
                 </el-dropdown-menu>
               </el-dropdown>
 
+              <el-dropdown style="width:100%;" class="mb-20">
+                <el-button>表格模板<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item :command="5">
+                    <el-dropdown @command="handleTableTemplateHXXC" style="width:100%;">
+                      <el-button style="border:none;">华夏信财<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+                      <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item :command="1">应还款详情表</el-dropdown-item>
+                        <el-dropdown-item :command="2">尚欠利息及服务费用计算表</el-dropdown-item>
+                        <el-dropdown-item :command="3">尚欠罚息计算表</el-dropdown-item>
+                        <el-dropdown-item :command="4">被申请人还款详情</el-dropdown-item>
+                      </el-dropdown-menu>
+                    </el-dropdown>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
+
               <p>
                 复制样式
                 <el-switch
@@ -151,6 +168,10 @@
           document.querySelector('iframe').contentDocument.addEventListener('click',this.globalClickFn);
           document.addEventListener('click',this.globalClickFn);
           document.querySelector('iframe').contentDocument.body.oncopy = this.globalCopyFn;
+          // 增加富文本样式
+          let style = document.createElement('style');
+          style.innerHTML = 'pre{white-space: pre-wrap;word-wrap: break-word;word-break: break-all;}';
+          document.querySelector('iframe').contentDocument.head.appendChild(style);
           // 初始化 title
           this.$http({
             url : '/templateSetting/queryTemplateInfoByProdTempId.htm',
@@ -272,6 +293,22 @@
         }else if(type === 21) {
           message = '&lt;@multiPartyInfo list="multiReses" index=1 field="appAddress" /&gt;';
         }
+        this.$refs.ueeditor.insertHtml(message);
+        this.handleBox();
+      },
+      // 表格模板 - 华夏信财
+      handleTableTemplateHXXC(type) {
+        let message = '';
+        if(type === 1) {
+          message = `<pre class="brush:js;toolbar:false;">&lt;@tableHXXC<br>  colNames=["期数","当期应还时间","应还本金","应还利息","应还服务费","已还本金","已还利息","已还服务费","尚欠本金","尚欠利息","尚欠服务费","剩余本金"]<br>  colProperties=[instalmentCredit_borrowEndDate, instalmentCredit_amtCapital, instalmentCredit_amtRate, instalmentCredit_amtOther, instalmentCredit_amtCapitalRefund, instalmentCredit_amtRateRefund, instalmentCredit_amtOtherRefund]<br>  title="应还款详情表"<br>  lastLine="被申请人尚欠本金{remainingAmtCapital}元、按年利率24%标准调整后的尚欠利息及服务费用{calcStillOwnAmtRateAndOther}元（详见尚欠利息及服务费用计算表）、罚息{calcPenalty}元（详见罚息计算表）。"<br>  colIndexList=[0, 8, 9, 10, 11]<br>  calcMethods=["getDaysInstalment", "stillOwnAmtCapital", "stillOwnAmtRate", "stillOwnAmtOther", "remainingAmtCapital"]<br>/&gt;<br></pre>`;
+        }else if(type === 2) {
+          message = `<pre class="brush:js;toolbar:false;">&lt;@tableHXXC <br>  colNames=["开始时间","结束时间","天数","本金基数","产生利息及服务费用","已还利息及服务费用","尚欠利息及服务费用"]<br>  colProperties=[]<br>  title="尚欠利息及服务费用计算表（计算标准调整为以剩余借款本金为基数，按年利率24%标准计算）"<br>  colIndexList=[0, 1, 2, 3, 4, 5, 6]<br>  calcMethods=["stillOwnRateAndOtherBeginDate", "stillOwnRateAndOtherEndDate", "stillOwnRateAndOtherDiffDays", "stillOwnRateAndOtherAmtCapital", "stillOwnAmtRateAndOtherAmtRateAndOther", "stillOwnAmtRateAndOtherRefund", "stillOwnAmtRateAndOtherAmtRateAndOther"]<br>/&gt;<br></pre>`;
+        }else if(type === 3) {
+          message = `<pre class="brush:js;toolbar:false;">&lt;@tableHXXC <br>  colNames=["开始时间","结束时间","逾期天数","本金基数","产生罚息","已还罚息","尚欠罚息"]<br>  colProperties=[]<br>  title="尚欠罚息计算表（计算标准：0.05%/日）"<br>  colIndexList=[0, 1, 2, 3, 4, 5, 6]<br>  calcMethods=["stillOwnPenaltyBeginDate", "stillOwnPenaltyEndDate", "stillOwnPenaltyOverdueDays", "stillOwnPenaltyAmtCapital", "stillOwnPenaltyCalcPenalty", "stillOwnPenaltyRefundPenalty", "stillOwnPenaltyLeftPenalty"]<br>/&gt;<br></pre>`;
+        }else if(type === 4) {
+          message = `<pre class="brush:js;toolbar:false;">&lt;@tableHXXC <br>  colNames=["还款次数","还款时间","还款总额","已还本金","已还利息","已还服务费用","已还罚息"]<br>  colProperties=[refundInfo_refundDate, refundInfo_amtActural, instalmentCredit_amtOverdue] title="被申请人还款详情" colIndexList=[0, 3, 4, 5]<br>  calcMethods=["getDaysInstalment", "refundDetailAmtCapital", "refundDetailAmtRate", "refundDetailAmtOther"]<br>  stat=true<br>  statColIndexList=[2, 3, 4, 5, 6]<br>  statCalcMethods=["refundDetailSumRefund", "refundDetailSumRefundAmtCapital", "refundDetailSumRefundAmtRate", "refundDetailSumRefundAmtOther", "refundDetailSumRefundAmtOverdue"] <br>/&gt;<br></pre>`;
+        }
+
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
       },
