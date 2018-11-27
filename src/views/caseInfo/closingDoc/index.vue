@@ -1,0 +1,15 @@
+<template>
+  <div>
+    结案文书管理
+  </div>
+</template>
+
+<script>
+  export default {
+    
+  }
+</script>
+
+<style scoped>
+
+</style>

@@ -258,6 +258,14 @@ let router = new Router({
             name: 'respondentsOperateRecord'
           }
         },
+        {
+          path: 'closingDoc',
+          component: () =>
+            import ('@/views/caseInfo/closingDoc'), // 结案文书管理
+          meta: {
+            name: 'closingDoc'
+          }
+        },
         /* 案件信息module end */
         /* 短信记录 start */
         {
@@ -1008,6 +1016,7 @@ let router = new Router({
         },
         {
           path: 'emBatchDownload',
+          name: 'emBatchDownload',
           component: () =>
             import("@/views/enforceManagement/emBatchDownload"), // 批量下载
           meta: {

@@ -1,7 +1,7 @@
 import { throttle } from '@/assets/js/tool'
 
 const AnchorsClass = '.scroll-top-item';
-const RollingContainer = '.main';
+const RollingContainer = '.page-content .el-scrollbar__wrap';
 
 let scrollFn;
 

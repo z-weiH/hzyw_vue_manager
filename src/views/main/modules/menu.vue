@@ -410,6 +410,11 @@
                 menuName : '被申请人操作记录',
                 menuId : 75,
                 menuUrl : 'respondentsOperateRecord'
+              },
+              {
+                menuName : '结案文书管理',
+                menuId : 76,
+                menuUrl : 'closingDoc'
               }
             ],
           },
