@@ -108,7 +108,8 @@
               return $1.replace(/&nbsp;/g,'')
               .replace(/&lt;#if(.*?)&gt;/g,(str,$1) => `&lt;#if ${$1}&gt;`)
               .replace(/&lt;#elseif(.*?)&gt;/g,(str,$1) => `&lt;#elseif ${$1}&gt;`)
-              .replace(/&lt;@tableCol(.*?)\/&gt;/g,(str,$1) => `&lt;@tableCol ${$1} \/&gt;`);
+              .replace(/&lt;@tableCol(.*?)\/&gt;/g,(str,$1) => `&lt;@tableCol ${$1} \/&gt;`)
+              .replace(/&lt;@tableHXXC(.*?)\/&gt;/g,(str,$1) => `&lt;@tableHXXC ${$1} \/&gt;`);
             });
             // 过滤 table
             content = content.replace(/<p class="m-style">(.*?)<\/p>/g,(str) => str.replace(/<.*?>/g,''));
