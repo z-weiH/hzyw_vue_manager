@@ -68,7 +68,7 @@
          </div>
          <p style="line-height: 30px;color: #193b8c;font-size: 17px;">仲裁申请书</p>
         <div class="pdf fl clear">
-          <iframe  :src="item.applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime()" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+          <iframe  :src="applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
         </div>
          <div ref="evidenceWarper"  class="pdf fr" >
            <iframe v-if="checkPdf(currentUrl)" :src="currentUrl.replace(/http:|https:/g,'')" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
@@ -133,6 +133,8 @@ export default {
   mixins:[imgEvi],
   data(){
     return {
+
+      applicationUrl: '',
       //当前选中pdf
       currentUrl:'',
 
@@ -201,6 +203,7 @@ export default {
       this.$http.post('/case/queryCaseDetailByCaseId.htm',{caseId: this.$route.query.caseId}).then(res => {
         if(res.code === '0000'){
           res.result.evidences.unshift({eviName:'证据目录',eviUrl:res.result.eviCatalog});
+          this.applicationUrl = res.result.applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime();
           this.currentUrl = res.result.eviCatalog;
           this.sqrInfo = res.result.partyInfo.find(it =>it.litigantType == 0);
           this.bsqrInfo = res.result.partyInfo.find(it =>it.litigantType == 1);

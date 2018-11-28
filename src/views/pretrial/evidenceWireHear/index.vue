@@ -81,7 +81,7 @@
               <div class="applybook_content of-hidden">
                 <div class="article_left fl">
                   <!--<pdf :src="evidence.applicationUrl"></pdf>-->
-                  <iframe  :src="evidence.applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime()" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+                  <iframe  :src="applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
                 </div>
                 <div  ref="evidenceWarper" class="article_right fr">
                   <iframe ref="evidence" v-if="checkPdf(currentUrl)"  :src="currentUrl.replace(/http:|https:/g,'')" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
@@ -129,6 +129,10 @@
     mixins:[imgEvi],
     data(){
       return {
+
+        //申请书 url
+        applicationUrl: '',
+
         //查询条件
         queryConfig:{},
         keyWords:'',
@@ -312,6 +316,7 @@
 
 
               if(this.evidenceItems.length > 0){
+                this.applicationUrl = this.evidenceItems[0].applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime();
                 this.currentUrl = this.evidenceItems[0].eviDetailList[0].eviFileurl;
               }
               // this.scrollList =

@@ -112,7 +112,7 @@
               </div>
               <div class="applybook_content of-hidden">
                 <div class="article_left fl">
-                  <iframe  :src="evidence.applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime()" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+                  <iframe  :src="applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
                 </div>
                 <div  ref="evidenceWarper" class="article_right fr">
                   <iframe ref="evidence" v-if="checkPdf(currentUrl)"  :src="currentUrl.replace(/http:|https:/g,'')" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
@@ -154,6 +154,8 @@
     data(){
       return {
 
+        //申请书 url
+        applicationUrl: '',
         searchItem: {},
         //查询条件
         queryConfig:{
@@ -357,6 +359,7 @@
               console.log(this.evidenceItems)
               this.$set(this.queryConfig,'count',res.result.count);
 
+              this.applicationUrl = this.evidenceItems[0].applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime();
               this.disabled = false;
               if(this.evidenceItems.length > 0){
                 this.disabled = this.evidenceItems[0].caseStatus === 5 || this.evidenceItems[0].caseStatus === 7 || this.evidenceItems[0].takeEffectStatus === 1;
