@@ -186,7 +186,7 @@
             </div>
             <div class="applybook_content of-hidden">
               <div class="article_left fl">
-                <iframe :src="card.evi.applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime()" width="100%" height="100%">
+                <iframe :src="applicationUrl" width="100%" height="100%">
                 </iframe>
               </div>
               <div ref="evidenceWarper" class="article_right fr">
@@ -258,6 +258,9 @@ export default {
 	data() {
 		return {
 
+
+		  //申请书 url
+      applicationUrl: '',
       //被申请人修改信息配置
       respondentEidtConfig: {},
       //对应关系
@@ -536,7 +539,7 @@ export default {
 
 
 						this.idCardList.forEach(it => {
-							console.log(it)
+              this.applicationUrl = it.evi.applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime();
 							it.sign.signAuditList.reverse()
 						})
 
