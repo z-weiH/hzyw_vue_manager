@@ -35,8 +35,20 @@
     <div class="item-title of-hidden" style="padding: 5px 0;">
       <span class="item-title-sign" style="margin-top:13px;display:inline-block;">签约客户</span>
       <div class="fr">
-        <el-button @click="handleAdd" type="primary">新增</el-button>
+        <el-upload
+          style="display: inline-block"
+          class="upload-demo mr-10"
+          :action="`${$host}/file/upload.htm`"
+          :data="{token: token}"
+          :show-file-list="false"
+          :before-upload="uploadBefore"
+          :on-success="uploadSuccess"
+          :on-error="uploadError"
+          >
+          <el-button type="primary">导入</el-button>
+        </el-upload>
         <el-button @click="handleExport">导出</el-button>
+        <el-button @click="handleAdd" type="primary">新增</el-button>
       </div>
     </div>
 
@@ -114,6 +126,7 @@
 		},
 		data() {
 			return {
+        token : JSON.parse(localStorage.getItem('loginInfo')).token,
 				ruleForm : {
 					// 关键字
 					keyWords : '',
@@ -182,9 +195,12 @@
         let attr = 'clientName';
         // 对应的表格
         let table = this.tableData;
+        if(!row[attr]) {
+          return;
+        }
 
         if(colList.indexOf(columnIndex) !== -1) {
-          if(rowIndex === 0 || (row[attr] && row[attr] !== table[rowIndex-1][attr]) ) {
+          if(rowIndex === 0 || (row[attr] !== table[rowIndex-1][attr]) ) {
             let index = 0;
             for(let i = rowIndex + 1 ; i < table.length ; i ++) {
               let v = table[i];
@@ -247,6 +263,25 @@
       },
 
       // 表格相关 end
+
+      // 文件上传前回调
+      uploadBefore(file) {
+        let fileType = file.name.split('.').pop();
+        let arr = ['xlsx','xls'];
+        if(arr.indexOf(fileType) === -1){
+          this.$message.warning('文件格式有误');
+          return false;
+        }
+        return true;
+      },
+      // 文件上传成功
+      uploadSuccess(res, file, fileList) {
+        this.handleSearch();
+      },
+      // 文件上传失败
+      uploadError() {
+        this.$message.error('文件上传失败，请稍后重试');
+      },
 		},
 	}
 </script>
