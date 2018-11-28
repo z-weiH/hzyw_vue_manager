@@ -126,7 +126,7 @@
   export default {
     data() {
       return {
-        dialogVisible : true,
+        dialogVisible : false,
         // 提交按钮禁用状态
         submitDisabled : false,
         type : '',

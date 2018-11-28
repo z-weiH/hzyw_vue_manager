@@ -17,7 +17,7 @@
 
           <span class="form-item">客户名称：</span>
           <el-form-item label=" " prop="clientCode">
-            <el-select clearable v-model="ruleForm.clientCode" placeholder="请选择">
+            <el-select filterable clearable v-model="ruleForm.clientCode" placeholder="请选择">
               <template v-for="(item,index) in merchantOptions">
                 <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
               </template>
