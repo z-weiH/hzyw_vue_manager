@@ -209,6 +209,18 @@
       scrollbarClick(e) {
         console.log(e);
         this.currentUrl = e.eviFileurl;
+        if(this.currentUrl.substr(this.currentUrl.length-3) == 'png' || this.currentUrl.substr(this.currentUrl.length-3) == 'jpg' || this.currentUrl.substr(this.currentUrl.length-4) == 'jpeg' ){
+          this.$nextTick(() => {
+
+            let ele = this.$refs.evidenceWarper[0].querySelector('img');
+            if(ele){
+              let w = ele.offsetWidth;
+              let bl = (660/w) * 100;
+              console.log(bl.toFixed(0));
+              ele.src += `?x-oss-process=image/resize,p_${bl.toFixed(0)}`;
+            }
+          })
+        }
       },
       HandleShow(evidence) {
         this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: evidence.caseId,type: 2})

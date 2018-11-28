@@ -149,8 +149,10 @@
 <script>
   import Mixins from '@/components/script/_mixin'
   import scrollY from "@/components/scroll-y";
+  import imgEvi from '@/components/script/imgEvi';
   export default {
     extends: Mixins,
+    mixins: [imgEvi],
     data(){
       return {
 
@@ -298,6 +300,18 @@
       scrollbarClick(e) {
         console.log(e);
         this.currentUrl = e.eviFileurl;
+        if(this.currentUrl.substr(this.currentUrl.length-3) == 'png' || this.currentUrl.substr(this.currentUrl.length-3) == 'jpg' || this.currentUrl.substr(this.currentUrl.length-4) == 'jpeg' ){
+          this.$nextTick(() => {
+
+            let ele = this.$refs.evidenceWarper[0].querySelector('img');
+            if(ele){
+              let w = ele.offsetWidth;
+              let bl = (660/w) * 100;
+              console.log(bl.toFixed(0));
+              ele.src += `?x-oss-process=image/resize,p_${bl.toFixed(0)}`;
+            }
+          })
+        }
       },
       HandlePrev() {
         if(!this.canPrev){
