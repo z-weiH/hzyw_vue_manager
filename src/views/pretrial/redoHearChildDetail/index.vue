@@ -415,7 +415,7 @@ export default {
             console.log(bl.toFixed(0));
             this.currentUrl += `?x-oss-process=image/resize,p_${bl.toFixed(0)}`;
           }
-          img.src=evi.eviUrl;
+          img.src=e.eviFileurl;
       }
 		},
 		FooPassCheck() {
