@@ -6,6 +6,7 @@
       </div>
       <div class="fl business-parameters" :class="{active : paramLevel === 1}">
         <span @click="handleActive(1)" class="cursor">业务参数</span>
+        <span v-if="uEditor" @click="handleRefresh" class="el-icon-refresh"></span>
       </div>
     </div>
 
@@ -34,6 +35,12 @@
   import copy from '@/assets/js/copy.js'
 
   export default {
+    props : {
+      uEditor : {
+        default : false,
+        type : Boolean,
+      }
+    },
     data() {
       return {
         paramLevel : 0,
@@ -45,6 +52,10 @@
       this.initList();
     },
     methods : {
+      // 点击刷新
+      handleRefresh() {
+        this.initList();
+      },
       initList() {
         this.$http({
           url : '/templateSetting/queryAllParamList.htm',
@@ -136,6 +147,10 @@
     background-color: #fff;
   }
   .el-table td{
+    cursor: pointer;
+  }
+  .el-icon-refresh{
+    color:#409eff;
     cursor: pointer;
   }
 }
