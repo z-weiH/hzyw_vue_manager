@@ -130,7 +130,7 @@ export default {
       count: 0,
       batchNo: "",
       auditLists: [],
-      correctionStatus: 1,//修証書
+      correctionStatus: '',//修証書
       currentCaseId: "", //当前案件
       disabled: false, //控制编辑状态     true为查看， false为审核
       showCloseDlg: false,

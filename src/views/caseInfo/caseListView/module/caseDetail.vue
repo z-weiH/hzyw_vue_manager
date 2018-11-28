@@ -63,7 +63,7 @@
        <div class="evi_body">
          <div class="scroll_toolbar fr">
            <ul>
-             <li class="fl evi_bar" :class="{active: eviDetail.eviUrl == currentUrl}" v-for="(eviDetail,idx) in item.evidences" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviName}}</li>
+             <li class="fl evi_bar" :class="{active:currentUrl.indexOf(eviDetail.eviUrl) ==0 }" v-for="(eviDetail,idx) in item.evidences" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviName}}</li>
            </ul>
          </div>
          <p style="line-height: 30px;color: #193b8c;font-size: 17px;">仲裁申请书</p>
@@ -220,18 +220,18 @@ export default {
     //pdf切换
     scrollbarClick(evi){
       this.currentUrl = evi.eviUrl;
-      if(this.currentUrl.substr(this.currentUrl.length-3) == 'png' || this.currentUrl.substr(this.currentUrl.length-3) == 'jpg' || this.currentUrl.substr(this.currentUrl.length-4) == 'jpeg' ){
-        this.$nextTick(() => {
 
-          let ele = this.$refs.evidenceWarper[0].querySelector('img');
-          if(ele){
-            let w = ele.offsetWidth;
-            let bl = (660/w) * 100;
-            console.log(bl.toFixed(0));
-            ele.src += `?x-oss-process=image/resize,p_${bl.toFixed(0)}`;
-          }
-        })
+      if(this.currentUrl.substr(this.currentUrl.length-3) == 'png' || this.currentUrl.substr(this.currentUrl.length-3) == 'jpg' || this.currentUrl.substr(this.currentUrl.length-4) == 'jpeg' ){
+            const img = document.createElement('img');
+            img.onload=(e)=>{
+              console.log(e.path[0].width);
+              let bl = (660/e.path[0].width) * 100;
+              console.log(bl.toFixed(0));
+              this.currentUrl += `?x-oss-process=image/resize,p_${bl.toFixed(0)}`;
+            }
+            img.src=evi.eviUrl;
       }
+
     }
   },
   created(){

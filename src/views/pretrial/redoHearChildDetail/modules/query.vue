@@ -18,7 +18,7 @@
 
         <div style="line-height: 30px;">
           <span class="form_desc">审核结果</span>
-          <el-radio-group v-model="passStatus">
+          <el-radio-group v-model="queryItem.passStatus">
             <el-radio  :label="1">已通过({{queryConfig.passCaseCount}})</el-radio>
             <el-radio  :label="2">未通过({{queryConfig.notPassCaseCount}})</el-radio>
             <el-radio  :label="0">全部案件({{queryConfig.totalCaseCount}})</el-radio>
@@ -26,22 +26,22 @@
         </div>
         <div style="line-height: 30px;">
           <span class="form_desc">信息修正</span>
-          <el-radio-group v-model="correctionStatus">
+          <el-radio-group v-model="queryItem.correctionStatus">
             <el-radio  :label="0">已修正({{queryConfig.correctionCount}})</el-radio>
-            <el-radio  :label="1">全部案件({{queryConfig.totalCaseCount}})</el-radio>
+            <el-radio  label="">全部案件({{queryConfig.totalCaseCount}})</el-radio>
           </el-radio-group>
         </div>
         <div style="line-height: 30px;margin-top:10px;">
           <span class="form_desc" >案件搜索</span>
-          <el-input style="display: inline-block;width: 330px" v-model="keyWords" placeholder="请输入案件编号或被申请人姓名进行搜索"></el-input>
+          <el-input style="display: inline-block;width: 330px" v-model="queryItem.keyWords" placeholder="请输入案件编号或被申请人姓名进行搜索"></el-input>
         </div>
 
         <div style="line-height: 30px;margin-top:10px;">
           <span class="form_desc" >借款本金</span>
-          <input type="number" :class="{'el-input__inner':true,'input_error': calcError}" v-model="minAmtCapital">
+          <input type="number" :class="{'el-input__inner':true,'input_error': calcError}" v-model="queryItem.minAmtCapital">
           <i class="unit">元</i>
           <div class="line"></div>
-          <input type="number" :class="{'el-input__inner':true,'input_error': calcError}" v-model="maxAmtCapital">
+          <input type="number" :class="{'el-input__inner':true,'input_error': calcError}" v-model="queryItem.maxAmtCapital">
           <i class="unit">元</i>
           <p v-if="calcError" style="color:red;padding-left: 70px;">金额输入有误</p>
           <!--<el-input style="display: inline-block;width: 330px" v-model="keyWords" placeholder="请输入案件编号或被申请人姓名进行搜索"></el-input>-->
@@ -82,6 +82,9 @@
       queryConfig:{
         type: Object
       },
+      queryItem: {
+        type: Object
+      },
       disabled:{
         type: String
       }
@@ -89,16 +92,16 @@
     data(){
       return {
         calcError: false,
-        //借款本金最小值
-        minAmtCapital:'',
-        //借款本金最大值
-        maxAmtCapital:'',
+        // //借款本金最小值
+        // minAmtCapital:'',
+        // //借款本金最大值
+        // maxAmtCapital:'',
         showQuery: false,
-        auditStatus: 0,
-        passStatus: 0,
-        keyWords: '',
-        //修正狀態
-        correctionStatus: 1
+        // auditStatus: 0,
+        // passStatus: 0,
+        // keyWords: '',
+        // //修正狀態
+        // correctionStatus: ''
       }
     },
     watch:{
@@ -119,15 +122,16 @@
         return false;
       },
       HandleQuery(){
-        this.parent.auditStatus = this.passStatus;
-        this.parent.passStatus = this.passStatus;
-        this.parent.keyWords = this.keyWords;
-        this.parent.maxAmtCapital = this.maxAmtCapital;
-        this.parent.minAmtCapital = this.minAmtCapital;
-        this.parent.correctionStatus = this.correctionStatus;
-        if(!this.isEmpty(this.minAmtCapital) && (!this.isEmpty(this.maxAmtCapital))){
-          console.log(this.minAmtCapital , this.maxAmtCapital)
-          if(+this.minAmtCapital > (+this.maxAmtCapital)){
+        // this.parent.auditStatus = this.passStatus;
+        // this.parent.passStatus = this.passStatus;
+        // this.parent.keyWords = this.keyWords;
+        // this.parent.maxAmtCapital = this.maxAmtCapital;
+        // this.parent.minAmtCapital = this.minAmtCapital;
+        // this.parent.correctionStatus = this.correctionStatus;
+        this.parent.currentNum = 1;
+        if(!this.isEmpty(this.queryItem.minAmtCapital) && (!this.isEmpty(this.queryItem.maxAmtCapital))){
+          console.log(this.queryItem.minAmtCapital , this.queryItem.maxAmtCapital)
+          if(+this.queryItem.minAmtCapital > (+this.queryItem.maxAmtCapital)){
             return this.calcError = true;
           }
         }

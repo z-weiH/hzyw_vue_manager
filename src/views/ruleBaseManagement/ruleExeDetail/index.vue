@@ -106,7 +106,7 @@
                 <div class="tit fl part_tit f_18">仲裁申请书</div>
                 <div class="scroll_toolbar fr">
                   <ul>
-                    <li class="fl evi_bar" :class="{active: eviDetail.eviFileurl == currentUrl}" v-for="(eviDetail,idx) in evidence.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
+                    <li class="fl evi_bar" :class="{active: currentUrl.indexOf(eviDetail.eviFileurl) ==  0}" v-for="(eviDetail,idx) in evidence.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
                   </ul>
                 </div>
               </div>
@@ -301,16 +301,14 @@
         console.log(e);
         this.currentUrl = e.eviFileurl;
         if(this.currentUrl.substr(this.currentUrl.length-3) == 'png' || this.currentUrl.substr(this.currentUrl.length-3) == 'jpg' || this.currentUrl.substr(this.currentUrl.length-4) == 'jpeg' ){
-          this.$nextTick(() => {
-
-            let ele = this.$refs.evidenceWarper[0].querySelector('img');
-            if(ele){
-              let w = ele.offsetWidth;
-              let bl = (660/w) * 100;
-              console.log(bl.toFixed(0));
-              ele.src += `?x-oss-process=image/resize,p_${bl.toFixed(0)}`;
-            }
-          })
+          const img = document.createElement('img');
+          img.onload=(e)=>{
+            console.log(e.path[0].width);
+            let bl = (660/e.path[0].width) * 100;
+            console.log(bl.toFixed(0));
+            this.currentUrl += `?x-oss-process=image/resize,p_${bl.toFixed(0)}`;
+          }
+          img.src=evi.eviUrl;
         }
       },
       HandlePrev() {

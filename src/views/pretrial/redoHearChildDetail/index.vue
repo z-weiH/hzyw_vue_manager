@@ -16,7 +16,7 @@
               <!--</el-radio-group>-->
               <!--</el-col>-->
               <el-col :span="3" style="padding-top:30px;">
-                <selectQuery ref="query" :parent="this" :disabled="subViewType" :queryConfig="queryConfig"></selectQuery>
+                <selectQuery ref="query" :parent="this" :disabled="subViewType" :queryConfig="queryConfig" :queryItem.sync="queryItem"></selectQuery>
               </el-col>
               <el-col :span="15">
                 <el-button v-if="subViewType == 1" type="primary" class="fr mr-10 mt-20" @click="FooPassCheck">通过</el-button>
@@ -179,7 +179,7 @@
               <div class="tit fl">仲裁申请书</div>
               <div class="scroll_toolbar fr">
                 <ul>
-                  <li class="fl evi_bar" :class="{active: eviDetail.eviFileurl == currentUrl}" v-for="(eviDetail,idx) in card.evi.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
+                  <li class="fl evi_bar" :class="{active: currentUrl.indexOf(eviDetail.eviFileurl) ==0 }" v-for="(eviDetail,idx) in card.evi.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
                 </ul>
                 <!-- <scroll-y @handleClick="scrollbarClick" :options="card.evi.eviDetailList" label="eviTitle" :defaultWidth="520"></scroll-y> -->
               </div>
@@ -251,6 +251,7 @@ import backTop from '@/components/backTop.vue'
 import imgEvi from '@/components/script/imgEvi';
 
 
+
 import $ from 'jquery'
 
 export default {
@@ -289,17 +290,19 @@ export default {
 			auditStatusList: ['1', '2'],
 			waiter: null, // 数据加载前显示动画
 			screenWaitType: false,
-			auditStatus: 0,
+      queryItem:{
+        auditStatus: 0,
+        passStatus:0,
+        correctionStatus: '',
+        keyWords:'',
+        maxAmtCapital:'',
+        minAmtCapital:'',
+      },
 			subBatchNo: '',
 			subBatchId: '',
-      passStatus:'',
 			subViewType: '',
-      correctionStatus: '',
 			btnRecheckType: '',
 			currentNum: 1,
-      keyWords:'',
-      maxAmtCapital:'',
-      minAmtCapital:'',
 			auditLists: [],
 			idCardList: [], //身份证信息
 			curCardObj: {}, //当前分页的合同数据
@@ -405,16 +408,14 @@ export default {
 			console.log(e)
 			this.currentUrl = e.eviFileurl
       if(this.currentUrl.substr(this.currentUrl.length-3) == 'png' || this.currentUrl.substr(this.currentUrl.length-3) == 'jpg' || this.currentUrl.substr(this.currentUrl.length-4) == 'jpeg' ){
-        this.$nextTick(() => {
-
-          let ele = this.$refs.evidenceWarper[0].querySelector('img');
-          if(ele){
-            let w = ele.offsetWidth;
-            let bl = (660/w) * 100;
+          const img = document.createElement('img');
+          img.onload=(e)=>{
+            console.log(e.path[0].width);
+            let bl = (660/e.path[0].width) * 100;
             console.log(bl.toFixed(0));
-            ele.src += `?x-oss-process=image/resize,p_${bl.toFixed(0)}`;
+            this.currentUrl += `?x-oss-process=image/resize,p_${bl.toFixed(0)}`;
           }
-        })
+          img.src=evi.eviUrl;
       }
 		},
 		FooPassCheck() {
@@ -520,12 +521,12 @@ export default {
 					pageSize: 1,
 					currentNum: this.currentNum,
 					subBatchNo: this.subBatchId,
-					auditStatus: this.auditStatus,
-          keyWords: this.keyWords,
-          maxAmtCapital: this.maxAmtCapital,
-          minAmtCapital: this.minAmtCapital,
-          passStatus: this.passStatus,
-          correctionStatus: this.correctionStatus
+					auditStatus: this.queryItem.auditStatus,
+          keyWords: this.queryItem.keyWords,
+          maxAmtCapital: this.queryItem.maxAmtCapital,
+          minAmtCapital: this.queryItem.minAmtCapital,
+          passStatus: this.queryItem.passStatus,
+          correctionStatus: this.queryItem.correctionStatus
 				})
 				.then(res => {
 					console.log('detail>->', res.result)
@@ -544,6 +545,10 @@ export default {
             if(this.currentNum > res.result.count){
 						  this.currentNum = res.result.count;
             }
+
+            this.queryItem.currentNum = this.currentNum;
+            localStorage.setItem('savedConfig',JSON.stringify(this.queryItem));
+            console.log(localStorage.getItem('savedConfig'),this.currentNum)
 						// 明细请求过后再去改变-无数据模版状态
 						this.idCardList.length === 0 ? (this.screenWaitType = true) : (this.screenWaitType = false)
 
@@ -588,13 +593,26 @@ export default {
 	},
 
 	mounted() {
-		console.log('---', this.$route.query.subBatchId)
+		console.log('---', this.$route.query.subBatchId);
+
+    this.queryItem.auditStatus = 0
+    let config = localStorage.getItem('savedConfig');
+		console.log(config);
+		if(config){
+      try{
+        let item = JSON.parse(config);
+        this.queryItem = item;
+        this.currentNum = item.currentNum;
+      }catch (e) {
+
+      }
+    }
+
 
 		this.subBatchId = this.$route.query.subBatchId
 		this.subViewType = this.$route.query.subViewType
-		this.auditStatus = 0
     this.queryCountAgainAuditCase({subBatchNo: this.subBatchId});
-    this.getRecheckDetail();
+    this.getRecheckDetail(true);
 
 		//IE及其他浏览器
 	},

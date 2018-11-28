@@ -180,7 +180,7 @@ export default {
       keyWords:'',
       auditStatus: 0,
       passStatus:0,//查看状态
-      correctionStatus: 1,//修正数
+      correctionStatus: '',//修正数
       editState: 0,
       markflag: false,
       subBatchNo: "",

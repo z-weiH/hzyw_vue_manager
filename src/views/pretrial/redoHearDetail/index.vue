@@ -312,7 +312,8 @@ export default {
 			return '--'
 		},
 		gotoSmallTs(opts) {
-			console.log('opts::', opts)
+			localStorage.removeItem('savedConfig');
+      console.log(this.savedCurrentNum);
 			// 小批次查看与审核
 			let routeData = this.$router.resolve({
 				path: '/redoHearChildDetail',

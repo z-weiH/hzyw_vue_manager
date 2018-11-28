@@ -73,7 +73,7 @@
                 <div class="tit fl part_tit f_18">仲裁申请书</div>
                 <div class="scroll_toolbar fr">
                   <ul>
-                    <li class="fl evi_bar" :class="{active: eviDetail.eviFileurl == currentUrl}" v-for="(eviDetail,idx) in evidence.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
+                    <li class="fl evi_bar" :class="{active: currentUrl.indexOf(eviDetail.eviFileurl) == 0}" v-for="(eviDetail,idx) in evidence.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
                   </ul>
                   <!-- <scroll-y label="eviTitle" @handleClick="scrollbarClick" :options="evidence.eviDetailList" :defaultWidth="520"></scroll-y> -->
                 </div>
@@ -141,7 +141,7 @@
         passStatus: 0,//查看状态
         editState: 0,
         count: 0,
-        correctionStatus: 1,//修正數
+        correctionStatus: '',//修正數
         disabled: false,
         evidenceItems: [],
         currentCaseId: '', //当前案件
@@ -210,16 +210,14 @@
         console.log(e);
         this.currentUrl = e.eviFileurl;
         if(this.currentUrl.substr(this.currentUrl.length-3) == 'png' || this.currentUrl.substr(this.currentUrl.length-3) == 'jpg' || this.currentUrl.substr(this.currentUrl.length-4) == 'jpeg' ){
-          this.$nextTick(() => {
-
-            let ele = this.$refs.evidenceWarper[0].querySelector('img');
-            if(ele){
-              let w = ele.offsetWidth;
-              let bl = (660/w) * 100;
+            const img = document.createElement('img');
+            img.onload=(e)=>{
+              console.log(e.path[0].width);
+              let bl = (660/e.path[0].width) * 100;
               console.log(bl.toFixed(0));
-              ele.src += `?x-oss-process=image/resize,p_${bl.toFixed(0)}`;
+              this.currentUrl += `?x-oss-process=image/resize,p_${bl.toFixed(0)}`;
             }
-          })
+            img.src=evi.eviUrl;
         }
       },
       HandleShow(evidence) {
