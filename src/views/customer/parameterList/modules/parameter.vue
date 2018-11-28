@@ -6,7 +6,7 @@
       </div>
       <div class="fl business-parameters" :class="{active : paramLevel === 1}">
         <span @click="handleActive(1)" class="cursor">业务参数</span>
-        <span v-if="uEditor" @click="handleRefresh" class="el-icon-refresh"></span>
+        <span v-if="uEditor" @click="handleRefresh" class="el-icon-refresh" :class="{'rotete-animation' : refresh}"></span>
       </div>
     </div>
 
@@ -46,6 +46,7 @@
         paramLevel : 0,
         bizType : '',
         tableData : [],
+        refresh : false,
       }
     },
     mounted() {
@@ -54,9 +55,14 @@
     methods : {
       // 点击刷新
       handleRefresh() {
-        this.initList();
+        this.refresh = true;
+        this.initList(() => {
+          setTimeout(() => {
+            this.refresh = false;
+          },1600);
+        });
       },
-      initList() {
+      initList(callback) {
         this.$http({
           url : '/templateSetting/queryAllParamList.htm',
           method : 'post',
@@ -66,6 +72,7 @@
           },
         }).then((res) => {
           this.tableData = res.result
+          callback && callback();
         });
       },
       handleActive(type) {
@@ -118,6 +125,14 @@
 <style lang="scss">
 
 .parameter-page{
+  .rotete-animation{
+    animation: myfirst 1s linear infinite;
+  }
+  @keyframes myfirst{
+    to {
+      transform:rotate(360deg);
+    }
+  }
   .m-c1{
     position: relative;
     height: 50px;
