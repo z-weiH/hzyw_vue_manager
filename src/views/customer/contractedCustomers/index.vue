@@ -128,7 +128,7 @@
         tableActive : 0,
 
 				// 表格数据
-        tableData : [{clientName : '张三1' , salesman : '销售1'},{clientName : '张三2' , salesman : '销售2'},{clientName : '张三2'}],
+        tableData : [{clientName : '张三1' , salesman : '销售1'},{clientName : '张三2' , salesman : '销售2'},{clientName : '张三2',salesman : '销售3'}],
         // 数据总数
         total : 11,
         // 当前页数
@@ -139,7 +139,7 @@
 			}
     },
     mounted() {
-      //this.initTableList();
+      this.initTableList();
     },
 		methods : {
 			// 点击搜索
@@ -174,58 +174,42 @@
           });
         }).catch(() => {});
       },
-      // 表格 合并逻辑
+      // 表格合并 逻辑
       arraySpanMethod({ row, column, rowIndex, columnIndex }) {
-        /* let arr = this.tableData.filter((v,k) => {
-          if(k >= rowIndex && (row.clientName === v.clientName && row.clientName === ( this.tableData[k+1] ? this.tableData[k+1].clientName : '') ) ) {
-            return v;
-          }
-        });
-        let length = arr.length;
-        
-        if (columnIndex === 2) {
-          if (length > 0) {
-            return {
-              rowspan: length + 1,
-              colspan: 1
-            };
-          } else {
-            return {
-              rowspan: 1,
-              colspan: 0
-            };
-          }
-        } */
-        var property = 'clientName';
-        if ( columnIndex === 2) {
-            if(rowIndex === 0 ||  (this.tableData[rowIndex] && row[property] !== this.tableData[rowIndex-1][property])){
-              let idx = -1;
-              for(let i = this.tableData.length -1 ;i> rowIndex; i--){
-                if(this.tableData[i][property] === row[property]){
-                  idx = i;
-                  break;
-                }
-              }
+        // 需要执行的列
+        let colList = [2];
+        // 比较相等的属性
+        let attr = 'clientName';
+        // 对应的表格
+        let table = this.tableData;
 
-              if(idx!= -1){
-                return {
-                  rowspan: idx - rowIndex + 1,
-                  colspan: 1
-                }
-              }else{
-                  return {
-                    rowspan: 1,
-                    colspan: 1
-                  };
+        if(colList.indexOf(columnIndex) !== -1) {
+          if(rowIndex === 0 || (row[attr] && row[attr] !== table[rowIndex-1][attr]) ) {
+            let index = 0;
+            for(let i = rowIndex + 1 ; i < table.length ; i ++) {
+              let v = table[i];
+              if(row[attr] === v[attr]) {
+                index ++;
+              }
+            }
+            if(index > 0) {
+              return {
+                rowspan: index + 1,
+                colspan: 1,
               }
             }else{
               return {
                 rowspan: 1,
-                colspan: 0,
+                colspan: 1,
               };
             }
-
+          }else{
+            return {
+              rowspan: 1,
+              colspan: 0,
+            };
           }
+        }
       },
       // 点击导出
       handleExport() {
