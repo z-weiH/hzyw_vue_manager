@@ -13,7 +13,7 @@
         </div>
         <!-- 参数 -->
         <div class="fl parameter-box" :style="{height : ueeditorHeight + 80 + 'px'}">
-          <parameter @copy="handleCopy"></parameter>
+          <parameter @copy="handleCopy" :uEditor="true"></parameter>
         </div>
         <!-- 悬浮操作 -->
         <div class="operation-box" @click.stop="() => {}">
@@ -244,11 +244,9 @@
           message = '${参数}';
         }else if(type === 2) {
           message = '&lt;#if 参数 &lt;= 0&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
-          // message = `<span class="style-if" style="display:block">&lt;#if 参数 &lt;= 0&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;第一结果</span><span class="style-if" style="display:block">&lt;#else&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;第二结果</span><span class="style-if" style="display:block">&lt;/#if&gt;</span>`;
           //message = `<pre class="brush:js;toolbar:false;">&lt;#if 参数 &lt;= 0&gt;<br>  第一结果<br>&lt;#else&gt;<br>  第二结果<br>&lt;/#if&gt;<br></pre>`;
         }else if(type === 3) {
           message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
-          //message = `<span class="style-if" style="display:block">&lt;#if x == 1&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is 1</span><span class="style-if" style="display:block">&lt;#elseif x == 2&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is 2</span><span class="style-if" style="display:block">&lt;#else&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is not 1 nor 2</span><span class="style-if" style="display:block">&lt;/#if&gt;</span>`;
           //message = `<pre class="brush:js;toolbar:false;">&lt;#if x == 1&gt;<br>  x is 1<br>&lt;#elseif x == 2&gt;<br>  x is 2<br>&lt;#else&gt;<br>  x is not 1 nor 2<br>&lt;/#if&gt;<br></pre>`;
         }else if(type === 4) {
           message = '&lt;@myPage /&gt;';
