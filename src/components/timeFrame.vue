@@ -147,10 +147,10 @@
     mounted() {},
     methods : {
       initTime() {
-        this.$emit('update:startDate',this.start);
+        this.$emit('update:startDate',this.start || '');
       },
       initTime2() {
-        this.$emit('update:endDate',this.end);
+        this.$emit('update:endDate',this.end || '');
       },
     },
   }
