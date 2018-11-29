@@ -27,6 +27,15 @@
           <div>没有符合要求的案件</div>
         </div>
         <!-- end -->
+        <div class="pagination" v-if="idCardList.length > 0">
+          <el-pagination
+            @current-change="handleCurrentChange"
+            :current-page="pager.currentNum"
+            :page-size="20"
+            layout="prev, pager, next, jumper, total"
+            :total="pager.total">
+          </el-pagination>
+        </div>
 
         <div class="card" :ref="card.subSortNo" v-for="(card, index) in idCardList" :key="index">
           <div class="card_header" style="overflow: hidden;position: relative;">
@@ -63,11 +72,11 @@
           <div class="card_body">
             <div class="img zhen fl">
               <!--<pic-zoom ref="picZoom" :url="card.respondentInfo.image02" :scale="3" :scroll="true"></pic-zoom>-->
-              <img-zoom :src="card.respondentInfo.image02+ '?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.respondentInfo.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+              <img-zoom :total="idCardList.length" :current="index" :src="card.respondentInfo.image02+ '?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.respondentInfo.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
               <!--<img :src="card.respondentInfo.image02" alt="" @mouseenter="mouseenterHandle" @mousemove="mousemoveHandle" @mouseleave="mouseleaveHandle">-->
             </div>
             <div class="img fan fl">
-              <img-zoom :src="card.respondentInfo.image01+ '?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.respondentInfo.image01+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+              <img-zoom :total="idCardList.length" :current="index" :src="card.respondentInfo.image01+ '?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.respondentInfo.image01+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
 
               <!--<pic-zoom ref="picZoom" :url="card.respondentInfo.image01" :scale="3" :scroll="true"></pic-zoom>-->
             </div>
@@ -360,7 +369,7 @@ export default {
       this.pager.currentNum = page;
       this.HandleQuery();
     },
-    HandleQuery(mark,mark1) {
+    HandleQuery(mark) {
       const loading =this.$loading({
         lock: true,
         text: '拼命加载中',
@@ -432,16 +441,15 @@ export default {
               setTimeout(() => {
                 if(this.$refs[this.markflag]){
                   console.log(this.$refs[this.markflag][0].offsetTop);
-                  document.documentElement.querySelector('.body_container').scrollTo(0,this.$refs[this.markflag][0].offsetTop)
+                  document.documentElement.querySelector('.el-scrollbar__wrap').scrollTo(0,this.$refs[this.markflag][0].offsetTop)
                 }
 
               }, 500);
             }
-            else if(mark1){
 
-            }
             else{
-              document.documentElement.querySelector('.body_container').scrollTo(0,0);
+              console.log('scrollTo')
+              document.documentElement.querySelector('.el-scrollbar__wrap').scrollTo(0,0);
             }
             // setTimeout(()=>{
             //   this.scrollFunc();

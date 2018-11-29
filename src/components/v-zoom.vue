@@ -1,6 +1,6 @@
 <template>
   <div class="_magnifier" style="width:100%;height:100%;">
-    <img :style="{'transform':'rotate('+cureentDeg+'deg)','height':height +'px','max-width':'100%'}" :src="src" @mouseover="handOver"  @mousemove="handMove" @mouseout="handOut"/>
+    <img :style="{'transform':'rotate('+cureentDeg+'deg)','height':height +'px','max-width':'100%'}" :src="src" @mouseover="handOver" @click="showImg"  @mousemove="handMove" @mouseout="handOut"/>
     <div class="edit-wrap" >
       <span class="rotate-left" @click="rotate('left')"></span>
       <span class="rotate-right" @click="rotate('right')"></span>
@@ -12,6 +12,14 @@
   export default {
     name: 'app',
     props: {
+      total:{
+        type: Number,
+        default: 1,
+      },
+      current:{
+        type: Number,
+        default: -1,
+      },
       src: {
         type: String,
         required: true,
@@ -54,6 +62,9 @@
       }
     },
     methods: {
+      showImg(){
+        window.open(this.bigImg.src,'_blank')
+      },
       rotate(direction){
         let idx = this.src.lastIndexOf(',');
         if(direction == 'left'){
@@ -144,10 +155,8 @@
           imgLayer.style.height = _layerHeight + 'px'
           imgLayer.style.left = this.imgRect.left  + 'px'
           imgLayer.style.top = this.imgRect.top+ this.imgRect.height + 'px';
-          if(document.documentElement.querySelector('.pagination')){
-            if(document.documentElement.querySelector('.body_container').offsetHeight < this.imgRect.top + this.imgRect.height * 2){
+          if(this.total === this.current + 1){
               imgLayer.style.top = this.imgRect.top- this.imgRect.height + 'px';
-            }
           }
           if(this.configs.top){
             imgLayer.style.top = this.imgRect.top- this.imgRect.height + 'px';
