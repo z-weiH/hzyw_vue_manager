@@ -367,9 +367,9 @@ export default {
     },
     handleCurrentChange(page) {
       this.pager.currentNum = page;
-      this.HandleQuery();
+      this.HandleQuery(null,true);
     },
-    HandleQuery(mark) {
+    HandleQuery(mark,mark2) {
       const loading =this.$loading({
         lock: true,
         text: '拼命加载中',
@@ -447,7 +447,8 @@ export default {
               }, 500);
             }
 
-            else{
+            console.log(mark2);
+            if(mark2){
               console.log('scrollTo')
               document.documentElement.querySelector('.el-scrollbar__wrap').scrollTo(0,0);
             }

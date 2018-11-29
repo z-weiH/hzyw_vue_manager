@@ -73,7 +73,7 @@
                   }
                   this.$parent.respondentEditFlag = false;
                   if(this.$parent.HandleQuery && this.$parent.HandleQuery instanceof Function){
-                    this.$parent.HandleQuery(null,true);
+                    this.$parent.HandleQuery();
                   }
                   //复审
                   if(this.$parent.getRecheckDetail && this.$parent.getRecheckDetail instanceof Function){
