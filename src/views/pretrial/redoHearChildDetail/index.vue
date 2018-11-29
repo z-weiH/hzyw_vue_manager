@@ -578,7 +578,9 @@ export default {
               document.documentElement.querySelector('.body_container').scrollTo(0,0);
             }
 					}
-				})
+				}).catch(() => {
+				  this.waiter.close();
+      })
 		},
 
 		screenLoader() {

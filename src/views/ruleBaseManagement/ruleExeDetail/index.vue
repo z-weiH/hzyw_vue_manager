@@ -21,6 +21,7 @@
                     <el-radio :label="''">全部({{queryConfig.totalCaseCount}})</el-radio>
                     <el-radio :label="2">检出错误({{queryConfig.errorCount}})</el-radio>
                     <el-radio :label="1">未检出错误({{queryConfig.noErrorCount}})</el-radio>
+                    <el-radio :label="0">执行错误({{queryConfig.exceptionCount}})</el-radio>
                   </el-radio-group>
 
 
@@ -233,7 +234,9 @@
             })
           })
 
-        }).catch(() => {});
+        }).catch(() => {
+          loading.close();
+        });
 
       },
 
@@ -374,18 +377,20 @@
               this.disabled = false;
               if(this.evidenceItems.length > 0){
                 this.applicationUrl = this.evidenceItems[0].applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime();
-
                 this.disabled = this.evidenceItems[0].caseStatus === 5 || this.evidenceItems[0].caseStatus === 7 || this.evidenceItems[0].takeEffectStatus === 1;
-                this.currentUrl = this.evidenceItems[0].eviDetailList[0].eviFileurl;
+                if(this.evidenceItems[0].eviDetailList.length > 0){
+                  this.currentUrl = this.evidenceItems[0].eviDetailList[0].eviFileurl;
+                }
                 this.evidenceItems[0].ruleExeResultList.forEach(it => {
-                  // it.isSelected = Boolean(it.isSelected);
                   this.$set(it,'isSelected',Boolean(it.isSelected))
                 })
               }
               // this.scrollList =
             loading.close();
             this.showQuery && (this.showQuery = false);
-          })
+          }).catch(() => {
+          loading.close();
+        })
       },
 
 

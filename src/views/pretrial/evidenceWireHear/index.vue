@@ -340,7 +340,9 @@
 
             }
             loading.close();
-          })
+          }).catch(() => {
+          loading.close();
+        })
       },
       //初审身份证、签名、证据链搜索是案件数量统计接口
       handleCountQuery(item){
