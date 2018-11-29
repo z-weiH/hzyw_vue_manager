@@ -223,7 +223,7 @@
               url : '/preCaseLib/distributeCaseByDistributeCaseQuery.htm',
               data : form,
             }).then((res) => {
-              this.$message.success('分配成功');
+              this.$message.success('操作成功');
             }).catch(() => {
               this.submitDisabled = false;
             });

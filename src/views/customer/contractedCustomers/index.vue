@@ -138,7 +138,6 @@
           finishAbutment : '',
 				},
         rules : {},
-        tableActive : 0,
 
 				// 表格数据
         tableData : [{clientName : '张三1' , salesman : '销售1'},{clientName : '张三2' , salesman : '销售2'},{clientName : '张三2',salesman : '销售3'}],

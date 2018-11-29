@@ -75,7 +75,7 @@
           </el-form>
         </div>
         <div class="table" ref="table_warper"  >
-          <el-table ref="caseTable" max-height="400" border :data="caseList" @selection-change="handleSelectionChange" :empty-text="emptyText">
+          <el-table v-loading="tableLoading" ref="caseTable" max-height="400" border :data="caseList" @selection-change="handleSelectionChange" :empty-text="emptyText">
             <el-table-column type="selection"  width="55"></el-table-column>
             <el-table-column prop="loanBillNo"  label="案件编号" width="174">
               <template slot-scope="scope">
@@ -224,6 +224,7 @@
         executProgress: 0,
         progressWidth: 0,
         exeId: '',//当前执行任务
+        tableLoading : false,
       }
     },
     watch:{
@@ -374,13 +375,8 @@
     },
 
     doQuery(){
-      const loading =this.$loading({
-        lock: true,
-        text: '正在验证...',
-        fullscreen: true,
-        spinner: 'el-icon-loading',
-        background: "hsla(0,0%,100%,.9)"
-      });
+      this.tableLoading = true;
+      this.caseList = [];
       this.$http.post("/rule/queryCaseInfoListByBaseQuery.htm",{...this.form, ...this.pager}).then(res => {
         if(res.result.list.length === 0){
           this.emptyText = "暂无数据";
@@ -391,10 +387,13 @@
           this.$refs.caseTable.$el.querySelector('.el-table__body-wrapper').scrollTo(0,0);
             this.caseList.forEach( it => {
               this.$refs.caseTable.toggleRowSelection(it , true);
-            })
+            });
+            this.tableLoading = false;
         })
         // caseTable
-      })
+      }).catch(() => {
+        this.tableLoading = false;
+      });
     },
 
     handleSizeChange(val){
