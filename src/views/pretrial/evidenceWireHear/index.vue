@@ -92,7 +92,12 @@
           </div>
 
 
-
+          <!-- 隐藏的 iframe 用于浏览器 ctrl + f -->
+					<div v-if="!(eviCode === 'AGREEMENT' || eviCode === 'SERVICE')" class="fn-hide">
+						<li v-for="(eviDetail,idx) in evidence.eviDetailList" :key="idx">
+							<iframe class="fline-lalal" :src="eviDetail.eviFileurl" v-if="eviDetail.eviCode && (eviDetail.eviCode === 'AGREEMENT' || eviDetail.eviCode === 'SERVICE')"></iframe>
+						</li>
+					</div>
         </div>
 
 
@@ -129,7 +134,7 @@
     mixins:[imgEvi],
     data(){
       return {
-
+        eviCode : '',
         //申请书 url
         applicationUrl: '',
 
@@ -209,6 +214,7 @@
       scrollbarClick(e) {
         console.log(e);
         this.currentUrl = e.eviFileurl;
+        this.eviCode = e.eviCode || '';
         if(this.currentUrl.substr(this.currentUrl.length-3) == 'png' || this.currentUrl.substr(this.currentUrl.length-3) == 'jpg' || this.currentUrl.substr(this.currentUrl.length-4) == 'jpeg' ){
             const img = document.createElement('img');
             img.onload=(e)=>{
