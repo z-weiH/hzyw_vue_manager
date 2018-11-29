@@ -498,7 +498,9 @@ export default {
     this.markflag = this.$route.query.markflag;
     this.disabled = Boolean(this.$route.query.disabled);
     this.batchNo = this.$route.query.batchNo;
-    this.pager.currentNum = Math.ceil(this.markflag/20);
+    if(!this.disabled){
+      this.pager.currentNum = Math.ceil(this.markflag/20);
+    }
     if(this.pager.currentNum === 0)
       this.pager.currentNum = 1;
 
