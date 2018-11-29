@@ -192,6 +192,10 @@
 
         this.$nextTick(() => {
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
+          if(this.type === 'edit') {
+            this.id = data.id;
+            this.ruleForm = Object.assign(this.ruleForm,data);
+          }
         });
       },
 
@@ -216,11 +220,11 @@
             this.submitDisabled = true;
             let form = {...this.ruleForm};
             if(this.type === 'edit') {
-              form.aaaa = this.aaaa;
+              form.id = this.id;
             }
 						this.$http({
               method : 'post',
-              url : '/preCaseLib/distributeCaseByDistributeCaseQuery.htm',
+              url : '/contracted/saveCustomerInfo.htm',
               data : form,
             }).then((res) => {
               this.$message.success('操作成功');

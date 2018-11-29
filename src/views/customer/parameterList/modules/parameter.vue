@@ -126,12 +126,11 @@
 
 .parameter-page{
   .rotete-animation{
-    animation: myfirst 1s linear infinite;
+    animation-play-state: running!important;
   }
   @keyframes myfirst{
-    to {
-      transform:rotate(360deg);
-    }
+    0% { transform:rotate(0deg); }
+    100% { transform:rotate(360deg); }
   }
   .m-c1{
     position: relative;
@@ -167,6 +166,8 @@
   .el-icon-refresh{
     color:#409eff;
     cursor: pointer;
+    animation: myfirst 1s linear infinite;
+    animation-play-state: paused;
   }
 }
 
