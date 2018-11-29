@@ -305,6 +305,7 @@
             clearTimeout(this.timer);
           }
           this.flag3 = false;
+          this.$emit("progressCancel");
         })
       }).catch(() => {})
 

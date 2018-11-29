@@ -13,9 +13,15 @@
             <span @click="showList" class="colLink fl" style="margin: 0 20px;font-size: 16px;line-height: 37px;">
             查看
             </span>
+
           </div>
           <el-button v-if="!executing" type="primary" class="mt-20" @click="handleExecute">执行规则</el-button>
-          <span class="exe_span" v-else>
+          <div class="fl mt-20" style="line-height: 21px;" v-if="executing">
+            <span v-if="executing" @click="cancelList" class="colLink fl" style="margin: 0 20px;font-size: 16px;line-height: 37px;">
+              取消
+            </span>
+          </div>
+          <span class="exe_span" v-if="executing">
           正在执行 {{exeItem.currentCount}} / {{exeItem.totalCount}}
           </span>
         </div>
@@ -145,7 +151,7 @@
     <copyRule ref="copyRule"/>
     <inputTemplate ref="inputTemplate"></inputTemplate>
     <pdfHtml ref="pdfHtml"></pdfHtml>
-    <executeRuleDialog ref="executeRule" @hiddenDialog="executing = true;" @progress="setExeItem" @progressDown="exeOver"></executeRuleDialog>
+    <executeRuleDialog ref="executeRule" @progressCancel="exeCancel" @hiddenDialog="executing = true;" @progress="setExeItem" @progressDown="exeOver"></executeRuleDialog>
   </div>
 </template>
 
@@ -397,8 +403,14 @@
     methods : {
 
 
+      exeCancel(){
+        this.executing = false;
+      },
       showList(){
         this.$refs.executeResult.show(this.exeResult.exeId,true);
+      },
+      cancelList(){
+        this.$refs.executeRule.cancelExe();
       },
       setExeItem(item){
         this.exeItem = item;
