@@ -437,7 +437,7 @@ export default {
               });
 
             });
-            if (mark) {
+            if (mark && !this.disabled) {
               setTimeout(() => {
                 if(this.$refs[this.markflag]){
                   console.log(this.$refs[this.markflag][0].offsetTop);
