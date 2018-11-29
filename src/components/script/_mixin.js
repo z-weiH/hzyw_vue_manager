@@ -32,7 +32,6 @@ export default {
      * @return Promise包装的查询结果,实际页面可以做其他操作
      */
     query(url, item) {
-      this.pager.currentNum = 1;
       Object.assign(item, this.pager, this.fixedSearchItrems);
       let promise = this.$http.post(url, item)
         .then(res => {

@@ -51,6 +51,7 @@ export default {
     btnClickHandle() {
       let url = this.queryUrl;
       if (!url) url = this.$parent.queryUrl;
+      this.$parent.pager.currentNum = 1;
       this.$parent.doQuery(url, this.item);
     },
     valueChange(key) {

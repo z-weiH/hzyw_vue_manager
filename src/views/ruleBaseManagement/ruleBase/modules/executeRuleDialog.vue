@@ -108,7 +108,7 @@
                          @size-change="handleSizeChange"
                          @current-change="handleCurrentChange"
                          :current-page="pager.currentNum"
-                         :page-sizes="[100, 200, 300,400, 500]"
+                         :page-sizes="[200,500,1000,2000]"
                          :page-size="pager.pageSize"
                          layout="total, sizes, prev, pager, next, jumper"
                          :total="pager.count">
@@ -184,6 +184,7 @@
 <script>
   import timeFrame from '@/components/timeFrame.vue'
   import mProgress from './progress'
+  import $ from 'jquery'
    export default {
     name: 'executeRuleDialog',
     components:{
@@ -207,7 +208,7 @@
         caseList : [],
         selectedList: [],
         pager:{
-          pageSize: 100,
+          pageSize: 200,
           currentNum: 1,
           count: 1
         },
@@ -373,6 +374,13 @@
     },
 
     doQuery(){
+      const loading =this.$loading({
+        lock: true,
+        text: '正在验证...',
+        fullscreen: true,
+        spinner: 'el-icon-loading',
+        background: "hsla(0,0%,100%,.9)"
+      });
       this.$http.post("/rule/queryCaseInfoListByBaseQuery.htm",{...this.form, ...this.pager}).then(res => {
         if(res.result.list.length === 0){
           this.emptyText = "暂无数据";
@@ -433,6 +441,7 @@
     step3(){
       document.getElementsByClassName('move-top-left')[0].className += ' active';
       setTimeout(() => {
+        $('.move-top-left').removeClass('active');
         this.flag3 = false;
         this.$emit("hiddenDialog");
       },1000)
