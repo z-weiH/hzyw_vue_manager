@@ -119,7 +119,7 @@
 
 
 
-          <el-scrollbar style="height: 400px;" v-if="caseList.length > 0">
+          <el-scrollbar style="height: 400px;" v-if="caseList.length > 0" v-loading="tableLoading">
             <table
               class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover "
               style="max-height: 440px;">
@@ -439,6 +439,10 @@
 
     doQuery(){
       this.slelectedAll = false;
+      this.tableLoading = true;
+      setTimeout(() => {
+        this.tableLoading = false;
+      },800)
       this.$http.post("/rule/queryCaseInfoListByBaseQuery.htm",{...this.form, ...this.pager}).then(res => {
         if(res.result.list.length === 0){
           this.emptyText = "暂无数据";

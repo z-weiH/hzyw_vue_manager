@@ -61,7 +61,7 @@
                 </div>
               </div>
               <div class="cellTr">
-                <div class="cell">借款开始时间</div>
+                <div class="cell">实际打款日期</div>
                 <div class="cell">{{sign.borrowStartDate}}</div>
                 <div class="cell">借款合同</div>
                 <div class="cell"><a class="btn_link" :href="sign.borrowContractUrl" target="_blank">点击查看</a></div>
