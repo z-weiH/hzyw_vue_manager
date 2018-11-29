@@ -75,27 +75,72 @@
           </el-form>
         </div>
         <div class="table" ref="table_warper"  >
-          <el-table v-loading="tableLoading" ref="caseTable" max-height="400" border :data="caseList" @selection-change="handleSelectionChange" :empty-text="emptyText">
-            <el-table-column type="selection"  width="55"></el-table-column>
-            <el-table-column prop="loanBillNo"  label="案件编号" width="174">
-              <template slot-scope="scope">
-                <span v-ellipsis.20>{{scope.row.loanBillNo}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="respondents" label="被申请人名字" width="153"> </el-table-column>
-            <el-table-column prop="caseStatus" label="案件状态" width="130">
-              <template slot-scope="scope">
-                <span>{{caseStatusName(scope.row.caseStatus)}}</span>
-              </template>
-            </el-table-column>
-            <el-table-column prop="pushTime" label="案件推送时间" width="160"> </el-table-column>
-            <el-table-column prop="applyTime" label="提交立案日期" width="160">
-              <template slot-scope="scope">
-                <span>{{scope.row.applyTime ? scope.row.applyTime : '--'}}</span>
-              </template>
-            </el-table-column>
+          <!--<el-table v-loading="tableLoading" ref="caseTable" max-height="400" border :data="caseList" @selection-change="handleSelectionChange" :empty-text="emptyText">-->
+            <!--<el-table-column type="selection"  width="55"></el-table-column>-->
+            <!--<el-table-column prop="loanBillNo"  label="案件编号" width="174">-->
+              <!--<template slot-scope="scope">-->
+                <!--<span v-ellipsis.20>{{scope.row.loanBillNo}}</span>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column prop="respondents" label="被申请人名字" width="153"> </el-table-column>-->
+            <!--<el-table-column prop="caseStatus" label="案件状态" width="130">-->
+              <!--<template slot-scope="scope">-->
+                <!--<span>{{caseStatusName(scope.row.caseStatus)}}</span>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
+            <!--<el-table-column prop="pushTime" label="案件推送时间" width="160"> </el-table-column>-->
+            <!--<el-table-column prop="applyTime" label="提交立案日期" width="160">-->
+              <!--<template slot-scope="scope">-->
+                <!--<span>{{scope.row.applyTime ? scope.row.applyTime : '&#45;&#45;'}}</span>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
 
-          </el-table>
+          <!--</el-table>-->
+
+
+            <table
+              class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mt-10"
+              style="max-height: 440px;"
+            >
+            <tr>
+              <td colspan="1">
+                <el-checkbox v-model="slelectedAll"></el-checkbox>
+              </td>
+              <td colspan="2">案件编号</td>
+              <td colspan="2">被申请人姓名</td>
+              <td colspan="2">案件状态</td>
+              <td colspan="2">案件推送时间</td>
+              <td colspan="2">提交立案日期</td>
+            </tr>
+              <tr  v-if="caseList.length === 0">
+                <td colspan="11">{{emptyText}}</td>
+              </tr>
+            </table>
+
+
+
+          <el-scrollbar style="height: 400px;" v-if="caseList.length > 0">
+            <table
+              class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover "
+              style="max-height: 440px;">
+              <tr v-for="(item,index) in caseList" :key="index">
+                <td colspan="1">
+                  <el-checkbox @change="handleSelectionChange" v-model="item.selected"></el-checkbox>
+                </td>
+                <td colspan="2">{{item.loanBillNo}}</td>
+                <td colspan="2">{{item.respondents}}</td>
+                <td colspan="2">{{caseStatusName(item.caseStatus)}}</td>
+                <td colspan="2">{{item.pushTime}}</td>
+                <td colspan="2">{{item.applyTime ? item.applyTime : '--'}}</td>
+              </tr>
+            </table>
+          </el-scrollbar>
+
+
+
+
+
+
 
         </div>
 
@@ -193,6 +238,8 @@
     },
     data(){
       return {
+        //全选
+        slelectedAll: false,
         emptyText: '请先选择案件模版',
         flag1: false,
         flag2: false,
@@ -228,6 +275,20 @@
       }
     },
     watch:{
+
+      'slelectedAll'(val,oldval){
+        if(val){
+          this.caseList.forEach(it => {
+            this.$set(it,'selected', true);
+          })
+        }else{
+          this.caseList.forEach(it => {
+            this.$set(it,'selected', false);
+          })
+        }
+        this.handleSelectionChange();
+      },
+
       'form.keyWords'(){
         if(this.form.levelId){
           this.doQuery();
@@ -264,6 +325,7 @@
   methods:{
     refreshData(){
       this.form = {caseStatus: '',keyWords:''};
+      this.slelectedAll = false;
       //下拉框图标
       this.iconName ='el-icon-arrow-down';
       this.caseList= [];
@@ -376,8 +438,7 @@
     },
 
     doQuery(){
-      this.tableLoading = true;
-      this.caseList = [];
+      this.slelectedAll = false;
       this.$http.post("/rule/queryCaseInfoListByBaseQuery.htm",{...this.form, ...this.pager}).then(res => {
         if(res.result.list.length === 0){
           this.emptyText = "暂无数据";
@@ -385,11 +446,11 @@
         this.caseList = res.result.list;
         this.pager.count = res.result.count;
         this.$nextTick(() => {
-          this.$refs.caseTable.$el.querySelector('.el-table__body-wrapper').scrollTo(0,0);
-            this.caseList.forEach( it => {
-              this.$refs.caseTable.toggleRowSelection(it , true);
-            });
-            this.tableLoading = false;
+          // this.$refs.caseTable.$el.querySelector('.el-table__body-wrapper').scrollTo(0,0);
+          //   this.caseList.forEach( it => {
+          //     this.$refs.caseTable.toggleRowSelection(it , true);
+          //   });
+            this.slelectedAll = true;
         })
         // caseTable
       }).catch(() => {
@@ -482,8 +543,8 @@
 
 
 
-    handleSelectionChange(selection){
-      this.selectedList = selection;
+    handleSelectionChange(){
+      this.selectedList = this.caseList.filter(it => it.selected);
       if(this.selectedList.length === 0){
         this.canstep1 = true;
       }else{

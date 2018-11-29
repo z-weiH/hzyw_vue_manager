@@ -29,4 +29,5 @@ export default [
   '/ctInterfaceList', // 客户管理-模板联调-接口列表
   '/ruleExeDetail',//规则执行详情
   '/main/exeRecordDetail',//执行几率详情
+  '/main/emMaterialAllocationPage',//材料配置詳情頁
 ]
