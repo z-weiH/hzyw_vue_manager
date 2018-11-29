@@ -176,9 +176,9 @@
         }).then(() => {
           this.$http({
             method : 'post',
-            url : '/reason/deletedTemplate.htm',
+            url : '/contracted/deleteCustomerInfoById.htm',
             data : {
-              conditionId : row.conditionId,
+              id : row.id,
             },
           }).then((res) => {
             this.$message.success('删除成功');
