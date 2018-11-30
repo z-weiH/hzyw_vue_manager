@@ -16,7 +16,11 @@
       };
     },
     mounted() {
-      $(".page-content .el-scrollbar__wrap")[0].addEventListener("scroll", throttle(this.handleScroll, 50));
+      try{
+        $(".page-content .el-scrollbar__wrap")[0].addEventListener("scroll", throttle(this.handleScroll, 50));
+      }catch(err) {
+
+      }
     },
     methods: {
       handleScroll() {
