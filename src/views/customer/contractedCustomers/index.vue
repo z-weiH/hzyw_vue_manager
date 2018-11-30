@@ -189,7 +189,7 @@
       // 表格合并 逻辑
       arraySpanMethod({ row, column, rowIndex, columnIndex }) {
         // 需要执行的列
-        let colList = [2];
+        let colList = [0,1,2];
         // 比较相等的属性
         let attr = 'clientName';
         // 对应的表格
