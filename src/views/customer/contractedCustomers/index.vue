@@ -58,9 +58,9 @@
         border
         :span-method="arraySpanMethod"
       >
+        <el-table-column prop="clientName" label="客户名称"></el-table-column>
 				<el-table-column prop="salesman" label="销售"></el-table-column>
         <el-table-column prop="operator" label="运营"></el-table-column>
-        <el-table-column prop="clientName" label="客户名称"></el-table-column>
         <el-table-column prop="productName" label="产品名称"></el-table-column>
         <el-table-column prop="averageQuantity" label="件均"></el-table-column>
         <el-table-column prop="isPay" label="是否完成付款">
@@ -189,7 +189,7 @@
       // 表格合并 逻辑
       arraySpanMethod({ row, column, rowIndex, columnIndex }) {
         // 需要执行的列
-        let colList = [0,1,2];
+        let colList = [0];
         // 比较相等的属性
         let attr = 'clientName';
         // 对应的表格
