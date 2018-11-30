@@ -9,7 +9,11 @@
 
     <div class="item-table">
       <div class="select-case">
-        <p class="ft-20 fl case-num">已选择{{caseIds.split(',').length}}个案件</p>
+        <p class="ft-20 fl case-num">已选择
+          {{
+            type === '2' ? caseIds.split(',').length : caseNum
+          }}
+        个案件</p>
         <div class="fr">
           <el-button :disabled="verifyChecked()" @click="handlePreview">预览</el-button>
           <el-button :disabled="verifyChecked()" @click="handleDownload" type="primary">拼接下载</el-button>
@@ -45,7 +49,9 @@
     data() {
       return {
         caseIds : this.$route.query.caseIds,
-
+        type : this.$route.query.type, // 2 强制执行案件点击进入 其他 为文书生成记录
+        batchNo : this.$route.query.batchNo, // 批次号
+        caseNum : this.$route.query.caseNum, // 批次号 案件数量
         checkList : [
           {
             label : '强制执行申请书',
@@ -102,10 +108,24 @@
         checkAll : false,
       }
     },
+    mounted() {
+      // 根据批次号 获取案件id
+      if(this.type !== '2') {
+        this.$http({
+          method : 'post',
+          url : '/forceManager/queryFirstCaseIdByBatchNo.htm',
+          data : {
+            batchNo : this.batchNo,
+          },
+        }).then((res) => {
+          this.caseIds = res.result;
+        });
+      }
+    },
     methods : {
       // 点击返回
       handleGoBack() {
-        if(this.$route.query.type === '2') {
+        if(this.type === '2') {
           this.$router.push({path : 'emEnforcementCases'})
         }else{
           this.$router.push({path : 'emGenerationRecord'})
@@ -180,12 +200,12 @@
 
       // 时间dialog 回调
       timeSuccess(time,row) {
-        let win = window.open('');
-        let loading = this.$loading({
-          text : '预览生成中'
-        });
         // 预览逻辑
         if(row.mtype === 'yulan') {
+          let win = window.open('');
+          let loading = this.$loading({
+            text : '预览生成中'
+          });
           this.$http({
             method : 'post',
             url : '/forceManager/previewCaseDocPost.htm',
@@ -204,19 +224,38 @@
           });
         // 下载逻辑
         }else{
-          this.$http({
-            method : 'post',
-            url : '/forceManager/downloadDocsPost.htm',
-            data : {
-              ...this.checkedStatus(),
+          // 强制执行案件 进入
+          if(this.type === '2') {
+            this.$http({
+              method : 'post',
+              url : '/forceManager/downloadDocsPost.htm',
+              data : {
+                ...this.checkedStatus(),
 
-              caseIds : this.caseIds,
-              docDate : time,
-            },
-          }).then((res) => {
-            this.$message.success('操作成功');
-            this.$router.push('emDownloadTask');
-          });
+                caseIds : this.caseIds,
+                docDate : time,
+              },
+            }).then((res) => {
+              this.$message.success('操作成功');
+              this.$router.push('emDownloadTask');
+            });
+          // 文书生成记录 进入
+          }else{
+            this.$http({
+              method : 'post',
+              url : '/forceManager/settingDocs.htm',
+              data : {
+                ...this.checkedStatus(),
+
+                batchNo : this.batchNo,
+                docDate : time,
+                caseIds : this.caseIds,
+              },
+            }).then((res) => {
+              this.$message.success('操作成功');
+              this.$router.push('emDownloadTask');
+            });
+          }
         }
       },
     },
