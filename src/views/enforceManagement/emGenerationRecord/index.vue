@@ -10,7 +10,7 @@
         <el-input style="width: 180px;" v-model="searchItem.keyWords" placeholder="强制执行案件处理批次号"></el-input>
       </el-form-item>
       <el-form-item label="操作人">
-        <el-input style="width: 150px;" v-model="searchItem.keyWords" ></el-input>
+        <el-input style="width: 150px;" v-model="searchItem.userId" ></el-input>
       </el-form-item>
       <el-form-item label="处理时间">
         <el-date-picker

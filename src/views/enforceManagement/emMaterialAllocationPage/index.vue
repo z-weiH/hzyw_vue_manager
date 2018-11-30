@@ -553,7 +553,10 @@
             this.yhzhList = res.result.bankList;
           }
           if(res.result.materialNumSetting){
-            this.clfsList = res.result.materialNumSetting;
+            res.result.materialNumSetting.forEach(it => {
+              let item = this.clfsList.find(i => i.materialType === it.materialType);
+              item.materialNum = it.materialNum;
+            })
           }
           console.log(this.clfsList);
 

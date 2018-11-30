@@ -41,7 +41,7 @@
           <div class="title">{{currentItem.caseList.length}}个案件</div>
           <div class="table">
             <el-table
-              :data="currentItem.tableData"
+              :data="currentItem.caseList"
               border
             >
               <el-table-column prop="caseNo" label="案号"></el-table-column>
