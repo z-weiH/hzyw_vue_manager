@@ -59,9 +59,9 @@
                 <div class="fr mt-5">
                   <el-button v-if="subViewType == 1" @click="FooAuditReason(card)">审核意见</el-button>
                 </div>
-                <!--<div class="fr mt-5 mr-20">-->
-                  <!--<el-button  type="text" @click="HandleRuleRes(card)">机审规则</el-button>-->
-                <!--</div>-->
+                <div class="fr mt-5 mr-20">
+                  <el-button  type="text" @click="HandleRuleRes(card)">脚本执行记录</el-button>
+                </div>
 
               </el-col>
             </el-row>
