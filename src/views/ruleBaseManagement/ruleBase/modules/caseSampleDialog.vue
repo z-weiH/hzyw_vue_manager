@@ -145,9 +145,11 @@
         tab: 0,
 
         //线上案件的查询条件
-        // caseStatus: '',
-        // keyWords: '',
-        form: {},
+
+        form: {
+          caseStatus: '',
+          keyWords: '',
+        },
 
         pager1:{
           pageSize:10,
@@ -284,6 +286,8 @@
           if(res.code === '0000'){
             this.list1 = res.result.list;
             this.pager1.count = res.result.count;
+               this.form.caseStatus =  '';
+               this.form.keyWords =  '';
           }
         })
       },

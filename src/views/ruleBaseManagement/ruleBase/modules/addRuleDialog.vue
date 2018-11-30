@@ -223,6 +223,7 @@
         this.pager1= {currentNum: 1,pageSize: 10, count: count1};
         this.pager2= {currentNum: 1,pageSize: 10, count: count2};
         this.currentMenu = menu;
+        this.searchItem = {};
       },
 
       //立即验证
