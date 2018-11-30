@@ -56,7 +56,7 @@
         <el-table-column
           prop="batchNo"
           label="批次号"
-          width="150">
+          >
           <template slot-scope="scope">
             <span class="colLink" @click="getRecordInfo(scope.row)" >{{scope.row.batchNo}}</span>
           </template>
@@ -64,7 +64,7 @@
         <el-table-column
           prop="customerNum"
           label="客户数"
-          width="100">
+          >
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.customerNum}}</span>
           </template>
@@ -73,7 +73,7 @@
         <el-table-column
           prop="executionStatus"
           label="法院数"
-          width="100">
+          >
           <template slot-scope="scope">
             {{scope.row.courtNum}}
           </template>
@@ -81,17 +81,17 @@
         <el-table-column
           prop="caseNum"
           label="案件数"
-          width="100">
+          >
           <template slot-scope="scope">
             {{scope.row.caseNum}}
           </template>
         </el-table-column>
         <el-table-column
-          prop="processTime"
+          prop="createTime"
           label="处理时间"
-          width="200">
+         >
           <template slot-scope="scope">
-            {{scope.row.processTime}}
+            {{scope.row.createTime}}
           </template>
         </el-table-column>
         <el-table-column
@@ -110,9 +110,6 @@
             <el-button type="text" @click="handleClick(scope.row)" size="small">配置文书</el-button>
           </template>
         </el-table-column>
-
-
-
       </el-table>
     </div>
 
@@ -177,7 +174,7 @@
           this.$refs.batchInfo.show(row);
       },
       doQuery(){
-        this.$http.get("/docsCreate/docsCreateList.htm",{...this.searchItem, ...this.pager}).then(res => {
+        this.$http.post("/applicantBankCard/docsCreateList.htm",{...this.searchItem, ...this.pager}).then(res => {
           this.tableData = res.result.list;
           this.pager.count = res.result.count;
         })

@@ -482,6 +482,7 @@
             let idx3 = strcopy.lastIndexOf('takeId(');
             let idx4 = strcopy.lastIndexOf('takeNumId(');
             let idx5 = strcopy.lastIndexOf('getDate(');
+            let idx6 = strcopy.lastIndexOf('getDateId(');
             if(idx1 != -1 && new RegExp("^getnum\\([A-Z_0-9]+$").test(strcopy.substring(idx1))){
               type = 0;
               this.currentFunction.affix = strcopy.substring(idx1);
@@ -501,6 +502,10 @@
             else if(idx4 != -1 && new RegExp("^takeNumId\\([A-Z_0-9]+$").test(strcopy.substring(idx4))){
               type = 3;
               this.currentFunction.affix = strcopy.substring(idx4);
+            }
+            else if(idx6 != -1 && new RegExp("^getDateId\\([A-Z_0-9]+$").test(strcopy.substring(idx6))){
+              type = 3;
+              this.currentFunction.affix = strcopy.substring(idx6);
             }
             if(type != -1){
               this.ruleType = type;

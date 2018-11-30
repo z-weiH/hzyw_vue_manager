@@ -122,15 +122,10 @@
 
       // 初始化 表格数据
       initTableList() {
-        this.$http({
-          url : '/download/downloadList.htm',
-          method : 'get',
-          data : {
+        this.$http.post('/download/downloadBaseQuery.htm',{
             pageSize : this.pageSize,
             currentNum : this.currentPage,
-
-            ...this.ruleForm,
-          },
+            ...this.ruleForm
         }).then((res) => {
           this.total = res.result.count;
           this.tableData = res.result.list;

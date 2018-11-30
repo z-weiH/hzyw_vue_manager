@@ -92,7 +92,7 @@ export default {
   },
   methods:{
     show(item){
-      this.$http.get("/docsCreate/batchDetailInfo.htm",{batchNo: item.batchNo}).then(res => {
+      this.$http.post("download/queryDownloadTaskDetails.htm",{batchNo: item.batchNo}).then(res => {
         this.infoFlag = true;
         this.currentItem = {...item,...res.result};
       })
