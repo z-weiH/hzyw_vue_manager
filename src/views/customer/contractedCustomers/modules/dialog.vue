@@ -100,7 +100,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="协议上线时间：" prop="finishTime">
+          <el-form-item label="系统对接完成时间：" prop="finishTime">
 						<el-date-picker 
 							type="date"
 							v-model="ruleForm.finishTime"
@@ -110,6 +110,45 @@
 						>
 						</el-date-picker>
 					</el-form-item>
+
+          <el-form-item label="均件：" prop="averageQuantity">
+						<el-input style="width:400px;" v-model.trim="ruleForm.averageQuantity" placeholder="请输入"></el-input>
+					</el-form-item>
+
+          <el-form-item label="月放款量：" prop="lendingVolume">
+						<el-input style="width:400px;" v-model.trim="ruleForm.lendingVolume" placeholder="请输入"></el-input>
+					</el-form-item>
+
+          <el-form-item label="放款单数：" prop="totalCount">
+						<el-input style="width:400px;" v-model.trim="ruleForm.totalCount" placeholder="请输入"></el-input>
+					</el-form-item>
+
+          <el-form-item label="预计提交案件逾期天数：" prop="overdueDay">
+						<el-input style="width:400px;" v-model.trim="ruleForm.overdueDay" placeholder="请输入"></el-input>
+					</el-form-item>
+
+          <el-form-item label="同比账龄逾期率：" prop="overdueRate">
+						<el-input style="width:400px;" v-model.trim="ruleForm.overdueRate" placeholder="请输入"></el-input>
+					</el-form-item>
+
+          <el-form-item label="存量多少：" prop="stockCount">
+						<el-input style="width:400px;" v-model.trim="ruleForm.stockCount" placeholder="请输入"></el-input>
+					</el-form-item>
+
+          <el-form-item label="放款量前10的省份：" prop="provinceOrder">
+						<el-input style="width:400px;" v-model.trim="ruleForm.provinceOrder" placeholder="请输入"></el-input>
+					</el-form-item>
+
+          <el-form-item label="客户预期：" prop="customerExpect">
+						<el-input style="width:400px;" v-model.trim="ruleForm.customerExpect" placeholder="请输入"></el-input>
+					</el-form-item>
+
+          <el-form-item label="客户是否可以债转：" prop="debtTransfer">
+            <el-select clearable v-model="ruleForm.debtTransfer" placeholder="请选择打款状态" style="width:400px;" >
+              <el-option label="可债转" :value="1"></el-option>
+              <el-option label="不可债转" :value="0"></el-option>
+            </el-select>
+          </el-form-item>
 
         </el-form>
       </div>
@@ -164,6 +203,24 @@
           finishAbutment : '',
           // 系统对接完成时间
           finishTime : '',
+          // 均件
+          averageQuantity : '',
+          // 月放款量
+          lendingVolume : '',
+          // 放款单数
+          totalCount : '',
+          // 预计提交案件逾期天数
+          overdueDay : '',
+          // 同比账龄逾期率
+          overdueRate : '',
+          // 存量多少
+          stockCount : '',
+          // 放款量前10的省份
+          provinceOrder : '',
+          // 客户预期
+          customerExpect : '',
+          // 客户是否可以债转 1-可债转,0-不可债转
+          debtTransfer : '',
         },
         rules : {
           salesman : [
@@ -237,6 +294,8 @@
               data : form,
             }).then((res) => {
               this.$message.success('操作成功');
+              this.handleClose();
+              this.$emit('successCBK');
             }).catch(() => {
               this.submitDisabled = false;
             });
