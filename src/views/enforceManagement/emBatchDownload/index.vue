@@ -180,6 +180,10 @@
 
       // 时间dialog 回调
       timeSuccess(time,row) {
+        let win = window.open('');
+        let loading = this.$loading({
+          text : '预览生成中'
+        });
         // 预览逻辑
         if(row.mtype === 'yulan') {
           this.$http({
@@ -192,7 +196,11 @@
               docDate : time,
             },
           }).then((res) => {
-            window.open(res.result);
+            loading.close();
+            win.location.href = res.result;
+          }).catch(() => {
+            loading.close();
+            win.close();
           });
         // 下载逻辑
         }else{
