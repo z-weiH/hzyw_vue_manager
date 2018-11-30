@@ -192,9 +192,18 @@
 
         this.$nextTick(() => {
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
-          if(this.type === 'edit') {
+          if(type === 'edit') {
             this.id = data.id;
-            this.ruleForm = Object.assign(this.ruleForm,data);
+            // 获取回显数据
+            this.$http({
+              method : 'post',
+              url : '/contracted/selectCustomerInfoById.htm',
+              data : {
+                id : data.id,
+              },
+            }).then((res) => {
+              this.ruleForm = Object.assign(this.ruleForm,res.result);
+            });
           }
         });
       },
