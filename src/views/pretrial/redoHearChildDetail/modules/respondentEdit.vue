@@ -37,6 +37,7 @@
         return {
 
 
+          respondentItemCopy: {},
           //放大鏡涉案hi之
           configs: {
             width:400,
@@ -57,12 +58,26 @@
           ],
         }
       },
+      watch:{
+        'show'(val){
+          if(val)
+            this.respondentItemCopy = {...this.respondentItem};
+        }
+      },
       methods:{
         handleRespondentEdit(){
 
+          let obj = {};
+          for(let key in this.respondentItem){
+            if(this.respondentItem[key] != this.respondentItemCopy[key]){
+              obj[key]=this.respondentItem[key];
+            }
+          }
+
+          console.log(obj,this.respondentItemCopy);
           this.$refs.edits.$refs.editsform.validate((valid) => {
             if(valid){
-              this.$http.post("/firstAudit/respondentModified.htm",{cardList:[this.respondentItem],caseId:this.currentRespodent.caseId,resId:this.currentRespodent.resId},{mheaders: true}).then(res => {
+              this.$http.post("/firstAudit/respondentModified.htm",{cardList:[obj],caseId:this.currentRespodent.caseId,resId:this.currentRespodent.resId},{mheaders: true}).then(res => {
                 if(res.code === '0000'){
                   this.$message.success("修改成功，仲裁申请书已更新");
                   if(this.$parent.handleCountQuery && this.$parent.handleCountQuery instanceof Function){
