@@ -38,7 +38,7 @@
         <el-upload
           style="display: inline-block"
           class="upload-demo mr-10"
-          :action="`${$host}/file/upload.htm`"
+          :action="`${$host}/contracted/importCustomerExcel.htm`"
           :data="{token: token}"
           :show-file-list="false"
           :before-upload="uploadBefore"
@@ -113,7 +113,7 @@
 
     </div>
 
-    <mdialog ref="mdialog"></mdialog>
+    <mdialog @successCBK="handleSearch" ref="mdialog"></mdialog>
 	</div>
 </template>
 
@@ -140,7 +140,7 @@
         rules : {},
 
 				// 表格数据
-        tableData : [{clientName : '张三1' , salesman : '销售1'},{clientName : '张三2' , salesman : '销售2'},{clientName : '张三2',salesman : '销售3'}],
+        tableData : [],
         // 数据总数
         total : 11,
         // 当前页数
@@ -182,7 +182,7 @@
             },
           }).then((res) => {
             this.$message.success('删除成功');
-            this.initList();
+            this.handleSearch();
           });
         }).catch(() => {});
       },
@@ -228,7 +228,10 @@
       },
       // 点击导出
       handleExport() {
-
+        exportFile({
+          url : '/contracted/exportCustomerExcelByBaseQuery.htm',
+          data : {...this.ruleForm},
+        });
       },
 
 			// 表格相关 start
@@ -236,7 +239,7 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
+          url : '/contracted/queryCustomerInfoListByBaseQuery.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
