@@ -71,6 +71,7 @@
 </template>
 
 <script>
+  import exportFile from "@/assets/js/exportFile";
   import batchInfo from '../emGenerationRecord/module/batchInfo'
 	import timeFrame from '@/components/timeFrame.vue'
 	export default {
@@ -89,7 +90,7 @@
 				// 表格数据
         tableData : [],
         // 数据总数
-        total : 11,
+        total : 0,
         // 当前页数
         currentPage : 1,
         // 每页数量
@@ -114,8 +115,13 @@
       },
 
       // 点击下载
-      handleDownload() {
-        alert('下载');
+      handleDownload(row) {
+        console.log(row);
+        exportFile(
+          {
+            url: row.docsPath
+          }
+        );
       },
 
 			// 表格相关 start

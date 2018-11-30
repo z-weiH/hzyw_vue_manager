@@ -170,6 +170,9 @@
       }
     },
     methods:{
+      handleClick(row){
+        this.$router.push({path:'/main/emBatchDownload',query: {batchNo: row.batchNo,caseNum: row.caseNum}});
+      },
       getRecordInfo(row){
           this.$refs.batchInfo.show(row);
       },
