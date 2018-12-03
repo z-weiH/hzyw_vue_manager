@@ -344,7 +344,7 @@
 			}
     },
     mounted() {
-      this.initTableList();
+      //this.initTableList();
 
       // 获取客户 options
       this.$http({
