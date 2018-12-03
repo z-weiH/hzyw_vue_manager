@@ -257,11 +257,7 @@ export default {
       this.searchItem.courtId = '';
     },
     'searchItem.districtCode'(val,oldval){
-      if(val){
-        this.courtSearch(val);
-      }else{
-        this.courtSearchByCityCode(this.searchItem.cityCode);
-      }
+      this.courtSearch(val);
       this.searchItem.courtId = '';
     }
   },

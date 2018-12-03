@@ -166,11 +166,7 @@
         this.searchItem.courtId = '';
       },
       'searchItem.districtCode'(val,oldval){
-        if(val){
-          this.courtSearch(val);
-        }else{
-          this.courtSearchByCityCode(this.searchItem.cityCode);
-        }
+        this.courtSearch(val);
         this.searchItem.courtId = '';
       }
     },
@@ -193,6 +189,7 @@
         this.$http.post("/court/materialsettinglist.htm",{...this.searchItem,...this.pager}).then(res  => {
           this.tableData = res.result.list;
           this.tableData.forEach(it => {
+            if(it.mandatoryName)
             it.mandatoryName = it.mandatoryName.replace(/null/g,'空委托人');
           })
           this.pager.count = res.result.count;
