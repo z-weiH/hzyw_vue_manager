@@ -7,13 +7,16 @@
     center>
 
     <el-form ref="form" :rules="rules" :model="item" label-width="80px">
-      <el-form-item label="类型" prop="channelType">
-        <el-radio-group v-model="item.channelType" :disabled="item.mandatoryId">
+      <el-form-item label="类型" prop="channelType" v-if="!item.mandatoryId">
+        <el-radio-group v-model="item.channelType"  >
           <!--1：自营渠道：2：律所代理：3：线下代理-->
           <el-radio :label="1">内部员工</el-radio>
           <el-radio :label="2">律所代理</el-radio>
           <el-radio :label="3">线下代理</el-radio>
         </el-radio-group>
+      </el-form-item>
+      <el-form-item v-if="item.mandatoryId" label="渠道类型" prop="channelTypeCN">
+        <el-input disabled v-model="item.channelTypeCN"></el-input>
       </el-form-item>
       <template v-if="item.channelType != 2">
         <el-form-item label="受委托人" prop="mandatoryName">
@@ -101,6 +104,9 @@
           channelId : [
             { required : true , message : '请选择' , trigger : 'blur'},
           ],
+          gender: [
+            { required : true , message : '请选择性别' , trigger : 'blur'},
+          ]
         },
         channerList: []
       }
@@ -131,6 +137,7 @@
               this.channerList = r.result;
               this.$nextTick(() => {
                 this.item= res.result;
+                this.item.channelTypeCN = this.item.channelType === 1 ? '自营渠道' : this.item.channelType === 2 ? '律所代理' : this.item.channelType === 3 ?  '线下代理' : this.item.channelType === 4 ? '个人代理' : '-';
                 this.title = '修改受委托人';
                 this.flag =true;
               })

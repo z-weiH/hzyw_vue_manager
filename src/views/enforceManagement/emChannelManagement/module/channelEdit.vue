@@ -16,7 +16,7 @@
           <el-radio :label="4">个人代理</el-radio>
         </el-radio-group>
       </el-form-item>
-      <el-form-item v-else label="渠道类型" prop="channelName">
+      <el-form-item v-else label="渠道类型" prop="channelTypeCN">
         <el-input disabled v-model="item.channelTypeCN"></el-input>
       </el-form-item>
 

@@ -27,7 +27,7 @@
             <el-table-column
               prop="mandatoryName"
               label="受委托人姓名"
-              width="150">
+              >
               <template slot-scope="scope">
                 <span v-ellipsis.20>{{scope.row.mandatoryName}}</span>
               </template>
@@ -35,7 +35,7 @@
             <el-table-column
               prop="identityCard"
               label="身份证号"
-              width="150">
+              >
               <template slot-scope="scope">
                 <span v-ellipsis.20>{{scope.row.identityCard}}</span>
               </template>
@@ -44,7 +44,7 @@
             <el-table-column
               prop="channelName"
               label="工作单位"
-              width="148">
+              >
               <template slot-scope="scope">
                 {{scope.row.channelName}}
               </template>
@@ -52,7 +52,7 @@
             <el-table-column
               prop="jobPosition"
               label="职务"
-              width="145">
+              >
               <template slot-scope="scope">
                 {{scope.row.jobPosition}}
               </template>
@@ -60,7 +60,7 @@
             <el-table-column
               prop="phone"
               label="联系电话"
-              width="150">
+              >
               <template slot-scope="scope">
                 {{scope.row.phone}}
               </template>
@@ -68,7 +68,7 @@
             <el-table-column
               prop="courtSettingStatus"
               label="操作"
-              width="106">
+              >
               <template slot-scope="scope">
                 <el-button type="text" @click="delswtr(scope.row)" size="small">刪除</el-button>
               </template>
@@ -100,7 +100,7 @@
             <el-table-column
               prop="accountName"
               label="户名"
-              width="120">
+              >
               <template slot-scope="scope">
                 <span v-ellipsis.20>{{scope.row.accountName}}</span>
               </template>
@@ -108,7 +108,7 @@
             <el-table-column
               prop="depositBank"
               label="开户银行"
-              width="130">
+              >
               <template slot-scope="scope">
                 <span v-ellipsis.20>{{scope.row.depositBank}}</span>
               </template>
@@ -117,7 +117,7 @@
             <el-table-column
               prop="accountNumber"
               label="账号"
-              width="148">
+              >
               <template slot-scope="scope">
                 {{scope.row.accountNumber}}
               </template>
@@ -125,7 +125,7 @@
             <el-table-column
               prop="branchName"
               label="支行名称"
-              width="135">
+              >
               <template slot-scope="scope">
                 {{scope.row.branchName}}
               </template>
@@ -133,7 +133,7 @@
             <el-table-column
               prop="subbranch"
               label="联行号"
-              width="120">
+             >
               <template slot-scope="scope">
                 {{scope.row.subbranch}}
               </template>
@@ -141,7 +141,7 @@
             <el-table-column
               prop="bankAddress"
               label="银行地址"
-              width="120">
+              >
               <template slot-scope="scope">
                 {{scope.row.bankAddress}}
               </template>
@@ -149,7 +149,7 @@
             <el-table-column
               prop="courtSettingStatus"
               label="操作"
-              width="76">
+              >
               <template slot-scope="scope">
                 <el-button type="text" @click="delyhzh(scope.row)" size="small">刪除</el-button>
               </template>
@@ -181,7 +181,7 @@
             <el-table-column
               prop="materialType"
               label="文书材料"
-              width="548">
+              >
               <template slot-scope="scope">
                 <span v-ellipsis.20>{{getmaterialName(scope.row.materialType)}}</span>
               </template>
@@ -189,7 +189,7 @@
             <el-table-column
               prop="materialNum"
               label="默认下载份数"
-              width="300">
+              >
               <template slot-scope="scope">
                 <span v-ellipsis.20>{{scope.row.materialNum}}</span>
               </template>
@@ -335,7 +335,6 @@
           {materialType: 6,materialNum: 0 },
           {materialType: 7,materialNum: 0 },
           {materialType: 8,materialNum: 0 },
-          {materialType: 9,materialNum: 0 },
           {materialType: 10,materialNum: 0 },
           ],
         clfsFlag: false,
@@ -557,6 +556,7 @@
               let item = this.clfsList.find(i => i.materialType === it.materialType);
               item.materialNum = it.materialNum;
             })
+
           }
           console.log(this.clfsList);
 

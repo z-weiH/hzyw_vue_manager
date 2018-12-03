@@ -35,7 +35,7 @@
         <el-table-column
           prop="channelType"
           label="渠道类型"
-          width="100">
+          >
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.channelType === 1 ? '自营渠道' : scope.row.channelType === 2 ? '律所代理' : scope.row.channelType === 3 ?  '线下代理' : '个人代理'}}</span>
           </template>
@@ -43,7 +43,7 @@
         <el-table-column
           prop="channelName"
           label="渠道名称"
-          width="100">
+         >
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.channelName}}</span>
           </template>
@@ -52,7 +52,7 @@
         <el-table-column
           prop="channelLinkman"
           label="联系人"
-          width="120">
+         >
           <template slot-scope="scope">
             {{scope.row.channelLinkman}}
           </template>
@@ -60,7 +60,7 @@
         <el-table-column
           prop="channelPhone"
           label="联系电话"
-          width="180">
+          >
           <template slot-scope="scope">
             {{scope.row.channelPhone}}
           </template>
@@ -68,7 +68,7 @@
         <el-table-column
           prop="channelAddress"
           label="详细地址"
-          width="230">
+          >
           <template slot-scope="scope">
             {{scope.row.channelAddress}}
           </template>
@@ -84,7 +84,7 @@
         <el-table-column
           prop="courtSettingStatus"
           label="操作"
-          width="156">
+          >
           <template slot-scope="scope">
             <el-button type="text" @click="handleDelClick(scope.row)" size="small">删除</el-button>
             <el-button type="text" @click="handleEditClick(scope.row)" size="small">修改</el-button>

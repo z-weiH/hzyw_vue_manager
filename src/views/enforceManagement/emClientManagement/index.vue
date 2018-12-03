@@ -54,15 +54,15 @@
         <el-table-column
           prop="channelName"
           label="类型"
-          width="100">
+          >
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.channelType === 1 ? '内部员工' : scope.row.channelType === 2 ? '律所代理' : '线下代理'}}</span>
+            <span v-ellipsis.20>{{scope.row.channelType === 1 ? '内部员工' : scope.row.channelType === 2 ? '律师代理' : '线下代理'}}</span>
           </template>
         </el-table-column>
         <el-table-column
           prop="mandatoryName"
           label="受委托人姓名"
-          width="120">
+          >
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.mandatoryName}}</span>
           </template>
@@ -70,7 +70,7 @@
         <el-table-column
           prop="gender"
           label="性别"
-          width="120">
+          >
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.gender === 0 ? "女" : scope.row.gender === 1 ? '男' : '-'}}</span>
           </template>
@@ -79,7 +79,7 @@
         <el-table-column
           prop="identityCard"
           label="身份证号"
-          width="120">
+          >
           <template slot-scope="scope">
             {{scope.row.identityCard}}
           </template>
@@ -87,7 +87,7 @@
         <el-table-column
           prop="channelName"
           label="工作单位/律所名称"
-          width="180">
+          >
           <template slot-scope="scope">
             {{scope.row.channelName}}
           </template>
@@ -103,7 +103,7 @@
         <el-table-column
           prop="phone"
           label="联系电话"
-          width="130">
+          >
           <template slot-scope="scope">
             {{scope.row.phone}}
           </template>
@@ -111,7 +111,7 @@
         <el-table-column
           prop="courtSettingStatus"
           label="操作"
-          width="136">
+          >
           <template slot-scope="scope">
             <el-button type="text" @click="handleDelClick(scope.row)" size="small">删除</el-button>
             <el-button type="text" @click="handleEditClick(scope.row)" size="small">修改</el-button>

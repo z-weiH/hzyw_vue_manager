@@ -67,7 +67,7 @@
         <el-table-column
           prop="courtName"
           label="法院名称"
-          width="200">
+          >
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.courtName}}</span>
           </template>
@@ -75,7 +75,7 @@
         <el-table-column
           prop="mandatoryName"
           label="受委托人"
-          width="200">
+          >
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.mandatoryName ? scope.row.mandatoryName : scope.row.mandatoryName === '' ? '空委托人' : '-'}}</span>
           </template>
@@ -84,7 +84,7 @@
         <el-table-column
           prop="executionStatus"
           label="申请执行人银行账户"
-          width="180">
+          >
           <template slot-scope="scope">
             {{scope.row.executionStatus === 1 ? '已设置' : '未设置'}}
           </template>
@@ -92,7 +92,7 @@
         <el-table-column
           prop="courtSettingStatus"
           label="强制执行文书材料下载份数"
-          width="200">
+         >
           <template slot-scope="scope">
             {{scope.row.courtSettingStatus === 1 ? '已设置' : '未设置'}}
           </template>
@@ -100,7 +100,7 @@
         <el-table-column
           prop="courtSettingStatus"
           label="操作"
-          width="106">
+         >
           <template slot-scope="scope">
             <el-button type="text" @click="handleClick(scope.row)" size="small">配置</el-button>
           </template>
@@ -188,6 +188,9 @@
       doQuery(){
         this.$http.post("/court/materialsettinglist.htm",{...this.searchItem,...this.pager}).then(res  => {
           this.tableData = res.result.list;
+          this.tableData.forEach(it => {
+            it.mandatoryName = it.mandatoryName.replace(/null/g,'空委托人');
+          })
           this.pager.count = res.result.count;
         })
       },
