@@ -90,7 +90,7 @@
       return {
         flag: false,
         title: '',
-        item: {},
+        item: {channelId:''},
         rules : {
           mandatoryName: [
             { required : true , message : '请输入受委托人姓名' , trigger : 'blur'},
@@ -112,20 +112,29 @@
         }
       },
       'item.channelType'(val,oldval){
-        this.item.channelId = '';
-        this.$http.post("/channel/queryChannelByList.htm",{channelType: val}).then(res => {
-          this.channerList = res.result;
-        })
+        console.log(val,oldval)
+        if(val != oldval && !this.item.mandatoryId){
+          this.item.channelId = '';
+          this.$http.post("/channel/queryChannelByList.htm",{channelType: val}).then(res => {
+            this.channerList = res.result;
+          })
+        }
+
       }
     },
     methods:{
       show(mandatoryId){
-        console.log(mandatoryId)
         if(mandatoryId){
+          this.item.mandatoryId = mandatoryId;
           this.$http.post('/mandatory/queryCourtmandatorInfoDetails.htm',{mandatoryId: mandatoryId}).then(res => {
-            this.item= res.result;
-            this.title = '修改受委托人';
-            this.flag =true;
+            this.$http.post("/channel/queryChannelByList.htm",{channelType: res.result.channelType}).then(r => {
+              this.channerList = r.result;
+              this.$nextTick(() => {
+                this.item= res.result;
+                this.title = '修改受委托人';
+                this.flag =true;
+              })
+            })
           })
         }else{
           this.item = {channelType: 1,channelId: ''};
