@@ -475,7 +475,7 @@
         this.tableData = res.result.caseInfos;
         
         this.$refs.batchImportDialog.show({
-          total : res.result.caseNum,
+          total : res.result.caseInfos.length,
           errorList : res.result.noResultCaseList,
         });
       },

@@ -10,7 +10,7 @@
         <div>共{{total}}个案件，已成功查询{{total}}个</div>
         <div>{{errorList.length}}个案号查询无结果</div>
         <div v-for="(item,index) in errorList" :key="index" class="error">
-          123
+          {{item}}
         </div>
       </div>
 
