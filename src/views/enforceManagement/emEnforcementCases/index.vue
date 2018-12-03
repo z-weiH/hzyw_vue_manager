@@ -472,7 +472,7 @@
       // 文件上传成功
       uploadSuccess(res, file, fileList) {
         this.importQueryState = true;
-        this.tableData = res.result.list;
+        this.tableData = res.result.caseInfos;
         
         this.$refs.batchImportDialog.show({
           total : res.result.caseNum,
