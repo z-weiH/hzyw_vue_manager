@@ -166,7 +166,11 @@
         this.searchItem.courtId = '';
       },
       'searchItem.districtCode'(val,oldval){
-        this.courtSearch(val);
+        if(val){
+          this.courtSearch(val);
+        }else{
+          this.courtSearchByCityCode(this.searchItem.cityCode);
+        }
         this.searchItem.courtId = '';
       }
     },
