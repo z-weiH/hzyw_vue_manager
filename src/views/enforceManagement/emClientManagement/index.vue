@@ -33,7 +33,6 @@
             :data="{token: token}"
             :on-success="fileUploadSuccess"
             :on-error="fileUploadError"
-            :limit="1"
             :show-file-list="false"
             >
             <el-button >导入</el-button>
@@ -200,10 +199,17 @@
       this.$refs.clientEdit.show();
     },
     fileUploadSuccess(response, file, fileList){
-
+      console.log(response);
+      if(response.code === '0000'){
+        this.$message.success('导入成功');
+        this.pager.currentNum = 1;
+        this.doQuery();
+      }else{
+        this.$message.error(response.description);
+      }
     },
     fileUploadError(err, file, fileList){
-
+      this.$message.error("导入出错");
     }
   },
   created(){
