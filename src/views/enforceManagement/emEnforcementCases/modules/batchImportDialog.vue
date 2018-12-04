@@ -12,7 +12,7 @@
         <div v-for="(item,index) in errorList" :key="index" class="error">
           {{item}}
         </div>
-        <div v-if="duplicateNum > 0">duplicateNum个案号查询重复</div>
+        <div v-if="duplicateNum > 0">{{duplicateNum}}个案号查询重复</div>
       </div>
 
       <span slot="footer" class="dialog-footer">
