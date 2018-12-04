@@ -46,6 +46,7 @@
         <el-table-column prop="userName" label="操作人"></el-table-column>
         <el-table-column prop="respondents" label="操作">
           <template slot-scope="scope">
+            <!--<a :href="scope.row.docsPath" :download="'Your_downNames'" >xiazai</a>-->
             <el-button @click="handleDownload(scope.row)" v-if="scope.row.createStatus === 1" type="text">下载</el-button>
             <span v-else style="color: #CCCCCC;">下载</span>
           </template>
@@ -116,12 +117,13 @@
 
       // 点击下载
       handleDownload(row) {
-        console.log(row);
-        exportFile(
-          {
-            url: row.docsPath
-          }
-        );
+        var downloadAnchorNode = document.createElement("a");
+        downloadAnchorNode.setAttribute("href", row.docsPath);
+        let idx = row.docsPath.lastIndexOf('/');
+        const filename = row.docsPath.substring(idx+1);
+        downloadAnchorNode.setAttribute("download",filename);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
       },
 
 			// 表格相关 start
