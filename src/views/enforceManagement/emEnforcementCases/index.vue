@@ -475,8 +475,11 @@
         this.tableData = res.result.caseInfos;
         
         this.$refs.batchImportDialog.show({
-          total : res.result.caseInfos.length,
+          total : res.result.caseNum,
           errorList : res.result.noResultCaseList,
+          duplicateNum : res.result.duplicateNum,
+          data : res.result.caseInfos,
+          duplicateCaseList : res.result.duplicateCaseList,
         });
       },
       // 文件上传失败

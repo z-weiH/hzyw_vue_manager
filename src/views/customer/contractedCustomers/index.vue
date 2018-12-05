@@ -81,7 +81,7 @@
         <el-table-column prop="finishAbutment" label="系统是否完成对接">
           <template slot-scope="scope">
             {{
-              scope.row.finishAbutment === 1 ? '已完成' : '为完成'
+              scope.row.finishAbutment === 1 ? '已完成' : '未完成'
             }}
           </template>
         </el-table-column>
