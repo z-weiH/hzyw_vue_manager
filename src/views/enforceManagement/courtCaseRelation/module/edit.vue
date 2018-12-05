@@ -14,7 +14,6 @@
         <el-select clearable v-model="form.courtId"
                    filterable
                    remote
-
                    reserve-keyword placeholder="请选择"
                    :remote-method="remoteMethod"
                    :loading="loading"

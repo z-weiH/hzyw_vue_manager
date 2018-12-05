@@ -28,7 +28,10 @@
         <li>
           <div class="title">{{currentItem.courtList.length}}个法院</div>
           <div class="list">
-            <span v-for="(item,idx) in currentItem.courtList" :key="idx">{{item.courtName}}</span>
+            <span v-for="(item,idx) in currentItem.courtList" :key="idx">
+              {{item.courtName}}
+              <i v-if="idx < currentItem.courtList.length -1">、</i>
+            </span>
           </div>
         </li>
         <li>
@@ -40,32 +43,88 @@
         <li>
           <div class="title">{{currentItem.caseList.length}}个案件</div>
           <div class="table">
-            <el-table
-              :data="currentItem.caseList"
-              border
-            >
-              <el-table-column prop="caseNo" label="案号"></el-table-column>
-              <el-table-column prop="applicants" label="仲裁申请人" width="120"></el-table-column>
-              <el-table-column prop="executedBorrowAmt" label="执行标的"></el-table-column>
-              <el-table-column prop="fixedAmount" label="固定金额"></el-table-column>
-              <el-table-column prop="respondents" label="仲裁被申请人" width="120"></el-table-column>
-              <el-table-column prop="resPhone" label="手机号"></el-table-column>
-              <el-table-column prop="dateOfBorrowing" label="借款日期"></el-table-column>
-              <el-table-column prop="lateStartDate" label="逾期开始日" width="120"></el-table-column>
-              <el-table-column prop="timeOfAdjudication" label="裁决时间"></el-table-column>
-              <el-table-column prop="courtName" label="法院"></el-table-column>
-              <el-table-column prop="templateCode" label="模板编码"></el-table-column>
-              <el-table-column prop="settingStatus" label="材料配置状态" width="120">
-                <template slot-scope="scope">
-                  {{scope.row.settingStatus === 1 ? '已完成' : '未完成'}}
-                </template>
-              </el-table-column>
-              <el-table-column prop="downloadStatus" label="下载状态">
-                <template slot-scope="scope">
-                  {{scope.row.downloadStatus === 1 ? '未处理' : '已处理'}}
-                </template>
-              </el-table-column>
-            </el-table>
+
+              <el-table
+                :data="currentItem.caseList"
+                border
+                :max-height="400"
+              >
+                <!--<el-table-column prop="caseNo" label="案号"></el-table-column>-->
+                <!--<el-table-column prop="applicants" label="仲裁申请人" width="120"></el-table-column>-->
+                <!--<el-table-column prop="executedBorrowAmt" label="执行标的"></el-table-column>-->
+                <!--<el-table-column prop="fixedAmount" label="固定金额"></el-table-column>-->
+                <!--<el-table-column prop="respondents" label="仲裁被申请人" width="120"></el-table-column>-->
+                <!--<el-table-column prop="resPhone" label="手机号"></el-table-column>-->
+                <!--<el-table-column prop="dateOfBorrowing" label="借款日期"></el-table-column>-->
+                <!--<el-table-column prop="lateStartDate" label="逾期开始日" width="120"></el-table-column>-->
+                <!--<el-table-column prop="timeOfAdjudication" label="裁决时间"></el-table-column>-->
+                <!--<el-table-column prop="courtName" label="法院"></el-table-column>-->
+                <!--<el-table-column prop="templateCode" label="模板编码"></el-table-column>-->
+                <!--<el-table-column prop="settingStatus" label="材料配置状态" width="120">-->
+                <!--<template slot-scope="scope">-->
+                <!--{{scope.row.settingStatus === 1 ? '已完成' : '未完成'}}-->
+                <!--</template>-->
+                <!--</el-table-column>-->
+                <!--<el-table-column prop="downloadStatus" label="下载状态">-->
+                <!--<template slot-scope="scope">-->
+                <!--{{scope.row.downloadStatus === 1 ? '未处理' : '已处理'}}-->
+                <!--</template>-->
+                <!--</el-table-column>-->
+
+
+                <el-table-column prop="caseNo" label="案号" width="180">
+                  <template slot-scope="scope">
+                    <span v-ellipsis.20>{{scope.row.caseNo}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="applicants" label="仲裁申请人" min-width="120">
+                  <template slot-scope="scope">
+                    <span v-ellipsis.20>{{scope.row.applicants}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="executedBorrowAmt" label="执行标的"></el-table-column>
+                <el-table-column prop="fixedAmount" label="固定金额"></el-table-column>
+                <el-table-column prop="respondents" label="仲裁被申请人" min-width="120">
+                  <template slot-scope="scope">
+                    <span v-ellipsis.20>{{scope.row.respondents}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="resPhone" label="手机号" width="120"></el-table-column>
+                <el-table-column prop="dateOfBorrowing" label="借款日期"></el-table-column>
+                <el-table-column prop="lateStartDate" label="逾期开始日" min-width="120"></el-table-column>
+                <el-table-column prop="repaymentStatus" label="还款情况" width="120">
+                  <template slot-scope="scope">
+                    {{
+                    scope.row.repaymentStatus === 1 ? '有还款' :
+                    scope.row.repaymentStatus === 2 ? '无还款' :
+                    scope.row.repaymentStatus === 3 ? '有仲裁后还款' :
+                    scope.row.repaymentStatus === 4 ? '无仲裁后还款' : ''
+                    }}
+                  </template>
+                </el-table-column>
+                <el-table-column prop="closeTime" label="裁决时间" width="120">
+                  <template slot-scope="scope">
+                    <span v-ellipsis.20>{{scope.row.closeTime}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="courtName" label="法院" width="120">
+                  <template slot-scope="scope">
+                    <span v-ellipsis.20>{{scope.row.courtName}}</span>
+                  </template>
+                </el-table-column>
+                <el-table-column prop="templateCode" label="模板编码"></el-table-column>
+                <el-table-column prop="configurationStatus" label="材料配置状态" min-width="120">
+                  <template slot-scope="scope">
+                    {{scope.row.configurationStatus === 1 ? '未完成' : '已完成'}}
+                  </template>
+                </el-table-column>
+                <el-table-column prop="downloadStatus" label="下载状态">
+                  <template slot-scope="scope">
+                    {{scope.row.downloadStatus === 1 ? '未处理' : '已处理'}}
+                  </template>
+                </el-table-column>
+              </el-table>
+
           </div>
 
         </li>
