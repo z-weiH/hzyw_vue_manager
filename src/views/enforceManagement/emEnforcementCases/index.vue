@@ -479,6 +479,7 @@
           errorList : res.result.noResultCaseList,
           duplicateNum : res.result.duplicateNum,
           data : res.result.caseInfos,
+          duplicateCaseList : res.result.duplicateCaseList,
         });
       },
       // 文件上传失败

@@ -13,6 +13,9 @@
           {{item}}
         </div>
         <div v-if="duplicateNum > 0">{{duplicateNum}}个案号查询重复</div>
+        <div v-for="(item,index) in duplicateCaseList" :key="index" class="error">
+          {{item}}
+        </div>
       </div>
 
       <span slot="footer" class="dialog-footer">
@@ -31,6 +34,8 @@
         errorList : [{}],
         // 重复数量
         duplicateNum : 0,
+        // 重复 list
+        duplicateCaseList : [],
         data : [],
       }
     },
@@ -51,6 +56,7 @@
           this.errorList = data.errorList;
           this.duplicateNum = data.duplicateNum;
           this.data = data.data;
+          this.duplicateCaseList = data.duplicateCaseList;
         });
       },
     },
