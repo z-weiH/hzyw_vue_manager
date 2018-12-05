@@ -178,7 +178,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="resPhone" label="手机号" width="120"></el-table-column>
-        <el-table-column prop="dateOfBorrowing" label="借款日期"></el-table-column>
+        <el-table-column prop="dateOfBorrowing" label="借款日期" min-width="120"></el-table-column>
         <el-table-column prop="lateStartDate" label="逾期开始日" min-width="120"></el-table-column>
         <el-table-column prop="repaymentStatus" label="还款情况" width="120">
           <template slot-scope="scope">
@@ -340,7 +340,8 @@
           zxkyhzhqds : true,
           zqzrxy : true,
         },
-				
+        
+        pageLoading : '',
 			}
     },
     mounted() {
@@ -467,10 +468,12 @@
           this.$message.warning('文件格式有误');
           return false;
         }
+        this.pageLoading = this.$loading();
         return true;
       },
       // 文件上传成功
       uploadSuccess(res, file, fileList) {
+        this.pageLoading.close();
         this.importQueryState = true;
         this.tableData = res.result.caseInfos;
         

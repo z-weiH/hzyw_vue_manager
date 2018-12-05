@@ -158,6 +158,9 @@
       },
       // 点击拼接下载
       handleDownload() {
+        let loading = this.$loading({
+          text : '校验中'
+        });
         // 预览前校验
         this.$http({
           method : 'post',
@@ -168,6 +171,7 @@
             caseIds : this.caseIds,
           },
         }).then((res) => {
+          loading.close();
           // 未配置
           if(res.result.settingIsOk === false) {
             this.$refs.setDialog.show(res.result);
@@ -175,6 +179,8 @@
           }else{
             this.$refs.timeDialog.show({mtype:'xiazai'});
           }
+        }).catch(() => {
+          loading.close();
         });
       },
       // 获取选中状态

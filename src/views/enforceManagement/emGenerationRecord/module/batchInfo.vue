@@ -13,7 +13,7 @@
           操作人: {{currentItem.userName}}
         </span>
 
-      <span style="width: 31%;display: inline-block;" class="ellipsis">
+      <span style="width: 31%;display: inline-block;" class="ellipsis" :title="currentItem.processTime">
           处理时间：{{currentItem.processTime}}
         </span>
     </div>
@@ -154,6 +154,7 @@ export default {
       this.$http.post("download/queryDownloadTaskDetails.htm",{batchNo: item.batchNo}).then(res => {
         this.infoFlag = true;
         this.currentItem = {...item,...res.result};
+        this.currentItem.processTime = item.createTime
       })
     }
   }
