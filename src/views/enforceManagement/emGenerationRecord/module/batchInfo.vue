@@ -3,7 +3,7 @@
     class="self_dialog"
     :visible.sync="infoFlag"
     v-dialogDrag
-    width="655px"
+    width="705px"
     center>
     <div class="title" style="line-height: 37px;height: 37px;text-align: left;padding-left: 10px;" slot="title">
         <span style="width: 31%;display: inline-block;" class="ellipsis">
@@ -13,7 +13,7 @@
           操作人: {{currentItem.userName}}
         </span>
 
-      <span style="width: 31%;display: inline-block;" class="ellipsis" :title="currentItem.processTime">
+      <span style="width: 31%;display: inline-block;margin-right: 30px;" class="ellipsis" :title="currentItem.processTime">
           处理时间：{{currentItem.processTime}}
         </span>
     </div>
@@ -72,9 +72,9 @@
                 <!--</el-table-column>-->
 
 
-                <el-table-column prop="caseNo" label="案号" width="180">
+                <el-table-column prop="caseNo" label="案号" width="240">
                   <template slot-scope="scope">
-                    <span v-ellipsis.20>{{scope.row.caseNo}}</span>
+                    <span >{{scope.row.caseNo}}</span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="applicants" label="仲裁申请人" min-width="120">
@@ -90,7 +90,7 @@
                   </template>
                 </el-table-column>
                 <el-table-column prop="resPhone" label="手机号" width="120"></el-table-column>
-                <el-table-column prop="dateOfBorrowing" label="借款日期"></el-table-column>
+                <el-table-column prop="dateOfBorrowing" label="借款日期" width="120"></el-table-column>
                 <el-table-column prop="lateStartDate" label="逾期开始日" min-width="120"></el-table-column>
                 <el-table-column prop="repaymentStatus" label="还款情况" width="120">
                   <template slot-scope="scope">
@@ -102,14 +102,14 @@
                     }}
                   </template>
                 </el-table-column>
-                <el-table-column prop="closeTime" label="裁决时间" width="120">
+                <el-table-column prop="closeTime" label="裁决时间" width="200">
                   <template slot-scope="scope">
-                    <span v-ellipsis.20>{{scope.row.closeTime}}</span>
+                    <span >{{scope.row.closeTime}}</span>
                   </template>
                 </el-table-column>
-                <el-table-column prop="courtName" label="法院" width="120">
+                <el-table-column prop="courtName" label="法院" width="240">
                   <template slot-scope="scope">
-                    <span v-ellipsis.20>{{scope.row.courtName}}</span>
+                    <span >{{scope.row.courtName}}</span>
                   </template>
                 </el-table-column>
                 <el-table-column prop="templateCode" label="模板编码"></el-table-column>
