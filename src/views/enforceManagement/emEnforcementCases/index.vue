@@ -162,19 +162,19 @@
         <el-table-column type="selection" width="55"></el-table-column>
 				<el-table-column prop="caseNo" label="案号" width="180">
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.caseNo}}</span>  
+            <span>{{scope.row.caseNo}}</span>  
           </template>
         </el-table-column>
         <el-table-column prop="applicants" label="仲裁申请人" min-width="120">
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.applicants}}</span>  
+            <span>{{scope.row.applicants}}</span>  
           </template>
         </el-table-column>
         <el-table-column prop="executedBorrowAmt" label="执行标的"></el-table-column>
         <el-table-column prop="fixedAmount" label="固定金额"></el-table-column>
         <el-table-column prop="respondents" label="仲裁被申请人" min-width="120">
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.respondents}}</span>  
+            <span>{{scope.row.respondents}}</span>  
           </template>
         </el-table-column>
         <el-table-column prop="resPhone" label="手机号" width="120"></el-table-column>
@@ -192,12 +192,12 @@
         </el-table-column>
         <el-table-column prop="closeTime" label="裁决时间" width="120">
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.closeTime}}</span>  
+            <span>{{scope.row.closeTime}}</span>  
           </template>
         </el-table-column>
         <el-table-column prop="courtName" label="法院" width="120">
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.courtName}}</span>  
+            <span>{{scope.row.courtName}}</span>  
           </template>
         </el-table-column>
         <el-table-column prop="templateCode" label="模板编码"></el-table-column>
