@@ -12,7 +12,7 @@
         <div v-for="(item,index) in errorList" :key="index" class="error">
           {{item}}
         </div>
-        <div v-if="duplicateNum > 0">{{duplicateNum}}个案号查询重复</div>
+        <div v-if="duplicateCaseList.length > 0">{{duplicateCaseList.length}}个案号查询重复</div>
         <div v-for="(item,index) in duplicateCaseList" :key="index + '1'" class="error">
           {{item}}
         </div>

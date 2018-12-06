@@ -29,7 +29,7 @@
     </div>
 
     <div class="item-title">
-      仲裁用户管理
+      电子签章管理
     </div>
 
     <div class="item-table">
