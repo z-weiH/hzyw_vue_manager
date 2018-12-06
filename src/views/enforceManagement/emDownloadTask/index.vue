@@ -124,6 +124,10 @@
         downloadAnchorNode.setAttribute("download",filename);
         downloadAnchorNode.click();
         downloadAnchorNode.remove();
+        this.$http.post("/download/addDownloadTimesById.htm",{id: row.id}).then(res => {
+          console.log(res);
+          row.downloadTimes +=1;
+        })
       },
 
 			// 表格相关 start
