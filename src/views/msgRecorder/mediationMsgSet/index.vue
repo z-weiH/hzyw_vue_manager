@@ -63,7 +63,7 @@ export default {
       item: {},
       queryUrl: URL_JSON['queryAdjustMediator'],
       tableData: [],
-      searchItems: [
+      searchItem: [
         {
           label: "",
           type: "",
