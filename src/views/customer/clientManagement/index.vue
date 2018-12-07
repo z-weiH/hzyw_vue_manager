@@ -38,31 +38,23 @@
         </el-table-column>
         <el-table-column prop="code" label="客户号">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.code" placement="top-start">
-              <span class="ellipsis" style="max-width:108px;">{{scope.row.code}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.code}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="loginName" label="登录账号">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.loginName" placement="top-start">
-              <span class="ellipsis" style="max-width:108px;">{{scope.row.loginName}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.loginName}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="merchantName" label="客户名称">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.merchantName" placement="top-start">
-              <span class="ellipsis" style="max-width:108px;">{{scope.row.merchantName}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.merchantName}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="productCount" label="产品数量"></el-table-column>
         <el-table-column prop="createTime" label="开户时间">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.createTime" placement="top-start">
-              <span class="ellipsis" style="max-width:108px;">{{scope.row.createTime}}</span>
-            </el-tooltip>
+            <span v-ellipsis.20>{{scope.row.createTime}}</span>
           </template>
         </el-table-column>
         <el-table-column label="产品设置">

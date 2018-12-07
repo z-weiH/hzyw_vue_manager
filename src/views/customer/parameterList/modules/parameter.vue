@@ -6,6 +6,7 @@
       </div>
       <div class="fl business-parameters" :class="{active : paramLevel === 1}">
         <span @click="handleActive(1)" class="cursor">业务参数</span>
+        <span v-if="uEditor" @click="handleRefresh" class="el-icon-refresh" :class="{'rotete-animation' : refresh}"></span>
       </div>
     </div>
 
@@ -34,18 +35,34 @@
   import copy from '@/assets/js/copy.js'
 
   export default {
+    props : {
+      uEditor : {
+        default : false,
+        type : Boolean,
+      }
+    },
     data() {
       return {
         paramLevel : 0,
         bizType : '',
         tableData : [],
+        refresh : false,
       }
     },
     mounted() {
       this.initList();
     },
     methods : {
-      initList() {
+      // 点击刷新
+      handleRefresh() {
+        this.refresh = true;
+        this.initList(() => {
+          setTimeout(() => {
+            this.refresh = false;
+          },1600);
+        });
+      },
+      initList(callback) {
         this.$http({
           url : '/templateSetting/queryAllParamList.htm',
           method : 'post',
@@ -55,6 +72,7 @@
           },
         }).then((res) => {
           this.tableData = res.result
+          callback && callback();
         });
       },
       handleActive(type) {
@@ -107,6 +125,13 @@
 <style lang="scss">
 
 .parameter-page{
+  .rotete-animation{
+    animation-play-state: running!important;
+  }
+  @keyframes myfirst{
+    0% { transform:rotate(0deg); }
+    100% { transform:rotate(360deg); }
+  }
   .m-c1{
     position: relative;
     height: 50px;
@@ -137,6 +162,12 @@
   }
   .el-table td{
     cursor: pointer;
+  }
+  .el-icon-refresh{
+    color:#409eff;
+    cursor: pointer;
+    animation: myfirst 1s linear infinite;
+    animation-play-state: paused;
   }
 }
 

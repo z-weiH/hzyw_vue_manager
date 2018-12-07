@@ -37,6 +37,7 @@
         return {
 
 
+          // respondentItemCopy: {},
           //放大鏡涉案hi之
           configs: {
             width:400,
@@ -57,8 +58,21 @@
           ],
         }
       },
+      // watch:{
+      //   'show'(val){
+      //     if(val)
+      //       this.respondentItemCopy = {...this.respondentItem};
+      //   }
+      // },
       methods:{
         handleRespondentEdit(){
+
+          // let obj = {};
+          // for(let key in this.respondentItem){
+          //   if(this.respondentItem[key] != this.respondentItemCopy[key]){
+          //     obj[key]=this.respondentItem[key];
+          //   }
+          // }
 
           this.$refs.edits.$refs.editsform.validate((valid) => {
             if(valid){
@@ -73,7 +87,7 @@
                   }
                   this.$parent.respondentEditFlag = false;
                   if(this.$parent.HandleQuery && this.$parent.HandleQuery instanceof Function){
-                    this.$parent.HandleQuery(null,true);
+                    this.$parent.HandleQuery();
                   }
                   //复审
                   if(this.$parent.getRecheckDetail && this.$parent.getRecheckDetail instanceof Function){

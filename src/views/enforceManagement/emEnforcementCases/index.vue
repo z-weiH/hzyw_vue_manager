@@ -11,7 +11,7 @@
           <el-col :span="24">
             <span class="search-span">案件查询：</span>
             <el-form-item label=" " prop="keyWords">
-              <el-input v-model.trim="ruleForm.keyWords" placeholder="案号、申请人、被申请人、手机号" style="width:306px;"></el-input>
+              <el-input v-model.trim="ruleForm.keyWords" placeholder="案号、申请人、被申请人、手机号" style="width:456px;"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -53,7 +53,7 @@
             </el-form-item>
 
             <el-form-item label=" " prop="courtId">
-              <el-select clearable v-model="ruleForm.courtId" placeholder="请选择法院" style="width:145px;">
+              <el-select clearable v-model="ruleForm.courtId" placeholder="请选择法院" style="width:145px;margin-left:-20px;">
                 <el-option 
                   v-for="(item,index) in courtOptions" 
                   :key="index" 
@@ -101,17 +101,17 @@
               </el-select>
             </el-form-item>
 
-            <span class="search-span">配置状态：</span>
-            <el-form-item label=" " prop="settingStatus">
-              <el-select clearable v-model="ruleForm.settingStatus" placeholder="请选择" style="width:197px;">
-                <el-option label="已完成" :value="1"></el-option>
-                <el-option label="未完成" :value="2"></el-option>
+            <!-- <span class="search-span">配置状态：</span>
+            <el-form-item label=" " prop="configurationStatus">
+              <el-select clearable v-model="ruleForm.configurationStatus" placeholder="请选择" style="width:197px;">
+                <el-option label="已完成" :value="0"></el-option>
+                <el-option label="未完成" :value="1"></el-option>
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
 
             <span class="search-span">还款情况：</span>
-            <el-form-item label=" " prop="aaaaa">
-              <el-select clearable v-model="ruleForm.aaaaa" placeholder="请选择" style="width:197px;">
+            <el-form-item label=" " prop="repaymentStatus">
+              <el-select clearable v-model="ruleForm.repaymentStatus" placeholder="请选择" style="width:197px;">
                 <el-option label="有还款" :value="1"></el-option>
                 <el-option label="无还款" :value="2"></el-option>
                 <el-option label="有仲裁后还款" :value="3"></el-option>
@@ -160,20 +160,50 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55"></el-table-column>
-				<el-table-column prop="caseNo" label="案号"></el-table-column>
-        <el-table-column prop="applicants" label="仲裁申请人" width="120"></el-table-column>
+				<el-table-column prop="caseNo" label="案号" width="180">
+          <template slot-scope="scope">
+            <span>{{scope.row.caseNo}}</span>  
+          </template>
+        </el-table-column>
+        <el-table-column prop="applicants" label="仲裁申请人" min-width="120">
+          <template slot-scope="scope">
+            <span>{{scope.row.applicants}}</span>  
+          </template>
+        </el-table-column>
         <el-table-column prop="executedBorrowAmt" label="执行标的"></el-table-column>
         <el-table-column prop="fixedAmount" label="固定金额"></el-table-column>
-        <el-table-column prop="respondents" label="仲裁被申请人" width="120"></el-table-column>
-        <el-table-column prop="resPhone" label="手机号"></el-table-column>
-        <el-table-column prop="dateOfBorrowing" label="借款日期"></el-table-column>
-        <el-table-column prop="lateStartDate" label="逾期开始日" width="120"></el-table-column>
-        <el-table-column prop="timeOfAdjudication" label="裁决时间"></el-table-column>
-        <el-table-column prop="courtName" label="法院"></el-table-column>
-        <el-table-column prop="templateCode" label="模板编码"></el-table-column>
-        <el-table-column prop="settingStatus" label="材料配置状态" width="120">
+        <el-table-column prop="respondents" label="仲裁被申请人" min-width="120">
           <template slot-scope="scope">
-            {{scope.row.settingStatus === 1 ? '已完成' : '未完成'}}
+            <span>{{scope.row.respondents}}</span>  
+          </template>
+        </el-table-column>
+        <el-table-column prop="resPhone" label="手机号" width="120"></el-table-column>
+        <el-table-column prop="dateOfBorrowing" label="借款日期" min-width="120"></el-table-column>
+        <el-table-column prop="lateStartDate" label="逾期开始日" min-width="120"></el-table-column>
+        <el-table-column prop="repaymentStatus" label="还款情况" width="120">
+          <template slot-scope="scope">
+            {{
+              scope.row.repaymentStatus === 1 ? '有还款' :
+              scope.row.repaymentStatus === 2 ? '无还款' :
+              scope.row.repaymentStatus === 3 ? '有仲裁后还款' :
+              scope.row.repaymentStatus === 4 ? '无仲裁后还款' : ''
+            }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="closeTime" label="裁决时间" width="120">
+          <template slot-scope="scope">
+            <span>{{scope.row.closeTime}}</span>  
+          </template>
+        </el-table-column>
+        <el-table-column prop="courtName" label="法院" width="120">
+          <template slot-scope="scope">
+            <span>{{scope.row.courtName}}</span>  
+          </template>
+        </el-table-column>
+        <el-table-column prop="templateCode" label="模板编码"></el-table-column>
+        <el-table-column prop="configurationStatus" label="材料配置状态" min-width="120">
+          <template slot-scope="scope">
+            {{scope.row.configurationStatus === 1 ? '未完成' : '已完成'}}
           </template>
         </el-table-column>
         <el-table-column prop="downloadStatus" label="下载状态">
@@ -181,7 +211,7 @@
             {{scope.row.downloadStatus === 1 ? '未处理' : '已处理'}}
           </template>
         </el-table-column>
-        <el-table-column label="操作" fixed="right" width="120" align="center">
+        <el-table-column label="操作" align="center" min-width="120">
           <template slot-scope="scope">
             <el-button @click="handlePreview(scope.row)" type="text">预览</el-button>
             <el-button @click="handleDownload(scope.row)" type="text">下载</el-button>
@@ -213,8 +243,11 @@
   import timeFrame from '@/components/timeFrame.vue'
   import exportFile from '@/assets/js/exportFile.js'
   import cityCascader from '@/components/cityCascader.vue'
+  // 未配置校验 dialog
   import setDialog from '../emBatchDownload/modules/setDialog.vue'
+  // 时间选择 dialog
   import timeDialog from '../emBatchDownload/modules/timeDialog.vue'
+  // 批量导入异常 dialog
   import batchImportDialog from './modules/batchImportDialog.vue'
 	export default {
 		components : {
@@ -246,12 +279,12 @@
 					startDate : '',
 					// 结束时间
           endDate : '',
-          // 配置状态 1:已完成；2：未完成
-          settingStatus : '',
+          // 配置状态 0：已经配置；1：未配置
+          configurationStatus : '',
           // 下载状态 0：已处理；1：未处理
           downloadStatus : '',
           // 还款情况
-          aaaaa : '',
+          repaymentStatus : '',
 
           // 省
           provinceCode : '',
@@ -287,18 +320,32 @@
         templateOptions : [],
 
 				// 表格数据
-        tableData : [{}],
+        tableData : [],
         // 数据总数
         total : 11,
         // 当前页数
         currentPage : 1,
         // 每页数量
-				pageSize : 10,
-				
+        pageSize : 10,
+        
+        checkList : {
+          bsqbccns : true,
+          cczksm : true,
+          fwxy : true,
+          jkxy : true,
+          qzzxsqs : true,
+          sfzzfm : true,
+          sqwts : true,
+          xzgxfsms : true,
+          zxkyhzhqds : true,
+          zqzrxy : true,
+        },
+        
+        pageLoading : '',
 			}
     },
     mounted() {
-      this.initTableList();
+      //this.initTableList();
 
       // 获取客户 options
       this.$http({
@@ -319,16 +366,29 @@
       cityFinish(val) {
         console.log('选择成功',val);
         // val存在表示当前选到市 ， 不存在表示选择到区
-        this.$http({
-          url : '/court/queryCourtInfoByDistrictCode.htm',
-          method : 'post',
-          data : {
-            districtCode : this.ruleForm.districtCode,
-          },
-        }).then((res) => {
-          this.courtOptions = res.result;
-          this.ruleForm.courtId = '';
-        });
+        if(!val) {
+          this.$http({
+            url : '/court/queryCourtInfoByDistrictCode.htm',
+            method : 'post',
+            data : {
+              districtCode : this.ruleForm.districtCode,
+            },
+          }).then((res) => {
+            this.courtOptions = res.result;
+            this.ruleForm.courtId = '';
+          });
+        }else{
+          this.$http({
+            url : '/court/queryCourtInfoByCityCode.htm',
+            method : 'post',
+            data : {
+              cityCode : val,
+            },
+          }).then((res) => {
+            this.courtOptions = res.result;
+            this.ruleForm.courtId = '';
+          });
+        }
       },
       // 地区 取消回调
       cityCancel() {
@@ -337,12 +397,12 @@
       },
       // 客户 change
       handleCustomerChange(val) {
-        if(!val) {
-          this.productOptions = [];
-          this.templateOptions = [];
-          this.ruleForm.productId = '';
-          this.ruleForm.templateCode = '';
-        }else{
+        this.productOptions = [];
+        this.templateOptions = [];
+        this.ruleForm.productId = '';
+        this.ruleForm.templateCode = '';
+
+        if(val) {
           this.$http({
             method : 'post',
             url : '/case/queryProducts.htm',
@@ -356,10 +416,10 @@
       },
       // 产品 change
       handleProductChange(val) {
-        if(!val) {
-          this.templateOptions = [];
-          this.ruleForm.templateCode = '';
-        }else{
+        this.templateOptions = [];
+        this.ruleForm.templateCode = '';
+
+        if(val) {
           this.$http({
             method : 'post',
             url : '/case/queryTemplatesByProductCode.htm',
@@ -385,7 +445,7 @@
           });
         }else{
           exportFile({
-            url : '/forceManager/queryForceCaseListByBaseQuery.htm',
+            url : '/forceManager/excelExportByBaseQuery.htm',
             data : {
               ...this.ruleForm,
             },
@@ -395,8 +455,7 @@
       // 点击 表格模板下载
       handleTableTemplateDownload() {
         exportFile({
-          url : '/execution/moduleExcelDownload.htm',
-          data : {},
+          url : '/forceManager/moduleExcelDownload.htm',
         });
       },
       // 批量导入相关事件
@@ -404,17 +463,27 @@
       // 文件上传前回调
       uploadBefore(file) {
         let fileType = file.name.split('.').pop();
-        let arr = ['xlsx'];
+        let arr = ['xlsx','xls'];
         if(arr.indexOf(fileType) === -1){
           this.$message.warning('文件格式有误');
           return false;
         }
+        this.pageLoading = this.$loading();
         return true;
       },
       // 文件上传成功
       uploadSuccess(res, file, fileList) {
+        this.pageLoading.close();
         this.importQueryState = true;
-        this.tableData = res.result.list;
+        this.tableData = res.result.caseInfos;
+        
+        this.$refs.batchImportDialog.show({
+          total : res.result.caseNum,
+          errorList : res.result.noResultCaseList,
+          duplicateNum : res.result.duplicateNum,
+          data : res.result.caseInfos,
+          duplicateCaseList : res.result.duplicateCaseList,
+        });
       },
       // 文件上传失败
       uploadError() {
@@ -430,52 +499,83 @@
         this.$router.push({
           path : 'emBatchDownload',
           query : {
-            caseIds : JSON.stringify(this.multipleSelection.map(v => v.caseId)),
+            caseIds : this.multipleSelection.map(v => v.caseId).join(','),
+            type : '2',
           },
         });
       },
 
       // 点击 预览
       handlePreview(row) {
-        this.$refs.timeDialog.show();
-        return;
+        // 预览前校验
         this.$http({
           method : 'post',
-          url : '/forceManager/previewCaseDoc.htm',
+          url : '/forceManager/previewCaseDocPre.htm',
           data : {
-            bsqbccns : true,
-            cczksm : true,
-            fwxy : true,
-            jkxy : true,
-            qzzxsqs : true,
-            sfzzfm : true,
-            sqwts : true,
-            xzgxfsms : true,
-            zxkyhzhqds : true,
+            ...this.checkList,
 
             caseId : row.caseId,
-            templateCode : row.templateCode,
           },
+        }).then((res) => {
+          // 未配置
+          if(res.result.settingIsOk === false) {
+            this.$refs.setDialog.show(res.result);
+          // 已配置选择预览时间
+          }else{
+            this.$refs.timeDialog.show({...row,mtype:'yulan'});
+          }
         });
       },
       // 点击 下载
       handleDownload(row) {
-        this.$refs.setDialog.show();
-        return;
-        exportFile({
-          url : '/forceManager/downloadDocs.htm',
-          data : {
-            caseIds : row.caseId,
+        this.$router.push({
+          path : 'emBatchDownload',
+          query : {
+            caseIds : row.caseId + '',
+            type : '2',
           },
         });
       },
-      // 是否配置校验
-      verifyConfit() {
-        
-      },
       // 时间dialog 回调
-      timeSuccess(time) {
-        console.log(time);
+      timeSuccess(time,row) {
+        let win = window.open('');
+        let loading = this.$loading({
+          text : '预览生成中'
+        });
+        // 预览逻辑
+        if(row.mtype === 'yulan') {
+          this.$http({
+            method : 'post',
+            url : '/forceManager/previewCaseDocPost.htm',
+            data : {
+              ...this.checkList,
+
+              caseId : row.caseId,
+              docDate : time,
+            },
+          }).then((res) => {
+            loading.close();
+            win.location.href = res.result;
+          }).catch(() => {
+            loading.close();
+            win.close();
+          });
+        // 下载逻辑
+        }else{
+          this.$http({
+            method : 'post',
+            url : '/forceManager/downloadDocsPost.htm',
+            data : {
+              ...this.checkList,
+
+              caseIds : row.caseId,
+              docDate : time,
+            },
+          }).then((res) => {
+            this.$message.success('操作成功');
+            this.$router.push('emDownloadTask');
+          });
+        }
       },
 
 			// 表格相关 start
@@ -483,7 +583,7 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
+          url : '/forceManager/queryForceCaseListByBaseQuery.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,

@@ -7,10 +7,14 @@
 			ref="dialog"
     >
       <div class="m-conetnt">
-        <div>共{{total}}个案件，已成功查询{{total - errorList.length}}个</div>
+        <div>共{{total}}个案件，已成功查询{{data.length}}个</div>
         <div>{{errorList.length}}个案号查询无结果</div>
         <div v-for="(item,index) in errorList" :key="index" class="error">
-          123
+          {{item}}
+        </div>
+        <div v-if="duplicateCaseList.length > 0">{{duplicateCaseList.length}}个案号查询重复</div>
+        <div v-for="(item,index) in duplicateCaseList" :key="index + '1'" class="error">
+          {{item}}
         </div>
       </div>
 
@@ -28,6 +32,11 @@
         dialogVisible : false,
         total : 0,
         errorList : [{}],
+        // 重复数量
+        duplicateNum : 0,
+        // 重复 list
+        duplicateCaseList : [],
+        data : [],
       }
     },
     mounted() {
@@ -43,6 +52,11 @@
 
         this.$nextTick(() => {
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
+          this.total = data.total;
+          this.errorList = data.errorList;
+          this.duplicateNum = data.duplicateNum;
+          this.data = data.data;
+          this.duplicateCaseList = data.duplicateCaseList;
         });
       },
     },

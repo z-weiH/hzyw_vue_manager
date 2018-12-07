@@ -3,7 +3,7 @@
     <div>
       <div class="item-search">
         <searchs :search-items="searchItems" :item="searchItem" :queryUrl="queryUrl">
-          <div class="fr" slot="moreBtn">
+          <div class="fl ml-10" slot="moreBtn">
             <el-button type="primary" @click="create">提交开户申请</el-button>
           </div>
         </searchs>
@@ -77,7 +77,7 @@ export default {
           type: "select",
           placeholder: "开户状态",
           property: "custStatus",
-          colSpan: 4,
+          colSpan: 3,
           options: [
             { label: "全部", value: "" },
             { label: "待提交", value: 10 },
@@ -95,7 +95,6 @@ export default {
           label: "企业名称",
           property: "custName",
           isLink: 1,
-          width: 100,
           linkShowPanel: row => {
             this.queryDetail(URL_JSON["editAccountApply"], {
               customerId: row.custId
@@ -107,11 +106,11 @@ export default {
             });
           }
         },
-        { label: "账户", property: "loginName", width: 130},
-        { label: "法定代表人", property: "legallerName" ,width: 110},
-        { label: "联系人", property: "contactsName" ,width: 90},
-        { label: "联系电话", property: "contactsPhone", width: 130},
-        { label: "申请时间", property: "applicateTime", width: 150}
+        { label: "账户", property: "loginName"},
+        { label: "法定代表人", property: "legallerName"},
+        { label: "联系人", property: "contactsName"},
+        { label: "联系电话", property: "contactsPhone"},
+        { label: "申请时间", property: "applicateTime"}
       ],
       actions: [
         {

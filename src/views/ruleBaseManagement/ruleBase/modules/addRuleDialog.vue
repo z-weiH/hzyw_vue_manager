@@ -30,13 +30,13 @@
             </el-table-column>
             <el-table-column label="抓取时间" prop="createTime">
             </el-table-column>
-            <el-table-column label="操作">
-              <template slot-scope="scope">
-                <div style="text-align: center;">
-                  <span class="colLink">查看</span>
-                </div>
-              </template>
-            </el-table-column>
+            <!--<el-table-column label="操作">-->
+              <!--<template slot-scope="scope">-->
+                <!--<div style="text-align: center;">-->
+                  <!--<span class="colLink">查看</span>-->
+                <!--</div>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
           </el-table>
           <div class="pagination">
             <el-pagination
@@ -88,13 +88,13 @@
                 <span>{{caseStatusName(scope.row.caseStatus)}}</span>
               </template>
             </el-table-column>
-            <el-table-column label="操作">
-              <template slot-scope="scope">
-                <div style="text-align: center;">
-                  <span class="colLink">查看</span>
-                </div>
-              </template>
-            </el-table-column>
+            <!--<el-table-column label="操作">-->
+              <!--<template slot-scope="scope">-->
+                <!--<div style="text-align: center;">-->
+                  <!--<span class="colLink">查看</span>-->
+                <!--</div>-->
+              <!--</template>-->
+            <!--</el-table-column>-->
           </el-table>
           <div class="pagination">
             <el-pagination
@@ -223,6 +223,7 @@
         this.pager1= {currentNum: 1,pageSize: 10, count: count1};
         this.pager2= {currentNum: 1,pageSize: 10, count: count2};
         this.currentMenu = menu;
+        this.searchItem = {};
       },
 
       //立即验证
@@ -277,7 +278,7 @@
               loading.close();
               this.isExecuting = true;
               this.$nextTick(() => {
-                this.$refs.executeResult.queryExecutRes();
+                this.$refs.executeResult.show(item.exeId,false);
               })
 
             }

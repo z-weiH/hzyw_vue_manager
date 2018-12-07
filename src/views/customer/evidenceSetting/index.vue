@@ -25,7 +25,7 @@
                   {{item.eviObject}}
                 </div>
               </el-col>
-              <el-col :span="9">
+              <el-col :span="9" style="text-align:right;">
                 <el-button @click="handleEditEvidenceGroup(item,index)" size="medium" round style="margin-left:33px">修改</el-button>
                 <el-button @click="handleAddEvidence(item,index)" type="primary" size="medium" round>新增证据</el-button>
                 <el-button @click="handleDeleteEvidenceGroup(item,index)" size="medium" round>删除证据组</el-button>

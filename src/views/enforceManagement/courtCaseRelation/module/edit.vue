@@ -14,7 +14,6 @@
         <el-select clearable v-model="form.courtId"
                    filterable
                    remote
-
                    reserve-keyword placeholder="请选择"
                    :remote-method="remoteMethod"
                    :loading="loading"
@@ -32,9 +31,8 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-          <el-button @click="show = false;">取 消</el-button>
           <el-button type="primary"  @click="save">确 定</el-button>
-
+          <el-button @click="show = false;">取 消</el-button>
     </span>
   </el-dialog>
 </template>

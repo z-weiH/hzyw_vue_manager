@@ -28,7 +28,7 @@
             <span class="form_desc">信息修正</span>
             <el-radio-group v-model="correctionStatus">
               <el-radio  :label="0">已修正({{queryConfig.correctionCount}})</el-radio>
-              <el-radio  :label="1">全部案件({{queryConfig.totalCaseCount}})</el-radio>
+              <el-radio  label="">全部案件({{queryConfig.totalCaseCount}})</el-radio>
             </el-radio-group>
           </div>
         <div style="line-height: 30px;margin-top:10px;">
@@ -78,7 +78,7 @@
         auditStatus: 0,
         passStatus: 0,
         keyWords: '',
-        correctionStatus: 1
+        correctionStatus: ''
       }
     },
     methods:{
@@ -86,13 +86,14 @@
         this.showQuery = !this.showQuery;
       },
       HandleQuery(){
-        this.$parent.auditStatus = this.auditStatus;
-        this.$parent.passStatus = this.passStatus;
-        this.$parent.keyWords = this.keyWords;
-        this.$parent.correctionStatus = this.correctionStatus;
+        this.$parent.$parent.auditStatus = this.auditStatus;
+        this.$parent.$parent.passStatus = this.passStatus;
+        this.$parent.$parent.keyWords = this.keyWords;
+        this.$parent.$parent.correctionStatus = this.correctionStatus;
+        console.log(this.$parent.$parent.correctionStatus);
         this.showQuery = false;
-        if(this.$parent.HandleQuery && this.$parent.HandleQuery instanceof Function){
-          this.$parent.HandleQuery();
+        if(this.$parent.$parent.HandleQuery && this.$parent.$parent.HandleQuery instanceof Function){
+          this.$parent.$parent.HandleQuery();
         }
       },
       checkClick(elm){

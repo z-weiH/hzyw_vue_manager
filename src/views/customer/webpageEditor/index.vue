@@ -13,7 +13,7 @@
         </div>
         <!-- 参数 -->
         <div class="fl parameter-box" :style="{height : ueeditorHeight + 80 + 'px'}">
-          <parameter @copy="handleCopy"></parameter>
+          <parameter @copy="handleCopy" :uEditor="true"></parameter>
         </div>
         <!-- 悬浮操作 -->
         <div class="operation-box" @click.stop="() => {}">
@@ -23,7 +23,7 @@
               <span @click="handleBox">x</span>
               <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
               <el-button @click="handleInsertGrammar(17)">日期计算</el-button>
-              <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
+              <!-- <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>当事人<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item :command="18">申请人</el-dropdown-item>
@@ -31,7 +31,7 @@
                   <el-dropdown-item :command="19">被申请人</el-dropdown-item>
                   <el-dropdown-item :command="21">被申请人名字</el-dropdown-item>
                 </el-dropdown-menu>
-              </el-dropdown>
+              </el-dropdown> -->
               <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>判断<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
@@ -63,6 +63,23 @@
                   <el-dropdown-item :command="10">带合计+标题</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
+
+              <!-- <el-dropdown style="width:100%;" class="mb-20">
+                <el-button>表格模板<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item :command="5">
+                    <el-dropdown @command="handleTableTemplateHXXC" style="width:100%;">
+                      <el-button style="border:none;">华夏信财<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+                      <el-dropdown-menu slot="dropdown">
+                        <el-dropdown-item :command="1">应还款详情表</el-dropdown-item>
+                        <el-dropdown-item :command="2">尚欠利息及服务费用计算表</el-dropdown-item>
+                        <el-dropdown-item :command="3">尚欠罚息计算表</el-dropdown-item>
+                        <el-dropdown-item :command="4">被申请人还款详情</el-dropdown-item>
+                      </el-dropdown-menu>
+                    </el-dropdown>
+                  </el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown> -->
 
               <p>
                 复制样式
@@ -151,6 +168,10 @@
           document.querySelector('iframe').contentDocument.addEventListener('click',this.globalClickFn);
           document.addEventListener('click',this.globalClickFn);
           document.querySelector('iframe').contentDocument.body.oncopy = this.globalCopyFn;
+          // 增加富文本样式
+          let style = document.createElement('style');
+          style.innerHTML = 'pre{white-space: pre-wrap;word-wrap: break-word;word-break: break-all;}';
+          document.querySelector('iframe').contentDocument.head.appendChild(style);
           // 初始化 title
           this.$http({
             url : '/templateSetting/queryTemplateInfoByProdTempId.htm',
@@ -216,71 +237,37 @@
       // 插入demo 语法
       handleInsertGrammar(type) {
         let message = '';
+        let tabContFn = (text = '') => {
+          return `<pre class="brush:js;toolbar:false;">&lt;@tableCol <br>  colNames=[<br>    "列名1",<br>    "列名2"<br>  ]<br>  colProperties=[<br>    参数1,<br>    参数2<br>  ]${text}<br>/&gt;</pre>`
+        }
         if(type === 1) {
           message = '${参数}';
         }else if(type === 2) {
           message = '&lt;#if 参数 &lt;= 0&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
-          // message = `<span class="style-if" style="display:block">&lt;#if 参数 &lt;= 0&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;第一结果</span><span class="style-if" style="display:block">&lt;#else&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;第二结果</span><span class="style-if" style="display:block">&lt;/#if&gt;</span>`;
+          //message = `<pre class="brush:js;toolbar:false;">&lt;#if 参数 &lt;= 0&gt;<br>  第一结果<br>&lt;#else&gt;<br>  第二结果<br>&lt;/#if&gt;<br></pre>`;
         }else if(type === 3) {
           message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
-          //message = `<span class="style-if" style="display:block">&lt;#if x == 1&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is 1</span><span class="style-if" style="display:block">&lt;#elseif x == 2&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is 2</span><span class="style-if" style="display:block">&lt;#else&gt;</span><span class="style-if" style="display:block">&nbsp;&nbsp;&nbsp;&nbsp;x is not 1 nor 2</span><span class="style-if" style="display:block">&lt;/#if&gt;</span>`;
+          //message = `<pre class="brush:js;toolbar:false;">&lt;#if x == 1&gt;<br>  x is 1<br>&lt;#elseif x == 2&gt;<br>  x is 2<br>&lt;#else&gt;<br>  x is not 1 nor 2<br>&lt;/#if&gt;<br></pre>`;
         }else if(type === 4) {
           message = '&lt;@myPage /&gt;';
         }else if(type === 5) {
           message = '&lt;@tableCol colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
-          /* message = `
-            <p class="m-style">&lt;@tableCol&nbsp;</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
-            <p class="m-style">/&gt;</p>
-          `; */
+          //message = tabContFn();
         }else if(type === 6) {
           message = '&lt;@tableCol title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
-          /* message = `
-            <p class="m-style">&lt;@tableCol&nbsp;</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;title="标题"</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
-            <p class="m-style">/&gt;</p>
-          `; */
+          //message = tabContFn('<br>  title="标题"');
         }else if(type === 7) {
           message = '&lt;@tableCol lastLine="说明"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
-          /* message = `
-            <p class="m-style">&lt;@tableCol&nbsp;</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;lastLine="说明"</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
-            <p class="m-style">/&gt;</p>
-          `; */
+          //message = tabContFn('<br>  lastLine="说明"');
         }else if(type === 8) {
           message = '&lt;@tableCol lastLine="说明" title="标题"  colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
-          /* message = `
-            <p class="m-style">&lt;@tableCol&nbsp;</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;lastLine="说明"</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;title="标题"</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
-            <p class="m-style">/&gt;</p>
-          `; */
+          //message = tabContFn('<br>  lastLine="说明"<br>  title="标题"');
         }else if(type === 9) {
           message = '&lt;@tableCol stat=true colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
-          /* message = `
-            <p class="m-style">&lt;@tableCol&nbsp;</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;stat=true</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
-            <p class="m-style">/&gt;</p>
-          `; */
+          //message = tabContFn('<br>  stat=true');
         }else if(type === 10) {
           message = '&lt;@tableCol stat=true title="标题" colNames=["列名1","列名2","列名3","列名4"] colProperties=[参数1,参数2,参数3,参数4] /&gt;';
-          /* message = `
-            <p class="m-style">&lt;@tableCol&nbsp;</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;stat=true</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;title="标题"</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colNames=["列名1","列名2","列名3","列名4"]</p>
-            <p class="m-style">&nbsp;&nbsp;&nbsp;&nbsp;colProperties=[参数1,参数2,参数3,参数4]</p>
-            <p class="m-style">/&gt;</p>
-          `; */
+          //message = tabContFn('<br>  stat=true<br>  title="标题"');
         }else if(type === 11) {
           message = '<span class="asdf">startFact</span>';
         }else if(type === 12) {
@@ -304,6 +291,22 @@
         }else if(type === 21) {
           message = '&lt;@multiPartyInfo list="multiReses" index=1 field="appAddress" /&gt;';
         }
+        this.$refs.ueeditor.insertHtml(message);
+        this.handleBox();
+      },
+      // 表格模板 - 华夏信财
+      handleTableTemplateHXXC(type) {
+        let message = '';
+        if(type === 1) {
+          message = `<pre class="brush:js;toolbar:false;">&lt;@tableHXXC<br>  colNames=["期数","当期应还时间","应还本金","应还利息","应还服务费","已还本金","已还利息","已还服务费","尚欠本金","尚欠利息","尚欠服务费","剩余本金"]<br>  colProperties=[instalmentCredit_borrowEndDate, instalmentCredit_amtCapital, instalmentCredit_amtRate, instalmentCredit_amtOther, instalmentCredit_amtCapitalRefund, instalmentCredit_amtRateRefund, instalmentCredit_amtOtherRefund]<br>  title="应还款详情表"<br>  lastLine="被申请人尚欠本金{remainingAmtCapital}元、按年利率24%标准调整后的尚欠利息及服务费用{calcStillOwnAmtRateAndOther}元（详见尚欠利息及服务费用计算表）、罚息{calcPenalty}元（详见罚息计算表）。"<br>  colIndexList=[0, 8, 9, 10, 11]<br>  calcMethods=["getDaysInstalment", "stillOwnAmtCapital", "stillOwnAmtRate", "stillOwnAmtOther", "remainingAmtCapital"]<br>/&gt;<br></pre>`;
+        }else if(type === 2) {
+          message = `<pre class="brush:js;toolbar:false;">&lt;@tableHXXC <br>  colNames=["开始时间","结束时间","天数","本金基数","产生利息及服务费用","已还利息及服务费用","尚欠利息及服务费用"]<br>  colProperties=[]<br>  title="尚欠利息及服务费用计算表（计算标准调整为以剩余借款本金为基数，按年利率24%标准计算）"<br>  colIndexList=[0, 1, 2, 3, 4, 5, 6]<br>  calcMethods=["stillOwnRateAndOtherBeginDate", "stillOwnRateAndOtherEndDate", "stillOwnRateAndOtherDiffDays", "stillOwnRateAndOtherAmtCapital", "stillOwnAmtRateAndOtherAmtRateAndOther", "stillOwnAmtRateAndOtherRefund", "stillOwnAmtRateAndOtherAmtRateAndOther"]<br>/&gt;<br></pre>`;
+        }else if(type === 3) {
+          message = `<pre class="brush:js;toolbar:false;">&lt;@tableHXXC <br>  colNames=["开始时间","结束时间","逾期天数","本金基数","产生罚息","已还罚息","尚欠罚息"]<br>  colProperties=[]<br>  title="尚欠罚息计算表（计算标准：0.05%/日）"<br>  colIndexList=[0, 1, 2, 3, 4, 5, 6]<br>  calcMethods=["stillOwnPenaltyBeginDate", "stillOwnPenaltyEndDate", "stillOwnPenaltyOverdueDays", "stillOwnPenaltyAmtCapital", "stillOwnPenaltyCalcPenalty", "stillOwnPenaltyRefundPenalty", "stillOwnPenaltyLeftPenalty"]<br>/&gt;<br></pre>`;
+        }else if(type === 4) {
+          message = `<pre class="brush:js;toolbar:false;">&lt;@tableHXXC <br>  colNames=["还款次数","还款时间","还款总额","已还本金","已还利息","已还服务费用","已还罚息"]<br>  colProperties=[refundInfo_refundDate, refundInfo_amtActural, instalmentCredit_amtOverdue] title="被申请人还款详情" colIndexList=[0, 3, 4, 5]<br>  calcMethods=["getDaysInstalment", "refundDetailAmtCapital", "refundDetailAmtRate", "refundDetailAmtOther"]<br>  stat=true<br>  statColIndexList=[2, 3, 4, 5, 6]<br>  statCalcMethods=["refundDetailSumRefund", "refundDetailSumRefundAmtCapital", "refundDetailSumRefundAmtRate", "refundDetailSumRefundAmtOther", "refundDetailSumRefundAmtOverdue"] <br>/&gt;<br></pre>`;
+        }
+
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
       },

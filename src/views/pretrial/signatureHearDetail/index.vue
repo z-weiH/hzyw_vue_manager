@@ -1,105 +1,110 @@
 <template>
-    <div class="body_container">
-      <div class="header_container">
-        <div class="header">
-          <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
-          <span class="header_title">签名审核</span>
-          <!--<el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>-->
-          <!--<template v-if="disabled">-->
+  <div style="height: 100%;background: #F7F7F7">
+    <el-scrollbar style="height: 100%">
+      <div class="body_container">
+        <div class="header_container">
+          <div class="header">
+            <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
+            <span class="header_title">签名审核</span>
+            <!--<el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>-->
+            <!--<template v-if="disabled">-->
             <!--<el-radio v-model="passStatus" :label="0">全部</el-radio>-->
             <!--<el-radio v-model="passStatus" :label="1">已通过</el-radio>-->
             <!--<el-radio v-model="passStatus" :label="2">未通过</el-radio>-->
-          <!--</template>-->
-          <selectQuery ref="query" :disabled="disabled" :queryConfig="queryConfig" style="display: inline-block;"></selectQuery>
-        </div>
-      </div>
-      <div class="noCase_panel" v-if="signatureItems.length == 0">
-        <div class="search_ico"></div>
-        <div>没有符合要求的案件</div>
-      </div>
-      <div class="card"  v-for="(sign, index) in signatureItems" :key="index" :ref="sign.subSortNo">
-        <div class="card_header" style="overflow: hidden;position: relative;">
-          <div class="fr mt-5" style="position: relative;" v-if="!disabled">
-            <transition name="addmark" >
-              <el-button class="addmark" type="text" v-if="mark !== sign.subSortNo" @click="HandleAddmark(sign)">添加书签</el-button>
-            </transition>
-            <transition name="bookmark" >
-              <img  v-if="mark === sign.subSortNo" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
-            </transition>
-            <el-button type="primary"  plain @click="HandleShow(sign)">审核意见</el-button>
-          </div>
-          <div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">
-            <el-button type="text" @click="HandleRuleRes(sign)">机审规则</el-button>
-          </div>
-          <span class="header_title">{{sign.subSortNo}}/{{sign.totalCount}} {{sign.lender}}与{{sign.respondents}}的借款合同纠纷</span>
-          <div class="header_img">
-            <img src="@/assets/img/idCard.png" alt="">
-            <img class="icon" src="@/assets/img/success.png" v-if="sign.idStatus === 1" alt="">
-            <img class="icon" src="@/assets/img/error.png"  v-if="sign.idStatus === 2 " alt="">
-          </div>
-          <div class="header_img">
-            <img src="@/assets/img/signature.png" alt="">
-            <img class="icon" src="@/assets/img/success.png" v-if="sign.signStatus === 1" alt="">
-            <img class="icon" src="@/assets/img/error.png" v-if="sign.signStatus === 2" alt="">
-          </div>
-          <div class="header_img">
-            <img src="@/assets/img/evidence.png" alt="">
-            <img class="icon" src="@/assets/img/success.png" v-if="sign.eviStatus === 1" alt="">
-            <img class="icon" src="@/assets/img/error.png" v-if="sign.eviStatus === 2" alt="">
+            <!--</template>-->
+            <selectQuery ref="query" :disabled="disabled" :queryConfig="queryConfig" style="display: inline-block;"></selectQuery>
           </div>
         </div>
-        <div class="card_body">
-          <table class="card_table fl">
-            <tr v-for="(signopt,idx) in sign.signList" :key="idx">
-              <td>签名时间</td>
-              <td>{{signopt.signTime}}</td>
-              <td>签名实体</td>
-              <td>{{signopt.signDesc}}</td>
-            </tr>
-            <tr>
-              <td>借款开始时间</td>
-              <td>{{sign.borrowStartDate}}</td>
-              <td>借款合同</td>
-              <td class="colLink" @click="openWindow(sign.borrowContractUrl)">
-                点击查看
-              </td>
-            </tr>
-          </table>
-          <div class="img_desc fr">
-            <ul>
-              <li v-for="(audit,i) in sign.signAuditList" :key="i">
-                <img class="mr-10" src="@/assets/img/error_tag.png" v-if="audit.auditStatus == 0" alt="">
-                <img class="mr-5" src="@/assets/img/success_tag.png" v-if="audit.auditStatus == 1" alt="">
-                <img class="ml-5 mr-10" src="@/assets/img/warning_tag.png" v-if="audit.auditStatus == 2" alt="">
-                {{audit.auditMsg}}
-              </li>
-            </ul>
+        <div class="noCase_panel" v-if="signatureItems.length == 0">
+          <div class="search_ico"></div>
+          <div>没有符合要求的案件</div>
+        </div>
+        <div class="card"  v-for="(sign, index) in signatureItems" :key="index" :ref="sign.subSortNo">
+          <div class="card_header" style="overflow: hidden;position: relative;">
+            <div class="fr mt-5" style="position: relative;" v-if="!disabled">
+              <transition name="addmark" >
+                <el-button class="addmark" type="text" v-if="mark !== sign.subSortNo" @click="HandleAddmark(sign)">添加书签</el-button>
+              </transition>
+              <transition name="bookmark" >
+                <img  v-if="mark === sign.subSortNo" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
+              </transition>
+              <el-button type="primary"  plain @click="HandleShow(sign)">审核意见</el-button>
+            </div>
+            <div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">
+              <el-button type="text" @click="HandleRuleRes(sign)">脚本执行记录</el-button>
+            </div>
+            <span class="header_title">{{sign.subSortNo}}/{{sign.totalCount}} {{sign.lender}}与{{sign.respondents}}的借款合同纠纷</span>
+            <div class="header_img">
+              <img src="@/assets/img/idCard.png" alt="">
+              <img class="icon" src="@/assets/img/success.png" v-if="sign.idStatus === 1" alt="">
+              <img class="icon" src="@/assets/img/error.png"  v-if="sign.idStatus === 2 " alt="">
+            </div>
+            <div class="header_img">
+              <img src="@/assets/img/signature.png" alt="">
+              <img class="icon" src="@/assets/img/success.png" v-if="sign.signStatus === 1" alt="">
+              <img class="icon" src="@/assets/img/error.png" v-if="sign.signStatus === 2" alt="">
+            </div>
+            <div class="header_img">
+              <img src="@/assets/img/evidence.png" alt="">
+              <img class="icon" src="@/assets/img/success.png" v-if="sign.eviStatus === 1" alt="">
+              <img class="icon" src="@/assets/img/error.png" v-if="sign.eviStatus === 2" alt="">
+            </div>
           </div>
-          <div class="audit clear " v-if="sign.checkSignList.length > 0">
-            <p class="audit_title">审核意见:</p>
-            <ul>
-              <li v-for="(check, ii) in sign.checkSignList" :key="ii">{{ii+1+"."+check.reasonMsg}}</li>
-            </ul>
+          <div class="card_body">
+            <div class="mockTable fl" >
+              <div class="cellTr" v-for="(cellTr,index) in sign.signList">
+                <div class="cell">签名时间</div>
+                <div class="cell">{{cellTr.signTime}}</div>
+                <div class="cell">签名实体</div>
+                <div class="cell">
+                  {{cellTr.signDesc}}
+                </div>
+              </div>
+              <div class="cellTr">
+                <div class="cell">实际打款日期</div>
+                <div class="cell">{{sign.borrowStartDate}}</div>
+                <div class="cell">借款合同</div>
+                <div class="cell"><a class="btn_link" :href="sign.borrowContractUrl" target="_blank">点击查看</a></div>
+              </div>
+            </div>
+            <div class="img_desc fr">
+              <ul>
+                <li v-for="(audit,i) in sign.signAuditList" :key="i">
+                  <img class="mr-10" src="@/assets/img/error_tag.png" v-if="audit.auditStatus == 0" alt="">
+                  <img class="mr-5" src="@/assets/img/success_tag.png" v-if="audit.auditStatus == 1" alt="">
+                  <img class="ml-5 mr-10" src="@/assets/img/warning_tag.png" v-if="audit.auditStatus == 2" alt="">
+                  {{audit.auditMsg}}
+                </li>
+              </ul>
+            </div>
+            <div class="audit clear " v-if="sign.checkSignList.length > 0">
+              <p class="audit_title">审核意见:</p>
+              <ul>
+                <li v-for="(check, ii) in sign.checkSignList" :key="ii">{{ii+1+"."+check.reasonMsg}}</li>
+              </ul>
+            </div>
           </div>
+
+
         </div>
 
+        <div class="pagination" v-if="signatureItems.length > 0">
+          <el-pagination
+            @current-change="handleCurrentChange"
+            :current-page="pager.currentNum"
+            :page-size="20"
+            layout="prev, pager, next, jumper, total"
+            :total="pager.total">
+          </el-pagination>
+        </div>
 
       </div>
-
-      <div class="pagination" v-if="signatureItems.length > 0">
-        <el-pagination
-          @current-change="handleCurrentChange"
-          :current-page="pager.currentNum"
-          :page-size="20"
-          layout="prev, pager, next, jumper, total"
-          :total="pager.total">
-        </el-pagination>
-      </div>
-      <audit :selValue="selValue" :caseId="currentCaseId" :type="1"></audit>
+    </el-scrollbar>
+    <audit :selValue="selValue" :caseId="currentCaseId" :type="1"></audit>
     <closeDlg :message="'已完成签名审核，请关闭本页'" v-if="showCloseDlg"></closeDlg>
-      <!--<rule></rule>-->
-      <ruleResult ref="ruleResult"></ruleResult>
-    </div>
+    <!--<rule></rule>-->
+    <ruleResult ref="ruleResult"></ruleResult>
+  </div>
 </template>
 
 <script>
@@ -125,7 +130,7 @@ export default {
       count: 0,
       batchNo: "",
       auditLists: [],
-      correctionStatus: 1,//修証書
+      correctionStatus: '',//修証書
       currentCaseId: "", //当前案件
       disabled: false, //控制编辑状态     true为查看， false为审核
       showCloseDlg: false,
@@ -281,7 +286,9 @@ export default {
           }
           loading.close();
 
-        });
+        }).catch(() => {
+        loading.close();
+      });
     },
     //初审身份证、签名、证据链搜索是案件数量统计接口
     handleCountQuery(item){
@@ -424,6 +431,8 @@ export default {
         color: #363636;
         float: left;
         width: 868px;
+        max-height: 400px;
+        overflow: auto;
         border-collapse: collapse;
         tr {
           height: 49px;
@@ -493,4 +502,48 @@ export default {
     vertical-align: middle;
   }
 }
+  .mockTable {
+    // width: 762px;
+    max-height: 400px;
+    overflow: auto;
+    overflow-x: hidden;
+    border-collapse: collapse;
+    // table-layout: fixed;
+    border-spacing: 0;
+    .cellTr {
+      border-collapse: collapse;
+      width: 100%;
+      &:hover {
+        background-color: #f5f7fa;
+      }
+      .cell:nth-child(odd) {
+        width: 135px;
+      }
+      &:first-child {
+        .cell {
+          border: 1px solid #e5eaee;
+        }
+      }
+    }
+    .cell {
+      vertical-align: middle;
+      display: table-cell;
+      height: 50px;
+      line-height: 1.6;
+      padding: 2px 8px;
+      text-align: center;
+      width: 250px;
+      max-width: 250px;
+      // text-indent: 20px;
+      border-left-width: 1px;
+      border-right-width: 1px;
+      border-bottom-width: 1px;
+      border-top-width: 0;
+      border-style: solid;
+      border-color: #e5eaee;
+
+
+    }
+  }
+
 </style>

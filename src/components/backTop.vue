@@ -16,7 +16,11 @@
       };
     },
     mounted() {
-      $(".main,.body_container")[0].addEventListener("scroll", throttle(this.handleScroll, 50));
+      try{
+        $(".page-content .el-scrollbar__wrap")[0].addEventListener("scroll", throttle(this.handleScroll, 50));
+      }catch(err) {
+
+      }
     },
     methods: {
       handleScroll() {
@@ -24,8 +28,8 @@
         //   window.pageYOffset ||
         //   document.documentElement.scrollTop ||
         //   document.body.scrollTop;
-        let scrollTop = $(".main,.body_container").scrollTop();
-        // console.log($(".main,.body_container").scrollTop());
+        let scrollTop = $(".page-content .el-scrollbar__wrap").scrollTop();
+        // console.log($(".page-content .el-scrollbar__wrap").scrollTop());
         if (scrollTop > 20) {
           this.btopstat = true;
         } else if (scrollTop === 0) {
@@ -33,9 +37,9 @@
         }
       },
       backTop() {
-        // console.log($(".main,.body_container").scrollTop());
+        // console.log($(".page-content .el-scrollbar__wrap").scrollTop());
         // html,body
-        $(".main,.body_container").animate({
+        $(".page-content .el-scrollbar__wrap").animate({
           scrollTop: 0
         }, 400);
       }

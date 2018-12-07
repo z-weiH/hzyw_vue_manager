@@ -35,7 +35,7 @@
          {type: 'text', placeholder: '互金企业、产品名称、模板号', colSpan: 6, property: 'keyWords'},
          {type: 'date', placeholder: '分配开始时间', colSpan: 5, property: 'startDate'},
          {type: 'date', placeholder: '分配截至时间', colSpan: 5, property: 'endDate'},
-         {type: 'select', placeholder: '批次状态', colSpan: 4, property: 'batchStatus',options: [
+         {type: 'select', placeholder: '批次状态', colSpan: 3, property: 'batchStatus',options: [
              {label: '待审核', value: 0},
              {label: '审核完成', value: 1},
            ]},
@@ -44,11 +44,11 @@
         searchItem: {},
         queryUrl: '/firstAudit/queryFirstAuditList.htm', ///11/case/queryHzCaseInfoByBaseQuery.htm
         columnDefine:[
-          {label:'互金企业', property: 'clientName', width: 190},
-          {label:'模版', property: 'productName', width: 190},
-          {label:'案件数量', property: 'countCase',width: 80},
-          {label:'子批次数', property: 'countSubBatch',width: 80},
-          {label:'分配时间', property: 'distributeTime',width: 150},
+          {label:'互金企业', property: 'clientName'},
+          {label:'模版', property: 'productName'},
+          {label:'案件数量', property: 'countCase'},
+          {label:'子批次数', property: 'countSubBatch'},
+          {label:'分配时间', property: 'distributeTime'},
           {label:'批次状态', property: 'batchStatus',options: [
               // 0-初审中，1-待审核，2-审核完成
               {label: '待审核', value: 0},

@@ -31,9 +31,7 @@
         <el-button @click="handleSearch" type="warning">查询</el-button>
         <el-button @click="handleExport" type="primary">导出Excel</el-button>
 
-        <div class="fr" v-if="!isOperate">
-          <el-button @click="handleAdd" type="primary">新增加款</el-button>
-        </div>
+        <el-button v-if="!isOperate" @click="handleAdd" type="primary">新增加款</el-button>
       </el-form>
     </div>
 
@@ -59,7 +57,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="contractDate" label="合同时间"></el-table-column>
-        <el-table-column prop="merchantName" label="签约客户" width="95px">
+        <el-table-column prop="merchantName" label="签约客户">
           <template slot-scope="scope">
             <el-tooltip :content="scope.row.merchantName" placement="top-start">
               <span class="ellipsis" style="max-width:74px;">{{scope.row.merchantName}}</span>

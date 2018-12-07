@@ -57,7 +57,7 @@ export default {
           type: "select",
           placeholder: "请选择状态",
           property: "settleStatus",
-          colSpan: 4,
+          colSpan: 3,
           options:[
             {
               label:'待处理',

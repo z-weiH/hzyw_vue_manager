@@ -56,39 +56,30 @@ export default {
         {
           label: "手机号",
           property: "sendPhone",
-          width: 120
         },{
           label: "被申请人",
           property: "respondents",
-          width: 100
         },{
           label: "疑似案件编号",
           property: "case_num",
-          width:130
         },{
           label: "互金企业",
           property: "platName",
-          width: 100
         },{
           label: "产品名称",
           property: "productName",
-          width: 100
         },{
           label: "申请人",
           property: "applicants",
-          width: 100
         },{
           label: "案件阶段",
           property: "caseProcess",
-          width: 100
         },{
           label: "接收时间",
           property: "receiveTime",
-          width: 100
         },{
           label: "短信内容",
           property: "messageContent",
-          width: 100
         }
       ]
     };

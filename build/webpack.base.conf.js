@@ -95,5 +95,8 @@ module.exports = {
       // 允许 HappyPack 输出日志
       verbose: true
     })
-  ]
+  ],
+  devServer: {
+    disableHostCheck: true,
+  },
 }

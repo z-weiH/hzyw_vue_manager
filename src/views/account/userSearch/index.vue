@@ -48,7 +48,7 @@
           {type: 'date',placeholder: '请输入开始时间', property: 'startTime', colSpan: 4, lt: 'endTime'},
           {type: 'date',placeholder: '请输入结束时间', property: 'endTime', colSpan: 4, gt: 'startTime'},
           // 10待提交11 待审核20待开户设置30待确认40开户成功41开户失败
-          {type: 'select',placeholder: '开户状态',property: 'custStatus', colSpan: 4, options: [
+          {type: 'select',placeholder: '开户状态',property: 'custStatus', colSpan: 3, options: [
               {label: '全部', value: ''},
               {label: '待提交', value: 10},
               {label: '待审核', value: 11},
@@ -67,12 +67,12 @@
                   this.editState = 9;
                 }
               })
-            },width: 126},
-          {label: '账户',property: 'loginName', width: 140},
-          {label: '法定代表人',property: 'legallerName',width: 120},
-          {label: '联系人',property: 'contactsName',width: 120},
-          {label: '联系电话',property: 'contactsPhone',width: 150},
-          {label: '申请时间',property: 'applicateTime',width: 160},
+            }},
+          {label: '账户',property: 'loginName'},
+          {label: '法定代表人',property: 'legallerName'},
+          {label: '联系人',property: 'contactsName'},
+          {label: '联系电话',property: 'contactsPhone'},
+          {label: '申请时间',property: 'applicateTime'},
         ],
         actions: [
           {label: '操作',btns: [

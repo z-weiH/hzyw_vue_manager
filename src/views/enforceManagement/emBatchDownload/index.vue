@@ -3,13 +3,17 @@
     <div class="item-title of-hidden">
       <span class="item-title-sign">强制执行-材料选择</span>
       <div class="fr">
-        <a class="cursor" @click="$router.push({path : 'emEnforcementCases'})">返回&gt;&gt;</a>
+        <a class="cursor" @click="handleGoBack">返回&gt;&gt;</a>
       </div>
     </div>
 
     <div class="item-table">
       <div class="select-case">
-        <p class="ft-20 fl case-num">已选择{{caseIds.length}}个案件</p>
+        <p class="ft-20 fl case-num">已选择
+          {{
+            type === '2' ? caseIds.split(',').length : caseNum
+          }}
+        个案件</p>
         <div class="fr">
           <el-button :disabled="verifyChecked()" @click="handlePreview">预览</el-button>
           <el-button :disabled="verifyChecked()" @click="handleDownload" type="primary">拼接下载</el-button>
@@ -19,7 +23,7 @@
       <div class="choice-doc">
         <ul>
           <li class="doc-list">
-            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">选择文书材料</el-checkbox>
+            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全部</el-checkbox>
           </li>
           <li v-for="(item,index) in checkList" :key="index" class="doc-list">
             <el-checkbox @change="handleChange" v-model="item.checked">{{item.label}}</el-checkbox>
@@ -36,6 +40,7 @@
 <script>
   import setDialog from './modules/setDialog.vue'
   import timeDialog from './modules/timeDialog.vue'
+  import exportFile from '@/assets/js/exportFile.js'
   export default {
     components : {
       setDialog,
@@ -43,8 +48,10 @@
     },
     data() {
       return {
-        caseIds : JSON.parse(this.$route.query.caseIds),
-
+        caseIds : this.$route.query.caseIds,
+        type : this.$route.query.type, // 2 强制执行案件点击进入 其他 为文书生成记录
+        batchNo : this.$route.query.batchNo, // 批次号
+        caseNum : this.$route.query.caseNum, // 批次号 案件数量
         checkList : [
           {
             label : '强制执行申请书',
@@ -101,22 +108,86 @@
         checkAll : false,
       }
     },
+    mounted() {
+      // 根据批次号 获取案件id
+      if(this.type !== '2') {
+        this.$http({
+          method : 'post',
+          url : '/forceManager/queryFirstCaseIdByBatchNo.htm',
+          data : {
+            batchNo : this.batchNo,
+          },
+        }).then((res) => {
+          this.caseIds = res.result;
+        });
+      }
+    },
     methods : {
+      // 点击返回
+      handleGoBack() {
+        if(this.type === '2') {
+          this.$router.push({path : 'emEnforcementCases'})
+        }else{
+          this.$router.push({path : 'emGenerationRecord'})
+        }
+      },
       // 校验按钮 disabled
       verifyChecked() {
         return this.checkList.filter(v => v.checked).length === 0;
       },
       // 点击预览
       handlePreview() {
-        this.$refs.timeDialog.show();
+        // 预览前校验
+        this.$http({
+          method : 'post',
+          url : '/forceManager/previewCaseDocPre.htm',
+          data : {
+            ...this.checkedStatus(),
+
+            caseId : this.caseIds.split(',')[0],
+          },
+        }).then((res) => {
+          // 未配置
+          if(res.result.settingIsOk === false) {
+            this.$refs.setDialog.show(res.result);
+          // 已配置选择预览时间
+          }else{
+            this.$refs.timeDialog.show({mtype:'yulan'});
+          }
+        });
       },
       // 点击拼接下载
       handleDownload() {
-        this.$refs.setDialog.show();
+        let loading = this.$loading({
+          text : '校验中'
+        });
+        // 预览前校验
+        this.$http({
+          method : 'post',
+          url : '/forceManager/downloadDocsPre.htm',
+          data : {
+            ...this.checkedStatus(),
+
+            caseIds : this.caseIds,
+          },
+        }).then((res) => {
+          loading.close();
+          // 未配置
+          if(res.result.settingIsOk === false) {
+            this.$refs.setDialog.show(res.result);
+          // 已配置选择预览时间
+          }else{
+            this.$refs.timeDialog.show({mtype:'xiazai'});
+          }
+        }).catch(() => {
+          loading.close();
+        });
       },
-      // 是否配置校验
-      verifyConfit() {
-        
+      // 获取选中状态
+      checkedStatus() {
+        let obj = {};
+        this.checkList.map((v) => {obj[v.value] = v.checked});
+        return obj;
       },
       // 全选事件
       handleCheckAllChange(val) {
@@ -134,8 +205,64 @@
       },
 
       // 时间dialog 回调
-      timeSuccess(time) {
-        console.log(time);
+      timeSuccess(time,row) {
+        // 预览逻辑
+        if(row.mtype === 'yulan') {
+          let win = window.open('');
+          let loading = this.$loading({
+            text : '预览生成中'
+          });
+          this.$http({
+            method : 'post',
+            url : '/forceManager/previewCaseDocPost.htm',
+            data : {
+              ...this.checkedStatus(),
+
+              caseId : this.caseIds.split(',')[0],
+              docDate : time,
+            },
+          }).then((res) => {
+            loading.close();
+            win.location.href = res.result;
+          }).catch(() => {
+            loading.close();
+            win.close();
+          });
+        // 下载逻辑
+        }else{
+          // 强制执行案件 进入
+          if(this.type === '2') {
+            this.$http({
+              method : 'post',
+              url : '/forceManager/downloadDocsPost.htm',
+              data : {
+                ...this.checkedStatus(),
+
+                caseIds : this.caseIds,
+                docDate : time,
+              },
+            }).then((res) => {
+              this.$message.success('操作成功');
+              this.$router.push('emDownloadTask');
+            });
+          // 文书生成记录 进入
+          }else{
+            this.$http({
+              method : 'post',
+              url : '/forceManager/settingDocs.htm',
+              data : {
+                ...this.checkedStatus(),
+
+                batchNo : this.batchNo,
+                docDate : time,
+                caseIds : this.caseIds,
+              },
+            }).then((res) => {
+              this.$message.success('操作成功');
+              this.$router.push('emDownloadTask');
+            });
+          }
+        }
       },
     },
   }

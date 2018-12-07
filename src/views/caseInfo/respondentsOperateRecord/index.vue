@@ -94,6 +94,7 @@ export default {
 					labelfield: 'prodName',
 					valuefield: 'prodName',
 					filterable: true,
+					newline : true,
 				},
 				{
 					label: '操作案件阶段',
@@ -137,57 +138,47 @@ export default {
 				{
 					label: '被申请人',
 					property: 'respondents',
-					width: 100,
 				},
 				{
 					label: '被申请人手机',
 					property: 'resPhone',
-					width: 150,
+					width : 120,
 				},
 				{
 					label: '案件编号',
 					property: 'caseNo',
-					width: 100,
 				},
 				{
 					label: '互金企业',
 					property: 'merchantName',
-					width: 100,
 				},
 				{
 					label: '产品名称',
 					property: 'productName',
-					width: 100,
 				},
 				{
 					label: '申请人',
 					property: 'applicants',
-					width: 100,
 				},
 				{
 					label: '案件阶段',
 					property: 'caseProcessCn',
-					width: 100,
 				},
 				{
 					label: '案件状态',
 					property: 'statusThreeCn',
-					width: 100,
 				},
 				{
 					label: '操作类型',
 					property: 'operTypeCn',
-					width: 100,
 				},
 				{
 					label: '操作对象',
 					property: 'operObjectCn',
-					width: 100,
 				},
 				{
 					label: '操作时间',
 					property: 'operTime',
-					width: 100,
 				},
 			],
 		}

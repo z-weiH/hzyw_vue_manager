@@ -62,9 +62,7 @@
 
           <el-button @click="handleSearch" type="warning">查询</el-button>
 
-          <div class="fr">
-            <el-button @click="handleAdd" type="primary" class="mr-10"><i class="el-icon-plus"></i>新增</el-button>
-          </div>
+          <el-button @click="handleAdd" type="primary" class="mr-10"><i class="el-icon-plus"></i>新增</el-button>
         </div>
       </el-form>
     </div>
@@ -79,13 +77,13 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="province" label="省" width="120px"></el-table-column>
-        <el-table-column prop="courtName" label="法院" width="120px">
+				<el-table-column prop="province" label="省"></el-table-column>
+        <el-table-column prop="courtName" label="法院">
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.courtName}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="role" label="角色" width="120px">
+        <el-table-column prop="role" label="角色">
           <template slot-scope="scope">
             {{
               scope.row.role === 1 ? '立案法官' :
@@ -96,25 +94,25 @@
             }}
           </template>
         </el-table-column>
-        <el-table-column prop="judgeName" label="姓名" width="120px"></el-table-column>
-        <el-table-column prop="cellphone" label="手机" width="120px"></el-table-column>
-        <el-table-column prop="landlineTelephone" label="座机" width="120px"></el-table-column>
-        <el-table-column prop="courtAddress" label="法院地址" width="120px">
+        <el-table-column prop="judgeName" label="姓名"></el-table-column>
+        <el-table-column prop="cellphone" label="手机"></el-table-column>
+        <el-table-column prop="landlineTelephone" label="座机"></el-table-column>
+        <el-table-column prop="courtAddress" label="法院地址">
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.courtAddress}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="录入日期" width="120px">
+        <el-table-column prop="createTime" label="录入日期">
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.createTime}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="remark" label="备注" width="120px">
+        <el-table-column prop="remark" label="备注">
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.remark}}</span>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="120px" fixed="right" align="center">
+        <el-table-column label="操作" align="center">
           <template slot-scope="scope">
             <el-button @click="handleEdit(scope.row)" type="text">修改</el-button>
             <el-button @click="handleState(scope.row)" type="text">

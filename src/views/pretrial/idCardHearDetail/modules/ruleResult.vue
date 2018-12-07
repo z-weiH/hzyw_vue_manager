@@ -2,50 +2,54 @@
   <el-dialog
     :visible.sync="showFlag"
     v-dialogDrag
-    title="机审规则"
+    title="脚本执行记录"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
-    width="800px"
+    :width="width"
     center>
-    <div class="dialog-content">
-      <div class="content-title">
-        已执行规则
-        <span>（{{data.rulesExecutCount}}）</span>
-      </div>
-      <ul class="content-ul">
-        <li v-for="(item,idx) in data.logList" :key="idx">
-          <span class="desc">{{item.logInfo}}</span>
-          <span class="result">{{item.logStatus === 0 ? '执行错误' :(item.logStatus === 1 ? '未检出错误' : '检出错误')}}</span>
-          <span class="time">{{item.logTime}}</span>
-        </li>
+    <div class="dialog-content" v-if="logList.length > 0">
+        <div class="title">
+          <div class="fl">执行时间</div>
+          <div class="fl">脚本名称</div>
+          <div class="fl">执行结果</div>
+          <div class="fl">核对结果</div>
+          <div class="fl">审核意见是否采纳</div>
 
-        <li v-if="data.logList.length === 0" style="color: #ccc;margin-left: 20px;">当前无已执行规则</li>
-      </ul>
-      <div class="content-title">
-        未执行规则
-        <span>（{{data.noRulesExecutCount}}）</span>
-      </div>
-      <ul class="content-ul">
-        <li v-for="(item,idx) in data.logList2" :key="idx">
-          <span class="desc" >{{item.logInfo}}</span>
+        </div>
+        <hr>
+        <div class="content">
+          <el-scrollbar  :class="{'showHidden': logList.length > 10}">
+            <div class="li" v-for="(item,idx) in logList" :index="idx" >
+              <div class="fl">{{item.createTime}}</div>
+              <div class="fl ellipsis">{{item.ruleDesc}}</div>
+              <div class="fl">
+             <span>
+               <img class="mr-10" v-if="item.ruleExeStatus === 0"  src="@/assets/img/error_tag_01.png" alt="">
+              <img class="mr-5" v-if="item.ruleExeStatus === 1" src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-5" v-if="item.ruleExeStatus === 2" src="@/assets/img/warning_tag_01.png" alt="">
+                <b v-if="item.ruleExeStatus === 2">检出错误</b>
+                <b v-if="item.ruleExeStatus === 0">执行错误</b>
+                <b v-if="item.ruleExeStatus === 1">过检</b>
+              </span>
 
-        </li>
+              </div>
+              <div class="fl">
+                <span>
+               <img class="mr-10" v-if="item.isSelected === 0"  src="@/assets/img/success_tag.png" alt="">
+              <img class="mr-5" v-if="item.isSelected === 1" src="@/assets/img/error_tag_01.png" alt="">
+                <b v-if="item.isSelected === 0">过检</b>
+                <b v-if="item.isSelected === 1">检出错误</b>
+              </span>
+              </div>
+              <div class="fl">{{item.takeEffectStatus === 0 ? '否' : '是'}}</div>
+            </div>
 
-        <li v-if="data.logList2.length === 0" style="color: #ccc;margin-left: 20px;">当前无未执行规则</li>
-      </ul>
-      <div class="content-title">
-        执行错误规则
-        <span>（{{data.errorRulesExecutCount}}）</span>
-      </div>
-      <ul class="content-ul">
-        <li v-for="(item,idx) in data.logList1" :key="idx">
-          <span class="desc ellipsis" :title="item.logInfo">{{item.logInfo}}</span>
-          <span class="result ellipsis" :title="item.exeResult">{{item.exeResult}}</span>
-          <span class="time ellipsis" :title="item.logTime">{{item.logTime}}</span>
-        </li>
+          </el-scrollbar>
+        </div>
 
-        <li v-if="data.logList1.length === 0" style="color: #ccc;margin-left: 20px;">当前无已执行错误规则</li>
-      </ul>
+    </div>
+    <div class="dialog-content" v-else style="text-align: center;padding: 30px 0;">
+        当前案件暂无已执行规则
     </div>
     <span slot="footer" class="dialog-footer">
           <el-button type="primary"  @click="showFlag = false;">关闭</el-button>
@@ -59,20 +63,22 @@ export default {
   data(){
     return {
       showFlag: false,
-      data:{
-        logList:[],
-        logList1:[],
-        logList2:[],
-      }
+      logList:[],
+      width: '1000px'
     }
   },
   methods:{
     show(caseId){
-      this.$http.post("/againAudit/machineWhoseRules.htm",{caseId: caseId}).then(res => {
-        if(res.code === '0000'){
-          this.showFlag = true;
-          this.data = res.result;
-        }
+      this.$http.post("/ruleCase/queryRuleExeLogByCaseId.htm",{caseId: caseId}).then(res => {
+          this.logList = res.result;
+          if(res.result.length > 0){
+            this.width = '1000px';
+          }
+          else{
+            this.width = '400px';
+          }
+        this.showFlag = true;
+
       })
     }
   }
@@ -81,41 +87,48 @@ export default {
 </script>
 
 <style scoped lang="scss">
+  .showHidden{
+    height: 350px;
+  }
   .dialog-content{
-    .content-title{
-      font-weight: bold;
-      font-size: 15px;
-      line-height: 24px;
-      color: #1E1E1E;
-      span{
-        color:#999;
-      }
-    }
-    .content-ul{
-      li{
-        line-height: 24px;
-        .desc{
-          color: #543354;
-          max-width: 230px;
-          margin-left: 20px;
-          margin-right: 10px;
-          &:hover{
-            font-weight: bold;
-          }
-        }
-        .result{
-          max-width: 330px;
-          margin-right: 10px;
-        }
-        .time{
-          max-width: 150px;
-        }
-        .result,.time{
-          color: #CCCCCC;
-        }
+    .title{
+      .fl{
+        font-size: 16px;
+        font-weight: bold;
+
       }
 
+
+    }
+    hr{
+      margin: 10px 0;
+      clear: both;
     }
   }
 
+  .content .li{
+    margin: 10px 0;
+  }
+  .content .li::after{
+    content: '';
+    display: block;
+    clear: both;
+  }
+
+  .title .fl, .content .li .fl
+  {
+    &:nth-child(1){
+      width: 180px;
+    }
+    &:nth-child(2){
+      width: 330px;
+      padding-right: 20px;
+    }
+    &:nth-child(3),&:nth-child(4){
+      width: 120px;
+    }
+    &:nth-child(5){
+      width: 150px;
+    }
+  }
 </style>

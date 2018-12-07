@@ -46,6 +46,7 @@
         <el-table-column prop="userName" label="操作人"></el-table-column>
         <el-table-column prop="respondents" label="操作">
           <template slot-scope="scope">
+            <!--<a :href="scope.row.docsPath" :download="'Your_downNames'" >xiazai</a>-->
             <el-button @click="handleDownload(scope.row)" v-if="scope.row.createStatus === 1" type="text">下载</el-button>
             <span v-else style="color: #CCCCCC;">下载</span>
           </template>
@@ -71,6 +72,7 @@
 </template>
 
 <script>
+  import exportFile from "@/assets/js/exportFile";
   import batchInfo from '../emGenerationRecord/module/batchInfo'
 	import timeFrame from '@/components/timeFrame.vue'
 	export default {
@@ -89,7 +91,7 @@
 				// 表格数据
         tableData : [],
         // 数据总数
-        total : 11,
+        total : 0,
         // 当前页数
         currentPage : 1,
         // 每页数量
@@ -114,23 +116,28 @@
       },
 
       // 点击下载
-      handleDownload() {
-        alert('下载');
+      handleDownload(row) {
+        var downloadAnchorNode = document.createElement("a");
+        downloadAnchorNode.setAttribute("href", row.docsPath);
+        let idx = row.docsPath.lastIndexOf('/');
+        const filename = row.docsPath.substring(idx+1);
+        downloadAnchorNode.setAttribute("download",filename);
+        downloadAnchorNode.click();
+        downloadAnchorNode.remove();
+        this.$http.post("/download/addDownloadTimesById.htm",{id: row.id}).then(res => {
+          console.log(res);
+          row.downloadTimes +=1;
+        })
       },
 
 			// 表格相关 start
 
       // 初始化 表格数据
       initTableList() {
-        this.$http({
-          url : '/download/downloadList.htm',
-          method : 'get',
-          data : {
+        this.$http.post('/download/downloadBaseQuery.htm',{
             pageSize : this.pageSize,
             currentNum : this.currentPage,
-
-            ...this.ruleForm,
-          },
+            ...this.ruleForm
         }).then((res) => {
           this.total = res.result.count;
           this.tableData = res.result.list;

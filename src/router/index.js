@@ -258,6 +258,14 @@ let router = new Router({
             name: 'respondentsOperateRecord'
           }
         },
+        {
+          path: 'closingDoc',
+          component: () =>
+            import ('@/views/caseInfo/closingDoc'), // 结案文书管理
+          meta: {
+            name: 'closingDoc'
+          }
+        },
         /* 案件信息module end */
         /* 短信记录 start */
         {
@@ -443,6 +451,14 @@ let router = new Router({
             import ('@/views/customer/ctParameterList'), // 参数列表
           meta: {
             name: 'ctParameterList',
+          },
+        },
+        {
+          path: 'contractedCustomers',
+          component: () =>
+            import ('@/views/customer/contractedCustomers'), // 签约客户
+          meta: {
+            name: 'contractedCustomers',
           },
         },
         /* 客户管理module end */
@@ -887,6 +903,24 @@ let router = new Router({
             name: 'ruleTemplate',
           },
         },
+        {
+          path: 'exeRecord',
+          component: () =>
+            import ('@/views/ruleBaseManagement/exeRecord'), // 执行记录
+          meta: {
+            name: 'exeRecord',
+          },
+
+        },
+        {
+          path: 'exeRecordDetail',
+          component: () =>
+            import ('@/views/ruleBaseManagement/exeRecordDetail'), // 执行记录
+          meta: {
+            name: 'exeRecordDetail',
+          },
+
+        },
         /* 规则库管理 module end */
 
         /* 执行管理 module start */
@@ -990,6 +1024,7 @@ let router = new Router({
         },
         {
           path: 'emBatchDownload',
+          name: 'emBatchDownload',
           component: () =>
             import("@/views/enforceManagement/emBatchDownload"), // 批量下载
           meta: {
@@ -1140,6 +1175,7 @@ let router = new Router({
       },
     },
 
+
     {
       path: '/caseDetail',
       component: () =>
@@ -1163,6 +1199,14 @@ let router = new Router({
         import ('@/views/customer/ctInterfaceList'), // 客户管理-模板联调-接口列表
       meta: {
         name: 'ctInterfaceList',
+      },
+    },
+    {
+      path: '/ruleExeDetail',
+      component: () =>
+        import ('@/views/ruleBaseManagement/ruleExeDetail'), // 执行详情
+      meta: {
+        name: 'ruleExeDetail',
       },
     },
 

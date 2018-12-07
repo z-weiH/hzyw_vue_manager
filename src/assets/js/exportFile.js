@@ -1,4 +1,5 @@
 import host from '@/axios/host'
+import { Message } from 'element-ui'
 /**
  * @param {string} url
  *  请求url
@@ -14,7 +15,7 @@ let exportFile = (obj) => {
   let arr = [];
 
   for(let key in data) {
-    data[key] && arr.push(`${key}=${data[key]}`);
+    (data[key] !== void 0) && arr.push(`${key}=${data[key]}`);
   };
   try{
     arr.push(`token=${JSON.parse(localStorage.getItem('loginInfo')).token}`);
@@ -28,6 +29,17 @@ let exportFile = (obj) => {
       // 获得body后台返回的参数
       let html = body.innerText;
       console.log(html,'iframe导出-后台返回值');
+      try {
+        let res = JSON.parse(html);
+        if(res.code === '7777') {
+          Message({
+            type: 'warning',
+            message: res.description,
+          });
+        }
+      }catch(err) {
+        
+      }
     };
 
     document.body.appendChild(iframe);

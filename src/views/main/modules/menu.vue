@@ -254,6 +254,11 @@
                 menuId : 311,
                 menuUrl : 'ctParameterList',
               },
+              {
+                menuName : '签约客户',
+                menuId : 312,
+                menuUrl : 'contractedCustomers',
+              },
             ],
           },
           {
@@ -410,6 +415,11 @@
                 menuName : '被申请人操作记录',
                 menuId : 75,
                 menuUrl : 'respondentsOperateRecord'
+              },
+              {
+                menuName : '结案文书管理',
+                menuId : 76,
+                menuUrl : 'closingDoc'
               }
             ],
           },
@@ -545,6 +555,11 @@
                 menuName : '规则模版',
                 menuId : 'gzmb',
                 menuUrl : 'ruleTemplate'
+              },
+              {
+                menuName : '执行记录',
+                menuId : 'zxjl',
+                menuUrl : 'exeRecord'
               },
             ],
           },

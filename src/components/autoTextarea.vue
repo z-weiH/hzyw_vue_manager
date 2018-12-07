@@ -7,6 +7,7 @@
       v-model="textareaVal" 
       :placeholder="placeholder" 
       @blur="handleBlur"
+      spellcheck="false"
     />
 </template>
 

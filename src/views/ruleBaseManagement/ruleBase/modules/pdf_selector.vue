@@ -161,7 +161,7 @@ export default {
 
           this.$nextTick(() => {
             // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
-            this.showPDF(res.result.pdfUrl);
+            this.showPDF(this.pdfUrl.replace(/http:|https:/g,''));
 
             document.querySelector("#canvas").onmousedown = (e) => { this.doDown(e)};
           })

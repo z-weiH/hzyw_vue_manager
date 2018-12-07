@@ -63,15 +63,15 @@
        <div class="evi_body">
          <div class="scroll_toolbar fr">
            <ul>
-             <li class="fl evi_bar" :class="{active: eviDetail.eviUrl == currentUrl}" v-for="(eviDetail,idx) in item.evidences" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviName}}</li>
+             <li class="fl evi_bar" :class="{active:currentUrl.indexOf(eviDetail.eviUrl) ==0 }" v-for="(eviDetail,idx) in item.evidences" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviName}}</li>
            </ul>
          </div>
          <p style="line-height: 30px;color: #193b8c;font-size: 17px;">仲裁申请书</p>
         <div class="pdf fl clear">
-          <iframe  :src="item.applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+          <iframe  :src="applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
         </div>
          <div ref="evidenceWarper"  class="pdf fr" >
-           <iframe v-if="checkPdf(currentUrl)" :src="currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+           <iframe v-if="checkPdf(currentUrl)" :src="currentUrl.replace(/http:|https:/g,'')" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
            <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
          </div>
          <div class="clear"></div>
@@ -133,6 +133,8 @@ export default {
   mixins:[imgEvi],
   data(){
     return {
+
+      applicationUrl: '',
       //当前选中pdf
       currentUrl:'',
 
@@ -201,6 +203,7 @@ export default {
       this.$http.post('/case/queryCaseDetailByCaseId.htm',{caseId: this.$route.query.caseId}).then(res => {
         if(res.code === '0000'){
           res.result.evidences.unshift({eviName:'证据目录',eviUrl:res.result.eviCatalog});
+          this.applicationUrl = res.result.applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime();
           this.currentUrl = res.result.eviCatalog;
           this.sqrInfo = res.result.partyInfo.find(it =>it.litigantType == 0);
           this.bsqrInfo = res.result.partyInfo.find(it =>it.litigantType == 1);
@@ -217,6 +220,18 @@ export default {
     //pdf切换
     scrollbarClick(evi){
       this.currentUrl = evi.eviUrl;
+
+      if(this.currentUrl.substr(this.currentUrl.length-3) == 'png' || this.currentUrl.substr(this.currentUrl.length-3) == 'jpg' || this.currentUrl.substr(this.currentUrl.length-4) == 'jpeg' ){
+            const img = document.createElement('img');
+            img.onload=(e)=>{
+              console.log(e.path[0].width);
+              let bl = (660/e.path[0].width) * 100;
+              console.log(bl.toFixed(0));
+              this.currentUrl += `?x-oss-process=image/resize,p_${bl.toFixed(0)}`;
+            }
+            img.src=evi.eviUrl;
+      }
+
     }
   },
   created(){

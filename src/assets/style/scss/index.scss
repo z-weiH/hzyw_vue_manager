@@ -610,3 +610,62 @@ textarea::-webkit-scrollbar {
     top: 8px;
   }
 }
+.el-scrollbar__wrap {
+  overflow-x: hidden !important;
+  margin-bottom: 0 !important;
+}
+.move-top-left{
+  transition: all 1s ease;
+  background:red;
+  position: absolute !important;
+  top: 15vh !important;
+  right: 50vw !important;
+  transform: translateX(50%);
+  &.active{
+    top: -80px !important;
+    right: calc(50vw - 660px) !important;
+    opacity: .3;
+    overflow: hidden;
+    margin: 0 !important;
+    transform: scale(0.2,0.2) !important;
+
+  }
+}
+
+.error_checkbox{
+  .el-checkbox__input{
+    &.is-checked{
+      .el-checkbox__inner{
+        background: #fff;
+        &::before{
+          content: '';
+          position: absolute;
+          top: 5px;
+          width: 10px;
+          height: 2px;
+          left: 1px;
+          background: red;
+          transform: rotate(45deg) scaleY(1);
+
+        }
+        &::after{
+          content: '';
+          position: absolute;
+          top: 5px;
+          width: 10px;
+          left: 1px;
+          height: 2px;
+          background: red;
+          transform: rotate(-45deg) scaleY(1);
+          border: none;
+        }
+      }
+    }
+  }
+}
+
+.is-disabled{
+  .el-checkbox__inner{
+    border-color: transparent !important;
+  }
+}

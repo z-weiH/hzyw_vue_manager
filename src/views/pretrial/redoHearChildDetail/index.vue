@@ -1,45 +1,47 @@
 <template>
-  <div class="body_container">
-    <div class="header_container">
-      <div class="header">
-        <el-row>
-          <el-col :span="3">
-            <span class="header_title">案件复审</span>
-          </el-col>
-          <!--<el-col :span="6">-->
-            <!--<el-radio-group v-model="auditStatus" class="mt-30">-->
+  <div style="height: 100%;background: #F7F7F7">
+    <el-scrollbar style="height: 100%;">
+      <div class="body_container">
+        <div class="header_container">
+          <div class="header">
+            <el-row>
+              <el-col :span="3">
+                <span class="header_title">案件复审</span>
+              </el-col>
+              <!--<el-col :span="6">-->
+              <!--<el-radio-group v-model="auditStatus" class="mt-30">-->
               <!--<el-radio :label="0">全部</el-radio>-->
               <!--<el-radio :label="1">已通过</el-radio>-->
               <!--<el-radio :label="2">未通过</el-radio>-->
-            <!--</el-radio-group>-->
-          <!--</el-col>-->
-          <el-col :span="3" style="padding-top:30px;">
-            <selectQuery ref="query" :disabled="subViewType" :queryConfig="queryConfig"></selectQuery>
-          </el-col>
-          <el-col :span="15">
-            <el-button v-if="subViewType == 1" type="primary" class="fr mr-10 mt-20" @click="FooPassCheck">通过</el-button>
-            <el-button v-if="subViewType == 1" class="fr mr-10 mt-20" @click="FooRebak">退回</el-button>
-          </el-col>
-        </el-row>
-      </div>
-    </div>
-    <!-- 无匹配案件区域 -->
-    <div class="noCase_panel" v-if="screenWaitType && idCardList.length == 0">
-      <div class="search_ico"></div>
-      <div>没有符合要求的案件</div>
-    </div>
-    <!-- end -->
-    <div class="card"  v-for="(card, index) in idCardList" :key="index">
-      <div class="fix_screen" v-if="idCardList.length != 0">
-        <span class="arrow_left" @click="gotoPrevPage(card)"></span><span class="arrow_right" @click="gotoNextPage(card)"></span>
-      </div>
-      <div class="card_header">
-        <el-row>
-          <el-col :span="18">
-            <div class="smallBatch_title mt-10 f_18">
-              <span class="f_14">{{card.subSortNo}}</span>/<span class="f_14">{{card.totalCount}}</span>
-              <span>{{card.lender}}</span>与<span>{{card.respondents}}</span>的借款合同纠纷
-              <span class="ico_group">
+              <!--</el-radio-group>-->
+              <!--</el-col>-->
+              <el-col :span="3" style="padding-top:30px;">
+                <selectQuery ref="query" :parent="this" :disabled="subViewType" :queryConfig="queryConfig" :queryItem.sync="queryItem"></selectQuery>
+              </el-col>
+              <el-col :span="15">
+                <el-button v-if="subViewType == 1" type="primary" class="fr mr-10 mt-20" @click="FooPassCheck">通过</el-button>
+                <el-button v-if="subViewType == 1" class="fr mr-10 mt-20" @click="FooRebak">退回</el-button>
+              </el-col>
+            </el-row>
+          </div>
+        </div>
+        <!-- 无匹配案件区域 -->
+        <div class="noCase_panel" v-if="screenWaitType && idCardList.length == 0">
+          <div class="search_ico"></div>
+          <div>没有符合要求的案件</div>
+        </div>
+        <!-- end -->
+        <div class="card"  v-for="(card, index) in idCardList" :key="index">
+          <div class="fix_screen" v-if="idCardList.length != 0">
+            <span class="arrow_left" @click="gotoPrevPage(card)"></span><span class="arrow_right" @click="gotoNextPage(card)"></span>
+          </div>
+          <div class="card_header">
+            <el-row>
+              <el-col :span="18">
+                <div class="smallBatch_title mt-10 f_18">
+                  <span class="f_14">{{card.subSortNo}}</span>/<span class="f_14">{{card.totalCount}}</span>
+                  <span>{{card.lender}}</span>与<span>{{card.respondents}}</span>的借款合同纠纷
+                  <span class="ico_group">
                         <i class="ico_idcard" v-if="card.idStatus === 0"></i>
                         <i class="ico_idcard right" v-if="card.idStatus === 1"></i>
                         <i class="ico_idcard wrong" v-if="card.idStatus === 2"></i>
@@ -51,165 +53,180 @@
                         <i class="ico_computer wrong" v-if="card.eviStatus === 2"></i>
                       </span>
 
-            </div>
-          </el-col>
-          <el-col :span="6">
-            <div class="fr mt-5">
-              <el-button v-if="subViewType == 1" @click="FooAuditReason(card)">审核意见</el-button>
-            </div>
-            <div class="fr mt-5 mr-20">
-              <el-button  type="text" @click="HandleRuleRes(card)">机审规则</el-button>
-            </div>
+                </div>
+              </el-col>
+              <el-col :span="6">
+                <div class="fr mt-5">
+                  <el-button v-if="subViewType == 1" @click="FooAuditReason(card)">审核意见</el-button>
+                </div>
+                <div class="fr mt-5 mr-20">
+                  <el-button  type="text" @click="HandleRuleRes(card)">脚本执行记录</el-button>
+                </div>
 
-          </el-col>
-        </el-row>
+              </el-col>
+            </el-row>
 
-      </div>
+          </div>
 
-      <div class="card_body">
-        <div class="part_tit f_18">身份证信息</div>
-        <div class="card_part">
-          <div class="img zhen">
-            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
-            <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
-          </div>
-          <div class="img fan">
-            <img-zoom v-if="card.idCard.image02" :src="card.idCard.image01+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image01+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
-            <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
-          </div>
-          <div class="img_desc">
-            <ul>
-              <li :class="{'pointer': respondentEidtConfig.nameStatus == 1 && subViewType == 1}">
-                <i v-if="card.idCard.nameStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.nameStatus%2 === 1" class="i_pass"></i>
-                <i v-if="card.idCard.nameStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resName')">{{card.idCard.resName}}</span>
-                <b style="color:#aaa;" v-if="card.idCard.nameStatus === 3">(已修正)</b>
-              </li>
-              <li :class="{'pointer': respondentEidtConfig.sexStatus == 1 && subViewType == 1}">
-                <i v-if="card.idCard.sexStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.sexStatus%2 === 1" class="i_pass"></i>
-                <i v-if="card.idCard.sexStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resSex')">{{card.idCard.resSex === 0 ? '女':'男'}}</span>
-                <b style="color:#aaa;" v-if="card.idCard.sexStatus === 3">(已修正)</b>
-              </li>
-              <li :class="{'pointer': respondentEidtConfig.nationStatus == 1 && subViewType == 1}">
-                <i v-if="card.idCard.nationStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.nationStatus%2 === 1" class="i_pass"></i>
-                <i v-if="card.idCard.nationStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resNation')">{{card.idCard.resNation}}</span>
-                <b style="color:#aaa;" v-if="card.idCard.nationStatus === 3">(已修正)</b>
-              </li>
-              <li :class="{'pointer': respondentEidtConfig.idaddressStatus == 1 && subViewType == 1}">
-                <i v-if="card.idCard.idaddressStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.idaddressStatus%2 === 1" class="i_pass"></i>
-                <i v-if="card.idCard.idaddressStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdaddress')">{{card.idCard.resIdaddress}}</span>
-                <b style="color:#aaa;" v-if="card.idCard.idaddressStatus === 3">(已修正)</b>
-              </li>
-              <li :class="{'pointer': respondentEidtConfig.idcardStatus == 1 && subViewType == 1}">
-                <i v-if="card.idCard.idcardStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.idcardStatus%2 === 1" class="i_pass"></i>
-                <i v-if="card.idCard.idcardStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdcard')">{{card.idCard.resIdcard}}</span>
-                <b style="color:#aaa;" v-if="card.idCard.idcardStatus === 3">(已修正)</b>
-              </li>
-              <li>
-                <i v-if="card.idCard.effctDateStatus === 0" class="i_nopass"></i>
-                <i v-if="card.idCard.effctDateStatus === 1" class="i_pass"></i>
-                <i v-if="card.idCard.effctDateStatus === 2" class="i_warn"></i> {{card.idCard.resEffctDate}}
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="audit">
-          <p class="audit_title" v-if="card.idCard.failReasonList.length != 0">审核意见:</p>
-          <ul>
-            <li v-for="(msg, index) in card.idCard.failReasonList">{{index + 1}}.{{msg.reasonMsg}}</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="sign_body sTopborder">
-        <div class="part_tit f_18">签名信息</div>
-        <div class="of-hidden">
-          <div class="mockTable fl">
-            <div class="cellTr" v-for="(cellTr,index) in card.sign.signList">
-              <div class="cell">签名时间</div>
-              <div class="cell">{{cellTr.signTime}}</div>
-              <div class="cell">签名实体</div>
-              <div class="cell">{{cellTr.signDesc}}</div>
-            </div>
-            <div class="cellTr">
-              <div class="cell">借款开始时间</div>
-              <div class="cell">{{card.sign.borrowStartDate}}</div>
-              <div class="cell">借款合同</div>
-              <div class="cell"><a class="btn_link" :href="card.sign.borrowContractUrl" target="_blank">点击查看</a></div>
-            </div>
-          </div>
-          <div class="sign_info fl">
-            <ul>
-              <li v-for="(msg,idx) in card.sign.signAuditList">
-                <i v-if="msg.auditStatus == 0" class="i_nopass"></i>
-                <i v-if="msg.auditStatus == 1" class="i_pass"></i>
-                <i v-if="msg.auditStatus == 2" class="i_warn"></i> {{msg.auditMsg}}
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div class="audit">
-          <p class="audit_title" v-if="card.sign.checkSignList.length != 0">审核意见:</p>
-          <ul>
-            <li v-for="(line,idx) in card.sign.checkSignList">{{idx + 1}}.{{line.reasonMsg}}</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="applybook_body sTopborder">
-        <div class="part_tit f_18">证据链信息</div>
-        <div class="audit">
-          <p class="audit_title" v-if="card.evi.checkAuditList.length != 0">审核意见:</p>
-          <ul class="mb-30">
-            <li v-for="(msg, index) in card.evi.checkAuditList">{{index + 1}}.{{msg.reasonMsg}}</li>
-          </ul>
-        </div>
-        <div class="bdje" style="margin-bottom: 20px;;font-size: 16px;">
-          <span style="color: #193b8c;font-size: 18px;">标的金额：</span>{{card.amtCase}}元
-        </div>
-        <div class="applybook_title of-hidden">
-          <div class="tit fl">仲裁申请书</div>
-          <div class="scroll_toolbar fr">
-						   <ul>
-                <li class="fl evi_bar" :class="{active: eviDetail.eviFileurl == currentUrl}" v-for="(eviDetail,idx) in card.evi.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
-              </ul>
-            <!-- <scroll-y @handleClick="scrollbarClick" :options="card.evi.eviDetailList" label="eviTitle" :defaultWidth="520"></scroll-y> -->
-          </div>
-        </div>
-        <div class="applybook_content of-hidden">
-          <div class="article_left fl">
-            <iframe :src="card.evi.applicationUrl" width="100%" height="100%">
-                      </iframe>
-          </div>
-          <div ref="evidenceWarper" class="article_right fr">
-            <iframe v-if="checkPdf(currentUrl)" :src="currentUrl" width="100%" height="100%"></iframe>
-            <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
-          </div>
-        </div>
-      </div>
-      <!-- 传统分页 -->
-      <div class="pagination clear">
-              <el-pagination
-                @current-change="handleCurrentChange"
-                :current-page="currentNum"
-                :page-size="1"
-                layout="prev, pager, next, jumper, total"
-                :total="count">
-              </el-pagination>
+          <div class="card_body">
+            <div class="part_tit f_18">身份证信息</div>
+            <div class="card_part">
+              <div class="img zhen">
+                <img-zoom v-if="card.idCard.image02" :src="card.idCard.image02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+                <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
               </div>
-      <!-- end -->
-      <!-- 左右分页 tool -->
+              <div class="img fan">
+                <img-zoom v-if="card.idCard.image02" :src="card.idCard.image01+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image01+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+                <img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">
+              </div>
+              <div class="img_desc">
+                <ul>
+                  <li :class="{'pointer': respondentEidtConfig.nameStatus == 1 && subViewType == 1}">
+                    <i v-if="card.idCard.nameStatus === 0" class="i_nopass"></i>
+                    <i v-if="card.idCard.nameStatus%2 === 1" class="i_pass"></i>
+                    <i v-if="card.idCard.nameStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resName')">{{card.idCard.resName}}</span>
+                    <b style="color:#aaa;" v-if="card.idCard.nameStatus === 3">(已修正)</b>
+                  </li>
+                  <li :class="{'pointer': respondentEidtConfig.sexStatus == 1 && subViewType == 1}">
+                    <i v-if="card.idCard.sexStatus === 0" class="i_nopass"></i>
+                    <i v-if="card.idCard.sexStatus%2 === 1" class="i_pass"></i>
+                    <i v-if="card.idCard.sexStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resSex')">{{card.idCard.resSex === 0 ? '女':'男'}}</span>
+                    <b style="color:#aaa;" v-if="card.idCard.sexStatus === 3">(已修正)</b>
+                  </li>
+                  <li :class="{'pointer': respondentEidtConfig.nationStatus == 1 && subViewType == 1}">
+                    <i v-if="card.idCard.nationStatus === 0" class="i_nopass"></i>
+                    <i v-if="card.idCard.nationStatus%2 === 1" class="i_pass"></i>
+                    <i v-if="card.idCard.nationStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resNation')">{{card.idCard.resNation}}</span>
+                    <b style="color:#aaa;" v-if="card.idCard.nationStatus === 3">(已修正)</b>
+                  </li>
+                  <li :class="{'pointer': respondentEidtConfig.idaddressStatus == 1 && subViewType == 1}">
+                    <i v-if="card.idCard.idaddressStatus === 0" class="i_nopass"></i>
+                    <i v-if="card.idCard.idaddressStatus%2 === 1" class="i_pass"></i>
+                    <i v-if="card.idCard.idaddressStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdaddress')">{{card.idCard.resIdaddress}}</span>
+                    <b style="color:#aaa;" v-if="card.idCard.idaddressStatus === 3">(已修正)</b>
+                  </li>
+                  <li :class="{'pointer': respondentEidtConfig.idcardStatus == 1 && subViewType == 1}">
+                    <i v-if="card.idCard.idcardStatus === 0" class="i_nopass"></i>
+                    <i v-if="card.idCard.idcardStatus%2 === 1" class="i_pass"></i>
+                    <i v-if="card.idCard.idcardStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdcard')">{{card.idCard.resIdcard}}</span>
+                    <b style="color:#aaa;" v-if="card.idCard.idcardStatus === 3">(已修正)</b>
+                  </li>
+                  <li>
+                    <i v-if="card.idCard.effctDateStatus === 0" class="i_nopass"></i>
+                    <i v-if="card.idCard.effctDateStatus === 1" class="i_pass"></i>
+                    <i v-if="card.idCard.effctDateStatus === 2" class="i_warn"></i> {{card.idCard.resEffctDate}}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="audit">
+              <p class="audit_title" v-if="card.idCard.failReasonList.length != 0">审核意见:</p>
+              <ul>
+                <li v-for="(msg, index) in card.idCard.failReasonList">{{index + 1}}.{{msg.reasonMsg}}</li>
+              </ul>
+            </div>
+          </div>
 
-      <!-- ** -->
+          <div class="sign_body sTopborder">
+            <div class="part_tit f_18">签名信息</div>
+            <div class="of-hidden">
+              <div class="mockTable fl" >
+                <div class="cellTr" v-for="(cellTr,index) in card.sign.signList">
+                  <div class="cell">签名时间</div>
+                  <div class="cell">{{cellTr.signTime}}</div>
+                  <div class="cell">签名实体</div>
+                  <div class="cell">
+                    {{cellTr.signDesc}}
+                  </div>
+                </div>
+                <div class="cellTr">
+                  <div class="cell">实际打款日期</div>
+                  <div class="cell">{{card.sign.borrowStartDate}}</div>
+                  <div class="cell">借款合同</div>
+                  <div class="cell"><a class="btn_link" :href="card.sign.borrowContractUrl" target="_blank">点击查看</a></div>
+                </div>
+              </div>
+              <div class="sign_info fl">
+                <ul>
+                  <li v-for="(msg,idx) in card.sign.signAuditList">
+                    <i v-if="msg.auditStatus == 0" class="i_nopass"></i>
+                    <i v-if="msg.auditStatus == 1" class="i_pass"></i>
+                    <i v-if="msg.auditStatus == 2" class="i_warn"></i> {{msg.auditMsg}}
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="audit">
+              <p class="audit_title" v-if="card.sign.checkSignList.length != 0">审核意见:</p>
+              <ul>
+                <li v-for="(line,idx) in card.sign.checkSignList">{{idx + 1}}.{{line.reasonMsg}}</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="applybook_body sTopborder">
+            <div class="part_tit f_18">证据链信息</div>
+            <div class="audit">
+              <p class="audit_title" v-if="card.evi.checkAuditList.length != 0">审核意见:</p>
+              <ul class="mb-30">
+                <li v-for="(msg, index) in card.evi.checkAuditList">{{index + 1}}.{{msg.reasonMsg}}</li>
+              </ul>
+            </div>
+            <div class="bdje" style="margin-bottom: 20px;;font-size: 16px;">
+              <span style="color: #193b8c;font-size: 18px;">标的金额：</span>{{card.amtCase}}元
+            </div>
+            <div class="applybook_title of-hidden">
+              <div class="tit fl">仲裁申请书</div>
+              <div class="scroll_toolbar fr">
+                <ul>
+                  <li class="fl evi_bar" :class="{active: currentUrl.indexOf(eviDetail.eviFileurl) ==0 }" v-for="(eviDetail,idx) in card.evi.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
+                </ul>
+                <!-- <scroll-y @handleClick="scrollbarClick" :options="card.evi.eviDetailList" label="eviTitle" :defaultWidth="520"></scroll-y> -->
+              </div>
+            </div>
+            <div class="applybook_content of-hidden">
+              <div class="article_left fl" style="position: relative;">
+                <el-button icon="el-icon-refresh" type="large" circle style="background: #F2F2F2;position: absolute;top: 70px; right: 40px;" @click="refreshApplicationUrl"></el-button>
+                <iframe :src="applicationUrl" width="100%" height="100%">
+                </iframe>
+              </div>
+              <div ref="evidenceWarper" class="article_right fr">
+                <iframe v-if="checkPdf(currentUrl)" :src="currentUrl.replace(/http:|https:/g,'')" width="100%" height="100%"></iframe>
+                <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
+              </div>
+            </div>
+          </div>
+          <!-- 传统分页 -->
+          <div class="pagination clear">
+            <el-pagination
+              @current-change="handleCurrentChange"
+              :current-page="currentNum"
+              :page-size="1"
+              layout="prev, pager, next, jumper, total"
+              :total="count">
+            </el-pagination>
+          </div>
+          <!-- end -->
+          <!-- 左右分页 tool -->
+
+          <!-- ** -->
+
+					<!-- 隐藏的 iframe 用于浏览器 ctrl + f -->
+					<div v-if="!(eviCode === 'AGREEMENT' || eviCode === 'SERVICE')" class="fn-hide">
+						<li v-for="(eviDetail,idx) in card.evi.eviDetailList" :key="idx">
+							<iframe class="fline-lalal" :src="eviDetail.eviFileurl" v-if="eviDetail.eviCode && (eviDetail.eviCode === 'AGREEMENT' || eviDetail.eviCode === 'SERVICE')"></iframe>
+						</li>
+					</div>
+
+        </div>
 
 
-    </div>
 
 
+
+
+      </div>
+    </el-scrollbar>
 
 
     <audit ref="audit" :subBatchNo="subBatchId" :curCardObj="curCardObj" :auditOptsByCase="auditOptsByCase"></audit>
@@ -221,7 +238,6 @@
     <backTop></backTop>
     <respondent-edit :currentRespodent="currentRespodent" :respondentItem="respondentItem"></respondent-edit>
     <ruleResult ref="ruleResult"></ruleResult>
-
   </div>
 </template>
 
@@ -242,13 +258,17 @@ import backTop from '@/components/backTop.vue'
 import imgEvi from '@/components/script/imgEvi';
 
 
+
 import $ from 'jquery'
 
 export default {
   mixins:[imgEvi],
 	data() {
 		return {
+			eviCode : '',
 
+		  //申请书 url
+      applicationUrl: '',
       //被申请人修改信息配置
       respondentEidtConfig: {},
       //对应关系
@@ -277,17 +297,19 @@ export default {
 			auditStatusList: ['1', '2'],
 			waiter: null, // 数据加载前显示动画
 			screenWaitType: false,
-			auditStatus: 0,
+      queryItem:{
+        auditStatus: 0,
+        passStatus:0,
+        correctionStatus: '',
+        keyWords:'',
+        maxAmtCapital:'',
+        minAmtCapital:'',
+      },
 			subBatchNo: '',
 			subBatchId: '',
-      passStatus:'',
 			subViewType: '',
-      correctionStatus: '',
 			btnRecheckType: '',
 			currentNum: 1,
-      keyWords:'',
-      maxAmtCapital:'',
-      minAmtCapital:'',
 			auditLists: [],
 			idCardList: [], //身份证信息
 			curCardObj: {}, //当前分页的合同数据
@@ -339,6 +361,12 @@ export default {
 	},
 
 	methods: {
+
+    refreshApplicationUrl(){
+      let idx = this.applicationUrl.lastIndexOf('=');
+      this.applicationUrl = this.applicationUrl.substring(0,idx) + '=' +new Date().getTime();
+    },
+
     //机审规则
     HandleRuleRes(card){
       // this.$http.post("/againAudit/machineWhoseRules.htm",{caseId:card.caseId}).then(res => {
@@ -392,6 +420,17 @@ export default {
 		scrollbarClick(e) {
 			console.log(e)
 			this.currentUrl = e.eviFileurl
+			this.eviCode = e.eviCode || '';
+      if(this.currentUrl.substr(this.currentUrl.length-3) == 'png' || this.currentUrl.substr(this.currentUrl.length-3) == 'jpg' || this.currentUrl.substr(this.currentUrl.length-4) == 'jpeg' ){
+          const img = document.createElement('img');
+          img.onload=(e)=>{
+            console.log(e.path[0].width);
+            let bl = (660/e.path[0].width) * 100;
+            console.log(bl.toFixed(0));
+            this.currentUrl += `?x-oss-process=image/resize,p_${bl.toFixed(0)}`;
+          }
+          img.src=e.eviFileurl;
+      }
 		},
 		FooPassCheck() {
 			// 批量通过
@@ -496,12 +535,12 @@ export default {
 					pageSize: 1,
 					currentNum: this.currentNum,
 					subBatchNo: this.subBatchId,
-					auditStatus: this.auditStatus,
-          keyWords: this.keyWords,
-          maxAmtCapital: this.maxAmtCapital,
-          minAmtCapital: this.minAmtCapital,
-          passStatus: this.passStatus,
-          correctionStatus: this.correctionStatus
+					auditStatus: this.queryItem.auditStatus,
+          keyWords: this.queryItem.keyWords,
+          maxAmtCapital: this.queryItem.maxAmtCapital,
+          minAmtCapital: this.queryItem.minAmtCapital,
+          passStatus: this.queryItem.passStatus,
+          correctionStatus: this.queryItem.correctionStatus
 				})
 				.then(res => {
 					console.log('detail>->', res.result)
@@ -520,6 +559,10 @@ export default {
             if(this.currentNum > res.result.count){
 						  this.currentNum = res.result.count;
             }
+
+            this.queryItem.currentNum = this.currentNum;
+            localStorage.setItem('savedConfig',JSON.stringify(this.queryItem));
+            console.log(localStorage.getItem('savedConfig'),this.currentNum)
 						// 明细请求过后再去改变-无数据模版状态
 						this.idCardList.length === 0 ? (this.screenWaitType = true) : (this.screenWaitType = false)
 
@@ -527,7 +570,7 @@ export default {
 
 
 						this.idCardList.forEach(it => {
-							console.log(it)
+              this.applicationUrl = it.evi.applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime();
 							it.sign.signAuditList.reverse()
 						})
 
@@ -535,7 +578,9 @@ export default {
               document.documentElement.querySelector('.body_container').scrollTo(0,0);
             }
 					}
-				})
+				}).catch(() => {
+				  this.waiter.close();
+      })
 		},
 
 		screenLoader() {
@@ -564,13 +609,26 @@ export default {
 	},
 
 	mounted() {
-		console.log('---', this.$route.query.subBatchId)
+		console.log('---', this.$route.query.subBatchId);
+
+    this.queryItem.auditStatus = 0
+    let config = localStorage.getItem('savedConfig');
+		console.log(config);
+		if(config){
+      try{
+        let item = JSON.parse(config);
+        this.queryItem = item;
+        this.currentNum = item.currentNum;
+      }catch (e) {
+
+      }
+    }
+
 
 		this.subBatchId = this.$route.query.subBatchId
 		this.subViewType = this.$route.query.subViewType
-		this.auditStatus = 0
     this.queryCountAgainAuditCase({subBatchNo: this.subBatchId});
-    this.getRecheckDetail();
+    this.getRecheckDetail(true);
 
 		//IE及其他浏览器
 	},
@@ -911,7 +969,9 @@ li.pointer > span{
 // 小表格样式
 .mockTable {
 	// width: 762px;
-	display: table;
+  max-height: 400px;
+  overflow: auto;
+  overflow-x: hidden;
 	border-collapse: collapse;
 	// table-layout: fixed;
 	border-spacing: 0;
@@ -938,6 +998,7 @@ li.pointer > span{
 		padding: 2px 8px;
 		text-align: center;
 		width: 250px;
+    max-width: 250px;
 		// text-indent: 20px;
 		border-left-width: 1px;
 		border-right-width: 1px;
@@ -945,6 +1006,8 @@ li.pointer > span{
 		border-top-width: 0;
 		border-style: solid;
 		border-color: #e5eaee;
+
+
 	}
 }
 
@@ -966,8 +1029,10 @@ li.pointer > span{
 		padding-bottom: 30px;
 		.scroll_toolbar {
 			padding-right: 30px;
-			width: 645px;
 			font-size: 14px;
+      max-height: 150px;
+      width: 645px;
+      overflow: auto;
 			.evi_bar {
 				cursor: pointer;
 				line-height: 24px;
