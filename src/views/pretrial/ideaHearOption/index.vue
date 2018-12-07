@@ -32,8 +32,8 @@
                     activeName === '1' ? 2 : -1
                   )) && (item.active === true) ">
                   <el-button @click="handleEdit(item)" type="text">修改</el-button>
-                  <span>|</span>
-                  <el-button @click="handleDelete(item)" type="text">删除</el-button>
+                  <!--<span>|</span>-->
+                  <!--<el-button @click="handleDelete(item)" type="text">删除</el-button>-->
                 </template>
               </div>
             </li>

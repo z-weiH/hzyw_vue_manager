@@ -301,6 +301,19 @@ export default {
           if (res.code === "0000") {
             this.activeItem = {mmmType : 'sfz' , ...card};
             this.auditLists = res.result;
+            let codeList = ['1000','1001','1002','1003'];
+            if(this.auditLists.find(it => codeList.indexOf(it.code) !== -1 && it.reasonType === 1) ){
+              let item = this.auditLists.find(it => it.code === '1013');
+              if(item && item.reasonType !== 1){
+                item.reasonType = 1;
+              }
+            }
+            for(let idx = this.auditLists.length - 1; idx>=0 ; idx--){
+              if(codeList.indexOf(this.auditLists[idx].code) !== -1 ){
+                this.auditLists.splice(idx,1);
+              }
+            }
+
             this.editState = 1;
             this.currentCaseId = card.caseId;
             this.selValue = card.idStatus;

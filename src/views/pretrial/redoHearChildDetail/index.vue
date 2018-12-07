@@ -484,6 +484,21 @@ export default {
 						this.audit_state = 1
 						this.auditLists = res.result.suggestions
 						console.log('auditLists:', this.auditLists)
+
+            let codeList = ['1000','1001','1002','1003'];
+            if(this.auditLists.find(it => codeList.indexOf(it.code) !== -1 && it.isChecked === 1) ){
+              let item = this.auditLists.find(it => it.code === '1013');
+              if(item && item.isChecked !== 1){
+                item.isChecked = 1;
+              }
+            }
+            for(let idx = this.auditLists.length - 1; idx>=0 ; idx--){
+              if(codeList.indexOf(this.auditLists[idx].code) !== -1 ){
+                this.auditLists.splice(idx,1);
+              }
+            }
+
+
 						let reasonIds = res.result.suggestions
 							.filter(v => {
 								return v.isChecked === 1

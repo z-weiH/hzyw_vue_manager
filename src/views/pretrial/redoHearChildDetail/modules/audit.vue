@@ -44,6 +44,7 @@ export default {
   },
   methods: {
     getReasonIds(list) {
+      console.error(list);
       let arr = [];
       this.auditOptsByCase.suggestions.map((v, k) => {
         list.map((v1, k1) => {
@@ -56,7 +57,9 @@ export default {
       console.log("list--", arr);
     },
     HandleOpen() {
-      this.status = 1;
+      setTimeout(() => {
+
+        this.status = 1;
       let data = this.$parent.idCardList[0];
       if(
         data.idCard.failReasonList === 0 &&
@@ -65,8 +68,20 @@ export default {
       ){
         this.status = 1;
       }else{
-        this.status = 0
+        this.status = 0;
+
+        let arr = [];
+        this.$parent.auditLists.forEach(it => {
+          if(it.isChecked === 1){
+            arr.push(it.reasonId);
+          }
+        })
+
+        console.log(arr);
+          this.getReasonIds(arr);
       }
+      },500)
+
     },
     notpassReasonView(el) {
       let _failReasonArr = this.curCardObj.idCard.failReasonList;
