@@ -112,7 +112,7 @@
 					</el-form-item>
 
           <el-form-item label="均件：" prop="averageQuantity">
-						<el-input style="width:400px;" v-model.trim="ruleForm.averageQuantity" placeholder="请输入"></el-input>
+						<el-input type="number" style="width:400px;" v-model.trim="ruleForm.averageQuantity" placeholder="请输入"></el-input>
 					</el-form-item>
 
           <el-form-item label="月放款量：" prop="lendingVolume">
@@ -120,11 +120,11 @@
 					</el-form-item>
 
           <el-form-item label="放款单数：" prop="totalCount">
-						<el-input style="width:400px;" v-model.trim="ruleForm.totalCount" placeholder="请输入"></el-input>
+						<el-input type="number" style="width:400px;" v-model.trim="ruleForm.totalCount" placeholder="请输入"></el-input>
 					</el-form-item>
 
           <el-form-item label="预计提交案件逾期天数：" prop="overdueDay">
-						<el-input style="width:400px;" v-model.trim="ruleForm.overdueDay" placeholder="请输入"></el-input>
+						<el-input type="number" style="width:400px;" v-model.trim="ruleForm.overdueDay" placeholder="请输入"></el-input>
 					</el-form-item>
 
           <el-form-item label="同比账龄逾期率：" prop="overdueRate">
@@ -226,9 +226,9 @@
           salesman : [
             {required : true , message : '请输入销售' , trigger : 'blur'},
           ],
-          operator : [
+          /* operator : [
             {required : true , message : '请输入运营' , trigger : 'blur'},
-          ],
+          ], */
           clientName : [
             {required : true , message : '请输入客户名称' , trigger : 'blur'},
           ],

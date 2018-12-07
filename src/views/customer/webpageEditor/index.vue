@@ -37,6 +37,7 @@
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item :command="2">插入判断条件</el-dropdown-item>
                   <el-dropdown-item :command="3">插入多判断条件</el-dropdown-item>
+                  <el-dropdown-item :command="22">日期判断</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
               <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
@@ -248,6 +249,8 @@
         }else if(type === 3) {
           // message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
           message = `<pre class="brush:js;toolbar:false;">&lt;#if x == 1&gt;<br>  x is 1<br>&lt;#elseif x == 2&gt;<br>  x is 2<br>&lt;#else&gt;<br>  x is not 1 nor 2<br>&lt;/#if&gt;<br></pre>`;
+        }else if(type === 22) {
+          message = `<pre class="brush:js;toolbar:false;">&lt;#if  dateCompare('2018-11-10', '2018-11-10') == 1&gt;<br>  第一结果<br>&lt;#else&gt;<br>  第二结果<br>&lt;/#if&gt;<br></pre>`;
         }else if(type === 4) {
           message = '&lt;@myPage /&gt;';
         }else if(type === 5) {
