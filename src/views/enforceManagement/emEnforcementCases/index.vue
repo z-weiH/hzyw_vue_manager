@@ -93,13 +93,13 @@
 
         <el-row class="mt-10">
           <el-col :span="24">
-            <span class="search-span">下载状态：</span>
+            <!-- <span class="search-span">下载状态：</span>
             <el-form-item label=" " prop="downloadStatus">
               <el-select clearable v-model="ruleForm.downloadStatus" placeholder="请选择" style="width:197px;">
                 <el-option label="已处理" :value="0"></el-option>
                 <el-option label="未处理" :value="1"></el-option>
               </el-select>
-            </el-form-item>
+            </el-form-item> -->
 
             <!-- <span class="search-span">配置状态：</span>
             <el-form-item label=" " prop="configurationStatus">
@@ -206,11 +206,11 @@
             {{scope.row.configurationStatus === 1 ? '未完成' : '已完成'}}
           </template>
         </el-table-column>
-        <el-table-column prop="downloadStatus" label="下载状态">
+        <!-- <el-table-column prop="downloadStatus" label="下载状态">
           <template slot-scope="scope">
             {{scope.row.downloadStatus === 1 ? '未处理' : '已处理'}}
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column label="操作" align="center" min-width="120">
           <template slot-scope="scope">
             <el-button @click="handlePreview(scope.row)" type="text">预览</el-button>
