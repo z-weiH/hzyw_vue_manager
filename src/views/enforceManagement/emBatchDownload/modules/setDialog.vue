@@ -8,17 +8,17 @@
     >
       <div class="m-conetnt">
         <div v-if="unSettingTemplateList.length > 0">强制执行申请书模板未配置</div>
-        <div class="error" v-for="(item,index) in unSettingTemplateList" :key="index">
+        <div class="error" v-for="(item,index) in unSettingTemplateList" :key="index + '0'">
            {{item}}
         </div> 
 
         <div v-if="unSettingBankCardList.length > 0">被执行人银行卡未配置</div>
-        <div class="error" v-for="(item,index) in unSettingBankCardList" :key="index">
+        <div class="error" v-for="(item,index) in unSettingBankCardList" :key="index + '1'">
            {{item}}
         </div>
 
         <div v-if="unSettingCourtNameList.length > 0">{{unSettingCourtNameList.length}}个法院材料未配置</div>
-        <div class="error" v-for="(item,index) in unSettingCourtNameList" :key="index">
+        <div class="error" v-for="(item,index) in unSettingCourtNameList" :key="index + '2'">
            {{item}}
         </div>
       </div>

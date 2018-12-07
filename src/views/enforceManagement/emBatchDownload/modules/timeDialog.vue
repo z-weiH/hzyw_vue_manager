@@ -14,7 +14,8 @@
               <el-date-picker
                 v-model="ruleForm.time"
                 type="date"
-                value-format="yyyy-MM-dd"
+                value-format="yyyy年MM月dd日"
+                format="yyyy年MM月dd日"
                 placeholder="选择日期">
               </el-date-picker>
 					</el-form-item>
@@ -63,7 +64,7 @@
 
         this.$nextTick(() => {
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
-          this.ruleForm.time = this.$moment().format('YYYY-MM-DD');
+          this.ruleForm.time = this.$moment().format('YYYY年MM月DD日');
           this.data = data;
         });
       },
