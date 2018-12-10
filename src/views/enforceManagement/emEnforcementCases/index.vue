@@ -440,6 +440,7 @@
         if(this.importQueryState) {
           exportFileForm({
             url : '/forceManager/excelExportByExportImport.htm',
+            method : 'post',
             data : {
               caseNos : this.tableData.map(v => v.caseNo).join(','),
             },
