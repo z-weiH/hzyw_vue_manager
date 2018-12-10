@@ -252,9 +252,9 @@ export default {
     },
     'searchItem.cityCode'(val,oldval){
       this.districtSearch(val);
-      // this.courtSearchByCityCode(val);
+      this.courtSearchByCityCode(val);
       this.searchItem.districtCode = '';
-      // this.searchItem.courtId = '';
+      this.searchItem.courtId = '';
     },
     'searchItem.districtCode'(val,oldval){
       this.courtSearch(val);

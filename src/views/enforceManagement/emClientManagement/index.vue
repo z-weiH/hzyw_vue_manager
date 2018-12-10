@@ -24,7 +24,7 @@
     </div>
     <div class="item-title of-hidden" style="position: relative;">
       <div style="position: absolute;top: 6px ;right: 10px;">
-          <el-button type="primary" @click="exportExcel">表格模板下载</el-button>
+          <el-button  @click="exportExcel">表格模板下载</el-button>
           <!--<el-button >导入</el-button>-->
           <el-upload
             style="display: inline-block"
@@ -34,6 +34,7 @@
             :on-success="fileUploadSuccess"
             :on-error="fileUploadError"
             :show-file-list="false"
+            accept=".xls"
             >
             <el-button >导入</el-button>
           </el-upload>

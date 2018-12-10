@@ -1054,7 +1054,15 @@ let router = new Router({
           meta: {
             name: 'emChannelManagement'
           },
+        },{
+          path: 'staffMangement',
+          component: () =>
+            import("@/views/enforceManagement/emChannelManagement/module/staffMangement.vue"), // 渠道管理-员工管理
+          meta: {
+            name: 'staffMangement'
+          },
         },
+
         {
           path: 'emClientManagement',
           component: () =>
