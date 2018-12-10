@@ -74,16 +74,6 @@
             checked : false,
           },
           {
-            label : '被执行人身份证正反面',
-            value : 'sfzzfm',
-            checked : false,
-          },
-          {
-            label : '关于被执行人财产状况说明',
-            value : 'cczksm',
-            checked : false,
-          },
-          {
             label : '借款协议',
             value : 'jkxy',
             checked : false,
@@ -91,6 +81,16 @@
           {
             label : '服务协议',
             value : 'fwxy',
+            checked : false,
+          },
+          {
+            label : '被执行人身份证正反面',
+            value : 'sfzzfm',
+            checked : false,
+          },
+          {
+            label : '关于被执行人财产状况说明',
+            value : 'cczksm',
             checked : false,
           },
           {
