@@ -1,3 +1,4 @@
+// host为 跨域请求url 前缀
 import host from '@/axios/host'
 import { Message } from 'element-ui'
 /**
@@ -18,6 +19,7 @@ let exportFile = (obj) => {
     (data[key] !== void 0) && arr.push(`${key}=${data[key]}`);
   };
   try{
+    // 增加 token
     arr.push(`token=${JSON.parse(localStorage.getItem('loginInfo')).token}`);
     iframe.src = host.target + url + '?' + arr.join('&');
     console.log(iframe.src)

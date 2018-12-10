@@ -242,6 +242,7 @@
 <script>
   import timeFrame from '@/components/timeFrame.vue'
   import exportFile from '@/assets/js/exportFile.js'
+  import exportFileForm from '@/assets/js/exportFileForm.js'
   import cityCascader from '@/components/cityCascader.vue'
   // 未配置校验 dialog
   import setDialog from '../emBatchDownload/modules/setDialog.vue'
@@ -437,15 +438,16 @@
       handleExportList() {
         // 当前是  批量导入查询
         if(this.importQueryState) {
-          exportFile({
+          exportFileForm({
             url : '/forceManager/excelExportByExportImport.htm',
             data : {
               caseNos : this.tableData.map(v => v.caseNo).join(','),
             },
           });
         }else{
-          exportFile({
+          exportFileForm({
             url : '/forceManager/excelExportByBaseQuery.htm',
+            method : 'post',
             data : {
               ...this.ruleForm,
             },
