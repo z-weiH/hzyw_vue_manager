@@ -117,13 +117,21 @@
 
       // 点击下载
       handleDownload(row) {
-        var downloadAnchorNode = document.createElement("a");
-        downloadAnchorNode.setAttribute("href", row.docsPath);
-        let idx = row.docsPath.lastIndexOf('/');
-        const filename = row.docsPath.substring(idx+1);
-        downloadAnchorNode.setAttribute("download",filename);
-        downloadAnchorNode.click();
-        downloadAnchorNode.remove();
+
+        console.log(row.docsPath.substring(row.docsPath.length - 3));
+        if(row.docsPath.substring(row.docsPath.length - 3) === 'pdf'){
+          window.open(row.docsPath, '_blank');
+        }
+        else{
+          var downloadAnchorNode = document.createElement("a");
+          downloadAnchorNode.setAttribute("href", row.docsPath);
+          let idx = row.docsPath.lastIndexOf('/');
+          const filename = row.docsPath.substring(idx+1);
+          downloadAnchorNode.setAttribute("download",filename);
+          downloadAnchorNode.click();
+          downloadAnchorNode.remove();
+        }
+
         this.$http.post("/download/addDownloadTimesById.htm",{id: row.id}).then(res => {
           console.log(res);
           row.downloadTimes +=1;
