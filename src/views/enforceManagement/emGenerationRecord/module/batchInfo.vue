@@ -121,11 +121,7 @@
                     {{scope.row.configurationStatus === 1 ? '未完成' : '已完成'}}
                   </template>
                 </el-table-column>
-                <el-table-column prop="downloadStatus" label="下载状态">
-                  <template slot-scope="scope">
-                    {{scope.row.downloadStatus === 1 ? '未处理' : '已处理'}}
-                  </template>
-                </el-table-column>
+
               </el-table>
 
           </div>
