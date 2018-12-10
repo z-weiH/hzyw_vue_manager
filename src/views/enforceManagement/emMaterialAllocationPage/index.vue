@@ -331,10 +331,11 @@
           {materialType: 2,materialNum: 0 },
           {materialType: 3,materialNum: 0 },
           {materialType: 4,materialNum: 0 },
-          {materialType: 5,materialNum: 0 },
-          {materialType: 6,materialNum: 0 },
           {materialType: 7,materialNum: 0 },
           {materialType: 8,materialNum: 0 },
+          {materialType: 5,materialNum: 0 },
+          {materialType: 6,materialNum: 0 },
+
           {materialType: 10,materialNum: 0 },
           ],
         clfsFlag: false,
@@ -367,6 +368,7 @@
     watch:{
       'swtrObj.channelType'(val,oldval){
         this.swtrObj.channelId = '';
+        this.swtrObj.mandatoryId = '';
         this.$http.post('/mandatory/queryChannelInfoByChannelId.htm',{channelType: val}).then(res => {
           this.channelIdList = res.result;
         })
@@ -375,7 +377,11 @@
         if(val){
           this.$http.post('/mandatory/queryCourtMandatoryInfo.htm',{channelId: val,pageSize: 100,currentNum: 1}).then(res => {
             this.mandatoryIdList = res.result.list;
+            if(this.swtrObj.mandatoryId){
+              this.swtrObj.mandatoryId = '';
+            }
           })
+
         }
       },
       'yhzhObj.accountName'(val,oldval){

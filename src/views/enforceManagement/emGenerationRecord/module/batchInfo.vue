@@ -22,7 +22,10 @@
         <li>
           <div class="title">{{currentItem.customerList.length}}个客户</div>
           <div class="list">
-            <span v-for="(item,idx) in currentItem.customerList" :key="idx">{{item.clientName}}</span>
+            <span v-for="(item,idx) in currentItem.customerList" :key="idx">
+              {{item.clientName}}
+             <i v-if="idx < currentItem.customerList.length -1">、</i>
+            </span>
           </div>
         </li>
         <li>
@@ -154,6 +157,7 @@ export default {
       this.$http.post("download/queryDownloadTaskDetails.htm",{batchNo: item.batchNo}).then(res => {
         this.infoFlag = true;
         this.currentItem = {...item,...res.result};
+        this.currentItem.createDocsAll = this.currentItem.createDocsAll.replace(/,/g,'、');
         this.currentItem.processTime = item.createTime
       })
     }

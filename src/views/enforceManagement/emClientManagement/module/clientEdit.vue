@@ -119,11 +119,14 @@
       },
       'item.channelType'(val,oldval){
         console.log(val,oldval)
-        if(val != oldval && !this.item.mandatoryId){
+        if(val && val != oldval && !this.item.mandatoryId){
           this.item.channelId = '';
           this.$http.post("/channel/queryChannelByList.htm",{channelType: val}).then(res => {
             this.channerList = res.result;
           })
+          // if(this.$refs.form){
+          //   this.$refs.form.resetFields();
+          // }
         }
 
       }

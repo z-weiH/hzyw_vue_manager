@@ -10,6 +10,7 @@
         <el-input style="width: 180px;" v-model="searchItem.keyWords" placeholder="强制执行案件处理批次号"></el-input>
       </el-form-item>
       <el-form-item label="操作人">
+
         <el-input style="width: 150px;" v-model="searchItem.userId" ></el-input>
       </el-form-item>
       <el-form-item label="处理时间">
@@ -191,9 +192,15 @@
         this.pager.pageSize = val;
         this.doQuery();
       },
+      getUserList(){
+        this.$http.get('/user/queryUserListByRoleIdList.htm').then(res => {
+          console.log(res);
+        })
+      }
     },
     created(){
       this.doQuery();
+      // this.getUserList();
     }
 
   }
