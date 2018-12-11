@@ -261,7 +261,7 @@ export default {
 				{
 					label: '案件编号',
 					property: 'arbCaseId',
-					width: 120,
+					width: 200,
 				},
 				{
 					label: '互金企业',
