@@ -133,6 +133,31 @@
 
     </div>
     <clientEdit ref="clientEdit" />
+
+
+    <el-dialog
+      title="提示"
+      :visible.sync="dialogVisible"
+      width="500px"
+      ref="dialog"
+    >
+      <div class="m-conetnt">
+        <div>共成功查询{{importData.successNum}}个受委托人，重复{{importData.repeatNum}}个</div>
+        <template v-if="importData.errorDataNum > 0">
+          <div>{{importData.errorDataNum}}个受委托人查询失败</div>
+          <div v-for="(item,index) in importData.nameList" :key="index" class="error">
+            {{item.channelName}}
+          </div>
+        </template>
+
+
+      </div>
+
+      <span slot="footer" class="dialog-footer">
+        <!-- <el-button @click="dialogVisible = false" type="primary">确 定</el-button> -->
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 
@@ -147,6 +172,8 @@
   },
   data() {
     return {
+      dialogVisible: false,
+      importData: {},
       token : JSON.parse(localStorage.getItem('loginInfo')).token,
       uploadUrl: host.target + '/mandatory/importExcelMandatory.htm'+'?token='+JSON.parse(localStorage.getItem('loginInfo')).token,
       searchItem: {},
@@ -202,6 +229,8 @@
     fileUploadSuccess(response, file, fileList){
       console.log(response);
       if(response.code === '0000'){
+        this.importData = response.result;
+        this.dialogVisible = true;
         this.$message.success('导入成功');
         this.pager.currentNum = 1;
         this.doQuery();
@@ -220,6 +249,14 @@
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  .error{
+    color: red;
+    padding-left: 15px;
+  }
+  .m-conetnt{
+  >div{
+    margin-bottom: 10px;
+  }
+  }
 </style>
