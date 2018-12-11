@@ -177,15 +177,15 @@
           platName : [
             {required : true , message : '请输入借款平台' , trigger : 'blur'},
           ],
-          extraPhones : [
+          /* extraPhones : [
             {required : true , message : '请输入协商电话' , trigger : 'blur'},
-          ],
+          ], */
           productIp : [
             {required : true , message : '请输入IP白名单' , trigger : 'blur'},
           ],
-          productUrl : [
+          /* productUrl : [
             {required : true , message : '请输入接口地址' , trigger : 'blur'},
-          ],
+          ], */
         },
 
         // 业务类型 options
