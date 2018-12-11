@@ -11,7 +11,9 @@
       </el-form-item>
       <el-form-item label="操作人">
 
-        <el-input style="width: 150px;" v-model="searchItem.userId" ></el-input>
+        <el-select filterable clearable v-model="searchItem.userId" placeholder="请选择">
+            <el-option  v-for="(item,index) in userOptions" :key="index" :label="item.userName" :value="item.userId"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="处理时间">
         <el-date-picker
@@ -139,6 +141,7 @@
     },
     data() {
       return {
+        userOptions: [],
         searchItem: {},
         tableData: [],
         pickerOptions1: {
@@ -195,12 +198,13 @@
       getUserList(){
         this.$http.get('/user/queryUserListByRoleIdList.htm').then(res => {
           console.log(res);
+          this.userOptions = res.result;
         })
       }
     },
     created(){
       this.doQuery();
-      // this.getUserList();
+      this.getUserList();
     }
 
   }
