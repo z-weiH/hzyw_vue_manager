@@ -278,7 +278,11 @@
       },
       // 文件上传成功
       uploadSuccess(res, file, fileList) {
-        this.handleSearch();
+        if(res.code === '0000') {
+          this.handleSearch();
+        }else{
+          this.$message.error(res.description);
+        }
       },
       // 文件上传失败
       uploadError() {
