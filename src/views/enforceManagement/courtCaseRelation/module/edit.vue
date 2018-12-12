@@ -117,7 +117,16 @@ export default {
     save(){
       this.$refs.form.validate((valid) => {
         if(valid){
-          this.$http.post("/court/updateCaseRelativeCourtInfo.htm",{caseId: this.form.caseId,courtId: this.form.courtId, respondents: this.form.respondents}).then(res => {
+          console.log(this.form)
+          this.$http.post("/court/updateCaseRelativeCourtInfo.htm",{
+            partyId: this.form.partyId,
+            caseId: this.form.caseId,
+            province: this.currentCourt.province,
+            city: this.currentCourt.city,
+            area: this.currentCourt.district,
+            courtId: this.form.courtId,
+            courtName: this.currentCourt.courtName
+          }).then(res => {
             this.$message.success("关联法院修改成功");
             // this.$parent.doQuery();
 
