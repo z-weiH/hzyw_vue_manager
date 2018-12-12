@@ -11,28 +11,28 @@
             </el-form-item>
             <el-form-item label="所在地区">
               <!--<el-input style="width: 320px;" v-model="searchItem.user" placeholder="案号、申请人、被申请人、手机号、法院名称"></el-input>-->
-              <el-select style="width: 100px;"  clearable v-model="searchItem.province" placeholder="省">
+              <el-select style="width: 100px;"  clearable v-model="searchItem.provinceCode" placeholder="省">
                 <el-option
                   v-for="item in provinceOptions"
                   :key="item.provinceCode"
                   :label="item.province"
-                  :value="item.province">
+                  :value="item.provinceCode">
                 </el-option>
               </el-select>
-              <el-select style="width: 100px;" clearable v-model="searchItem.city" placeholder="市">
+              <el-select style="width: 100px;" clearable v-model="searchItem.cityCode" placeholder="市">
                 <el-option
                   v-for="item in cityOptions"
                   :key="item.cityCode"
                   :label="item.city"
-                  :value="item.city">
+                  :value="item.cityCode">
                 </el-option>
               </el-select>
-              <el-select style="width: 100px;" clearable v-model="searchItem.district" placeholder="区">
+              <el-select style="width: 100px;" clearable v-model="searchItem.districtCode" placeholder="区">
                 <el-option
                   v-for="item in districtOptions"
                   :key="item.districtCode"
                   :label="item.district"
-                  :value="item.district">
+                  :value="item.districtCode">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -125,7 +125,7 @@
           </el-table-column>
           <el-table-column
             prop="closeTime"
-            label="裁决时间"
+            label="提交时间"
           >
             <template slot-scope="scope">
               <span v-ellipsis.20>{{scope.row.closeTime}}</span>
@@ -246,17 +246,23 @@ export default {
   },
   watch:{
     'searchItem.provinceCode'(val,oldval){
+      this.searchItem.province = this.provinceOptions.find(it => it.provinceCode === val).province;
       this.citySearch(val);
       this.searchItem.cityCode = '';
+      this.searchItem.city = '';
 
     },
     'searchItem.cityCode'(val,oldval){
+      this.searchItem.city = this.cityOptions.find(it => it.cityCode === val).city;
       this.districtSearch(val);
       this.courtSearchByCityCode(val);
       this.searchItem.districtCode = '';
+      this.searchItem.district = '';
+
       this.searchItem.courtId = '';
     },
     'searchItem.districtCode'(val,oldval){
+      this.searchItem.district = this.districtOptions.find(it => it.districtCode === val).district;
       this.courtSearch(val);
       this.searchItem.courtId = '';
     }
@@ -312,7 +318,16 @@ export default {
       this.doQuery();
     },
     doQuery(){
-      this.$http.post("/court/caseList.htm",{...this.searchItem,...this.pager}).then(res => {
+      let obj = {
+        keyWords: this.searchItem.keyWords,
+        province: this.searchItem.province,
+        city: this.searchItem.city,
+        district: this.searchItem.district,
+        courtId:this.searchItem.courtId,
+        closeTimeBegin: this.searchItem.closeTimeBegin,
+        closeTimeEnd: this.searchItem.closeTimeEnd
+      }
+      this.$http.post("/court/caseList.htm",{...obj,...this.pager}).then(res => {
         this.searchItemTemp = {...this.searchItem};
         this.tableData = res.result.list;
         this.pager.total = res.result.count;
