@@ -173,12 +173,12 @@
                     delete obj.password;
                 }
                 if(obj.userId){
-                  this.$http.post("/web/employee/mod.htm",{...obj,token: '2EC20E4ECDF6CB233F12C5E7307E9539'}).then(res => {
+                  this.$http.post("http://arbmobiletest.arbexpress.cn/web/employee/mod.htm",{...obj,token: '2EC20E4ECDF6CB233F12C5E7307E9539'}).then(res => {
                     this.flag = false;
                     this.doQuery();
                   })
                 }else{
-                  this.$http.post("/web/employee/add.htm", {agencyId: this.$route.query.channelId, ...obj,token: '2EC20E4ECDF6CB233F12C5E7307E9539'}).then(res => {
+                  this.$http.post("http://arbmobiletest.arbexpress.cn/web/employee/add.htm", {agencyId: this.$route.query.channelId, ...obj,token: '2EC20E4ECDF6CB233F12C5E7307E9539'}).then(res => {
                     this.flag = false;
                     this.doQuery();
                   })
@@ -195,7 +195,7 @@
 
           HandleChange(val,row){
             console.log(val, row);
-            this.$http.post('/web/employee/del.htm',{isDeleted: 1 - (+val),token: '2EC20E4ECDF6CB233F12C5E7307E9539', userId: row.userId }).then(res => {
+            this.$http.post('http://arbmobiletest.arbexpress.cn/web/employee/del.htm',{isDeleted: 1 - (+val),token: '2EC20E4ECDF6CB233F12C5E7307E9539', userId: row.userId }).then(res => {
 
             }).catch( () => {
               row.isDeleted = !val;
@@ -225,7 +225,7 @@
           },
 
           doQuery(){
-            this.$http.get('/web/employee/list.htm',{params: {agencyId: this.$route.query.channelId, ...this.pager,...this.searchItem, token: '2EC20E4ECDF6CB233F12C5E7307E9539'}}).then(res => {
+            this.$http.get('http://arbmobiletest.arbexpress.cn/web/employee/list.htm',{params: {agencyId: this.$route.query.channelId, ...this.pager,...this.searchItem, token: '2EC20E4ECDF6CB233F12C5E7307E9539'}}).then(res => {
               this.tableData = res.result.list;
               this.pager.count = res.result.count;
               res.result.list.forEach(it => {

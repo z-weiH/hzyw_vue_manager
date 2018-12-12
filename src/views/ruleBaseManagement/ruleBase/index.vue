@@ -419,6 +419,7 @@
       exeOver(item){
         this.executing = false;
         this.exeResult = item;
+        this.$refs.executeResult.show(this.exeResult.exeId,true);
       },
 
 

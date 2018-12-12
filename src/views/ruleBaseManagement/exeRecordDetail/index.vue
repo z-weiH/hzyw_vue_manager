@@ -77,13 +77,16 @@
             <template slot-scope="scope">
               <div style="text-align: center;">
               <span>
-               <img class="mr-10" v-if="scope.row.exeStatus === 0"  src="@/assets/img/error_tag_01.png" alt="">
-              <img class="mr-5" v-if="scope.row.exeStatus === 1" src="@/assets/img/success_tag.png" alt="">
-              <img class="mr-5" v-if="scope.row.exeStatus === 2" src="@/assets/img/warning_tag_01.png" alt="">
+              <img class="mr-10" v-if="scope.row.exeStatus === 0"  src="@/assets/img/warning_tag.png" alt="">
+                <img class="mr-5" v-if="scope.row.exeStatus === 1" src="@/assets/img/success_tag.png" alt="">
+                <img class="mr-5" v-if="scope.row.exeStatus === 2" src="@/assets/img/error_tag.png" alt="">
                 <b v-if="scope.row.exeStatus === 2">检出错误</b>
                 <b v-if="scope.row.exeStatus === 0">执行错误</b>
-                <b v-if="scope.row.exeStatus === 1">未检出错误</b>
+                <b v-if="scope.row.exeStatus === 1">过检</b>
               </span>
+
+
+
               </div>
             </template>
           </el-table-column>

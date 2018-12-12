@@ -2,12 +2,13 @@
   <el-dialog :visible.sync="show" :title="'审核意见'" @open="HandleOpen" width="560px" center @close="closeFoo">
     <el-form>
       <el-form-item label="审核结果" label-width="100px" label-position="left">
-        <el-select v-model="status">
+        <el-select style="width: 300px;" v-model="status">
           <el-option label="通过" :value="1"></el-option>
           <el-option label="未通过" :value="0"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item class="audit" label="原因(多选)" prop="type" label-width="100px" v-if="status === 0">
+        <el-input style="width: 300px;" v-model="filterValue" placeholder="请输入关键字搜索审核意见"></el-input>
         <el-checkbox-group @change="getReasonIds" v-model="reasonIds">
           <template v-for="(opt,index) in list2">
             <el-checkbox v-if="opt.mText !== void 0" :key="index + '' + opt.id" class="tit-label" :label="`${(
@@ -39,9 +40,11 @@ export default {
       list2: [],
       status: 0,
       reasonIds: [],
-      arrReasonIds: []
+      arrReasonIds: [],
+      filterValue:''
     };
   },
+
   methods: {
     getReasonIds(list) {
       console.error(list);
@@ -174,6 +177,31 @@ export default {
     }
   },
   watch: {
+    'filterValue'(val,oldval){
+      if(val){
+        let list = this.$parent.auditLists;
+        let arr1 = list.filter(v => v.reasonType === 0 && v.reasonMsg.indexOf(val) !== -1);
+        let arr2 = list.filter(v => v.reasonType === 1 && v.reasonMsg.indexOf(val) !== -1);
+        let arr3 = list.filter(v => v.reasonType === 2 && v.reasonMsg.indexOf(val) !== -1);
+        arr1[0] && (arr1[0].mText = arr1[0].reasonType);
+        arr2[0] && (arr2[0].mText = arr2[0].reasonType);
+        arr3[0] && (arr3[0].mText = arr3[0].reasonType);
+        list = [].concat(arr1, arr2, arr3);
+        this.list2 = list;
+      }else{
+        let list = this.$parent.auditLists;
+        let arr1 = list.filter(v => v.reasonType === 0);
+        let arr2 = list.filter(v => v.reasonType === 1);
+        let arr3 = list.filter(v => v.reasonType === 2);
+        arr1[0] && (arr1[0].mText = arr1[0].reasonType);
+        arr2[0] && (arr2[0].mText = arr2[0].reasonType);
+        arr3[0] && (arr3[0].mText = arr3[0].reasonType);
+        list = [].concat(arr1, arr2, arr3);
+        this.list2 = list;
+      }
+    },
+
+
     ["$parent.auditLists"]() {
       let list = this.$parent.auditLists;
       let arr1 = list.filter(v => v.reasonType === 0);

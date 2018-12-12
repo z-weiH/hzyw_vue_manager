@@ -16,7 +16,7 @@
                   v-for="item in provinceOptions"
                   :key="item.provinceCode"
                   :label="item.province"
-                  :value="item.provinceCode">
+                  :value="item.province">
                 </el-option>
               </el-select>
               <el-select style="width: 100px;" clearable v-model="searchItem.cityCode" placeholder="市">
@@ -24,7 +24,7 @@
                   v-for="item in cityOptions"
                   :key="item.cityCode"
                   :label="item.city"
-                  :value="item.cityCode">
+                  :value="item.city">
                 </el-option>
               </el-select>
               <el-select style="width: 100px;" clearable v-model="searchItem.districtCode" placeholder="区">
@@ -32,7 +32,7 @@
                   v-for="item in districtOptions"
                   :key="item.districtCode"
                   :label="item.district"
-                  :value="item.districtCode">
+                  :value="item.district">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -47,7 +47,7 @@
             </el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="裁决时间">
+        <el-form-item label="提交时间">
           <el-date-picker
             v-model="searchItem.closeTimeBegin"
             type="date"

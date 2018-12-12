@@ -9,12 +9,13 @@
     center>
     <el-form>
       <el-form-item label="审核结果" label-width="100px" label-position="left">
-        <el-select v-model="status" >
+        <el-select style="width: 300px;" v-model="status" >
           <el-option label="通过" :value="1"></el-option>
           <el-option label="未通过" :value="0"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item class="audit" label="原因(多选)" prop="type" label-width="100px" v-if="status === 0">
+        <el-input style="width: 300px;" v-model="filterValue" placeholder="请输入关键字搜索审核意见"></el-input>
         <el-checkbox-group v-model="reasonIds">
           <el-checkbox  v-for="(opt,index) in list" :key="index" :label="opt.reasonMsg" name="type"></el-checkbox>
           <!--<el-checkbox label="地推活动" name="type"></el-checkbox>-->
@@ -37,7 +38,8 @@ export default {
     return {
       status: 0,
       reasonIds: [],
-      list: []
+      list: [],
+      filterValue: ''
     }
   },
   props: {
@@ -45,12 +47,23 @@ export default {
     type: Number,
     selValue: null
   },
+  watch:{
+    'filterValue'(val,oldVal){
+      if(val){
+        this.list = this.list.filter(it=> it.reasonMsg.indexOf(val)!== -1);
+      }else{
+        this.list = this.clone(this.listClone);
+      }
+    }
+  },
   methods: {
     //提交
     HandleAuditConfirm() {
       // console.log(this.reasonIds)
 
-      let auditList = this.list.filter(it => this.reasonIds.indexOf(it.reasonMsg) !== -1);
+
+
+      let auditList = this.listClone.filter(it => this.reasonIds.indexOf(it.reasonMsg) !== -1);
       if(this.status === 0 && auditList.length === 0){
         return this.$message.error('请选择不通过原因');
       }
@@ -125,8 +138,17 @@ export default {
         })
     },
 
+    clone(arr){
+      let newArr = [];
+      arr.forEach(it => {
+        newArr.push({...it});
+      })
+      return newArr;
+    },
     HandleOpen() {
+      this.filterValue = '';
       this.list = this.$parent.auditLists;
+      this.listClone = this.clone(this.list);
       this.reasonIds = [];
       this.list.forEach(it => {
         if(it.reasonType === 1){
