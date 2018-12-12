@@ -11,7 +11,7 @@
             </el-form-item>
             <el-form-item label="所在地区">
               <!--<el-input style="width: 320px;" v-model="searchItem.user" placeholder="案号、申请人、被申请人、手机号、法院名称"></el-input>-->
-              <el-select style="width: 100px;"  clearable v-model="searchItem.provinceCode" placeholder="省">
+              <el-select style="width: 100px;"  clearable v-model="searchItem.province" placeholder="省">
                 <el-option
                   v-for="item in provinceOptions"
                   :key="item.provinceCode"
@@ -19,7 +19,7 @@
                   :value="item.province">
                 </el-option>
               </el-select>
-              <el-select style="width: 100px;" clearable v-model="searchItem.cityCode" placeholder="市">
+              <el-select style="width: 100px;" clearable v-model="searchItem.city" placeholder="市">
                 <el-option
                   v-for="item in cityOptions"
                   :key="item.cityCode"
@@ -27,7 +27,7 @@
                   :value="item.city">
                 </el-option>
               </el-select>
-              <el-select style="width: 100px;" clearable v-model="searchItem.districtCode" placeholder="区">
+              <el-select style="width: 100px;" clearable v-model="searchItem.district" placeholder="区">
                 <el-option
                   v-for="item in districtOptions"
                   :key="item.districtCode"
