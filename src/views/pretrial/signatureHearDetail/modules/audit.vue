@@ -22,6 +22,7 @@
           <!--<el-checkbox label="线下主题活动" name="type"></el-checkbox>-->
           <!--<el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>-->
         </el-checkbox-group>
+        <p v-if="list.length === 0" style="text-align: center;width: 300px;padding: 10px;">未找到匹配的审核意见</p>
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">

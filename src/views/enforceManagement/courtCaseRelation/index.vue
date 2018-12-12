@@ -92,9 +92,10 @@
           <el-table-column
             prop="caseNo"
             label="案号"
+            width="280"
           >
             <template slot-scope="scope">
-              <span v-ellipsis.20>{{scope.row.caseNo}}</span>
+              {{scope.row.caseNo}}
             </template>
           </el-table-column>
           <el-table-column
@@ -102,7 +103,7 @@
             label="申请人姓名"
           >
             <template slot-scope="scope">
-              <span v-ellipsis.20>{{scope.row.applicants}}</span>
+              {{scope.row.applicants}}
             </template>
           </el-table-column>
           <el-table-column
@@ -111,16 +112,16 @@
             width="120"
           >
             <template slot-scope="scope">
-              <span v-ellipsis.20>{{scope.row.respondents}}</span>
+              {{scope.row.respondents}}
             </template>
           </el-table-column>
           <el-table-column
             prop="address"
             label="被申请人地址"
-            width="120"
+            width="200"
           >
             <template slot-scope="scope">
-              <span v-ellipsis.20>{{scope.row.address}}</span>
+              {{scope.row.address}}
             </template>
           </el-table-column>
           <el-table-column
@@ -128,7 +129,7 @@
             label="提交时间"
           >
             <template slot-scope="scope">
-              <span v-ellipsis.20>{{scope.row.closeTime}}</span>
+             {{scope.row.closeTime}}
             </template>
           </el-table-column>
           <el-table-column
@@ -136,7 +137,7 @@
             label="省"
           >
             <template slot-scope="scope">
-              <span v-ellipsis.20>{{scope.row.province}}</span>
+              {{scope.row.province}}
             </template>
           </el-table-column>
           <el-table-column
@@ -144,7 +145,7 @@
             label="市"
           >
             <template slot-scope="scope">
-              <span v-ellipsis.20>{{scope.row.city}}</span>
+             {{scope.row.city}}
             </template>
           </el-table-column>
           <el-table-column
@@ -152,17 +153,25 @@
             label="区"
           >
             <template slot-scope="scope">
-              <span v-ellipsis.20>{{scope.row.district}}</span>
+             {{scope.row.district}}
             </template>
           </el-table-column>
           <el-table-column
             prop="courtName"
-            label="法院"
+            label="中级法院"
           >
             <template slot-scope="scope">
-              <span v-ellipsis.20>{{scope.row.courtName}}</span>
+             {{scope.row.courtName}}
             </template>
           </el-table-column>
+          <!--<el-table-column-->
+            <!--prop="courtName"-->
+            <!--label="基层法院"-->
+          <!--&gt;-->
+            <!--<template slot-scope="scope">-->
+             <!--{{scope.row.courtName}}-->
+            <!--</template>-->
+          <!--</el-table-column>-->
           <el-table-column
             label="操作"
             header-align="center">
