@@ -244,6 +244,7 @@
         flag1: false,
         flag2: false,
         flag3: false,
+        openResult: true,
         form: {caseStatus: '',keyWords:''},
         //下拉框图标
         iconName: 'el-icon-arrow-down',
@@ -335,6 +336,7 @@
           currentNum: 1,
           count: 1
       };
+      this.openResult = true;
       this.canstep1=false;
         this.allruleList= [];
         this.ruleIdList= [];
@@ -505,6 +507,7 @@
 
     step3(){
       document.getElementsByClassName('move-top-left')[0].className += ' active';
+      this.openResult = false;
       setTimeout(() => {
         $('.move-top-left').removeClass('active');
         this.flag3 = false;
@@ -536,7 +539,8 @@
                 },2000);
               }
               else{
-               this.$emit("progressDown",{exeId: item.exeId,overTime: new Date()});
+
+               this.$emit("progressDown",{exeId: item.exeId,overTime: new Date(),openResult: this.openResult});
                this.flag3 = false;
               }
             }
