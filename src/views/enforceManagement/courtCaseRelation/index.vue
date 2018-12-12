@@ -246,14 +246,22 @@ export default {
   },
   watch:{
     'searchItem.provinceCode'(val,oldval){
-      this.searchItem.province = this.provinceOptions.find(it => it.provinceCode === val).province;
+      if(val){
+        this.searchItem.province = this.provinceOptions.find(it => it.provinceCode === val).province;
+      }else{
+        this.searchItem.province = '';
+      }
       this.citySearch(val);
       this.searchItem.cityCode = '';
       this.searchItem.city = '';
 
     },
     'searchItem.cityCode'(val,oldval){
-      this.searchItem.city = this.cityOptions.find(it => it.cityCode === val).city;
+      if(val){
+        this.searchItem.city = this.cityOptions.find(it => it.cityCode === val).city;
+      }else{
+        this.searchItem.city = '';
+      }
       this.districtSearch(val);
       this.courtSearchByCityCode(val);
       this.searchItem.districtCode = '';
@@ -262,7 +270,11 @@ export default {
       this.searchItem.courtId = '';
     },
     'searchItem.districtCode'(val,oldval){
-      this.searchItem.district = this.districtOptions.find(it => it.districtCode === val).district;
+      if(val){
+        this.searchItem.district = this.districtOptions.find(it => it.districtCode === val).district;
+      }else{
+        this.searchItem.district = '';
+      }
       this.courtSearch(val);
       this.searchItem.courtId = '';
     }
