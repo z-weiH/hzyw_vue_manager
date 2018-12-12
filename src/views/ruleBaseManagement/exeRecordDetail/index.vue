@@ -84,9 +84,6 @@
                 <b v-if="scope.row.exeStatus === 0">执行错误</b>
                 <b v-if="scope.row.exeStatus === 1">过检</b>
               </span>
-
-
-
               </div>
             </template>
           </el-table-column>
