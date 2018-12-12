@@ -127,7 +127,7 @@
 						<el-input type="number" style="width:400px;" v-model.trim="ruleForm.overdueDay" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="同比账龄逾期率：" prop="overdueRate">
+          <el-form-item label="月新增逾期件数：" prop="overdueRate">
 						<el-input style="width:400px;" v-model.trim="ruleForm.overdueRate" placeholder="请输入"></el-input>
 					</el-form-item>
 
@@ -139,7 +139,7 @@
 						<el-input style="width:400px;" v-model.trim="ruleForm.provinceOrder" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="客户预期：" prop="customerExpect">
+          <el-form-item label="月新增逾期总标的（万元）：" prop="customerExpect">
 						<el-input style="width:400px;" v-model.trim="ruleForm.customerExpect" placeholder="请输入"></el-input>
 					</el-form-item>
 
@@ -211,13 +211,13 @@
           totalCount : '',
           // 预计提交案件逾期天数
           overdueDay : '',
-          // 同比账龄逾期率
+          // 月新增逾期件数
           overdueRate : '',
           // 存量多少
           stockCount : '',
           // 放款量前10的省份
           provinceOrder : '',
-          // 客户预期
+          // 月新增逾期总标的（万元）
           customerExpect : '',
           // 客户是否可以债转 1-可债转,0-不可债转
           debtTransfer : '',
