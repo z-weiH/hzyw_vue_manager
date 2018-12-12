@@ -60,6 +60,7 @@ export default {
       console.log("list--", arr);
     },
     HandleOpen() {
+      this.filterValue = '';
       setTimeout(() => {
 
         this.status = 1;
