@@ -26,6 +26,7 @@
           </el-option>
         </el-select>
       </el-form-item>
+
       <el-form-item label="所在地区" prop="localtionLabel">
         <el-input v-model="form.localtionLabel" disabled></el-input>
       </el-form-item>
@@ -38,111 +39,125 @@
 </template>
 
 <script>
-  export default {
-    name: 'edit',
-    data() {
-      return {
-        row:{},
-        currentCourt: {},
-        show: false,
-        form: {
+export default {
+  name: 'edit',
+  data() {
+    return {
+      row:{},
+      currentCourt: {},
+      show: false,
+      form: {
+        localtionLabel: '',
+        caseNo: '',
+        courtId: '',
+      },
+      courtlist: [],
+      rules: {
+        courtId: [
+          { required: true, message: '请选择要关联的法院', trigger: 'blur' },
+        ]},
+      loading: false
+
+    }
+  },
+  watch:{
+    'form.courtId'(val,oldval){
+      this.getlocaltionLabel();
+      if(val){
+        this.$http.post('/court/queryCourtInfosByBasicQuery.htm',{parentId: val}).then(res => {
+
+        })
+      }
+    },
+    'show'(val,oldval){
+      if(!val){
+        this.$refs.form.resetFields();
+        this.form = {
           localtionLabel: '',
           caseNo: '',
-          courtId: '',
-        },
-        courtlist: [],
-        rules: {
-          courtId: [
-            { required: true, message: '请选择要关联的法院', trigger: 'blur' },
-          ]},
-        loading: false
-
-      }
-    },
-    watch:{
-      'form.courtId'(val,oldval){
-        this.getlocaltionLabel();
-      },
-      'show'(val,oldval){
-        if(!val){
-          this.$refs.form.resetFields();
-          this.form = {
-            localtionLabel: '',
-            caseNo: '',
-            courtId: ''
-          }
+          courtId: ''
         }
       }
-    },
-    methods:{
-
-      remoteMethod(keyWords,init){
-        console.log(keyWords)
-        if(keyWords){
-          this.loading = true;
-          this.$http.post('/court/queryCourtInfosByBasicQuery.htm',{keyWords: keyWords}).then(res => {
-            this.courtlist = res.result;
-            this.$nextTick(() => {
-              this.loading = false;
-              if(init){
-                this.form = {...this.row};
-                this.show = true;
-              }
-            })
-          })
-        }else{
-          this.loading = false;
-          if(init){
-            this.courtlist = [];
-            this.form = {...this.row};
-            this.show = true;
-          }
-        }
-
-      },
-
-      init(row){
-        this.row = row;
-
-        this.remoteMethod(row.courtName,true);
-
-      },
-
-      getlocaltionLabel(){
-        this.currentCourt = this.courtlist.find(it => it.courtId === this.form.courtId);
-        if(this.currentCourt){
-          this.form.localtionLabel = this.currentCourt.province + '-' + this.currentCourt.city + '-' + this.currentCourt.district;
-        }
-      },
-      save(){
-        this.$refs.form.validate((valid) => {
-          if(valid){
-            this.$http.post("/court/updateCaseRelativeCourtInfo.htm",{caseId: this.form.caseId,courtId: this.form.courtId, respondents: this.form.respondents}).then(res => {
-              this.$message.success("关联法院修改成功");
-              // this.$parent.doQuery();
-
-              //刷新表格中的记录项
-              Object.assign(this.row,{courtId: this.form.courtId,province: this.currentCourt.province, city: this.currentCourt.city, district: this.currentCourt.district,courtName: this.currentCourt.courtName});
-              let idx = this.$parent.tableData.findIndex(it => it.courtId === this.row.courtId);
-              if(idx !== -1){
-                this.$parent.tableData.splice(idx,1,this.row);
-
-              }
-              console.log(this.row);
-              this.show = false;
-            })
-          }
-        })
-
-      }
-    },
-    created(){
-      // this.$http.post("/court/queryCourtlist.htm").then(res => {
-      //   console.log(res);
-      //   this.courtlist = res.result.list;
-      // })
     }
+  },
+  methods:{
+
+    remoteMethod(keyWords,init){
+      console.log(keyWords)
+      if(keyWords){
+        this.loading = true;
+        this.$http.post('/court/queryCourtInfosByBasicQuery.htm',{keyWords: keyWords,courtType: 2}).then(res => {
+          this.courtlist = res.result;
+          this.$nextTick(() => {
+            this.loading = false;
+            if(init){
+              this.form = {...this.row};
+              this.show = true;
+            }
+          })
+        })
+      }else{
+        this.loading = false;
+        if(init){
+          this.courtlist = [];
+          this.form = {...this.row};
+          this.show = true;
+        }
+      }
+
+    },
+
+    init(row){
+      this.row = row;
+
+      this.remoteMethod(row.courtName,true);
+
+    },
+
+    getlocaltionLabel(){
+      this.currentCourt = this.courtlist.find(it => it.courtId === this.form.courtId);
+      if(this.currentCourt){
+        this.form.localtionLabel = this.currentCourt.province + '-' + this.currentCourt.city + '-' + this.currentCourt.district;
+      }
+    },
+    save(){
+      this.$refs.form.validate((valid) => {
+        if(valid){
+          console.log(this.form)
+          this.$http.post("/court/updateCaseRelativeCourtInfo.htm",{
+            partyId: this.form.partyId,
+            caseId: this.form.caseId,
+            province: this.currentCourt.province,
+            city: this.currentCourt.city,
+            area: this.currentCourt.district,
+            courtId: this.form.courtId,
+            courtName: this.currentCourt.courtName
+          }).then(res => {
+            this.$message.success("关联法院修改成功");
+            // this.$parent.doQuery();
+
+            //刷新表格中的记录项
+            Object.assign(this.row,{courtId: this.form.courtId,province: this.currentCourt.province, city: this.currentCourt.city, district: this.currentCourt.district,courtName: this.currentCourt.courtName});
+            let idx = this.$parent.tableData.findIndex(it => it.courtId === this.row.courtId);
+            if(idx !== -1){
+              this.$parent.tableData.splice(idx,1,this.row);
+
+            }
+            console.log(this.row);
+            this.show = false;
+          })
+        }
+      })
+
+    }
+  },
+  created(){
+    // this.$http.post("/court/queryCourtlist.htm").then(res => {
+    //   console.log(res);
+    //   this.courtlist = res.result.list;
+    // })
   }
+}
 </script>
 
 <style scoped>

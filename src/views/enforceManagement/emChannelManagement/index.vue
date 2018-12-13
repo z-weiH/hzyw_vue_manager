@@ -73,14 +73,14 @@
             {{scope.row.channelAddress}}
           </template>
         </el-table-column>
-        <!--<el-table-column-->
-          <!--prop="courtSettingStatus"-->
-          <!--label="员工管理"-->
-          <!--width="156">-->
-          <!--<template slot-scope="scope">-->
-            <!--<el-button type="text" @click="handleManageClick(scope.row)" size="small">管理</el-button>-->
-          <!--</template>-->
-        <!--</el-table-column>-->
+        <el-table-column
+          prop="courtSettingStatus"
+          label="员工管理"
+          width="156">
+          <template slot-scope="scope">
+            <el-button type="text" @click="handleManageClick(scope.row)" size="small">管理</el-button>
+          </template>
+        </el-table-column>
         <el-table-column
           prop="courtSettingStatus"
           label="操作"

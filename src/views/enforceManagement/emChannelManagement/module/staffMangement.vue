@@ -123,6 +123,7 @@
 </template>
 
 <script>
+    import host from '../../../../axios/distribute_host'
     export default {
         name: 'staffMangement',
         data(){
@@ -173,12 +174,12 @@
                     delete obj.password;
                 }
                 if(obj.userId){
-                  this.$http.post("http://arbmobiletest.arbexpress.cn/web/employee/mod.htm",{...obj,token: '2EC20E4ECDF6CB233F12C5E7307E9539'}).then(res => {
+                  this.$http.post(host.target+'/web/employee/mod.htm',{...obj},{notoken: true}).then(res => {
                     this.flag = false;
                     this.doQuery();
                   })
                 }else{
-                  this.$http.post("http://arbmobiletest.arbexpress.cn/web/employee/add.htm", {agencyId: this.$route.query.channelId, ...obj,token: '2EC20E4ECDF6CB233F12C5E7307E9539'}).then(res => {
+                  this.$http.post(host.target+'/web/employee/add.htm', {agencyId: this.$route.query.channelId, ...obj},{notoken: true}).then(res => {
                     this.flag = false;
                     this.doQuery();
                   })
@@ -195,7 +196,7 @@
 
           HandleChange(val,row){
             console.log(val, row);
-            this.$http.post('http://arbmobiletest.arbexpress.cn/web/employee/del.htm',{isDeleted: 1 - (+val),token: '2EC20E4ECDF6CB233F12C5E7307E9539', userId: row.userId }).then(res => {
+            this.$http.post(host.target+'/web/employee/del.htm',{isDeleted: 1 - (+val), userId: row.userId },{notoken: true}).then(res => {
 
             }).catch( () => {
               row.isDeleted = !val;
@@ -225,7 +226,7 @@
           },
 
           doQuery(){
-            this.$http.get('http://arbmobiletest.arbexpress.cn/web/employee/list.htm',{params: {agencyId: this.$route.query.channelId, ...this.pager,...this.searchItem, token: '2EC20E4ECDF6CB233F12C5E7307E9539'}}).then(res => {
+            this.$http.get(host.target+'/web/employee/list.htm',{params: {agencyId: this.$route.query.channelId, ...this.pager,...this.searchItem},notoken: true}).then(res => {
               this.tableData = res.result.list;
               this.pager.count = res.result.count;
               res.result.list.forEach(it => {
@@ -235,6 +236,7 @@
           },
         },
         created(){
+          console.log(host);
           this.HandleQuery();
         }
     }
