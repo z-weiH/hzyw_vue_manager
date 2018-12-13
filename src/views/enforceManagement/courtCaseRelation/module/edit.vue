@@ -166,7 +166,13 @@ export default {
       this.$refs.form.validate((valid) => {
         if(valid){
           console.log(this.form)
-          let basicCourtName = this.basicCourtlist.find(it => it.courtId === this.form.basicCourtId).courtName;
+          let basicCourtName;
+          if(this.form.basicCourtId){
+            let item = this.basicCourtlist.find(it => it.courtId === this.form.basicCourtId);
+            if(item){
+              basicCourtName= item.courtName;
+            }
+          }
           this.$http.post("/court/updateCaseRelativeCourtInfo.htm",{
             partyId: this.form.partyId,
             caseId: this.form.caseId,
