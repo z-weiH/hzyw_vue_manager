@@ -151,7 +151,7 @@
 
           <el-table-column
             prop="courtName"
-            label="法院"
+            label="中级法院"
           >
             <template slot-scope="scope">
              {{scope.row.courtName}}
@@ -162,7 +162,7 @@
             label="基层法院"
           >
             <template slot-scope="scope">
-             {{scope.row.courtName}}
+             {{scope.row.basicCourtName}}
             </template>
           </el-table-column>
           <el-table-column

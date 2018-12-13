@@ -81,6 +81,13 @@
 
             </timeFrame>
           </el-form-item>
+          <el-form-item label="是否还款" prop="isRepayment">
+            <el-radio-group v-model="ruleForm.isRepayment" >
+              <el-radio :label="1">是</el-radio>
+              <el-radio :label="0">否</el-radio>
+              <el-radio :label="''">不限</el-radio>
+            </el-radio-group>
+          </el-form-item>
 
           <div class="mb-5">
             <span class="icon-sign">筛选结果</span>
@@ -158,10 +165,11 @@
           // 账龄
           accountPeriodType : '',
           // 推送开始日期
-          pushStartDate : '',
+          // pushStartDate : '',
           // 推送结束日期
-          pushEndDate : '',
+          // pushEndDate : '',
 
+          isRepayment: '',
           // 运营人员 列表
           allocationList : [
             /* {
@@ -219,6 +227,10 @@
       ['ruleForm.accountPeriodType']() {
         this.handleTimeChange();
       },
+      ['ruleForm.isRepayment']() {
+        this.handleTimeChange();
+      },
+
     },
     methods : {
       show() {
@@ -265,8 +277,9 @@
             accountPeriodType : this.ruleForm.accountPeriodType,
             merchantCode : this.ruleForm.merchantCode,
             productId : this.ruleForm.productId,
-            pushEndDate : this.ruleForm.pushEndDate,
-            pushStartDate : this.ruleForm.pushStartDate,
+            // pushEndDate : this.ruleForm.pushEndDate,
+            // pushStartDate : this.ruleForm.pushStartDate,
+            isRepayment: this.ruleForm.isRepayment
           },
         }).then((res) => {
           // 需求修改 初始化时 总案件数 一定等于 待分配件数 

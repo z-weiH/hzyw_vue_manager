@@ -10,7 +10,7 @@
       <el-form-item label="案号" prop="caseNo">
         <el-input v-model="form.caseNo" disabled></el-input>
       </el-form-item>
-      <el-form-item label="法院选择" prop="courtId">
+      <el-form-item label="中级法院" prop="courtId">
         <el-select clearable v-model="form.courtId"
                    filterable
                    remote
@@ -23,6 +23,16 @@
             :key="item.courtId"
             :label="item.courtName"
             :value="item.courtId">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="基层法院" prop="basicCourtId">
+        <el-select clearable v-model="form.basicCourtId">
+          <el-option
+            v-for="item in basicCourtlist"
+            :key="item.basicCourtId"
+            :label="item.basicCourtName"
+            :value="item.basicCourtId">
           </el-option>
         </el-select>
       </el-form-item>
@@ -56,7 +66,8 @@ export default {
         courtId: [
           { required: true, message: '请选择要关联的法院', trigger: 'blur' },
         ]},
-      loading: false
+      loading: false,
+      basicCourtlist: []
 
     }
   },
@@ -88,11 +99,13 @@ export default {
         this.loading = true;
         this.$http.post('/court/queryCourtInfosByBasicQuery.htm',{keyWords: keyWords,courtType: 2}).then(res => {
           this.courtlist = res.result;
+          if(init){
+            this.show = true;
+          }
           this.$nextTick(() => {
             this.loading = false;
             if(init){
               this.form = {...this.row};
-              this.show = true;
             }
           })
         })
