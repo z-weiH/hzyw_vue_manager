@@ -77,11 +77,12 @@
         法院案件关联
       </div>
 
-      <div class="item-table" style="max-height: 650px;overflow: auto">
+      <div class="item-table" >
 
         <el-table
           :data="tableData"
           border
+          :max-height="650"
           style="width: 100%;">
           <el-table-column
             type="index"
