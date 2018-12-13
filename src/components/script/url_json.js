@@ -161,6 +161,7 @@ export const URL_JSON = {
 
     /* 案件信息 */
     'queryCaseListView': '/case/queryHzCaseInfoByBaseQuery.htm', //案件列表
+    'queryCaseListCountItem': '/case/queryCaseSumInfo.htm',//案件列表-小计接口
     'exportCaseListView': '/case/exportFileHzCaseInfoByBaseQuery.htm', //案件列表 - 导出
     'queryRespondentsFeedback': '/feedback/queryRespondentFeedbackByBaseQuery.htm', //被申请人反馈
     'exportRespondentsFeedback': '/feedback/exportExcel.htm', //被申请人反馈-导出
