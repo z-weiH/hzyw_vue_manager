@@ -14,7 +14,7 @@
           <el-form-item
 
           :rules="[
-          {required : true  , trigger : 'change'}
+          {required : true  , message : '请选择模版' ,  trigger : 'change'}
           ]"
           class="slect_tree_warpar"   label="案件模板" prop="labelName">
           <el-input
