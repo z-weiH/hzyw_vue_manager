@@ -166,7 +166,7 @@ export default {
       this.$refs.form.validate((valid) => {
         if(valid){
           console.log(this.form)
-          let basicCourtName;
+          let basicCourtName = '';
           if(this.form.basicCourtId){
             let item = this.basicCourtlist.find(it => it.courtId === this.form.basicCourtId);
             if(item){
