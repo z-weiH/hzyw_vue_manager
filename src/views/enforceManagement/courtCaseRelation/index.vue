@@ -196,7 +196,6 @@
 </template>
 
 <script>
-
 import Edit from './module/edit'
 import Mixins from "@/components/script/_mixin";
 import TableComponent from "@/components/table";

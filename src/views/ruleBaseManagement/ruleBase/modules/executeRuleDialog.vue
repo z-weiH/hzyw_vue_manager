@@ -442,7 +442,8 @@
         this.ruleIdList= [];
         this.caseIdList= [];
         this.stopExe = false;
-        this.emptyText = '请先选择案件模版',
+        this.emptyText = '请先选择案件模版';
+        this.selectedNum = '--';
 
         //执行进度
       this.executProgress= 0;
