@@ -17,6 +17,7 @@
                    reserve-keyword placeholder="请选择"
                    :remote-method="remoteMethod"
                    :loading="loading"
+                   @change="remoteMethod2"
         >
           <el-option
             v-for="item in courtlist"
@@ -27,12 +28,13 @@
         </el-select>
       </el-form-item>
       <el-form-item label="基层法院" prop="basicCourtId">
-        <el-select clearable v-model="form.basicCourtId">
+        <el-select clearable v-model="form.basicCourtId"
+        >
           <el-option
             v-for="item in basicCourtlist"
-            :key="item.basicCourtId"
-            :label="item.basicCourtName"
-            :value="item.basicCourtId">
+            :key="item.courtId"
+            :label="item.courtName"
+            :value="item.courtId">
           </el-option>
         </el-select>
       </el-form-item>
@@ -60,6 +62,7 @@ export default {
         localtionLabel: '',
         caseNo: '',
         courtId: '',
+        basicCourtId: ''
       },
       courtlist: [],
       rules: {
@@ -72,26 +75,46 @@ export default {
     }
   },
   watch:{
-    'form.courtId'(val,oldval){
-      this.getlocaltionLabel();
-      if(val){
-        this.$http.post('/court/queryCourtInfosByBasicQuery.htm',{parentId: val}).then(res => {
 
-        })
-      }
-    },
     'show'(val,oldval){
       if(!val){
         this.$refs.form.resetFields();
         this.form = {
           localtionLabel: '',
           caseNo: '',
-          courtId: ''
+          courtId: '',
+          basicCourtId: ''
         }
       }
     }
   },
   methods:{
+
+    remoteMethod2(val){
+      this.getlocaltionLabel();
+      this.$set( this.form, 'basicCourtId','' );
+      if(val){
+        this.remoteMethod1(val);
+      }
+    },
+
+    remoteMethod1(parentId,init){
+      this.$http.post('/court/queryCourtInfosByBasicQuery.htm',{parentId: parentId}).then(res => {
+        console.log(res);
+        this.basicCourtlist = res.result;
+        if(init){
+          this.$nextTick(() => {
+            let item = this.basicCourtlist.find(it => it.courtName === this.form.basicCourtName);
+            if(item){
+              // this.form.basicCourtId = item.courtId;
+              this.$set( this.form, 'basicCourtId',item.courtId );
+              console.log(item);
+
+            }
+          })
+        }
+      })
+    },
 
     remoteMethod(keyWords,init){
       console.log(keyWords)
@@ -99,13 +122,19 @@ export default {
         this.loading = true;
         this.$http.post('/court/queryCourtInfosByBasicQuery.htm',{keyWords: keyWords,courtType: 2}).then(res => {
           this.courtlist = res.result;
-          if(init){
-            this.show = true;
-          }
+
           this.$nextTick(() => {
             this.loading = false;
             if(init){
+              this.show = true;
+
               this.form = {...this.row};
+              if(this.courtlist.length === 1){
+                this.$set( this.form, 'courtId',this.courtlist[0].courtId );
+                this.getlocaltionLabel();
+                this.remoteMethod1(this.form.courtId,true);
+
+              }
             }
           })
         })
@@ -130,33 +159,42 @@ export default {
     getlocaltionLabel(){
       this.currentCourt = this.courtlist.find(it => it.courtId === this.form.courtId);
       if(this.currentCourt){
-        this.form.localtionLabel = this.currentCourt.province + '-' + this.currentCourt.city + '-' + this.currentCourt.district;
+        this.form.localtionLabel = this.currentCourt.province + '-' + this.currentCourt.city ;
       }
     },
     save(){
       this.$refs.form.validate((valid) => {
         if(valid){
           console.log(this.form)
+          let basicCourtName = '';
+          if(this.form.basicCourtId){
+            let item = this.basicCourtlist.find(it => it.courtId === this.form.basicCourtId);
+            if(item){
+              basicCourtName= item.courtName;
+            }
+          }
           this.$http.post("/court/updateCaseRelativeCourtInfo.htm",{
             partyId: this.form.partyId,
             caseId: this.form.caseId,
             province: this.currentCourt.province,
             city: this.currentCourt.city,
-            area: this.currentCourt.district,
             courtId: this.form.courtId,
-            courtName: this.currentCourt.courtName
+            courtName: this.currentCourt.courtName,
+            basicCourtId: this.form.basicCourtId,
+            basicCourtName: basicCourtName
           }).then(res => {
             this.$message.success("关联法院修改成功");
             // this.$parent.doQuery();
 
             //刷新表格中的记录项
-            Object.assign(this.row,{courtId: this.form.courtId,province: this.currentCourt.province, city: this.currentCourt.city, district: this.currentCourt.district,courtName: this.currentCourt.courtName});
-            let idx = this.$parent.tableData.findIndex(it => it.courtId === this.row.courtId);
-            if(idx !== -1){
-              this.$parent.tableData.splice(idx,1,this.row);
-
-            }
-            console.log(this.row);
+            this.$parent.doQuery();
+            // Object.assign(this.row,{courtId: this.form.courtId,province: this.currentCourt.province, city: this.currentCourt.city,courtName: this.currentCourt.courtName});
+            // let idx = this.$parent.tableData.findIndex(it => it.courtId === this.row.courtId);
+            // if(idx !== -1){
+            //   this.$parent.tableData.splice(idx,1,this.row);
+            //
+            // }
+            // console.log(this.row);
             this.show = false;
           })
         }

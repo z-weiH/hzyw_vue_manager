@@ -31,4 +31,5 @@ export default [
   '/main/exeRecordDetail',//执行几率详情
   '/main/emMaterialAllocationPage',//材料配置詳情頁
   '/main/emBatchDownload', // 强制执行-材料选择
+  '/main/staffMangement',//员工管理
 ]
