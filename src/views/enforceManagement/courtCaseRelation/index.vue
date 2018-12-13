@@ -158,7 +158,7 @@
             </template>
           </el-table-column>
           <el-table-column
-            prop="courtName"
+            prop="basicCourtName"
             label="基层法院"
           >
             <template slot-scope="scope">
