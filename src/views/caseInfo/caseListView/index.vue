@@ -10,7 +10,21 @@
 </template>
     </searchs>
     <div class="item-title">
-      案件列表
+      <div>案件列表</div>
+      <div class="stat_item">
+        <div>
+          <span>统计信息&gt;&nbsp;&nbsp;</span>
+        </div>
+        <div>
+          <ul>
+            <li><span>总标的金额:</span><span>{{countItem.sumAmtBorrow}}</span></li>
+            <li><span>总数量:</span><span>{{countItem.caseCount}}</span></li>
+            <li><span>总受理费:</span><span>{{countItem.sumPrepaymentAmt}}</span></li>
+            <li><span>总受理费退费:</span><span>{{countItem.sumAcceptReturnAmt}}</span></li>
+            <li><span>总使用仲券:</span><span>{{countItem.sumCaseTicket}}</span></li>
+          </ul>
+        </div>
+      </div>
     </div>
     <div class="item-table">
       <table-component :pager="pager" @refreshList="doQuery(this.queryUrl, this.searchItem)" :table-data="tableData" :column-define="columnDefine" ></table-component>
@@ -237,6 +251,7 @@ export default {
 			],
 			cacheMerchantCode: '', //缓存的企业code
 			searchItem: {},
+      countItem:{},//统计数量
 			item: {},
 			currentItem: {},
 			exportUrl: /* "http://192.168.30.18:7777" + */ URL_JSON['exportCaseListView'],
@@ -527,8 +542,18 @@ export default {
 				console.info(res)
 				//  this.tableData = res.result.list;
 				//   this.total = res.result.count;
+        this.queryCount(item)
 			})
 		},
+    queryCount(item){
+      // 案件列表-统计查询api
+      this.$http.post(URL_JSON['queryCaseListCountItem'],item).then(res=>{
+        console.log('统计查询api',res)
+        if(res.code === '0000'){
+          this.countItem = res.result
+        }
+      })
+    },
 		optsCompanyListView() {
 			this.$http.post(URL_JSON['selectCompany']).then(res => {
 				console.log('selectCompany:::', res)
@@ -590,5 +615,44 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import '@/assets/style/scss/helper/_mixin.scss';
+.item-title{
+  // position: relative;
+  @include clearfix;
+  >div{
+    &:first-child{
+      float: left;
+    }
+    &+div{
+      float:right;
+    }
+  }
+}
+
+.stat_item{
+  font-size:14px;
+  // position: absolute;
+  // height: 12px;
+  // margin:auto;
+  // bottom: 0;
+  // top: 0;
+  // right: 20px;
+  >div{
+    display: table-cell;
+  }
+  ul{
+    @include clearfix;
+    li{
+      float: left;
+      span{
+        margin-right: 5px;
+        &+span{
+          color:#555555;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}
 </style>
