@@ -261,7 +261,7 @@
         signalDetail(row){
           let routeData = this.$router.resolve({
             path: '/ruleExeDetail',
-            query: { exeId: this.exeId ,sortNum: row.sortNum},
+            query: { exeId: this.exeId ,sortNum: row.sortNum,takeEffectStatus: this.$route.query.takeEffectStatus},
           });
           window.open(routeData.href, '_blank')
         },
@@ -306,7 +306,7 @@
         openView(){
           let routeData = this.$router.resolve({
             path: '/ruleExeDetail',
-            query: { exeId: this.exeId },
+            query: { exeId: this.exeId ,takeEffectStatus: this.$route.query.takeEffectStatus},
           })
           window.open(routeData.href, '_blank')
         },

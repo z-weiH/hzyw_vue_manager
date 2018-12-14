@@ -111,7 +111,7 @@
       openView(){
         let routeData = this.$router.resolve({
           path: '/ruleExeDetail',
-          query: { exeId: this.exeId },
+          query: { exeId: this.exeId ,takeEffectStatus: 0},
         })
         window.open(routeData.href, '_blank')
       },

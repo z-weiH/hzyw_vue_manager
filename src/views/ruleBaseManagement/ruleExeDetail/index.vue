@@ -27,7 +27,7 @@
 
                 </div>
 
-                <div style="line-height: 30px;" v-if="evidenceItems.length === 0 || !evidenceItems[0].takeEffectStatus">
+                <div style="line-height: 30px;" v-if="$route.query.takeEffectStatus == 0">
                   <span class="form_desc" >案件状态</span>
                   <el-radio-group v-model="searchItem.caseStatus">
                     <el-radio  :label="''">全部({{queryConfig.totalCaseCount}})</el-radio>
@@ -35,7 +35,7 @@
                     <el-radio  :label="1">不可修改审核意见({{queryConfig.noModifyCaseCount}})</el-radio>
                   </el-radio-group>
                 </div>
-                <div style="line-height: 30px;" v-if="evidenceItems.length === 0 || !evidenceItems[0].takeEffectStatus">
+                <div style="line-height: 30px;" v-if="$route.query.takeEffectStatus == 0">
                   <span class="form_desc">核对状态</span>
                   <el-radio-group v-model="searchItem.exameStatus">
                     <el-radio  :label="''">全部({{queryConfig.totalCaseCount}})</el-radio>
@@ -48,7 +48,7 @@
                   <el-input style="display: inline-block;width: 430px" v-model="searchItem.keyWords" placeholder="请输入案件编号或被申请人姓名进行搜索"></el-input>
                 </div>
               </div>
-              <p style="color: #aaa; font-size: 10px;" v-if="evidenceItems.length === 0 || !evidenceItems[0].takeEffectStatus">* “不可修改审核意见”的状态指“立案申请成功”及“预审未通过”状态，“可修改审核意见”的状态为其余状态。</p>
+              <p style="color: #aaa; font-size: 10px;" v-if="$route.query.takeEffectStatus == 0">* “不可修改审核意见”的状态指“立案申请成功”及“预审未通过”状态，“可修改审核意见”的状态为其余状态。</p>
               <div style="padding: 10px;overflow: hidden;text-align: center;">
                 <el-button   type="primary" @click="HandleBtnQuery">确定</el-button>
               </div>
@@ -350,7 +350,7 @@
           this.HandleQuery();
         })
       },
-      HandleQuery(btnClick) {
+      HandleQuery(btnClick,init) {
 
         if(btnClick){
           this.pager.currentNum = 1;
@@ -384,6 +384,12 @@
                 this.evidenceItems[0].ruleExeResultList.forEach(it => {
                   this.$set(it,'isSelected',Boolean(it.isSelected))
                 })
+              }else{
+                console.error(init);
+                if(init){
+                  this.searchItem = {exeStatus: '', caseStatus: '', exameStatus: ''};
+                  this.HandleQuery();
+                }
               }
               // this.scrollList =
             loading.close();
@@ -428,7 +434,11 @@
         this.searchItem.caseStatus = '';
         this.searchItem.exameStatus= '';
       }
-      this.HandleQuery();
+      if(this.$route.query.takeEffectStatus == 1){
+        this.searchItem.caseStatus = '';
+        this.searchItem.exameStatus= '';
+      }
+      this.HandleQuery(false,true);
       this.handleQueryConfig();
       document.addEventListener('click',(e) => {
         if(this.showQuery){
