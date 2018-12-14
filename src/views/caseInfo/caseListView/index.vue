@@ -18,10 +18,10 @@
         <div>
           <ul>
             <li><span>总标的金额:</span><span>{{countItem.sumAmtBorrow}}元&nbsp;;</span></li>
-            <li><span>总数量:</span><span>{{countItem.caseCount}}元&nbsp;;</span></li>
+            <li><span>总数量:</span><span>{{countItem.caseCount}}笔&nbsp;;</span></li>
             <li><span>总受理费:</span><span>{{countItem.sumPrepaymentAmt}}元&nbsp;;</span></li>
             <li><span>总受理费退费:</span><span>{{countItem.sumAcceptReturnAmt}}元&nbsp;;</span></li>
-            <li><span>总使用仲券:</span><span>{{countItem.sumCaseTicket}}元&nbsp;;</span></li>
+            <li><span>总使用仲券:</span><span>{{countItem.sumCaseTicket}}张&nbsp;;</span></li>
           </ul>
         </div>
       </div>
