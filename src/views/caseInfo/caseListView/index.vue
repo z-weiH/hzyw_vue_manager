@@ -17,11 +17,11 @@
         </div>
         <div>
           <ul>
-            <li><span>总标的金额:</span><span>{{countItem.sumAmtBorrow}}</span></li>
-            <li><span>总数量:</span><span>{{countItem.caseCount}}</span></li>
-            <li><span>总受理费:</span><span>{{countItem.sumPrepaymentAmt}}</span></li>
-            <li><span>总受理费退费:</span><span>{{countItem.sumAcceptReturnAmt}}</span></li>
-            <li><span>总使用仲券:</span><span>{{countItem.sumCaseTicket}}</span></li>
+            <li><span>总标的金额:</span><span>{{countItem.sumAmtBorrow}}元&nbsp;;</span></li>
+            <li><span>总数量:</span><span>{{countItem.caseCount}}笔&nbsp;;</span></li>
+            <li><span>总受理费:</span><span>{{countItem.sumPrepaymentAmt}}元&nbsp;;</span></li>
+            <li><span>总受理费退费:</span><span>{{countItem.sumAcceptReturnAmt}}元&nbsp;;</span></li>
+            <li><span>总使用仲券:</span><span>{{countItem.sumCaseTicket}}张&nbsp;;</span></li>
           </ul>
         </div>
       </div>
@@ -251,7 +251,13 @@ export default {
 			],
 			cacheMerchantCode: '', //缓存的企业code
 			searchItem: {},
-      countItem:{},//统计数量
+      countItem:{
+        sumAmtBorrow: 0,
+        caseCount:0,
+        sumPrepaymentAmt:0,
+        sumAcceptReturnAmt:0,
+        sumCaseTicket:0,
+      },//统计数量
 			item: {},
 			currentItem: {},
 			exportUrl: /* "http://192.168.30.18:7777" + */ URL_JSON['exportCaseListView'],
