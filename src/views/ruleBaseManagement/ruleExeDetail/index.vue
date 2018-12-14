@@ -181,6 +181,7 @@
         currentUrl: '',
         selfflag: 0,
         exeId: 0,
+        exeCaseIdList: [],
       }
     },
     computed: {
@@ -318,12 +319,12 @@
         if(!this.canPrev){
           if(this.evidenceItems[0].takeEffectStatus === 1 || this.evidenceItems[0].exameStatus === 1){
             this.pager.currentNum-- ;
-            this.HandleQuery();
+            this.doQueryByexeCaseId();
           }
           else{
             this.saveExeCaseId().then(res => {
               this.pager.currentNum-- ;
-              this.HandleQuery();
+              this.doQueryByexeCaseId();
             })
           }
         }
@@ -332,13 +333,11 @@
         if(!this.canNext){
           if(this.evidenceItems[0].takeEffectStatus === 1 || this.evidenceItems[0].exameStatus === 1){
             this.pager.currentNum++ ;
-            this.HandleQuery();
+            this.doQueryByexeCaseId();
           }else{
             this.saveExeCaseId().then(res => {
-              if(this.searchItem.exameStatus != 0){
-                this.pager.currentNum++ ;
-              }
-              this.HandleQuery();
+              this.pager.currentNum++ ;
+              this.doQueryByexeCaseId();
             })
           }
 
@@ -347,7 +346,7 @@
       handleCurrentChange(page) {
         this.pager.currentNum = page;
         this.saveExeCaseId().then(res => {
-          this.HandleQuery();
+          this.doQueryByexeCaseId();
         })
       },
       HandleQuery(btnClick,init) {
@@ -362,33 +361,41 @@
           lock: true,
           background: "hsla(0,0%,100%,.9)"
         });
-        this.$http.post('/ruleCase/queryRuleExeResultByBaseQuery.htm',{exeId: this.exeId,...this.pager,...this.searchItem})
+        this.$http.post('/ruleCase/queryRuleExeResultSortByBaseQuery.htm',{exeId: this.exeId,...this.searchItem})
           .then(res => {
             console.log(res);
-              this.evidenceItems = res.result.list;
-              this.count = res.result.totalCount;
-              this.pager.total = res.result.count;
-              if(this.pager.currentNum > res.result.count){
-                this.pager.currentNum = res.result.count;
-              }
-              console.log(this.evidenceItems)
-              this.$set(this.queryConfig,'count',res.result.count);
+              // this.evidenceItems = res.result.list;
+              // this.count = res.result.totalCount;
+              // this.pager.total = res.result.count;
+              // if(this.pager.currentNum > res.result.count){
+              //   this.pager.currentNum = res.result.count;
+              // }
+              // console.log(this.evidenceItems)
+              // this.$set(this.queryConfig,'count',res.result.count);
+              //
+              // this.disabled = false;
+              // if(this.evidenceItems.length > 0){
+            this.exeCaseIdList = res.result;
+            this.pager.total = res.result.length;
+            this.count = res.result.length;
+            this.$set(this.queryConfig,'count',res.result.length);
 
-              this.disabled = false;
-              if(this.evidenceItems.length > 0){
-                this.applicationUrl = this.evidenceItems[0].applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime();
-                this.disabled = this.evidenceItems[0].caseStatus === 5 || this.evidenceItems[0].caseStatus === 7 || this.evidenceItems[0].takeEffectStatus === 1;
-                if(this.evidenceItems[0].eviDetailList.length > 0){
-                  this.currentUrl = this.evidenceItems[0].eviDetailList[0].eviFileurl;
-                }
-                this.evidenceItems[0].ruleExeResultList.forEach(it => {
-                  this.$set(it,'isSelected',Boolean(it.isSelected))
-                })
+            if(res.result.length > 0){
+                // this.applicationUrl = this.evidenceItems[0].applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime();
+                // this.disabled = this.evidenceItems[0].caseStatus === 5 || this.evidenceItems[0].caseStatus === 7 || this.evidenceItems[0].takeEffectStatus === 1;
+                // if(this.evidenceItems[0].eviDetailList.length > 0){
+                //   this.currentUrl = this.evidenceItems[0].eviDetailList[0].eviFileurl;
+                // }
+                // this.evidenceItems[0].ruleExeResultList.forEach(it => {
+                //   this.$set(it,'isSelected',Boolean(it.isSelected))
+                // })
+                this.pager.currentNum = 1;
+                this.doQueryByexeCaseId(res.result[0])
               }else{
                 console.error(init);
                 if(init){
                   this.searchItem = {exeStatus: '', caseStatus: '', exameStatus: ''};
-                  this.HandleQuery();
+                  this.HandleQuery('/ruleCase/queryRuleExeResultSortByBaseQuery.htm');
                 }
               }
               // this.scrollList =
@@ -399,6 +406,26 @@
         })
       },
 
+
+
+      doQueryByexeCaseId(){
+        this.$http.post('/ruleCase/queryRuleExeResultByBaseQuery.htm',{currentNum: 1,pageSize: 1,exeStatus: '', caseStatus: '', exameStatus: '',exeCaseId: this.exeCaseIdList[this.pager.currentNum -1], exeId: this.exeId  }).then(res => {
+          this.evidenceItems = res.result.list;
+
+          console.log(this.evidenceItems)
+
+          this.disabled = false;
+          this.applicationUrl = this.evidenceItems[0].applicationUrl.replace(/http:|https:/g,'')+'?timestamp='+ new Date().getTime();
+          this.disabled = this.evidenceItems[0].caseStatus === 5 || this.evidenceItems[0].caseStatus === 7 || this.evidenceItems[0].takeEffectStatus === 1;
+          if(this.evidenceItems[0].eviDetailList.length > 0){
+            this.currentUrl = this.evidenceItems[0].eviDetailList[0].eviFileurl;
+          }
+          this.evidenceItems[0].ruleExeResultList.forEach(it => {
+            this.$set(it,'isSelected',Boolean(it.isSelected))
+          })
+          console.log(res);
+        })
+      },
 
 
       handleQueryConfig(){
@@ -435,6 +462,7 @@
         this.searchItem.exameStatus= '';
       }
       if(this.$route.query.takeEffectStatus == 1){
+        // this.searchItem.exeStatus = '';
         this.searchItem.caseStatus = '';
         this.searchItem.exameStatus= '';
       }
