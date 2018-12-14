@@ -392,7 +392,7 @@
                 this.pager.currentNum = 1;
                 this.doQueryByexeCaseId(res.result[0])
               }else{
-                console.error(init);
+                this.evidenceItems =[];
                 if(init){
                   this.searchItem = {exeStatus: '', caseStatus: '', exameStatus: ''};
                   this.HandleQuery('/ruleCase/queryRuleExeResultSortByBaseQuery.htm');
