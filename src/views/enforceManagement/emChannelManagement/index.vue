@@ -37,7 +37,7 @@
           label="渠道类型"
           >
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.channelType === 1 ? '自营渠道' : scope.row.channelType === 2 ? '律所代理' : scope.row.channelType === 3 ?  '线下代理' : '个人代理'}}</span>
+            <span v-ellipsis.20>{{scope.row.channelType === 1 ? '自营渠道' : scope.row.channelType === 2 ? '律所代理' : scope.row.channelType === 3 ?  '公司代理' : '个人代理'}}</span>
           </template>
         </el-table-column>
         <el-table-column
@@ -131,7 +131,7 @@
       }
     },
     methods:{
-      // <!--1：自营渠道：2：律所代理：3：线下代理-->
+      // <!--1：自营渠道：2：律所代理：3：公司代理-->
 
       doQuery(){
         console.log(this.searchItem);

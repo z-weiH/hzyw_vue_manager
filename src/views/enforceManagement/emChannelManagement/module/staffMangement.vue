@@ -34,13 +34,14 @@
           <el-table-column prop="agencyName"  label="渠道名称"></el-table-column>
           <el-table-column prop="userName"  label="用户名"></el-table-column>
           <el-table-column prop="userPhone"  label="手机号"></el-table-column>
-          <el-table-column prop="index"  label="是否绑定微信">
+          <el-table-column prop="isBand"  label="是否绑定微信">
             <template slot-scope="scope">
               <!--<el-switch-->
                 <!--active-color="#13ce66"-->
                 <!--inactive-color="#ff4949"-->
                 <!--v-model="scope.row.isLinked">-->
               <!--</el-switch>-->
+              <span>{{isBand === 1 ? '是' : '否'}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="updateTime"  label="更新时间"></el-table-column>
@@ -101,7 +102,7 @@
 
           <el-form-item label="渠道类型" prop="userRole" >
             <el-radio-group v-model="item.userRole">
-              <!--1：自营渠道：2：律所代理：3：线下代理-->
+              <!--1：自营渠道：2：律所代理：3：公司代理-->
               <template v-if="$route.query.channelType == 1">
                 <el-radio label="FINANCE">财务</el-radio>
                 <el-radio label="OPERATOR">运营</el-radio>

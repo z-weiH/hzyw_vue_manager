@@ -9,10 +9,10 @@
     <el-form ref="form" :rules="rules" :model="item" label-width="80px">
       <el-form-item label="类型" prop="channelType" v-if="!item.mandatoryId">
         <el-radio-group v-model="item.channelType"  >
-          <!--1：自营渠道：2：律所代理：3：线下代理-->
+          <!--1：自营渠道：2：律所代理：3：公司代理-->
           <el-radio :label="1">内部员工</el-radio>
           <el-radio :label="2">律所代理</el-radio>
-          <el-radio :label="3">线下代理</el-radio>
+          <el-radio :label="3">公司代理</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item v-if="item.mandatoryId" label="渠道类型" prop="channelTypeCN">
@@ -140,7 +140,7 @@
               this.channerList = r.result;
               this.$nextTick(() => {
                 this.item= res.result;
-                this.item.channelTypeCN = this.item.channelType === 1 ? '自营渠道' : this.item.channelType === 2 ? '律所代理' : this.item.channelType === 3 ?  '线下代理' : this.item.channelType === 4 ? '个人代理' : '-';
+                this.item.channelTypeCN = this.item.channelType === 1 ? '自营渠道' : this.item.channelType === 2 ? '律所代理' : this.item.channelType === 3 ?  '公司代理' : this.item.channelType === 4 ? '个人代理' : '-';
                 this.title = '修改受委托人';
                 this.flag =true;
               })

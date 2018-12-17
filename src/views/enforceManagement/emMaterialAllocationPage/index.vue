@@ -215,12 +215,12 @@
         </p>
         <div class="form">
           <el-form :model="swtrObj" ref="swtrform" :rules="rules2" label-width="100px" class="demo-ruleForm">
-            <!--1：自营渠道：2：律所代理：3：线下代理-->
+            <!--1：自营渠道：2：律所代理：3：公司代理-->
             <el-form-item label="受托人类型" prop="channelType">
               <el-select style="width: 100%;" v-model="swtrObj.channelType" placeholder="请选择受托人类型">
                 <el-option label="内部员工" value="1"></el-option>
                 <el-option label="律所代理" value="2"></el-option>
-                <el-option label="线下代理" value="3"></el-option>
+                <el-option label="公司代理" value="3"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="渠道选择" prop="channelId">
@@ -285,7 +285,7 @@
         </p>
         <div class="form">
           <el-form :rules="rules" ref="yhzhform" :model="yhzhObj" label-width="130px" class="demo-ruleForm">
-            <!--1：自营渠道：2：律所代理：3：线下代理-->
+            <!--1：自营渠道：2：律所代理：3：公司代理-->
             <el-form-item label="执行款账户户名" prop="accountName">
               <el-select style="width: 100%;" v-model="yhzhObj.accountName" placeholder="请选择执行款账户户名">
                 <el-option  v-for="(item,idx) in bankNameList" :key="idx" :value="item">{{item}}</el-option>

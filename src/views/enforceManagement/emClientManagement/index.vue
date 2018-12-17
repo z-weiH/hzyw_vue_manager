@@ -14,8 +14,8 @@
           <el-select style="width: 180px;"  clearable v-model="searchItem.channelType" placeholder="选择">
             <el-option label="内部员工" value="1"></el-option>
             <el-option label="律所代理" value="2"></el-option>
-            <el-option label="线下代理" value="3"></el-option>
-            <!--1：自营渠道：2：律所代理：3：线下代理-->
+            <el-option label="公司代理" value="3"></el-option>
+            <!--1：自营渠道：2：律所代理：3：公司代理-->
           </el-select>
         </el-form-item>
 
@@ -57,7 +57,7 @@
           label="类型"
           >
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.channelType === 1 ? '内部员工' : scope.row.channelType === 2 ? '律师代理' : '线下代理'}}</span>
+            <span v-ellipsis.20>{{scope.row.channelType === 1 ? '内部员工' : scope.row.channelType === 2 ? '律师代理' : '公司代理'}}</span>
           </template>
         </el-table-column>
         <el-table-column
