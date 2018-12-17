@@ -70,17 +70,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="推送日期">
-            <timeFrame
-              :startDate.sync="ruleForm.pushStartDate"
-              :endDate.sync="ruleForm.pushEndDate"
-              startPlaceholder="推送开始"
-              endPlaceholder="推送结束"
-              :requiredName="['pushStartDate','pushEndDate']"
-            >
 
-            </timeFrame>
-          </el-form-item>
           <el-form-item label="是否还款" prop="isRepayment">
             <el-radio-group v-model="ruleForm.isRepayment" >
               <el-radio :label="1">是</el-radio>

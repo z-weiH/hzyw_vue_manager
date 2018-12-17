@@ -615,7 +615,7 @@
             arr.push(it);
           }
         })
-        this.$http.post("/rule/executeRuleByBaseQuery.htm",{levelId: this.form.levelId,ruleIdList: arr, ... this.form},{mheaders: true,timeout: 120000}).then(res => {
+        this.$http.post("/rule/executeRuleByBaseQuery.htm",{levelId: this.form.levelId,ruleIdList: arr, ... this.form},{mheaders: true,timeout: 150000}).then(res => {
           this.exeId = res.result;
           this.execute({exeId: res.result});
         })
