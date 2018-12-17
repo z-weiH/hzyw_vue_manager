@@ -41,7 +41,7 @@
                 <!--inactive-color="#ff4949"-->
                 <!--v-model="scope.row.isLinked">-->
               <!--</el-switch>-->
-              <span>{{isBand === 1 ? '是' : '否'}}</span>
+              <span>{{scope.row.isBand === 1 ? '是' : '否'}}</span>
             </template>
           </el-table-column>
           <el-table-column prop="updateTime"  label="更新时间"></el-table-column>
