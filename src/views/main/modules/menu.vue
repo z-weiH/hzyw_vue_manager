@@ -420,7 +420,12 @@
                 menuName : '结案文书管理',
                 menuId : 76,
                 menuUrl : 'closingDoc'
-              }
+              },
+              {
+                menuName : '号码检测',
+                menuId : 77,
+                menuUrl : 'numDetection'
+              },
             ],
           },
            {

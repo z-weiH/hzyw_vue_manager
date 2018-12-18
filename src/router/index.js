@@ -266,6 +266,14 @@ let router = new Router({
             name: 'closingDoc'
           }
         },
+        {
+          path: 'numDetection',
+          component: () =>
+            import ('@/views/caseInfo/numDetection'), // 号码检测
+          meta: {
+            name: 'numDetection'
+          }
+        },
         /* 案件信息module end */
         /* 短信记录 start */
         {
