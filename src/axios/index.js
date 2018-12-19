@@ -20,7 +20,7 @@ axios.interceptors.request.use((config) => {
   // 判断是否是formdata格式
   // post 请求 使用 form Data 请求方式
   let token='';
-  console.log(config);
+  // console.log(config);
   if(localStorage.getItem('loginInfo')){
     try{
       token= JSON.parse(localStorage.getItem('loginInfo')).token;
@@ -43,7 +43,7 @@ axios.interceptors.request.use((config) => {
 
 // 响应拦截
 axios.interceptors.response.use((res) => {
-  console.error(res.data);
+  // console.error(res.data);
   // 登录超时 拦截
   if(res.data.code === '8888') {
     Message({
@@ -72,6 +72,10 @@ axios.interceptors.response.use((res) => {
   // end
   return res.data;
 }, (error) => {
+  // console.error(error,error.response,'netError');
+  if(error.response.config.noMessage){
+    return ;
+  }
   if (error.response) {
     switch (error.response.status) {
       case 400:

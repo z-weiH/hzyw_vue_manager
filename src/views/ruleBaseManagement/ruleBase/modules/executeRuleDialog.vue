@@ -616,7 +616,7 @@
           }
         })
         this.$http.post("/rule/insertRuleExeTask.htm").then(r => {
-          this.$http.post("/rule/executeRuleByBaseQuery.htm",{levelId: this.form.levelId,ruleIdList: arr, ... this.form,exeId: r.result},{mheaders: true,timeout: 150000}).then(res => {
+          this.$http.post("/rule/executeRuleByBaseQuery.htm",{levelId: this.form.levelId,ruleIdList: arr, ... this.form,exeId: r.result},{mheaders: true,timeout: 150000,noMessage: true}).then(res => {
             this.exeId = res.result;
 
           })
