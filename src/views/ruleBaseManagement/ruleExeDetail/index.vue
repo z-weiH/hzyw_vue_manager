@@ -389,13 +389,21 @@
                 // this.evidenceItems[0].ruleExeResultList.forEach(it => {
                 //   this.$set(it,'isSelected',Boolean(it.isSelected))
                 // })
+              if(init && this.$route.query.id){
+                let idx = res.result.findIndex(it => it == this.$route.query.id);
+                this.pager.currentNum = idx + 1;
+                this.doQueryByexeCaseId(res.result[idx]);
+
+              }else{
                 this.pager.currentNum = 1;
                 this.doQueryByexeCaseId(res.result[0])
+              }
+
               }else{
                 this.evidenceItems =[];
                 if(init){
                   this.searchItem = {exeStatus: '', caseStatus: '', exameStatus: ''};
-                  this.HandleQuery('/ruleCase/queryRuleExeResultSortByBaseQuery.htm');
+                  this.HandleQuery();
                 }
               }
               // this.scrollList =
@@ -455,8 +463,8 @@
     mounted() {
       this.exeId = this.$route.query.exeId;
       this.searchItem = {exeStatus: 2, caseStatus: 0, exameStatus: 0};
-      if(this.$route.query.sortNum){
-        this.pager.currentNum = this.$route.query.sortNum;
+      if(this.$route.query.id){
+        // this.pager.currentNum = this.$route.query.sortNum;
         this.searchItem.exeStatus = '';
         this.searchItem.caseStatus = '';
         this.searchItem.exameStatus= '';
