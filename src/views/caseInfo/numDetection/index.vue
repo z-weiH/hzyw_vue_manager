@@ -14,7 +14,7 @@
         <div class="font-center" style="padding-top: 100px;">
           <el-upload
             class="upload-box"
-            :action="`${$host}/forceManager/queryForceCaseListByExcelImplort.htm`"
+            :action="`${$host}/phoneDetect/uploadExcel.htm`"
             :show-file-list="false"
             :before-upload="uploadBefore"
             :on-success="uploadSuccess"
@@ -25,21 +25,83 @@
           >
             <el-button type="primary"><i class="el-icon-upload el-icon--right"></i>上传表格</el-button>
           </el-upload>
-          <p class="mt-10">请上传xls、xlsx格式的表格文件</p>
-          <p class="mt-10">文件中需包含手机号</p>
+          <p class="mt-20">请上传由“案件列表”页导出的xlsx文件</p>
+          <p class="mt-10">同时请确保未对表格中的“被申请人手机号”列作任何修改</p>
         </div>
       </template>
 
       <template v-if="type === 2">
         <div class="font-center" style="padding-top: 100px;">
           <p class="m-tit">正在检测...</p>
-          <p class="m-num">123&nbsp;/&nbsp;200</p>
-          <mprogress :width="30" :height="20" class="mprogress"></mprogress>
+          <p class="m-num">{{progress.processed}}&nbsp;/&nbsp;{{progress.total}}</p>
+          <mprogress :width="progress.processed / progress.total * 100" :height="20" class="mprogress"></mprogress>
         </div>
       </template>
 
       <template v-if="type === 3">
-        <div></div>
+        <div class="m-table">
+          <p class="m-tit mb-20">检测完成！表格已自动下载</p>
+          <table
+            class="m-primordial-table mt-10
+              el-table el-table--fit el-table--border 
+              el-table--enable-row-hover"
+          >
+            <tr>
+              <td class="m-table-title">检测号码</td>
+              <td>{{ruleForm.total}}</td>
+              <td class="m-table-title">耗时</td>
+              <td>{{ruleForm.elapsed}}秒</td>
+              <td class="m-table-title">正常</td>
+              <td>{{ruleForm.normal}}</td>
+            </tr>
+
+            <tr>
+              <td class="m-table-title">通话中</td>
+              <td>{{ruleForm.calling}}</td>
+              <td class="m-table-title">关机</td>
+              <td>{{ruleForm.poweroff}}</td>
+              <td class="m-table-title">长时间关机</td>
+              <td>{{ruleForm.shutdown}}</td>
+            </tr>
+
+            <tr>
+              <td class="m-table-title">欠费</td>
+              <td>{{ruleForm.owned}}</td>
+              <td class="m-table-title">无短信能力</td>
+              <td>{{ruleForm.noSms}}</td>
+              <td class="m-table-title">空号</td>
+              <td>{{ruleForm.dead}}</td>
+            </tr>
+
+            <tr>
+              <td class="m-table-title">不在网（空号）</td>
+              <td>{{ruleForm.notInNet}}</td>
+              <td class="m-table-title">查询失败</td>
+              <td>{{ruleForm.queryFail}}</td>
+              <td class="m-table-title">接口错误</td>
+              <td>{{ruleForm.interfaceErr}}</td>
+            </tr>
+          </table>
+
+          <div class="mt-20">
+            <el-upload
+            class="upload-box"
+            style="display:inline-block;"
+            :action="`${$host}/phoneDetect/uploadExcel.htm`"
+            :show-file-list="false"
+            :before-upload="uploadBefore"
+            :on-success="uploadSuccess"
+            :on-error="uploadError"
+            :data="{
+              token : token,
+            }"
+          >
+            <el-button type="primary">继续上传</el-button>
+          </el-upload>
+
+          <el-button @click="handleGoBack" style="margin-left: 60px;">返回</el-button>
+          </div>
+        </div>
       </template>
     </div>
 
@@ -57,11 +119,11 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="respondents" label="检测时间"></el-table-column>
-        <el-table-column prop="respondents" label="检测总数"></el-table-column>
-        <el-table-column prop="respondents" label="号码可用"></el-table-column>
-        <el-table-column prop="respondents" label="号码不可用"></el-table-column>
-        <el-table-column prop="respondents" label="检测错误"></el-table-column>
+				<el-table-column prop="detecStartTime" label="检测时间"></el-table-column>
+        <el-table-column prop="totalCount" label="检测总数"></el-table-column>
+        <el-table-column prop="succCount" label="号码可用"></el-table-column>
+        <el-table-column prop="failedCount" label="号码不可用"></el-table-column>
+        <el-table-column prop="errotCount" label="检测错误"></el-table-column>
         <el-table-column prop="respondents" label="操作">
           <template slot-scope="scope">
             <el-button @click="handleDownload(scope.row)" type="text">下载</el-button>
@@ -86,6 +148,7 @@
 
 <script>
   import mprogress from './modules/progress.vue'
+  import exportFile from '@/assets/js/exportFile.js'
   export default {
     components : {
       mprogress,
@@ -100,8 +163,42 @@
             return '';
           }
         })(),
-        type : 2, // 当前状态： 1 - 上传表格 2 - 正在检测 3 - 检测完成
+        // 当前状态： 1 - 上传表格 2 - 正在检测 3 - 检测完成
+        type : 1,
+        // 文件上传 loading
         pageLoading : '',
+        ruleForm : {
+          // 检测号码
+          total : '',
+          // 耗时
+          elapsed : '',
+          // 正常
+          normal : '',
+          // 通话中
+          calling : '',
+          // 关机
+          poweroff : '',
+          // 长时间关机
+          shutdown : '',
+          // 欠费
+          owned : '',
+          // 无短信能力
+          noSms : '',
+          // 空号
+          dead : '',
+          // 不在网（空号）
+          notInNet : '',
+          // 查询失败
+          queryFail : '',
+          // 接口错误
+          interfaceErr : '',
+        },
+        progress : {
+          // 当前检测的数量
+          processed : 10,
+          // 进度条总数
+          total : 15,
+        },
 
         // 表格数据
         tableData : [{}],
@@ -113,17 +210,68 @@
 				pageSize : 10,
       }
     },
+    mounted() {
+      this.initTableList();
+    },
     methods : {
+      // 点击返回
+      handleGoBack() {
+        this.type = 1;
+      },
       // 点击下载
       handleDownload(row) {
+        exportFile({
+          url : '/phoneDetect/downloadExcel',
+          data : {
+            detectId : row.detectId,
+          },
+        });
+      },
+      // 定时器 轮询逻辑
+      timerFn(detectId) {
+        this.$http({
+          method : 'post',
+          url : '/phoneDetect/detectNum',
+          data : {
+            detectId,
+          },
+        }).then((res) => {
+          this.progress = {
+            processed : res.result.processed,
+            total : res.result.total,
+          };
 
+          // 进度100%
+          if(res.result.processed === res.result.total) {
+            setTimeout(() => {
+              this.type = 3;
+              this.uploadDetail(detectId);
+            },1000);
+          }else{
+            setTimeout(() => {
+              this.timerFn(detectId);
+            },1000);
+          }
+        });
+      },
+      // 轮询结束 获取详情
+      uploadDetail(detectId) {
+        this.$http({
+          methods : 'post',
+          url : '/phoneDetect/static',
+          data : {
+            detectId,
+          },
+        }).then((res) => {
+          this.ruleForm = Object.assign(this.ruleForm.ruleForm,res.result.result);
+        });
       },
 
 
       // 文件上传前回调
       uploadBefore(file) {
         let fileType = file.name.split('.').pop();
-        let arr = ['xlsx','xls'];
+        let arr = ['xlsx'];
         if(arr.indexOf(fileType) === -1){
           this.$message.warning('文件格式有误');
           return false;
@@ -134,16 +282,13 @@
       // 文件上传成功
       uploadSuccess(res, file, fileList) {
         this.pageLoading.close();
-        this.importQueryState = true;
-        this.tableData = res.result.caseInfos;
-        
-        this.$refs.batchImportDialog.show({
-          total : res.result.caseNum,
-          errorList : res.result.noResultCaseList,
-          duplicateNum : res.result.duplicateNum,
-          data : res.result.caseInfos,
-          duplicateCaseList : res.result.duplicateCaseList,
-        });
+        this.type = 2;
+        // 清空进度条
+        this.progress = {
+          processed : 0,
+          total : 100,
+        };
+        this.timerFn(res.result.detectId);
       },
       // 文件上传失败
       uploadError() {
@@ -158,7 +303,7 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
+          url : '/PhoneDetectionStatisticsBaseQuery.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
@@ -194,13 +339,13 @@
   .font-center{
     text-align: center;
   }
+  .m-tit{
+    font-size: 16px;
+    font-weight: bold;
+  }
 
   .num-detection-cont{
     height: 300px;
-    .m-tit{
-      font-size: 16px;
-      font-weight: bold;
-    }
     .mprogress{
       width: 600px;
       margin: 0 auto;
@@ -212,6 +357,19 @@
       margin-top: 30px;
       margin-bottom: 10px;
     }
+  }
+
+  .m-primordial-table tr:hover{
+    background-color: #fff;
+  }
+  .m-table{
+    width: 800px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 40px;
+  }
+  .m-table-title{
+    background-color: #f5f7fa;
   }
 
 }
