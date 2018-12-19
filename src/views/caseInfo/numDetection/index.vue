@@ -221,7 +221,7 @@
       // 点击下载
       handleDownload(row) {
         exportFile({
-          url : '/phoneDetect/downloadExcel',
+          url : '/phoneDetect/downloadExcel.htm',
           data : {
             detectId : row.detectId,
           },
@@ -231,7 +231,7 @@
       timerFn(detectId) {
         this.$http({
           method : 'post',
-          url : '/phoneDetect/detectNum',
+          url : '/phoneDetect/detectNum.htm',
           data : {
             detectId,
           },
@@ -258,7 +258,7 @@
       uploadDetail(detectId) {
         this.$http({
           methods : 'post',
-          url : '/phoneDetect/static',
+          url : '/phoneDetect/statistics.htm',
           data : {
             detectId,
           },
