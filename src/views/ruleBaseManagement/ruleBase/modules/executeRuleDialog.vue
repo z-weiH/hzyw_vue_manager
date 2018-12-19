@@ -615,10 +615,17 @@
             arr.push(it);
           }
         })
-        this.$http.post("/rule/executeRuleByBaseQuery.htm",{levelId: this.form.levelId,ruleIdList: arr, ... this.form},{mheaders: true,timeout: 150000}).then(res => {
-          this.exeId = res.result;
-          this.execute({exeId: res.result});
+        this.$http.post("/rule/insertRuleExeTask.htm").then(r => {
+          this.$http.post("/rule/executeRuleByBaseQuery.htm",{levelId: this.form.levelId,ruleIdList: arr, ... this.form,exeId: r.result},{mheaders: true,timeout: 150000}).then(res => {
+            this.exeId = res.result;
+
+          })
+          setTimeout(() => {
+            this.execute({exeId: r.result});
+          },2000)
         })
+
+
       },
 
       step3(){
