@@ -300,6 +300,9 @@
 
         // 执行下载逻辑
         this.handleDownload({detectId});
+        // 刷新表格数据
+        this.currentPage = 1;
+        this.initTableList();
       },
 
 
@@ -343,8 +346,6 @@
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
-
-            ...this.ruleForm,
           },
         }).then((res) => {
           this.total = res.result.count;
