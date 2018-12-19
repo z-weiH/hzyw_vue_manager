@@ -48,38 +48,38 @@
           >
             <tr>
               <td class="m-table-title">检测号码</td>
-              <td>{{ruleForm.total}}</td>
+              <td>{{ruleForm.total || 0}}</td>
               <td class="m-table-title">耗时</td>
-              <td>{{ruleForm.duration}}秒</td>
+              <td>{{ruleForm.duration || 0}}秒</td>
               <td class="m-table-title">正常</td>
-              <td>{{ruleForm.normal}}</td>
+              <td>{{ruleForm.normal || 0}}</td>
             </tr>
 
             <tr>
               <td class="m-table-title">通话中</td>
-              <td>{{ruleForm.calling}}</td>
+              <td>{{ruleForm.calling || 0}}</td>
               <td class="m-table-title">关机</td>
-              <td>{{ruleForm.poweroff}}</td>
+              <td>{{ruleForm.poweroff || 0}}</td>
               <td class="m-table-title">长时间关机</td>
-              <td>{{ruleForm.shutdown}}</td>
+              <td>{{ruleForm.shutdown || 0}}</td>
             </tr>
 
             <tr>
               <td class="m-table-title">欠费</td>
-              <td>{{ruleForm.owned}}</td>
+              <td>{{ruleForm.owned || 0}}</td>
               <td class="m-table-title">无短信能力</td>
-              <td>{{ruleForm.noSms}}</td>
+              <td>{{ruleForm.noSms || 0}}</td>
               <td class="m-table-title">空号</td>
-              <td>{{ruleForm.dead}}</td>
+              <td>{{ruleForm.dead || 0}}</td>
             </tr>
 
             <tr>
               <td class="m-table-title">不在网（空号）</td>
-              <td>{{ruleForm.notInNet}}</td>
+              <td>{{ruleForm.notInNet || 0}}</td>
               <td class="m-table-title">查询失败</td>
-              <td>{{ruleForm.queryFail}}</td>
+              <td>{{ruleForm.queryFail || 0}}</td>
               <td class="m-table-title">接口错误</td>
-              <td>{{ruleForm.interfaceErr}}</td>
+              <td>{{ruleForm.interfaceErr || 0}}</td>
             </tr>
           </table>
 
@@ -295,7 +295,7 @@
             ruleForm[key] = v.count;
           });
 
-          this.ruleForm = ruleForm;
+          this.ruleForm = Object.assign(this.ruleForm,ruleForm);
         });
       },
 
@@ -318,7 +318,7 @@
         // 清空进度条
         this.progress = {
           processed : 0,
-          total : 100,
+          total : 0,
         };
         this.timerFn(res.result.detectId);
       },
