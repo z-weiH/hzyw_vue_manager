@@ -50,7 +50,7 @@
               <td class="m-table-title">检测号码</td>
               <td>{{ruleForm.total}}</td>
               <td class="m-table-title">耗时</td>
-              <td>{{ruleForm.elapsed}}秒</td>
+              <td>{{ruleForm.duration}}秒</td>
               <td class="m-table-title">正常</td>
               <td>{{ruleForm.normal}}</td>
             </tr>
@@ -171,7 +171,7 @@
           // 检测号码
           total : '',
           // 耗时
-          elapsed : '',
+          duration : '',
           // 正常
           normal : '',
           // 通话中
@@ -264,6 +264,38 @@
           },
         }).then((res) => {
           this.ruleForm = Object.assign(this.ruleForm.ruleForm,res.result.result);
+          let ruleForm = {
+            duration : res.result.duration,
+            total : res.result.total,
+          };
+          // 数据处理
+          res.result.list.map((v,k) => {
+            let key;
+            if(v.code === 0) {
+              key = 'queryFail';
+            }else if(v.code === 1) {
+              key = 'normal';
+            }else if(v.code === 2) {
+              key = 'dead';
+            }else if(v.code === 3) {
+              key = 'calling';
+            }else if(v.code === 4) {
+              key = 'notInNet';
+            }else if(v.code === 5) {
+              key = 'poweroff';
+            }else if(v.code === 11) {
+              key = 'noSms';
+            }else if(v.code === 13) {
+              key = 'owned';
+            }else if(v.code === 27) {
+              key = 'shutdown';
+            }else if(v.code === 999) {
+              key = 'interfaceErr';
+            }
+            ruleForm[key] = v.count;
+          });
+
+          this.ruleForm = ruleForm;
         });
       },
 
