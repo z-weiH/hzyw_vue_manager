@@ -195,9 +195,9 @@
         },
         progress : {
           // 当前检测的数量
-          processed : 10,
+          processed : 0,
           // 进度条总数
-          total : 15,
+          total : 0,
         },
 
         // 表格数据
@@ -297,6 +297,9 @@
 
           this.ruleForm = Object.assign(this.ruleForm,ruleForm);
         });
+
+        // 执行下载逻辑
+        this.handleDownload({detectId});
       },
 
 
