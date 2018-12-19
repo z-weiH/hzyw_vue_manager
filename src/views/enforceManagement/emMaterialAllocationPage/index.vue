@@ -329,7 +329,7 @@
         clfsList: [
           {materialType: 1,materialNum: 0 },
           {materialType: 2,materialNum: 0 },
-          {materialType: 3,materialNum: 0 },
+          // {materialType: 3,materialNum: 0 },
           {materialType: 4,materialNum: 0 },
           {materialType: 7,materialNum: 0 },
           {materialType: 8,materialNum: 0 },
@@ -490,15 +490,15 @@
       clfsSave(){
         let obj = {
           courtId: this.$route.query.courtId,
-          bsqbccns: this.clfsListClone[2].materialNum,
-          cczksm: this.clfsListClone[7].materialNum,
-          fwxy: this.clfsListClone[5].materialNum,
-          jkxy: this.clfsListClone[4].materialNum,
+          // bsqbccns: this.clfsListClone[2].materialNum,
+          cczksm: this.clfsListClone[6].materialNum,
+          fwxy: this.clfsListClone[4].materialNum,
+          jkxy: this.clfsListClone[3].materialNum,
           qzzxsqs: this.clfsListClone[0].materialNum,
-          sfzzfm: this.clfsListClone[6].materialNum,
+          sfzzfm: this.clfsListClone[5].materialNum,
           sqwts: this.clfsListClone[1].materialNum,
-          xzgxfsms: this.clfsListClone[8].materialNum,
-          zxkyhzhqds: this.clfsListClone[3].materialNum,
+          xzgxfsms: this.clfsListClone[7].materialNum,
+          zxkyhzhqds: this.clfsListClone[2].materialNum,
         };
         let obj1 = {};
         for(let key in obj){
@@ -559,12 +559,14 @@
           }
           if(res.result.materialNumSetting){
             res.result.materialNumSetting.forEach(it => {
-              let item = this.clfsList.find(i => i.materialType === it.materialType);
-              item.materialNum = it.materialNum;
+              if(it.materialType !== 3){
+                let item = this.clfsList.find(i => i.materialType === it.materialType);
+                if(item)
+                item.materialNum = it.materialNum;
+              }
             })
-
+            console.log(this.clfsList);
           }
-          console.log(this.clfsList);
 
 
         })
