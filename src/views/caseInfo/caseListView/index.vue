@@ -553,6 +553,10 @@ export default {
 				console.info(res)
 				//  this.tableData = res.result.list;
 				//   this.total = res.result.count;
+				this.tableData = res.result.list.map((v) => {
+					v.detecResult = v.detecResult || '未检测';
+					return v;
+				});
         this.queryCount(item)
 			})
 		},
