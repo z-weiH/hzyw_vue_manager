@@ -35,7 +35,7 @@ axios.interceptors.request.use((config) => {
   if (config.method === 'post' && config.mheaders !== true) {
     config.data = qs.stringify(config.data);
   }
-  config.url = host.target + config.url;
+  config.url = (config.apiPrefix ||  host.target ) + config.url;
   return config;
 }, (error) => {
   return Promise.reject(error);
