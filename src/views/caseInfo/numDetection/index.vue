@@ -243,10 +243,14 @@
 
           // 进度100%
           if(res.result.processed === res.result.total) {
+            let loading = this.$loading({
+              text : '下载准备中...'
+            });
             setTimeout(() => {
               this.type = 3;
               this.uploadDetail(detectId);
-            },1000);
+              loading.close();
+            },3000);
           }else{
             setTimeout(() => {
               this.timerFn(detectId);
