@@ -61,7 +61,7 @@ export default {
 				{
 					label: '案件查询',
 					type: 'text',
-					placeholder: '案号、申请人、被申请人、手机号',
+					placeholder: '借款单号、仲裁案号、申请人、被申请人、被申请人手机',
 					colSpan: 9,
 					property: 'keyWords',
 				},
@@ -280,7 +280,7 @@ export default {
 					width: 120,
 				},
 				{
-					label: '案件编号',
+					label: '仲裁案号',
 					property: 'arbCaseId',
 					width: 200,
 				},
@@ -309,6 +309,11 @@ export default {
 					label: '被申请人手机',
 					property: 'resPhone',
 					width: 150,
+				},
+				{
+					label: '号码检测结果',
+					property: 'detecResult',
+					width: 130,
 				},
 				{
 					label: '模版编码',
