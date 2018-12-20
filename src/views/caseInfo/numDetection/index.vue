@@ -26,8 +26,8 @@
           >
             <el-button type="primary"><i class="el-icon-upload el-icon--right"></i>上传表格</el-button>
           </el-upload>
-          <p class="mt-20">请上传由“案件列表”页导出的xlsx文件</p>
-          <p class="mt-10">同时请确保未对表格中的“被申请人手机号”列作任何修改</p>
+          <p class="mt-20 color-666">请上传由“案件列表”页导出的xlsx文件</p>
+          <p class="mt-10 color-666">同时请确保未对表格中的“被申请人手机号”列作任何修改</p>
         </div>
       </template>
 
@@ -382,6 +382,9 @@
 <style lang="scss" scoped>
 
 .num-detection{
+  .color-666{
+    color: #909399;
+  }
   .font-center{
     text-align: center;
   }
