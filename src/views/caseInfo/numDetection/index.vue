@@ -325,13 +325,18 @@
       // 文件上传成功
       uploadSuccess(res, file, fileList) {
         this.pageLoading.close();
-        this.type = 2;
-        // 清空进度条
-        this.progress = {
-          processed : 0,
-          total : 0,
-        };
-        this.timerFn(res.result);
+        // 上传成功
+        if(res.code === '0000') {
+          this.type = 2;
+          // 清空进度条
+          this.progress = {
+            processed : 0,
+            total : 0,
+          };
+          this.timerFn(res.result);
+        }else{
+          this.$message.error(res.description);
+        }
       },
       // 文件上传失败
       uploadError() {
