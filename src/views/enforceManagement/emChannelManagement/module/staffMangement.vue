@@ -175,12 +175,12 @@
                     delete obj.password;
                 }
                 if(obj.userId){
-                  this.$http.post(host.target+'/web/employee/mod.htm',{...obj},{notoken: true}).then(res => {
+                  this.$http.post('/employee/mod.htm',{...obj},{notoken: true,apiPrefix: 'web'}).then(res => {
                     this.flag = false;
                     this.doQuery();
                   })
                 }else{
-                  this.$http.post(host.target+'/web/employee/add.htm', {agencyId: this.$route.query.channelId, ...obj},{notoken: true}).then(res => {
+                  this.$http.post('/employee/add.htm', {agencyId: this.$route.query.channelId, ...obj},{notoken: true,apiPrefix: 'web'}).then(res => {
                     this.flag = false;
                     this.doQuery();
                   })
@@ -197,7 +197,7 @@
 
           HandleChange(val,row){
             console.log(val, row);
-            this.$http.post(host.target+'/web/employee/del.htm',{isDeleted: 1 - (+val), userId: row.userId },{notoken: true}).then(res => {
+            this.$http.post('/employee/del.htm',{isDeleted: 1 - (+val), userId: row.userId },{notoken: true,apiPrefix: 'web',apiPrefix: 'web'}).then(res => {
 
             }).catch( () => {
               row.isDeleted = !val;
@@ -227,7 +227,7 @@
           },
 
           doQuery(){
-            this.$http.get(host.target+'/web/employee/list.htm',{params: {agencyId: this.$route.query.channelId, ...this.pager,...this.searchItem},notoken: true}).then(res => {
+            this.$http.get('/employee/list.htm',{params: {agencyId: this.$route.query.channelId, ...this.pager,...this.searchItem},notoken: true,apiPrefix: 'web'}).then(res => {
               this.tableData = res.result.list;
               this.pager.count = res.result.count;
               res.result.list.forEach(it => {
