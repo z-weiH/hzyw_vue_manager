@@ -123,7 +123,7 @@
         <el-table-column prop="totalCount" label="检测总数"></el-table-column>
         <el-table-column prop="succCount" label="号码可用"></el-table-column>
         <el-table-column prop="failedCount" label="号码不可用"></el-table-column>
-        <el-table-column prop="errotCount" label="检测错误"></el-table-column>
+        <el-table-column prop="errorCount" label="检测错误"></el-table-column>
         <el-table-column prop="respondents" label="操作">
           <template slot-scope="scope">
             <el-button @click="handleDownload(scope.row)" type="text">下载</el-button>
@@ -221,7 +221,7 @@
       // 点击下载
       handleDownload(row) {
         exportFile({
-          url : '/phoneDetect/downloadExcel.htm',
+          url : '/phoneDetect/exportResult.htm',
           data : {
             detectId : row.detectId,
           },
@@ -257,13 +257,12 @@
       // 轮询结束 获取详情
       uploadDetail(detectId) {
         this.$http({
-          methods : 'post',
+          method : 'post',
           url : '/phoneDetect/statistics.htm',
           data : {
             detectId,
           },
         }).then((res) => {
-          this.ruleForm = Object.assign(this.ruleForm.ruleForm,res.result.result);
           let ruleForm = {
             duration : res.result.duration,
             total : res.result.total,
@@ -326,7 +325,7 @@
           processed : 0,
           total : 0,
         };
-        this.timerFn(res.result.detectId);
+        this.timerFn(res.result);
       },
       // 文件上传失败
       uploadError() {
@@ -341,7 +340,7 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/PhoneDetectionStatisticsBaseQuery.htm',
+          url : '/phoneDetect/phoneDetectionStatisticsBaseQuery.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
