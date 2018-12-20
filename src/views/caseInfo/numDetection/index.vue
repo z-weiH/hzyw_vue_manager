@@ -22,6 +22,7 @@
             :data="{
               token : token,
             }"
+            accept=".xlsx"
           >
             <el-button type="primary"><i class="el-icon-upload el-icon--right"></i>上传表格</el-button>
           </el-upload>
@@ -95,6 +96,7 @@
             :data="{
               token : token,
             }"
+            accept=".xlsx"
           >
             <el-button type="primary">继续上传</el-button>
           </el-upload>
