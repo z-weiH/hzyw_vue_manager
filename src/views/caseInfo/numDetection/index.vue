@@ -271,28 +271,28 @@
           // 数据处理
           res.result.list.map((v,k) => {
             let key;
-            if(v.code === 0) {
+            if(v.statusCode === 0) {
               key = 'queryFail';
-            }else if(v.code === 1) {
+            }else if(v.statusCode === 1) {
               key = 'normal';
-            }else if(v.code === 2) {
+            }else if(v.statusCode === 2) {
               key = 'dead';
-            }else if(v.code === 3) {
+            }else if(v.statusCode === 3) {
               key = 'calling';
-            }else if(v.code === 4) {
+            }else if(v.statusCode === 4) {
               key = 'notInNet';
-            }else if(v.code === 5) {
+            }else if(v.statusCode === 5) {
               key = 'poweroff';
-            }else if(v.code === 11) {
+            }else if(v.statusCode === 11) {
               key = 'noSms';
-            }else if(v.code === 13) {
+            }else if(v.statusCode === 13) {
               key = 'owned';
-            }else if(v.code === 27) {
+            }else if(v.statusCode === 27) {
               key = 'shutdown';
-            }else if(v.code === 999) {
+            }else if(v.statusCode === 999) {
               key = 'interfaceErr';
             }
-            ruleForm[key] = v.count;
+            ruleForm[key] = v.num;
           });
 
           this.ruleForm = Object.assign(this.ruleForm,ruleForm);
