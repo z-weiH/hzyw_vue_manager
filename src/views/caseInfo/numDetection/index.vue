@@ -33,7 +33,7 @@
 
       <template v-if="type === 2">
         <div class="font-center" style="padding-top: 100px;">
-          <p class="m-tit">正在上传中，请稍后...</p>
+          <p class="m-tit">正在上传，请稍后...</p>
         </div>
       </template>
 
