@@ -62,7 +62,7 @@ export default {
         {
           type: "text",
           placeholder: "客户名称、借款单号、被申请人姓名",
-          colSpan: 7,
+          colSpan: 9,
           property: "keyWords"
         },
         {
@@ -75,7 +75,7 @@ export default {
           type: "text",
           placeholder: "模版号",
           colSpan: 5,
-          property: "productId"
+          property: "productId",
         },
         {
           type: "date",
@@ -105,7 +105,7 @@ export default {
         {
           label: "模版号",
           property: "productId"
-          // width: 100
+          // width: 100,
         },
         {
           label: "借款单号",
@@ -144,14 +144,15 @@ export default {
       // 输入时条件变动 和 检索时条件
       // 从下标3开始有空值就设置一次禁用按钮,否则开启按钮
       // 直到呈现按钮最终状态
-      console.error(item);
-      for (var i in item) {
-        if (i > 2) {
-          return item[i] != ""
-            ? (this.exportBtnType = false)
-            : (this.exportBtnType = true);
-        }
-      }
+      // for (var i in item) {
+      //   if (i > 2) {
+      //     console.log("i", i);
+      //     item[i] != ""
+      //       ? (this.exportBtnType = false)
+      //       : (this.exportBtnType = true);
+      //   }
+      // }
+      // console.error(item);
     },
     doQuery(url, item) {
       this.query(url, item).then(res => {
@@ -159,7 +160,28 @@ export default {
         //  this.tableData = res.result.list;
         //   this.total = res.result.count;
         console.log("item-", item);
-        this.searchItemChange(item);
+        // this.searchItemChange(item);
+        for (let i in item) {
+          console.log(i);
+          if (
+            i == "keyWords" ||
+            i == "productName" ||
+            i == "productId" ||
+            i == "startDate" ||
+            i == "endDate"
+          ) {
+            console.log("--------------------99999-------", item[i]);
+            console.log(
+              "~~~~~~~~~~~~~~~~~table-~~~~~~~~~~",
+              this.tableData.length
+            );
+            if (item[i] != "" && this.tableData.length != 0) {
+              this.exportBtnType = false;
+            } else {
+              this.exportBtnType = true;
+            }
+          }
+        }
       });
     }
   },

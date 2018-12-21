@@ -16,7 +16,7 @@ export default {
         pageSize: 10,
         count: 0,
       },
-      _createElement: null
+      _createElement: null,
     }
   },
   // 待解决
@@ -25,6 +25,24 @@ export default {
   //   this.doQuery(this.queryUrl,this.searchitem)
   // },
   methods: {
+    // 该方法和query一直-配置是mock的规则，调试模拟数据用
+    query_mock(url, item) {
+      Object.assign(item, this.pager, this.fixedSearchItrems)
+      let promise = this.$http.post(url, item).then(res => {
+        console.log('query::数据')
+        // mock格式转换成正规json格式
+        res = Mock.mock(res)
+        console.log(res)
+        if (res.code === '0000') {
+          this.tableData = res.result.list
+          this.pager.count = res.result.count
+        } else {
+          this.$message.error(res.description)
+        }
+        return res
+      })
+      return promise
+    },
     /**
      * @method
      * @description 基本的查询操作
@@ -32,23 +50,21 @@ export default {
      * @return Promise包装的查询结果,实际页面可以做其他操作
      */
     query(url, item) {
-      Object.assign(item, this.pager, this.fixedSearchItrems);
-      let promise = this.$http.post(url, item)
-        .then(res => {
-          console.log('query::数据');
-          // mock格式转换成正规json格式
-          // res = Mock.mock(res);
-          console.log(res);
-          if(res.code === '0000') {
-            this.tableData = res.result.list;
-            this.pager.count = res.result.count;
-          }
-          else {
-            this.$message.error(res.description);
-          }
-          return res;
-        })
-      return promise;
+      Object.assign(item, this.pager, this.fixedSearchItrems)
+      let promise = this.$http.post(url, item).then(res => {
+        console.log('query::数据')
+        // mock格式转换成正规json格式
+        // res = Mock.mock(res)
+        console.log(res)
+        if (res.code === '0000') {
+          this.tableData = res.result.list
+          this.pager.count = res.result.count
+        } else {
+          this.$message.error(res.description)
+        }
+        return res
+      })
+      return promise
     },
     /**
      * @method
@@ -56,12 +72,14 @@ export default {
      * @param item 查询条件
      */
     doQuery(url, item) {
-      this.query(url, item)
+      this.query_mock ?
+       this.query_mock(url, item)
+       :this.query(url, item)
     },
     queryDetail(url, item) {
       return this.$http.post(url, item).then(res => {
-        res = Mock.mock(res);
-        return res;
+        res = Mock.mock(res)
+        return res
       })
     },
     beforeClose(action, instance, done) {
@@ -71,25 +89,25 @@ export default {
       let promise = new Promise((resolve, reject) => {
         this.$confirm(msg ? msg : '是否确认删除？', '提示', {
           center: true,
-        }).then(res => {
-          //点取消
-          resolve(true)
-        }).catch(err => {
-          //点确定
-          resolve(false)
         })
-      });
-      return promise;
+          .then(res => {
+            //点取消
+            resolve(true)
+          })
+          .catch(err => {
+            //点确定
+            resolve(false)
+          })
+      })
+      return promise
     },
     /**
      * @method
      * @description 刷新表格
      */
     refresh() {
-      this.editState = 0;
+      this.editState = 0
       this.doQuery(this.queryUrl, this.searchItem)
-    }
-
-
-  }
+    },
+  },
 }

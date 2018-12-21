@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import './dateFormat'
 
 Vue.filter('TimeMoment', function(time) {
 	let getTime = (time, type = 'all') => {
@@ -27,7 +28,7 @@ Vue.filter('TimeMoment', function(time) {
 	}
 	return getTime(time);
 	})
-	
+
 	Vue.filter('TimeMomentChina',function(time) {
 		let myDate = new Date(time);
 		let year = myDate.getFullYear();
