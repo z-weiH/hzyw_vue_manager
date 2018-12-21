@@ -1,239 +1,158 @@
 <template>
-  <div class="hear-dropCase-list">
+  <div class="content">
     <div class="wsbodyhead">
       <a>所在位置</a>
-      <a>证据缺失案件库</a>
+      <router-link :to="$options.name" class="aside_tit">证据缺失案件库</router-link>
     </div>
-
-    <div class="item-search">
-      <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
-        <el-form-item label=" " prop="keyWords">
-          <el-input style="width:260px;" v-model.trim="ruleForm.keyWords" placeholder="案件订单编号、互金企业、产品名称"></el-input>
-        </el-form-item>
-
-        <!-- 推送时间 -->
-        <timeFrame
-          :startDate.sync="ruleForm.startDate"
-          :endDate.sync="ruleForm.endDate"
-          startPlaceholder="推送开始"
-          endPlaceholder="推送结束"
-        >
-        </timeFrame>
-
-        <el-form-item label=" " prop="type">
-          <el-select clearable style="width:150px;" v-model="ruleForm.type" placeholder="请选择状态">
-            <el-option label="继续处理" :value="2"></el-option>
-            <el-option label="等待处理" :value="0"></el-option>
-            <el-option label="整合中" :value="1"></el-option>
-            <el-option label="已告知" :value="3"></el-option>
-            <el-option label="整合成功" :value="4"></el-option>
-          </el-select>
-        </el-form-item>
-
-        <el-button @click="handleSearch" type="warning">查询</el-button>
-      </el-form>
-    </div>
-
-    <div class="item-title of-hidden">
-      <span class="item-title-sign">案件列表</span>
-      <div class="fr">
-        <el-button :disabled="multipleSelection.length === 0 ? true : false" @click="handleBatchIntegration" type="primary">批量整合</el-button>
-      </div>
-    </div>
-
+    <searchs
+      @valueChange="searchItemChange"
+      class="item-search"
+      :search-items="searchItems"
+      :item="searchItem"
+      :query-url="queryUrl"
+    >
+      <template slot="moreBtn">
+        <el-button class="ml-20" type="primary" @click="handleExport">导出Excel</el-button>
+      </template>
+    </searchs>
+    <div class="item-title">缺失案件列表</div>
     <div class="item-table">
-      <el-table
-        :data="tableData"
-        border
-        @selection-change="handleSelectionChange"
-      >
-        <el-table-column :selectable="selectable" prop="date" type="selection" width="50px"></el-table-column>
-        <el-table-column prop="caseOrderId" label="案件订单编号"></el-table-column>
-        <el-table-column prop="clientName" label="互金企业">
-          <template slot-scope="scope">
-            <el-tooltip :content="scope.row.clientName" placement="top-start">
-              <span class="ellipsis" style="max-width:128px;">{{scope.row.clientName}}</span>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-        <el-table-column prop="productName" label="产品名称">
-          <template slot-scope="scope">
-            <el-tooltip :content="scope.row.productName" placement="top-start">
-              <span class="ellipsis" style="max-width:128px;">{{scope.row.productName}}</span>
-            </el-tooltip>
-          </template>
-        </el-table-column>
-        <el-table-column prop="pushDay" label="推送时间" width="160px"></el-table-column>
-        <el-table-column prop="amtCase" label="状态">
-          <template slot-scope="scope">
-            {{
-              scope.row.type === 0 ? '等待处理' :
-              scope.row.type === 1 ? '整合中' :
-              scope.row.type === 2 ? '继续处理' :
-              scope.row.type === 3 ? '已告知' : '整合成功'
-            }}
-          </template>
-        </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button @click="handleOpen(scope.row)" type="text">查看</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <!-- 分页 -->
-      <el-pagination
-        class="mt-10 mb-10"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page="currentPage"
-        :page-sizes="[10, 20, 30, 40]"
-        :page-size="10"
-        layout="total, sizes, prev, pager, next, jumper"
-        :total="total">
-      </el-pagination>
-
+      <table-component
+        :pager="pager"
+        @refreshList="doQuery(this.queryUrl, this.searchItem)"
+        :table-data="tableData"
+        :column-define="columnDefine"
+      ></table-component>
     </div>
   </div>
 </template>
 
-<script>
-  import timeFrame from '@/components/timeFrame.vue'
-  export default {
-    components : {
-      timeFrame,
-    },
-    data() {
-      return {
-        ruleForm : {
-          // 案件订单编号、互金企业、产品名称
-          keyWords : '',
-          // 开始时间
-          startDate : '',
-          // 结束时间
-          endDate : '',
-          // 0-等待处理，1-正在整合，2-继续处理，3-已告知, 4-处理成功
-          type : '', 
+
+<script type='text/ecmascript-6'>
+import { URL_JSON } from "../../../components/script/url_json";
+import exportFile from "@/assets/js/exportFile";
+import Searchs from "@/components/searchs";
+import TableComponent from "@/components/table";
+import Mixins from "@/components/script/_mixin";
+export default {
+  name: "hearDropCaseList",
+  mixins: [Mixins],
+  data() {
+    return {
+      searchItem: {},
+      queryUrl: "/failedReason/evidenceMissing.htm",
+      item: {},
+      exportUrl: "/failedReason/missingCaseDerivation.htm",
+      // pager: {
+      //   // 数据总数
+      //   total: null,
+      //   // 当前页数
+      //   currentPage: 1,
+      //   // 每页数量
+      //   pageSize: 10
+      // },
+      tableData: [{}],
+      searchItems: [
+        {
+          type: "text",
+          placeholder: "客户名称、借款单号、被申请人姓名",
+          colSpan: 7,
+          property: "keyWords"
         },
-        rules : {},
-
-        // table checked
-        multipleSelection : [],
-
-        // 表格数据
-        tableData : [],
-        // 数据总数
-        total : 0,
-        // 当前页数
-        currentPage : 1,
-        // 每页数量
-        pageSize : 10,
-      }
-    },
-    mounted() {
-      this.initTableList();
-    },
-    methods : {
-      // 点击搜索
-      handleSearch() {
-        this.currentPage = 1;
-        this.initTableList();
-      },
-      // 表格 多选框 禁用状态
-      selectable(row,index) {
-        return row.type === 2 || row.type === 0;
-      },
-      // 点击批量整合
-      handleBatchIntegration() {
-        if(this.multipleSelection.length === 0){
-          this.$message.warning('请勾选案件');
-          return;
+        {
+          type: "text",
+          placeholder: "产品名称",
+          colSpan: 4,
+          property: "productName"
+        },
+        {
+          type: "text",
+          placeholder: "模版号",
+          colSpan: 5,
+          property: "productId"
+        },
+        {
+          type: "date",
+          colSpan: 5,
+          placeholder: "推送开始日期",
+          property: "startDate",
+          newline:1,
+        },
+        {
+          type: "date",
+          colSpan: 5,
+          placeholder: "推送结束日期",
+          property: "endDate"
         }
-        console.log(this.multipleSelection);
-        this.$confirm("确定进行批量整合?", "提示", {
-          confirmButtonText: "确定",
-          cancelButtonText: "取消",
-          center: true
-        }).then(() => {
-          this.$http({
-            method : 'post',
-            url : '/failedReason/batchIntegration.htm',
-            mheaders : true,
-            data : {
-              list : (this.multipleSelection)
-            },
-          }).then((res) => {
-            this.$message.success('提交成功，请稍后查看结果');
-            this.handleSearch();
-          });
-        }).catch(() => {});
-      },
-      // table check
-      handleSelectionChange(val) {
-        this.multipleSelection = val;
-      },
-      // 点击查看
-      handleOpen(row) {
-        this.$router.push({
-          path : 'hearDropCaseDetail',
-          query : {
-            caseOrderId : row.caseOrderId,
-            type : row.type,
-          },
-        });
-      },
-
-      // 表格相关 start
-
-      // 初始化 表格数据
-      initTableList() {
-        this.$http({
-          url : '/failedReason/evidenceMissing.htm',
-          method : 'post',
-          data : {
-            pageSize : this.pageSize,
-            currentNum : this.currentPage,
-
-            keyWords : this.ruleForm.keyWords,
-            type : this.ruleForm.type,
-            startDate : this.ruleForm.startDate,
-            endDate : this.ruleForm.endDate,
-          },
-        }).then((res) => {
-          this.total = res.result.count;
-          this.tableData = res.result.list;
-        });
-      },
-      // 页数 change
-      handleSizeChange(val) {
-        this.pageSize = val;
-        this.currentPage = 1;
-        this.initTableList();
-      },
-      // 分页 change
-      handleCurrentChange(val) {
-        this.currentPage = val; 
-        this.initTableList();
-      },
-
-      // 表格相关 end
+      ],
+      columnDefine: [
+        {
+          label: "客户名称",
+          property: "clientName",
+          width: 300
+        },
+        {
+          label: "产品名称",
+          property: "productName",
+          width: 160
+        },
+        {
+          label: "模版号",
+          property: "productId",
+          // width: 100
+        },
+        {
+          label: "借款单号",
+          property: "loanBillNo",
+          // width: 100
+        },
+        {
+          label: "被申请人姓名",
+          property: "respondents",
+          // width: 100
+        },
+        {
+          label: "推送时间",
+          property: "pushDay",
+          width: 160
+        },
+        {
+          label: "整合失败原因",
+          property: "failedReason",
+          width: 280
+        }
+      ]
+    };
+  },
+  methods: {
+    handleExport() {
+      console.info("searchItem:::", this.searchItem);
+      let _token = JSON.parse(localStorage.getItem("loginInfo")).token;
+      this.searchItem.token = _token;
+      exportFile({
+        url: this.exportUrl,
+        data: this.searchItem
+      });
+    },
+    doQuery(url, item) {
+      this.query(url, item).then(res => {
+        console.info(res);
+        //  this.tableData = res.result.list;
+        //   this.total = res.result.count;
+      });
     }
+  },
+  created() {},
+  mounted() {
+    this.doQuery(this.queryUrl, this.searchItem);
+  },
+  components: {
+    Searchs,
+    TableComponent
   }
+};
 </script>
 
-<style lang="scss">
 
-.hear-dropCase-list{
-  .item-title{
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-  .item-title-sign{
-    margin-top: 12px;
-    display: inline-block;
-  }
-  .el-form-item{
-    margin-bottom: 0;
-  }
-}
-
+<style lang='scss' scoped>
 </style>
