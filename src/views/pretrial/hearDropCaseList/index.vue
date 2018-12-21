@@ -114,8 +114,8 @@ export default {
         },
         {
           label: "被申请人姓名",
-          property: "respondents"
-          // width: 100
+          property: "respondents",
+          width: 130
         },
         {
           label: "推送时间",
