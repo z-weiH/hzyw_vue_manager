@@ -20,10 +20,22 @@
       <div class="sc2">
         <div class="record_element_box">
           <div class="date_box">
-            <div class="day">{{day}}</div>
-            <div class="time_item">
-              {{thatDay}}
+            <div class="block">
+              <el-date-picker
+                v-model="date_val"
+                type="datetimerange"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                :default-time="['12:00:00']"
+                @change="bigDateFoo"
+                id="da"
+              ></el-date-picker>
             </div>
+            <label for="d" class="day">
+              <label for="a" style="display:none;"></label>
+              {{day}}
+            </label>
+            <div class="time_item">{{thatDay}}</div>
           </div>
           <div class="recordNum_box">
             <div class="num_card">
@@ -31,7 +43,7 @@
                 <span class="icon ico_count"></span>
               </div>
               <div>
-                <h1></h1>
+                <h1>{{resItem.pushNum}}</h1>
                 <h2>推送总数</h2>
               </div>
             </div>
@@ -40,7 +52,7 @@
                 <span class="icon ico_push"></span>
               </div>
               <div>
-                <h1></h1>
+                <h1>{{resItem.repeatNum}}</h1>
                 <h2>重复推送</h2>
               </div>
             </div>
@@ -49,7 +61,7 @@
                 <span class="icon ico_err"></span>
               </div>
               <div>
-                <h1></h1>
+                <h1>{{resItem.failNum}}</h1>
                 <h2>整合失败</h2>
               </div>
             </div>
@@ -58,13 +70,11 @@
                 <span class="icon ico_happy"></span>
               </div>
               <div>
-                <h1></h1>
+                <h1>{{resItem.clientCount}}</h1>
                 <h2>活跃客户</h2>
               </div>
             </div>
-
           </div>
-
         </div>
       </div>
     </div>
@@ -82,6 +92,10 @@ import Mixins from "@/components/script/_mixin";
 /****
  *@param thatDay 当天-精确到时刻
  *@param day 天
+ *@param tableData 列表数据
+ *@param resItem 推送记录接口除列表外其他数据
+ *@param date_val 日期原始对象
+ *@param date_arr 日期-开始~结束 数组
  */
 export default {
   name: "msgPushRecord",
@@ -90,8 +104,10 @@ export default {
     return {
       queryUrl: "/pushRecord/pushInfoByBaseQuery.htm",
       searchItem: {},
-      day:'',
-      thatDay:'',
+      day: "",
+      thatDay: "",
+      date_val:"",
+      date_arr:[],
       item: {},
       pager: {
         // 数据总数
@@ -101,6 +117,7 @@ export default {
         // 每页数量
         pageSize: 10
       },
+      resItem: {},
       tableData: [{}],
       columnDefine: [
         {
@@ -129,11 +146,20 @@ export default {
     };
   },
   methods: {
+    bigDateFoo(item){
+      // console.log('beforeItem',item)
+      this.date_arr = item
+      console.log('this.date_arr',this.date_arr)
+
+    },
     doQuery(url, item) {
       this.query_mock(url, item).then(res => {
-        console.info(res);
         //  this.tableData = res.result.list;
         //   this.total = res.result.count;
+
+        console.info("delete-11", delete res.result.list);
+        console.info("item------------->-", res);
+        this.resItem = res.result;
       });
     }
   },
@@ -152,7 +178,7 @@ export default {
 
 
 <style lang='scss' scoped>
-@import '@/assets/style/scss/helper/_mixin.scss';
+@import "@/assets/style/scss/helper/_mixin.scss";
 $break-mid: 640px;
 $break-large: 1264px;
 $break-lg: 1904px;
@@ -161,22 +187,18 @@ $break-lg: 1904px;
   width: 728px;
 }
 
-
-
-.bot_line{
-   overflow: hidden;
-    @include clearfix;
-  >div{
-    float:left;
+.bot_line {
+  overflow: hidden;
+  @include clearfix;
+  > div {
+    float: left;
   }
 }
 
-
-
-.sc1{
+.sc1 {
   width: 50%;
 }
-.sc2{
+.sc2 {
   min-width: 200px;
 }
 
@@ -188,81 +210,86 @@ $break-lg: 1904px;
   // width: 728px;
   // width: 75%;
   overflow: hidden;
-
 }
-.record_element_box{
+.record_element_box {
   width: 200px;
   padding-left: 10px;
-  .date_box{
+  .date_box {
     text-align: center;
     background-color: #fff;
-    border:1px solid #dcdcdc;
-    .day{
-      font-size:68px;
-      font-weight: 900;
-      padding:48px 0;
-      border-bottom:1px solid #dcdcdc;
-      cursor: pointer;
+    border: 1px solid #dcdcdc;
+    .block{
+      position: absolute;
+      z-index: -1;
+      top: 0;
     }
-    .time_item{
+    .day {
+      position: relative;
+      z-index: 1;
+      display: block;
+      font-size: 68px;
+      font-weight: 900;
+      padding: 48px 0;
+      border-bottom: 1px solid #dcdcdc;
+      cursor: pointer;
+      &:hover {
+        background: #2ab7cd;
+      }
+    }
+    .time_item {
       font-weight: bold;
-      padding:20px 0;
+      padding: 20px 0;
       cursor: default;
     }
   }
-  .num_card{
-    padding:17px 29px;
+  .num_card {
+    padding: 17px 29px;
     background-color: #fff;
-    >div{
+    > div {
       display: table-cell;
       vertical-align: middle;
     }
-    .icon{
+    .icon {
       width: 36px;
       height: 36px;
       display: inline-block;
     }
-    .ico_count{
-      background-image: url('~@/assets/img/card-01-zs.png');
+    .ico_count {
+      background-image: url("~@/assets/img/card-01-zs.png");
     }
-    .ico_push{
-       background-image: url('~@/assets/img/card-02-cf.png');
+    .ico_push {
+      background-image: url("~@/assets/img/card-02-cf.png");
     }
-    .ico_err{
-       background-image: url('~@/assets/img/card-03-sb.png');
+    .ico_err {
+      background-image: url("~@/assets/img/card-03-sb.png");
     }
-    .ico_happy{
-       background-image: url('~@/assets/img/card-04-yh.png');
+    .ico_happy {
+      background-image: url("~@/assets/img/card-04-yh.png");
     }
 
-    h1{
-
+    h1 {
     }
-    h2{
-      font-size:15px;
-      color:#a1a1a1;
+    h2 {
+      font-size: 15px;
+      color: #a1a1a1;
     }
   }
 }
 
-
 @media (min-width: $break-mid) {
-  .sc1{
-  width: 68%;
-
+  .sc1 {
+    width: 68%;
   }
 }
 @media (min-width: $break-large) {
-  .sc1{
-  width: 80%;
-
+  .sc1 {
+    width: 80%;
   }
 }
 
 @media (min-width: $break-lg) {
-  .sc1{
+  .sc1 {
     width: 85%;
   }
 }
-
 </style>
