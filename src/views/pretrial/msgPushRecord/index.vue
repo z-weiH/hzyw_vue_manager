@@ -28,7 +28,7 @@
           <div class="recordNum_box">
             <div class="num_card">
               <div>
-                <span class="icon"></span>
+                <span class="icon ico_count"></span>
               </div>
               <div>
                 <h1></h1>
@@ -37,7 +37,7 @@
             </div>
             <div class="num_card">
               <div>
-                <span class="icon"></span>
+                <span class="icon ico_push"></span>
               </div>
               <div>
                 <h1></h1>
@@ -46,7 +46,7 @@
             </div>
             <div class="num_card">
               <div>
-                <span class="icon"></span>
+                <span class="icon ico_err"></span>
               </div>
               <div>
                 <h1></h1>
@@ -55,7 +55,7 @@
             </div>
             <div class="num_card">
               <div>
-                <span class="icon"></span>
+                <span class="icon ico_happy"></span>
               </div>
               <div>
                 <h1></h1>
@@ -217,6 +217,24 @@ $break-lg: 1904px;
       display: table-cell;
       vertical-align: middle;
     }
+    .icon{
+      width: 36px;
+      height: 36px;
+      display: inline-block;
+    }
+    .ico_count{
+      background-image: url('~@/assets/img/card-01-zs.png');
+    }
+    .ico_push{
+       background-image: url('~@/assets/img/card-02-cf.png');
+    }
+    .ico_err{
+       background-image: url('~@/assets/img/card-03-sb.png');
+    }
+    .ico_happy{
+       background-image: url('~@/assets/img/card-04-yh.png');
+    }
+
     h1{
 
     }

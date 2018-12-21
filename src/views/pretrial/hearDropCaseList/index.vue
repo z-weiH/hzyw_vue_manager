@@ -12,11 +12,14 @@
       :query-url="queryUrl"
     >
       <template slot="moreBtn">
+
         <el-button
           class="ml-20"
           type="primary"
           @click="handleExport"
-          :disabled="exportBtnType"
+          :disabled="(
+            searchItem.keyWords ||searchItem.productName || searchItem.productId || searchItem.startDate || searchItem.endDate
+          ) ? false : true"
         >导出Excel</el-button>
       </template>
     </searchs>
@@ -156,37 +159,6 @@ export default {
     },
     doQuery(url, item) {
       this.query(url, item).then(res => {
-        console.info(res);
-        //  this.tableData = res.result.list;
-        //   this.total = res.result.count;
-        console.log("item-", item);
-        // this.searchItemChange(item);
-        console.log("startDate:", item["startDate"]);
-        for (let i in item) {
-          console.log(i);
-          if (
-            i == "keyWords" ||
-            i == "productName" ||
-            i == "productId" ||
-            i == "startDate" ||
-            i == "endDate"
-          ) {
-            console.log("--------------------99999-------", item[i]);
-            console.log(
-              "~~~~~~~~~~~~~~~~~table-~~~~~~~~~~",
-              this.tableData.length
-            );
-            if (
-              item[i] != undefined &&
-              item[i] != "" &&
-              this.tableData.length != 0
-            ) {
-              this.exportBtnType = false;
-            } else {
-              this.exportBtnType = true;
-            }
-          }
-        }
       });
     }
   },
