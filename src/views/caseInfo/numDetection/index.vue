@@ -289,11 +289,13 @@
           this.uploadDetail(res.result);
         }else{
           this.$message.error(res.description);
+          this.type = 1;
         }
       },
       // 文件上传失败
       uploadError() {
         this.$message.error('文件上传失败，请稍后重试');
+        this.type = 1;
       },
 
 
