@@ -33,9 +33,7 @@
 
       <template v-if="type === 2">
         <div class="font-center" style="padding-top: 100px;">
-          <p class="m-tit">正在检测...</p>
-          <p class="m-num">{{progress.processed}}&nbsp;/&nbsp;{{progress.total}}</p>
-          <mprogress :width="progress.processed / progress.total * 100" :height="20" class="mprogress"></mprogress>
+          <p class="m-tit">正在上传中，请稍后...</p>
         </div>
       </template>
 
@@ -149,12 +147,8 @@
 </template>
 
 <script>
-  import mprogress from './modules/progress.vue'
   import exportFile from '@/assets/js/exportFile.js'
   export default {
-    components : {
-      mprogress,
-    },
     data() {
       return {
         // 用户token
@@ -167,8 +161,6 @@
         })(),
         // 当前状态： 1 - 上传表格 2 - 正在检测 3 - 检测完成
         type : 1,
-        // 文件上传 loading
-        pageLoading : '',
         ruleForm : {
           // 检测号码
           total : '',
@@ -194,12 +186,6 @@
           queryFail : '',
           // 接口错误
           interfaceErr : '',
-        },
-        progress : {
-          // 当前检测的数量
-          processed : 0,
-          // 进度条总数
-          total : 0,
         },
 
         // 表格数据
@@ -227,37 +213,6 @@
           data : {
             detectId : row.detectId,
           },
-        });
-      },
-      // 定时器 轮询逻辑
-      timerFn(detectId) {
-        this.$http({
-          method : 'post',
-          url : '/phoneDetect/detectNum.htm',
-          data : {
-            detectId,
-          },
-        }).then((res) => {
-          this.progress = {
-            processed : res.result.processed,
-            total : res.result.total,
-          };
-
-          // 进度100%
-          if(res.result.processed === res.result.total) {
-            let loading = this.$loading({
-              text : '下载准备中...'
-            });
-            setTimeout(() => {
-              this.type = 3;
-              this.uploadDetail(detectId);
-              loading.close();
-            },3000);
-          }else{
-            setTimeout(() => {
-              this.timerFn(detectId);
-            },1000);
-          }
         });
       },
       // 轮询结束 获取详情
@@ -319,28 +274,21 @@
           this.$message.warning('文件格式有误');
           return false;
         }
-        this.pageLoading = this.$loading();
+        this.type = 2;
         return true;
       },
       // 文件上传成功
       uploadSuccess(res, file, fileList) {
-        this.pageLoading.close();
         // 上传成功
         if(res.code === '0000') {
-          this.type = 2;
-          // 清空进度条
-          this.progress = {
-            processed : 0,
-            total : 0,
-          };
-          this.timerFn(res.result);
+          this.type = 3;
+          this.uploadDetail(res.result);
         }else{
           this.$message.error(res.description);
         }
       },
       // 文件上传失败
       uploadError() {
-        this.pageLoading.close();
         this.$message.error('文件上传失败，请稍后重试');
       },
 

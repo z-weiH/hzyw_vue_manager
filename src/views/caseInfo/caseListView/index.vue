@@ -312,7 +312,7 @@ export default {
 				},
 				{
 					label: '号码检测结果',
-					property: 'detecResult',
+					property: 'phoneStatusResult',
 					width: 130,
 				},
 				{
@@ -554,7 +554,7 @@ export default {
 				//  this.tableData = res.result.list;
 				//   this.total = res.result.count;
 				this.tableData = res.result.list.map((v) => {
-					v.detecResult = v.detecResult || '未检测';
+					v.phoneStatusResult = v.phoneStatusResult || '未检测';
 					return v;
 				});
         this.queryCount(item)
