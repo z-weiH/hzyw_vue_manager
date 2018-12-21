@@ -33,12 +33,10 @@ let exportFile = (obj) => {
       console.log(html,'iframe导出-后台返回值');
       try {
         let res = JSON.parse(html);
-        if(res.code === '7777') {
-          Message({
-            type: 'warning',
-            message: res.description,
-          });
-        }
+        Message({
+          type: 'warning',
+          message: res.description,
+        });
       }catch(err) {
         
       }
