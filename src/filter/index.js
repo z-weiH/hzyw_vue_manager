@@ -36,5 +36,5 @@ Vue.filter('TimeMoment', function(time) {
 		let day = myDate.getDate() >= 10 ? myDate.getDate() : '0' + myDate.getDate();
 		let weekIndex = myDate.getDay();
 		let week = ["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
-		return year + '年' + month + '月' + day + '日 ' + week[weekIndex];
+		return week[weekIndex] + '  ' + year + '年' + month + '月' + day + '日 '
 	});

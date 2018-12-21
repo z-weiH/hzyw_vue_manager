@@ -75,7 +75,7 @@ export default {
           type: "text",
           placeholder: "模版号",
           colSpan: 5,
-          property: "productId",
+          property: "productId"
         },
         {
           type: "date",
@@ -104,8 +104,8 @@ export default {
         },
         {
           label: "模版号",
-          property: "productId"
-          // width: 100,
+          property: "productId",
+          width: 120
         },
         {
           label: "借款单号",
@@ -161,6 +161,7 @@ export default {
         //   this.total = res.result.count;
         console.log("item-", item);
         // this.searchItemChange(item);
+        console.log("startDate:", item["startDate"]);
         for (let i in item) {
           console.log(i);
           if (
@@ -175,7 +176,11 @@ export default {
               "~~~~~~~~~~~~~~~~~table-~~~~~~~~~~",
               this.tableData.length
             );
-            if (item[i] != "" && this.tableData.length != 0) {
+            if (
+              item[i] != undefined &&
+              item[i] != "" &&
+              this.tableData.length != 0
+            ) {
               this.exportBtnType = false;
             } else {
               this.exportBtnType = true;

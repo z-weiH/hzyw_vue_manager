@@ -20,10 +20,49 @@
       <div class="sc2">
         <div class="record_element_box">
           <div class="date_box">
-            <div class="day"></div>
+            <div class="day">{{day}}</div>
             <div class="time_item">
-
+              {{thatDay}}
             </div>
+          </div>
+          <div class="recordNum_box">
+            <div class="num_card">
+              <div>
+                <span class="icon"></span>
+              </div>
+              <div>
+                <h1></h1>
+                <h2>推送总数</h2>
+              </div>
+            </div>
+            <div class="num_card">
+              <div>
+                <span class="icon"></span>
+              </div>
+              <div>
+                <h1></h1>
+                <h2>重复推送</h2>
+              </div>
+            </div>
+            <div class="num_card">
+              <div>
+                <span class="icon"></span>
+              </div>
+              <div>
+                <h1></h1>
+                <h2>整合失败</h2>
+              </div>
+            </div>
+            <div class="num_card">
+              <div>
+                <span class="icon"></span>
+              </div>
+              <div>
+                <h1></h1>
+                <h2>活跃客户</h2>
+              </div>
+            </div>
+
           </div>
 
         </div>
@@ -39,6 +78,11 @@ import exportFile from "@/assets/js/exportFile";
 // import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
+
+/****
+ *@param thatDay 当天-精确到时刻
+ *@param day 天
+ */
 export default {
   name: "msgPushRecord",
   mixins: [Mixins],
@@ -46,6 +90,8 @@ export default {
     return {
       queryUrl: "/pushRecord/pushInfoByBaseQuery.htm",
       searchItem: {},
+      day:'',
+      thatDay:'',
       item: {},
       pager: {
         // 数据总数
@@ -91,7 +137,10 @@ export default {
       });
     }
   },
-  created() {},
+  created() {
+    this.day = new Date().getDate();
+    this.thatDay = this.$options.filters.TimeMomentChina(new Date());
+  },
   mounted() {
     this.doQuery(this.queryUrl, this.searchItem);
   },
@@ -103,7 +152,8 @@ export default {
 
 
 <style lang='scss' scoped>
-$break-mid: 960px;
+@import '@/assets/style/scss/helper/_mixin.scss';
+$break-mid: 640px;
 $break-large: 1264px;
 $break-lg: 1904px;
 
@@ -111,25 +161,23 @@ $break-lg: 1904px;
   width: 728px;
 }
 
-@media only screen and (max-width: $break-mid) {
-}
-@media only screen and (min-width: $break-large) {
-}
 
-@media only screen and (min-width: $break-lg) {
-}
 
 .bot_line{
    overflow: hidden;
-
-
+    @include clearfix;
+  >div{
+    float:left;
+  }
 }
+
+
 
 .sc1{
-  width: 75%;
+  width: 50%;
 }
 .sc2{
-  width: 25%;
+  min-width: 200px;
 }
 
 .item-title {
@@ -139,9 +187,64 @@ $break-lg: 1904px;
 .item-table {
   // width: 728px;
   // width: 75%;
+  overflow: hidden;
 
 }
 .record_element_box{
   width: 200px;
+  padding-left: 10px;
+  .date_box{
+    text-align: center;
+    background-color: #fff;
+    border:1px solid #dcdcdc;
+    .day{
+      font-size:68px;
+      font-weight: 900;
+      padding:48px 0;
+      border-bottom:1px solid #dcdcdc;
+      cursor: pointer;
+    }
+    .time_item{
+      font-weight: bold;
+      padding:20px 0;
+      cursor: default;
+    }
+  }
+  .num_card{
+    padding:17px 29px;
+    background-color: #fff;
+    >div{
+      display: table-cell;
+      vertical-align: middle;
+    }
+    h1{
+
+    }
+    h2{
+      font-size:15px;
+      color:#a1a1a1;
+    }
+  }
 }
+
+
+@media (min-width: $break-mid) {
+  .sc1{
+  width: 68%;
+
+  }
+}
+@media (min-width: $break-large) {
+  .sc1{
+  width: 80%;
+
+  }
+}
+
+@media (min-width: $break-lg) {
+  .sc1{
+    width: 85%;
+  }
+}
+
 </style>
