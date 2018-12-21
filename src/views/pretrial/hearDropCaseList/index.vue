@@ -12,7 +12,12 @@
       :query-url="queryUrl"
     >
       <template slot="moreBtn">
-        <el-button class="ml-20" type="primary" @click="handleExport">导出Excel</el-button>
+        <el-button
+          class="ml-20"
+          type="primary"
+          @click="handleExport"
+          :disabled="exportBtnType"
+        >导出Excel</el-button>
       </template>
     </searchs>
     <div class="item-title">缺失案件列表</div>
@@ -41,6 +46,7 @@ export default {
     return {
       searchItem: {},
       queryUrl: "/failedReason/evidenceMissing.htm",
+      exportBtnType: true,
       item: {},
       exportUrl: "/failedReason/missingCaseDerivation.htm",
       // pager: {
@@ -76,7 +82,7 @@ export default {
           colSpan: 5,
           placeholder: "推送开始日期",
           property: "startDate",
-          newline:1,
+          newline: 1
         },
         {
           type: "date",
@@ -98,17 +104,17 @@ export default {
         },
         {
           label: "模版号",
-          property: "productId",
+          property: "productId"
           // width: 100
         },
         {
           label: "借款单号",
-          property: "loanBillNo",
+          property: "loanBillNo"
           // width: 100
         },
         {
           label: "被申请人姓名",
-          property: "respondents",
+          property: "respondents"
           // width: 100
         },
         {
@@ -134,11 +140,26 @@ export default {
         data: this.searchItem
       });
     },
+    searchItemChange(item) {
+      // 输入时条件变动 和 检索时条件
+      // 从下标3开始有空值就设置一次禁用按钮,否则开启按钮
+      // 直到呈现按钮最终状态
+      console.error(item);
+      for (var i in item) {
+        if (i > 2) {
+          return item[i] != ""
+            ? (this.exportBtnType = false)
+            : (this.exportBtnType = true);
+        }
+      }
+    },
     doQuery(url, item) {
       this.query(url, item).then(res => {
         console.info(res);
         //  this.tableData = res.result.list;
         //   this.total = res.result.count;
+        console.log("item-", item);
+        this.searchItemChange(item);
       });
     }
   },
