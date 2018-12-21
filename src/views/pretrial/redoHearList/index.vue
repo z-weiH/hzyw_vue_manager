@@ -20,8 +20,14 @@
               <span v-else>--</span>
             </template>
           </el-table-column>
+        <el-table-column label="复审完成时间"  slot="defineCol">
+          <template slot-scope="scope" >
+            {{scope.row.reviewFinishTime ? scope.row.reviewFinishTime : '--'}}
+          </template>
+        </el-table-column>
         <!-- ** -->
         <!-- slot操作 -->
+
         <el-table-column label="操作" slot="defineCol" width="140px">
             <template slot-scope="scope" >
               <el-button
