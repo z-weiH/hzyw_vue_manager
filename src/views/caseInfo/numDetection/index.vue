@@ -275,6 +275,10 @@
           return false;
         }
         this.type = 2;
+        // 清空原有详情数据
+        for(let key in this.ruleForm) {
+          this.ruleForm[key] = '';
+        }
         return true;
       },
       // 文件上传成功
