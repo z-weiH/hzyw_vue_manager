@@ -502,7 +502,7 @@
               {
                 menuName : '推送记录',
                 menuId : 'ys7',
-                menuUrl : 'messagePushList'
+                menuUrl : 'msgPushRecord'
               },
               {
                 menuName : '数据统计',

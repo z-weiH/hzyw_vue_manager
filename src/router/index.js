@@ -778,6 +778,14 @@ let router = new Router({
           },
         },
         {
+          path: 'msgPushRecord',
+          component: () =>
+            import ('@/views/pretrial/msgPushRecord'), //推送记录-新版218.12.21
+          meta: {
+            name: 'msgPushRecord',
+          },
+        },
+        {
           path: 'advanceHearSetsList',
           component: () =>
             import ('@/views/pretrial/advanceHearSetsList'), //预审设置 列表

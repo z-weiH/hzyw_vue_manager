@@ -36,6 +36,7 @@ axios.interceptors.request.use((config) => {
     config.data = qs.stringify(config.data);
   }
   config.url = (config.apiPrefix ? "/" + config.apiPrefix  :  host.target ) + config.url;
+  // config.url = (config.apiPrefix == undefined ? "/" + config.apiPrefix  :  host.target ) + config.url;
   return config;
 }, (error) => {
   return Promise.reject(error);
