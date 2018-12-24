@@ -119,6 +119,8 @@
   export default {
     data() {
       return {
+        type : '',
+        rowIndex : '',
         dialogVisible : false,
         // 用户token
         token : JSON.parse(localStorage.getItem('loginInfo')).token,
@@ -139,8 +141,17 @@
       }
     },
     methods : {
-      show() {
+      show(type,row,index) {
         this.dialogVisible = true;
+
+        // 回显数据
+        if(type === 'edit') {
+          this.type = 'edit';
+          this.rowIndex = index;
+          this.ruleForm = JSON.parse(JSON.stringify(row));
+        }else{
+          this.type = 'add';
+        }
       },
 
       // 点击 新增证据
@@ -167,6 +178,8 @@
             this.handleClose();
             this.$emit('successCBK',{
               ...data,
+              type : this.type,
+              rowIndex : this.rowIndex,
             });
           }
         });
