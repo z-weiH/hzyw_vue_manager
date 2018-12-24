@@ -3,6 +3,7 @@
     <div class="webpage-editor-title">
       <div class="width-1200">
         <span>{{title}}</span>
+        <i @click="handleHelp" title="查看帮助文档" class="el-icon-question"></i>
       </div>
     </div>
     <div class="webpage-editor-content">
@@ -105,6 +106,8 @@
 
     <!-- 预览 dialog -->
     <previewDialog ref="previewDialog"></previewDialog>
+    <!-- 帮助 dialog -->
+    <helpDialog ref="helpDialog"></helpDialog>
   </div>
 </template>
 
@@ -123,12 +126,14 @@
   import ueeditor from '@/components/ueeditor'
   import previewDialog from './modules/previewDialog.vue'
   import parameter from '../parameterList/modules/parameter.vue'
+  import helpDialog from './modules/helpDialog.vue'
 
   export default {
     components : {
       ueeditor,
       previewDialog,
       parameter,
+      helpDialog,
     },
     data() {
       return {
@@ -363,6 +368,10 @@
         },() => {
         });
       },
+      // 查看帮助文档
+      handleHelp() {
+        window.open('http://file.arbexpress.cn/zct/document/template/template_dynamic_document.pdf');
+      },
     },
     destroyed() {
       document.querySelector('iframe').contentDocument.removeEventListener('click',this.globalClickFn);
@@ -386,9 +395,14 @@
   .width-1200{
     width: 1200px;
     margin: 0 auto;
-    font-size: 30px;
     color: #0f357f;
     padding-top: 21px;
+    >span{
+      font-size: 30px;
+    }
+    .el-icon-question{
+      cursor: pointer;
+    }
   }
 }
 .webpage-editor-content{
