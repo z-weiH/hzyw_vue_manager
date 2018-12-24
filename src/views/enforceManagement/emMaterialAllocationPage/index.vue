@@ -70,7 +70,7 @@
               label="操作"
               >
               <template slot-scope="scope">
-                <el-button type="text" @click="delswtr(scope.row)" size="small">刪除</el-button>
+                <el-button type="text" @click="delswtr(scope.row,scope.$index)" size="small">刪除</el-button>
               </template>
             </el-table-column>
 
@@ -447,12 +447,12 @@
           this.$refs.swtrform.resetFields();
         });
       },
-      delswtr(row){
+      delswtr(row,idx){
         this.$confirm('确定要删除该条记录吗?', '提示', {
           center: true,
         }).then( () => {
           this.$http.post("/court/deleteMandatoryInfo.htm",{courtId: this.$route.query.courtId, mandatoryId: row.mandatoryId,id: row.id}).then(res => {
-            let idx = this.swtrList.findIndex(it => it.mandatoryId === row.mandatoryId);
+            // let idx = this.swtrList.findIndex(it => it.mandatoryId === row.mandatoryId);
             this.swtrList.splice(idx,1);
           })
         })
