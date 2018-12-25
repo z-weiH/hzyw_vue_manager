@@ -502,7 +502,7 @@
         };
         let obj1 = {};
         for(let key in obj){
-          if(obj[key] !== 0){
+          if(obj[key] != 0){
             obj1[key] = obj[key];
           }
         }
