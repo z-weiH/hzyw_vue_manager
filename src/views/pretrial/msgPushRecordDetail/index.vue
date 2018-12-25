@@ -206,12 +206,12 @@ export default {
         },
         {
           label: "被申请人姓名",
-          property: "respondents"
+          property: "respondents",
+          width:180,
         },
         {
           label: "推送时间",
           property: "pushTime",
-          width: 180
         }
       ],
       columnDefine1: [
@@ -232,7 +232,6 @@ export default {
         {
           label: "推送时间",
           property: "pushTime",
-          width: 180
         }
       ],
       actions1: [
@@ -255,12 +254,11 @@ export default {
         {
           label: "被申请人姓名",
           property: "respondents",
-          width: 150
+          width:180,
         },
         {
           label: "推送时间",
           property: "pushTime",
-          width: 180
         },
         {
           label: "整合失败原因",
@@ -309,7 +307,8 @@ export default {
         `$1=${it.type}`
       );
     },
-    resetSettle() {
+    updateAllset(){
+      // 批量整合
       this.$http
         .post("/pushRecord/reintegration.htm", {
           clientCode: this.searchItem.clientCode,
@@ -324,6 +323,24 @@ export default {
             });
           }
         });
+    },
+    resetSettle() {
+      // 提示dialog
+      this.$confirm("确认对列表中的案件进行重新整合？", "提示", {
+        confirmButtonText: "确认",
+        cancelButtonText: "取消",
+        cancelButtonClass: "cancel",
+        confirmButtonClass: "confirm",
+        center: true
+      }).then(()=>{
+        this.updateAllset()
+      },()=>{
+        console.log('已取消')
+      }).catch(()=>{
+
+      });
+
+
     },
     expfileBtn() {
       exportFile({ url: "/pushRecord/pushExport.htm", data: this.searchItem });

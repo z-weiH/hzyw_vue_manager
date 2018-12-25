@@ -9,7 +9,8 @@
       <div class="sc1">
         <div class="item-title">推送详情</div>
         <div class="item-table">
-          <table-component v-loading="loading"
+          <table-component
+            v-loading="loading"
             :pager="pager"
             @refreshList="doQuery(this.queryUrl, this.searchItem)"
             :table-data="tableData"
@@ -111,12 +112,12 @@ export default {
       loading: true,
       queryUrl: "/pushRecord/pushInfoByBaseQuery.htm",
       searchItem: {
-        startDate_exact:"",
-        endDate_exact:"",
+        startDate_exact: "",
+        endDate_exact: "",
         startDate: "",
         endDate: "",
         day: "",
-        thatDay: "",
+        thatDay: ""
       },
       showCurDate: true,
       date_val: "",
@@ -150,7 +151,7 @@ export default {
                 clientCode: it.clientCode,
                 clientName: it.clientName,
                 endDate: this.searchItem.endDate,
-                startDate: this.searchItem.startDate,
+                startDate: this.searchItem.startDate
               }
             });
           }
@@ -167,7 +168,7 @@ export default {
                 clientCode: it.clientCode,
                 clientName: it.clientName,
                 endDate: this.searchItem.endDate,
-                startDate: this.searchItem.startDate,
+                startDate: this.searchItem.startDate
               }
             });
           }
@@ -184,7 +185,7 @@ export default {
                 clientCode: it.clientCode,
                 clientName: it.clientName,
                 endDate: this.searchItem.endDate,
-                startDate: this.searchItem.startDate,
+                startDate: this.searchItem.startDate
               }
             });
           }
@@ -205,23 +206,28 @@ export default {
       if (this.date_arr === null) {
         // console.log('真');
         this.showCurDate = true;
-        this.searchItem.startDate = "";
-        this.searchItem.endDate = "";
+        // this.searchItem.startDate = "";
+        // this.searchItem.endDate = "";
+        this.initQuery();
       } else {
         // console.log('假');
         this.updateTimeUiFoo(item);
       }
     },
     updateTimeUiFoo(item) {
-      this.searchItem.startDate_exact = this.$options.filters.TimeYearMonthDay(item[0]);
-      this.searchItem.startDate = item[0].Format('yyyy-MM-dd hh:mm:ss');
+      this.searchItem.startDate_exact = this.$options.filters.TimeYearMonthDay(
+        item[0]
+      );
+      this.searchItem.startDate = item[0].Format("yyyy-MM-dd hh:mm:ss");
       // console.log('this.startDate',this.startDate);
-      this.searchItem.endDate_exact = this.$options.filters.TimeYearMonthDay(item[1]);
-      this.searchItem.endDate = item[1].Format('yyyy-MM-dd hh:mm:ss');
+      this.searchItem.endDate_exact = this.$options.filters.TimeYearMonthDay(
+        item[1]
+      );
+      this.searchItem.endDate = item[1].Format("yyyy-MM-dd hh:mm:ss");
       // console.log('this.endDate',this.endDate)
       this.showCurDate = false;
       // 查询
-      this.doQuery(this.queryUrl,this.searchItem)
+      this.doQuery(this.queryUrl, this.searchItem);
     },
     doQuery(url, item) {
       this.loading = true;
@@ -231,17 +237,25 @@ export default {
         this.loading = false;
         console.info("delete-11", delete res.result.list);
         console.info("item------------->-", res);
-        this.queryPushInfo(item)
+        this.queryPushInfo(item);
       });
     },
-    queryPushInfo(item){
+    queryPushInfo(item) {
       // 列表页面右边数据
-      this.$http.post('/pushRecord/pushInfoList.htm',{
-        startDate:item.startDate,
-        endDate:item.endDate
-      }).then(res=>{
-        this.resItem = res.result;
-      })
+      this.$http
+        .post("/pushRecord/pushInfoList.htm", {
+          startDate: item.startDate,
+          endDate: item.endDate
+        })
+        .then(res => {
+          this.resItem = res.result;
+        });
+    },
+    initQuery() {
+      this.searchItem.startDate = new Date().Format("yyyy-MM-dd hh:mm:ss");
+      this.searchItem.endDate = new Date().Format("yyyy-MM-dd hh:mm:ss");
+      console.log(this.searchItem.startDate);
+      this.doQuery(this.queryUrl, this.searchItem);
     }
   },
   created() {
@@ -251,10 +265,7 @@ export default {
     this.searchItem.thatDay = _date.substring(0, _start + 1);
   },
   mounted() {
-    this.searchItem.startDate = new Date().Format('yyyy-MM-dd hh:mm:ss')
-    this.searchItem.endDate = new Date().Format('yyyy-MM-dd hh:mm:ss')
-    console.log(this.searchItem.startDate);
-    this.doQuery(this.queryUrl, this.searchItem);
+    this.initQuery()
   },
   components: {
     TableComponent
@@ -266,6 +277,8 @@ export default {
 <style lang='scss' scoped>
 @import "@/assets/style/scss/helper/_mixin.scss";
 @import "@/assets/style/scss/base/_media.scss";
+
+$themeColor: #0f357f;
 
 $break-small: 960px;
 $break-mid: 1200px;
@@ -286,7 +299,7 @@ $break-max: 1919px;
 }
 
 .sc1 {
-    width: 87%;
+  width: 87%;
 }
 .sc2 {
   min-width: 200px;
@@ -324,7 +337,8 @@ $break-max: 1919px;
       border-bottom: 1px solid #dcdcdc;
       cursor: pointer;
       &:hover {
-        background: #2ab7cd;
+        background: $themeColor;
+        color: #fff;
       }
       &.picker {
         font-size: 22px;
@@ -381,11 +395,6 @@ $break-max: 1919px;
   }
 }
 
-
-
-
-
-
 @media (max-width: $break-max) {
   .sc1 {
     width: 87%;
@@ -396,17 +405,17 @@ $break-max: 1919px;
     width: 85%;
   }
 }
-@media (max-width: 1640px){
+@media (max-width: 1640px) {
   .sc1 {
     width: 83%;
   }
 }
-@media (max-width: 1476px){
+@media (max-width: 1476px) {
   .sc1 {
     width: 80%;
   }
 }
-@media (max-width: 1290px){
+@media (max-width: 1290px) {
   .sc1 {
     width: 78%;
   }
@@ -436,9 +445,6 @@ $break-max: 1919px;
     width: 70%;
   }
 }
-
-
-
 </style>
 <style lang="scss">
 body {
