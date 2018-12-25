@@ -179,7 +179,7 @@
                 <el-checkbox label="2">检出错误</el-checkbox>
               </el-row>
               <el-row>
-                <el-checkbox label="1">未检出错误</el-checkbox>
+                <el-checkbox label="1">notoken: true,apiPrefix: 'web'</el-checkbox>
 
               </el-row>
             </el-checkbox-group>
