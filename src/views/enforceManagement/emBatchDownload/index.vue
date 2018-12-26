@@ -100,6 +100,11 @@
             checked : false,
           },
           {
+            label : '裁决书',
+            value : 'cjs',
+            checked : false,
+          },
+          {
             label : '限制高消费及纳入失信被执行人名单申请书',
             value : 'xzgxfsms',
             checked : false,
