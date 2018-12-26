@@ -125,9 +125,9 @@ export default {
       item: {},
       pager: {
         // 数据总数
-        total: 11,
+        count: 10,
         // 当前页数
-        currentPage: 1,
+        currentNum: 1,
         // 每页数量
         pageSize: 10
       },
@@ -232,8 +232,9 @@ export default {
     doQuery(url, item) {
       this.loading = true;
       this.query(url, item).then(res => {
-        //  this.tableData = res.result.list;
-        //   this.total = res.result.count;
+        console.log('res.result.count',res);
+        this.tableData = res.result.list;
+        this.pager.count = res.result.count;
         this.loading = false;
         console.info("delete-11", delete res.result.list);
         console.info("item------------->-", res);
@@ -265,7 +266,7 @@ export default {
     this.searchItem.thatDay = _date.substring(0, _start + 1);
   },
   mounted() {
-    this.initQuery()
+    this.initQuery();
   },
   components: {
     TableComponent
