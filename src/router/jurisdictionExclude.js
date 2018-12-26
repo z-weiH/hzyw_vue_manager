@@ -9,6 +9,7 @@ export default [
   '/idCardHearDetail', //案件初审 身份证审核
   '/signatureHearDetail', //案件初审 签名审核
   '/evidenceWireHear', //案件初审 证据链审核
+  '/main/msgPushRecordDetail',//新版-推送记录详情页
 
   '/main/unFreeZeList', // 调节状态冻结页面
 

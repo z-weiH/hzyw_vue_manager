@@ -10,6 +10,7 @@
         <div class="item-title">推送详情</div>
         <div class="item-table">
           <table-component
+            v-loading="loading"
             :pager="pager"
             @refreshList="doQuery(this.queryUrl, this.searchItem)"
             :table-data="tableData"
@@ -26,16 +27,19 @@
                 type="datetimerange"
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
-                :default-time="['12:00:00']"
                 @change="bigDateFoo"
                 id="da"
               ></el-date-picker>
             </div>
-            <label for="d" class="day">
-              <label for="a" style="display:none;"></label>
-              {{day}}
+            <div v-if="showCurDate">
+              <label for="d" class="day">{{searchItem.day}}</label>
+              <div class="time_item">{{searchItem.thatDay}}</div>
+            </div>
+            <label for="a" class="day picker" v-else>
+              {{searchItem.startDate_exact}}
+              <div>至</div>
+              {{searchItem.endDate_exact}}
             </label>
-            <div class="time_item">{{thatDay}}</div>
           </div>
           <div class="recordNum_box">
             <div class="num_card">
@@ -96,24 +100,34 @@ import Mixins from "@/components/script/_mixin";
  *@param resItem 推送记录接口除列表外其他数据
  *@param date_val 日期原始对象
  *@param date_arr 日期-开始~结束 数组
+ *@param showCurDate 显示当前时间ui的状态 默认:true
+ *@param startDate 选中-开始时间
+ *@param endDate 选择-结束时间
  */
 export default {
   name: "msgPushRecord",
   mixins: [Mixins],
   data() {
     return {
+      loading: true,
       queryUrl: "/pushRecord/pushInfoByBaseQuery.htm",
-      searchItem: {},
-      day: "",
-      thatDay: "",
-      date_val:"",
-      date_arr:[],
+      searchItem: {
+        startDate_exact: "",
+        endDate_exact: "",
+        startDate: "",
+        endDate: "",
+        day: "",
+        thatDay: ""
+      },
+      showCurDate: true,
+      date_val: "",
+      date_arr: [],
       item: {},
       pager: {
         // 数据总数
-        total: 11,
+        count: 10,
         // 当前页数
-        currentPage: 1,
+        currentNum: 1,
         // 每页数量
         pageSize: 10
       },
@@ -123,19 +137,58 @@ export default {
         {
           label: "客户名称",
           property: "clientName",
-          width: 130
+          width: 180
         },
         {
           label: "推送总数",
-          property: "pushCount"
+          property: "pushCount",
+          isLink: 1,
+          linkShowPanel: it => {
+            this.$router.push({
+              path: "msgPushRecordDetail",
+              query: {
+                type: 1,
+                clientCode: it.clientCode,
+                clientName: it.clientName,
+                endDate: this.searchItem.endDate,
+                startDate: this.searchItem.startDate
+              }
+            });
+          }
         },
         {
           label: "重复推送",
-          property: "repeatCount"
+          property: "repeatCount",
+          isLink: 1,
+          linkShowPanel: it => {
+            this.$router.push({
+              path: "msgPushRecordDetail",
+              query: {
+                type: 2,
+                clientCode: it.clientCode,
+                clientName: it.clientName,
+                endDate: this.searchItem.endDate,
+                startDate: this.searchItem.startDate
+              }
+            });
+          }
         },
         {
           label: "整合失败",
-          property: "failCount"
+          property: "failCount",
+          isLink: 1,
+          linkShowPanel: it => {
+            this.$router.push({
+              path: "msgPushRecordDetail",
+              query: {
+                type: 3,
+                clientCode: it.clientCode,
+                clientName: it.clientName,
+                endDate: this.searchItem.endDate,
+                startDate: this.searchItem.startDate
+              }
+            });
+          }
         },
         {
           label: "推送开始时间",
@@ -146,29 +199,74 @@ export default {
     };
   },
   methods: {
-    bigDateFoo(item){
+    bigDateFoo(item) {
       // console.log('beforeItem',item)
-      this.date_arr = item
-      console.log('this.date_arr',this.date_arr)
-
+      this.date_arr = item;
+      console.log("this.date_arr", this.date_arr);
+      if (this.date_arr === null) {
+        // console.log('真');
+        this.showCurDate = true;
+        // this.searchItem.startDate = "";
+        // this.searchItem.endDate = "";
+        this.initQuery();
+      } else {
+        // console.log('假');
+        this.updateTimeUiFoo(item);
+      }
+    },
+    updateTimeUiFoo(item) {
+      this.searchItem.startDate_exact = this.$options.filters.TimeYearMonthDay(
+        item[0]
+      );
+      this.searchItem.startDate = item[0].Format("yyyy-MM-dd hh:mm:ss");
+      // console.log('this.startDate',this.startDate);
+      this.searchItem.endDate_exact = this.$options.filters.TimeYearMonthDay(
+        item[1]
+      );
+      this.searchItem.endDate = item[1].Format("yyyy-MM-dd hh:mm:ss");
+      // console.log('this.endDate',this.endDate)
+      this.showCurDate = false;
+      // 查询
+      this.doQuery(this.queryUrl, this.searchItem);
     },
     doQuery(url, item) {
-      this.query_mock(url, item).then(res => {
-        //  this.tableData = res.result.list;
-        //   this.total = res.result.count;
-
+      this.loading = true;
+      this.query(url, item).then(res => {
+        console.log('res.result.count',res);
+        this.tableData = res.result.list;
+        this.pager.count = res.result.count;
+        this.loading = false;
         console.info("delete-11", delete res.result.list);
         console.info("item------------->-", res);
-        this.resItem = res.result;
+        this.queryPushInfo(item);
       });
+    },
+    queryPushInfo(item) {
+      // 列表页面右边数据
+      this.$http
+        .post("/pushRecord/pushInfoList.htm", {
+          startDate: item.startDate,
+          endDate: item.endDate
+        })
+        .then(res => {
+          this.resItem = res.result;
+        });
+    },
+    initQuery() {
+      this.searchItem.startDate = new Date().Format("yyyy-MM-dd hh:mm:ss");
+      this.searchItem.endDate = new Date().Format("yyyy-MM-dd hh:mm:ss");
+      console.log(this.searchItem.startDate);
+      this.doQuery(this.queryUrl, this.searchItem);
     }
   },
   created() {
-    this.day = new Date().getDate();
-    this.thatDay = this.$options.filters.TimeMomentChina(new Date());
+    this.searchItem.day = new Date().getDate();
+    let _date = this.$options.filters.TimeMomentChina(new Date());
+    let _start = _date.indexOf("月");
+    this.searchItem.thatDay = _date.substring(0, _start + 1);
   },
   mounted() {
-    this.doQuery(this.queryUrl, this.searchItem);
+    this.initQuery();
   },
   components: {
     TableComponent
@@ -179,9 +277,15 @@ export default {
 
 <style lang='scss' scoped>
 @import "@/assets/style/scss/helper/_mixin.scss";
-$break-mid: 640px;
+@import "@/assets/style/scss/base/_media.scss";
+
+$themeColor: #0f357f;
+
+$break-small: 960px;
+$break-mid: 1200px;
 $break-large: 1264px;
 $break-lg: 1904px;
+$break-max: 1919px;
 
 %com_width {
   width: 728px;
@@ -196,7 +300,7 @@ $break-lg: 1904px;
 }
 
 .sc1 {
-  width: 50%;
+  width: 87%;
 }
 .sc2 {
   min-width: 200px;
@@ -218,10 +322,11 @@ $break-lg: 1904px;
     text-align: center;
     background-color: #fff;
     border: 1px solid #dcdcdc;
-    .block{
+    .block {
       position: absolute;
       z-index: -1;
       top: 0;
+      // right: -99px;
     }
     .day {
       position: relative;
@@ -233,7 +338,14 @@ $break-lg: 1904px;
       border-bottom: 1px solid #dcdcdc;
       cursor: pointer;
       &:hover {
-        background: #2ab7cd;
+        background: $themeColor;
+        color: #fff;
+      }
+      &.picker {
+        font-size: 22px;
+        > div {
+          padding: 15px 0;
+        }
       }
     }
     .time_item {
@@ -242,17 +354,25 @@ $break-lg: 1904px;
       cursor: default;
     }
   }
+  .recordNum_box {
+  }
   .num_card {
     padding: 17px 29px;
     background-color: #fff;
+    border: 1px solid #c3c3c3;
+    margin: 15px 0;
     > div {
       display: table-cell;
       vertical-align: middle;
+      & + div {
+        line-height: 1.2;
+      }
     }
     .icon {
       width: 36px;
       height: 36px;
       display: inline-block;
+      margin-right: 10px;
     }
     .ico_count {
       background-image: url("~@/assets/img/card-01-zs.png");
@@ -276,20 +396,63 @@ $break-lg: 1904px;
   }
 }
 
-@media (min-width: $break-mid) {
+@media (max-width: $break-max) {
   .sc1 {
-    width: 68%;
+    width: 87%;
   }
 }
-@media (min-width: $break-large) {
+@media (max-width: $break-lg) {
+  .sc1 {
+    width: 85%;
+  }
+}
+@media (max-width: 1640px) {
+  .sc1 {
+    width: 83%;
+  }
+}
+@media (max-width: 1476px) {
   .sc1 {
     width: 80%;
   }
 }
-
-@media (min-width: $break-lg) {
+@media (max-width: 1290px) {
   .sc1 {
-    width: 85%;
+    width: 78%;
+  }
+}
+@media (max-width: $break-large) {
+  .sc1 {
+    width: 78%;
+  }
+}
+@media (max-width: $break-mid) {
+  .sc1 {
+    width: 76%;
+  }
+}
+@media (max-width: 1117px) {
+  .sc1 {
+    width: 74%;
+  }
+}
+@media (max-width: 1057px) {
+  .sc1 {
+    width: 72%;
+  }
+}
+@media (max-width: $break-small) {
+  .sc1 {
+    width: 70%;
+  }
+}
+</style>
+<style lang="scss">
+body {
+  .el-time-panel {
+    &.el-popper {
+      left: -27px;
+    }
   }
 }
 </style>

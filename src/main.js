@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import './tools/utils'//工具函数
 
 const isDebug_mode = process.env.NODE_ENV !== 'production'
 Vue.config.debug = isDebug_mode

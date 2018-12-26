@@ -335,7 +335,7 @@
           {materialType: 8,materialNum: 0 },
           {materialType: 5,materialNum: 0 },
           {materialType: 6,materialNum: 0 },
-
+          {materialType: 11,materialNum: 0 },
           {materialType: 10,materialNum: 0 },
           ],
         clfsFlag: false,
@@ -497,8 +497,9 @@
           qzzxsqs: this.clfsListClone[0].materialNum,
           sfzzfm: this.clfsListClone[5].materialNum,
           sqwts: this.clfsListClone[1].materialNum,
-          xzgxfsms: this.clfsListClone[7].materialNum,
+          xzgxfsms: this.clfsListClone[8].materialNum,
           zxkyhzhqds: this.clfsListClone[2].materialNum,
+          cjs : this.clfsListClone[7].materialNum,
         };
         let obj1 = {};
         for(let key in obj){
@@ -546,6 +547,8 @@
           return '债权转让协议';
         else if(type === 10)
           return '限制高消费及纳入失信被执行人名单申请书';
+        else if(type === 11)
+          return '裁决书';
 
       },
       initPage(){
