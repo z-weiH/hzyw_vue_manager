@@ -11,7 +11,7 @@
           <div class="m-title">
             <div class="fl scroll-top-item add-text">{{item.categoryDesc}}</div>
             <div class="fr">
-              <el-button @click="handleAdd" type="primary" size="small">添加</el-button>
+              <el-button @click="handleAdd(item)" type="primary" size="small">添加</el-button>
             </div>
           </div>
 
@@ -44,7 +44,7 @@
               <el-table-column prop="paramNote" label="说明"></el-table-column>
               <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                  <el-button @click="handleEdit(scope.row)" type="text">编辑</el-button>
+                  <el-button @click="handleEdit(item,scope.row)" type="text">编辑</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -79,18 +79,25 @@
             params : [
               {
                 // 参数
-                paramCode : '',
+                paramCode : '我是参数',
                 // 中文
-                paramName : '',
+                paramName : '我是中文',
                 // 类型 1:数字,2:字符串,3:日期,4:金额
-                valueType : '',
+                valueType : 4,
                 // 属性 0 否 1 是 是否为通用参数 属性
-                isCommon : '',
+                isCommon : 1,
                 // 说明
-                paramNote : '',
+                paramNote : '我是说明',
+                // id
+                paramId : 'id',
               }
             ],
-          },{categoryDesc : '啦啦啦'},
+          },
+          {
+            categoryCode : 2,
+            categoryDesc : '金额信息',
+            params : [],
+          },
         ],
       }
     },
@@ -112,12 +119,17 @@
         return this.list.map( v => v.categoryDesc);
       },
       // 点击新增
-      handleAdd() {
-        this.$refs.parameterDialog.show('add');
+      handleAdd(item) {
+        this.$refs.parameterDialog.show('add',{
+          categoryCode : item.categoryCode
+        });
       },
       // 点击编辑
-      handleEdit(item) {
-        this.$refs.parameterDialog.show('edit',item);
+      handleEdit(item,row) {
+        this.$refs.parameterDialog.show('edit',{
+          ...row,
+          categoryCode : item.categoryCode,
+        });
       },
       // 弹窗成功回调
       successCBK() {

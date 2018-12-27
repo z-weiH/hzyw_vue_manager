@@ -27,12 +27,10 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="属性：" prop="categoryCode">
-            <el-select clearable style="width:400px;" v-model="ruleForm.categoryCode" placeholder="请选择类型">
-              <el-option label="Integer" :value="1"></el-option>
-              <el-option label="String" :value="2"></el-option>
-              <el-option label="Date" :value="3"></el-option>
-              <el-option label="Decimal" :value="4"></el-option>
+          <el-form-item v-if="$route.query.type === '0'" label="属性：" prop="isCommon">
+            <el-select clearable style="width:400px;" v-model="ruleForm.isCommon" placeholder="请选择类型">
+              <el-option label="通用" :value="1"></el-option>
+              <el-option label="非通用" :value="0"></el-option>
             </el-select>
           </el-form-item>
 
@@ -68,6 +66,8 @@
         productId : '',
         // id 修改时必传
         paramId : '',
+        // 参数分类的编码值: 1-基础信息 2-金额信息 3-当事人信息 4-日期信息 5-证据信息 6-还款信息 7-借款人银行卡信息 8-分期贷信息 9-代偿信息
+        categoryCode : '',
 
         ruleForm : {
           // 参数名
@@ -76,8 +76,8 @@
           paramName : '',
           // 类型 1-数字,2-字符串,3-日期,4-金额
           valueType : '',
-          // 属性 参数分类的编码值: 1-基础信息 2-金额信息 3-当事人信息 4-日期信息 5-证据信息 6-还款信息 7-借款人银行卡信息 8-分期贷信息 9-代偿信息
-          categoryCode : '',
+          // 属性 0 否 1 是 是否为通用参数 
+          isCommon : '',
           // 说明
           paramNote : '',
         },
@@ -91,7 +91,7 @@
           valueType : [
             {required : true , message : '请选择类型' , trigger : 'change'},
           ],
-          categoryCode : [
+          isCommon : [
             {required : true , message : '请选择属性' , trigger : 'change'},
           ],
         },
@@ -112,6 +112,7 @@
 
         this.$nextTick(() => {
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
+          this.ruleForm = Object.assign(this.ruleForm,data);
         });
       },
 
@@ -137,12 +138,17 @@
             // 处理数据
             let form = {...this.ruleForm};
             form.paramBizType = this.$route.query.type;
-            if(type === 'edit') {
-              form.paramId = itemData.paramId;
+            form.categoryCode = this.itemData.categoryCode;
+            if(this.type === 'edit') {
+              form.paramId = this.itemData.paramId;
             }
             if(this.$route.query.type === '2') {
-              form.productId = itemData.productId;
+              form.productId = this.itemData.productId;
             }
+            if(this.$route.query.type !== '0') {
+              delete form.isCommon;
+            }
+            console.log(form);return;
 						this.$http({
               method : 'post',
               url : '/param/saveParam.htm',

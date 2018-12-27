@@ -49,7 +49,12 @@
         )
       },
       handleChange(val) {
-        window.history.replaceState(null, null, `/#/tmParameterDetail?type=${val}`);
+        this.$router.replace({
+          path : '/tmParameterDetail',
+          query : {
+            type : val,
+          },
+        });
       },
     },
   }
