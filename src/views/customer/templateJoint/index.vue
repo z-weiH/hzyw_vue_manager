@@ -72,6 +72,7 @@
 
 
 
+      <!--案件列表-->
       <el-dialog
         :visible.sync="caseFlag"
         v-dialogDrag
@@ -128,13 +129,19 @@
       </el-dialog>
 
 
+      <!--日志弹窗-->
+      <log-dialog ref="logDialog"></log-dialog>
 
     </div>
 </template>
 
 <script>
+  import LogDialog from './module/logDialog'
     export default {
       name: 'templateJoint',
+      components: {
+        LogDialog
+      },
       data() {
         return {
           searchItem: {},
@@ -217,7 +224,7 @@
 
         },
         handleLogClick(row){
-
+          this.$refs.logDialog.show(row.prodTempId);
         },
       },
       created(){
