@@ -1,5 +1,5 @@
 <template>
-    <el-button :round="round" :type="type" :disabled="buttonDisabled()" :size="size" @click="HanldeBtnClick">
+    <el-button :round="round" :type="type" :disabled="buttonDisabled()" :size="size" @click="HanldeBtnClick" :plain="plain">
         <slot>{{text}}</slot>
     </el-button>
 </template>
@@ -27,6 +27,10 @@
             size:{
                 type:String,
                 default: 'medium '
+            },
+            plain:{
+              type: Boolean,
+              default: false
             }
         },
         data(){

@@ -217,7 +217,7 @@
           this.docaseQuery();
         },
         handleProductCaseView(row){
-
+          this.$router.push({path: '/tmCaseDetail'})
         },
 
         handleApiClick(row){
