@@ -1,7 +1,7 @@
 <template>
   <div class="scroll-top-component">
     <ul>
-      <li :class="{active : index === active}" v-for="(item,index) in text" :key="index">{{item}}</li>
+      <li @click="handleClick(index)" :class="{active : index === active}" v-for="(item,index) in text" :key="index">{{item}}</li>
     </ul>
   </div>
 </template>
@@ -36,6 +36,14 @@
       setActive(index) {
         this.active = index;
       },
+      handleClick(index) {
+        let item = document.querySelectorAll('.scroll-top-item')[index];
+        document.querySelector('.el-scrollbar .el-scrollbar__wrap').scrollTop = item.offsetTop;
+        
+        setTimeout(() => {
+          this.setActive(index);
+        },100);
+      },
     },
     beforeDestroy() {
       scroll.unbind();
@@ -54,6 +62,7 @@
     text-align: center;
     border-bottom: 1px solid #ccc;
     border-right: 1px solid #ccc;
+    cursor: pointer;
   }
   .active{
     color: #0F357F;
