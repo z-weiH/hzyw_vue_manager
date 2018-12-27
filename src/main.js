@@ -56,6 +56,12 @@ Vue.use(ElementUI);
 //}
 
 
+//按鈕防止重複點擊
+import CustomerButton from './components/customerButton/index'
+
+Vue.use(CustomerButton);
+
+
 String.prototype.splice = function(idx, rem, str) {
   return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
 };
