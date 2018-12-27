@@ -11,7 +11,7 @@
           <div class="m-title">
             <div class="fl scroll-top-item add-text">{{item.categoryDesc}}</div>
             <div class="fr">
-              <el-button @click="handleAdd(item)" type="primary" size="small">添加</el-button>
+              <el-button @click="handleAdd" type="primary" size="small">添加</el-button>
             </div>
           </div>
 
@@ -44,7 +44,7 @@
               <el-table-column prop="paramNote" label="说明"></el-table-column>
               <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
-                  <el-button @click="handleEdit(item)" type="text">编辑</el-button>
+                  <el-button @click="handleEdit(scope.row)" type="text">编辑</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -53,7 +53,7 @@
       </template>
     </div>
 
-    <parameterDialog ref="parameterDialog"></parameterDialog>
+    <parameterDialog @successCBK="successCBK" ref="parameterDialog"></parameterDialog>
   </div>
 </template>
 
@@ -95,20 +95,33 @@
       }
     },
     mounted() {
-
+      // this.init();
     },
     methods : {
+      // 初始化页面数据
+      init() {
+        this.$http({
+          method : 'post',
+          url : '/param/queryCaseParamList.htm',
+        }).then((res) => {
+          this.list = res.result;
+        });
+      },
       // 左侧中文
       getCnText() {
         return this.list.map( v => v.categoryDesc);
       },
       // 点击新增
-      handleAdd(item) {
-        this.$refs.parameterDialog.show('add',item);
+      handleAdd() {
+        this.$refs.parameterDialog.show('add');
       },
       // 点击编辑
       handleEdit(item) {
         this.$refs.parameterDialog.show('edit',item);
+      },
+      // 弹窗成功回调
+      successCBK() {
+        this.init();
       },
     },
   }
