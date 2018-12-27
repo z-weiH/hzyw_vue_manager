@@ -3,7 +3,7 @@
     <div class="tm-head">
       <div class="fl">参数列表</div>
       <div class="fr">
-        <el-radio-group v-model="type" size="small">
+        <el-radio-group @change="handleChange" v-model="type" size="small">
           <el-radio-button label="1">案件参数</el-radio-button>
           <el-radio-button label="2">仲裁参数</el-radio-button>
           <el-radio-button label="3">个性参数</el-radio-button>
@@ -19,7 +19,7 @@
       <div class="fr">
         <div class="m-scrollbar-box">
           <el-scrollbar :native="false">
-            <div></div>
+            <component :is="componentFn()"></component>
           </el-scrollbar>
         </div>
       </div>
@@ -48,6 +48,18 @@
         // '1' 案件参数 '2' 仲裁参数 '3' 个性参数
         type : this.$route.query.type || '1',
       }
+    },
+    methods : {
+      componentFn() {
+        return (
+          this.type === '1' ? 'caseParameters' :
+          this.type === '2' ? 'arbitrationParameters' :
+          this.type === '3' ? 'personalityParameter' : ''
+        )
+      },
+      handleChange(val) {
+        window.history.replaceState(null, null, `/#/tmParameterDetail?type=${val}`);
+      },
     },
   }
 </script>

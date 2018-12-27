@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    仲裁参数
   </div>
 </template>
 

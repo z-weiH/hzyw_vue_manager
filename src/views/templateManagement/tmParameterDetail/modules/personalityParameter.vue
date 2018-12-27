@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    个性参数
   </div>
 </template>
 
