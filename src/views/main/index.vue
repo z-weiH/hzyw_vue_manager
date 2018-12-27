@@ -54,12 +54,12 @@
       width: 220px;
       height: calc(100vh - 60px);
       /* margin-right: 10px; */
-      overflow-y: auto;
+      /* overflow-y: auto; */
     }
     .page-content{
       width: calc(100% - 230px);
       height: calc(100vh - 60px);
-      overflow-y: auto;
+      /* overflow-y: auto; */
     }
   }
 }
