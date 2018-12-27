@@ -233,10 +233,10 @@ export default {
       this.loading = true;
       this.query(url, item).then(res => {
         console.log('res.result.count',res);
-        this.tableData = res.result.list;
+        this.tableData = res.result;
         this.pager.count = res.result.count;
         this.loading = false;
-        console.info("delete-11", delete res.result.list);
+        console.info("delete-11", delete res.result);
         console.info("item------------->-", res);
         this.queryPushInfo(item);
       });
@@ -253,7 +253,7 @@ export default {
         });
     },
     initQuery() {
-      this.searchItem.startDate = new Date().Format("yyyy-MM-dd hh:mm:ss");
+      this.searchItem.startDate = new Date().Format("yyyy-MM-dd 00:00:00");
       this.searchItem.endDate = new Date().Format("yyyy-MM-dd hh:mm:ss");
       console.log(this.searchItem.startDate);
       this.doQuery(this.queryUrl, this.searchItem);
