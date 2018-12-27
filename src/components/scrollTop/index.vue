@@ -53,11 +53,7 @@
     line-height: 40px;
     text-align: center;
     border-bottom: 1px solid #ccc;
-    border-left: 1px solid #ccc;
     border-right: 1px solid #ccc;
-  }
-  li:first-child{
-    border-top: 1px solid #ccc;
   }
   .active{
     color: #0F357F;
