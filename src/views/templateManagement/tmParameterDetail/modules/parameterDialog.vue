@@ -66,7 +66,7 @@
         productId : '',
         // id 修改时必传
         paramId : '',
-        // 参数分类的编码值: 1-基础信息 2-金额信息 3-当事人信息 4-日期信息 5-证据信息 6-还款信息 7-借款人银行卡信息 8-分期贷信息 9-代偿信息
+        // 案件参数必传 参数分类的编码值: 1-基础信息 2-金额信息 3-当事人信息 4-日期信息 5-证据信息 6-还款信息 7-借款人银行卡信息 8-分期贷信息 9-代偿信息
         categoryCode : '',
 
         ruleForm : {
@@ -125,7 +125,9 @@
           this.submitDisabled = false;
           // 重置表单数据
           this.$refs.ruleForm.resetFields();
-          this.$refs.ruleForm.clearValidate();
+          this.$nextTick(() => {
+            this.$refs.ruleForm.clearValidate();
+          });
 				},500);
 				
       },
@@ -138,14 +140,15 @@
             // 处理数据
             let form = {...this.ruleForm};
             form.paramBizType = this.$route.query.type;
-            form.categoryCode = this.itemData.categoryCode;
             if(this.type === 'edit') {
               form.paramId = this.itemData.paramId;
             }
             if(this.$route.query.type === '2') {
               form.productId = this.itemData.productId;
             }
-            if(this.$route.query.type !== '0') {
+            if(this.$route.query.type === '0') {
+              form.categoryCode = this.itemData.categoryCode;
+            }else{
               delete form.isCommon;
             }
             console.log(form);return;
