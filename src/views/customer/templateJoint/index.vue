@@ -59,8 +59,8 @@
         <!-- 分页 -->
         <el-pagination
           class="mt-10 mb-10"
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
+          @size-change="handleSizeChange($event,1)"
+          @current-change="handleCurrentChange($event,1)"
           :current-page="pager.currentNum"
           :page-sizes="[10, 20, 30, 40]"
           :page-size="pager.pageSize"
@@ -69,6 +69,64 @@
         </el-pagination>
 
       </div>
+
+
+
+      <el-dialog
+        :visible.sync="caseFlag"
+        v-dialogDrag
+        :title="currentProduct"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        width="500"
+      >
+        <el-form :inline="true" >
+          <el-form-item label="" prop="keyWords" >
+            <el-input style="width: 400px;" v-model.trim="casekeyWords" placeholder="借款单号、被申请人姓名"></el-input>
+          </el-form-item>
+          <customer-button @click="handlecaseSearch" type="warning">查询</customer-button>
+        </el-form>
+        <el-table
+          :data="caseList"
+          border
+        >
+          <el-table-column prop="date" label="序号" width="50px">
+            <template slot-scope="scope">
+              {{scope.$index + 1}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="loanBillNo" label="借款单号" >
+          </el-table-column>
+          <!--0:进行中；1：已完成；2：失败-->
+          <el-table-column prop="respondents" label="被申请人姓名">
+          </el-table-column>
+          <el-table-column prop="pushTime" label="推送时间" ></el-table-column>
+          <el-table-column prop="debugCount" label="联调意见">
+            <template slot-scope="scope">
+              <span>{{scope.row.debugCount + '条'}}</span>
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="respondents" label="操作">
+            <template slot-scope="scope">
+              <customer-button @click="handleProductCaseView(scope.row)"  type="text">查看</customer-button>
+            </template>
+          </el-table-column>
+        </el-table>
+
+        <el-pagination
+          class="mt-10 mb-10"
+          @size-change="handleSizeChange($event,0)"
+          @current-change="handleCurrentChange($event,0)"
+          :current-page="casePager.currentNum"
+          :page-sizes="[10, 20, 30, 40]"
+          :page-size="casePager.pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="casePager.count">
+        </el-pagination>
+
+      </el-dialog>
+
 
 
     </div>
@@ -83,8 +141,19 @@
           // 1-待设置 2-联调中 3-待法务确认 4-联调通过
           debugStatusObject: {1: '待设置', 2: '联调中', 3: '待法务确认' , 4: '联调通过' },
 
+          currentProduct: '',
+          caseFlag: false,
+          //案件搜索關鍵字
+          casekeyWords: '',
+          caseList: [],
+
           tableData: [],
           pager:{
+            currentNum:1 ,
+            pageSize: 10,
+            count: 0
+          },
+          casePager: {
             currentNum:1 ,
             pageSize: 10,
             count: 0
@@ -103,21 +172,57 @@
           this.pager.currentNum = 1;
           this.doQuery();
         },
-        handleSizeChange(){
+
+        docaseQuery(){
+          this.$http.post('/caseInfo/queryCaseInfoListByBaseQuery.htm',{keyWords: this.casekeyWords, ...this.pager}).then(res => {
+            console.log(res);
+            this.casePager.count = res.result.count;
+            this.caseList = res.result.list;
+          })
+        },
+        handlecaseSearch(){
+          this.casePager.currentNum = 1;
+          this.docaseQuery();
+        },
+        handleSizeChange(val,type){
+          if(type === 1){
+            this.pager.currentNum = 1;
+            this.pager.pageSize = val;
+            this.doQuery();
+          }else{
+            this.casePager.currentNum = 1;
+            this.casePager.pageSize = val;
+            this.docaseQuery();
+          }
+        },
+        handleCurrentChange(val,type){
+          if(type === 1){
+            this.pager.currentNum = val;
+            this.doQuery();
+          }else{
+            this.casePager.currentNum = val;
+            this.docaseQuery();
+          }
+        },
+        handleCaseClick(row){
+          this.currentProduct = row.productName + '-' + row.prodTempCode;
+          this.caseFlag = true;
+          this.docaseQuery();
+        },
+        handleProductCaseView(row){
 
         },
-        handleCurrentChange(){
+
+        handleApiClick(row){
 
         },
-        handleCaseClick(){
+        handleLogClick(row){
 
         },
-        handleApiClick(){
+      },
+      created(){
+        this.doQuery();
 
-        },
-        handleLogClick(){
-
-        }
       }
     }
 </script>
