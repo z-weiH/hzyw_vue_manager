@@ -244,7 +244,7 @@
                 menuId : 38,
                 menuUrl : 'dataManagement',
               },
-              {
+              /* {
                 menuName : '模板联调',
                 menuId : 310,
                 menuUrl : 'templateJoint',
@@ -253,7 +253,7 @@
                 menuName : '参数列表',
                 menuId : 311,
                 menuUrl : 'ctParameterList',
-              },
+              }, */
               {
                 menuName : '签约客户',
                 menuId : 312,
@@ -680,7 +680,23 @@
                 menuUrl: 'courtCaseRelation'
               },
             ]
-          }
+          },
+          {
+            menuName: '模板管理',
+            menuId: 'mbgl',
+            children: [
+              {
+                menuName: '模板联调',
+                menuId: 'mblt1',
+                menuUrl: 'templateJoint'
+              },
+              {
+                menuName: '参数列表',
+                menuId: 'mblt2',
+                menuUrl: 'ctParameterList'
+              },
+            ],
+          },
         ],
         // 当前高亮的 menu
         active : '/main/demo',

@@ -398,20 +398,6 @@ let router = new Router({
           },
         },
         {
-          path: 'templateJoint',
-          component: () => import('@/views/customer/templateJoint'), // 模板联调
-          meta: {
-            name: 'templateJoint',
-          },
-        },
-        {
-          path: 'ctParameterList',
-          component: () => import('@/views/customer/ctParameterList'), // 参数列表
-          meta: {
-            name: 'ctParameterList',
-          },
-        },
-        {
           path: 'contractedCustomers',
           component: () => import('@/views/customer/contractedCustomers'), // 签约客户
           meta: {
@@ -472,6 +458,44 @@ let router = new Router({
           },
         },
         /* 案件订单module end */
+
+        /* 模板管理module start */
+        {
+          path: 'templateJoint',
+          component: () => import('@/views/customer/templateJoint'), // 模板联调 列表
+          meta: {
+            name: 'templateJoint',
+          },
+        },
+        {
+          path: 'tmCaseView',
+          component: () => import('@/views/templateManagement/tmCaseView'), // 模板联调 案件查看
+          meta: {
+            name: 'tmCaseView',
+          },
+        },
+        {
+          path: 'tmCaseInterface',
+          component: () => import('@/views/templateManagement/tmCaseInterface'), // 模板联调 接口
+          meta: {
+            name: 'tmCaseInterface',
+          },
+        },
+        {
+          path: 'ctParameterList',
+          component: () => import('@/views/customer/ctParameterList'), // 参数列表
+          meta: {
+            name: 'ctParameterList',
+          },
+        },
+        {
+          path: 'tmParameterDetail',
+          component: () => import('@/views/templateManagement/tmParameterDetail'), // 参数列表 子页面
+          meta: {
+            name: 'tmParameterDetail',
+          },
+        },
+        /* 模板管理module end */
 
         /* 案件相关module start */
         {
