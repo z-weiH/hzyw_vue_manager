@@ -4,9 +4,9 @@
       <div class="fl">参数列表</div>
       <div class="fr">
         <el-radio-group v-model="type" size="small">
-          <el-radio-button label="1">案件参数</el-radio-button>
-          <el-radio-button label="2">仲裁参数</el-radio-button>
-          <el-radio-button label="3">个性参数</el-radio-button>
+          <el-radio-button label="0">案件参数</el-radio-button>
+          <el-radio-button label="1">仲裁参数</el-radio-button>
+          <el-radio-button label="2">个性参数</el-radio-button>
         </el-radio-group>
       </div>
     </div>

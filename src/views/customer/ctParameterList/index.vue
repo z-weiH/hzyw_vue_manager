@@ -12,21 +12,21 @@
     <div class="item-table">
       <ul>
         <li>
-          <div @click="handleGo('1')" class="img-01"></div>
+          <div @click="handleGo('0')" class="img-01"></div>
           <p>
             <span>案件参数</span>
           </p>
         </li>
 
         <li>
-          <div @click="handleGo('2')" class="img-02"></div>
+          <div @click="handleGo('1')" class="img-02"></div>
           <p>
             <span>仲裁参数</span>
           </p>
         </li>
 
         <li>
-          <div @click="handleGo('3')" class="img-03"></div>
+          <div @click="handleGo('2')" class="img-03"></div>
           <p>
             <span>个性参数</span>
           </p>
