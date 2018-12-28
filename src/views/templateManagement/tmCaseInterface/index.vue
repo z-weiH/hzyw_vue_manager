@@ -24,16 +24,20 @@
         </div>
       </div>
     </div>
+    <documentPreviewDialog ref="documentPreviewDialog"></documentPreviewDialog>
   </div>
 </template>
 
 <script>
   // 滚动插件
   import scrollTop from '@/components/scrollTop'
+  import documentPreviewDialog from './modules/documentPreviewDialog.vue'
   export default {
     components : {
       scrollTop,
+      documentPreviewDialog,
     },
+    
     data() {
       return {
         // '1' 案件参数 '2' 仲裁参数 '3' 个性参数
