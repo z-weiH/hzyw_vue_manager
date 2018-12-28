@@ -103,7 +103,7 @@
       }
     },
     mounted() {
-      // this.init();
+      this.init();
     },
     methods : {
       // 初始化页面数据
