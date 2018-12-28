@@ -426,6 +426,11 @@
                 menuId : 77,
                 menuUrl : 'numDetection'
               },
+              {
+                menuName : '重跑裁决书案件列表',
+                menuId : 78,
+                menuUrl : 'reRunAwardCaseList'
+              }
             ],
           },
            {
