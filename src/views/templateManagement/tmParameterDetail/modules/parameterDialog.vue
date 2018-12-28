@@ -34,6 +34,13 @@
             </el-select>
           </el-form-item>
 
+          <el-form-item label="类型2：" prop="paramType">
+            <el-select clearable style="width:400px;" v-model="ruleForm.paramType" placeholder="请选择类型2">
+              <el-option label="普通参数" :value="0"></el-option>
+              <el-option label="数组参数" :value="1"></el-option>
+            </el-select>
+          </el-form-item>
+
           <el-form-item label="说明：" prop="paramNote">
 						<el-input style="width:400px;" v-model.trim="ruleForm.paramNote" type="textarea" placeholder="请输入"></el-input>
 					</el-form-item>
@@ -78,6 +85,8 @@
           valueType : '',
           // 属性 0 否 1 是 是否为通用参数 
           isCommon : '',
+          // 类型2 0-普通参数；1-数组参数
+          paramType : '',
           // 说明
           paramNote : '',
         },
@@ -90,6 +99,9 @@
           ],
           valueType : [
             {required : true , message : '请选择类型' , trigger : 'change'},
+          ],
+          paramType : [
+            {required : true , message : '请选择类型2' , trigger : 'change'},
           ],
           isCommon : [
             {required : true , message : '请选择属性' , trigger : 'change'},

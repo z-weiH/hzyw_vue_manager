@@ -90,6 +90,7 @@
                 paramNote : '我是说明',
                 // id
                 paramId : 'id',
+                paramType : 0,
               }
             ],
           },
