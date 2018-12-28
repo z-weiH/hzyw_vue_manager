@@ -117,7 +117,7 @@ export default {
           colSpan: 4,
           options: this.opProduct,
           labelfield: "prodName",
-          valuefield: "prodCode",
+          valuefield: "prodName",
           filterable: true
         },
         {
@@ -231,28 +231,29 @@ export default {
               this.$set(this.searchItem, "templateCode", "");
               this.searchItems[5].options = [];
             } else {
+              console.log('-------------------',item)
               // 缓存当前的->cache:cacheclientCode,方便别的方法调用
               this.cacheclientCode = item["value"];
-              this.optsPduListView({ proName: item["value"] });
+              this.optsPduListView({ merchantCode: item["value"] });
             }
             break;
           case "productCode":
             console.log("productCode: ", item["value"]);
-            console.log("opProduct-", this.opProduct);
 
             if (item["value"] === "") {
               this.$set(this.searchItem, "templateCode", "");
               this.searchItems[6].options = [];
             } else {
-              let $opPro = distinctArrObj(
-                this.opProduct.filter(it => {
-                  return it.productCode == item["value"];
-                })
-              );
-              console.log("$opPro--", $opPro[0]["prodCode"]);
+              console.log(123);
+              // let $opPro = distinctArrObj(
+              //   this.opProduct.filter(it => {
+              //     return it.productCode == item["value"];
+              //   })
+              // );
+              // console.log("$opPro--", $opPro[0]["prodCode"]);
               this.optsTemplateCode({
                 merchantCode: this.cacheclientCode,
-                prodCode: $opPro[0]["prodCode"]
+                prodCode: this.opProduct.find(it => it.prodName === item.value).prodCode
               });
             }
             break;
@@ -285,10 +286,12 @@ export default {
       });
     },
     optsCompanyListView() {
-      this.$http.post(URL_JSON["selectCompany"]).then(res => {
+      // URL_JSON["selectCompany"]
+      this.$http.post('/merchant/queryMerchants.htm').then(res => {
         console.log("selectCompany:::", res);
 
-        this.searchItems[4].options = res.result;
+        // this.searchItems[4].options = res.result;
+        this.searchItems[4].options = res.result.list;
         // console.log('list:',res.result);
       });
     },
