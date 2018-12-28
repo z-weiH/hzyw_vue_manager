@@ -10,14 +10,21 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
           
-					<el-form-item label="参数" prop="demo">
-						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>\
-            <el-tabs class="absolute_tabs" v-model="activeName2" type="card" @tab-click="handleClick">
+					<el-form-item label="参数" prop="demo" >
+						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入" @focus="toggleTabs" ></el-input>
+            <el-tabs v-if="tabsFlag" class="absolute_tabs" v-model="activeName2" type="card" @tab-click="handleClick" >
               <el-tab-pane label="案件参数" name="first">
                 <div class="content">
-                  <el-scrollbar style="max-height: 250px">
-                    用户管理
-                    <span>123123</span>
+                  <el-scrollbar style="height: 250px;">
+                    <div class="param" v-for="(item,idx) in CaseParamList" :key="idx">
+                      <p>{{item.categoryDesc}}</p>
+                      <ul>
+                        <li v-for="category in item.params" :key="category.paramId">
+                          <span class="key">{{category.paramCode}}</span>
+                          <span class="label">{{category.paramName}}</span>
+                        </li>
+                      </ul>
+                    </div>
                   </el-scrollbar>
 
 
@@ -26,8 +33,16 @@
               <el-tab-pane label="仲裁参数" name="second">
 
                 <div class="content">
-                  <el-scrollbar style="max-height: 250px">
-                    配置管理
+                  <el-scrollbar style="height: 250px">
+                    <div class="param">
+                      <ul>
+                        <li v-for="category in ArbParamList" :key="category.paramId">
+                          <span class="key">{{category.paramCode}}</span>
+                          <span class="label">{{category.paramName}}</span>
+                        </li>
+                      </ul>
+                    </div>
+
 
                   </el-scrollbar>
                 </div>
@@ -35,8 +50,15 @@
               <el-tab-pane label="个性参数" name="third">
 
                 <div class="content">
-                  <el-scrollbar style="max-height: 250px">
-                    角色管理
+                  <el-scrollbar style="height: 250px">
+                    <div class="param">
+                      <ul>
+                        <li v-for="category in PersonalParamList" :key="category.paramId">
+                          <span class="key">{{category.paramCode}}</span>
+                          <span class="label">{{category.paramName}}</span>
+                        </li>
+                      </ul>
+                    </div>
 
                   </el-scrollbar>
 
@@ -104,17 +126,75 @@
             {required : true , message : '请选择互金企业' , trigger : 'change'},
           ],
         },
+        PersonalParamList: [
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'value',paramName: '值'}
+        ],
+
+        ArbParamList: [
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'key',paramName: '名称'},
+          {paramCode: 'value',paramName: '值'}
+        ],
+        CaseParamList: [
+          {categoryDesc:'基础信息',params: [{paramCode: 'key',paramName: '名称'},{paramCode: 'value',paramName: '值'}]},
+          {categoryDesc:'基础信息',params: [{paramCode: 'key',paramName: '名称'},{paramCode: 'value',paramName: '值'}]},
+          {categoryDesc:'基础信息',params: [{paramCode: 'key',paramName: '名称'},{paramCode: 'value',paramName: '值'}]},
+          {categoryDesc:'基础信息',params: [{paramCode: 'key',paramName: '名称'},{paramCode: 'value',paramName: '值'}]},
+          {categoryDesc:'基础信息',params: [{paramCode: 'key',paramName: '名称'},{paramCode: 'value',paramName: '值'}]},
+          {categoryDesc:'基础信息',params: [{paramCode: 'key',paramName: '名称'},{paramCode: 'value',paramName: '值'}]},
+        ],
+
+
 
         // 产品 options
         productOptions : [
           {label : '产品1' , value : '产品1'}
         ],
+        tabsFlag: false
       }
     },
-    mounted() {
 
-    },
     methods : {
+      handleClick(){
+
+      },
+
+      toggleTabs(e){
+        e.stopPropagation();
+        if(e && this.tabsFlag){
+          let el = e.target;
+          while( el){
+            console.log(el,el.className);
+
+            if(el.className.indexOf('absolute_tabs')!== -1){
+              return;
+            }
+            el = el.parentElement;
+          }
+          this.tabsFlag = false;
+        }
+        else{
+          this.tabsFlag = !this.tabsFlag;
+        }
+      },
+
+
       show(type,data) {
 				this.dialogVisible = true;
 				// dialog 返回顶部
@@ -163,6 +243,9 @@
         });
       },
     },
+    mounted(){
+      document.addEventListener('click', this.toggleTabs);
+    }
   }
 </script>
 
@@ -184,10 +267,36 @@
       text-align: center;
     }
     .content{
-      width: 398px;
+      width: 358px;
       height: 250px;
       border: 1px solid #e4e7ed;
       border-top: none;
+      padding: 10px 20px;
+      .param{
+        p{
+          font-weight: 700;
+          font-style: normal;
+          font-size: 14px;
+          line-height: 24px;
+        }
+        ul>li{
+          line-height: 30px;
+          cursor: pointer;
+          &:hover{
+            background: #F5F7FA;
+          }
+          font-weight: 400;
+          font-size: 14px;
+          .key{
+            font-style: italic;
+            color: #00CC33;
+            margin-right: 20px;
+          }
+          .label{
+            color: #999999;
+          }
+        }
+      }
     }
 
   }
