@@ -3,7 +3,7 @@
     <div class="tm-head">
       <div class="fl">
         <span v-if="!toggleScreenView">案件详情</span>
-        <customer-button type="primary" :plain="true" v-else @click="exitScreenView">退出全屏</customer-button>
+        <customer-button type="primary" :plain="true" v-else @click="exitScreenView" style="margin-left: calc(50vw - 703px); ">退出全屏</customer-button>
       </div>
       <div class="fr">
         <customer-button type="primary" :plain="true">联调意见</customer-button>
@@ -11,10 +11,17 @@
       </div>
     </div>
     <div class="tm-body">
+
+      <div class="colseTip" v-if="colseTipFlag">
+        <span>本案已整合失败</span>
+        <span class="colLink" style="text-decoration: none;" @click="showCaseFailReasonList">查看原因</span>
+      </div>
+
       <el-alert
-        v-if="!baseInfoObject.failFlag"
+        v-if="baseInfoObject.caseStatus == 13"
         type="error"
         center
+        @close="handleAlertClose"
         :show-icon="false">
         <slot name="title">
           <span>本案已整合失败</span>
@@ -33,7 +40,7 @@
       <el-scrollbar  style="height: calc(100vh - 50px);">
       <div class="fr">
 
-          <div class="baseInfo">
+          <div class="baseInfo scroll-top-item">
             <div class="title">
               基本信息
             </div>
@@ -82,7 +89,7 @@
               </el-row>
             </div>
           </div>
-          <div class="paramsValue">
+          <div class="paramsValue scroll-top-item">
             <div class="title">
               参数值
             </div>
@@ -95,6 +102,7 @@
                   :data="item.params"
                   border
                   @row-click="tableRowClick"
+                  @span-method="objectSpanMethod"
                 >
                   <el-table-column prop="date" label="序号" width="50px">
                     <template slot-scope="scope">
@@ -140,7 +148,7 @@
 
           </div>
           <div class="mainPart">
-            <div class="title">
+            <div class="title scroll-top-item">
               主体证明材料
             </div>
             <div class="bsqr" v-for="(item,idx) in litigantList.applicants" :key="idx">
@@ -167,7 +175,7 @@
             </div>
           </div>
           <div class="eviInfo">
-            <div class="title">
+            <div class="title scroll-top-item">
               文书与证据
               <el-button type="primary" @click="handleScreenView" style="float: right"  :plain="true">全屏查看</el-button>
 
@@ -188,6 +196,7 @@
                 :data="eviInfoObject.eviList"
                 border
                 @row-click="tableRowClick"
+                @span-method="objectSpanMethod"
               >
                 <el-table-column prop="sortNum" label="序号" width="50px">
                 </el-table-column>
@@ -264,10 +273,52 @@
         litigantList: {},
         eviInfoObject: {},
         caseFailReasonList: [],
-        toggleScreenView: false
+        toggleScreenView: false,
+        colseTipFlag: false
       }
     },
     methods: {
+
+
+
+
+
+      //单元格合并
+      objectSpanMethod({ row, column, rowIndex, columnIndex ,property}) {
+        if (columnIndex === 0) {
+          if(rowIndex === 0 ||  (this.currentList[rowIndex] && row[property] !== this.currentList[rowIndex-1][property])){
+            let idx = -1;
+            for(let i = this.currentList.length -1 ;i> rowIndex; i--){
+              if(this.currentList[i][property] === row[property]){
+                idx = i;
+                break;
+              }
+            }
+
+            if(idx!= -1){
+              return {
+                rowspan: idx - rowIndex + 1,
+                colspan: 1
+              }
+            }else{
+              return {
+                rowspan: 1,
+                colspan: 1
+              };
+            }
+          }else{
+            return {
+              rowspan: 1,
+              colspan: 0
+            };
+          }
+
+        }
+      },
+
+      handleAlertClose(){
+        this.colseTipFlag= true;
+      },
 
       gotosqs(url){
         window.open(url,"_blank");
@@ -352,6 +403,32 @@
       }
     }
     .tm-body{
+      position: relative;
+      .colseTip{
+        position: absolute;
+        right: 0;
+        top: 50px;
+        height: 40px;
+        font-size: 14px;
+        color: #FF9900;
+        border: 1px solid #FF9900;
+        border-bottom-left-radius: 20px;
+        border-top-left-radius: 20px;
+        padding: 0 30px;
+        z-index: 888;
+
+        &:hover{
+         span.colLink{
+           display: inline-block;
+         }
+        }
+        span{
+          line-height: 40px;
+          &.colLink{
+            display: none;
+          }
+        }
+      }
       .fl{
         width: 200px;
       }
