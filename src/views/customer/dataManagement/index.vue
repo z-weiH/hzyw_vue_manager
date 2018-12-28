@@ -223,7 +223,8 @@
 
       },
       deleteHandle(row){
-        this.showConfirm().then(() => {
+        this.showConfirm().then((r) => {
+          if(r){
             this.$http.post('/templateData/deleteTemplateDataByDataId.htm',{dataId: row.dataId})
               .then(res => {
                 console.log(res);
@@ -232,6 +233,8 @@
                   this.doQuery(this.queryUrl,this.searchItem);
                 }
               })
+          }
+
         }).catch(() => {})
       },
       doQuery(url,searchItem) {
