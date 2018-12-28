@@ -12,11 +12,13 @@
       :query-url="queryUrl"
     >
       <template slot="moreBtn">
-        <el-button class="ml-20" type="primary" @click="handleExport">重跑</el-button>
+        <el-button class="ml-20" type="primary" @click="reRunFoo" :disabled="isDisHashTable">重新获取裁决书</el-button>
       </template>
     </searchs>
     <div class="item-title">
-      <div><span class="it_titHead">案件列表</span> </div>
+      <div>
+        <span class="it_titHead">案件列表</span>
+      </div>
       <div class="stat_item">
         <div>
           <span>总数量：</span>
@@ -48,11 +50,13 @@ import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
 import { distinctArrObj } from "@/assets/js/tool";
+import qs from "qs";
 export default {
   name: "reRunAwardCaseList",
   mixins: [Mixins],
   data() {
     return {
+      caseIds: [], //选择caseId数组
       selection: [],
       misShow: (() => {
         try {
@@ -67,8 +71,8 @@ export default {
           return false;
         }
       })(),
-      pager:{
-        count:0,
+      pager: {
+        count: 0
       },
       searchItems: [
         {
@@ -86,7 +90,7 @@ export default {
             {
               label: "提交日期",
               value: "1"
-            },
+            }
           ]
         },
         {
@@ -128,10 +132,19 @@ export default {
           property: "templateCode",
           colSpan: 4,
           options: []
-        },
+        }
       ],
       cacheclientCode: "", //缓存的企业code
-      searchItem: {},
+      searchItem: {
+        clientCode: "",
+        dateType: "",
+        startDate: "",
+        endDate: "",
+        keyWords: "",
+        productCode: "",
+        templateCode: "",
+        caseIds: []
+      },
       countItem: {
         sumAmtBorrow: 0,
         caseCount: 0,
@@ -143,7 +156,7 @@ export default {
       currentItem: {},
       exportUrl:
         /* "http://192.168.30.18:7777" + */ URL_JSON["exportCaseListView"],
-      queryUrl: '/award/queryAwardListByBaseQuery.htm',
+      queryUrl: "/award/queryAwardListByBaseQuery.htm",
       // 数据总数
       total: 11,
       // 当前页数
@@ -158,7 +171,7 @@ export default {
       columnDefine: [
         {
           label: "仲裁案号",
-          property: "caseNo",
+          property: "caseNoWz",
           width: 200
         },
         {
@@ -169,12 +182,12 @@ export default {
         {
           label: "申请人",
           property: "applicants",
-          width: 100,
+          width: 100
         },
         {
           label: "被申请人",
           property: "respondents",
-          width: 100,
+          width: 100
         },
         {
           label: "模版编码",
@@ -188,9 +201,9 @@ export default {
         },
         {
           label: "提交日期",
-          property: "submitTime",
+          property: "submitTime"
         }
-      ],
+      ]
       // actions:[
       //   {
       //     label: "操作",
@@ -202,20 +215,98 @@ export default {
   computed: {
     isDisabled() {
       return this.selection.length === 0;
+    },
+    isDisHashTable() {
+      return this.tableData.length === 0;
     }
   },
   methods: {
-    showHistoryList(){
+    reRunFoo() {
+      console.log("reRunFoo:caseIds:length:", this.searchItem.caseIds.length);
+      console.log("重跑前-id数量：", this.searchItem.caseIds.length);
+      console.log("-----------------,", this.searchItem);
+      if (
+        this.searchItem.caseIds.length > 0 &&
+        this.searchItem.caseIds.length < 10
+      ) {
+        this.$confirm("是否重新获取选中行裁决书内容？", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          cancelButtonClass: "cancel",
+          confirmButtonClass: "confirm",
+          center: true
+        })
+          .then(res => {
+            this.updateReRunAward();
+          })
+          .then(res => {})
+          .catch(err => {});
+      }
+      if (
+        (
+        this.searchItem.clientCode != "" ||
+        this.searchItem.dateType != "" ||
+        this.searchItem.startDate != "" ||
+        this.searchItem.endDate != "" ||
+        this.searchItem.keyWords != "" ||
+        this.searchItem.productCode != "" ||
+        this.searchItem.templateCode != "")
+      ) {
+        this.$confirm("是否重新获取裁决书内容？", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          cancelButtonClass: "cancel",
+          confirmButtonClass: "confirm",
+          center: true
+        })
+          .then(res => {
+            // 重跑选中记录
+            console.log("reRunFoo:", this.searchItem);
+            this.updateReRunAward();
+            this.searchItem.caseIds = this.searchItem.caseIds;
+            console.log(this.searchItem);
+          })
+          .then(res => {})
+          .catch(err => {});
+      }else{
+        this.$message.warning("至少填写一个搜索条件再进行重跑！");
+      }
+    },
+    updateReRunAward() {
+      if (this.searchItem.caseIds.length == 0) {
+      }
+      // 重跑裁决书api
+      this.$http
+        .post("/award/overload.htm", this.searchItem)
+        .then(res => {
+          this.$message.success("重新获取成功");
+          this.searchItem = {}; //清空搜索条件
+          this.tableData = []; //清空table-list
+        })
+        .catch(err => {
+          console.log("err:", err);
+        });
+    },
+    showHistoryList() {
       // 重跑裁决书历史记录列表
-      this.$router.push('reRunAwardHistory')
+      this.$router.push("reRunAwardHistory");
     },
-    doShowDetail(it){
-
-    },
-    slectionChange(selection){
+    slectionChange(selection) {
       // 选中当前行
-      console.log(selection);
+      this.searchItem.caseIds = []; //先清空
+
+      console.log("选中当前行:", selection);
       this.selection = selection;
+      if (selection.length > 1) {
+        selection.map(v => {
+          this.searchItem.caseIds.push(v.caseId);
+        });
+      } else if (selection.length == 1) {
+        console.log("222222222222222", selection.length);
+        this.searchItem.caseIds.push(selection[0].caseId);
+      }
+
+      console.log("this.caseIds", this.searchItem.caseIds);
     },
     //跳转法务预审
     gotoPretrial(row) {
@@ -246,7 +337,7 @@ export default {
               this.$set(this.searchItem, "templateCode", "");
               this.searchItems[5].options = [];
             } else {
-              console.log('-------------------',item)
+              console.log("-------------------", item);
               // 缓存当前的->cache:cacheclientCode,方便别的方法调用
               this.cacheclientCode = item["value"];
               this.optsPduListView({ merchantCode: item["value"] });
@@ -268,7 +359,8 @@ export default {
               // console.log("$opPro--", $opPro[0]["prodCode"]);
               this.optsTemplateCode({
                 merchantCode: this.cacheclientCode,
-                prodCode: this.opProduct.find(it => it.prodName === item.value).prodCode
+                prodCode: this.opProduct.find(it => it.prodName === item.value)
+                  .prodCode
               });
             }
             break;
@@ -284,25 +376,30 @@ export default {
       }
     },
     doQuery(url, item) {
-      this.query(url, item).then(res => {
-        console.info('qqq',res);
-        this.tableData = res.result.list;
-        this.pager.count = res.result.count;
-        // this.queryCount(item);
-      });
-    },
-    queryCount(item) {
-      // 案件列表-统计查询api
-      this.$http.post(URL_JSON["queryCaseListCountItem"], item).then(res => {
-        console.log("统计查询api", res);
-        if (res.code === "0000") {
-          this.countItem = res.result;
-        }
-      });
+      if (
+        this.searchItem.clientCode != "" ||
+        this.searchItem.dateType != "" ||
+        this.searchItem.startDate != "" ||
+        this.searchItem.endDate != "" ||
+        this.searchItem.keyWords != "" ||
+        this.searchItem.productCode != "" ||
+        this.searchItem.templateCode != ""
+      ) {
+        this.query(url, item).then(res => {
+          console.info("qqq", res);
+          this.tableData = res.result.list;
+          this.pager.count = res.result.count;
+          // res.result.list.map(v => {
+          //   this.searchItem.caseIds.push(v.caseId);
+          // });
+        });
+      } else {
+        this.$message.warning("至少填写一个搜索条件进行查询！");
+      }
     },
     optsCompanyListView() {
       // URL_JSON["selectCompany"]
-      this.$http.post('/merchant/queryMerchants.htm').then(res => {
+      this.$http.post("/merchant/queryMerchants.htm").then(res => {
         console.log("selectCompany:::", res);
 
         // this.searchItems[4].options = res.result;
@@ -354,7 +451,7 @@ export default {
     // this.optsHkCaseStatusView(); //还款案件状态
   },
   mounted() {
-    this.doQuery(this.queryUrl, this.searchItem);
+    // this.doQuery(this.queryUrl, this.searchItem);
   },
   components: {
     Searchs,
@@ -377,8 +474,7 @@ export default {
     }
   }
 }
-.history_btn{
-
+.history_btn {
 }
 .stat_item {
   font-size: 14px;
@@ -397,17 +493,17 @@ export default {
       float: left;
       span {
         margin-right: 5px;
-        vertical-align:middle;
+        vertical-align: middle;
         & + span {
           color: #555555;
           font-weight: bold;
-          vertical-align:middle;
+          vertical-align: middle;
         }
       }
     }
   }
 }
-.it_titHead{
+.it_titHead {
   position: relative;
   top: 9px;
 }

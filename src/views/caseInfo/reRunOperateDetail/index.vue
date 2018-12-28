@@ -3,7 +3,8 @@
     <div class="wsbodyhead">
       <a>所在位置</a>
       <router-link to="/main/reRunAwardCaseList" class="aside_tit">重跑裁决书案件列表</router-link>
-      <router-link :to="$options.name" class="aside_tit">重跑裁决书历史记录</router-link>
+      <router-link to="/main/reRunAwardHistory" class="aside_tit">重跑裁决书历史记录</router-link>
+      <router-link :to="$options.name" class="aside_tit">重跑裁决书操作人详细记录</router-link>
     </div>
     <!-- <searchs
       @valueChange="searchItemChange"
@@ -13,16 +14,24 @@
       :query-url="queryUrl"
     >
       <template slot="moreBtn"></template>
-    </searchs> -->
-    <div class="item-title">历史记录<span>总条数：{{pager.count}}条</span></div>
+    </searchs>-->
+    <div class="item-title">操作人详细记录</div>
     <div class="item-table">
       <table-component
         :pager="pager"
         @refreshList="doQuery(this.queryUrl, this.searchItem)"
         :table-data="tableData"
         :column-define="columnDefine"
-        :actions="actions"
-      ></table-component>
+      >
+        <!--slot-->
+        <el-table-column label="处理状态" slot="defineCol" prop="loadStatus" >
+          <template slot-scope="scope">
+            <span v-if="scope.row.loadStatus == 0">待处理</span>
+            <span v-if="scope.row.loadStatus == 1">成功</span>
+            <span v-if="scope.row.loadStatus == 2">失败</span>
+          </template>
+        </el-table-column>
+      </table-component>
     </div>
   </div>
 </template>
@@ -35,16 +44,18 @@ import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
 export default {
-  name: "reRunAwardHistory",
+  name: "reRunOperateDetail",
   mixins: [Mixins],
   data() {
     return {
-      queryUrl:'/award/queryAwardByBaseQuery.htm',
-      searchItem: {},
+      queryUrl: "/award/queryAwardDetailByBaseQuery.htm",
+      searchItem: {
+        parentId: ""
+      },
       item: {},
       pager: {
         // 数据总数
-        count: 0,
+        total: 11,
         // 当前页数
         currentPage: 1,
         // 每页数量
@@ -62,51 +73,38 @@ export default {
       ],
       columnDefine: [
         {
-          label: "失败数量",
-          property: "failTotal",
-          width: 130
+          label: "仲裁案号",
+          property: "caseNoWz",
+          width: 200
         },
         {
-          label: "操作人",
-          property: "operName",
-          width: 150
+          label: "结果",
+          property: "loadDesc",
+          width: 100
         },
         {
-          label: "总数量",
-          property: "total",
-          width: 130
-        },
-        {
-          label: "操作时间",
+          label: "重跑时间",
           property: "createTime",
-          width:170
-        },
-      ],
-      actions:[
-        {
-          label: "操作",
-          btns: [{label: "查看详细内容", function: this.doShowDetail }]
+          width: 180
         }
       ]
     };
   },
   methods: {
-    doShowDetail(it){
-      this.$router.push({
-        path:'reRunOperateDetail',
-        query:it.id
-      })
+    getParams() {
+      this.searchItem.parentId = this.$route.query.id;
     },
     doQuery(url, item) {
       this.query(url, item).then(res => {
         console.info(res);
         //  this.tableData = res.result.list;
         //   this.total = res.result.count;
-        this.pager.count = res.result.count;
       });
     }
   },
-  created() {},
+  created() {
+    this.getParams();
+  },
   mounted() {
     this.doQuery(this.queryUrl, this.searchItem);
   },
