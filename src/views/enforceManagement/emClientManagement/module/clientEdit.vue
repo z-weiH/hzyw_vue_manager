@@ -3,7 +3,7 @@
     :visible.sync="flag"
     v-dialogDrag
     :title="title"
-    width="495px"
+    width="555px"
     center>
 
     <el-form ref="form" :rules="rules" :model="item" label-width="80px">
