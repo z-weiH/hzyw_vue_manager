@@ -16,13 +16,14 @@
       </template>
     </searchs>
     <div class="item-title">
-      <div>案件列表 </div>
+      <div><span class="it_titHead">案件列表</span> </div>
       <div class="stat_item">
         <div>
           <span>总数量：</span>
         </div>
         <div>
-          <span>{{pager.count}}</span>
+          <span>{{pager.count}}条</span>
+          <el-button class="ml-20 history_btn" type="primary" @click="showHistoryList">历史记录</el-button>
         </div>
       </div>
     </div>
@@ -34,6 +35,7 @@
         :table-data="tableData"
         :column-define="columnDefine"
         @slectionChange="slectionChange"
+        :actions="actions"
       ></table-component>
     </div>
   </div>
@@ -188,7 +190,13 @@ export default {
           label: "提交日期",
           property: "submitTime",
         }
-      ]
+      ],
+      // actions:[
+      //   {
+      //     label: "操作",
+      //     btns: [{label: "查看详细内容", function: this.doShowDetail }]
+      //   }
+      // ]
     };
   },
   computed: {
@@ -197,6 +205,13 @@ export default {
     }
   },
   methods: {
+    showHistoryList(){
+      // 重跑裁决书历史记录列表
+      this.$router.push('reRunAwardHistory')
+    },
+    doShowDetail(it){
+
+    },
     slectionChange(selection){
       // 选中当前行
       console.log(selection);
@@ -362,7 +377,9 @@ export default {
     }
   }
 }
+.history_btn{
 
+}
 .stat_item {
   font-size: 14px;
   // position: absolute;
@@ -380,12 +397,18 @@ export default {
       float: left;
       span {
         margin-right: 5px;
+        vertical-align:middle;
         & + span {
           color: #555555;
           font-weight: bold;
+          vertical-align:middle;
         }
       }
     }
   }
+}
+.it_titHead{
+  position: relative;
+  top: 9px;
 }
 </style>

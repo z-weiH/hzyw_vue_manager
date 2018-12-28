@@ -214,6 +214,13 @@ let router = new Router({
           },
         },
         {
+          path: 'reRunAwardHistory',
+          component: () => import('@/views/caseInfo/reRunAwardHistory'), //重跑裁决书历史记录列表
+          meta: {
+            name: 'reRunAwardHistory',
+          },
+        },
+        {
           path: 'respondentsFeedback',
           component: () => import('@/views/caseInfo/respondentsFeedback'), //被申请人反馈
           meta: {

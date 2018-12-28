@@ -12,6 +12,7 @@ export default [
   '/main/msgPushRecordDetail',//新版-推送记录详情页
 
   '/main/unFreeZeList', // 调节状态冻结页面
+  '/main/reRunAwardHistory',//重跑裁决书历史记录列表
 
   '/main/tplSettingList', // 模板设置 - 子列表
   '/main/tplSettingEdit', // 模板设置 - 编辑
