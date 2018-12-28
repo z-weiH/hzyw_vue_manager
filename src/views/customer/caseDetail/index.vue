@@ -20,6 +20,7 @@
       <el-alert
         v-if="baseInfoObject.caseStatus == 13"
         type="error"
+        title=""
         center
         @close="handleAlertClose"
         :show-icon="false">
@@ -101,9 +102,9 @@
                 <el-table
                   :data="item.params"
                   border
-                  @row-click="tableRowClick"
-                  @span-method="objectSpanMethod"
+                  :span-method="getObjectSpanMethod(item.params)"
                 >
+                  <el-table-column prop="groupNum" label="组别" width="50px" v-if="item.hasGroupNum"></el-table-column>
                   <el-table-column prop="date" label="序号" width="50px">
                     <template slot-scope="scope">
                       {{scope.$index + 1}}
@@ -142,6 +143,11 @@
                     </template>
                   </el-table-column>
                 </el-table>
+                <div class="button" style="text-align: center;margin-top: 25px;">
+                  <el-button size="mini" plain v-if="item.hasGroupNum && !item.showAll" @click="toggleShowAll(item)">查看全部</el-button>
+                  <el-button size="mini" plain v-if="item.hasGroupNum && item.showAll" @click="toggleShowAll(item)">收起</el-button>
+                </div>
+
               </div>
             </div>
 
@@ -162,7 +168,7 @@
                 <img :src="item.img01" alt="">
               </div>
             </div>
-            <div class="sqr" v-for="(item,idx) in litigantList.respondents" :key="idx">
+            <div class="sqr" v-for="(item,idx) in litigantList.respondents" :key="item.img01+idx">
               <div class="desc">
                 {{`被请人(${item.name})${item.type}`}}
               </div>
@@ -195,8 +201,7 @@
               <el-table
                 :data="eviInfoObject.eviList"
                 border
-                @row-click="tableRowClick"
-                @span-method="objectSpanMethod"
+                :span-method="objectSpanMethod"
               >
                 <el-table-column prop="sortNum" label="序号" width="50px">
                 </el-table-column>
@@ -282,38 +287,76 @@
 
 
 
+      getObjectSpanMethod(items){
+          const currentList = items;
+          return ({row, column, rowIndex, columnIndex ,property}) => {
+            // console.log({row, column, rowIndex, columnIndex, property});
+            if (columnIndex === 0 && column.property === 'groupNum') {
+              property = 'groupNum';
+              if (rowIndex === 0 || (currentList[rowIndex] && row[property] !== currentList[rowIndex - 1][property])) {
+                let idx = -1;
+                for (let i = currentList.length - 1; i > rowIndex; i--) {
+                  if (currentList[i][property] === row[property]) {
+                    idx = i;
+                    break;
+                  }
+                }
+
+                if (idx != -1) {
+                  return {
+                    rowspan: idx - rowIndex + 1,
+                    colspan: 1
+                  }
+                } else {
+                  return {
+                    rowspan: 1,
+                    colspan: 1
+                  };
+                }
+              } else {
+                return {
+                  rowspan: 1,
+                  colspan: 0
+                };
+              }
+            }
+          }
+      },
+
 
       //单元格合并
-      objectSpanMethod({ row, column, rowIndex, columnIndex ,property}) {
-        if (columnIndex === 0) {
-          if(rowIndex === 0 ||  (this.currentList[rowIndex] && row[property] !== this.currentList[rowIndex-1][property])){
+      objectSpanMethod({row, column, rowIndex, columnIndex ,property}) {
+        const currentList = this.eviInfoObject.eviList;
+        if (columnIndex === 0 || columnIndex === 6) {
+            property = 'sortNum';
+          if (rowIndex === 0 || (currentList[rowIndex] && row[property] !== currentList[rowIndex - 1][property])) {
             let idx = -1;
-            for(let i = this.currentList.length -1 ;i> rowIndex; i--){
-              if(this.currentList[i][property] === row[property]){
+            for (let i = currentList.length - 1; i > rowIndex; i--) {
+              if (currentList[i][property] === row[property]) {
                 idx = i;
                 break;
               }
             }
 
-            if(idx!= -1){
+            if (idx != -1) {
               return {
                 rowspan: idx - rowIndex + 1,
                 colspan: 1
               }
-            }else{
+            } else {
               return {
                 rowspan: 1,
                 colspan: 1
               };
             }
-          }else{
+          } else {
             return {
               rowspan: 1,
               colspan: 0
             };
           }
-
         }
+
       },
 
       handleAlertClose(){
@@ -357,9 +400,91 @@
       },
       queryParamsList(){
         this.$http.post("/caseInfo/queryCaseParamList.htm",{caseOrderId: this.caseOrderId}).then(res => {
-          this.paramsList = res.result;
+          // this.paramsList = res.result;
+
+          this.paramsList = [
+            {categoryCode: 53777,
+              params: [
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 1, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 3, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 3, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 4, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 5, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 6, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 6, isCorrect: 1, paramValue: "张三风"},
+             ],
+              categoryDesc: "测试内容o461"},
+            {categoryCode: 53777,
+              params: [
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
+             ],
+              categoryDesc: "參數列表"},
+            {categoryCode: 53777,
+              params: [
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 1, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 3, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 3, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 4, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 5, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 6, isCorrect: 1, paramValue: "张三风"},
+                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 6, isCorrect: 1, paramValue: "张三风"},
+              ],
+              categoryDesc: "基本信息"},
+
+          ];
+          this.paramsList.forEach(it => {
+            if(it.params && it.params.length > 0 && it.params[0].groupNum){
+              it.hasGroupNum = true;
+              this.toggleShowAll(it);
+            }
+          })
+          console.log(this.paramsList);
+
         })
       },
+
+      arrayClone(arr){
+        let newArr = [];
+        arr.forEach(it => {
+          newArr.push({...it});
+        })
+        return  newArr;
+      },
+
+      toggleShowAll(it){
+          if(!it.paramsCopy){
+            it.paramsCopy = this.arrayClone(it.params);
+            it.params = it.params.filter(it => it.groupNum <= 2);
+            this.$set(it,'showAll', false);
+          }
+          else{
+            if(it.showAll){
+              it.params = it.paramsCopy.filter(it => it.groupNum <= 2);
+              it.showAll = false;
+            }else{
+              it.params = it.paramsCopy;
+              it.showAll = true;
+            }
+          }
+
+      },
+
+
       //主体证明材料
       queryLitigantList(){
         this.$http.post("/caseInfo/queryLitigantList.htm",{caseOrderId: this.caseOrderId}).then(res => {
@@ -370,6 +495,54 @@
       queryEviInfo(){
         this.$http.post("/caseInfo/getEviInfoByCaseOrderId.htm",{caseOrderId: this.caseOrderId}).then(res => {
           this.eviInfoObject = res.result;
+          this.eviInfoObject = {
+            applicationUrl: "测试内容6r2x",
+            eviList: [
+              {
+                eviContent: "测试内容d996",
+                eviFormat: "测试内容5niv",
+                eviPage: 64641,
+                eviSource: "测试内容8345",
+                eviStatus: 0,
+                eviTitle: "测试内容g55t",
+                fileUrl: "测试内容3f1d",
+                id: 46005,
+                sortNum: 60747,
+              },{
+                eviContent: "测试内容d996",
+                eviFormat: "测试内容5niv",
+                eviPage: 64641,
+                eviSource: "测试内容8345",
+                eviStatus: 0,
+                eviTitle: "测试内容g55t",
+                fileUrl: "测试内容3f1d",
+                id: 46005,
+                sortNum: 60747,
+              },{
+                eviContent: "测试内容d996",
+                eviFormat: "测试内容5niv",
+                eviPage: 64641,
+                eviSource: "测试内容8345",
+                eviStatus: 0,
+                eviTitle: "测试内容g55t",
+                fileUrl: "测试内容3f1d",
+                id: 46005,
+                sortNum: 1,
+              },{
+                eviContent: "测试内容d996",
+                eviFormat: "测试内容5niv",
+                eviPage: 64641,
+                eviSource: "测试内容8345",
+                eviStatus: 0,
+                eviTitle: "测试内容g55t",
+                fileUrl: "测试内容3f1d",
+                id: 46005,
+                sortNum: 1,
+              },
+            ]
+
+          }
+
         })
       }
     },
