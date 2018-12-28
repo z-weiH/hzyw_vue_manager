@@ -85,7 +85,7 @@
   export default {
     data() {
       return {
-        dialogVisible : true,
+        dialogVisible : false,
         // 1 参数列表 2 参数样例
         type : 1,
 
