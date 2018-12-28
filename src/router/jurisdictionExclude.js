@@ -33,4 +33,9 @@ export default [
   '/main/emMaterialAllocationPage',//材料配置詳情頁
   '/main/emBatchDownload', // 强制执行-材料选择
   '/main/staffMangement',//员工管理
+
+  '/tmCaseDetail', // 案件详情
+  '/tmParameterDetail', // 参数列表 子页面
+  '/tmCaseInterface', // 模板联调 接口
+  '/tmCaseView', // 模板联调 案件查看
 ]
