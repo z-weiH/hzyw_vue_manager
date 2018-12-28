@@ -153,7 +153,7 @@
           //案件搜索關鍵字
           casekeyWords: '',
           caseList: [],
-
+          currentTm: {},
           tableData: [],
           pager:{
             currentNum:1 ,
@@ -213,11 +213,13 @@
         },
         handleCaseClick(row){
           this.currentProduct = row.productName + '-' + row.prodTempCode;
+          this.currentTm = row;
           this.caseFlag = true;
           this.docaseQuery();
         },
         handleProductCaseView(row){
-          this.$router.push({path: '/tmCaseDetail'})
+          let path = this.$router.resolve({path: '/tmCaseDetail',query: {caseOrderId: row.caseOrderId, prodTempId: this.currentTm.prodTempId}});
+          window.open(path.href, '_blank');
         },
 
         handleApiClick(row){
