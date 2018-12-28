@@ -10,24 +10,68 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
           
-					<el-form-item label="辅导费" prop="demo">
+					<el-form-item label="参数" prop="demo">
+						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>\
+            <el-tabs class="absolute_tabs" v-model="activeName2" type="card" @tab-click="handleClick">
+              <el-tab-pane label="案件参数" name="first">
+                <div class="content">
+                  <el-scrollbar style="max-height: 250px">
+                    用户管理
+                    <span>123123</span>
+                  </el-scrollbar>
+
+
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="仲裁参数" name="second">
+
+                <div class="content">
+                  <el-scrollbar style="max-height: 250px">
+                    配置管理
+
+                  </el-scrollbar>
+                </div>
+              </el-tab-pane>
+              <el-tab-pane label="个性参数" name="third">
+
+                <div class="content">
+                  <el-scrollbar style="max-height: 250px">
+                    角色管理
+
+                  </el-scrollbar>
+
+                </div>
+              </el-tab-pane>
+            </el-tabs>
+
+
+					</el-form-item>
+          <el-form-item label="参数中文名" prop="demo">
 						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
 					</el-form-item>
-
-					<el-form-item label="账龄" prop="accountPeriodType">
-            <el-select clearable style="width:200px;" v-model="ruleForm.accountPeriodType" placeholder="请选择账龄">
-              <el-option :label="item.label" :value="item.value" v-for="(item,index) in productOptions" :key="index"></el-option>
-            </el-select>
+          <el-form-item label="类型" prop="demo">
+						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
+					</el-form-item>
+          <el-form-item label="所属模块" prop="demo">
+						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
+					</el-form-item>
+          <el-form-item label="数据来源" prop="demo">
+						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
+					</el-form-item>
+          <el-form-item label="说明" prop="demo">
+            <el-input type="textarea" style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
           </el-form-item>
 
-					<el-form-item label="时间" prop="time">
-						<el-date-picker 
-							type="date" style="width:144px;" 
-							v-model="ruleForm.time"
-							value-format="yyyy-MM-dd"
-						>
-						</el-date-picker>
-					</el-form-item>
+
+
+
+					<!--<el-form-item label="账龄" prop="accountPeriodType">-->
+            <!--<el-select clearable style="width:200px;" v-model="ruleForm.accountPeriodType" placeholder="请选择账龄">-->
+              <!--<el-option :label="item.label" :value="item.value" v-for="(item,index) in productOptions" :key="index"></el-option>-->
+            <!--</el-select>-->
+          <!--</el-form-item>-->
+
+
 
         </el-form>
       </div>
@@ -44,6 +88,10 @@
   export default {
     data() {
       return {
+        activeName2: 'first',
+
+
+
         dialogVisible : false,
         // 提交按钮禁用状态
         submitDisabled : false,
@@ -118,10 +166,31 @@
   }
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
 
 .tm-caseInterface-parameter-dialog{
 
+  .absolute_tabs{
+    position: absolute;
+    z-index: 1000;
+    background: #fff;
+
+    .el-tabs__header{
+      margin: 0;
+    }
+
+    .el-tabs__item{
+      width: 133px;
+      text-align: center;
+    }
+    .content{
+      width: 398px;
+      height: 250px;
+      border: 1px solid #e4e7ed;
+      border-top: none;
+    }
+
+  }
 }
 
 </style>
