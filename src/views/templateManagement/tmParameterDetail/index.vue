@@ -4,32 +4,24 @@
       <div class="fl">参数列表</div>
       <div class="fr">
         <el-radio-group @change="handleChange" v-model="type" size="small">
-          <el-radio-button label="1">案件参数</el-radio-button>
-          <el-radio-button label="2">仲裁参数</el-radio-button>
-          <el-radio-button label="3">个性参数</el-radio-button>
+          <el-radio-button label="0">案件参数</el-radio-button>
+          <el-radio-button label="1">仲裁参数</el-radio-button>
+          <el-radio-button label="2">个性参数</el-radio-button>
         </el-radio-group>
       </div>
     </div>
 
     <div class="tm-content">
-      <div class="fl">
-        <scrollTop></scrollTop>
-      </div>
-
-      <div class="fr">
-        <div class="m-scrollbar-box">
-          <el-scrollbar :native="false">
-            <component :is="componentFn()"></component>
-          </el-scrollbar>
-        </div>
+      <div class="m-scrollbar-box">
+        <el-scrollbar :native="false">
+          <component :is="componentFn()"></component>
+        </el-scrollbar>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-  // 滚动插件
-  import scrollTop from '@/components/scrollTop'
   // 仲裁参数
   import arbitrationParameters from './modules/arbitrationParameters.vue'
   // 案件参数
@@ -38,27 +30,31 @@
   import personalityParameter from './modules/personalityParameter.vue'
   export default {
     components : {
-      scrollTop,
       arbitrationParameters,
       caseParameters,
       personalityParameter,
     },
     data() {
       return {
-        // '1' 案件参数 '2' 仲裁参数 '3' 个性参数
-        type : this.$route.query.type || '1',
+        // '0' 案件参数 '1' 仲裁参数 '2' 个性参数
+        type : this.$route.query.type || '0',
       }
     },
     methods : {
       componentFn() {
         return (
-          this.type === '1' ? 'caseParameters' :
-          this.type === '2' ? 'arbitrationParameters' :
-          this.type === '3' ? 'personalityParameter' : ''
+          this.type === '0' ? 'caseParameters' :
+          this.type === '1' ? 'arbitrationParameters' :
+          this.type === '2' ? 'personalityParameter' : ''
         )
       },
       handleChange(val) {
-        window.history.replaceState(null, null, `/#/tmParameterDetail?type=${val}`);
+        this.$router.replace({
+          path : '/tmParameterDetail',
+          query : {
+            type : val,
+          },
+        });
       },
     },
   }
@@ -87,10 +83,7 @@
   }
 
   .tm-content{
-    .fr{
-      width: calc(100vw - 200px);
-      box-sizing: border-box;
-    }
+    
   }
 }
 
