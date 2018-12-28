@@ -66,13 +66,15 @@ export default {
 
         this.status = 1;
       let data = this.$parent.idCardList[0];
+
       if(
-        data.idCard.failReasonList === 0 &&
-        data.sign.signAuditList === 0 &&
-        data.sign.checkSignList === 0
+        data.idCard.failReasonList.length === 0 &&
+        data.evi.checkAuditList.length === 0 &&
+        data.sign.checkSignList.length === 0
       ){
         this.status = 1;
       }else{
+
         this.status = 0;
 
         let arr = [];
