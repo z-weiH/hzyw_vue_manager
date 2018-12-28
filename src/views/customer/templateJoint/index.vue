@@ -223,7 +223,7 @@
         },
 
         handleApiClick(row){
-          let path = this.$router.resolve({path: '/tmCaseInterface',query: {prodTempId: this.currentTm.prodTempId, prodTempName: row.productName + '-' + row.prodTempCode}});
+          let path = this.$router.resolve({path: '/tmCaseInterface',query: {prodTempId: row.prodTempId, prodTempName: row.productName + '-' + row.prodTempCode}});
           window.open(path.href, '_blank');
         },
         handleLogClick(row){
