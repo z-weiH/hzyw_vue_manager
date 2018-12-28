@@ -127,7 +127,8 @@
 
     },
     methods : {
-      show(type,data) {
+      show(data) {
+        this.dialogVisible = true;
         this.dataId = data.dataId;
 				// dialog 返回顶部
         this.$nextTick(() => {

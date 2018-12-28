@@ -1,7 +1,7 @@
 <template>
   <div class="tm-caseInterface-data-template-dialog">
     <el-dialog
-      title="分配案件"
+      title="请选择一份数据模板"
       :visible.sync="dialogVisible"
       width="580px"
       @close="handleClose"
@@ -9,57 +9,47 @@
     >
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
-          
-					<el-form-item label="辅导费" prop="demo">
-						<el-input style="width:400px;" v-model.trim="ruleForm.demo" placeholder="请输入"></el-input>
-					</el-form-item>
-
-					<el-form-item label="账龄" prop="accountPeriodType">
-            <el-select clearable style="width:200px;" v-model="ruleForm.accountPeriodType" placeholder="请选择账龄">
-              <el-option :label="item.label" :value="item.value" v-for="(item,index) in productOptions" :key="index"></el-option>
+					<el-form-item label="数据模板：" prop="dataId">
+            <el-select clearable style="width:400px;" v-model="ruleForm.dataId" placeholder="请选择数据模板">
+              <el-option :label="item.dataName" :value="item.dataId" v-for="(item,index) in dataOptions" :key="index"></el-option>
             </el-select>
           </el-form-item>
-
-					<el-form-item label="时间" prop="time">
-						<el-date-picker 
-							type="date" style="width:144px;" 
-							v-model="ruleForm.time"
-							value-format="yyyy-MM-dd"
-						>
-						</el-date-picker>
-					</el-form-item>
-
         </el-form>
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit">确 定</el-button>
+        <el-button type="primary" @click="handleSubmit">确 定</el-button>
         <el-button @click="dialogVisible = false">取 消</el-button>
       </span>
     </el-dialog>
+
+    <documentPreviewDialog ref="documentPreviewDialog"></documentPreviewDialog>
   </div>
 </template>
 
 <script>
+  import documentPreviewDialog from './documentPreviewDialog.vue'
   export default {
+    components : {
+      documentPreviewDialog,
+    },
     data() {
       return {
         dialogVisible : false,
-        // 提交按钮禁用状态
-        submitDisabled : false,
 
         ruleForm : {
-
+          // 数据模板 id
+          dataId : '',
         },
         rules : {
-          demo : [
-            {required : true , message : '请选择互金企业' , trigger : 'change'},
+          dataId : [
+            {required : true , message : '请选择数据模板' , trigger : 'change'},
           ],
         },
 
         // 产品 options
-        productOptions : [
-          {label : '产品1' , value : '产品1'}
+        dataOptions : [
+          {dataName : '产品1' , dataId : '产品1'}
         ],
       }
     },
@@ -76,6 +66,12 @@
 
         this.$nextTick(() => {
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
+          this.$http({
+            method : 'post',
+            url : '/templateData/queryTemplateDataByDataIdList',
+          }).then((res) => {
+            this.dataOptions = res.result;
+          });
         });
       },
 
@@ -84,8 +80,6 @@
         this.dialogVisible = false;
         
         setTimeout(() => {
-          // 取消按钮禁用
-          this.submitDisabled = false;
           // 重置表单数据
           this.$refs.ruleForm.resetFields();
           this.$nextTick(() => {
@@ -98,18 +92,9 @@
       handleSubmit(submitType) {
         this.$refs.ruleForm.validate((valid) => {
           if(valid) {
-						// 提交数据
-						this.submitDisabled = true;
-						this.$http({
-              method : 'post',
-              url : '/preCaseLib/distributeCaseByDistributeCaseQuery.htm',
-              data : {
-                
-              },
-            }).then((res) => {
-              this.$message.success('分配成功');
-            }).catch(() => {
-              this.submitDisabled = false;
+            // 提交数据
+            this.$refs.documentPreviewDialog.show({
+              dataId : this.ruleForm.dataId,
             });
           }
         });
