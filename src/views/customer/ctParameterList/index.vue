@@ -1,79 +1,95 @@
 <template>
-  <div style="overflow:hidden;">
-    <div class="fl" style="position:fixed;">
-      <div :class="{active : item.active}" :key="index" v-for="(item,index) in list">{{item.text}}</div>
+  <div class="ct-parameter-list">
+    <div class="wsbodyhead">
+      <a>所在位置</a>
+      <a href="javascript:;" class="aside_tit">参数列表</a>
     </div>
-    <div class="fr">
-      <div>
-        <div class="scroll-top-item" style="height:300px;">
-          <h1>11111111111111111</h1>
-        </div>
-        <div class="scroll-top-item" style="height:800px;">
-          <h1>22222222222222222</h1>
-        </div>
-        <div class="scroll-top-item" style="height:400px;">
-          <h1>33333333333333333</h1>
-        </div>
-        <div class="scroll-top-item" style="height:100px;">
-          <h1>44444444444444444</h1>
-        </div>
-        <div class="scroll-top-item" style="height:500px;">
-          <h1>55555555555555555</h1>
-        </div>
-      </div>
+
+    <div class="item-title of-hidden">
+      <span class="item-title-sign">参数类型</span>
+    </div>
+
+    <div class="item-table">
+      <ul>
+        <li>
+          <div @click="handleGo('0')" class="img-01"></div>
+          <p>
+            <span>案件参数</span>
+          </p>
+        </li>
+
+        <li>
+          <div @click="handleGo('1')" class="img-02"></div>
+          <p>
+            <span>仲裁参数</span>
+          </p>
+        </li>
+
+        <li>
+          <div @click="handleGo('2')" class="img-03"></div>
+          <p>
+            <span>个性参数</span>
+          </p>
+        </li>
+      </ul>
     </div>
   </div>
 </template>
 
 <script>
-  import scroll from './scrollTop.js'
   export default {
-    data() {
-      return {
-        list : [
-          {
-            text : 3.1,
-            active : true,
+    methods : {
+      handleGo(type) {
+        this.$router.push({
+          path : '/tmParameterDetail',
+          query : {
+            type : type,
           },
-          {
-            text : 3.2,
-            active : false,
-          },
-          {
-            text : 3.3,
-            active : false,
-          },
-          {
-            text : 3.4,
-            active : false,
-          },
-          {
-            text : 3.5,
-            active : false,
-          },
-        ]
-      }
-    },
-    beforeDestroy() {
-      scroll.unbind();
-    },
-    mounted() {
-      let _this = this;
-      scroll.init((i) => {
-        _this.list = _this.list.map(v => {
-          v.active = false;
-          return v;
         });
-        _this.list[i].active = true;
-      });
+      },
     },
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
-.active{
-  color: red;
+.ct-parameter-list{
+  .item-table{
+    padding-left: 50px;
+    height: 300px;
+    ul{
+      padding-top: 35px;
+    }
+    li{
+      float: left;
+      color: #666666;
+      div{
+        width: 100px;
+        height: 100px;
+        margin-bottom: 10px;
+        cursor: pointer;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-color: #F7F9FE;
+        border-radius: 5px;
+        border: 1px solid #E5EAEE;
+        margin-right: 60px;
+      }
+      p{
+        width: 102px;
+        text-align: center;
+      }
+      .img-01{
+        background-image: url('./../../../assets/img/cslb_1.png');
+      }
+      .img-02{
+        background-image: url('./../../../assets/img/cslb_2.png');
+      }
+      .img-03{
+        background-image: url('./../../../assets/img/cslb_3.png');
+      }
+    }
+  }
 }
 
 </style>

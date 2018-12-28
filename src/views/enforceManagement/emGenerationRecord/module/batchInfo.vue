@@ -150,7 +150,7 @@ export default {
   },
   methods:{
     show(item){
-      this.$http.post("download/queryDownloadTaskDetails.htm",{batchNo: item.batchNo}).then(res => {
+      this.$http.post("/download/queryDownloadTaskDetails.htm",{batchNo: item.batchNo}).then(res => {
         this.infoFlag = true;
         this.currentItem = {...item,...res.result};
         this.currentItem.createDocsAll = this.currentItem.createDocsAll.replace(/,/g,'、');

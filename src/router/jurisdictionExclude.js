@@ -9,8 +9,10 @@ export default [
   '/idCardHearDetail', //案件初审 身份证审核
   '/signatureHearDetail', //案件初审 签名审核
   '/evidenceWireHear', //案件初审 证据链审核
+  '/main/msgPushRecordDetail',//新版-推送记录详情页
 
   '/main/unFreeZeList', // 调节状态冻结页面
+  '/main/reRunAwardHistory',//重跑裁决书历史记录列表
 
   '/main/tplSettingList', // 模板设置 - 子列表
   '/main/tplSettingEdit', // 模板设置 - 编辑
@@ -32,4 +34,9 @@ export default [
   '/main/emMaterialAllocationPage',//材料配置詳情頁
   '/main/emBatchDownload', // 强制执行-材料选择
   '/main/staffMangement',//员工管理
+
+  '/tmCaseDetail', // 案件详情
+  '/tmParameterDetail', // 参数列表 子页面
+  '/tmCaseInterface', // 模板联调 接口
+  '/tmCaseView', // 模板联调 案件查看
 ]

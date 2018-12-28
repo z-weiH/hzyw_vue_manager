@@ -375,7 +375,9 @@
               <template v-for="(details,index2) in item.details">
                 <tr :key="index + '' + index2">
                   <td v-if="index2 === 0" colspan="1" :rowspan="item.details.length">{{item.sortNum}}</td>
-                  <td colspan="1">{{details.eviTitle}}</td>
+                  <td colspan="1">
+                    <a class="underline" target="_blank" :href="details.eviFileurl">{{details.eviTitle}}</a>
+                  </td>
                   <td colspan="1">{{details.eviSource}}</td>
                   <td colspan="1">
                     {{
@@ -386,8 +388,9 @@
                   </td>
                   <td colspan="1">{{details.eviPage}}</td>
                   <td v-if="index2 === 0" colspan="1" :rowspan="item.details.length">{{item.eviObject}}</td>
-                  <td colspan="1">
-                    <a class="underline" target="_blank" :href="details.eviFileurl">详情</a>
+                  <td v-if="index2 === 0" colspan="1" :rowspan="item.details.length">
+                    <el-button @click="handleEvidenceEdit(item,index)" type="text">编辑</el-button>
+                    <el-button @click="handleEvidenceDelete(item,index)" type="text">删除</el-button>
                   </td>
                 </tr>
               </template>
@@ -679,10 +682,32 @@
       },
       // 新增证据 成功回调
       successCBK(row) {
-        row.sortNum = this.ruleForm.evidences.length + 1;
-        this.ruleForm.evidences.push(row);
+        console.log('确定-',row);
+        let type = row.type;
+        delete row.type;
+        if(type === 'add') {
+          row.sortNum = this.ruleForm.evidences.length + 1;
+          this.ruleForm.evidences.push(row);
+        }else{
+          let index = row.rowIndex;
+          delete row.rowIndex;
+          this.$set(this.ruleForm.evidences,index,row);
+        }
         // 重新校验
         this.$refs.ruleForm.validateField('evidences');
+      },
+      // 证据 编辑
+      handleEvidenceEdit(row,index) {
+        this.$refs.addEvidenceDialog.show('edit',row,index);
+      },
+      // 证据 删除
+      handleEvidenceDelete(row,index) {
+        this.ruleForm.evidences.splice(index,1);
+        // 处理序号
+        this.ruleForm.evidences = this.ruleForm.evidences.map((v,k) => {
+          v.sortNum = k + 1;
+          return v;
+        });
       },
       // 关闭浮层
       handleClose() {

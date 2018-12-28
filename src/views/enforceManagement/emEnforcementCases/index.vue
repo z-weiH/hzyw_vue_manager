@@ -340,6 +340,7 @@
           xzgxfsms : true,
           zxkyhzhqds : true,
           zqzrxy : true,
+          cjs : true,
         },
         
         pageLoading : '',

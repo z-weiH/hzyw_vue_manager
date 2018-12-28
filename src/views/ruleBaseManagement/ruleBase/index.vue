@@ -3,7 +3,10 @@
 
     <div class="title-box">
       <div>
-        <span class="m-title">规则库</span>
+        <span class="m-title">
+          <span>规则库</span>
+          <a title="查看帮助文档" class="el-icon-question" target="_blank" href="http://file.arbexpress.cn/zct/document/rule/rule_document.pdf"></a>
+        </span>
         <div class="fr">
           <div class="fl mt-20" style="line-height: 21px;" v-if="exeResult != null">
             <p class="fl" style="color: #999; text-align: center">
@@ -1141,10 +1144,12 @@
       margin: 0 auto;
     }
     .m-title{
-      font-size: 30px;
       color: #0f357f;
       display: inline-block;
       margin-top: 21px;
+      >span{
+        font-size: 30px;
+      }
     }
   }
   .content-box{

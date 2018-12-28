@@ -3,16 +3,17 @@
     :visible.sync="flag"
     v-dialogDrag
     :title="title"
-    width="495px"
+    width="555px"
     center>
 
     <el-form ref="form" :rules="rules" :model="item" label-width="80px">
       <el-form-item label="类型" prop="channelType" v-if="!item.mandatoryId">
         <el-radio-group v-model="item.channelType"  >
-          <!--1：自营渠道：2：律所代理：3：公司代理-->
+          <!--1：自营渠道：2：律所代理：3：公司代理 4： 个人代理-->
           <el-radio :label="1">内部员工</el-radio>
           <el-radio :label="2">律所代理</el-radio>
           <el-radio :label="3">公司代理</el-radio>
+          <el-radio :label="4">个人代理</el-radio>
         </el-radio-group>
       </el-form-item>
       <el-form-item v-if="item.mandatoryId" label="渠道类型" prop="channelTypeCN">
@@ -103,10 +104,8 @@
           ],
           channelId : [
             { required : true , message : '请选择' , trigger : 'blur'},
-          ],
-          gender: [
-            { required : true , message : '请选择性别' , trigger : 'blur'},
           ]
+
         },
         channerList: []
       }

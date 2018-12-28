@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import './tools/utils'//工具函数
 
 const isDebug_mode = process.env.NODE_ENV !== 'production'
 Vue.config.debug = isDebug_mode
@@ -53,6 +54,12 @@ let ElementUI = require('element-ui');
 // 装载 element ui
 Vue.use(ElementUI);
 //}
+
+
+//按鈕防止重複點擊
+import CustomerButton from './components/customerButton/index'
+
+Vue.use(CustomerButton);
 
 
 String.prototype.splice = function(idx, rem, str) {

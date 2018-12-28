@@ -22,11 +22,14 @@
             placeholder="请选择范围"
             :suffix-icon="iconName"
             @focus="handleFocus"
-            :readonly="true"
+            @keyup.native="handleChange"
             v-model="form.labelName">
           </el-input>
+
+
+
           <el-scrollbar class="ruleLevel_select" v-if="iconName == 'el-icon-arrow-up'">
-            <el-tree node-key="levelId" ref="tree" :data="treeData" :props="defaultProps" @node-click="handleSelect" :default-expanded-keys="keys"></el-tree>
+            <el-tree :filter-node-method="filterNode" node-key="levelId" ref="tree" :data="treeData" :props="defaultProps" @node-click="handleSelect" :default-expanded-keys="keys"></el-tree>
           </el-scrollbar>
         </el-form-item>
 
@@ -381,7 +384,6 @@
       }
     },
     watch:{
-
       'slelectedAll'(val,oldval){
         if(val){
           this.caseList.forEach(it => {
@@ -394,6 +396,13 @@
         }
         this.handleSelectionChange();
       },
+
+
+
+      'form.labelName'(val,oldval){
+        this.$refs.tree.filter(val);
+      },
+
 
       'form.keyWords'(){
         if(this.form.levelId && this.form.caseStatusList && this.form.caseStatusList.length > 0){
@@ -439,6 +448,18 @@
       }
     },
     methods:{
+
+      handleChange(){
+        console.log(this.form.labelName);
+        this.$refs.tree.filter(this.form.labelName);
+      },
+
+
+      filterNode(value, data){
+        if (!value) return true;
+        return data.labelName.indexOf(value) !== -1;
+      },
+
       refreshData(){
         this.form = {caseStatusList: '',keyWords:''};
         this.slelectedAll = false;

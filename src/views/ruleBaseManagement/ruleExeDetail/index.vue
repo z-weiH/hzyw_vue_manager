@@ -20,7 +20,7 @@
                   <el-radio-group v-model="searchItem.exeStatus" >
                     <el-radio :label="''">全部({{queryConfig.totalCaseCount}})</el-radio>
                     <el-radio :label="2">检出错误({{queryConfig.errorCount}})</el-radio>
-                    <el-radio :label="1">未检出错误({{queryConfig.noErrorCount}})</el-radio>
+                    <el-radio :label="1">过检({{queryConfig.noErrorCount}})</el-radio>
                     <el-radio :label="0">执行错误({{queryConfig.exceptionCount}})</el-radio>
                   </el-radio-group>
 
