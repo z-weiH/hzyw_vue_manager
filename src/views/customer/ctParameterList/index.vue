@@ -12,21 +12,21 @@
     <div class="item-table">
       <ul>
         <li>
-          <div @click="handleGo('1')" class="gz-img"></div>
+          <div @click="handleGo('0')" class="img-01"></div>
           <p>
             <span>案件参数</span>
           </p>
         </li>
 
         <li>
-          <div @click="handleGo('2')" class="gz-img"></div>
+          <div @click="handleGo('1')" class="img-02"></div>
           <p>
             <span>仲裁参数</span>
           </p>
         </li>
 
         <li>
-          <div @click="handleGo('3')" class="gz-img"></div>
+          <div @click="handleGo('2')" class="img-03"></div>
           <p>
             <span>个性参数</span>
           </p>
@@ -79,8 +79,14 @@
         width: 102px;
         text-align: center;
       }
-      .gz-img{
-        background-image: url('./../../../assets/img/gz.png');
+      .img-01{
+        background-image: url('./../../../assets/img/cslb_1.png');
+      }
+      .img-02{
+        background-image: url('./../../../assets/img/cslb_2.png');
+      }
+      .img-03{
+        background-image: url('./../../../assets/img/cslb_3.png');
       }
     }
   }

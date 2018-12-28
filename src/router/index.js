@@ -1124,6 +1124,13 @@ let router = new Router({
         name: 'tmParameterDetail',
       },
     },
+    {
+      path: '/tmCaseDetail',
+      component: () => import('@/views/customer/caseDetail'), // 案件详情
+      meta: {
+        name: 'tmParameterDetail',
+      },
+    },
   ],
 })
 
