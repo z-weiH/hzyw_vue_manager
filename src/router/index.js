@@ -206,7 +206,13 @@ let router = new Router({
             name: 'caseListView',
           },
         },
-
+        {
+          path: 'reRunAwardCaseList',
+          component: () => import('@/views/caseInfo/reRunAwardCaseList'), //重跑裁决书案件列表
+          meta: {
+            name: 'reRunAwardCaseList',
+          },
+        },
         {
           path: 'respondentsFeedback',
           component: () => import('@/views/caseInfo/respondentsFeedback'), //被申请人反馈

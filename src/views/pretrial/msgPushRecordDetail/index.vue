@@ -386,7 +386,7 @@ export default {
       console.log(it);
       this.showType = 1;
       this.$http
-        .post("/pushRecord/viewPushRecord.htm", { loanBillNo: it.loanBillNo })
+        .post("/pushRecord/viewPushRecord.htm", { caseOrderId: it.caseOrderId })
         .then(res => {
           this.recordList = res.data.result;
         });
