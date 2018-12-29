@@ -202,7 +202,7 @@
             data : {
               ...this.ruleForm,
 
-              caseIds : JSON.stringify(this.multipleSelection.map(v => v.caseId)),
+              caseIds : this.multipleSelection.map(v => v.caseId),
             },
           }).then(() => {
             this.reset();
