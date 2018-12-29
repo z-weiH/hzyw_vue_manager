@@ -221,6 +221,13 @@ let router = new Router({
           },
         },
         {
+          path: 'reRunOperateDetail',
+          component: () => import('@/views/caseInfo/reRunOperateDetail'), //重跑裁决书操作人详细记录
+          meta: {
+            name: 'reRunOperateDetail',
+          },
+        },
+        {
           path: 'respondentsFeedback',
           component: () => import('@/views/caseInfo/respondentsFeedback'), //被申请人反馈
           meta: {
@@ -1141,7 +1148,7 @@ let router = new Router({
       path: '/tmCaseDetail',
       component: () => import('@/views/customer/caseDetail'), // 案件详情
       meta: {
-        name: 'tmParameterDetail',
+        name: 'tmCaseDetail',
       },
     },
   ],

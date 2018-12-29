@@ -15,7 +15,7 @@ module.exports = {
         changeOrigin: true,
         // target: 'http://localhost:90', // 118 环境
         // target: 'http://localhost:70', // 118 环境
-        // target: 'http://192.168.30.120:8080/mockjs/50', // rap
+        target: 'http://192.168.30.120:8080/mockjs/50', // rap
         // target: 'http://192.168.30.80:7030',   //费余波
         // target: 'http://192.168.30.14:7030',   //向昌学
         // target: 'http://192.168.30.79:7030', // 徐炜
