@@ -196,6 +196,10 @@
           confirmButtonClass: "confirm",
           center: true
         }).then(() => {
+          const loading = this.$loading({
+            lock: true,
+            text: '处理中，请稍后',
+          });
           this.$http({
             method : 'post',
             url : '/award/overload.htm',
@@ -205,11 +209,13 @@
               caseIds : this.multipleSelection.map(v => v.caseId),
             },
           }).then(() => {
+            loading.close();
             this.$message.success('操作成功');
             this.reset();
+          }).catch(() => {
+            loading.close();
           });
         }).catch(() => {
-
         });
       },
       // 历史记录
