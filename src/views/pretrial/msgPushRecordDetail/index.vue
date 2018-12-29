@@ -101,7 +101,48 @@
         <div class="list_body">
           <template v-for="(it,index) in recordList">
             <div class="cell">{{it.pushTime}}</div>
-            <div class="cell">{{it.orderStatus}}</div>
+            <div class="cell">
+              <template v-if="it.orderStatus == 0">
+                预审成功
+              </template>
+              <template v-if="it.orderStatus == 1">
+                立案申请
+              </template>
+              <template v-if="it.orderStatus == 2">
+                案件退回
+              </template>
+
+              <template v-if="it.orderStatus == 3">
+                撤销申请
+              </template>
+              <template v-if="it.orderStatus == 4">
+                已撤销
+              </template>
+              <template v-if="it.orderStatus == 5">
+                立案受理
+              </template>
+              <template v-if="it.orderStatus == 6">
+                组建仲裁庭
+              </template>
+              <template v-if="it.orderStatus == 7">
+                举证质证
+              </template>
+              <template v-if="it.orderStatus == 8">
+                案件审理
+              </template>
+              <template v-if="it.orderStatus == 9">
+                仲裁委裁决
+              </template>
+              <template v-if="it.orderStatus == 10">
+                已裁决
+              </template>
+              <template v-if="it.orderStatus == 13">
+                整合失败
+              </template>
+              <template v-if="it.orderStatus == 70">
+                处理成功
+              </template>
+            </div>
           </template>
         </div>
       </div>
@@ -383,12 +424,14 @@ export default {
     },
     doViewCaseRecord(it) {
       // 查看本案推送记录
+      this.recordList = [];//清空上一次记录
       console.log(it);
       this.showType = 1;
       this.$http
         .post("/pushRecord/viewPushRecord.htm", { caseOrderId: it.caseOrderId })
         .then(res => {
-          this.recordList = res.data.result;
+          console.log('res.data.result',res);
+          this.recordList = res.result;
         });
     }
   },

@@ -1,388 +1,349 @@
 <template>
-  <div class="content">
+	<div class="re-run-award-case-list">
     <div class="wsbodyhead">
       <a>所在位置</a>
-      <router-link :to="$options.name" class="aside_tit">重跑裁决书案件列表</router-link>
+      <a>重跑裁决书案件列表</a>
     </div>
-    <searchs
-      @valueChange="searchItemChange"
-      class="item-search"
-      :search-items="searchItems"
-      :item="searchItem"
-      :query-url="queryUrl"
-    >
-      <template slot="moreBtn">
-        <el-button class="ml-20" type="primary" @click="handleExport">重跑</el-button>
-      </template>
-    </searchs>
-    <div class="item-title">
-      <div>案件列表 </div>
-      <div class="stat_item">
-        <div>
-          <span>总数量：</span>
+		<div class="item-search">
+      <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
+        <span style="display:inline-block;margin-top:15px;">案件查询：</span>
+        <el-form-item label=" " prop="keyWords">
+          <el-input style="width:300px;" v-model.trim="ruleForm.keyWords" placeholder="仲裁案号、申请人、被申请人"></el-input>
+        </el-form-item>
+
+        <span style="display:inline-block;margin-top:15px;">日期类型：</span>
+        <el-form-item label=" " prop="dateType">
+          <el-select clearable v-model="ruleForm.dateType" placeholder="请选择日期类型">
+            <el-option label="提交日期" :value="1"></el-option>
+          </el-select>
+        </el-form-item>
+
+				<timeFrame
+          :startDate.sync="ruleForm.startDate"
+          :endDate.sync="ruleForm.endDate"
+          startPlaceholder="开始日期"
+          endPlaceholder="结束日期"
+        >
+        </timeFrame>
+
+        <div class="mt-10"></div>
+
+        <span style="display:inline-block;margin-top:15px;">互金企业：</span>
+        <el-form-item label=" " prop="clientCode">
+          <el-select @change="handleClientCodeChange" filterable style="width:300px;" clearable v-model="ruleForm.clientCode" placeholder="请选择互金企业">
+            <el-option :label="item.merchantName" :value="item.code" v-for="(item,index) in clientCodeOptions" :key="index"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <span style="display:inline-block;margin-top:15px;">产品名称：</span>
+        <el-form-item label=" " prop="productCode">
+          <el-select @change="handleProductCodeChange" filterable clearable v-model="ruleForm.productCode" placeholder="请选择产品名称">
+            <el-option :label="item.prodName" :value="item.prodName + '-----' + item.prodCode" v-for="(item,index) in productCodeOptions" :key="index"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <span style="display:inline-block;margin-top:15px;">模板编码：</span>
+        <el-form-item label=" " prop="templateCode">
+          <el-select filterable style="width:236px;" clearable v-model="ruleForm.templateCode" placeholder="请选择模板编码">
+            <el-option :label="item" :value="item" v-for="(item,index) in templateCodeOptions" :key="index"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <div class="mt-10">
+          <el-button :disabled="!isSearch" @click="handleSearch" type="warning">查询</el-button>
+          <el-button :disabled="!isSearch" @click="handleGetAward" type="primary">重新获取裁决书</el-button>
         </div>
-        <div>
-          <span>{{pager.count}}</span>
-        </div>
+      </el-form>
+    </div>
+
+    <div class="item-title of-hidden">
+      <span class="item-title-sign" style="margin-top: 5px;display: inline-block;">案件列表</span>
+      <span class="m-total">（总条数：{{total}}条）</span>
+      <div class="fr">
+        <el-button @click="handleHistori" type="primary" size="small">历史记录</el-button>
       </div>
     </div>
-    <div class="item-table">
-      <table-component
-        :needCheckbox="true"
-        :pager="pager"
-        @refreshList="doQuery(this.queryUrl, this.searchItem)"
-        :table-data="tableData"
-        :column-define="columnDefine"
-        @slectionChange="slectionChange"
-      ></table-component>
+
+		<div class="item-table">
+      <el-table
+        :data="tableData"
+        border
+        @selection-change="handleSelectionChange"
+      >
+        <el-table-column
+          type="selection"
+          width="55">
+        </el-table-column>
+        <el-table-column prop="date" label="序号" width="50px">
+          <template slot-scope="scope">
+            {{scope.$index + 1}}
+          </template>
+        </el-table-column>
+				<el-table-column prop="caseNoWz" label="仲裁案号"></el-table-column>
+        <el-table-column prop="clientName" label="互金企业"></el-table-column>
+        <el-table-column prop="applicants" label="申请人"></el-table-column>
+        <el-table-column prop="respondents" label="被申请人"></el-table-column>
+        <el-table-column prop="productId" label="模板编码"></el-table-column>
+        <el-table-column prop="statusThreeWz" label="案件状态"></el-table-column>
+        <el-table-column prop="submitTime" label="提交日期"></el-table-column>
+      </el-table>
+      <!-- 分页 -->
+      <el-pagination
+        class="mt-10 mb-10"
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="[10, 20, 30, 40]"
+        :page-size="10"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total">
+      </el-pagination>
+
     </div>
-  </div>
+
+    <historiDialog ref="historiDialog"></historiDialog>
+	</div>
 </template>
 
-<script type="text/ecmascript-6">
-import { URL_JSON } from "../../../components/script/url_json";
-import exportFile from "@/assets/js/exportFile";
-import Searchs from "@/components/searchs";
-import TableComponent from "@/components/table";
-import Mixins from "@/components/script/_mixin";
-import { distinctArrObj } from "@/assets/js/tool";
-export default {
-  name: "reRunAwardCaseList",
-  mixins: [Mixins],
-  data() {
-    return {
-      selection: [],
-      misShow: (() => {
-        try {
-          let userName = JSON.parse(localStorage.getItem("loginInfo")).userName;
-          let arr = ["费玉琳", "金凤", "蒋慧芳", "超级管理员"];
-          if (arr.indexOf(userName) !== -1) {
-            return true;
-          } else {
-            return false;
-          }
-        } catch (err) {
-          return false;
-        }
-      })(),
-      pager:{
-        count:0,
+<script>
+  import timeFrame from '@/components/timeFrame.vue'
+  import historiDialog from './modules/historiDialog.vue'
+	export default {
+		components : {
+      timeFrame,
+      historiDialog,
+    },
+    computed : {
+      // 判断查询条件是否为空
+      isSearch() {
+        return !(!this.ruleForm.keyWords && !this.ruleForm.dateType && !this.ruleForm.startDate && !this.ruleForm.endDate && !this.ruleForm.clientCode && !this.ruleForm.productCode && !this.ruleForm.templateCode);
       },
-      searchItems: [
-        {
-          label: "案件查询",
-          type: "text",
-          placeholder: "仲裁案号、申请人、被申请人",
-          colSpan: 9,
-          property: "keyWords"
+    },
+    watch : {
+      isSearch(val) {
+        !val && this.reset();
+      },
+    },
+		data() {
+			return {
+				ruleForm : {
+					// 关键字 互金企业
+          keyWords : '',
+          // 日期类型 1:提交日期，2：立案日期，3：组庭日期，4：结案日期，5：应裁日期
+          dateType : '',
+					// 开始时间
+					startDate : '',
+					// 结束时间
+          endDate : '',
+          // 互金企业
+          clientCode : '',
+          // 产品名称
+          productCode : '',
+          // 模板号
+          templateCode : '',
+				},
+				rules : {
         },
-        {
-          type: "select",
-          colSpan: 4,
-          property: "dateType",
-          options: [
-            {
-              label: "提交日期",
-              value: "1"
+
+        // 互金企业 options
+        clientCodeOptions : [
+          /* {
+            merchantName : '青岛鲁金所股权投资基金有限公司',
+            code : '1',
+          } */
+        ],
+        // 产品名称 options
+        productCodeOptions : [
+          /* {
+            prodName : '闪来钱',
+            prodCode : '30',
+          } */
+        ],
+        // 模板号 options
+        templateCodeOptions : [
+          /* '3001', */
+        ],
+
+				// 表格数据
+        tableData : [],
+        // 数据总数
+        total : 0,
+        // 当前页数
+        currentPage : 1,
+        // 每页数量
+        pageSize : 10,
+        // 表格选中数据
+        multipleSelection : [],
+				
+			}
+    },
+    mounted() {
+      // this.initTableList();
+      this.getClientCodeOptions();
+    },
+		methods : {
+			// 点击搜索
+			handleSearch() {
+				this.currentPage = 1;
+        this.initTableList();
+      },
+      // 重新获取裁决书
+      handleGetAward() {
+        this.$confirm("是否重新获取选中行裁决书内容？", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          cancelButtonClass: "cancel",
+          confirmButtonClass: "confirm",
+          center: true
+        }).then(() => {
+          this.$http({
+            method : 'post',
+            url : '/award/overload.htm',
+            data : {
+              ...this.ruleForm,
+
+              caseIds : this.multipleSelection.map(v => v.caseId),
             },
-          ]
-        },
-        {
-          type: "date",
-          colSpan: 4,
-          placeholder: "开始日期",
-          property: "startDate"
-        },
-        {
-          type: "date",
-          colSpan: 4,
-          placeholder: "结束日期",
-          property: "endDate"
-        },
-        {
-          label: "互金企业",
-          type: "select",
-          property: "clientCode",
-          colSpan: 4,
-          newline: 1,
-          options: this.opCompany,
-          labelfield: "merchantName",
-          valuefield: "code",
-          filterable: true
-        },
-        {
-          label: "产品名称",
-          type: "select",
-          property: "productCode",
-          colSpan: 4,
-          options: this.opProduct,
-          labelfield: "prodName",
-          valuefield: "prodCode",
-          filterable: true
-        },
-        {
-          label: "模版编码",
-          type: "select",
-          property: "templateCode",
-          colSpan: 4,
-          options: []
-        },
-      ],
-      cacheclientCode: "", //缓存的企业code
-      searchItem: {},
-      countItem: {
-        sumAmtBorrow: 0,
-        caseCount: 0,
-        sumPrepaymentAmt: 0,
-        sumAcceptReturnAmt: 0,
-        sumCaseTicket: 0
-      }, //统计数量
-      item: {},
-      currentItem: {},
-      exportUrl:
-        /* "http://192.168.30.18:7777" + */ URL_JSON["exportCaseListView"],
-      queryUrl: '/award/queryAwardListByBaseQuery.htm',
-      // 数据总数
-      total: 11,
-      // 当前页数
-      currentPage: 1,
-      // 每页数量
-      pageSize: 10,
-      tableData: [],
-      opCompany: [],
-      opProduct: [],
-      opHkCaseStage: [],
-      opHkCaseStatus: [],
-      columnDefine: [
-        {
-          label: "仲裁案号",
-          property: "caseNo",
-          width: 200
-        },
-        {
-          label: "互金企业",
-          property: "clientName",
-          width: 100
-        },
-        {
-          label: "申请人",
-          property: "applicants",
-          width: 100,
-        },
-        {
-          label: "被申请人",
-          property: "respondents",
-          width: 100,
-        },
-        {
-          label: "模版编码",
-          property: "productId",
-          width: 130
-        },
-        {
-          label: "案件状态",
-          property: "statusThreeWz",
-          width: 100
-        },
-        {
-          label: "提交日期",
-          property: "submitTime",
-        }
-      ]
-    };
-  },
-  computed: {
-    isDisabled() {
-      return this.selection.length === 0;
-    }
-  },
-  methods: {
-    slectionChange(selection){
-      // 选中当前行
-      console.log(selection);
-      this.selection = selection;
-    },
-    //跳转法务预审
-    gotoPretrial(row) {
-      let routeData = this.$router.resolve({
-        path: "/caseDetail",
-        query: { caseId: row.caseId }
-      });
-      window.open(routeData.href, "_blank");
-    },
+          }).then(() => {
+            this.reset();
+          });
+        }).catch(() => {
 
-    handleExport() {
-      console.info("searchItem:::", this.searchItem);
-      let _token = JSON.parse(localStorage.getItem("loginInfo")).token;
-      this.searchItem.token = _token;
-      exportFile({
-        url: this.exportUrl,
-        data: this.searchItem
-      });
-    },
-    searchItemChange(item) {
-      console.log("parent valuechange init");
-      for (var i in item) {
-        switch (item[i]) {
-          case "clientCode":
-            console.log(item["value"]);
-            if (item["value"] === "") {
-              this.$set(this.searchItem, "productCode", "");
-              this.$set(this.searchItem, "templateCode", "");
-              this.searchItems[5].options = [];
-            } else {
-              // 缓存当前的->cache:cacheclientCode,方便别的方法调用
-              this.cacheclientCode = item["value"];
-              this.optsPduListView({ proName: item["value"] });
-            }
-            break;
-          case "productCode":
-            console.log("productCode: ", item["value"]);
-            console.log("opProduct-", this.opProduct);
-
-            if (item["value"] === "") {
-              this.$set(this.searchItem, "templateCode", "");
-              this.searchItems[6].options = [];
-            } else {
-              let $opPro = distinctArrObj(
-                this.opProduct.filter(it => {
-                  return it.productCode == item["value"];
-                })
-              );
-              console.log("$opPro--", $opPro[0]["prodCode"]);
-              this.optsTemplateCode({
-                merchantCode: this.cacheclientCode,
-                prodCode: $opPro[0]["prodCode"]
-              });
-            }
-            break;
-          case "caseProcess":
-            this.optsHkCaseStatusView({ status: item["value"] });
-            break;
-          case "operType":
-            this.optsObjListView({ operType: item["value"] });
-            break;
-          default:
-            break;
-        }
-      }
-    },
-    doQuery(url, item) {
-      this.query(url, item).then(res => {
-        console.info('qqq',res);
-        this.tableData = res.result.list;
-        this.pager.count = res.result.count;
-        // this.queryCount(item);
-      });
-    },
-    queryCount(item) {
-      // 案件列表-统计查询api
-      this.$http.post(URL_JSON["queryCaseListCountItem"], item).then(res => {
-        console.log("统计查询api", res);
-        if (res.code === "0000") {
-          this.countItem = res.result;
-        }
-      });
-    },
-    optsCompanyListView() {
-      this.$http.post(URL_JSON["selectCompany"]).then(res => {
-        console.log("selectCompany:::", res);
-
-        this.searchItems[4].options = res.result;
-        // console.log('list:',res.result);
-      });
-    },
-    optsPduListView(params) {
-      this.searchItems[5].options = [];
-      this.$http.post(URL_JSON["selectProduct"], params).then(res => {
-        // console.log('selectProduct:::',res);
-        this.searchItems[5].options = res.result;
-        this.opProduct = res.result;
-        this.$set(this.searchItem, "productCode", "");
-      });
-    },
-    optsTemplateCode(params) {
-      this.$http.post(URL_JSON["selectTemplateItem"], params).then(res => {
-        this.searchItems[6].options = [];
-        res.result.forEach(el => {
-          this.searchItems[6].options.push({ label: el, value: el });
         });
-      });
-    },
-    optsHkCaseStageView() {
-      this.$http.post(URL_JSON["selectHkCaseStage"]).then(res => {
-        // console.log('selectHkCaseStage:::',res);
+      },
+      // 历史记录
+      handleHistori() {
+        this.$refs.historiDialog.show();
+      },
+      // 互金企业 change
+      handleClientCodeChange(val) {
+        // 清空数据
+        this.ruleForm.productCode = '';
+        this.ruleForm.templateCode = '';
+        this.productCodeOptions = [];
+        this.templateCodeOptions = [];
+        val && this.getProductCodeOptions();
+      },
+      // 产品名称 change
+      handleProductCodeChange(val) {
+        this.ruleForm.templateCode = '';
+        this.templateCodeOptions = [];
+        val && this.getTemplateCodeOptions();
+      },
+      
+      // 获取 互金企业
+      getClientCodeOptions() {
+        this.$http({
+          method : 'post',
+          url : '/merchant/queryMerchants.htm',
+        }).then((res) => {
+          this.clientCodeOptions = res.result.list;
+        });
+      },
+      // 获取 产品名称
+      getProductCodeOptions() {
+        this.$http({
+          method : 'post',
+          url : '/case/queryProducts.htm',
+          data : {
+            merchantCode : this.ruleForm.clientCode,
+          },
+        }).then((res) => {
+          this.productCodeOptions = res.result;
+        });
+      },
+      // 获取 模板编码
+      getTemplateCodeOptions() {
+        this.$http({
+          method : 'post',
+          url : '/case/queryTemplatesByProductCode.htm',
+          data : {
+            merchantCode : this.ruleForm.clientCode,
+            prodCode : this.ruleForm.productCode.split('-----')[1],
+          },
+        }).then((res) => {
+          this.templateCodeOptions = res.result;
+        });
+      },
+      // 重置 搜索条件 以及 表格相关数据
+      reset() {
+        for(let key in this.ruleForm) {
+          this.ruleForm[key] = '';
+        }
+        this.currentPage = 1;
+        this.total = 0;
+        this.multipleSelection = [];
+        this.$nextTick(() => {
+          this.tableData = [];
+        });
+      },
 
-        this.searchItems[8].options = res.result.list;
-      });
-    },
-    optsHkCaseStatusView(params) {
-      this.$http.post(URL_JSON["selectHkCaseStatus"], params).then(res => {
-        console.warn("\n", res.result.list);
+			// 表格相关 start
 
-        this.searchItems[9].options = res.result.list;
-        setTimeout(() => {
-          // this.searchItem.statusThree = '';
-          this.$set(this.searchItem, "statusThree", "");
-          console.log(this.searchItem);
-        }, 300);
-      });
-    }
-  },
-  created() {
-    this.optsCompanyListView(); //互金企业
-    // this.optsPduListView() //产品名称
-    // this.optsHkCaseStageView(); //还款案件阶段
-    // this.optsHkCaseStatusView(); //还款案件状态
-  },
-  mounted() {
-    this.doQuery(this.queryUrl, this.searchItem);
-  },
-  components: {
-    Searchs,
-    TableComponent
-  }
-};
+      // 初始化 表格数据
+      initTableList() {
+        this.$http({
+          url : '/award/queryAwardListByBaseQuery.htm',
+          method : 'post',
+          data : {
+            pageSize : this.pageSize,
+            currentNum : this.currentPage,
+
+            ...this.ruleForm,
+
+            productCode : this.ruleForm.productCode.split('-----')[0],
+          },
+        }).then((res) => {
+          this.total = res.result.count;
+          this.tableData = res.result.list;
+        });
+      },
+      // 页数 change
+      handleSizeChange(val) {
+        this.pageSize = val;
+        if(!this.isSearch) {
+          return;
+        }
+        this.currentPage = 1;
+        this.initTableList();
+      },
+      // 分页 change
+      handleCurrentChange(val) {
+        this.currentPage = val; 
+        this.initTableList();
+      },
+      // 表格 多选
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      }
+
+      // 表格相关 end
+		},
+	}
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/style/scss/helper/_mixin.scss";
-.item-title {
-  // position: relative;
-  @include clearfix;
-  > div {
-    &:first-child {
-      float: left;
-    }
-    & + div {
-      float: right;
+
+.re-run-award-case-list{
+	.item-title{
+    
+  }
+  .m-total{
+    font-size: 14px;
+    margin-right: 20px;
+  }
+}
+
+</style>
+
+<style lang="scss">
+
+.re-run-award-case-list{
+  .item-search{
+    .el-form-item{
+      margin-bottom: 0;
     }
   }
 }
 
-.stat_item {
-  font-size: 14px;
-  // position: absolute;
-  // height: 12px;
-  // margin:auto;
-  // bottom: 0;
-  // top: 0;
-  // right: 20px;
-  > div {
-    display: table-cell;
-  }
-  ul {
-    @include clearfix;
-    li {
-      float: left;
-      span {
-        margin-right: 5px;
-        & + span {
-          color: #555555;
-          font-weight: bold;
-        }
-      }
-    }
-  }
-}
 </style>
