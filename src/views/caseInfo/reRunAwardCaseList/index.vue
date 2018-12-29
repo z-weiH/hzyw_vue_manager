@@ -38,7 +38,7 @@
         <span style="display:inline-block;margin-top:15px;">产品名称：</span>
         <el-form-item label=" " prop="productCode">
           <el-select @change="handleProductCodeChange" filterable clearable v-model="ruleForm.productCode" placeholder="请选择产品名称">
-            <el-option :label="item.prodName" :value="item.prodName" v-for="(item,index) in productCodeOptions" :key="index"></el-option>
+            <el-option :label="item.prodName" :value="item.prodName + '-----' + item.prodCode" v-for="(item,index) in productCodeOptions" :key="index"></el-option>
           </el-select>
         </el-form-item>
 
@@ -259,7 +259,7 @@
           url : '/case/queryTemplatesByProductCode.htm',
           data : {
             merchantCode : this.ruleForm.clientCode,
-            prodCode : this.ruleForm.productCode,
+            prodCode : this.ruleForm.productCode.split('-----')[1],
           },
         }).then((res) => {
           this.templateCodeOptions = res.result;
@@ -289,6 +289,8 @@
             currentNum : this.currentPage,
 
             ...this.ruleForm,
+
+            productCode : this.ruleForm.productCode.split('-----')[0],
           },
         }).then((res) => {
           this.total = res.result.count;
