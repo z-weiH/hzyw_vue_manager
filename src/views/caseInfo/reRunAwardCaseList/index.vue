@@ -271,10 +271,11 @@
           this.ruleForm[key] = '';
         }
         this.currentPage = 1;
-        this.pageSize = 10;
-        this.tableData = [];
         this.total = 0;
         this.multipleSelection = [];
+        this.$nextTick(() => {
+          this.tableData = [];
+        });
       },
 
 			// 表格相关 start
