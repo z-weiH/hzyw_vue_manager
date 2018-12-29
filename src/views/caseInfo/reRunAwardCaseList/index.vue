@@ -28,29 +28,31 @@
 
         <div class="mt-10"></div>
 
-        <span>互金企业：</span>
+        <span style="display:inline-block;margin-top:15px;">互金企业：</span>
         <el-form-item label=" " prop="clientCode">
           <el-select @change="handleClientCodeChange" filterable style="width:300px;" clearable v-model="ruleForm.clientCode" placeholder="请选择互金企业">
             <el-option :label="item.merchantName" :value="item.code" v-for="(item,index) in clientCodeOptions" :key="index"></el-option>
           </el-select>
         </el-form-item>
 
-        <span>产品名称：</span>
+        <span style="display:inline-block;margin-top:15px;">产品名称：</span>
         <el-form-item label=" " prop="productCode">
           <el-select @change="handleProductCodeChange" filterable clearable v-model="ruleForm.productCode" placeholder="请选择产品名称">
-            <el-option :label="item.prodName" :value="item.prodCode" v-for="(item,index) in productCodeOptions" :key="index"></el-option>
+            <el-option :label="item.prodName" :value="item.prodName" v-for="(item,index) in productCodeOptions" :key="index"></el-option>
           </el-select>
         </el-form-item>
 
-        <span>模板编码：</span>
+        <span style="display:inline-block;margin-top:15px;">模板编码：</span>
         <el-form-item label=" " prop="templateCode">
           <el-select filterable style="width:236px;" clearable v-model="ruleForm.templateCode" placeholder="请选择模板编码">
             <el-option :label="item" :value="item" v-for="(item,index) in templateCodeOptions" :key="index"></el-option>
           </el-select>
         </el-form-item>
 
-        <el-button :disabled="!isSearch" @click="handleSearch" type="warning">查询</el-button>
-        <el-button :disabled="!isSearch" @click="handleGetAward" type="primary">重新获取裁决书</el-button>
+        <div class="mt-10">
+          <el-button :disabled="!isSearch" @click="handleSearch" type="warning">查询</el-button>
+          <el-button :disabled="!isSearch" @click="handleGetAward" type="primary">重新获取裁决书</el-button>
+        </div>
       </el-form>
     </div>
 

@@ -92,7 +92,8 @@
 
       // 关闭浮层
       handleClose() {
-        
+        this.currentPage = 1;
+        this.pageSize = 10;
       },
 
       // 表格相关 start

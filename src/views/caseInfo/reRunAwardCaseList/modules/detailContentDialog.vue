@@ -74,7 +74,7 @@
     methods : {
       show(data) {
         this.dialogVisible = true;
-        this.parentId = data.parentId;
+        this.parentId = data.id;
 				// dialog 返回顶部
         this.$nextTick(() => {
           this.$refs.dialog.$el.scrollTop = 0;
@@ -88,7 +88,8 @@
 
       // 关闭浮层
       handleClose() {
-        
+        this.currentPage = 1;
+        this.pageSize = 10;
       },
 
       // 表格相关 start
