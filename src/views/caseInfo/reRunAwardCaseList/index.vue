@@ -205,6 +205,7 @@
               caseIds : this.multipleSelection.map(v => v.caseId),
             },
           }).then(() => {
+            this.$message.success('操作成功');
             this.reset();
           });
         }).catch(() => {
