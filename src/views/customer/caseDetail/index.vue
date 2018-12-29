@@ -6,8 +6,10 @@
         <customer-button type="primary" :plain="true" v-else @click="exitScreenView" style="margin-left: calc(50vw - 703px); ">退出全屏</customer-button>
       </div>
       <div class="fr">
-        <customer-button type="primary" :plain="true">联调意见</customer-button>
-        <customer-button type="primary">联调完成</customer-button>
+        <customer-button type="primary" :plain="true" @click="jointOpinions">联调意见</customer-button>
+        <customer-button type="primary" @click="jointOver(0)" :plain="true">联调不通过</customer-button>
+        <customer-button type="primary" @click="jointOver(1)">联调通过</customer-button>
+        <customer-button type="primary" @click="jointOver(2)">联调完成</customer-button>
       </div>
     </div>
     <div class="tm-body">
@@ -254,10 +256,20 @@
 
     <!--全屏查看-->
     <screen-view ref="screenView"></screen-view>
+
+
+    <!--联调意见-->
+    <joint-opinion ref="jointOpinion"></joint-opinion>
+
+    <!--联调状态变化-->
+    <joint-status ref="jointStatus"></joint-status>
+
   </div>
 </template>
 
 <script>
+  import jointOpinion from './module/jointOpinion'
+  import jointStatus from './module/jointStatus'
   import ScreenView from './module/screenView'
   import LogDialog from '../templateJoint/module/logDialog'
   import scrollTop from '@/components/scrollTop'
@@ -266,7 +278,9 @@
     components: {
       scrollTop,
       LogDialog,
-      ScreenView
+      ScreenView,
+      jointOpinion,
+      jointStatus
     },
     data(){
       return {
@@ -283,6 +297,15 @@
       }
     },
     methods: {
+
+
+      jointOver(type){
+        this.$refs.jointStatus.show(type, this.$route.query.prodTempId);
+      },
+
+      jointOpinions(){
+        this.$refs.jointOpinion.show(this.caseOrderId);
+      },
 
 
 
