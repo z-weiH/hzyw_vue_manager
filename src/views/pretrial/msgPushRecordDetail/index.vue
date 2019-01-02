@@ -394,7 +394,9 @@ export default {
           console.log("_beginT:", _beginT);
           console.log("_endT:", _endT);
           if (_beginT[0] == _endT[0]) {
-            this.titleItems.dateTime = _beginT[0];
+            this.titleItems.dateTime = this.$options.filters.TimeYearMonthDay(_beginT[0]);
+          }else{
+           this.titleItems.dateTime = `${this.$options.filters.TimeYearMonthDay(_beginT[0])} 至 ${this.$options.filters.TimeYearMonthDay(_endT[0])}`
           }
           this.tabItems.map(v => {
             for (let i in res.result) {
