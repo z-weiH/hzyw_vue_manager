@@ -176,6 +176,7 @@
 
             caseIds : this.caseIds,
           },
+          timeout : 0,
         }).then((res) => {
           loading.close();
           // 未配置
