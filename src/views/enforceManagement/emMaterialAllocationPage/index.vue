@@ -221,6 +221,7 @@
                 <el-option label="内部员工" value="1"></el-option>
                 <el-option label="律所代理" value="2"></el-option>
                 <el-option label="公司代理" value="3"></el-option>
+                <el-option label="个人代理" value="4"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="渠道选择" prop="channelId">

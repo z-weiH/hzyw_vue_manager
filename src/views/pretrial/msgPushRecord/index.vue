@@ -201,17 +201,12 @@ export default {
   },
   methods: {
     bigDateFoo(item) {
-      // console.log('beforeItem',item)
       this.date_arr = item;
       console.log("this.date_arr", this.date_arr);
       if (this.date_arr === null) {
-        // console.log('真');
         this.showCurDate = true;
-        // this.searchItem.startDate = "";
-        // this.searchItem.endDate = "";
         this.initQuery();
       } else {
-        // console.log('假');
         this.updateTimeUiFoo(item);
       }
     },
@@ -220,25 +215,35 @@ export default {
         item[0]
       );
       this.searchItem.startDate = item[0].Format("yyyy-MM-dd hh:mm:ss");
-      // console.log('this.startDate',this.startDate);
       this.searchItem.endDate_exact = this.$options.filters.TimeYearMonthDay(
         item[1]
       );
       this.searchItem.endDate = item[1].Format("yyyy-MM-dd hh:mm:ss");
-      // console.log('this.endDate',this.endDate)
-      this.showCurDate = false;
+
+      if (item[0].getDate() == item[1].getDate()) {
+        let _date = this.$options.filters.TimeMomentChina(item[0]);
+        let _start = _date.indexOf("月");
+        this.searchItem.day = item[0].getDate();
+        this.searchItem.thatDay = _date.substring(0, _start + 1);
+        console.log(44444);
+        this.showCurDate = true;
+      } else {
+        let _date = this.$options.filters.TimeMomentChina(new Date());
+        let _start = _date.indexOf("月");
+        this.searchItem.day = new Date().getDate();
+        this.searchItem.thatDay = _date.substring(0, _start + 1);
+        console.log(333333);
+        this.showCurDate = false;
+      }
       // 查询
       this.doQuery(this.queryUrl, this.searchItem);
     },
     doQuery(url, item) {
       this.loading = true;
       this.query(url, item).then(res => {
-        console.log('res.result.count',res);
         this.tableData = res.result;
         this.pager.count = res.result.count;
         this.loading = false;
-        console.info("delete-11", delete res.result);
-        console.info("item------------->-", res);
         this.queryPushInfo(item);
       });
     },
@@ -254,6 +259,10 @@ export default {
         });
     },
     initQuery() {
+      this.searchItem.day = new Date().getDate();
+      let _date = this.$options.filters.TimeMomentChina(new Date());
+      let _start = _date.indexOf("月");
+      this.searchItem.thatDay = _date.substring(0, _start + 1);
       this.searchItem.startDate = new Date().Format("yyyy-MM-dd 00:00:00");
       this.searchItem.endDate = new Date().Format("yyyy-MM-dd hh:mm:ss");
       console.log(this.searchItem.startDate);
