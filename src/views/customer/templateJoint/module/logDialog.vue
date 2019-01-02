@@ -51,7 +51,7 @@
     </div>
 
     <div slot="footer" class="dialog-footer">
-      <customer-button type="primary" @click="innerVisible = true">添加日志</customer-button>
+      <customer-button type="primary" @click="innerVisible = true;remark= '';">添加日志</customer-button>
       <customer-button @click="outerVisible = false">取 消</customer-button>
 
     </div>

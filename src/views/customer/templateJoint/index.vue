@@ -79,7 +79,7 @@
         :title="currentProduct"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
-        width="500"
+        width="700px"
       >
         <el-form :inline="true" >
           <el-form-item label="" prop="keyWords" >
@@ -181,7 +181,7 @@
         },
 
         docaseQuery(){
-          this.$http.post('/caseInfo/queryCaseInfoListByBaseQuery.htm',{keyWords: this.casekeyWords, ...this.pager}).then(res => {
+          this.$http.post('/caseInfo/queryCaseInfoListByBaseQuery.htm',{keyWords: this.casekeyWords, ...this.pager,clientCode: this.currentTm.clientCode , prodTempCode: this.currentTm.prodTempCode}).then(res => {
             console.log(res);
             this.casePager.count = res.result.count;
             this.caseList = res.result.list;
@@ -218,12 +218,12 @@
           this.docaseQuery();
         },
         handleProductCaseView(row){
-          let path = this.$router.resolve({path: '/tmCaseDetail',query: {caseOrderId: row.caseOrderId, prodTempId: this.currentTm.prodTempId}});
+          let path = this.$router.resolve({path: '/tmCaseDetail',query: {caseOrderId: row.caseOrderId, prodTempId: this.currentTm.prodTempId, productId: row.productId}});
           window.open(path.href, '_blank');
         },
 
         handleApiClick(row){
-          let path = this.$router.resolve({path: '/tmCaseInterface',query: {prodTempId: row.prodTempId, prodTempName: row.productName + '-' + row.prodTempCode}});
+          let path = this.$router.resolve({path: '/tmCaseInterface',query: {prodTempId: row.prodTempId, prodTempName: row.productName + '-' + row.prodTempCode, productId: row.productId}});
           window.open(path.href, '_blank');
         },
         handleLogClick(row){
