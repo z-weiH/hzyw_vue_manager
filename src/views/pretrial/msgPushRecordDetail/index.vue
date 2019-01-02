@@ -41,7 +41,7 @@
             <template v-for="(it,index) in titleItems.productList">
               <li>
                 <span>{{it.productName}}：</span>
-                <span>{{it.pushNum}};</span>
+                <span>{{it.pushNum}}条;</span>
               </li>
             </template>
           </ul>
@@ -102,46 +102,20 @@
           <template v-for="(it,index) in recordList">
             <div class="cell">{{it.pushTime}}</div>
             <div class="cell">
-              <template v-if="it.orderStatus == 0">
-                预审成功
-              </template>
-              <template v-if="it.orderStatus == 1">
-                立案申请
-              </template>
-              <template v-if="it.orderStatus == 2">
-                案件退回
-              </template>
+              <template v-if="it.orderStatus == 0">预审成功</template>
+              <template v-if="it.orderStatus == 1">立案申请</template>
+              <template v-if="it.orderStatus == 2">案件退回</template>
 
-              <template v-if="it.orderStatus == 3">
-                撤销申请
-              </template>
-              <template v-if="it.orderStatus == 4">
-                已撤销
-              </template>
-              <template v-if="it.orderStatus == 5">
-                立案受理
-              </template>
-              <template v-if="it.orderStatus == 6">
-                组建仲裁庭
-              </template>
-              <template v-if="it.orderStatus == 7">
-                举证质证
-              </template>
-              <template v-if="it.orderStatus == 8">
-                案件审理
-              </template>
-              <template v-if="it.orderStatus == 9">
-                仲裁委裁决
-              </template>
-              <template v-if="it.orderStatus == 10">
-                已裁决
-              </template>
-              <template v-if="it.orderStatus == 13">
-                整合失败
-              </template>
-              <template v-if="it.orderStatus == 70">
-                处理成功
-              </template>
+              <template v-if="it.orderStatus == 3">撤销申请</template>
+              <template v-if="it.orderStatus == 4">已撤销</template>
+              <template v-if="it.orderStatus == 5">立案受理</template>
+              <template v-if="it.orderStatus == 6">组建仲裁庭</template>
+              <template v-if="it.orderStatus == 7">举证质证</template>
+              <template v-if="it.orderStatus == 8">案件审理</template>
+              <template v-if="it.orderStatus == 9">仲裁委裁决</template>
+              <template v-if="it.orderStatus == 10">已裁决</template>
+              <template v-if="it.orderStatus == 13">整合失败</template>
+              <template v-if="it.orderStatus == 70">处理成功</template>
             </div>
           </template>
         </div>
@@ -238,21 +212,20 @@ export default {
         {
           label: "产品模版",
           property: "productTemplate",
-          width: 160
         },
         {
           label: "借款单号",
           property: "loanBillNo",
-          width: 166
         },
         {
           label: "被申请人姓名",
           property: "respondents",
-          width:180,
+          width: 180
         },
         {
           label: "推送时间",
           property: "pushTime",
+          width:160
         }
       ],
       columnDefine1: [
@@ -272,7 +245,7 @@ export default {
         },
         {
           label: "推送时间",
-          property: "pushTime",
+          property: "pushTime"
         }
       ],
       actions1: [
@@ -295,11 +268,11 @@ export default {
         {
           label: "被申请人姓名",
           property: "respondents",
-          width:180,
+          width: 180
         },
         {
           label: "推送时间",
-          property: "pushTime",
+          property: "pushTime"
         },
         {
           label: "整合失败原因",
@@ -348,7 +321,7 @@ export default {
         `$1=${it.type}`
       );
     },
-    updateAllset(){
+    updateAllset() {
       // 批量整合
       this.$http
         .post("/pushRecord/reintegration.htm", {
@@ -373,15 +346,16 @@ export default {
         cancelButtonClass: "cancel",
         confirmButtonClass: "confirm",
         center: true
-      }).then(()=>{
-        this.updateAllset()
-      },()=>{
-        console.log('已取消')
-      }).catch(()=>{
-
-      });
-
-
+      })
+        .then(
+          () => {
+            this.updateAllset();
+          },
+          () => {
+            console.log("已取消");
+          }
+        )
+        .catch(() => {});
     },
     expfileBtn() {
       exportFile({ url: "/pushRecord/pushExport.htm", data: this.searchItem });
@@ -412,6 +386,18 @@ export default {
         .then(res => {
           console.log(res.result);
           this.titleItems = res.result;
+          // dateTime字段需要根据是否是超过1天显示不同格式
+          let _date = res.result.dateTime;
+          let _start = _date.indexOf("至");
+          let _beginT = _date.substring(0, _start).split(" ");
+          let _endT = _date.substring(_start + 1, _date.length).split(" ");
+          console.log("_beginT:", _beginT);
+          console.log("_endT:", _endT);
+          if (_beginT[0] == _endT[0]) {
+            this.titleItems.dateTime = this.$options.filters.TimeYearMonthDay(_beginT[0]);
+          }else{
+           this.titleItems.dateTime = `${this.$options.filters.TimeYearMonthDay(_beginT[0])} 至 ${this.$options.filters.TimeYearMonthDay(_endT[0])}`
+          }
           this.tabItems.map(v => {
             for (let i in res.result) {
               if (v.key === i) {
@@ -424,13 +410,13 @@ export default {
     },
     doViewCaseRecord(it) {
       // 查看本案推送记录
-      this.recordList = [];//清空上一次记录
+      this.recordList = []; //清空上一次记录
       console.log(it);
       this.showType = 1;
       this.$http
         .post("/pushRecord/viewPushRecord.htm", { caseOrderId: it.caseOrderId })
         .then(res => {
-          console.log('res.data.result',res);
+          console.log("res.data.result", res);
           this.recordList = res.result;
         });
     }

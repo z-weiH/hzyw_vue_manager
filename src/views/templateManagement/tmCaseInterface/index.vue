@@ -152,7 +152,10 @@
       },
       // 编辑参数
       handleEdit(item,row) {
-        this.$refs.parameterDialog.show('edit',row);
+        this.$refs.parameterDialog.show('edit',{
+          ...row,
+          categoryCode :item.categoryCode,
+        });
       },
       // 删除参数
       handleDelete(item,row) {
