@@ -158,7 +158,7 @@
           }
         },
         // 当前复制是否 携带样式 false - 不带样式 ， true 带样式
-        copyStyle : false,
+        copyStyle : true,
       }
     },
     mounted() {
@@ -215,14 +215,11 @@
       }).catch(() => {
         close.close();
       });
-
-      // 从 session 读取
-      this.copyStyle = sessionStorage.getItem('copyStyle') === 'true' ? true : false;
     },
     methods : {
       // 复制 开关 change
       handleCopyChange(val) {
-        sessionStorage.setItem('copyStyle',val);
+
       },
       // copy 参数
       handleCopy(data) {
