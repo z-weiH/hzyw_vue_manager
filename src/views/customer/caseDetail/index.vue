@@ -161,23 +161,26 @@
             </div>
             <div class="bsqr" v-for="(item,idx) in litigantList.applicants" :key="idx">
               <div class="desc">
-                {{`申请人(${item.name})${item.type}`}}
+                {{`申请人 (${item.name}) ${item.type === 0 ? '身份证照片' : '申请人营业执照'}`}}
               </div>
-              <div class="sfz">
+              <div class="sfz" v-if="item.type == 0">
+                <img :src="item.img01" alt="">
+                <img :src="item.img02" alt="">
 
               </div>
-              <div class="yyzz">
+              <div class="yyzz" v-else >
                 <img :src="item.img01" alt="">
               </div>
             </div>
             <div class="sqr" v-for="(item,idx) in litigantList.respondents" :key="item.img01+idx">
               <div class="desc">
-                {{`被请人(${item.name})${item.type}`}}
+                {{`被请人(${item.name})${item.type === 0 ? '身份证照片' : '申请人营业执照'}`}}
               </div>
-              <div class="sfz">
-
+              <div class="sfz" v-if="item.type == 0">
+                <img :src="item.img01" alt="">
+                <img :src="item.img02" alt="">
               </div>
-              <div class="yyzz">
+              <div class="yyzz" v-else>
                 <img :src="item.img01" alt="">
               </div>
             </div>
@@ -423,53 +426,53 @@
       },
       queryParamsList(){
         this.$http.post("/caseInfo/queryCaseParamList.htm",{caseOrderId: this.caseOrderId}).then(res => {
-          // this.paramsList = res.result;
+          this.paramsList = res.result;
 
-          this.paramsList = [
-            {categoryCode: 53777,
-              params: [
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 1, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 3, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 3, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 4, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 5, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 6, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 6, isCorrect: 1, paramValue: "张三风"},
-             ],
-              categoryDesc: "测试内容o461"},
-            {categoryCode: 53777,
-              params: [
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
-             ],
-              categoryDesc: "參數列表"},
-            {categoryCode: 53777,
-              params: [
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 1, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 3, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 3, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 4, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 5, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 6, isCorrect: 1, paramValue: "张三风"},
-                {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 6, isCorrect: 1, paramValue: "张三风"},
-              ],
-              categoryDesc: "基本信息"},
-
-          ];
+          // this.paramsList = [
+          //   {categoryCode: 53777,
+          //     params: [
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 1, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 3, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 3, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 4, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 5, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 6, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 6, isCorrect: 1, paramValue: "张三风"},
+          //    ],
+          //     categoryDesc: "测试内容o461"},
+          //   {categoryCode: 53777,
+          //     params: [
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人",  isCorrect: 1, paramValue: "张三风"},
+          //    ],
+          //     categoryDesc: "參數列表"},
+          //   {categoryCode: 53777,
+          //     params: [
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 1, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 2, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 3, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 3, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 4, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 5, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 6, isCorrect: 1, paramValue: "张三风"},
+          //       {dataType: 2, errorReason: "必传项未传值", paramDesc: "出借人", groupNum: 6, isCorrect: 1, paramValue: "张三风"},
+          //     ],
+          //     categoryDesc: "基本信息"},
+          //
+          // ];
           this.paramsList.forEach(it => {
             if(it.params && it.params.length > 0 && it.params[0].groupNum){
               it.hasGroupNum = true;
@@ -518,53 +521,7 @@
       queryEviInfo(){
         this.$http.post("/caseInfo/getEviInfoByCaseOrderId.htm",{caseOrderId: this.caseOrderId}).then(res => {
           this.eviInfoObject = res.result;
-          this.eviInfoObject = {
-            applicationUrl: "测试内容6r2x",
-            eviList: [
-              {
-                eviContent: "测试内容d996",
-                eviFormat: "测试内容5niv",
-                eviPage: 64641,
-                eviSource: "测试内容8345",
-                eviStatus: 0,
-                eviTitle: "测试内容g55t",
-                fileUrl: "测试内容3f1d",
-                id: 46005,
-                sortNum: 60747,
-              },{
-                eviContent: "测试内容d996",
-                eviFormat: "测试内容5niv",
-                eviPage: 64641,
-                eviSource: "测试内容8345",
-                eviStatus: 0,
-                eviTitle: "测试内容g55t",
-                fileUrl: "测试内容3f1d",
-                id: 46005,
-                sortNum: 60747,
-              },{
-                eviContent: "测试内容d996",
-                eviFormat: "测试内容5niv",
-                eviPage: 64641,
-                eviSource: "测试内容8345",
-                eviStatus: 0,
-                eviTitle: "测试内容g55t",
-                fileUrl: "测试内容3f1d",
-                id: 46005,
-                sortNum: 1,
-              },{
-                eviContent: "测试内容d996",
-                eviFormat: "测试内容5niv",
-                eviPage: 64641,
-                eviSource: "测试内容8345",
-                eviStatus: 0,
-                eviTitle: "测试内容g55t",
-                fileUrl: "测试内容3f1d",
-                id: 46005,
-                sortNum: 1,
-              },
-            ]
 
-          }
 
         })
       }
@@ -697,6 +654,21 @@
         background-image: url('../../../assets/img/2_u944.png');
       }
 
+    }
+    .sfz{
+      img{
+        width: 400px;
+        height: 250px;
+        &:first-child{
+          margin-right: 10px;
+        }
+      }
+
+    }
+    .yyzz{
+      img{
+        width: 660px;
+      }
     }
   }
 </style>

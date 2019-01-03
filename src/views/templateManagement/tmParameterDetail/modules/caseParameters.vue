@@ -40,7 +40,16 @@
                   }}
                 </template>
               </el-table-column>
-              <el-table-column prop="isCommon" label="属性"></el-table-column>
+              <el-table-column prop="isCommon" label="属性">
+                <template slot-scope="scope">
+                  {{
+                    (
+                      scope.row.isCommon === 1 ? '通用' :
+                      scope.row.isCommon === 0 ? '非通用' : ''
+                    )
+                  }}
+                </template>
+              </el-table-column>
               <el-table-column prop="paramNote" label="说明"></el-table-column>
               <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
@@ -103,16 +112,22 @@
       }
     },
     mounted() {
-      this.init();
+      let loading = this.$loading();
+      this.init(() => {
+        loading.close();
+      });
     },
     methods : {
       // 初始化页面数据
-      init() {
+      init(callback) {
         this.$http({
           method : 'post',
           url : '/param/queryCaseParamList.htm',
         }).then((res) => {
           this.list = res.result;
+          callback && callback();
+        }).catch(() => {
+          callback && callback();
         });
       },
       // 左侧中文

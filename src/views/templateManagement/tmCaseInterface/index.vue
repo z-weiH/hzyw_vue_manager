@@ -139,7 +139,7 @@
             prodTempId : this.$route.query.prodTempId,
           },
         }).then((res) => {
-          this.list = res.result;
+          this.tableData = res.result;
         });
       },
       // 左侧中文
