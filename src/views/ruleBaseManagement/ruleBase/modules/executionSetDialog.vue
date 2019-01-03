@@ -229,6 +229,14 @@
 .rule-base-execution-set-dialog{
   .el-checkbox-group{
     font-size: 14px;
+    .el-checkbox__input{
+      margin-top: 5px;
+      float: left;
+      height: 100%;
+    }
+    .el-checkbox__label{
+      white-space: normal;
+    }
   }
 }
 

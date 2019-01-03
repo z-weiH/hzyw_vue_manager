@@ -26,6 +26,14 @@
         active : 0,
       }
     },
+    watch:{
+      'text'(val,oldval){
+        console.error(val);
+        scroll.init((i) => {
+          this.setActive(i);
+        });
+      }
+    },
     mounted() {
       scroll.init((i) => {
         this.setActive(i);
