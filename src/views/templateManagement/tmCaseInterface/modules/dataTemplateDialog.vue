@@ -68,7 +68,7 @@
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
           this.$http({
             method : 'post',
-            url : '/templateData/queryTemplateDataByDataIdList',
+            url : '/templateData/queryTemplateDataByDataIdList.htm',
           }).then((res) => {
             this.dataOptions = res.result;
           });
