@@ -23,6 +23,7 @@
             <div class="operation" v-if="boxShow">
               <span @click="handleBox">x</span>
               <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
+              <el-button @click="handleInsertGrammar(23)">插入注释</el-button>
               <el-button @click="handleInsertGrammar(17)">日期计算</el-button>
               <!-- <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>当事人<i class="el-icon-arrow-down el-icon--right"></i></el-button>
@@ -296,6 +297,8 @@
           message = '&lt;@multiPartyInfo list="multiApps" index=1 field="appAddress" /&gt;';
         }else if(type === 21) {
           message = '&lt;@multiPartyInfo list="multiReses" index=1 field="appAddress" /&gt;';
+        }else if(type === 23) {
+          message = '&lt;!-- 注释 --&gt;';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
