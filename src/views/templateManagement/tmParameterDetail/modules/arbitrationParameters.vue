@@ -87,16 +87,22 @@
       }
     },
     mounted() {
-      this.init();
+      let loading = this.$loading();
+      this.init(() => {
+        loading.close();
+      });
     },
     methods : {
       // 初始化页面数据
-      init() {
+      init(callback) {
         this.$http({
           method : 'post',
           url : '/param/queryArbParamList.htm',
         }).then((res) => {
           this.list = res.result;
+          callback && callback();
+        }).catch(() => {
+          callback && callback();
         });
       },
       // 左侧中文

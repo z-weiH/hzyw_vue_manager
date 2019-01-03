@@ -8,9 +8,9 @@
         <p class="cp-title">产品列表</p>
         <div>
           <template v-for="(item,index) in productList">
-            <el-button @click="handleProductDetail(item)" :key="index">{{item.productName}}</el-button>
+            <el-button class="mb-20" @click="handleProductDetail(item)" :key="index">{{item.productName}}</el-button>
           </template>
-          <el-button @click="handleProductAdd" icon="el-icon-plus"></el-button>
+          <el-button class="mb-20" @click="handleProductAdd" icon="el-icon-plus"></el-button>
         </div>
       </template>
       <template v-else>
@@ -151,7 +151,7 @@
             hasPersonalParam : 1,
           },
         }).then((res) => {
-          this.list = res.result;
+          this.productList = res.result;
         });
       },
       // 左侧中文

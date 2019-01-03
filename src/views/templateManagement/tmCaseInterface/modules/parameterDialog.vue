@@ -291,8 +291,6 @@
       },
     },
     mounted() {
-      document.addEventListener('click',this.clickFn);
-
       // 测试 - 需删除
       this.listAJCSDefault = copyArray(this.listAJCS);
       this.listZCCSDefault = copyArray(this.listZCCS);
@@ -314,6 +312,7 @@
 
         this.$nextTick(() => {
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
+          document.addEventListener('click',this.clickFn);
           if(this.type === 'edit') {
             this.row = data;
           }
