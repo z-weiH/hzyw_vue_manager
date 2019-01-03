@@ -1,7 +1,7 @@
 <template>
   <div class="tm-caseInterface-parameter-dialog">
     <el-dialog
-      title="分配案件"
+      :title="type === 'add' ? '添加参数' : '编辑参数'"
       :visible.sync="dialogVisible"
       width="580px"
       @close="handleClose"
@@ -473,6 +473,14 @@
         padding-left: 10px;
         div{
           line-height: initial;
+          margin-bottom: 10px;
+        }
+        li{
+          line-height: initial;
+          margin-bottom: 10px;
+        }
+        ul{
+          padding-top: 10px;
         }
       }
       .el-tabs__nav-wrap.is-scrollable{

@@ -164,7 +164,7 @@
             prodTempId : this.prodTempId,
           },
         }).then((res) => {
-          this.jsonData = res.result;
+          this.jsonData = JSON.parse(res.result);
         });
       },
       handleChange(val) {
