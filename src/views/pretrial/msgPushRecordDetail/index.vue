@@ -98,8 +98,9 @@
           <div class="cell">推送时间</div>
           <div class="cell">最终状态</div>
         </div>
-        <div class="list_body">
-          <template v-for="(it,index) in recordList">
+        <div class="list_load" ref="listLoad" v-if="showLoad"></div>
+        <template v-for="(it,index) in recordList">
+          <div class="list_body">
             <div class="cell">{{it.pushTime}}</div>
             <div class="cell">
               <template v-if="it.orderStatus == 0">预审成功</template>
@@ -117,8 +118,8 @@
               <template v-if="it.orderStatus == 13">整合失败</template>
               <template v-if="it.orderStatus == 70">处理成功</template>
             </div>
-          </template>
-        </div>
+          </div>
+        </template>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="showType=0">取 消</el-button>
@@ -153,6 +154,7 @@ export default {
   },
   data() {
     return {
+      showLoad:true,
       loading: true,
       queryUrl: "/pushRecord/pushCountInfo.htm",
       contentIdx: 1,
@@ -211,11 +213,11 @@ export default {
       columnDefine: [
         {
           label: "产品模版",
-          property: "productTemplate",
+          property: "productTemplate"
         },
         {
           label: "借款单号",
-          property: "loanBillNo",
+          property: "loanBillNo"
         },
         {
           label: "被申请人姓名",
@@ -225,7 +227,7 @@ export default {
         {
           label: "推送时间",
           property: "pushTime",
-          width:160
+          width: 160
         }
       ],
       columnDefine1: [
@@ -394,9 +396,13 @@ export default {
           console.log("_beginT:", _beginT);
           console.log("_endT:", _endT);
           if (_beginT[0] == _endT[0]) {
-            this.titleItems.dateTime = this.$options.filters.TimeYearMonthDay(_beginT[0]);
-          }else{
-           this.titleItems.dateTime = `${this.$options.filters.TimeYearMonthDay(_beginT[0])} 至 ${this.$options.filters.TimeYearMonthDay(_endT[0])}`
+            this.titleItems.dateTime = this.$options.filters.TimeYearMonthDay(
+              _beginT[0]
+            );
+          } else {
+            this.titleItems.dateTime = `${this.$options.filters.TimeYearMonthDay(
+              _beginT[0]
+            )} 至 ${this.$options.filters.TimeYearMonthDay(_endT[0])}`;
           }
           this.tabItems.map(v => {
             for (let i in res.result) {
@@ -409,6 +415,20 @@ export default {
         });
     },
     doViewCaseRecord(it) {
+      this.showLoad = true;
+      let LoadingUI = null;
+      setTimeout(()=>{
+      let $source = document.querySelector('.list_load')
+      console.log('$source',$source);
+       LoadingUI = this.$loading({
+        target:$source,
+        lock: true,
+        // text: "拼命加载中...",
+        // spinner: "el-icon-loading",
+        background: "hsla(0,0%,100%,.9)"
+      });
+      },5)
+
       // 查看本案推送记录
       this.recordList = []; //清空上一次记录
       console.log(it);
@@ -416,6 +436,8 @@ export default {
       this.$http
         .post("/pushRecord/viewPushRecord.htm", { caseOrderId: it.caseOrderId })
         .then(res => {
+          LoadingUI.close();
+          this.showLoad = false;
           console.log("res.data.result", res);
           this.recordList = res.result;
         });
@@ -558,6 +580,12 @@ $borderColor: #ebeef5;
 
 .resetSettle_div {
   display: inline;
+}
+
+// 局部loading
+.list_load {
+  width: 100%;
+  height: 200px;
 }
 </style>
 
