@@ -18,8 +18,8 @@
 						<el-input style="width:400px;" v-model.trim="ruleForm.paramName" placeholder="请输入"></el-input>
 					</el-form-item>
 
-					<el-form-item label="类型：" prop="valueType">
-            <el-select clearable style="width:400px;" v-model="ruleForm.valueType" placeholder="请选择类型">
+					<el-form-item label="类型1：" prop="valueType">
+            <el-select clearable style="width:400px;" v-model="ruleForm.valueType" placeholder="请选择类型1">
               <el-option label="Integer" :value="1"></el-option>
               <el-option label="String" :value="2"></el-option>
               <el-option label="Date" :value="3"></el-option>
@@ -27,17 +27,17 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item v-if="$route.query.type === '0'" label="属性：" prop="isCommon">
-            <el-select clearable style="width:400px;" v-model="ruleForm.isCommon" placeholder="请选择类型">
-              <el-option label="通用" :value="1"></el-option>
-              <el-option label="非通用" :value="0"></el-option>
-            </el-select>
-          </el-form-item>
-
           <el-form-item label="类型2：" prop="paramType">
             <el-select clearable style="width:400px;" v-model="ruleForm.paramType" placeholder="请选择类型2">
               <el-option label="普通参数" :value="0"></el-option>
               <el-option label="数组参数" :value="1"></el-option>
+            </el-select>
+          </el-form-item>
+
+          <el-form-item v-if="$route.query.type === '0'" label="属性：" prop="isCommon">
+            <el-select clearable style="width:400px;" v-model="ruleForm.isCommon" placeholder="请选择属性">
+              <el-option label="通用" :value="1"></el-option>
+              <el-option label="非通用" :value="0"></el-option>
             </el-select>
           </el-form-item>
 
@@ -81,7 +81,7 @@
           paramCode : '',
           // 参数中文名
           paramName : '',
-          // 类型 1-数字,2-字符串,3-日期,4-金额
+          // 类型1 1-数字,2-字符串,3-日期,4-金额
           valueType : '',
           // 属性 0 否 1 是 是否为通用参数 
           isCommon : '',
@@ -98,7 +98,7 @@
             {required : true , message : '请输入参数中文名' , trigger : 'blur'},
           ],
           valueType : [
-            {required : true , message : '请选择类型' , trigger : 'change'},
+            {required : true , message : '请选择类型1' , trigger : 'change'},
           ],
           paramType : [
             {required : true , message : '请选择类型2' , trigger : 'change'},
@@ -163,17 +163,17 @@
             }else{
               delete form.isCommon;
             }
-            console.log(form);return;
 						this.$http({
               method : 'post',
               url : '/param/saveParam.htm',
               data : form,
             }).then((res) => {
-              this.$message.success('分配成功');
-            }).catch(() => {
+              this.$message.success('操作成功');
               this.submitDisabled = false;
               this.handleClose();
               this.$emit('successCBK');
+            }).catch(() => {
+              
             });
           }
         });
