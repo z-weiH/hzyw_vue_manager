@@ -5,7 +5,7 @@
           <div class="tit fl part_tit f_18">仲裁申请书</div>
           <div class="scroll_toolbar fr">
             <ul>
-              <li class="fl evi_bar" :class="{active: currentUrl.indexOf(eviDetail.eviFileurl) == 0,disabled: eviDetail.eviStatus == 0}" v-for="(eviDetail,idx) in evidence.eviList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
+              <li class="fl evi_bar" :class="{active: currentUrl.indexOf(eviDetail.fileUrl) == 0,disabled: eviDetail.eviStatus == 0}" v-for="(eviDetail,idx) in evidence.eviList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
             </ul>
             <!-- <scroll-y label="eviTitle" @handleClick="scrollbarClick" :options="evidence.eviDetailList" :defaultWidth="520"></scroll-y> -->
           </div>
@@ -73,6 +73,12 @@
             console.log(obj);
             this.applicationUrl = obj.applicationUrl;
             this.evidence = obj;
+            console.log(obj);
+            let evi = this.evidence.eviList.find(it  => it.eviStatus == 1);
+            if(evi){
+              this.scrollbarClick(evi);
+
+            }
           }
         }
       }
