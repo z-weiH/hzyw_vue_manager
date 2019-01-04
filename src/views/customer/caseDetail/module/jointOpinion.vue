@@ -110,7 +110,7 @@
               this.$http.post("/caseDebugLog/saveCaseDebugOpinion.htm",{...this.currentItem, caseOrderId: this.caseOrderId}).then(res => {
                 this.innerVisible = false;
                 this.$http.post("/caseDebugLog/queryCaseDebugOpinionList.htm",{caseOrderId: this.caseOrderId}).then(res => {
-                  this.logList = res.result;
+                  this.logList = res.result.result;
                 })
               })
             }
@@ -126,7 +126,7 @@
           show(caseOrderId){
             this.caseOrderId = caseOrderId;
             this.$http.post("/caseDebugLog/queryCaseDebugOpinionList.htm",{caseOrderId: this.caseOrderId}).then(res => {
-              this.logList = res.result;
+              this.logList = res.result.result;
               this.outerVisible = true;
             })
           }

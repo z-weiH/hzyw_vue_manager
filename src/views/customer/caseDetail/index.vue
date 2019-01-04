@@ -6,10 +6,10 @@
         <customer-button type="primary" :plain="true" v-else @click="exitScreenView" style="margin-left: calc(50vw - 703px); ">退出全屏</customer-button>
       </div>
       <div class="fr">
-        <customer-button type="primary" :plain="true" @click="jointOpinions">联调意见</customer-button>
-        <customer-button type="primary" @click="jointOver(0)" :plain="true">联调不通过</customer-button>
-        <customer-button type="primary" @click="jointOver(1)">联调通过</customer-button>
-        <customer-button type="primary" @click="jointOver(2)">联调完成</customer-button>
+        <customer-button type="primary" :plain="true" @click="jointOpinions" v-if="roleType === 1">联调意见</customer-button>
+        <customer-button type="primary" @click="jointOver(0)" :plain="true" v-if="roleType === 2 && debugStatus === 3">联调不通过</customer-button>
+        <customer-button type="primary" @click="jointOver(1)" v-if="roleType === 2 && debugStatus === 3">联调通过</customer-button>
+        <customer-button type="primary" @click="jointOver(2)" v-if="roleType === 1 && debugStatus === 2">联调完成</customer-button>
       </div>
     </div>
     <div class="tm-body">
@@ -35,7 +35,7 @@
         <scrollTop :text="text"></scrollTop>
         <div style="margin-top: 164px;height: calc(100vh - 214px);border-right: 1px solid #ccc;position: relative;">
           <div class="btn" style="text-align: center;position: absolute;top: 50%; width: 100%;">
-            <p style="font-size: 16px;line-height: 32px;">联调状态: {{}}</p>
+            <p style="font-size: 16px;line-height: 32px;">联调状态: {{debugStatusObject[debugStatus]}}</p>
             <customer-button :plain="true" size="mini" @click="showLogDialog">查看联调日志</customer-button>
           </div>
         </div>
@@ -265,7 +265,7 @@
     <joint-opinion ref="jointOpinion"></joint-opinion>
 
     <!--联调状态变化-->
-    <joint-status ref="jointStatus"></joint-status>
+    <joint-status ref="jointStatus" @close="refreshStatus($event)"></joint-status>
 
   </div>
 </template>
@@ -287,6 +287,10 @@
     },
     data(){
       return {
+        // 1-待设置 2-联调中 3-待法务确认 4-联调通过
+        debugStatusObject: {1: '待设置', 2: '联调中', 3: '待确认' , 4: '联调通过' },
+        roleNames: '',
+        debugStatus: 0,
         reasonFlag: false,
         text: ['基本信息','参数值','主体证明材料','文书与证据'],
         caseOrderId: '',
@@ -299,11 +303,23 @@
         colseTipFlag: false
       }
     },
+    computed:{
+      roleType(){
+        if(this.roleNames.indexOf("运营") !== -1){
+          return 1;
+        }
+        else if(this.roleNames.indexOf("法务") !== -1){
+          return 2;
+        }
+        return 0;
+      }
+    },
     methods: {
 
 
       jointOver(type){
         this.$refs.jointStatus.show(type, this.$route.query.prodTempId);
+
       },
 
       jointOpinions(){
@@ -524,10 +540,27 @@
 
 
         })
+      },
+
+      refreshStatus(e){
+          console.log(e);
+          if(e=== 2){
+            this.$router.push({path: '/tmCaseDetail',query: {caseOrderId: this.$route.query.caseOrderId, prodTempId: this.$route.query.prodTempId, productId: this.$route.query.productId , debugStatus: 3}})
+            this.debugStatus = 3;
+          }else if(e === 0){
+            this.$router.push({path: '/tmCaseDetail',query: {caseOrderId: this.$route.query.caseOrderId, prodTempId: this.$route.query.prodTempId, productId: this.$route.query.productId , debugStatus: 2}})
+            this.debugStatus = 2;
+          }else if(e === 1){
+            this.$router.push({path: '/tmCaseDetail',query: {caseOrderId: this.$route.query.caseOrderId, prodTempId: this.$route.query.prodTempId, productId: this.$route.query.productId , debugStatus: 4}})
+            this.debugStatus = 4;
+          }
       }
     },
     created(){
       this.caseOrderId = this.$route.query.caseOrderId;
+      this.roleNames = JSON.parse(localStorage.getItem('loginInfo')).roleNames;
+      this.debugStatus = +this.$route.query.debugStatus;
+
       this.queryBaseInfo();
       this.queryParamsList();
       this.queryLitigantList();

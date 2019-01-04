@@ -146,7 +146,7 @@
         return {
           searchItem: {},
           // 1-待设置 2-联调中 3-待法务确认 4-联调通过
-          debugStatusObject: {1: '待设置', 2: '联调中', 3: '待法务确认' , 4: '联调通过' },
+          debugStatusObject: {1: '待设置', 2: '联调中', 3: '待确认' , 4: '联调通过' },
 
           currentProduct: '',
           caseFlag: false,
@@ -218,7 +218,7 @@
           this.docaseQuery();
         },
         handleProductCaseView(row){
-          let path = this.$router.resolve({path: '/tmCaseDetail',query: {caseOrderId: row.caseOrderId, prodTempId: this.currentTm.prodTempId, productId: row.productId}});
+          let path = this.$router.resolve({path: '/tmCaseDetail',query: {caseOrderId: row.caseOrderId, prodTempId: this.currentTm.prodTempId, productId: row.productId , debugStatus: this.currentTm.debugStatus}});
           window.open(path.href, '_blank');
         },
 
