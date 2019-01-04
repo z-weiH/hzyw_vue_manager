@@ -178,7 +178,7 @@
 
       // 关闭浮层
       handleClose() {
-				
+				this.type = 1;
       },
       // 点击提交
       handleSubmit(submitType) {
