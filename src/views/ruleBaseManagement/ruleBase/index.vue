@@ -434,7 +434,7 @@
           .replace(/\/\/([\u4e00-\u9fa5]+)/g,'<span class="m-notes">$&</span>')
           .replace(/[\u4e00-\u9fa5]+/g,'<span class="mark" style="height: 16px; line-height: 16px;background: #13367D; color: #13367D; opacity: .4;box-sizing: border-box;display: inline-block;">$&</span>')
 
-        this.$nextTick(() => {
+        setTimeout(() => {
           console.log(this.$refs.textarea_warpar1.querySelectorAll('span'));
           this.$refs.textarea_rule.$el.querySelectorAll('span').forEach(node => {
 
@@ -458,13 +458,13 @@
                 span.style.display = 'none';
               }
               // span.style.height = it.style.height;
-              console.log(span.style,);
+              console.log(span.style.top, span.style.left);
               this.$refs.textarea_rule.$el.appendChild(span);
             }
 
           })
 
-        })
+        },400)
       },
 
 
