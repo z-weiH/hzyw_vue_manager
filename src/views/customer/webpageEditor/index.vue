@@ -24,7 +24,13 @@
               <span @click="handleBox">x</span>
               <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
               <el-button @click="handleInsertGrammar(23)">插入注释</el-button>
-              <el-button @click="handleInsertGrammar(17)">日期计算</el-button>
+              <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
+                <el-button>日期计算<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item :command="24">加</el-dropdown-item>
+                  <el-dropdown-item :command="25">减</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
               <!-- <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>当事人<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
@@ -159,7 +165,7 @@
           }
         },
         // 当前复制是否 携带样式 false - 不带样式 ， true 带样式
-        copyStyle : true,
+        copyStyle : false,
       }
     },
     mounted() {
@@ -299,6 +305,10 @@
           message = '&lt;@multiPartyInfo list="multiReses" index=1 field="appAddress" /&gt;';
         }else if(type === 23) {
           message = '&lt;!-- 注释 --&gt;';
+        }else if(type === 24) {
+          message = '&lt;@dateDiffCalc date1=nowDate （当日）date2=violateStartDate（裁决日期） days=-6 /&gt;';
+        }else if(type === 25) {
+          message = '&lt;@dateDiffCalc date1=nowDate （当日）date2=violateStartDate（裁决日期） days=6 /&gt;';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
