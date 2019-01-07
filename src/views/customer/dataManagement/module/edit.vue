@@ -25,7 +25,7 @@
             </div>
             <div class="fr mcont-right">
               <div class="m-scrollbar-box">
-                <el-scrollbar class="edit-scroll" style="height: calc(100vh - 200px)">
+                <el-scrollbar class="edit-scroll" style="height: calc(100vh - 160px)">
                   <div>
 
                     <template v-for="(item,index) in list1" >
@@ -73,7 +73,7 @@
 
         </template>
         <template v-if="paramLevel === 1">
-          <div style="padding: 10px 30px;background: #fff;height: calc(100vh - 200px)">
+          <div style="padding: 10px 30px;background: #fff;height: calc(100vh - 160px)">
 
             <p style="font-size: 16px;line-height: 30px;">仲裁参数</p>
             <el-table
@@ -103,7 +103,7 @@
             </div>
             <div class="fr mcont-right">
               <div class="m-scrollbar-box">
-                <el-scrollbar class="edit-scroll" style="height: calc(100vh - 200px)">
+                <el-scrollbar class="edit-scroll" style="height: calc(100vh - 160px)">
                   <div>
 
                     <template v-for="(item,index) in list3" >
@@ -271,7 +271,7 @@
       background: #fff;
 
       .mcont-right{
-        width: calc(100% - 200px);
+        width: calc(100% - 160px);
         box-sizing: border-box;
         padding-left: 60px;
       }
