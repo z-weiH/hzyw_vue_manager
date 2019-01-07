@@ -33,20 +33,23 @@
       <div class="parameter-page">
         <div class="m-c1">
           <div class="fl global-parameters" :class="{active : paramLevel === 0}">
-            <span @click="paramLevel = 0;" class="cursor">全局参数</span>
+            <span @click="paramLevel = 0;" class="cursor">案件参数</span>
           </div>
           <div class="fl business-parameters" :class="{active : paramLevel === 1}">
-            <span @click="paramLevel = 1;" class="cursor">业务参数</span>
+            <span @click="paramLevel = 1;" class="cursor">仲裁参数</span>
+          </div>
+          <div class="fl business-parameters" :class="{active : paramLevel === 2}">
+            <span @click="paramLevel = 1;" class="cursor">个性参数</span>
           </div>
         </div>
 
-        <div v-if="paramLevel === 1" class="m-c2">
-          <el-select style="width:268px;" v-model="bizType" placeholder="请选择业务类型">
-            <el-option label="现金贷" value="10"></el-option>
-            <el-option label="消费分期" value="20"></el-option>
-            <el-option label="融资租赁" value="30"></el-option>
-          </el-select>
-        </div>
+        <!--<div v-if="paramLevel === 1" class="m-c2">-->
+          <!--<el-select style="width:268px;" v-model="bizType" placeholder="请选择业务类型">-->
+            <!--<el-option label="现金贷" value="10"></el-option>-->
+            <!--<el-option label="消费分期" value="20"></el-option>-->
+            <!--<el-option label="融资租赁" value="30"></el-option>-->
+          <!--</el-select>-->
+        <!--</div>-->
 
         <div class="m-c3 mt-10">
           <el-table  :data="tableData1" border>
@@ -83,15 +86,7 @@
         </span>
     </el-dialog>
 
-    <div class="footerBtn" v-if="editState === 1">
-      <div class="btns-container">
-        <div class="btns">
-          <el-button type="primary" @click="saveParametersHandle" :disabled="isDisabled">保 存</el-button>
-          <el-button @click="editState = 0;">取 消</el-button>
-        </div>
-      </div>
 
-    </div>
   </div>
 </template>
 
@@ -107,7 +102,6 @@
     data() {
       return {
         currentDataRow : null,
-        paramLevel : 0,
         bizType : '',
         tableData1 : [{respondents : '就飞快的接口'}],
         editState: 0,
@@ -158,32 +152,19 @@
           this.resetForm();
         })
       },
-      saveParametersHandle(){
-        if(!this.isDisabled) {
-          this.isDisabled = true;
 
-          this.$http.post('/templateData/saveTemplateDataById.htm', {list: this.tableData1}, {mheaders: true})
-            .then(res => {
-              if (res.code === '0000') {
-                this.$message.success(res.description);
-                setTimeout(() => {
-                  this.isDisabled = false;
-                },200)
-              }
-            })
-        }
-      },
       editHandle(row){
-        this.$http.post('/templateData/queryTemplateDataByDataId.htm',{dataId: row.dataId})
-          .then(res => {
-            if(res.code === '0000'){
-              this.currentDataRow = row;
-              this.tableData1 = res.result.list;
-              if(!this.editState)
-                this.editState = 1;
-
-            }
-          })
+        // this.$http.post('/templateData/queryTemplateDataByDataId.htm',{dataId: row.dataId})
+        //   .then(res => {
+        //     if(res.code === '0000'){
+        //       this.currentDataRow = row;
+        //       this.tableData1 = res.result.list;
+        //       if(!this.editState)
+        //         this.editState = 1;
+        //
+        //     }
+        //   })
+        this.$router.push(`/main/dataManagementDetail?dataId=${row.dataId}&paramLevel=0`);
       },
       changeHandle(row){
         this.$http.post('/templateData/queryTemplateDataByDataId.htm',{bizType: this.bizType,dataId: row.dataId,paramLevel: this.paramLevel})
@@ -207,8 +188,9 @@
               .then(res => {
                 if(res.code === '0000'){
                   this.showDailog = false;
-                  this.doQuery(this.queryUrl,this.searchItem);
-                  this.changeHandle({dataId:res.result});
+                  this.$router.push(`/main/dataManagementDetail?dataId=${res.result}&paramLevel=0`);
+                  // this.doQuery(this.queryUrl,this.searchItem);
+                  // this.changeHandle({dataId:res.result});
                   setTimeout(() => {
                     this.isDisabled = false;
                   },200)
@@ -260,58 +242,8 @@
 <style lang="scss" scoped>
 
 .data-management{
-  .footerBtn{
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    left: 0;
-    height: 70px;
-    .btns-container{
-      width:1200px;
-      margin: 0 auto;
-      height: 100%;
-    }
-    .btns{
-        margin-left: 240px;
-        height: 100%;
-        text-align: center;
 
-    }
-  }
-  .parameter-page{
-    padding-bottom: 80px;
-    .m-c1{
-      position: relative;
-      height: 50px;
-      background-color: #EEF3FF;
-      line-height: 50px;
-      font-size: 16px;
-      border: 1px solid #ddd;
-      .active{
-        color: #0f357f;
-      }
-      .global-parameters{
-        width: 50%;
-        box-sizing: border-box;
-        text-align: center;
-      }
-      .business-parameters{
-        border-left: 1px solid #ddd;
-        width: 50%;
-        box-sizing: border-box;
-        text-align: center;
-      }
-    }
-    .m-c2{
-      border: 1px solid #ddd;
-      border-top: none;
-      padding: 10px;
-      background-color: #fff;
-    }
-    .el-table td{
-      cursor: pointer;
-    }
-  }
+
 }
 
 
