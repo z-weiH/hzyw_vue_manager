@@ -1,5 +1,5 @@
 <template>
-  <div class="webpage-editor-parameter">
+  <div class="webpage-editor-parameter" v-loading="loading">
     <div class="item-box">
       <div>
         <span class="tit mr-5">类型</span>
@@ -47,6 +47,10 @@
         </table>
       </template>
     </div>
+
+    <div class="handle-box">
+      <el-button @click="handleReload">刷新</el-button><router-link :to="{path : '/tmParameterDetail' , query : {type : '0'}}" target="_blank"><el-button>打开参数列表</el-button></router-link>
+    </div>
   </div>
 </template>
 
@@ -57,6 +61,7 @@
   export default {
     data() {
       return {
+        loading : false,
         // 类型 list
         typeList : [
           {
@@ -140,7 +145,7 @@
       this.init();
     },
     methods : {
-      init() {
+      init(callback) {
         this.$http({
           method : 'post',
           url : '/param/queryAllParamList.htm',
@@ -155,6 +160,10 @@
 
           this.listDefault = copyArray(res.result);
           this.list = copyArray(res.result);
+
+          callback && callback();
+        }).catch(() => {
+          this.loading = false;
         });
       },
       // 数据处理
@@ -217,6 +226,15 @@
       handleCopyRight(row) {
         this.$parent.handleCopy(row.paramCode);
       },
+      // 点击刷新
+      handleReload() {
+        this.loading = true;
+        this.init(() => {
+          window.setTimeout(() => {
+            this.loading = false;
+          },1000);
+        });
+      },
     },
   }
 </script>
@@ -238,11 +256,25 @@
     }
   }
   .list-box{
-    height: calc(100% - 83px);
+    height: calc(100% - 83px - 40px);
     box-sizing: border-box;
     overflow-y: auto;
     padding: 10px;
     padding-top: 0;
+  }
+  .handle-box{
+    button{
+      box-sizing: border-box;
+      width: 50%;
+      margin: 0;
+      border-radius: 0;
+      color: #0f357f;
+      border-bottom: none;
+      border-right: none;
+    }
+    >button{
+      border-left: none;
+    }
   }
 }
 
