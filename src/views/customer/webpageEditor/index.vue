@@ -126,7 +126,7 @@
   */
   import ueeditor from '@/components/ueeditor'
   import previewDialog from './modules/previewDialog.vue'
-  import parameter from '../parameterList/modules/parameter.vue'
+  import parameter from './modules/parameter.vue'
   import helpDialog from './modules/helpDialog.vue'
 
   export default {
