@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div class="list-box">
+    <div v-loading="listLoading" class="list-box" :style="{height : `calc(100% - ${typeActive === 0 ? '83' : '45'}px - 40px)`}">
       <template v-if="typeActive === 0">
         <div v-for="(item,index) in list" :key="index">
           <div :data-categoryCode="item.categoryCode" class="mb-10 mt-10">{{item.categoryDesc}}</div>
@@ -62,6 +62,7 @@
     data() {
       return {
         loading : false,
+        listLoading : false,
         // 类型 list
         typeList : [
           {
@@ -164,6 +165,7 @@
           callback && callback();
         }).catch(() => {
           this.loading = false;
+          this.listLoading = false;
         });
       },
       // 数据处理
@@ -196,7 +198,12 @@
       handleType(item) {
         this.typeActive = item.paramBizType;
         this.moduleActive = 1;
-        this.init();
+        this.listLoading = true;
+        this.init(() => {
+          window.setTimeout(() => {
+            this.listLoading = false;
+          },500);
+        });
       },
       // 模块 点击
       handleModule(item) {
@@ -256,7 +263,6 @@
     }
   }
   .list-box{
-    height: calc(100% - 83px - 40px);
     box-sizing: border-box;
     overflow-y: auto;
     padding: 10px;
