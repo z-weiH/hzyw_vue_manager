@@ -285,7 +285,7 @@
       },
       //点击参数列表
       handleParameterList() {
-        window.open(`//${window.location.host}/#/parameterList`,'_blank');
+        window.open(`//${window.location.host}/#/tmParameterDetail?type=0`,'_blank');
       },
       // 点击设置
       handleSet(type) {
