@@ -9,7 +9,7 @@
       <el-input type="textarea" v-model="remark" placeholder="请输入"></el-input>
 
       <div slot="footer" class="dialog-footer">
-        <customer-button type="primary" @click="handleLogAdd">确 定</customer-button>
+        <customer-button type="primary" @click="handleLogAdd" :disabled="!remark">确 定</customer-button>
         <customer-button @click="innerVisible = false">取 消</customer-button>
 
       </div>
@@ -51,7 +51,7 @@
     </div>
 
     <div slot="footer" class="dialog-footer">
-      <customer-button type="primary" @click="innerVisible = true;remark= '';">添加日志</customer-button>
+      <customer-button type="primary" @click="innerVisible = true;remark= '';" >添加日志</customer-button>
       <customer-button @click="outerVisible = false">取 消</customer-button>
 
     </div>
@@ -119,6 +119,7 @@
   }
 
   .title .fl, .content .li .fl {
+    text-align: center;
     &:nth-child(1) {
       width: 160px;
     }

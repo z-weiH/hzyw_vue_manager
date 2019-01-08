@@ -492,6 +492,7 @@
             let idx7 = strcopy.lastIndexOf('getPdfString(');
             let idx8 = strcopy.lastIndexOf('getPdfNum(');
             let idx9 = strcopy.lastIndexOf('getPdfDate(');
+            let idx10 = strcopy.lastIndexOf('getPdfIdCard(');
             if(idx1 != -1 && new RegExp("^getnum\\([A-Z_0-9]+$").test(strcopy.substring(idx1))){
               type = 0;
               this.currentFunction.affix = strcopy.substring(idx1);
@@ -523,6 +524,9 @@
                 type = 4;
             }
             else if(idx9 != -1 && new RegExp("^getPdfDate\\([A-Z_0-9]+$").test(strcopy.substring(idx9))){
+                type = 4;
+            }
+            else if(idx10 != -1 && new RegExp("^getPdfIdCard\\([A-Z_0-9]+$").test(strcopy.substring(idx10))){
                 type = 4;
             }
             if(type != -1){
