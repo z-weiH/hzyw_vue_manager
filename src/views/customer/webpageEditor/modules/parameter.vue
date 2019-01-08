@@ -251,6 +251,9 @@
 .webpage-editor-parameter{
   height: 100%;
   background-color: #fff;
+  td{
+    word-wrap:break-word;
+  }
   .item-box{
     padding: 15px 10px;
     color: #999999;
