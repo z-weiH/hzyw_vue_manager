@@ -160,10 +160,22 @@
           </el-table>
         </div>
       </div>
+
+      <div class="bz li">
+        <div class="title">
+          <customer-button style="margin-top: 10px;color: #0F357F;" class="fr" v-if="!remarkFlag" @click="remarkFlag = true;">编辑</customer-button>
+          <customer-button style="margin-top: 10px;" class="fr" type="primary" v-if="remarkFlag" @click="handleRemarkSave">保存</customer-button>
+          3.备注
+        </div>
+        <div class="input">
+          <el-input type="textarea" v-model="remark" :disabled="!remarkFlag" rows="6"></el-input>
+        </div>
+      </div>
+
       <div class="clfs li">
         <div class="title">
           <el-button style="margin-top: 10px;color: #0F357F;" class="fr" @click="configclfs">配置</el-button>
-          3.下载材料份数设置
+          4.下载材料份数设置
         </div>
         <div class="table">
           <el-table
@@ -317,6 +329,9 @@
     name: 'emMaterialAllocationPage',
     data(){
       return {
+
+        remark: '',
+        remarkFlag: false,
         swtrList: [],
         channelIdList: [],
         mandatoryIdList: [],
@@ -417,6 +432,13 @@
       }
     },
     methods:{
+
+      handleRemarkSave(){
+          this.$http.post("/court/addRemark.htm",{courtId: this.$route.query.courtId, remark: this.remark}).then(res => {
+            this.$message.success("操作成功");
+            this.remarkFlag = false;
+          })
+      },
 
       saveswtr(){
         this.$refs.swtrform.validate(res => {

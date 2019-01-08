@@ -31,7 +31,7 @@
         <el-scrollbar  :class="{'showHidden': logList.length > 10}">
           <div class="li" v-for="(item,idx) in logList" :index="idx" >
             <div class="fl">{{item.createTime}}</div>
-            <div class="fl ellipsis">{{item.userName ? item.userName : '系統'}}</div>
+            <div class="fl ellipsis">{{item.userName}}</div>
             <div class="fl">
              {{item.operInfo}}
 

@@ -211,6 +211,11 @@
             {{scope.row.downloadStatus === 1 ? '未处理' : '已处理'}}
           </template>
         </el-table-column> -->
+        <el-table-column prop="execStatus" label="执行状态" min-width="120">
+          <template slot-scope="scope">
+            {{scope.row.execStatus === 0 ? '未执行' : '已执行'}}
+          </template>
+        </el-table-column>
         <el-table-column label="操作" align="center" min-width="120">
           <template slot-scope="scope">
             <el-button @click="handlePreview(scope.row)" type="text">预览</el-button>
