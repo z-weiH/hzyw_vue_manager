@@ -53,10 +53,32 @@
         type : this.$route.query.type, // 2 强制执行案件点击进入 其他 为文书生成记录
         batchNo : this.$route.query.batchNo, // 批次号
         caseNum : this.$route.query.caseNum, // 批次号 案件数量
+
+        //位置在授权委托书前, 营业执照、法人身份证正反面、法人代表人身份证明书
+
+        //文书新增一份《债权转让确认书》，位置在《债权转让协议》后边，具体见附件1
+
+        //文书在《限制高消费及纳入失信被执行人名单申请书》后，依次需要增加《限高名单申请书》（附件2）、《失信名单申请书-盖公章》（附件3）
+
         checkList : [
           {
             label : '强制执行申请书',
             value : 'qzzxsqs',
+            checked : false,
+          },
+          {
+            label : '营业执照',
+            value : 'yyzz',
+            checked : false,
+          },
+          {
+            label : '法人身份证正反面',
+            value : 'frsfzzfm',
+            checked : false,
+          },
+          {
+            label : '法人代表人身份证明书',
+            value : 'frdbrsfzms',
             checked : false,
           },
           {
@@ -100,6 +122,12 @@
             checked : false,
           },
           {
+            label : '债权转让确认',
+            value : 'zqzrqrs',
+            checked : false,
+          },
+
+          {
             label : '裁决书',
             value : 'cjs',
             checked : false,
@@ -107,6 +135,16 @@
           {
             label : '限制高消费及纳入失信被执行人名单申请书',
             value : 'xzgxfsms',
+            checked : false,
+          },
+          {
+            label : '限高名单申请书',
+            value : 'xgmdsqs',
+            checked : false,
+          },
+          {
+            label : '失信名单申请书',
+            value : 'sxmdsqs',
             checked : false,
           },
         ],
