@@ -46,6 +46,8 @@
           </tr>
         </table>
       </template>
+
+      <div v-if="list.length === 0">暂无数据</div>
     </div>
 
     <div class="handle-box">
