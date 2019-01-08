@@ -21,7 +21,7 @@
                   <el-tab-pane label="案件参数" name="0">
                     <div class="param-name-cont">
                       <ul>
-                        <li v-if="item.params.length > 0" :key="index" v-for="(item,index) in listAJCS">
+                        <li :key="index" v-for="(item,index) in listAJCS">
                           <div class="mb-10">
                             <span class="param-title">{{item.categoryDesc}}</span>
                           </div>
@@ -81,7 +81,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="所属模块" prop="categoryCode">
+          <el-form-item filterable label="所属模块" prop="categoryCode">
             <el-select clearable style="width:400px;" v-model="ruleForm.categoryCode" placeholder="请选择所属模块">
               <el-option label="基础信息" :value="1"></el-option>
               <el-option label="金额信息" :value="2"></el-option>
@@ -240,54 +240,11 @@
     },
     watch : {
       ['ruleForm.paramCode'](val) {
-        val = val.trim();
-        console.log('listAJCSFilter',this.tabActive);
-        // 案件参数
-        if(this.tabActive === '0') {
-          if(val) {
-            let newArr = [];
-            copyArray(this.listAJCSDefault).map((v) => {
-              let params = v.params.filter((v1) => {
-                if(v1.paramCode.indexOf(val) !== -1 || v1.paramName.indexOf(val) !== -1) {
-                  return v1;
-                }
-              });
-              if(params.length > 0) {
-                v.params = params;
-                newArr.push(v);
-              }
-            });
-            this.listAJCS = newArr;
-          }else{
-            this.listAJCS = copyArray(this.listAJCSDefault);
-          }
-        // 仲裁参数
-        }else if(this.tabActive === '1') {
-          if(val) {
-            let newArr = [];
-            copyArray(this.listZCCSDefault).map((v) => {
-              if(v.paramCode.indexOf(val) !== -1 || v.paramName.indexOf(val) !== -1) {
-                newArr.push(v);
-              }
-            });
-            this.listZCCS = newArr;
-          }else{
-            this.listZCCS = copyArray(this.listZCCSDefault);
-          }
-        // 个性参数
-        }else if(this.tabActive === '2') {
-          if(val) {
-            let newArr = [];
-            copyArray(this.listGXCSDefault).map((v) => {
-              if(v.paramCode.indexOf(val) !== -1 || v.paramName.indexOf(val) !== -1) {
-                newArr.push(v);
-              }
-            });
-            this.listGXCS = newArr;
-          }else{
-            this.listGXCS = copyArray(this.listGXCSDefault);
-          }
-        }
+        this.paramCodeFilter();
+      },
+      // 菜单切换
+      tabActive() {
+        this.paramCodeFilter();
       },
     },
     mounted() {
@@ -441,6 +398,56 @@
         this.ruleForm.valueType = item.valueType;
 
         this.searchClose();
+      },
+      // 过滤 paramCode
+      paramCodeFilter() {
+        let val = this.ruleForm.paramCode;
+        // 案件参数
+        if(this.tabActive === '0') {
+          if(val) {
+            let newArr = [];
+            copyArray(this.listAJCSDefault).map((v) => {
+              let params = v.params.filter((v1) => {
+                if(v1.paramCode.indexOf(val) !== -1 || v1.paramName.indexOf(val) !== -1) {
+                  return v1;
+                }
+              });
+              if(params.length > 0) {
+                v.params = params;
+                newArr.push(v);
+              }
+            });
+            this.listAJCS = newArr;
+          }else{
+            this.listAJCS = copyArray(this.listAJCSDefault);
+          }
+        // 仲裁参数
+        }else if(this.tabActive === '1') {
+          if(val) {
+            let newArr = [];
+            copyArray(this.listZCCSDefault).map((v) => {
+              if(v.paramCode.indexOf(val) !== -1 || v.paramName.indexOf(val) !== -1) {
+                newArr.push(v);
+              }
+            });
+            this.listZCCS = newArr;
+          }else{
+            this.listZCCS = copyArray(this.listZCCSDefault);
+          }
+        // 个性参数
+        }else if(this.tabActive === '2') {
+          if(val) {
+            let newArr = [];
+            copyArray(this.listGXCSDefault).map((v) => {
+              if(v.paramCode.indexOf(val) !== -1 || v.paramName.indexOf(val) !== -1) {
+                newArr.push(v);
+              }
+            });
+            this.listGXCS = newArr;
+          }else{
+            this.listGXCS = copyArray(this.listGXCSDefault);
+          }
+        }
       },
     },
   }
