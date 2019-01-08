@@ -100,6 +100,7 @@
               <el-option label="接口" :value="0"></el-option>
               <el-option label="脚本" :value="1"></el-option>
               <el-option label="公式" :value="2"></el-option>
+              <el-option label="账户" :value="3"></el-option>
             </el-select>
           </el-form-item>
 
@@ -340,12 +341,36 @@
 
       // 获取 案件参数
       getAJCS() {
+        // 处理页面案件参数列表中 不出现重复问题
+        let dataFormat = (arr) => {
+          let result = [];
+          let parentData = [];
+          this.$parent.tableData.map(v => {
+            v.params.map(v1 => {
+              parentData.push(v1);
+            });
+          });
+          // 获取所有 一维表格数据
+          parentData = copyArray(parentData);
+          result = arr.map((v) => {
+            let params = [];
+            v.params.map(v1 => {
+              let len = parentData.filter(v2 => v2.paramCode === v1.paramCode).length;
+              if(len === 0) {
+                params.push(v1);
+              }
+            });
+            v.params = params;
+            return v;
+          });
+          return copyArray(result)
+        }
         this.$http({
           method : 'post',
           url : '/param/queryCaseParamList.htm',
         }).then((res) => {
-          this.listAJCS = res.result;
-          this.listAJCSDefault = copyArray(res.result);
+          this.listAJCS = dataFormat(res.result);
+          this.listAJCSDefault = dataFormat(res.result);
         });
       },
       // 获取 仲裁参数

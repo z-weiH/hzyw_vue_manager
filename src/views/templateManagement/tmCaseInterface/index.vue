@@ -58,7 +58,8 @@
                             (
                               scope.row.dataSource === 0 ? '接口' :
                               scope.row.dataSource === 1 ? '脚本' :
-                              scope.row.dataSource === 2 ? '公式' : ''
+                              scope.row.dataSource === 2 ? '公式' :
+                              scope.row.dataSource === 3 ? '账户' : ''
                             )
                           }}
                         </template>
@@ -184,6 +185,7 @@
         ];
         const result = [];
         typeArr.map((v) => {
+          v.params = [];
           result.push(tableData.filter(v1 => v.categoryCode === v1.categoryCode)[0] || v);
         });
         return result;
