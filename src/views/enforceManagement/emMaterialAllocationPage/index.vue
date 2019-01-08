@@ -620,6 +620,7 @@
       initPage(){
         this.$http.post('/court/materialsettingdetail.htm',{courtId: this.$route.query.courtId}).then(res => {
           console.log('init',res);
+          this.remark = res.result.remark;
           if(res.result.mandatoryList){
             this.swtrList = res.result.mandatoryList;
           }
