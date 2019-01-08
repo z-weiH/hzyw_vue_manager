@@ -426,14 +426,14 @@
       },
       // 过滤 paramCode
       paramCodeFilter() {
-        let val = this.ruleForm.paramCode;
+        let val = this.ruleForm.paramCode.toLocaleLowerCase();
         // 案件参数
         if(this.tabActive === '0') {
           if(val) {
             let newArr = [];
             copyArray(this.listAJCSDefault).map((v) => {
               let params = v.params.filter((v1) => {
-                if(v1.paramCode.indexOf(val) !== -1 || v1.paramName.indexOf(val) !== -1) {
+                if(v1.paramCode.toLocaleLowerCase().indexOf(val) !== -1 || v1.paramName.indexOf(val) !== -1) {
                   return v1;
                 }
               });
