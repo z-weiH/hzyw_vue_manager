@@ -418,6 +418,13 @@ let router = new Router({
           },
         },
         {
+          path: 'dataManagementDetail',
+          component: () => import('@/views/customer/dataManagement/module/edit.vue'), // 数据管理
+          meta: {
+            name: 'dataManagementDetail',
+          },
+        },
+        {
           path: 'contractedCustomers',
           component: () => import('@/views/customer/contractedCustomers'), // 签约客户
           meta: {

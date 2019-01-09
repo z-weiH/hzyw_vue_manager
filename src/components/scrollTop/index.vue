@@ -20,6 +20,10 @@
         type : String,
         default : 'scroll-top-item',
       },
+      scrollClass: {
+        type: String,
+        default: '.el-scrollbar .el-scrollbar__wrap'
+      }
     },
     data() {
       return {
@@ -31,13 +35,13 @@
         console.error(val);
         scroll.init((i) => {
           this.setActive(i);
-        });
+        },this.scrollClass);
       }
     },
     mounted() {
       scroll.init((i) => {
         this.setActive(i);
-      });
+      },this.scrollClass);
     },
     methods : {
       // 手动设置 高亮状态
@@ -46,7 +50,7 @@
       },
       handleClick(index) {
         let item = document.querySelectorAll('.scroll-top-item')[index];
-        document.querySelector('.el-scrollbar .el-scrollbar__wrap').scrollTop = item.offsetTop;
+        document.querySelector(this.scrollClass).scrollTop = item.offsetTop;
         
         setTimeout(() => {
           this.setActive(index);
