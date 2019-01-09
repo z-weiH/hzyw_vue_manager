@@ -69,8 +69,8 @@
         <el-row class="mt-10">
           <el-col :span="24">
             <span class="search-span" style="width: 70px;">客户：</span>
-            <el-form-item label=" " prop="customerId">
-              <el-select @change="handleCustomerChange" clearable filterable  v-model="ruleForm.customerId" placeholder="请选择" class="chang-item">
+            <el-form-item label=" " prop="merchatCode">
+              <el-select @change="handleCustomerChange" clearable filterable  v-model="ruleForm.merchatCode" placeholder="请选择" class="chang-item">
                 <el-option :label="item.merchantName" :value="item.code" v-for="(item,index) in customerOptions" :key="index"></el-option>
               </el-select>
             </el-form-item>

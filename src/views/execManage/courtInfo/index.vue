@@ -88,6 +88,11 @@
             <span v-ellipsis.20>{{scope.row.courtName}}</span>
           </template>
         </el-table-column>
+        <el-table-column prop="courtWord" label="法院代字">
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.courtWord}}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="courtAddress" label="地址">
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.courtAddress}}</span>
