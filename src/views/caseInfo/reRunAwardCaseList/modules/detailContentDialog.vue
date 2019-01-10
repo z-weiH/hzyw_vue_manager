@@ -19,8 +19,8 @@
           </el-table-column>
           <el-table-column prop="caseNoWz" label="仲裁案号"></el-table-column>
           <el-table-column prop="createTime" label="重跑时间"></el-table-column>
-          <el-table-column prop="loadDesc" label="结果"></el-table-column>
-          <el-table-column prop="loadStatus" label="处理状态">
+          <el-table-column prop="loadDesc" label="结果" width="100px"></el-table-column>
+          <el-table-column prop="loadStatus" label="处理状态" width="100px">
             <template slot-scope="scope">
               {{
                 scope.row.loadStatus === 0 ? '待处理' :
