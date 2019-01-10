@@ -120,10 +120,10 @@
                   </el-table-column>
                   <el-table-column prop="valueType" label="类型"></el-table-column>
                   <el-table-column prop="paramValue" label="值"></el-table-column>
-                  <el-table-column prop="valueType" label="数据来源">
+                  <el-table-column prop="dataSource" label="数据来源">
                     <template slot-scope="scope">
                       <!--0-接口 1-脚本 2-公式-->
-                      <span>{{scope.row.valueType === 0 ? '接口' : scope.row.valueType === 1 ? '脚本' : scope.row.valueType === 2 ? '公式' : '--'}}</span>
+                      <span>{{scope.row.dataSource === 0 ? '接口' : scope.row.dataSource === 1 ? '脚本' : scope.row.dataSource === 2 ? '公式' : '--'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column prop="isCorrect" label="正确性">
