@@ -503,6 +503,7 @@
           this.paramsList.forEach(it => {
             if(it.params && it.params.length > 0 && it.params[0].groupNum){
               it.hasGroupNum = true;
+              it.params.sort((a,b) => a-b);
               this.toggleShowAll(it);
             }
           })
