@@ -9,7 +9,7 @@
       <el-input type="textarea" v-model="remark" placeholder="请输入"></el-input>
 
       <div slot="footer" class="dialog-footer">
-        <customer-button type="primary" @click="handleLogAdd" :disabled="!remark">确 定</customer-button>
+        <customer-button type="primary" @click="handleLogAdd" :disabled="!remark || submitDisabled">确 定</customer-button>
         <customer-button @click="innerVisible = false">取 消</customer-button>
 
       </div>
@@ -69,7 +69,8 @@
             innerVisible: false,
             logList: [],
             prodTempId: '',
-            remark: ''
+            remark: '',
+            submitDisabled : false,
           }
         },
       methods:{
@@ -84,10 +85,16 @@
           })
         },
         handleLogAdd(){
+          this.submitDisabled = true;
           this.$http.post("/templateDebugLog/saveTemplateDebugLog.htm",{prodTempId: this.prodTempId,remark: this.remark}).then(res => {
             this.innerVisible = false;
             this.doQuery();
-          })
+            window.setTimeout(() => {
+              this.submitDisabled = false;
+            },500);
+          }).catch(() => {
+            this.submitDisabled = false;
+          });
         }
       }
     }
