@@ -40,4 +40,5 @@ export default [
   '/tmParameterDetail', // 参数列表 子页面
   '/tmCaseInterface', // 模板联调 接口
   '/tmCaseView', // 模板联调 案件查看
+  '/main/dataManagementDetail', // 模拟数据设置 数据详情
 ]
