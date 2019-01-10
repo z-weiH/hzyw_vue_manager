@@ -46,7 +46,11 @@
               <span>{{debugStatusObject[scope.row.debugStatus]}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="pushTime" label="最新案件推送时间"></el-table-column>
+          <el-table-column prop="pushTime" label="最新案件推送时间">
+            <template slot-scope="scope">
+              {{scope.row.pushTime || '--'}}
+            </template>
+          </el-table-column>
 
           <el-table-column prop="respondents" label="操作">
             <template slot-scope="scope">

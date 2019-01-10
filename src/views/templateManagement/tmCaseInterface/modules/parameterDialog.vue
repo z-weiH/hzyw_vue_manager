@@ -242,6 +242,18 @@
     watch : {
       ['ruleForm.paramCode'](val) {
         this.paramCodeFilter();
+        // 根据paramCode 切换当前菜单
+        val && this.$http({
+          method : 'post',
+          url : '/param/queryTemplateParamList.htm',
+          data : {
+            paramCode : val,
+          },
+        }).then((res) => {
+          if(res.result) {
+            this.tabActive = res.result.paramBizType + '';
+          }
+        });
       },
       // 菜单切换
       tabActive() {
@@ -451,7 +463,7 @@
           if(val) {
             let newArr = [];
             copyArray(this.listZCCSDefault).map((v) => {
-              if(v.paramCode.indexOf(val) !== -1 || v.paramName.indexOf(val) !== -1) {
+              if(v.paramCode.toLocaleLowerCase().indexOf(val) !== -1 || v.paramName.indexOf(val) !== -1) {
                 newArr.push(v);
               }
             });
@@ -464,7 +476,7 @@
           if(val) {
             let newArr = [];
             copyArray(this.listGXCSDefault).map((v) => {
-              if(v.paramCode.indexOf(val) !== -1 || v.paramName.indexOf(val) !== -1) {
+              if(v.paramCode.toLocaleLowerCase().indexOf(val) !== -1 || v.paramName.indexOf(val) !== -1) {
                 newArr.push(v);
               }
             });

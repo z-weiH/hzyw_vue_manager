@@ -213,8 +213,9 @@
                 this.list1 = [];
                 const typeObj = {1:'基础信息', 2:'金额信息', 3:'当事人信息', 4:'日期信息', 5:'证据信息', 6:'还款信息', 7:'借款人银行卡信息' ,8:'分期贷信息', 9:'代偿信息'};
                 res.result.forEach(it => {
-                  if(this.list1.find(i => i.categoryCode === it.categoryCode)){
-                    this.list1.list.push(it);
+                  let obj = this.list1.find(i => i.categoryCode === it.categoryCode);
+                  if(obj){
+                    obj.list.push(it);
                   }else{
                     this.list1.push({categoryCode: it.categoryCode, categoryText: typeObj[it.categoryCode],list: [it]});
                   }
@@ -225,24 +226,28 @@
               }else if(this.paramLevel === 2){
                 this.list3 = [];
                 res.result.forEach(it => {
-                  if(this.list3.find(i => i.productId === it.productId)){
-                    this.list3.list.push(it);
+                  let obj = this.list3.find(i => i.productId === it.productId);
+                  if(obj){
+                    obj.list.push(it);
                   }else{
                     this.list3.push({productId: it.productId,list: [it]});
                   }
                 })
-                this.text3= this.list3.map(v => {
-                  let item = this.productList.find(it => it.productId === v.productId);
+                this.list3.forEach(it => {
+                  let item = this.productList.find(i => i.productId == it.productId);
+                  console.log(this.productList); 
                   if(item){
-                    return item.prodcutName;
+                    it.categoryText = item.productName;
                   }
-                });
+                })
+                console.error(this.list3)
+                this.text3= this.list3.map(v => v.categoryText);
               }
             })
           },
 
           initProduct(){
-            this.$http({
+            return this.$http({
               method : 'post',
               url : '/param/queryProductList.htm',
               data : {
@@ -251,14 +256,16 @@
               },
             }).then((res) => {
               this.productList = res.result;
+              return Promise.resolve(true);
             });
           }
         },
       created(){
           this.dataId = this.$route.query.dataId;
           this.paramLevel = +this.$route.query.paramLevel;
-          this.queryTemplateDataByDataId();
-          this.initProduct();
+          this.initProduct().then(() => {
+            this.queryTemplateDataByDataId();
+          });
       }
     }
 </script>

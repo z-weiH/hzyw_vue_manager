@@ -128,11 +128,16 @@
       }
     },
     mounted() {
-      this.init();
+      let loading = this.$loading();
+      this.init().then(() => {
+        loading.close();
+      }).catch(() => {
+        loading.close();
+      });
     },
     methods : {
       init() {
-        this.$http({
+        return this.$http({
           method : 'post',
           url : '/interface/queryInterfaceParamList.htm',
           data : {
