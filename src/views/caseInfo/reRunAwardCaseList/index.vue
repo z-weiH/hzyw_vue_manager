@@ -206,6 +206,8 @@
             data : {
               ...this.ruleForm,
 
+              productCode : this.ruleForm.productCode.split('-----')[0],
+
               caseIds : this.multipleSelection.map(v => v.caseId),
             },
           }).then(() => {
