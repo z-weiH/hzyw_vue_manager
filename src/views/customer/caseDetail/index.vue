@@ -112,18 +112,18 @@
                       {{scope.$index + 1}}
                     </template>
                   </el-table-column>
-                  <el-table-column prop="caseParam" label="参数"></el-table-column>
-                  <el-table-column prop="paramDesc" label="中文">
+                  <el-table-column prop="paramCode" label="参数"></el-table-column>
+                  <el-table-column prop="paramName" label="中文">
                     <!--<template slot-scope="scope">-->
                     <!--<span v-ellipsis.20>{{scope.row.productName  + '' + scope.row.prodCode}}</span>-->
                     <!--</template>-->
                   </el-table-column>
                   <el-table-column prop="valueType" label="类型"></el-table-column>
                   <el-table-column prop="paramValue" label="值"></el-table-column>
-                  <el-table-column prop="dataType" label="数据来源">
+                  <el-table-column prop="valueType" label="数据来源">
                     <template slot-scope="scope">
                       <!--0-接口 1-脚本 2-公式-->
-                      <span>{{scope.row.dataType === 0 ? '接口' : scope.row.dataType === 1 ? '脚本' : scope.row.dataType === 2 ? '公式' : '--'}}</span>
+                      <span>{{scope.row.valueType === 0 ? '接口' : scope.row.valueType === 1 ? '脚本' : scope.row.valueType === 2 ? '公式' : '--'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column prop="isCorrect" label="正确性">
@@ -297,7 +297,7 @@
         baseInfoObject: {},
         paramsList: [],
         litigantList: {},
-        eviInfoObject: {},
+        eviInfoObject: {eviList: []},
         caseFailReasonList: [],
         toggleScreenView: false,
         colseTipFlag: false
@@ -361,6 +361,11 @@
                   colspan: 0
                 };
               }
+            }else {
+              return {
+                rowspan: 1,
+                colspan: 1
+              };
             }
           }
       },
@@ -370,7 +375,7 @@
       objectSpanMethod({row, column, rowIndex, columnIndex ,property}) {
         const currentList = this.eviInfoObject.eviList;
         if (columnIndex === 0 || columnIndex === 6) {
-            property = 'sortNum';
+          property = 'sortNum';
           if (rowIndex === 0 || (currentList[rowIndex] && row[property] !== currentList[rowIndex - 1][property])) {
             let idx = -1;
             for (let i = currentList.length - 1; i > rowIndex; i--) {
@@ -397,6 +402,12 @@
               colspan: 0
             };
           }
+        }
+        else {
+          return {
+            rowspan: 1,
+            colspan: 1
+          };
         }
 
       },
@@ -536,7 +547,9 @@
 
       queryEviInfo(){
         this.$http.post("/caseInfo/getEviInfoByCaseOrderId.htm",{caseOrderId: this.caseOrderId}).then(res => {
+          res.result.eviList.sort((a,b) => a-b);
           this.eviInfoObject = res.result;
+          console.log(this.eviInfoObject);
 
 
         })
