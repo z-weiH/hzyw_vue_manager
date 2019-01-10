@@ -4,6 +4,12 @@
       <div class="width-1200">
         <span>{{title}}</span>
         <i @click="handleHelp" title="查看帮助文档" class="el-icon-question"></i>
+
+        <div class="fr">
+          <el-button @click="handleCancel" size="small" icon="el-icon-back"></el-button>
+          <el-button @click="handlePreview" size="small">预览</el-button>
+          <el-button @click="handleSubmit" type="primary" size="small">保存</el-button>
+        </div>
       </div>
     </div>
     <div class="webpage-editor-content">
@@ -103,11 +109,11 @@
         </div>
 
         <div class="clear"></div>
-        <div class="mt-20 btn-box mb-20">
+        <!-- <div class="mt-20 btn-box mb-20">
           <el-button @click="handlePreview" class="mr-30">预览</el-button>
           <el-button @click="handleSubmit" type="primary" class="mr-30">保存</el-button>
           <el-button @click="handleCancel" class="mr-30">返回</el-button>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -176,7 +182,7 @@
       let fn = (data) => {
         try{
           this.$refs.ueeditor.setContent(data);
-          this.ueeditorHeight = document.body.clientHeight - 75 - 75 - 40 - 50;
+          this.ueeditorHeight = document.body.clientHeight - 75 - 75 - 20;
           close.close();
           document.querySelector('iframe').contentDocument.addEventListener('click',this.globalClickFn);
           document.addEventListener('click',this.globalClickFn);
@@ -403,7 +409,7 @@
   background-color: #fff;
   box-sizing: border-box;
   .width-1200{
-    width: 1200px;
+    width: 1300px;
     margin: 0 auto;
     color: #0f357f;
     padding-top: 21px;
@@ -420,15 +426,15 @@
   min-height: calc(100% - 75px);
 }
 .webpage-editor{
-  width: 1200px;
+  width: 1300px;
   margin: 0 auto;
   overflow: hidden;
   .ueeditor-b{
-    width: 900px;
+    width: 940px;
   }
   .parameter-box{
     box-sizing: border-box;
-    width: 290px;
+    width: 350px;
     border: 1px solid #ddd;
     height: 860px;
     margin-left: 10px;
