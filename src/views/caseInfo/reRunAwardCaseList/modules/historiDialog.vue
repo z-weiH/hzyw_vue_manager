@@ -17,9 +17,9 @@
               {{scope.$index + 1}}
             </template>
           </el-table-column>
+          <el-table-column prop="total" label="总数量"></el-table-column>
           <el-table-column prop="failTotal" label="失败数量"></el-table-column>
           <el-table-column prop="operName" label="操作人"></el-table-column>
-          <el-table-column prop="total" label="总数量"></el-table-column>
           <el-table-column prop="createTime" label="操作时间"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
