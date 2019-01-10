@@ -99,18 +99,20 @@
 
 <style lang="scss">
 
-.m-scrollbar-box{
-  height: calc(100vh - 50px);
-  overflow: hidden;
-  .el-scrollbar{
-    height: 100%;
-  }
-  .el-scrollbar__wrap{
-    height: 100%;
-    overflow-x: hidden;
-  }
-  .el-scrollbar__view{
-    padding-right: 10px;
+.tm-parameter-detail{
+  .m-scrollbar-box{
+    height: calc(100vh - 50px);
+    overflow: hidden;
+    .el-scrollbar{
+      height: 100%;
+    }
+    .el-scrollbar__wrap{
+      height: 100%;
+      overflow-x: hidden;
+    }
+    .el-scrollbar__view{
+      padding-right: 10px;
+    }
   }
 }
 

@@ -133,6 +133,8 @@
         searchActive : false,
         type : '',
         row : '',
+        // 上一次保存过的 paramCode
+        paramCodeDefalult : '',
 
         ruleForm : {
           // 参数
@@ -285,8 +287,9 @@
           document.addEventListener('click',this.clickFn);
           if(this.type === 'edit') {
             this.row = data;
+            this.ruleForm = Object.assign(this.ruleForm,data);
+            this.paramCodeDefalult = data.paramCode;
           }
-          this.ruleForm = Object.assign(this.ruleForm,data);
         });
       },
       searchShow() {
@@ -300,6 +303,8 @@
         this.listAJCS = copyArray(this.listAJCSDefault);
         this.listZCCS = copyArray(this.listZCCSDefault);
         this.listGXCS = copyArray(this.listGXCSDefault);
+
+        this.ruleForm.paramCode = this.paramCodeDefalult;
       },
       // 全局点击事件
       clickFn() {
@@ -318,6 +323,7 @@
           this.$nextTick(() => {
             this.$refs.ruleForm.clearValidate();
           });
+          this.paramCodeDefalult = '';
 
           this.searchClose();
           // 销毁事件
@@ -418,6 +424,8 @@
         this.ruleForm.valueType = item2.valueType;
         this.ruleForm.categoryCode = item.categoryCode;
 
+        this.paramCodeDefalult = item2.paramCode;
+
         this.searchClose();
       },
       handleCheckZCCS(item) {
@@ -426,6 +434,8 @@
         this.ruleForm.paramName = item.paramName;
         this.ruleForm.valueType = item.valueType;
 
+        this.paramCodeDefalult = item.paramCode;
+
         this.searchClose();
       },
       handleCheckGXCS(item) {
@@ -433,6 +443,8 @@
         this.ruleForm.paramCode = item.paramCode;
         this.ruleForm.paramName = item.paramName;
         this.ruleForm.valueType = item.valueType;
+
+        this.paramCodeDefalult = item.paramCode;
 
         this.searchClose();
       },
