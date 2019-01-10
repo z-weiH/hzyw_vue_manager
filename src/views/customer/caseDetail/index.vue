@@ -119,7 +119,12 @@
                     <!--</template>-->
                   </el-table-column>
                   <el-table-column prop="valueType" label="类型"></el-table-column>
-                  <el-table-column prop="paramValue" label="值"></el-table-column>
+                  <el-table-column prop="paramValue" label="值">
+                    <template slot-scope="scope">
+                      <el-button type="text" v-if="scope.row.paramValue && scope.row.paramValue.indexOf('http') === 0" @click="openValue(scope.row.paramValue)">打开链接</el-button>
+                      <span v-else>{{scope.row.paramValue}}</span>
+                    </template>
+                  </el-table-column>
                   <el-table-column prop="dataSource" label="数据来源">
                     <template slot-scope="scope">
                       <!--0-接口 1-脚本 2-公式-->
@@ -316,7 +321,9 @@
     },
     methods: {
 
-
+      openValue(url){
+        window.open(url,'_blank')
+      },
       jointOver(type){
         this.$refs.jointStatus.show(type, this.$route.query.prodTempId);
 
