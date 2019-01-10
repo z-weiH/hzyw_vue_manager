@@ -69,8 +69,8 @@
         <el-row class="mt-10">
           <el-col :span="24">
             <span class="search-span" style="width: 70px;">客户：</span>
-            <el-form-item label=" " prop="merchatCode">
-              <el-select @change="handleCustomerChange" clearable filterable  v-model="ruleForm.merchatCode" placeholder="请选择" class="chang-item">
+            <el-form-item label=" " prop="merchantCode">
+              <el-select @change="handleCustomerChange" clearable filterable  v-model="ruleForm.merchantCode" placeholder="请选择" class="chang-item">
                 <el-option :label="item.merchantName" :value="item.code" v-for="(item,index) in customerOptions" :key="index"></el-option>
               </el-select>
             </el-form-item>
@@ -116,6 +116,14 @@
                 <el-option label="无还款" :value="2"></el-option>
                 <el-option label="有仲裁后还款" :value="3"></el-option>
                 <el-option label="无仲裁后还款" :value="4"></el-option>
+              </el-select>
+            </el-form-item>
+
+            <span class="search-span">执行状态：</span>
+            <el-form-item label=" " prop="execStatus">
+              <el-select clearable v-model="ruleForm.execStatus" placeholder="请选择" style="width:197px;">
+                <el-option label="未执行" :value="0"></el-option>
+                <el-option label="已执行" :value="1"></el-option>
               </el-select>
             </el-form-item>
 
@@ -307,6 +315,8 @@
           productId : '',
           // 模板id
           templateCode : '',
+
+          execStatus: ''
 				},
         rules : {},
         // 表格选中数据
@@ -431,7 +441,7 @@
             method : 'post',
             url : '/case/queryTemplatesByProductCode.htm',
             data : {
-              merchantCode: this.ruleForm.customerId,
+              merchantCode: this.ruleForm.merchantCode,
               prodCode: val,
             },
           }).then((res) => {
@@ -492,6 +502,7 @@
           duplicateNum : res.result.duplicateNum,
           data : res.result.caseInfos,
           duplicateCaseList : res.result.duplicateCaseList,
+          execCaseList: res.result.execCaseList
         });
       },
       // 文件上传失败

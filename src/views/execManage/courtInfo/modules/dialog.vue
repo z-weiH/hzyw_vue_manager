@@ -31,7 +31,7 @@
 						<el-input style="width:400px;" v-model.trim="ruleForm.courtName" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="法院名：" prop="courtWord">
+          <el-form-item label="法院代字：" prop="courtWord">
 						<el-input style="width:400px;" v-model.trim="ruleForm.courtWord" placeholder="请输入"></el-input>
 					</el-form-item>
 

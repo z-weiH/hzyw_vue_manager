@@ -434,6 +434,9 @@
     methods:{
 
       handleRemarkSave(){
+        if(this.remark.length > 200){
+          return this.$message.error("内容必须小于200字");
+        }
           this.$http.post("/court/addRemark.htm",{courtId: this.$route.query.courtId, remark: this.remark}).then(res => {
             this.$message.success("操作成功");
             this.remarkFlag = false;
