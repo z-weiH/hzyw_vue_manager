@@ -212,7 +212,7 @@
               if(this.paramLevel === 0){
                 this.list1 = [];
                 const typeObj = {1:'基础信息', 2:'金额信息', 3:'当事人信息', 4:'日期信息', 5:'证据信息', 6:'还款信息', 7:'借款人银行卡信息' ,8:'分期贷信息', 9:'代偿信息'};
-                res.result.list.forEach(it => {
+                res.result.forEach(it => {
                   let obj = this.list1.find(i => i.categoryCode === it.categoryCode);
                   if(obj){
                     obj.list.push(it);
@@ -222,10 +222,10 @@
                 })
                 this.text= this.list1.map(v => v.categoryText);
               }else if(this.paramLevel === 1){
-                this.list2 = res.result.list;
+                this.list2 = res.result;
               }else if(this.paramLevel === 2){
                 this.list3 = [];
-                res.result.list.forEach(it => {
+                res.result.forEach(it => {
                   let obj = this.list3.find(i => i.productId === it.productId);
                   if(obj){
                     obj.list.push(it);
