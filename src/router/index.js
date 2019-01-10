@@ -1227,4 +1227,9 @@ router.afterEach((to, from) => {
   }
 });
 
+router.__proto__.open = function(arg) {
+  let routeData = this.resolve(arg);
+  window.open(routeData.href);
+};
+
 export default router

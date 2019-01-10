@@ -40,13 +40,12 @@
   export default {
     methods : {
       handleGo(type) {
-        let router = this.$router.resolve({
+        this.$router.open({
           path : '/tmParameterDetail',
           query : {
             type : type,
           },
         });
-        window.open(router.href);
       },
     },
   }
