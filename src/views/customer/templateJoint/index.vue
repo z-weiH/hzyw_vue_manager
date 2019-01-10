@@ -149,8 +149,8 @@
       data() {
         return {
           searchItem: {},
-          // 1-待设置 2-联调中 3-待法务确认 4-联调通过
-          debugStatusObject: {1: '待设置', 2: '联调中', 3: '待确认' , 4: '联调通过' },
+          // 1-设置中 2-联调中 3-待法务确认 4-联调通过
+          debugStatusObject: {1: '设置中', 2: '联调中', 3: '待确认' , 4: '联调通过' },
 
           currentProduct: '',
           caseFlag: false,
