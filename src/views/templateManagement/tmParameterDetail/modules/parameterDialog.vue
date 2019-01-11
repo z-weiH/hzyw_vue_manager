@@ -34,6 +34,10 @@
             </el-select>
           </el-form-item>
 
+          <el-form-item label="默认值：" prop="paramValue">
+						<el-input :disabled="type === 'edit'" style="width:400px;" v-model.trim="ruleForm.paramValue" placeholder="请输入"></el-input>
+					</el-form-item>
+
           <el-form-item v-if="$route.query.type === '0'" label="属性：" prop="isCommon">
             <el-select :disabled="type === 'edit'" clearable style="width:400px;" v-model="ruleForm.isCommon" placeholder="请选择属性">
               <el-option label="通用" :value="1"></el-option>
@@ -107,6 +111,8 @@
           paramType : '',
           // 说明
           paramNote : '',
+          // 默认值
+          paramValue : '',
         },
         rules : {
           paramCode : [
@@ -124,6 +130,9 @@
           ],
           isCommon : [
             {required : true , message : '请选择属性' , trigger : 'change'},
+          ],
+          paramValue : [
+            {required : true , message : '请输入默认值' , trigger : 'blur'},
           ],
         },
       }

@@ -45,7 +45,7 @@
         return (
           this.type === '0' ? 'caseParameters' :
           this.type === '1' ? 'arbitrationParameters' :
-          this.type === '2' ? 'personalityParameter' : 'caseParameters'
+          this.type === '2' ? 'personalityParameter' : (this.type = '0') && 'caseParameters'
         )
       },
       handleChange(val) {
