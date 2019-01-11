@@ -25,8 +25,12 @@
           <li class="doc-list">
             <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全部</el-checkbox>
           </li>
-          <!-- if判断 暂时去除受委托人在仲裁代理中不收取报酬的承诺书 显示 -->
-          <li v-if="item.value !== 'bsqbccns'" v-for="(item,index) in checkList" :key="index" class="doc-list">
+           <!--if判断 暂时去除受委托人在仲裁代理中不收取报酬的承诺书 显示-->
+          <!--<li v-if="item.value !== 'bsqbccns'" v-for="(item,index) in checkList" :key="index" class="doc-list">-->
+            <!--<el-checkbox @change="handleChange" v-model="item.checked">{{item.label}}</el-checkbox>-->
+          <!--</li>-->
+
+          <li  v-for="(item,index) in checkList" :key="index" class="doc-list">
             <el-checkbox @change="handleChange" v-model="item.checked">{{item.label}}</el-checkbox>
           </li>
         </ul>
@@ -86,11 +90,11 @@
             value : 'sqwts',
             checked : false,
           },
-          {
-            label : '受委托人在仲裁代理中不收取报酬的承诺书',
-            value : 'bsqbccns',
-            checked : false,
-          },
+          // {
+          //   label : '受委托人在仲裁代理中不收取报酬的承诺书',
+          //   value : 'bsqbccns',
+          //   checked : false,
+          // },
           {
             label : '收取执行款银行账户确认书',
             value : 'zxkyhzhqds',
