@@ -131,6 +131,9 @@
           isCommon : [
             {required : true , message : '请选择属性' , trigger : 'change'},
           ],
+          paramValue : [
+            {required : true , message : '请输入默认值' , trigger : 'blur'},
+          ],
         },
       }
     },
