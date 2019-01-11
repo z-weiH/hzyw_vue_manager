@@ -100,13 +100,67 @@
               <div class="desc">
                 {{item.categoryDesc}}
               </div>
-              <div class="table">
+
+
+              <div class="table" v-if="!item.hasGroupNum">
+                <el-table
+                  :data="item.params"
+                  border
+
+                >
+                  <el-table-column prop="date" label="序号" width="50px">
+                    <template slot-scope="scope">
+                      {{scope.$index + 1}}
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="paramCode" label="参数"></el-table-column>
+                  <el-table-column prop="paramName" label="中文">
+                    <!--<template slot-scope="scope">-->
+                    <!--<span v-ellipsis.20>{{scope.row.productName  + '' + scope.row.prodCode}}</span>-->
+                    <!--</template>-->
+                  </el-table-column>
+                  <el-table-column prop="valueType" label="类型"></el-table-column>
+                  <el-table-column prop="paramValue" label="值">
+                    <template slot-scope="scope">
+                      <el-button type="text" v-if="scope.row.paramValue && scope.row.paramValue.indexOf('http') === 0" @click="openValue(scope.row.paramValue)">打开链接</el-button>
+                      <span v-else>{{scope.row.paramValue}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="dataSource" label="数据来源">
+                    <template slot-scope="scope">
+                      <!--0-接口 1-脚本 2-公式-->
+                      <span>{{scope.row.dataSource === 0 ? '接口' : scope.row.dataSource === 1 ? '脚本' : scope.row.dataSource === 2 ? '公式' : '--'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="isCorrect" label="正确性">
+                    <template slot-scope="scope">
+                      <!--0-错误 1-正确-->
+                      <span>
+                        <img class="mr-10" v-if="scope.row.isCorrect === 0"  src="@/assets/img/error_tag_01.png" alt="">
+                         <img class="mr-5" v-if="scope.row.isCorrect === 1" src="@/assets/img/success_tag.png" alt="">
+                      </span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="errorReason" label="错误原因">
+                    <template slot-scope="scope">
+                      <!--0-错误 1-正确-->
+                      <span>
+                        {{scope.row.errorReason  }}
+                        <!--{{scope.row.errorReason ? scope.row.errorReason : '&#45;&#45;' }}-->
+                      </span>
+                    </template>
+                  </el-table-column>
+                </el-table>
+
+              </div>
+
+              <div class="table" v-else>
                 <el-table
                   :data="item.params"
                   border
                   :span-method="getObjectSpanMethod(item.params)"
                 >
-                  <el-table-column prop="groupNum" label="组别" width="50px" v-if="item.hasGroupNum"></el-table-column>
+                  <el-table-column prop="groupNum" label="组别" width="50px"></el-table-column>
                   <el-table-column prop="date" label="序号" width="50px">
                     <template slot-scope="scope">
                       {{scope.$index + 1}}
@@ -338,9 +392,10 @@
 
       getObjectSpanMethod(items){
           const currentList = items;
+          console.error(currentList);
           return ({row, column, rowIndex, columnIndex ,property}) => {
-            // console.log({row, column, rowIndex, columnIndex, property});
             if (columnIndex === 0 && column.property === 'groupNum') {
+              console.log({row, column, rowIndex, columnIndex, property});
               property = 'groupNum';
               if (rowIndex === 0 || (currentList[rowIndex] && row[property] !== currentList[rowIndex - 1][property])) {
                 let idx = -1;
@@ -351,7 +406,7 @@
                   }
                 }
 
-                if (idx != -1) {
+                if (idx !== -1) {
                   return {
                     rowspan: idx - rowIndex + 1,
                     colspan: 1
@@ -508,9 +563,17 @@
           //
           // ];
           this.paramsList.forEach(it => {
-            if(it.params && it.params.length > 0 && it.params[0].groupNum){
+            if(it.params && it.params.length > 0 && it.params.find(i => i.groupNum)){
+              it.params.forEach(i => {
+                if(!i.groupNum && i.groupNum !== 0){
+                  i.groupNum = '-';
+                }
+              });
               it.hasGroupNum = true;
-              it.params.sort((a,b) => a-b);
+              let arr1 = it.params.filter(i => i.groupNum !== '-').sort((a,b) => a.groupNum - b.groupNum);
+              let arr2 = it.params.filter(i => i.groupNum === '-');
+              it.params = arr1.concat(arr2);
+              console.error(arr1,arr2,it.params,'params');
               this.toggleShowAll(it);
             }
           })
@@ -555,7 +618,6 @@
 
       queryEviInfo(){
         this.$http.post("/caseInfo/getEviInfoByCaseOrderId.htm",{caseOrderId: this.caseOrderId}).then(res => {
-          res.result.eviList.sort((a,b) => a-b);
           this.eviInfoObject = res.result;
           console.log(this.eviInfoObject);
 
