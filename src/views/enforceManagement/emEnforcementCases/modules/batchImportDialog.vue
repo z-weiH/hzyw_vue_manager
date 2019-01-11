@@ -16,6 +16,10 @@
         <div v-for="(item,index) in duplicateCaseList" :key="index + '1'" class="error">
           {{item}}
         </div>
+        <div v-if="execCaseList.length > 0">{{execCaseList.length}}个案号正在执行中</div>
+        <div v-for="(item,index) in execCaseList" :key="index + '1'" class="error">
+          {{item}}
+        </div>
       </div>
 
       <span slot="footer" class="dialog-footer">
@@ -37,6 +41,7 @@
         // 重复 list
         duplicateCaseList : [],
         data : [],
+        execCaseList:[]
       }
     },
     mounted() {
@@ -57,6 +62,7 @@
           this.duplicateNum = data.duplicateNum;
           this.data = data.data;
           this.duplicateCaseList = data.duplicateCaseList;
+          this.execCaseList = data.execCaseList;
         });
       },
     },
