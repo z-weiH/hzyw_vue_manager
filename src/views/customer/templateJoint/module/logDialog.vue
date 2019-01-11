@@ -28,7 +28,7 @@
       </div>
       <hr>
       <div class="content">
-        <el-scrollbar  :class="{'showHidden': logList.length > 10}">
+        <el-scrollbar  style="height: 340px;">
           <div class="li" v-for="(item,idx) in logList" :index="idx" >
             <div class="fl">{{item.createTime}}</div>
             <div class="fl ellipsis">{{item.userName}}</div>
