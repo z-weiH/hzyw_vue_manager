@@ -6,6 +6,7 @@
         <customer-button type="primary" :plain="true" v-else @click="exitScreenView" style="margin-left: calc(50vw - 703px); ">退出全屏</customer-button>
       </div>
       <div class="fr">
+        <!--<customer-button type="primary" @click="setStorageHandle">测试</customer-button>-->
         <customer-button type="primary" :plain="true" @click="jointOpinions" v-if="roleType === 1">联调意见</customer-button>
         <customer-button type="primary" @click="jointOver(0)" :plain="true" v-if="roleType === 2 && debugStatus === 3">联调不通过</customer-button>
         <customer-button type="primary" @click="jointOver(1)" v-if="roleType === 2 && debugStatus === 3">联调通过</customer-button>
@@ -609,6 +610,12 @@
       },
 
 
+      //设置storage.触发监听
+      setStorageHandle(){
+        localStorage.setItem("templateJointRefreshFlag", new Date().valueOf());
+      },
+
+
       //主体证明材料
       queryLitigantList(){
         this.$http.post("/caseInfo/queryLitigantList.htm",{caseOrderId: this.caseOrderId}).then(res => {
@@ -637,6 +644,7 @@
             this.$router.push({path: '/tmCaseDetail',query: {caseOrderId: this.$route.query.caseOrderId, prodTempId: this.$route.query.prodTempId, productId: this.$route.query.productId , debugStatus: 4}})
             this.debugStatus = 4;
           }
+          this.setStorageHandle();
       }
     },
     created(){

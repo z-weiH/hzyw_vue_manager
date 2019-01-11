@@ -233,9 +233,16 @@
         handleLogClick(row){
           this.$refs.logDialog.show(row.prodTempId);
         },
+        refreshHandle(){
+          window.addEventListener('storage', () => {
+            console.error("change",this);
+            this.doQuery();
+          })
+        }
       },
       created(){
         this.doQuery();
+        this.refreshHandle();
 
       }
     }
