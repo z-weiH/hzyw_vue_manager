@@ -35,7 +35,7 @@
       <div class="fl" >
         <scrollTop :text="text"></scrollTop>
         <div style="margin-top: 164px;height: calc(100vh - 214px);border-right: 1px solid #ccc;position: relative;">
-          <div class="btn" style="text-align: center;position: absolute;top: 50%; width: 100%;">
+          <div class="btn" style="text-align: center;position: absolute;bottom: 80px; width: 100%;">
             <p style="font-size: 16px;line-height: 32px;">联调状态: {{debugStatusObject[debugStatus]}}</p>
             <customer-button :plain="true" size="mini" @click="showLogDialog">查看联调日志</customer-button>
           </div>
