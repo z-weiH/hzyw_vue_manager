@@ -122,9 +122,27 @@
   let copyArray = (arr) => {
     return JSON.parse(JSON.stringify(arr));
   }
+  // func是用户传入需要防抖的函数
+  // wait是等待时间
+  const debounce = (func, wait = 50) => {
+    // 缓存一个定时器id
+    let timer = 0
+    // 这里返回的函数是每次用户实际调用的防抖函数
+    // 如果已经设定过定时器了就清空上一次的定时器
+    // 开始一个新的定时器，延迟执行用户传入的方法
+    return function(...args) {
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(() => {
+        func.apply(this, args)
+      }, wait)
+    }
+  }
+  // 不难看出如果用户调用该函数的间隔小于wait的情况下，上一次的时间还未到就被清除了，并不会执行函数
   export default {
     data() {
       return {
+        // 保存处理后的 高亮菜单逻辑
+        paramCodeFn() {},
         dialogVisible : false,
         // 提交按钮禁用状态
         submitDisabled : false,
@@ -244,6 +262,22 @@
     watch : {
       ['ruleForm.paramCode'](val) {
         this.paramCodeFilter();
+        // 选中当前菜单
+        this.paramCodeFn();
+      },
+      // 菜单切换
+      tabActive() {
+        this.paramCodeFilter();
+      },
+    },
+    mounted() {
+      // 测试 - 需删除
+      this.listAJCSDefault = copyArray(this.listAJCS);
+      this.listZCCSDefault = copyArray(this.listZCCS);
+      this.listGXCSDefault = copyArray(this.listGXCS);
+
+      this.paramCodeFn = debounce(() => {
+        let val = this.ruleForm.paramCode;
         // 根据paramCode 切换当前菜单
         val && this.$http({
           method : 'post',
@@ -256,17 +290,7 @@
             this.tabActive = res.result.paramBizType + '';
           }
         });
-      },
-      // 菜单切换
-      tabActive() {
-        this.paramCodeFilter();
-      },
-    },
-    mounted() {
-      // 测试 - 需删除
-      this.listAJCSDefault = copyArray(this.listAJCS);
-      this.listZCCSDefault = copyArray(this.listZCCS);
-      this.listGXCSDefault = copyArray(this.listGXCS);
+      },300);
     },
     methods : {
       show(type,data) {

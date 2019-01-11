@@ -214,6 +214,8 @@
             loading.close();
             this.$message.success('操作成功');
             this.reset();
+            this.productCodeOptions = [];
+            this.templateCodeOptions = [];
           }).catch(() => {
             loading.close();
           });
