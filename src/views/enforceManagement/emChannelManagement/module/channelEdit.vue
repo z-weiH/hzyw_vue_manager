@@ -41,6 +41,9 @@
         <el-form-item label="合同编号"  prop="contractNo">
           <el-input v-model="item.contractNo"></el-input>
         </el-form-item>
+        <el-form-item label="邮箱"  prop="email">
+          <el-input v-model="item.email"></el-input>
+        </el-form-item>
         <el-form-item label="合作区域"  prop="area">
           <el-input v-model="item.area"></el-input>
         </el-form-item>
@@ -54,6 +57,9 @@
         </el-form-item>
         <el-form-item label="合同编号" :rules="[{required : true , message : '请输入合同编号' , trigger : 'blur'}]" prop="contractNo">
           <el-input v-model="item.contractNo"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱"  prop="email" :rules="[{required : true , message : '请输入邮箱' , trigger : 'blur'}]">
+          <el-input v-model="item.email"></el-input>
         </el-form-item>
         <el-form-item label="合作区域" :rules="[{required : true , message : '请输入合作区域' , trigger : 'blur'}]" prop="area">
           <el-input v-model="item.area"></el-input>

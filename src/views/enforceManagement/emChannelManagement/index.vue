@@ -86,7 +86,7 @@
             {{scope.row.channelAddress}}
           </template>
         </el-table-column>
-        <el-table-column prop="email" label="邮箱"></el-table-column>
+        <el-table-column prop="email" label=""></el-table-column>
         <el-table-column prop="area" label="合作区域"></el-table-column>
         <el-table-column prop="lifeCyclic" label="生命周期"></el-table-column>
         <el-table-column prop="remark" label="备注"></el-table-column>
