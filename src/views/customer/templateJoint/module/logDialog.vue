@@ -9,7 +9,7 @@
       <el-input type="textarea" v-model="remark" placeholder="请输入"></el-input>
 
       <div slot="footer" class="dialog-footer">
-        <customer-button type="primary" @click="handleLogAdd">确 定</customer-button>
+        <customer-button type="primary" @click="handleLogAdd" :disabled="!remark || submitDisabled">确 定</customer-button>
         <customer-button @click="innerVisible = false">取 消</customer-button>
 
       </div>
@@ -28,7 +28,7 @@
       </div>
       <hr>
       <div class="content">
-        <el-scrollbar  :class="{'showHidden': logList.length > 10}">
+        <el-scrollbar  style="height: 340px;">
           <div class="li" v-for="(item,idx) in logList" :index="idx" >
             <div class="fl">{{item.createTime}}</div>
             <div class="fl ellipsis">{{item.userName}}</div>
@@ -51,7 +51,7 @@
     </div>
 
     <div slot="footer" class="dialog-footer">
-      <customer-button type="primary" @click="innerVisible = true;remark= '';">添加日志</customer-button>
+      <customer-button type="primary" @click="innerVisible = true;remark= '';" >添加日志</customer-button>
       <customer-button @click="outerVisible = false">取 消</customer-button>
 
     </div>
@@ -69,7 +69,8 @@
             innerVisible: false,
             logList: [],
             prodTempId: '',
-            remark: ''
+            remark: '',
+            submitDisabled : false,
           }
         },
       methods:{
@@ -84,10 +85,16 @@
           })
         },
         handleLogAdd(){
+          this.submitDisabled = true;
           this.$http.post("/templateDebugLog/saveTemplateDebugLog.htm",{prodTempId: this.prodTempId,remark: this.remark}).then(res => {
             this.innerVisible = false;
             this.doQuery();
-          })
+            window.setTimeout(() => {
+              this.submitDisabled = false;
+            },500);
+          }).catch(() => {
+            this.submitDisabled = false;
+          });
         }
       }
     }
@@ -119,6 +126,7 @@
   }
 
   .title .fl, .content .li .fl {
+    text-align: center;
     &:nth-child(1) {
       width: 160px;
     }

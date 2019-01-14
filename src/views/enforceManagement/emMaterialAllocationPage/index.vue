@@ -160,10 +160,22 @@
           </el-table>
         </div>
       </div>
+
+      <div class="bz li">
+        <div class="title">
+          <customer-button style="margin-top: 10px;color: #0F357F;" class="fr" v-if="!remarkFlag" @click="remarkFlag = true;">编辑</customer-button>
+          <customer-button style="margin-top: 10px;" class="fr" type="primary" v-if="remarkFlag" @click="handleRemarkSave">保存</customer-button>
+          3.备注
+        </div>
+        <div class="input">
+          <el-input type="textarea" v-model="remark" :disabled="!remarkFlag" rows="6"></el-input>
+        </div>
+      </div>
+
       <div class="clfs li">
         <div class="title">
           <el-button style="margin-top: 10px;color: #0F357F;" class="fr" @click="configclfs">配置</el-button>
-          3.下载材料份数设置
+          4.下载材料份数设置
         </div>
         <div class="table">
           <el-table
@@ -317,6 +329,9 @@
     name: 'emMaterialAllocationPage',
     data(){
       return {
+
+        remark: '',
+        remarkFlag: false,
         swtrList: [],
         channelIdList: [],
         mandatoryIdList: [],
@@ -327,8 +342,23 @@
         yhzhList: [],
         bankNameList: [],
         bankInfoList: [],
+
+        //位置在授权委托书前, 营业执照、法人身份证正反面、法人代表人身份证明书
+
+        //文书新增一份《债权转让确认书》，位置在《债权转让协议》后边，具体见附件1
+
+        //文书在《限制高消费及纳入失信被执行人名单申请书》后，依次需要增加《限高名单申请书》（附件2）、《失信名单申请书-盖公章》（附件3）
+
         clfsList: [
           {materialType: 1,materialNum: 0 },
+
+          {materialType: 12,materialNum: 0 },//营业执照
+          {materialType: 13,materialNum: 0 },//法人身份证正反面
+          {materialType: 14,materialNum: 0 },//法人代表人身份证明书
+
+
+
+
           {materialType: 2,materialNum: 0 },
           // {materialType: 3,materialNum: 0 },
           {materialType: 4,materialNum: 0 },
@@ -336,8 +366,17 @@
           {materialType: 8,materialNum: 0 },
           {materialType: 5,materialNum: 0 },
           {materialType: 6,materialNum: 0 },
+
+
+
+          {materialType: 9,materialNum: 0 },
+          {materialType: 15,materialNum: 0 }, //债权转让确认书
+
           {materialType: 11,materialNum: 0 },
           {materialType: 10,materialNum: 0 },
+
+          {materialType: 16,materialNum: 0 }, //限高名单申请书
+          {materialType: 17,materialNum: 0 }, //失信名单申请书-盖公章
           ],
         clfsFlag: false,
         clfsObj: {},
@@ -393,6 +432,16 @@
       }
     },
     methods:{
+
+      handleRemarkSave(){
+        if(this.remark.length > 200){
+          return this.$message.error("内容必须小于200字");
+        }
+          this.$http.post("/court/addRemark.htm",{courtId: this.$route.query.courtId, remark: this.remark}).then(res => {
+            this.$message.success("操作成功");
+            this.remarkFlag = false;
+          })
+      },
 
       saveswtr(){
         this.$refs.swtrform.validate(res => {
@@ -492,15 +541,22 @@
         let obj = {
           courtId: this.$route.query.courtId,
           // bsqbccns: this.clfsListClone[2].materialNum,
-          cczksm: this.clfsListClone[6].materialNum,
-          fwxy: this.clfsListClone[4].materialNum,
-          jkxy: this.clfsListClone[3].materialNum,
+          cczksm: this.clfsListClone[6+3].materialNum,
+          fwxy: this.clfsListClone[4+3].materialNum,
+          jkxy: this.clfsListClone[3+3].materialNum,
           qzzxsqs: this.clfsListClone[0].materialNum,
-          sfzzfm: this.clfsListClone[5].materialNum,
-          sqwts: this.clfsListClone[1].materialNum,
-          xzgxfsms: this.clfsListClone[8].materialNum,
-          zxkyhzhqds: this.clfsListClone[2].materialNum,
-          cjs : this.clfsListClone[7].materialNum,
+          sfzzfm: this.clfsListClone[5+3].materialNum,
+          sqwts: this.clfsListClone[1+3].materialNum,
+          xzgxfsms: this.clfsListClone[8+3+2].materialNum,
+          zxkyhzhqds: this.clfsListClone[2+3].materialNum,
+          cjs : this.clfsListClone[7+3+2].materialNum,
+          yyzz : this.clfsListClone[1].materialNum,
+          frsfzzfm : this.clfsListClone[2].materialNum,
+          frdbrsfzms : this.clfsListClone[3].materialNum,
+          zqzrxy: this.clfsListClone[10].materialNum,
+          zqzrqrs: this.clfsListClone[11].materialNum,
+          xgmdsqs: this.clfsListClone[14].materialNum,
+          sxmdsqs: this.clfsListClone[15].materialNum,
         };
         let obj1 = {};
         for(let key in obj){
@@ -550,11 +606,24 @@
           return '限制高消费及纳入失信被执行人名单申请书';
         else if(type === 11)
           return '裁决书';
+        else if(type === 12)
+          return '营业执照';
+        else if(type === 13)
+          return '法人身份证正反面';
+        else if(type === 14)
+          return '法人代表人身份证明书';
+        else if(type === 15)
+          return '债权转让确认书';
+        else if(type === 16)
+          return '限高名单申请书';
+        else if(type === 17)
+          return '失信名单申请书';
 
       },
       initPage(){
         this.$http.post('/court/materialsettingdetail.htm',{courtId: this.$route.query.courtId}).then(res => {
           console.log('init',res);
+          this.remark = res.result.remark;
           if(res.result.mandatoryList){
             this.swtrList = res.result.mandatoryList;
           }

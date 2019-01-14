@@ -206,12 +206,16 @@
             data : {
               ...this.ruleForm,
 
+              productCode : this.ruleForm.productCode.split('-----')[0],
+
               caseIds : this.multipleSelection.map(v => v.caseId),
             },
           }).then(() => {
             loading.close();
             this.$message.success('操作成功');
             this.reset();
+            this.productCodeOptions = [];
+            this.templateCodeOptions = [];
           }).catch(() => {
             loading.close();
           });

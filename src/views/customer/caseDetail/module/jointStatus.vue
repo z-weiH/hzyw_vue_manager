@@ -63,10 +63,12 @@
                 if(this.type === 2){
                   this.$http.post("/productTemplate/finishDebugByProdTempId.htm",{prodTempId: this.prodTempId,remark: this.remark}).then(res => {
                     this.innerVisible = false;
+                    this.$emit("close",2)
                   })
                 }else {
                   this.$http.post("/productTemplate/passOrNotTemplateInterface.htm",{passStatus: this.type,prodTempId: this.prodTempId,remark: this.remark}).then(res => {
                     this.innerVisible = false;
+                    this.$emit("close", this.type);
                   })
                 }
               }

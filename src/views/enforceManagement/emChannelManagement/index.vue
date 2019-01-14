@@ -40,6 +40,19 @@
             <span v-ellipsis.20>{{scope.row.channelType === 1 ? '自营渠道' : scope.row.channelType === 2 ? '律所代理' : scope.row.channelType === 3 ?  '公司代理' : '个人代理'}}</span>
           </template>
         </el-table-column>
+
+        <el-table-column
+          prop="signEmp"
+          label="签约人"
+        >
+        </el-table-column>
+
+        <el-table-column
+          prop="contractNo"
+          label="合同编号"
+        >
+        </el-table-column>
+
         <el-table-column
           prop="channelName"
           label="渠道名称"
@@ -73,10 +86,15 @@
             {{scope.row.channelAddress}}
           </template>
         </el-table-column>
+        <el-table-column prop="email" label="邮箱"></el-table-column>
+        <el-table-column prop="area" label="合作区域"></el-table-column>
+        <el-table-column prop="lifeCyclic" label="生命周期"></el-table-column>
+        <el-table-column prop="remark" label="备注"></el-table-column>
+
         <el-table-column
           prop="courtSettingStatus"
           label="员工管理"
-          width="156">
+          width="100">
           <template slot-scope="scope">
             <el-button type="text" @click="handleManageClick(scope.row)" size="small">管理</el-button>
           </template>
@@ -84,6 +102,7 @@
         <el-table-column
           prop="courtSettingStatus"
           label="操作"
+          min-width="100px"
           >
           <template slot-scope="scope">
             <el-button type="text" @click="handleDelClick(scope.row)" size="small">删除</el-button>

@@ -40,7 +40,7 @@
   export default {
     methods : {
       handleGo(type) {
-        this.$router.push({
+        this.$router.open({
           path : '/tmParameterDetail',
           query : {
             type : type,

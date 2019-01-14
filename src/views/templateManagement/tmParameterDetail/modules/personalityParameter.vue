@@ -156,7 +156,7 @@
       },
       // 左侧中文
       getCnText() {
-        return ['仲裁参数']
+        return ['个性参数']
       },
       // 点击新增 表格
       handleAdd() {

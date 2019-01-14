@@ -40,4 +40,10 @@ export default [
   '/tmParameterDetail', // 参数列表 子页面
   '/tmCaseInterface', // 模板联调 接口
   '/tmCaseView', // 模板联调 案件查看
+  '/main/dataManagementDetail', // 模拟数据设置 数据详情
+
+  '/main/certificatesDetail', // 仲券充值总数 明细
+  '/main/arbitrationFeesDetail', // 仲裁费充值总数 明细
+  '/main/deductionVouchersDetail', // 仲券扣除总数 明细
+  '/main/arbitrationFeeDeductionDetail', // 仲裁费扣除总数 明细
 ]

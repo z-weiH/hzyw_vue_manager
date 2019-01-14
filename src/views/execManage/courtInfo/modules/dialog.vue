@@ -31,12 +31,16 @@
 						<el-input style="width:400px;" v-model.trim="ruleForm.courtName" placeholder="请输入"></el-input>
 					</el-form-item>
 
+          <el-form-item label="法院代字：" prop="courtWord">
+						<el-input style="width:400px;" v-model.trim="ruleForm.courtWord" placeholder="请输入"></el-input>
+					</el-form-item>
+
           <el-form-item label="地址：" prop="courtAddress">
 						<el-input style="width:400px;" v-model.trim="ruleForm.courtAddress" placeholder="请输入"></el-input>
 					</el-form-item>
 
           <el-form-item label="电话：" prop="courtPhone">
-						<el-input style="width:400px;" type="number" v-model.trim="ruleForm.courtPhone" placeholder="请输入"></el-input>
+						<el-input style="width:400px;"  v-model.trim="ruleForm.courtPhone" placeholder="请输入"></el-input>
 					</el-form-item>
 
         </el-form>
@@ -83,6 +87,8 @@
           courtId : '',
           // 法院名称
           courtName : '',
+
+          courtWord: '',
           // 地址
           courtAddress : '',
           // 电话
@@ -98,6 +104,9 @@
           ],
           courtName : [
             {required : true , message : '请输入法院名' , trigger : 'blur'},
+          ],
+          courtWord: [
+            {required : true , message : '请输入法院代字' , trigger : 'blur'},
           ],
           courtAddress : [
             {required : true , message : '请输入地址' , trigger : 'blur'},
@@ -146,14 +155,17 @@
               this.ruleForm.cityCode = res.result.cityCode;
               this.ruleForm.districtCode = res.result.districtCode;
 
+              // 回显其他数据
+              this.ruleForm.courtType = data.courtType;
+              this.ruleForm.courtName = data.courtName;
+              this.ruleForm.courtAddress = data.courtAddress;
+              this.ruleForm.courtPhone = data.courtPhone;
+              this.ruleForm.courtWord = data.courtWord;
+
               this.$refs.cityCascader.cityOptions = [{city : res.result.city , cityCode : res.result.cityCode}];
               this.$refs.cityCascader.areaOptions = [{district : res.result.district , districtCode : res.result.districtCode}];
             });
-            // 回显其他数据
-            this.ruleForm.courtType = data.courtType;
-            this.ruleForm.courtName = data.courtName;
-            this.ruleForm.courtAddress = data.courtAddress;
-            this.ruleForm.courtPhone = data.courtPhone;
+
           });
         }
       },

@@ -45,7 +45,7 @@
         return (
           this.type === '0' ? 'caseParameters' :
           this.type === '1' ? 'arbitrationParameters' :
-          this.type === '2' ? 'personalityParameter' : ''
+          this.type === '2' ? 'personalityParameter' : (this.type = '0') && 'caseParameters'
         )
       },
       handleChange(val) {
@@ -99,18 +99,20 @@
 
 <style lang="scss">
 
-.m-scrollbar-box{
-  height: calc(100vh - 50px);
-  overflow: hidden;
-  .el-scrollbar{
-    height: 100%;
-  }
-  .el-scrollbar__wrap{
-    height: 100%;
-    overflow-x: hidden;
-  }
-  .el-scrollbar__view{
-    padding-right: 10px;
+.tm-parameter-detail{
+  .m-scrollbar-box{
+    height: calc(100vh - 50px);
+    overflow: hidden;
+    .el-scrollbar{
+      height: 100%;
+    }
+    .el-scrollbar__wrap{
+      height: 100%;
+      overflow-x: hidden;
+    }
+    .el-scrollbar__view{
+      padding-right: 10px;
+    }
   }
 }
 

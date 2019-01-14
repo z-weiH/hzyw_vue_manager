@@ -347,6 +347,34 @@ let router = new Router({
           },
         },
         {
+          path: 'certificatesDetail',
+          component: () => import('@/views/customer/certificatesDetail'), // 仲券充值总数 明细
+          meta: {
+            name: 'balanceQuery',
+          },
+        },
+        {
+          path: 'arbitrationFeesDetail',
+          component: () => import('@/views/customer/arbitrationFeesDetail'), // 仲裁费充值总数 明细
+          meta: {
+            name: 'balanceQuery',
+          },
+        },
+        {
+          path: 'deductionVouchersDetail',
+          component: () => import('@/views/customer/deductionVouchersDetail'), // 仲券扣除总数 明细
+          meta: {
+            name: 'balanceQuery',
+          },
+        },
+        {
+          path: 'arbitrationFeeDeductionDetail',
+          component: () => import('@/views/customer/arbitrationFeeDeductionDetail'), // 仲裁费扣除总数 明细
+          meta: {
+            name: 'balanceQuery',
+          },
+        },
+        {
           path: 'balanceQueryDetail',
           component: () => import('@/views/customer/balanceQueryDetail'), // 账户余额查询 - 子页面
           meta: {
@@ -415,6 +443,13 @@ let router = new Router({
           component: () => import('@/views/customer/dataManagement'), // 数据管理
           meta: {
             name: 'dataManagement',
+          },
+        },
+        {
+          path: 'dataManagementDetail',
+          component: () => import('@/views/customer/dataManagement/module/edit.vue'), // 数据管理
+          meta: {
+            name: 'dataManagementDetail',
           },
         },
         {
@@ -1219,5 +1254,10 @@ router.afterEach((to, from) => {
     }
   }
 });
+
+router.__proto__.open = function(arg) {
+  let routeData = this.resolve(arg);
+  window.open(routeData.href);
+};
 
 export default router

@@ -58,7 +58,8 @@
                             (
                               scope.row.dataSource === 0 ? '接口' :
                               scope.row.dataSource === 1 ? '脚本' :
-                              scope.row.dataSource === 2 ? '公式' : ''
+                              scope.row.dataSource === 2 ? '公式' :
+                              scope.row.dataSource === 3 ? '账户' : ''
                             )
                           }}
                         </template>
@@ -127,11 +128,16 @@
       }
     },
     mounted() {
-      this.init();
+      let loading = this.$loading();
+      this.init().then(() => {
+        loading.close();
+      }).catch(() => {
+        loading.close();
+      });
     },
     methods : {
       init() {
-        this.$http({
+        return this.$http({
           method : 'post',
           url : '/interface/queryInterfaceParamList.htm',
           data : {
@@ -139,8 +145,55 @@
             prodTempId : this.$route.query.prodTempId,
           },
         }).then((res) => {
-          this.tableData = res.result;
+          this.tableData = this.dataFormat(res.result);
         });
+      },
+      // 处理数据 解决后台返回值不全问题（用于完整显示左侧菜单，以及空表格）
+      dataFormat(tableData) {
+        const typeArr = [
+          {
+            categoryCode : 1,
+            categoryDesc : '基础类型',
+          },
+          {
+            categoryCode : 2,
+            categoryDesc : '金额信息',
+          },
+          {
+            categoryCode : 3,
+            categoryDesc : '当事人信息',
+          },
+          {
+            categoryCode : 4,
+            categoryDesc : '日期信息',
+          },
+          {
+            categoryCode : 5,
+            categoryDesc : '证据信息',
+          },
+          {
+            categoryCode : 6,
+            categoryDesc : '还款信息',
+          },
+          {
+            categoryCode : 7,
+            categoryDesc : '借款人银行卡信息',
+          },
+          {
+            categoryCode : 8,
+            categoryDesc : '分期贷信息',
+          },
+          {
+            categoryCode : 9,
+            categoryDesc : '代偿信息',
+          },
+        ];
+        const result = [];
+        typeArr.map((v) => {
+          v.params = [];
+          result.push(tableData.filter(v1 => v.categoryCode === v1.categoryCode)[0] || v);
+        });
+        return result;
       },
       // 左侧中文
       getCnText() {
@@ -249,18 +302,20 @@
 
 <style lang="scss">
 
-.m-scrollbar-box{
-  height: calc(100vh - 50px);
-  overflow: hidden;
-  .el-scrollbar{
-    height: 100%;
-  }
-  .el-scrollbar__wrap{
-    height: 100%;
-    overflow-x: hidden;
-  }
-  .el-scrollbar__view{
-    padding-right: 10px;
+.tm-caseInterface{
+  .m-scrollbar-box{
+    height: calc(100vh - 50px);
+    overflow: hidden;
+    .el-scrollbar{
+      height: 100%;
+    }
+    .el-scrollbar__wrap{
+      height: 100%;
+      overflow-x: hidden;
+    }
+    .el-scrollbar__view{
+      padding-right: 10px;
+    }
   }
 }
 

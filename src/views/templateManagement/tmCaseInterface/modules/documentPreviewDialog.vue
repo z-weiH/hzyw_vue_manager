@@ -13,9 +13,9 @@
           <el-radio-button :label="2">参数样例</el-radio-button>
         </el-radio-group>
 
-        <div class="mt-20">
+        <div>
           <template v-if="type === 1">
-            <div class="m-table">
+            <div class="m-table mt-20">
               <table
                 class="m-primordial-table 
                   el-table el-table--fit el-table--border 
@@ -81,7 +81,7 @@
 <script>
   import exportFile from '@/assets/js/exportFile.js'
   import hljs from 'highlight.js'
-  import 'highlight.js/styles/monokai-sublime.css' //样式文件
+  import 'highlight.js/styles/github.css' //样式文件
   export default {
     data() {
       return {
@@ -164,7 +164,7 @@
             prodTempId : this.prodTempId,
           },
         }).then((res) => {
-          this.jsonData = res.result;
+          this.jsonData = JSON.parse(res.result);
         });
       },
       handleChange(val) {
@@ -178,7 +178,7 @@
 
       // 关闭浮层
       handleClose() {
-				
+				this.type = 1;
       },
       // 点击提交
       handleSubmit(submitType) {

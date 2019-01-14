@@ -27,10 +27,11 @@
             <div class="fl">联调意见</div>
             <div class="fl">操作</div>
 
+
           </div>
           <hr >
           <div class="content">
-            <el-scrollbar  :class="{'showHidden': logList.length > 10}">
+            <el-scrollbar style="height: 340px;">
               <div class="li" v-for="(item,idx) in logList" :index="idx" >
                 <div class="fl">{{item.opinion}}</div>
 
@@ -110,7 +111,7 @@
               this.$http.post("/caseDebugLog/saveCaseDebugOpinion.htm",{...this.currentItem, caseOrderId: this.caseOrderId}).then(res => {
                 this.innerVisible = false;
                 this.$http.post("/caseDebugLog/queryCaseDebugOpinionList.htm",{caseOrderId: this.caseOrderId}).then(res => {
-                  this.logList = res.result;
+                  this.logList = res.result.result;
                 })
               })
             }
@@ -126,7 +127,7 @@
           show(caseOrderId){
             this.caseOrderId = caseOrderId;
             this.$http.post("/caseDebugLog/queryCaseDebugOpinionList.htm",{caseOrderId: this.caseOrderId}).then(res => {
-              this.logList = res.result;
+              this.logList = res.result.result;
               this.outerVisible = true;
             })
           }
@@ -148,25 +149,29 @@
     margin: 10px 0;
     clear: both;
   }
-}
-.content .li{
-  margin: 10px 0;
-}
-.content .li::after{
-  content: '';
-  display: block;
-  clear: both;
-}
-
-.title .fl, .content .li .fl {
-  &:nth-child(1) {
-    width: 530px;
+  .content .li{
+    margin: 10px 0;
+  }
+  .content .li::after{
+    content: '';
+    display: block;
+    clear: both;
   }
 
+  .title .fl, .content .li .fl {
+    &:nth-child(1) {
+      width: 530px;
+    }
 
-  &:nth-child(2) {
-    width: 165px;
-    text-align: center;
+
+    &:nth-child(2) {
+      width: 165px;
+      text-align: center;
+    }
+
   }
+
 }
+
+
 </style>

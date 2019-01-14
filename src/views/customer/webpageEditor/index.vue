@@ -4,6 +4,12 @@
       <div class="width-1200">
         <span>{{title}}</span>
         <i @click="handleHelp" title="查看帮助文档" class="el-icon-question"></i>
+
+        <div class="fr">
+          <el-button @click="handleCancel" size="small" icon="el-icon-back"></el-button>
+          <el-button @click="handlePreview" size="small">预览</el-button>
+          <el-button @click="handleSubmit" type="primary" size="small">保存</el-button>
+        </div>
       </div>
     </div>
     <div class="webpage-editor-content">
@@ -23,7 +29,14 @@
             <div class="operation" v-if="boxShow">
               <span @click="handleBox">x</span>
               <el-button @click="handleInsertGrammar(1)">插入参数</el-button>
-              <el-button @click="handleInsertGrammar(17)">日期计算</el-button>
+              <el-button @click="handleInsertGrammar(23)">插入注释</el-button>
+              <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
+                <el-button>日期计算<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+                <el-dropdown-menu slot="dropdown">
+                  <el-dropdown-item :command="24">加</el-dropdown-item>
+                  <el-dropdown-item :command="25">减</el-dropdown-item>
+                </el-dropdown-menu>
+              </el-dropdown>
               <!-- <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>当事人<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
@@ -96,11 +109,11 @@
         </div>
 
         <div class="clear"></div>
-        <div class="mt-20 btn-box mb-20">
+        <!-- <div class="mt-20 btn-box mb-20">
           <el-button @click="handlePreview" class="mr-30">预览</el-button>
           <el-button @click="handleSubmit" type="primary" class="mr-30">保存</el-button>
           <el-button @click="handleCancel" class="mr-30">返回</el-button>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -125,7 +138,7 @@
   */
   import ueeditor from '@/components/ueeditor'
   import previewDialog from './modules/previewDialog.vue'
-  import parameter from '../parameterList/modules/parameter.vue'
+  import parameter from './modules/parameter.vue'
   import helpDialog from './modules/helpDialog.vue'
 
   export default {
@@ -158,7 +171,7 @@
           }
         },
         // 当前复制是否 携带样式 false - 不带样式 ， true 带样式
-        copyStyle : true,
+        copyStyle : false,
       }
     },
     mounted() {
@@ -169,7 +182,7 @@
       let fn = (data) => {
         try{
           this.$refs.ueeditor.setContent(data);
-          this.ueeditorHeight = document.body.clientHeight - 75 - 75 - 40 - 50;
+          this.ueeditorHeight = document.body.clientHeight - 75 - 75 - 20;
           close.close();
           document.querySelector('iframe').contentDocument.addEventListener('click',this.globalClickFn);
           document.addEventListener('click',this.globalClickFn);
@@ -296,6 +309,12 @@
           message = '&lt;@multiPartyInfo list="multiApps" index=1 field="appAddress" /&gt;';
         }else if(type === 21) {
           message = '&lt;@multiPartyInfo list="multiReses" index=1 field="appAddress" /&gt;';
+        }else if(type === 23) {
+          message = '&lt;!-- 注释 --&gt;';
+        }else if(type === 24) {
+          message = '&lt;@dateDiffCalc date1=nowDate （当日）date2=violateStartDate（裁决日期） days=-6 /&gt;';
+        }else if(type === 25) {
+          message = '&lt;@dateDiffCalc date1=nowDate （当日）date2=violateStartDate（裁决日期） days=6 /&gt;';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
@@ -390,7 +409,7 @@
   background-color: #fff;
   box-sizing: border-box;
   .width-1200{
-    width: 1200px;
+    width: 1300px;
     margin: 0 auto;
     color: #0f357f;
     padding-top: 21px;
@@ -407,15 +426,15 @@
   min-height: calc(100% - 75px);
 }
 .webpage-editor{
-  width: 1200px;
+  width: 1300px;
   margin: 0 auto;
   overflow: hidden;
   .ueeditor-b{
-    width: 900px;
+    width: 940px;
   }
   .parameter-box{
     box-sizing: border-box;
-    width: 290px;
+    width: 350px;
     border: 1px solid #ddd;
     height: 860px;
     margin-left: 10px;

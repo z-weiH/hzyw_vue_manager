@@ -6,10 +6,11 @@
         <customer-button type="primary" :plain="true" v-else @click="exitScreenView" style="margin-left: calc(50vw - 703px); ">退出全屏</customer-button>
       </div>
       <div class="fr">
-        <customer-button type="primary" :plain="true" @click="jointOpinions">联调意见</customer-button>
-        <customer-button type="primary" @click="jointOver(0)" :plain="true">联调不通过</customer-button>
-        <customer-button type="primary" @click="jointOver(1)">联调通过</customer-button>
-        <customer-button type="primary" @click="jointOver(2)">联调完成</customer-button>
+        <!--<customer-button type="primary" @click="setStorageHandle">测试</customer-button>-->
+        <customer-button type="primary" :plain="true" @click="jointOpinions" v-if="roleType === 1">联调意见</customer-button>
+        <customer-button type="primary" @click="jointOver(0)" :plain="true" v-if="roleType === 2 && debugStatus === 3">联调不通过</customer-button>
+        <customer-button type="primary" @click="jointOver(1)" v-if="roleType === 2 && debugStatus === 3">联调通过</customer-button>
+        <customer-button type="primary" @click="jointOver(2)" v-if="roleType === 1 && debugStatus === 2">联调完成</customer-button>
       </div>
     </div>
     <div class="tm-body">
@@ -34,8 +35,8 @@
       <div class="fl" >
         <scrollTop :text="text"></scrollTop>
         <div style="margin-top: 164px;height: calc(100vh - 214px);border-right: 1px solid #ccc;position: relative;">
-          <div class="btn" style="text-align: center;position: absolute;top: 50%; width: 100%;">
-            <p style="font-size: 16px;line-height: 32px;">联调状态: {{}}</p>
+          <div class="btn" style="text-align: center;position: absolute;bottom: 80px; width: 100%;">
+            <p style="font-size: 16px;line-height: 32px;">联调状态: {{debugStatusObject[debugStatus]}}</p>
             <customer-button :plain="true" size="mini" @click="showLogDialog">查看联调日志</customer-button>
           </div>
         </div>
@@ -100,30 +101,89 @@
               <div class="desc">
                 {{item.categoryDesc}}
               </div>
-              <div class="table">
+
+
+              <div class="table" v-if="!item.hasGroupNum">
                 <el-table
                   :data="item.params"
                   border
-                  :span-method="getObjectSpanMethod(item.params)"
+
                 >
-                  <el-table-column prop="groupNum" label="组别" width="50px" v-if="item.hasGroupNum"></el-table-column>
                   <el-table-column prop="date" label="序号" width="50px">
                     <template slot-scope="scope">
                       {{scope.$index + 1}}
                     </template>
                   </el-table-column>
-                  <el-table-column prop="caseParam" label="参数"></el-table-column>
-                  <el-table-column prop="paramDesc" label="中文">
+                  <el-table-column prop="paramCode" label="参数"></el-table-column>
+                  <el-table-column prop="paramName" label="中文">
                     <!--<template slot-scope="scope">-->
                     <!--<span v-ellipsis.20>{{scope.row.productName  + '' + scope.row.prodCode}}</span>-->
                     <!--</template>-->
                   </el-table-column>
                   <el-table-column prop="valueType" label="类型"></el-table-column>
-                  <el-table-column prop="paramValue" label="值"></el-table-column>
-                  <el-table-column prop="dataType" label="数据来源">
+                  <el-table-column prop="paramValue" label="值">
+                    <template slot-scope="scope">
+                      <el-button type="text" v-if="scope.row.paramValue && scope.row.paramValue.indexOf('http') === 0" @click="openValue(scope.row.paramValue)">打开链接</el-button>
+                      <span v-else>{{scope.row.paramValue}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="dataSource" label="数据来源">
                     <template slot-scope="scope">
                       <!--0-接口 1-脚本 2-公式-->
-                      <span>{{scope.row.dataType === 0 ? '接口' : scope.row.dataType === 1 ? '脚本' : scope.row.dataType === 2 ? '公式' : '--'}}</span>
+                      <span>{{scope.row.dataSource === 0 ? '接口' : scope.row.dataSource === 1 ? '脚本' : scope.row.dataSource === 2 ? '公式' : '--'}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="isCorrect" label="正确性">
+                    <template slot-scope="scope">
+                      <!--0-错误 1-正确-->
+                      <span>
+                        <img class="mr-10" v-if="scope.row.isCorrect === 0"  src="@/assets/img/error_tag_01.png" alt="">
+                         <img class="mr-5" v-if="scope.row.isCorrect === 1" src="@/assets/img/success_tag.png" alt="">
+                      </span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="errorReason" label="错误原因">
+                    <template slot-scope="scope">
+                      <!--0-错误 1-正确-->
+                      <span>
+                        {{scope.row.errorReason  }}
+                        <!--{{scope.row.errorReason ? scope.row.errorReason : '&#45;&#45;' }}-->
+                      </span>
+                    </template>
+                  </el-table-column>
+                </el-table>
+
+              </div>
+
+              <div class="table" v-else>
+                <el-table
+                  :data="item.params"
+                  border
+                  :span-method="getObjectSpanMethod(item.params)"
+                >
+                  <el-table-column prop="groupNum" label="组别" width="50px"></el-table-column>
+                  <el-table-column prop="date" label="序号" width="50px">
+                    <template slot-scope="scope">
+                      {{scope.$index + 1}}
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="paramCode" label="参数"></el-table-column>
+                  <el-table-column prop="paramName" label="中文">
+                    <!--<template slot-scope="scope">-->
+                    <!--<span v-ellipsis.20>{{scope.row.productName  + '' + scope.row.prodCode}}</span>-->
+                    <!--</template>-->
+                  </el-table-column>
+                  <el-table-column prop="valueType" label="类型"></el-table-column>
+                  <el-table-column prop="paramValue" label="值">
+                    <template slot-scope="scope">
+                      <el-button type="text" v-if="scope.row.paramValue && scope.row.paramValue.indexOf('http') === 0" @click="openValue(scope.row.paramValue)">打开链接</el-button>
+                      <span v-else>{{scope.row.paramValue}}</span>
+                    </template>
+                  </el-table-column>
+                  <el-table-column prop="dataSource" label="数据来源">
+                    <template slot-scope="scope">
+                      <!--0-接口 1-脚本 2-公式-->
+                      <span>{{scope.row.dataSource === 0 ? '接口' : scope.row.dataSource === 1 ? '脚本' : scope.row.dataSource === 2 ? '公式' : '--'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column prop="isCorrect" label="正确性">
@@ -265,7 +325,7 @@
     <joint-opinion ref="jointOpinion"></joint-opinion>
 
     <!--联调状态变化-->
-    <joint-status ref="jointStatus"></joint-status>
+    <joint-status ref="jointStatus" @close="refreshStatus($event)"></joint-status>
 
   </div>
 </template>
@@ -287,23 +347,41 @@
     },
     data(){
       return {
+        // 1-待设置 2-联调中 3-待法务确认 4-联调通过
+        debugStatusObject: {1: '待设置', 2: '联调中', 3: '待确认' , 4: '联调通过' },
+        roleNames: '',
+        debugStatus: 0,
         reasonFlag: false,
         text: ['基本信息','参数值','主体证明材料','文书与证据'],
         caseOrderId: '',
         baseInfoObject: {},
         paramsList: [],
         litigantList: {},
-        eviInfoObject: {},
+        eviInfoObject: {eviList: []},
         caseFailReasonList: [],
         toggleScreenView: false,
         colseTipFlag: false
       }
     },
+    computed:{
+      roleType(){
+        if(this.roleNames.indexOf("运营") !== -1){
+          return 1;
+        }
+        else if(this.roleNames.indexOf("法务") !== -1){
+          return 2;
+        }
+        return 0;
+      }
+    },
     methods: {
 
-
+      openValue(url){
+        window.open(url,'_blank')
+      },
       jointOver(type){
         this.$refs.jointStatus.show(type, this.$route.query.prodTempId);
+
       },
 
       jointOpinions(){
@@ -315,9 +393,10 @@
 
       getObjectSpanMethod(items){
           const currentList = items;
+          console.error(currentList);
           return ({row, column, rowIndex, columnIndex ,property}) => {
-            // console.log({row, column, rowIndex, columnIndex, property});
             if (columnIndex === 0 && column.property === 'groupNum') {
+              console.log({row, column, rowIndex, columnIndex, property});
               property = 'groupNum';
               if (rowIndex === 0 || (currentList[rowIndex] && row[property] !== currentList[rowIndex - 1][property])) {
                 let idx = -1;
@@ -328,7 +407,7 @@
                   }
                 }
 
-                if (idx != -1) {
+                if (idx !== -1) {
                   return {
                     rowspan: idx - rowIndex + 1,
                     colspan: 1
@@ -345,6 +424,11 @@
                   colspan: 0
                 };
               }
+            }else {
+              return {
+                rowspan: 1,
+                colspan: 1
+              };
             }
           }
       },
@@ -354,7 +438,7 @@
       objectSpanMethod({row, column, rowIndex, columnIndex ,property}) {
         const currentList = this.eviInfoObject.eviList;
         if (columnIndex === 0 || columnIndex === 6) {
-            property = 'sortNum';
+          property = 'sortNum';
           if (rowIndex === 0 || (currentList[rowIndex] && row[property] !== currentList[rowIndex - 1][property])) {
             let idx = -1;
             for (let i = currentList.length - 1; i > rowIndex; i--) {
@@ -381,6 +465,12 @@
               colspan: 0
             };
           }
+        }
+        else {
+          return {
+            rowspan: 1,
+            colspan: 1
+          };
         }
 
       },
@@ -474,8 +564,17 @@
           //
           // ];
           this.paramsList.forEach(it => {
-            if(it.params && it.params.length > 0 && it.params[0].groupNum){
+            if(it.params && it.params.length > 0 && it.params.find(i => i.groupNum)){
+              it.params.forEach(i => {
+                if(!i.groupNum && i.groupNum !== 0){
+                  i.groupNum = '-';
+                }
+              });
               it.hasGroupNum = true;
+              let arr1 = it.params.filter(i => i.groupNum !== '-').sort((a,b) => a.groupNum - b.groupNum);
+              let arr2 = it.params.filter(i => i.groupNum === '-');
+              it.params = arr1.concat(arr2);
+              console.error(arr1,arr2,it.params,'params');
               this.toggleShowAll(it);
             }
           })
@@ -511,6 +610,12 @@
       },
 
 
+      //设置storage.触发监听
+      setStorageHandle(){
+        localStorage.setItem("templateJointRefreshFlag", new Date().valueOf());
+      },
+
+
       //主体证明材料
       queryLitigantList(){
         this.$http.post("/caseInfo/queryLitigantList.htm",{caseOrderId: this.caseOrderId}).then(res => {
@@ -521,13 +626,32 @@
       queryEviInfo(){
         this.$http.post("/caseInfo/getEviInfoByCaseOrderId.htm",{caseOrderId: this.caseOrderId}).then(res => {
           this.eviInfoObject = res.result;
+          console.log(this.eviInfoObject);
 
 
         })
+      },
+
+      refreshStatus(e){
+          console.log(e);
+          if(e=== 2){
+            this.$router.push({path: '/tmCaseDetail',query: {caseOrderId: this.$route.query.caseOrderId, prodTempId: this.$route.query.prodTempId, productId: this.$route.query.productId , debugStatus: 3}})
+            this.debugStatus = 3;
+          }else if(e === 0){
+            this.$router.push({path: '/tmCaseDetail',query: {caseOrderId: this.$route.query.caseOrderId, prodTempId: this.$route.query.prodTempId, productId: this.$route.query.productId , debugStatus: 2}})
+            this.debugStatus = 2;
+          }else if(e === 1){
+            this.$router.push({path: '/tmCaseDetail',query: {caseOrderId: this.$route.query.caseOrderId, prodTempId: this.$route.query.prodTempId, productId: this.$route.query.productId , debugStatus: 4}})
+            this.debugStatus = 4;
+          }
+          this.setStorageHandle();
       }
     },
     created(){
       this.caseOrderId = this.$route.query.caseOrderId;
+      this.roleNames = JSON.parse(localStorage.getItem('loginInfo')).roleNames;
+      this.debugStatus = +this.$route.query.debugStatus;
+
       this.queryBaseInfo();
       this.queryParamsList();
       this.queryLitigantList();

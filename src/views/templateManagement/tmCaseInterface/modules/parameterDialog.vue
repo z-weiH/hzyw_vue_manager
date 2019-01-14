@@ -1,7 +1,7 @@
 <template>
   <div class="tm-caseInterface-parameter-dialog">
     <el-dialog
-      title="分配案件"
+      :title="type === 'add' ? '添加参数' : '编辑参数'"
       :visible.sync="dialogVisible"
       width="580px"
       @close="handleClose"
@@ -21,7 +21,7 @@
                   <el-tab-pane label="案件参数" name="0">
                     <div class="param-name-cont">
                       <ul>
-                        <li v-if="item.params.length > 0" :key="index" v-for="(item,index) in listAJCS">
+                        <li :key="index" v-for="(item,index) in listAJCS">
                           <div class="mb-10">
                             <span class="param-title">{{item.categoryDesc}}</span>
                           </div>
@@ -81,7 +81,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item label="所属模块" prop="categoryCode">
+          <el-form-item filterable label="所属模块" prop="categoryCode">
             <el-select clearable style="width:400px;" v-model="ruleForm.categoryCode" placeholder="请选择所属模块">
               <el-option label="基础信息" :value="1"></el-option>
               <el-option label="金额信息" :value="2"></el-option>
@@ -100,6 +100,7 @@
               <el-option label="接口" :value="0"></el-option>
               <el-option label="脚本" :value="1"></el-option>
               <el-option label="公式" :value="2"></el-option>
+              <el-option label="账户" :value="3"></el-option>
             </el-select>
           </el-form-item>
 
@@ -121,9 +122,27 @@
   let copyArray = (arr) => {
     return JSON.parse(JSON.stringify(arr));
   }
+  // func是用户传入需要防抖的函数
+  // wait是等待时间
+  const debounce = (func, wait = 50) => {
+    // 缓存一个定时器id
+    let timer = 0
+    // 这里返回的函数是每次用户实际调用的防抖函数
+    // 如果已经设定过定时器了就清空上一次的定时器
+    // 开始一个新的定时器，延迟执行用户传入的方法
+    return function(...args) {
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(() => {
+        func.apply(this, args)
+      }, wait)
+    }
+  }
+  // 不难看出如果用户调用该函数的间隔小于wait的情况下，上一次的时间还未到就被清除了，并不会执行函数
   export default {
     data() {
       return {
+        // 保存处理后的 高亮菜单逻辑
+        paramCodeFn() {},
         dialogVisible : false,
         // 提交按钮禁用状态
         submitDisabled : false,
@@ -132,6 +151,8 @@
         searchActive : false,
         type : '',
         row : '',
+        // 上一次保存过的 paramCode
+        paramCodeDefalult : '',
 
         ruleForm : {
           // 参数
@@ -240,54 +261,13 @@
     },
     watch : {
       ['ruleForm.paramCode'](val) {
-        val = val.trim();
-        console.log('listAJCSFilter',this.tabActive);
-        // 案件参数
-        if(this.tabActive === '0') {
-          if(val) {
-            let newArr = [];
-            copyArray(this.listAJCSDefault).map((v) => {
-              let params = v.params.filter((v1) => {
-                if(v1.paramCode.indexOf(val) !== -1 || v1.paramName.indexOf(val) !== -1) {
-                  return v1;
-                }
-              });
-              if(params.length > 0) {
-                v.params = params;
-                newArr.push(v);
-              }
-            });
-            this.listAJCS = newArr;
-          }else{
-            this.listAJCS = copyArray(this.listAJCSDefault);
-          }
-        // 仲裁参数
-        }else if(this.tabActive === '1') {
-          if(val) {
-            let newArr = [];
-            copyArray(this.listZCCSDefault).map((v) => {
-              if(v.paramCode.indexOf(val) !== -1 || v.paramName.indexOf(val) !== -1) {
-                newArr.push(v);
-              }
-            });
-            this.listZCCS = newArr;
-          }else{
-            this.listZCCS = copyArray(this.listZCCSDefault);
-          }
-        // 个性参数
-        }else if(this.tabActive === '2') {
-          if(val) {
-            let newArr = [];
-            copyArray(this.listGXCSDefault).map((v) => {
-              if(v.paramCode.indexOf(val) !== -1 || v.paramName.indexOf(val) !== -1) {
-                newArr.push(v);
-              }
-            });
-            this.listGXCS = newArr;
-          }else{
-            this.listGXCS = copyArray(this.listGXCSDefault);
-          }
-        }
+        this.paramCodeFilter();
+        // 选中当前菜单
+        this.paramCodeFn();
+      },
+      // 菜单切换
+      tabActive() {
+        this.paramCodeFilter();
       },
     },
     mounted() {
@@ -295,6 +275,22 @@
       this.listAJCSDefault = copyArray(this.listAJCS);
       this.listZCCSDefault = copyArray(this.listZCCS);
       this.listGXCSDefault = copyArray(this.listGXCS);
+
+      this.paramCodeFn = debounce(() => {
+        let val = this.ruleForm.paramCode;
+        // 根据paramCode 切换当前菜单
+        val && this.$http({
+          method : 'post',
+          url : '/param/queryTemplateParamList.htm',
+          data : {
+            paramCode : val,
+          },
+        }).then((res) => {
+          if(res.result) {
+            this.tabActive = res.result.paramBizType + '';
+          }
+        });
+      },300);
     },
     methods : {
       show(type,data) {
@@ -315,8 +311,9 @@
           document.addEventListener('click',this.clickFn);
           if(this.type === 'edit') {
             this.row = data;
+            this.ruleForm = Object.assign(this.ruleForm,data);
+            this.paramCodeDefalult = data.paramCode;
           }
-          this.ruleForm = Object.assign(this.ruleForm,data);
         });
       },
       searchShow() {
@@ -330,6 +327,8 @@
         this.listAJCS = copyArray(this.listAJCSDefault);
         this.listZCCS = copyArray(this.listZCCSDefault);
         this.listGXCS = copyArray(this.listGXCSDefault);
+
+        this.ruleForm.paramCode = this.paramCodeDefalult;
       },
       // 全局点击事件
       clickFn() {
@@ -348,6 +347,7 @@
           this.$nextTick(() => {
             this.$refs.ruleForm.clearValidate();
           });
+          this.paramCodeDefalult = '';
 
           this.searchClose();
           // 销毁事件
@@ -383,12 +383,36 @@
 
       // 获取 案件参数
       getAJCS() {
+        // 处理页面案件参数列表中 不出现重复问题
+        let dataFormat = (arr) => {
+          let result = [];
+          let parentData = [];
+          this.$parent.tableData.map(v => {
+            v.params.map(v1 => {
+              parentData.push(v1);
+            });
+          });
+          // 获取所有 一维表格数据
+          parentData = copyArray(parentData);
+          result = arr.map((v) => {
+            let params = [];
+            v.params.map(v1 => {
+              let len = parentData.filter(v2 => v2.paramCode === v1.paramCode).length;
+              if(len === 0) {
+                params.push(v1);
+              }
+            });
+            v.params = params;
+            return v;
+          });
+          return copyArray(result)
+        }
         this.$http({
           method : 'post',
           url : '/param/queryCaseParamList.htm',
         }).then((res) => {
-          this.listAJCS = res.result;
-          this.listAJCSDefault = copyArray(res.result);
+          this.listAJCS = dataFormat(res.result);
+          this.listAJCSDefault = dataFormat(res.result);
         });
       },
       // 获取 仲裁参数
@@ -424,6 +448,8 @@
         this.ruleForm.valueType = item2.valueType;
         this.ruleForm.categoryCode = item.categoryCode;
 
+        this.paramCodeDefalult = item2.paramCode;
+
         this.searchClose();
       },
       handleCheckZCCS(item) {
@@ -431,6 +457,8 @@
         this.ruleForm.paramCode = item.paramCode;
         this.ruleForm.paramName = item.paramName;
         this.ruleForm.valueType = item.valueType;
+
+        this.paramCodeDefalult = item.paramCode;
 
         this.searchClose();
       },
@@ -440,7 +468,59 @@
         this.ruleForm.paramName = item.paramName;
         this.ruleForm.valueType = item.valueType;
 
+        this.paramCodeDefalult = item.paramCode;
+
         this.searchClose();
+      },
+      // 过滤 paramCode
+      paramCodeFilter() {
+        let val = this.ruleForm.paramCode.toLocaleLowerCase();
+        // 案件参数
+        if(this.tabActive === '0') {
+          if(val) {
+            let newArr = [];
+            copyArray(this.listAJCSDefault).map((v) => {
+              let params = v.params.filter((v1) => {
+                if(v1.paramCode.toLocaleLowerCase().indexOf(val) !== -1 || v1.paramName.indexOf(val) !== -1) {
+                  return v1;
+                }
+              });
+              if(params.length > 0) {
+                v.params = params;
+                newArr.push(v);
+              }
+            });
+            this.listAJCS = newArr;
+          }else{
+            this.listAJCS = copyArray(this.listAJCSDefault);
+          }
+        // 仲裁参数
+        }else if(this.tabActive === '1') {
+          if(val) {
+            let newArr = [];
+            copyArray(this.listZCCSDefault).map((v) => {
+              if(v.paramCode.toLocaleLowerCase().indexOf(val) !== -1 || v.paramName.indexOf(val) !== -1) {
+                newArr.push(v);
+              }
+            });
+            this.listZCCS = newArr;
+          }else{
+            this.listZCCS = copyArray(this.listZCCSDefault);
+          }
+        // 个性参数
+        }else if(this.tabActive === '2') {
+          if(val) {
+            let newArr = [];
+            copyArray(this.listGXCSDefault).map((v) => {
+              if(v.paramCode.toLocaleLowerCase().indexOf(val) !== -1 || v.paramName.indexOf(val) !== -1) {
+                newArr.push(v);
+              }
+            });
+            this.listGXCS = newArr;
+          }else{
+            this.listGXCS = copyArray(this.listGXCSDefault);
+          }
+        }
       },
     },
   }
@@ -473,6 +553,14 @@
         padding-left: 10px;
         div{
           line-height: initial;
+          margin-bottom: 10px;
+        }
+        li{
+          line-height: initial;
+          margin-bottom: 10px;
+        }
+        ul{
+          padding-top: 10px;
         }
       }
       .el-tabs__nav-wrap.is-scrollable{

@@ -46,7 +46,11 @@
               <span>{{debugStatusObject[scope.row.debugStatus]}}</span>
             </template>
           </el-table-column>
-          <el-table-column prop="pushTime" label="最新案件推送时间"></el-table-column>
+          <el-table-column prop="pushTime" label="最新案件推送时间">
+            <template slot-scope="scope">
+              {{scope.row.pushTime || '--'}}
+            </template>
+          </el-table-column>
 
           <el-table-column prop="respondents" label="操作">
             <template slot-scope="scope">
@@ -145,8 +149,8 @@
       data() {
         return {
           searchItem: {},
-          // 1-待设置 2-联调中 3-待法务确认 4-联调通过
-          debugStatusObject: {1: '待设置', 2: '联调中', 3: '待法务确认' , 4: '联调通过' },
+          // 1-设置中 2-联调中 3-待法务确认 4-联调通过
+          debugStatusObject: {1: '设置中', 2: '联调中', 3: '待确认' , 4: '联调通过' },
 
           currentProduct: '',
           caseFlag: false,
@@ -218,7 +222,7 @@
           this.docaseQuery();
         },
         handleProductCaseView(row){
-          let path = this.$router.resolve({path: '/tmCaseDetail',query: {caseOrderId: row.caseOrderId, prodTempId: this.currentTm.prodTempId, productId: row.productId}});
+          let path = this.$router.resolve({path: '/tmCaseDetail',query: {caseOrderId: row.caseOrderId, prodTempId: this.currentTm.prodTempId, productId: row.productId , debugStatus: this.currentTm.debugStatus}});
           window.open(path.href, '_blank');
         },
 
@@ -229,9 +233,16 @@
         handleLogClick(row){
           this.$refs.logDialog.show(row.prodTempId);
         },
+        refreshHandle(){
+          window.addEventListener('storage', () => {
+            console.error("change",this);
+            this.doQuery();
+          })
+        }
       },
       created(){
         this.doQuery();
+        this.refreshHandle();
 
       }
     }

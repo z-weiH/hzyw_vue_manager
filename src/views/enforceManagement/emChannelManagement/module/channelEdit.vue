@@ -32,6 +32,49 @@
       <el-form-item label="详细地址" prop="channelAddress">
         <el-input v-model="item.channelAddress"></el-input>
       </el-form-item>
+
+
+      <template v-if="item.channelType === 1">
+        <el-form-item label="签约人"  prop="signEmp">
+          <el-input v-model="item.signEmp"></el-input>
+        </el-form-item>
+        <el-form-item label="合同编号"  prop="contractNo">
+          <el-input v-model="item.contractNo"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱"  prop="email">
+          <el-input v-model="item.email"></el-input>
+        </el-form-item>
+        <el-form-item label="合作区域"  prop="area">
+          <el-input v-model="item.area"></el-input>
+        </el-form-item>
+        <el-form-item label="生命周期"  prop="lifeCyclic">
+          <el-input v-model="item.lifeCyclic"></el-input>
+        </el-form-item>
+      </template>
+      <template v-else>
+        <el-form-item label="签约人" :rules="[{required : true , message : '请输入签约人' , trigger : 'blur'}]" prop="signEmp">
+          <el-input v-model="item.signEmp"></el-input>
+        </el-form-item>
+        <el-form-item label="合同编号" :rules="[{required : true , message : '请输入合同编号' , trigger : 'blur'}]" prop="contractNo">
+          <el-input v-model="item.contractNo"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱"  prop="email" :rules="[{required : true , message : '请输入邮箱' , trigger : 'blur'}]">
+          <el-input v-model="item.email"></el-input>
+        </el-form-item>
+        <el-form-item label="合作区域" :rules="[{required : true , message : '请输入合作区域' , trigger : 'blur'}]" prop="area">
+          <el-input v-model="item.area"></el-input>
+        </el-form-item>
+        <el-form-item label="生命周期" :rules="[{required : true , message : '请输入生命周期' , trigger : 'blur'}]" prop="lifeCyclic">
+          <el-input v-model="item.lifeCyclic"></el-input>
+        </el-form-item>
+      </template>
+
+
+      <el-form-item label="备注" prop="remark">
+        <el-input type="textarea" v-model="item.remark"></el-input>
+      </el-form-item>
+
+
     </el-form>
 
 
@@ -49,7 +92,9 @@
       return {
         flag: false,
         title: '',
-        item: {},
+        item: {
+          channelType: ''
+        },
         rules : {
           channelType : [
             { required : true , message : '请选择渠道类型' , trigger : 'blur'},
@@ -65,6 +110,13 @@
         if(!val){
           this.$refs.form.resetFields();
         }
+      },
+      'item.channelType'(val,oldval){
+        // this.item.channelType = val;
+        this.$nextTick(() => {
+          this.$refs.form.clearValidate();
+        })
+
       }
     },
     methods:{
@@ -79,7 +131,7 @@
             this.flag =true;
           })
         }else{
-          this.item = {};
+          this.item = {channelType: 1};
           this.title = '添加渠道';
           this.flag = true;
         }

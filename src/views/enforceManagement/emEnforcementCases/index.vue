@@ -69,8 +69,8 @@
         <el-row class="mt-10">
           <el-col :span="24">
             <span class="search-span" style="width: 70px;">客户：</span>
-            <el-form-item label=" " prop="customerId">
-              <el-select @change="handleCustomerChange" clearable filterable  v-model="ruleForm.customerId" placeholder="请选择" class="chang-item">
+            <el-form-item label=" " prop="merchantCode">
+              <el-select @change="handleCustomerChange" clearable filterable  v-model="ruleForm.merchantCode" placeholder="请选择" class="chang-item">
                 <el-option :label="item.merchantName" :value="item.code" v-for="(item,index) in customerOptions" :key="index"></el-option>
               </el-select>
             </el-form-item>
@@ -116,6 +116,14 @@
                 <el-option label="无还款" :value="2"></el-option>
                 <el-option label="有仲裁后还款" :value="3"></el-option>
                 <el-option label="无仲裁后还款" :value="4"></el-option>
+              </el-select>
+            </el-form-item>
+
+            <span class="search-span">执行状态：</span>
+            <el-form-item label=" " prop="execStatus">
+              <el-select clearable v-model="ruleForm.execStatus" placeholder="请选择" style="width:197px;">
+                <el-option label="未执行" :value="0"></el-option>
+                <el-option label="已执行" :value="1"></el-option>
               </el-select>
             </el-form-item>
 
@@ -211,6 +219,11 @@
             {{scope.row.downloadStatus === 1 ? '未处理' : '已处理'}}
           </template>
         </el-table-column> -->
+        <el-table-column prop="execStatus" label="执行状态" min-width="120">
+          <template slot-scope="scope">
+            {{scope.row.execStatus === 0 ? '未执行' : '已执行'}}
+          </template>
+        </el-table-column>
         <el-table-column label="操作" align="center" min-width="120">
           <template slot-scope="scope">
             <el-button @click="handlePreview(scope.row)" type="text">预览</el-button>
@@ -302,6 +315,8 @@
           productId : '',
           // 模板id
           templateCode : '',
+
+          execStatus: ''
 				},
         rules : {},
         // 表格选中数据
@@ -330,17 +345,22 @@
         pageSize : 10,
         
         checkList : {
-          bsqbccns : true,
-          cczksm : true,
-          fwxy : true,
-          jkxy : true,
-          qzzxsqs : true,
-          sfzzfm : true,
-          sqwts : true,
-          xzgxfsms : true,
-          zxkyhzhqds : true,
-          zqzrxy : true,
-          cjs : true,
+          qzzxsqs: true,
+          yyzz: true,
+          frsfzzfm: true,
+          frdbrsfzms: true,
+          sqwts: true,
+          zxkyhzhqds: true,
+          jkxy: true,
+          fwxy: true,
+          sfzzfm: true,
+          cczksm: true,
+          zqzrxy: true,
+          zqzrqrs: true,
+          cjs: true,
+          xzgxfsms: true,
+          xgmdsqs: true,
+          sxmdsqs: true
         },
         
         pageLoading : '',
@@ -426,7 +446,7 @@
             method : 'post',
             url : '/case/queryTemplatesByProductCode.htm',
             data : {
-              merchantCode: this.ruleForm.customerId,
+              merchantCode: this.ruleForm.merchantCode,
               prodCode: val,
             },
           }).then((res) => {
@@ -487,6 +507,7 @@
           duplicateNum : res.result.duplicateNum,
           data : res.result.caseInfos,
           duplicateCaseList : res.result.duplicateCaseList,
+          execCaseList: res.result.execCaseList
         });
       },
       // 文件上传失败

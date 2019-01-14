@@ -434,7 +434,7 @@
           .replace(/\/\/([\u4e00-\u9fa5]+)/g,'<span class="m-notes">$&</span>')
           .replace(/[\u4e00-\u9fa5]+/g,'<span class="mark" style="height: 16px; line-height: 16px;background: #13367D; color: #13367D; opacity: .4;box-sizing: border-box;display: inline-block;">$&</span>')
 
-        this.$nextTick(() => {
+        setTimeout(() => {
           console.log(this.$refs.textarea_warpar1.querySelectorAll('span'));
           this.$refs.textarea_rule.$el.querySelectorAll('span').forEach(node => {
 
@@ -458,13 +458,13 @@
                 span.style.display = 'none';
               }
               // span.style.height = it.style.height;
-              console.log(span.style,);
+              console.log(span.style.top, span.style.left);
               this.$refs.textarea_rule.$el.appendChild(span);
             }
 
           })
 
-        })
+        },400)
       },
 
 
@@ -489,6 +489,10 @@
             let idx4 = strcopy.lastIndexOf('takeNumId(');
             let idx5 = strcopy.lastIndexOf('getDate(');
             let idx6 = strcopy.lastIndexOf('getDateId(');
+            let idx7 = strcopy.lastIndexOf('getPdfString(');
+            let idx8 = strcopy.lastIndexOf('getPdfNum(');
+            let idx9 = strcopy.lastIndexOf('getPdfDate(');
+            let idx10 = strcopy.lastIndexOf('getPdfIdCard(');
             if(idx1 != -1 && new RegExp("^getnum\\([A-Z_0-9]+$").test(strcopy.substring(idx1))){
               type = 0;
               this.currentFunction.affix = strcopy.substring(idx1);
@@ -513,6 +517,18 @@
               type = 3;
               this.currentFunction.affix = strcopy.substring(idx6);
             }
+            else if(idx7 != -1 && new RegExp("^getPdfString\\([A-Z_0-9]+$").test(strcopy.substring(idx7))){
+                type = 4;
+            }
+            else if(idx8 != -1 && new RegExp("^getPdfNum\\([A-Z_0-9]+$").test(strcopy.substring(idx8))){
+                type = 4;
+            }
+            else if(idx9 != -1 && new RegExp("^getPdfDate\\([A-Z_0-9]+$").test(strcopy.substring(idx9))){
+                type = 4;
+            }
+            else if(idx10 != -1 && new RegExp("^getPdfIdCard\\([A-Z_0-9]+$").test(strcopy.substring(idx10))){
+                type = 4;
+            }
             if(type != -1){
               this.ruleType = type;
               let idx = val.lastIndexOf('(');
@@ -527,6 +543,7 @@
                 this.$refs.textarea_select.style.top = elm.offsetTop - scrollTop + 'px';
               });
             }else{
+              console.log(type,strcopy);
               this.showSelect && (this.showSelect = false);
             }
 
@@ -638,7 +655,22 @@
       pdfFlagChange(){
         console.error(this.ruleType);
 
-        if(this.ruleType !== 3){
+        if(this.ruleType === 4){
+          const loading =this.$loading({
+            lock: true,
+            text: '正在加载...',
+            fullscreen: true,
+            spinner: 'el-icon-loading',
+            background: "hsla(0,0%,100%,.9)"
+          });
+          this.$http.post("/ruleBase/queryPdfUrlAndWithHigh.htm",{levelId: this.currentMenu.levelId, pdfParam: this.pdfParam}).then(res => {
+            loading.close();
+            window.open(res.result.pdfUrl, '_blank');
+          }).catch(() => {
+            loading.close()
+          })
+        }
+        else if(this.ruleType !== 3){
           this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: this.pdfParam, type: this.ruleType});
         }else {
           const loading =this.$loading({
@@ -651,6 +683,8 @@
           this.$http.post("/ruleBase/queryPdfUrlAndWithHigh.htm",{levelId: this.currentMenu.levelId, pdfParam: this.pdfParam}).then(res => {
             loading.close();
             this.$refs.pdfHtml.show(res.result);
+          }).catch(() => {
+            loading.close()
           })
         }
 

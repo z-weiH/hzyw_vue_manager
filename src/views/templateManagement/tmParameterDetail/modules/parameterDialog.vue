@@ -11,7 +11,7 @@
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
           
 					<el-form-item label="参数名：" prop="paramCode">
-						<el-input style="width:400px;" v-model.trim="ruleForm.paramCode" placeholder="请输入"></el-input>
+						<el-input :disabled="type === 'edit'" style="width:400px;" v-model.trim="ruleForm.paramCode" placeholder="请输入"></el-input>
 					</el-form-item>
 
           <el-form-item label="参数中文名：" prop="paramName">
@@ -19,7 +19,7 @@
 					</el-form-item>
 
 					<el-form-item label="类型1：" prop="valueType">
-            <el-select clearable style="width:400px;" v-model="ruleForm.valueType" placeholder="请选择类型1">
+            <el-select :disabled="type === 'edit'" clearable style="width:400px;" v-model="ruleForm.valueType" placeholder="请选择类型1">
               <el-option label="Integer" :value="1"></el-option>
               <el-option label="String" :value="2"></el-option>
               <el-option label="Date" :value="3"></el-option>
@@ -28,14 +28,18 @@
           </el-form-item>
 
           <el-form-item label="类型2：" prop="paramType">
-            <el-select clearable style="width:400px;" v-model="ruleForm.paramType" placeholder="请选择类型2">
+            <el-select :disabled="type === 'edit'" clearable style="width:400px;" v-model="ruleForm.paramType" placeholder="请选择类型2">
               <el-option label="普通参数" :value="0"></el-option>
               <el-option label="数组参数" :value="1"></el-option>
             </el-select>
           </el-form-item>
 
+          <el-form-item label="默认值：" prop="paramValue">
+						<el-input :disabled="type === 'edit'" style="width:400px;" v-model.trim="ruleForm.paramValue" placeholder="请输入"></el-input>
+					</el-form-item>
+
           <el-form-item v-if="$route.query.type === '0'" label="属性：" prop="isCommon">
-            <el-select clearable style="width:400px;" v-model="ruleForm.isCommon" placeholder="请选择属性">
+            <el-select :disabled="type === 'edit'" clearable style="width:400px;" v-model="ruleForm.isCommon" placeholder="请选择属性">
               <el-option label="通用" :value="1"></el-option>
               <el-option label="非通用" :value="0"></el-option>
             </el-select>
@@ -59,6 +63,24 @@
 <script>
   export default {
     data() {
+      let validatePass = (rule, value, callback) => {
+        if(this.type === 'edit') {
+          return callback();
+        }
+        value && this.$http({
+          method : 'post',
+          url : '/param/queryTemplateParamList.htm',
+          data : {
+            paramCode : value,
+          },
+        }).then((res) => {
+          if(!res.result) {
+            callback();
+          }else{
+            callback('参数名已存在');
+          }
+        });
+      };
       return {
         dialogVisible : false,
         // 提交按钮禁用状态
@@ -89,10 +111,13 @@
           paramType : '',
           // 说明
           paramNote : '',
+          // 默认值
+          paramValue : '',
         },
         rules : {
           paramCode : [
             {required : true , message : '请输入参数名' , trigger : 'blur'},
+            { validator: validatePass, trigger: 'blur' }
           ],
           paramName : [
             {required : true , message : '请输入参数中文名' , trigger : 'blur'},
@@ -105,6 +130,9 @@
           ],
           isCommon : [
             {required : true , message : '请选择属性' , trigger : 'change'},
+          ],
+          paramValue : [
+            {required : true , message : '请输入默认值' , trigger : 'blur'},
           ],
         },
       }
