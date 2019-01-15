@@ -52,6 +52,7 @@
           this.theobject.el = el;
           this.theobject.dir = dir;
 
+
           this.theobject.grabx = e['clientX'];
           this.theobject.graby = e['clientY'];
           this.theobject.width = el.offsetWidth;
@@ -97,6 +98,8 @@
           }
           //Dragging starts here
           if(this.theobject != null) {
+            const scroll = document.querySelector("#canvas").scrollTop;
+
             if (this.theobject.dir.indexOf("e") != -1)
               this.theobject.el.style.width = Math.max(xMin, this.theobject.width + e['clientX'] - this.theobject.grabx) + "px";
 
@@ -110,7 +113,7 @@
             }
             if (this.theobject.dir.indexOf("n") != -1) {
               let s=Math.min(this.theobject.top + e['clientY'] - this.theobject.graby,this.theobject.top + this.theobject.height - yMin) ;
-              this.theobject.el.style.top =s+'px';
+              this.theobject.el.style.top =  s+'px';
               this.theobject.el.style.height = Math.max(yMin, this.theobject.height - e['clientY'] + this.theobject.graby) + "px";
             }
 
@@ -161,7 +164,8 @@
           return '['+ (this.$parent.pageNum -1) + ',' + this.calcScale(this.$refs.testDiv.style.left.substring(0,this.$refs.testDiv.style.left.length-2)) + ',' + this.calcScale(this.$refs.testDiv.style.top.substring(0,this.$refs.testDiv.style.top.length -2))+ ',' +this.calcScale(this.$refs.testDiv.offsetWidth)+ ',' +this.calcScale(this.$refs.testDiv.offsetHeight) + ']';
         },
         setTopLeft(left,top){
-          this.$refs.testDiv.style.top = top + 'px';
+          const scroll = document.querySelector("#canvas").scrollTop;
+          this.$refs.testDiv.style.top = scroll + top + 'px';
           this.$refs.testDiv.style.left = left + 'px';
         },
         setWH(width,height){

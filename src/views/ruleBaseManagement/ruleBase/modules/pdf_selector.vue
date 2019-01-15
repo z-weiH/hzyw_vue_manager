@@ -35,7 +35,7 @@
 
       <div class="fr right-content" :style="{'width': width}">
         <!--<input type="text" style="border:1px solid #aaa;" v-model="pageNum">-->
-        <div class="title" style="height: 50px;line-height: 50px;text-align: center;background: #333333;color: #fff;margin-bottom: 10px;">
+        <div class="title" style="height: 50px;line-height: 50px;text-align: center;background: #333333;color: #fff;margin-bottom: 10px;" :style="{'width': width}" >
           <div class="fl ml-10">
             <el-button size="mini" @click="onPrevPage">上一页</el-button>
           </div>
@@ -49,11 +49,11 @@
 
 
         <!--一共{{}}页-->
-        <div style="position:relative;" id="canvas"  >
+        <div style="position:relative;margin-top: 60px;height: calc(100vh - 100px);overflow: auto;" id="canvas"  >
           <!--<pdf ref="pdf" style="width:595.3px;" src="../../../../../static/借款协议.pdf"-->
           <!--@num-pages="pageCount = $event"-->
           <!--&gt;</pdf>-->
-          <canvas ref="canvas" id="the-canvas" :style="{'width': width,'height': height}"></canvas>
+          <canvas v-for="num in numpages" :key="num"  ref="canvas" :id="'the-canvas'+num" :style="{'width': width,'height': height}"></canvas>
           <!--<div class="resizeMe" id="testDiv" ref="testDiv">-->
             <!--<div id="innerNice" ref="innerNice">-->
 
@@ -92,12 +92,11 @@ export default {
         pageNum: 1,
         pageRendering: false,
         pageNumPending: null,
-        scale: 0.9,
         numpages: 0,
         width: '',
         height: '',
         pdfUrl: '',
-        scale: 1.3,
+        scale: 1.3, //放大倍数
         type: 0,
       }
   },
@@ -128,7 +127,6 @@ export default {
       this.$http.post("/ruleBase/queryPdfCoordinates.htm",{type: this.type,pdfUrl: this.pdfUrl,list:arr},{mheaders: true}).then(res => {
         console.log(res);
         if(res.code === '0000'){
-
           let value = '';
           res.result.forEach( it => {
             if(this.type === 0){
@@ -151,20 +149,23 @@ export default {
 
       this.$http.post("/ruleBase/queryPdfUrlAndWithHigh.htm",item).then(res => {
         if(res.code === "0000"){
-          this.pdfFlag = true;
-          this.showEditor1 = this.showEditor2 = false;
-          this.pdfRange = this.pdfValue = '';
-          this.pdfUrl= res.result.pdfUrl;
-          this.width = res.result.width * this.scale  + 'px';
-          this.height = res.result.height * this.scale  + 'px';
+          if(res.result && res.result.length > 0){
+            this.pdfFlag = true;
+            this.showEditor1 = this.showEditor2 = false;
+            this.pdfRange = this.pdfValue = '';
+            this.pdfUrl= res.result[0].pdfUrl;
+            this.width = res.result[0].width * this.scale  + 'px';
+            this.height = res.result[0].height * this.scale  + 'px';
 
 
-          this.$nextTick(() => {
-            // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
-            this.showPDF(this.pdfUrl.replace(/http:|https:/g,''));
+            this.$nextTick(() => {
+              // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
+              this.showPDF(this.pdfUrl.replace(/http:|https:/g,''));
 
-            document.querySelector("#canvas").onmousedown = (e) => { this.doDown(e)};
-          })
+              document.querySelector("#canvas").onmousedown = (e) => { this.doDown(e)};
+            })
+          }
+
 
         }
       })
@@ -174,9 +175,13 @@ export default {
       let _this = this;
       PDFJS.getDocument(url).then(function (pdf) {
         _this.numpages = pdf.numPages;
-        _this.pdfDoc = pdf
-        _this.renderPage(1)
+        _this.pdfDoc = pdf;
         _this.pageNum = 1;
+        _this.$nextTick(() => {
+          for(let i = 1; i <= _this.numpages; i++){
+            _this.renderPage(i);
+          }
+        })
       })
     },
     renderPage (num) {
@@ -184,7 +189,7 @@ export default {
       let _this = this
       this.pdfDoc.getPage(num).then(function (page) {
         var viewport = page.getViewport(_this.scale)
-        let canvas = document.getElementById('the-canvas')
+        let canvas = document.getElementById('the-canvas' + num)
         canvas.height = viewport.height
         canvas.width = viewport.width
 
@@ -306,6 +311,11 @@ export default {
   },
   mounted(){
     // this.showPDF("../../../../../static/借款协议.pdf");
+    document.querySelector("#canvas").addEventListener('scroll',(e) => {
+      // console.log(e.target.scrollTop,e);
+      this.pageNum = Math.ceil(e.target.scrollTop/(+this.height.substring(0,this.height.length -2)));
+      this.pageNum === 0 && (this.pageNum = 1);
+    })
   }
 }
 </script>
@@ -343,7 +353,10 @@ export default {
 
       }
       .right-content{
-
+        .title{
+          position: fixed;
+          top: 30px;
+        }
       }
     }
   }
