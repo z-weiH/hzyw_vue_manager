@@ -133,7 +133,7 @@
         <el-table-column prop="periodTicketRefund" label="期间退券"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button @click="handleDetail(scope)" type="text">查看详情</el-button>
+            <el-button @click="handleDetail(scope.row)" type="text">查看详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -268,7 +268,10 @@
       },
       // 表格详情
       handleDetail(row) {
-        this.$refs.detailDialog.show(row);
+        this.$refs.detailDialog.show(
+          ...row,
+          ...this.ruleForm,
+        );
       },
 
 

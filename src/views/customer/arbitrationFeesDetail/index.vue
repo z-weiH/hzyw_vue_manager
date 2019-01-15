@@ -28,6 +28,48 @@
       </div>
     </div>
 
+    <div class="statistics-box">
+      <el-row :gutter="10">
+        <el-col :span="12">
+          <div class="m-grid-content">
+            <p>充值仲裁费总数（元）</p>
+            <div class="grid-num grid-num-origin">{{statistics.rechargeTotal}}</div>
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <div class="m-grid-content">
+            <p>退款总数（元）</p>
+            <div class="grid-num grid-num-origin">{{statistics.refundTotal}}</div>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
+
+    <div class="item-search">
+      <el-form :inline="true" ref="searchForm" :model="searchForm" label-width="0px">
+        <el-form-item label=" " prop="clientCode">
+          <el-select filterable clearable v-model="searchForm.clientCode" placeholder="请选择客户">
+            <el-option label="全部" value=""></el-option>
+            <el-option :label="item.merchantName" :value="item.code" v-for="(item,index) in clientOptions" :key="index"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label=" " prop="hasRecharge">
+          <el-checkbox v-model="searchForm.hasRecharge">有充值记录</el-checkbox>
+        </el-form-item>
+
+        <el-form-item label=" " prop="hasRefund">
+          <el-checkbox v-model="searchForm.hasRefund">有退款记录</el-checkbox>
+        </el-form-item>
+
+        <el-button @click="handleSearch" type="warning">查询</el-button>
+
+        <div class="fr">
+          <el-button @click="handleExportFile" type="primary">导出</el-button>
+        </div>
+      </el-form>
+    </div>
+
     <div class="item-table">
       <el-table
         :data="tableData"
@@ -38,12 +80,30 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="respondents" label="被申请人"></el-table-column>
-        <el-table-column prop="platName" label="互金企业" align="center">
+				<el-table-column prop="clientName" label="客户名称"></el-table-column>
+        <el-table-column prop="finalFee" label="期末仲裁费余额">
+          <template slot="header" slot-scope="scope">
+            <span :key="scope.$index">
+              期末赠券数
+              <el-tooltip class="item" effect="dark" placement="bottom">
+                <i class="el-icon-info ml-10"></i>
+                <div slot="content">
+                  期末仲裁费余额意思为：所选时
+                  <br />间范围内，该客户账户最新的可
+                  <br />用仲裁费余额，如：选择查看1
+                  <br />月1号到1月30号时间范围，那
+                  <br />么此项将显示1月30号0点时，
+                  <br />该账户可用仲裁费余额
+                </div>
+              </el-tooltip>
+            </span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="periodFeeRecharge" label="期间充值仲裁费"></el-table-column>
+        <el-table-column prop="periodFeeRefund" label="期间退款仲裁费"></el-table-column>
+        <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.platName" placement="top-start">
-              <span class="ellipsis" style="max-width:130px;">{{scope.row.platName}}</span>
-            </el-tooltip>
+            <el-button @click="handleDetail(scope.row)" type="text">查看详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -60,14 +120,18 @@
       </el-pagination>
 
     </div>
+
+    <detailDialog ref="detailDialog"></detailDialog>
   </div>
 </template>
 
 <script>
   import timeFrame from '@/components/timeFrame.vue'
+  import detailDialog from './modules/detailDialog.vue'
   export default {
     components : {
       timeFrame,
+      detailDialog,
     },
     data() {
       let time = this.$moment().format('YYYY-MM-DD');
@@ -81,8 +145,26 @@
         startDateText : time,
         endDateText : time,
 
+        // 统计
+        statistics : {
+          rechargeTotal : '2', // 充值仲裁费总数（元）
+          refundTotal : '3', // 退款总数（元）
+        },
+        // 用于表格搜索
+        searchForm : {
+          // 客户
+          clientCode : '',
+          // 有充值记录 0否 1是
+          hasRecharge : '',
+          // 有退款记录 0否 1是
+          hasRefund : '',
+        },
+
+        // 客户options
+        clientOptions : [],
+
         // 表格数据
-        tableData : [],
+        tableData : [{}],
         // 数据总数
         total : 11,
         // 当前页数
@@ -92,18 +174,69 @@
       }
     },
     mounted() {
-      console.log(this);
+      this.initClient();
+      this.initStatistics();
+      this.initTableList();
     },
     methods : {
+      // 获取客户 options
+      initClient() {
+        return this.$http({
+          method : 'post',
+          url : '/merchant/queryMerchants.htm',
+        }).then((res) => {
+          this.clientOptions = res.result.list;
+        });
+      },
+      // 获取统计
+      initStatistics() {
+        return this.$http({
+          method : 'post',
+          url : '/account/queryRechargeTotal.htm',
+          data : {
+            bizType : 0,
+            ...this.ruleForm,
+          },
+        }).then((res) => {
+          this.statistics = Object.assign(this.statistics,res.result);
+        });
+      },
       // 时间搜索
       handleTimeSearch() {
         if(!this.ruleForm.startDate && !this.ruleForm.endDate) {
           return this.$message.warning('请至少选择一个时间');
         }
+        this.initStatistics().then(() => {
+          this.startDateText = this.ruleForm.startDate;
+          this.endDateText = this.ruleForm.endDate;
+        });
       },
       // 点击返回
       handleGoBack() {
         this.$router.push('balanceQuery');
+      },
+      // 点击导出 
+      handleExportFile() {
+        exportFile({
+          url : '/account/queryFeeRechargeExport.htm',
+          data : {
+            ...this.ruleForm,
+            clientCode : this.searchForm.clientCode,
+            hasRecharge : this.searchForm.hasRecharge ? 1 : 0,
+            hasRefund : this.searchForm.hasRefund ? 1 : 0,
+          },
+        });
+      },
+      // 点击查询
+      handleSearch() {
+        this.initTableList();
+      },
+      // 表格详情
+      handleDetail(row) {
+        this.$refs.detailDialog.show(
+          ...row,
+          ...this.ruleForm,
+        );
       },
 
 
@@ -112,13 +245,16 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
+          url : '/account/queryFeeRechargeList.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
 
             ...this.ruleForm,
+            clientCode : this.searchForm.clientCode,
+            hasRecharge : this.searchForm.hasRecharge ? 1 : 0,
+            hasRefund : this.searchForm.hasRefund ? 1 : 0,
           },
         }).then((res) => {
           this.total = res.result.count;
@@ -159,6 +295,40 @@
     .el-input__inner{
       height: 28px;
       line-height: 28px;
+    }
+  }
+
+  .statistics-box{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    .m-grid-content{
+      background-color: #fff;
+      height: 90px;
+      padding: 12px 12px 5px 20px;
+      box-sizing: border-box;
+
+      .grid-num{
+        font-size: 22px;
+        font-weight: bold;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: center;
+      }
+      .grid-num-origin{
+        color: #FF9933;
+      }
+      .grid-num-green{
+        color: #66CC66;
+      }
+      .grid-detail{
+        text-align: right;
+        margin-top: -20px;
+      }
+    }
+  }
+  .item-search{
+    .el-form-item{
+      margin-bottom: 0;
     }
   }
 }

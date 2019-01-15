@@ -27,12 +27,6 @@
               <template v-if="tabsVal === '0'">
                 <el-table-column prop="ticketCount" label="充值仲券" :key="10"></el-table-column>
               </template>
-              <!-- 赠券 -->
-              <template v-else-if="tabsVal === '2'">
-                <el-table-column prop="ticketCount" label="获赠仲券" :key="11"></el-table-column>
-                <el-table-column prop="applyName" label="申请人" :key="12"></el-table-column>
-                <el-table-column prop="applyRemark" label="申请备注" :key="13"></el-table-column>
-              </template>
               <!-- 退券 -->
               <template v-else-if="tabsVal === '1'">
                 <el-table-column prop="ticketCount" label="退款仲券" :key="14"></el-table-column>
@@ -86,10 +80,6 @@
           {
             label : '充值',
             value : '0',
-          },
-          {
-            label : '赠券',
-            value : '2',
           },
           {
             label : '退券',
@@ -161,7 +151,7 @@
       // 初始化 表格数据
       initTableList() {
         return this.$http({
-          url : '/account/queryTicketRechargeDetail.htm',
+          url : '/account/queryFeeRechargeDetail.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
