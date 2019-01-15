@@ -59,7 +59,7 @@
                               scope.row.dataSource === 0 ? '接口' :
                               scope.row.dataSource === 1 ? '脚本' :
                               scope.row.dataSource === 2 ? '公式' :
-                              scope.row.dataSource === 3 ? '账户' : ''
+                              scope.row.dataSource === 3 ? '其他' : ''
                             )
                           }}
                         </template>
