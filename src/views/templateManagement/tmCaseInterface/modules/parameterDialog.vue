@@ -100,7 +100,7 @@
               <el-option label="接口" :value="0"></el-option>
               <el-option label="脚本" :value="1"></el-option>
               <el-option label="公式" :value="2"></el-option>
-              <el-option label="账户" :value="3"></el-option>
+              <el-option label="其他" :value="3"></el-option>
             </el-select>
           </el-form-item>
 
