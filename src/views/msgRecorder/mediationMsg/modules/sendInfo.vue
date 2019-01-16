@@ -125,7 +125,7 @@
       center>
         {{confirmMsg}}
       <div slot="footer" class="dialog-footer center mt-30" >
-        <el-button type="primary" @click="HandleSubmit">确  认</el-button>
+        <el-button :disabled="disabled" type="primary" @click="HandleSubmit">确  认</el-button>
         <el-button @click="showDialog = false;">取 消</el-button>
       </div>
     </el-dialog>
@@ -145,6 +145,7 @@
     data () {
       return {
         showDialog: false,
+        disabled : false,
         confirmMsg: '',
         title:'发送短信类型',
         MediatorList: [],
@@ -255,6 +256,7 @@
         this.showDialog = true;
       },
       HandleSubmit() {
+        this.disabled = true;
         let caseIds= '';
         this.$parent.selection.forEach(it => {
           caseIds += it.caseId + ',';
@@ -288,6 +290,9 @@
             if(res.code === '0000'){
               this.$message.success(res.description);
               this.showDialog = false;
+              setTimeout(() => {
+                this.disabled = false;
+              },500);
             }
           })
 
