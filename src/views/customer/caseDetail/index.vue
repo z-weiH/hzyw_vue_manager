@@ -123,7 +123,7 @@
                   <el-table-column prop="valueType" label="类型">
                     <!--1:数字,2:字符串,3:日期,4:金额-->
                     <template slot-scope="scope">
-                      <span >{{scope.row.valueType === 1 ? '数字' : scope.row.valueType === 2 ? '字符串' : scope.row.valueType === 3 ? '日期' : scope.row.valueType === 4 ? '金额' : '--'}}</span>
+                      <span >{{scope.row.valueType === 1 ? 'Integer' : scope.row.valueType === 2 ? 'String' : scope.row.valueType === 3 ? 'Date' : scope.row.valueType === 4 ? 'Decimal' : '--'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column prop="paramValue" label="值">
@@ -181,7 +181,7 @@
                   <el-table-column prop="valueType" label="类型">
                     <!--1:数字,2:字符串,3:日期,4:金额-->
                     <template slot-scope="scope">
-                      <span >{{scope.row.valueType === 1 ? '数字' : scope.row.valueType === 2 ? '字符串' : scope.row.valueType === 3 ? '日期' : scope.row.valueType === 4 ? '金额' : '--'}}</span>
+                      <span >{{scope.row.valueType === 1 ? 'Integer' : scope.row.valueType === 2 ? 'String' : scope.row.valueType === 3 ? 'Date' : scope.row.valueType === 4 ? 'Decimal' : '--'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column prop="paramValue" label="值">
