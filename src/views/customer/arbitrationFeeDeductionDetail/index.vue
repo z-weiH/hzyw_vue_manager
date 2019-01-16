@@ -28,6 +28,38 @@
       </div>
     </div>
 
+    <div class="item-search">
+      <el-form :inline="true" ref="searchForm" :model="searchForm" label-width="0px">
+        <el-form-item label=" " prop="clientCode">
+          <el-select filterable clearable v-model="searchForm.clientCode" placeholder="请选择客户">
+            <el-option label="全部" value=""></el-option>
+            <el-option :label="item.merchantName" :value="item.code" v-for="(item,index) in clientOptions" :key="index"></el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label=" " prop="keyWords">
+          <el-input v-model="searchForm.keyWords" placeholder="请输入仲裁案号、申请人"></el-input>
+        </el-form-item>
+        <el-button @click="handleSearch" type="warning">查询</el-button>
+
+        <div class="fr">
+          <el-button @click="handleExportFile" type="primary">导出</el-button>
+        </div>
+      </el-form>
+
+      <el-row>
+        <el-col :span="8">
+          <p class="ml-10">预收受理费总数：{{statistics.preOffTotal}}张</p>
+        </el-col>
+        <el-col :span="8">
+          <p class="ml-10">实收受理费总数：{{statistics.offTotal}}张</p>
+        </el-col>
+        <el-col :span="8">
+          <p class="ml-10">案件处理费总数：{{statistics.handTotal}}张</p>
+        </el-col>
+      </el-row>
+    </div>
+
     <div class="item-table">
       <el-table
         :data="tableData"
@@ -38,14 +70,15 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="respondents" label="被申请人"></el-table-column>
-        <el-table-column prop="platName" label="互金企业" align="center">
-          <template slot-scope="scope">
-            <el-tooltip :content="scope.row.platName" placement="top-start">
-              <span class="ellipsis" style="max-width:130px;">{{scope.row.platName}}</span>
-            </el-tooltip>
-          </template>
-        </el-table-column>
+				<el-table-column prop="clientName" label="客户名称"></el-table-column>
+        <el-table-column prop="caseNoWz" label="仲裁案号"></el-table-column>
+        <el-table-column prop="caseStatusWz" label="案件状态"></el-table-column>
+        <el-table-column prop="respondents" label="被申请人"></el-table-column>
+        <el-table-column prop="amtCase" label="标的金额（元）"></el-table-column>
+        <el-table-column prop="preAmtFee" label="预收受理费（元）"></el-table-column>
+        <el-table-column prop="actualAmtFee" label="实收受理费（元）"></el-table-column>
+        <el-table-column prop="refundAmtFee" label="退款（元）"></el-table-column>
+        <el-table-column prop="handFee" label="案件处理费（元）"></el-table-column>
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -81,6 +114,20 @@
         startDateText : time,
         endDateText : time,
 
+        // 用于表格搜索
+        searchForm : {
+          // 客户
+          clientCode : '',
+          // 关键字
+          keyWords : '',
+        },
+        // 统计
+        statistics : {
+          handTotal : '9000', // 案件处理费总数
+          offTotal : '4000', // 实收受理费总数
+          preOffTotal : '3000', // 预收受理费总数
+        },
+
         // 表格数据
         tableData : [],
         // 数据总数
@@ -88,18 +135,64 @@
         // 当前页数
         currentPage : 1,
         // 每页数量
-				pageSize : 10,
+        pageSize : 10,
+        
+        // 客户options
+        clientOptions : [],
       }
     },
     mounted() {
-      console.log(this);
+      this.initClient();
+      this.initStatistics();
+      this.initTableList();
     },
     methods : {
+      // 获取客户 options
+      initClient() {
+        return this.$http({
+          method : 'post',
+          url : '/merchant/queryMerchants.htm',
+        }).then((res) => {
+          this.clientOptions = res.result.list;
+        });
+      },
+      // 获取统计
+      initStatistics() {
+        return this.$http({
+          method : 'post',
+          url : '/account/queryOffTotal.htm',
+          data : {
+            bizType : 0,
+            ...this.ruleForm,
+            ...this.searchForm,
+          },
+        }).then((res) => {
+          this.statistics = Object.assign(this.statistics,res.result);
+        });
+      },
       // 时间搜索
       handleTimeSearch() {
         if(!this.ruleForm.startDate && !this.ruleForm.endDate) {
           return this.$message.warning('请至少选择一个时间');
         }
+        this.initStatistics().then(() => {
+          this.startDateText = this.ruleForm.startDate;
+          this.endDateText = this.ruleForm.endDate;
+        });
+      },
+      // 点击导出 
+      handleExportFile() {
+        exportFile({
+          url : '/account/queryFeeOffExport.htm',
+          data : {
+            ...this.ruleForm,
+            ...this.searchForm,
+          },
+        });
+      },
+      // 点击查询
+      handleSearch() {
+        this.initTableList();
       },
       // 点击返回
       handleGoBack() {
@@ -112,13 +205,14 @@
       // 初始化 表格数据
       initTableList() {
         this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
+          url : '/account/queryFeeOffList.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
 
             ...this.ruleForm,
+            ...this.searchForm,
           },
         }).then((res) => {
           this.total = res.result.count;
