@@ -263,7 +263,7 @@ export default {
           this.$refs.edit1.init();
           const scroll = document.querySelector('#canvas').scrollTop;
           console.error(scroll,'scroll',e);
-          this.$refs.edit1.setTopLeft(e.offsetX,e.target.offsetTop);
+          this.$refs.edit1.setTopLeft(e.offsetX,e.offsetY + e.target.offsetTop);
 
 
           document.querySelector("#canvas").onmousemove=(el) => {
@@ -286,7 +286,7 @@ export default {
           this.$refs.edit2.init();
           const scroll = document.querySelector('#canvas').scrollTop;
           console.error(scroll,'scroll',e);
-          this.$refs.edit2.setTopLeft(e.offsetX,e.target.offsetTop);
+          this.$refs.edit2.setTopLeft(e.offsetX,e.offsetY + e.target.offsetTop);
           document.querySelector("#canvas").onmousemove=(el) => {
 
             this.$refs.edit2.setWH(el.offsetX -e.offsetX,el.offsetY -e.offsetY);

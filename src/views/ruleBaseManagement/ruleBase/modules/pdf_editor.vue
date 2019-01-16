@@ -162,7 +162,8 @@
           }
         },
         getResult(){
-          return '['+ (this.$parent.pageNum -1) + ',' + this.calcScale(this.$refs.testDiv.style.left.substring(0,this.$refs.testDiv.style.left.length-2)) + ',' + this.calcScale(this.$refs.testDiv.style.top.substring(0,this.$refs.testDiv.style.top.length -2))+ ',' +this.calcScale(this.$refs.testDiv.offsetWidth)+ ',' +this.calcScale(this.$refs.testDiv.offsetHeight) + ']';
+          let page = Math.floor(this.$refs.testDiv.style.top.substring(0,this.$refs.testDiv.style.top.length -2)/(this.$parent.height.substring(0,this.$parent.height.length -2)));
+          return '['+ page + ',' + this.calcScale(this.$refs.testDiv.style.left.substring(0,this.$refs.testDiv.style.left.length-2)) + ',' + this.calcScale(this.$refs.testDiv.style.top.substring(0,this.$refs.testDiv.style.top.length -2) - page * (this.$parent.height.substring(0,this.$parent.height.length-2)))+ ',' +this.calcScale(this.$refs.testDiv.offsetWidth)+ ',' +this.calcScale(this.$refs.testDiv.offsetHeight) + ']';
         },
         setTopLeft(left,top){
           this.$refs.testDiv.style.top = top + 'px';
