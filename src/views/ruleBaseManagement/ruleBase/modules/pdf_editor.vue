@@ -1,5 +1,5 @@
 <template>
-  <div class="resizeMe" id="testDiv" ref="testDiv">
+  <div class="resizeMe" id="testDiv" ref="testDiv" >
     <div id="innerNice" ref="innerNice">
 
 
@@ -154,6 +154,7 @@
               // if(_x>500-w) _x=500-w;
               // if(_y<=0) _y=0;
               // if(_y>=(400-h)) _y=400-h;
+              console.error(_x,_y);
               this.$refs.testDiv.style.left = _x + 'px';
               this.$refs.testDiv.style.top = _y + 'px';
 
@@ -164,8 +165,7 @@
           return '['+ (this.$parent.pageNum -1) + ',' + this.calcScale(this.$refs.testDiv.style.left.substring(0,this.$refs.testDiv.style.left.length-2)) + ',' + this.calcScale(this.$refs.testDiv.style.top.substring(0,this.$refs.testDiv.style.top.length -2))+ ',' +this.calcScale(this.$refs.testDiv.offsetWidth)+ ',' +this.calcScale(this.$refs.testDiv.offsetHeight) + ']';
         },
         setTopLeft(left,top){
-          const scroll = document.querySelector("#canvas").scrollTop;
-          this.$refs.testDiv.style.top = scroll + top + 'px';
+          this.$refs.testDiv.style.top = top + 'px';
           this.$refs.testDiv.style.left = left + 'px';
         },
         setWH(width,height){
@@ -200,9 +200,9 @@
     left: 30px;
     top:0;
     width: 0px;
-    z-index: 2;
     margin: 0px;
     padding:2px;
+    z-index: 111;
   }
   #innerNice{
     background-color: transparent;

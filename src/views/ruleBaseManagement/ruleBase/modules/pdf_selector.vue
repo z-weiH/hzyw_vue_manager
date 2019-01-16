@@ -54,6 +54,7 @@
           <!--@num-pages="pageCount = $event"-->
           <!--&gt;</pdf>-->
           <canvas v-for="num in numpages" :key="num"  ref="canvas" :id="'the-canvas'+num" :style="{'width': width,'height': height}"></canvas>
+            <!--<img src="../../../../assets/img/picnotfound.gif" alt="" style="height: 2000px;width: 100%;position: relative;z-index: 2;">-->
           <!--<div class="resizeMe" id="testDiv" ref="testDiv">-->
             <!--<div id="innerNice" ref="innerNice">-->
 
@@ -260,7 +261,9 @@ export default {
         this.$nextTick(() => {
 
           this.$refs.edit1.init();
-          this.$refs.edit1.setTopLeft(e.offsetX,e.offsetY);0.
+          const scroll = document.querySelector('#canvas').scrollTop;
+          console.error(scroll,'scroll',e);
+          this.$refs.edit1.setTopLeft(e.offsetX,e.target.offsetTop);
 
 
           document.querySelector("#canvas").onmousemove=(el) => {
@@ -281,7 +284,9 @@ export default {
 
         this.$nextTick(() => {
           this.$refs.edit2.init();
-          this.$refs.edit2.setTopLeft(e.offsetX,e.offsetY);
+          const scroll = document.querySelector('#canvas').scrollTop;
+          console.error(scroll,'scroll',e);
+          this.$refs.edit2.setTopLeft(e.offsetX,e.target.offsetTop);
           document.querySelector("#canvas").onmousemove=(el) => {
 
             this.$refs.edit2.setWH(el.offsetX -e.offsetX,el.offsetY -e.offsetY);
