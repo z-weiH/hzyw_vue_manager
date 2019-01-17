@@ -103,7 +103,7 @@
       timeFrame,
     },
     data() {
-      let time = this.$moment().format('YYYY-MM-DD');
+      let time = this.$moment(+ new Date() - 24 * 3600 * 1000).format('YYYY-MM-DD');
       return {
         ruleForm : {
           // 开始日期
