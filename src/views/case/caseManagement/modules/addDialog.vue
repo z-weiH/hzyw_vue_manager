@@ -27,7 +27,7 @@
                 <el-form-item label=" " prop="userId">
                   <el-select filterable v-model="ruleForm.userId" placeholder="请选择">
                     <template v-for="(item,index) in userOptions">
-                      <el-option :key="item.userId + index" :label="item.name" :value="item.userId"></el-option>
+                      <el-option :key="item.userId + index" :label="`${item.name}${item.clientName ? `（${item.clientName}）` : ''}`" :value="item.userId"></el-option>
                     </template>
                   </el-select>
                 </el-form-item>
