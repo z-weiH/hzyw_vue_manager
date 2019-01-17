@@ -185,7 +185,7 @@
         },
 
         docaseQuery(){
-          this.$http.post('/caseInfo/queryCaseInfoListByBaseQuery.htm',{keyWords: this.casekeyWords, ...this.pager,clientCode: this.currentTm.clientCode , prodTempCode: this.currentTm.prodTempCode}).then(res => {
+          this.$http.post('/caseInfo/queryCaseInfoListByBaseQuery.htm',{keyWords: this.casekeyWords, ...this.casePager,clientCode: this.currentTm.clientCode , prodTempCode: this.currentTm.prodTempCode}).then(res => {
             console.log(res);
             this.casePager.count = res.result.count;
             this.caseList = res.result.list;
