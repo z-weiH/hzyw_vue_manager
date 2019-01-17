@@ -2,7 +2,26 @@
   <div class="pdf-slector" v-show="pdfFlag">
     <div class="pdf_warpper">
       <div class="w-352 left-content">
+
+
+
         <div class="content">
+          <p class="left-title">切换样例</p>
+          <div>
+            <el-select popper-class="pdf_select" v-model="pdfUrl"  style="width: 100%;">
+                <el-option
+                  v-for="(item,idx) in pdfList"
+                  :key="idx"
+                  :value="item.pdfUrl"
+                  :label="item.resName">
+                </el-option>
+            </el-select>
+
+          </div>
+        </div>
+
+
+        <div class="content mt-20">
           <p class="left-title">选中参数</p>
           <div>
             <el-input
@@ -83,6 +102,7 @@ export default {
   name: 'pdf_selector',
   data(){
       return {
+        pdfList: [],
         pdfFlag: false,
         showEditor1: false,
         showEditor2: false,
@@ -104,14 +124,25 @@ export default {
   components:{
     pdfEditor
   },
+  watch:{
+    'pdfUrl'(val,oldval){
+      if(val){
+        this.$nextTick(() => {
+          // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
+          this.showPDF(this.pdfUrl.replace(/http:|https:/g, ''));
+          this.getRangeValue();
+        })
+      }
+    }
+  },
   created(){
-    console.log(PDFJS);
     PDFJS.workerSrc = 'static/pdfjs/build/pdf.worker.js';
     PDFJS.cMapUrl  = 'static/pdfjs/web/cmaps/';
     PDFJS.cMapPacked = true;
   },
   methods:{
     //確定提交結果
+
     submitRes(e){
       e.stopPropagation();
       this.pdfFlag = false;
@@ -154,6 +185,7 @@ export default {
             this.pdfFlag = true;
             this.showEditor1 = this.showEditor2 = false;
             this.pdfRange = this.pdfValue = '';
+            this.pdfList = res.result;
             this.pdfUrl= res.result[0].pdfUrl;
             this.width = res.result[0].width * this.scale  + 'px';
             this.height = res.result[0].height * this.scale  + 'px';
@@ -325,9 +357,17 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
+
+
+    .el-select-dropdown.el-popper.pdf_select{
+      z-index: 200000 !important;
+    }
 
   .pdf-slector{
+
+
+
     position: fixed;
     top: 0;
     left: 0;
