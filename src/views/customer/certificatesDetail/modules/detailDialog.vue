@@ -18,7 +18,7 @@
         </el-row>
 
         <el-tabs @tab-click="handleTabChange" v-model="tabsVal" type="border-card" class="mt-10">
-          <el-tab-pane :label="item.label" :value="item.value" v-for="(item,index) in tabs" :key="index">
+          <el-tab-pane :label="item.label" :name="item.value" v-for="(item,index) in tabs" :key="index">
             <el-table
               :data="tableData"
               border

@@ -85,6 +85,7 @@
 
 <script>
   import timeFrame from '@/components/timeFrame.vue'
+  import exportFile from '@/assets/js/exportFile'
   export default {
     components : {
       timeFrame,

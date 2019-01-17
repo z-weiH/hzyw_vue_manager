@@ -128,6 +128,7 @@
 <script>
   import timeFrame from '@/components/timeFrame.vue'
   import detailDialog from './modules/detailDialog.vue'
+  import exportFile from '@/assets/js/exportFile'
   export default {
     components : {
       timeFrame,
