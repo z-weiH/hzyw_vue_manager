@@ -83,7 +83,7 @@
         :title="currentProduct"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
-        width="700px"
+        width="1000px"
       >
         <el-form :inline="true" >
           <el-form-item label="" prop="keyWords" >
