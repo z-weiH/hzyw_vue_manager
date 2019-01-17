@@ -187,11 +187,11 @@
           // 客户
           clientCode : '',
           // 赠券记录 0否 1是
-          hasGift : '',
+          hasGift : true,
           // 充值记录 0否 1是
-          hasRecharge : '',
+          hasRecharge : true,
           // 退券记录 0否 1是
-          hasRefund : '',
+          hasRefund : true,
         },
 
         // 表格数据

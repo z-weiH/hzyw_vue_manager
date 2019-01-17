@@ -155,9 +155,9 @@
           // 客户
           clientCode : '',
           // 有充值记录 0否 1是
-          hasRecharge : '',
+          hasRecharge : true,
           // 有退款记录 0否 1是
-          hasRefund : '',
+          hasRefund : true,
         },
 
         // 客户options
