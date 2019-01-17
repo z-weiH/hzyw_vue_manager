@@ -84,7 +84,7 @@
         <el-table-column prop="finalFee" label="期末仲裁费余额">
           <template slot="header" slot-scope="scope">
             <span :key="scope.$index">
-              期末赠券数
+              期末仲裁费余额
               <el-tooltip class="item" effect="dark" placement="bottom">
                 <i class="el-icon-info ml-10"></i>
                 <div slot="content">
@@ -208,6 +208,7 @@
           return this.$message.warning('请至少选择一个时间');
         }
         this.initStatistics().then(() => {
+          this.initTableList();
           this.startDateText = this.ruleForm.startDate;
           this.endDateText = this.ruleForm.endDate;
         });

@@ -241,6 +241,7 @@
           return this.$message.warning('请至少选择一个时间');
         }
         this.initStatistics().then(() => {
+          this.initTableList();
           this.startDateText = this.ruleForm.startDate;
           this.endDateText = this.ruleForm.endDate;
         });
