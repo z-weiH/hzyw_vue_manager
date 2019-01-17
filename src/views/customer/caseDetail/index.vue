@@ -752,7 +752,10 @@
             .value{
               margin-left: 20px;
               color: #1E1E1E;
-              width: auto;
+              width: calc(100% - 100px);
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
             }
           }
         }
