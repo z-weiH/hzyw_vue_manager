@@ -268,10 +268,10 @@
       },
       // 表格详情
       handleDetail(row) {
-        this.$refs.detailDialog.show(
+        this.$refs.detailDialog.show({
           ...row,
           ...this.ruleForm,
-        );
+        });
       },
 
 
