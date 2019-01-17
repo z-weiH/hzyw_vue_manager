@@ -206,7 +206,7 @@
             data : {
               ...this.ruleForm,
 
-              productCode : this.ruleForm.productCode.split('-----')[0],
+              productCode : this.ruleForm.productCode.split('-----')[1],
 
               caseIds : this.multipleSelection.map(v => v.caseId),
             },
@@ -302,7 +302,7 @@
 
             ...this.ruleForm,
 
-            productCode : this.ruleForm.productCode.split('-----')[0],
+            productCode : this.ruleForm.productCode.split('-----')[1],
           },
         }).then((res) => {
           this.total = res.result.count;
