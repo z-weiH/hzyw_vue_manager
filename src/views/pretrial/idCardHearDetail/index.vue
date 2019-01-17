@@ -53,6 +53,7 @@
               <!--<el-button type="text" @click="HandleRuleRes(card)">脚本执行记录</el-button>-->
             <!--</div>-->
             <span class="header_title">{{card.subSortNo}}/{{card.countCase}} {{card.personWrap.applicant}}与{{card.personWrap.respondent}}的借款合同纠纷</span>
+            <loanBillNoCopy :loanBillNo="card.loanBillNo"></loanBillNoCopy>
             <div class="header_img">
               <img src="@/assets/img/idCard.png" alt="">
               <img class="icon" src="@/assets/img/success.png" v-if="card.idStatus === 1" alt="">
@@ -167,6 +168,7 @@ import Mixins from "@/components/script/_mixin";
 import PicZoom from "@/components/Piczoom";
 import closeDlg from "@/components/closeDlg";
 import imgZoom from "@/components/v-zoom"
+import loanBillNoCopy from './modules/loanBillNoCopy'
 export default {
   extends: Mixins,
   data() {
@@ -507,7 +509,8 @@ export default {
     selectQuery,
     Edits,
     respondentEdit,
-    ruleResult
+    ruleResult,
+    loanBillNoCopy
   },
   mounted() {
     this.subBatchNo = this.$route.query.subBatchNo;

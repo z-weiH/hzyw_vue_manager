@@ -42,6 +42,7 @@
               <el-button type="text" @click="HandleRuleRes(evidence)">脚本执行记录</el-button>
             </div>
             <span class="header_title">{{evidence.subSortNo}}/{{evidence.totalCount}} {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷</span>
+            <loanBillNoCopy :loanBillNo="evidence.loanBillNo"></loanBillNoCopy>
             <div class="header_img">
               <img src="@/assets/img/idCard.png" alt="">
               <img class="icon" src="@/assets/img/success.png" v-if="evidence.idStatus === 1" alt="">
@@ -129,6 +130,7 @@
   import closeDlg from '@/components/closeDlg';
   import imgEvi from '@/components/script/imgEvi';
   import selectQuery from '../signatureHearDetail/modules/selectQuery'
+  import loanBillNoCopy from '../idCardHearDetail/modules/loanBillNoCopy'
   export default {
     extends: Mixins,
     mixins:[imgEvi],
@@ -360,7 +362,8 @@
       scrollY,
       closeDlg,
       selectQuery,
-      ruleResult
+      ruleResult,
+      loanBillNoCopy
     },
     mounted() {
       this.subBatchNo = this.$route.query.subBatchNo;

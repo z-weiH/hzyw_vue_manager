@@ -15,6 +15,16 @@
             <selectQuery ref="query" :disabled="disabled" :queryConfig="queryConfig" style="display: inline-block;"></selectQuery>
           </div>
         </div>
+        <div class="pagination" v-if="signatureItems.length > 0">
+          <el-pagination
+            @current-change="handleCurrentChange"
+            :current-page="pager.currentNum"
+            :page-size="20"
+            layout="prev, pager, next, jumper, total"
+            :total="pager.total">
+          </el-pagination>
+        </div>
+
         <div class="noCase_panel" v-if="signatureItems.length == 0">
           <div class="search_ico"></div>
           <div>没有符合要求的案件</div>
@@ -34,6 +44,7 @@
               <!--<el-button type="text" @click="HandleRuleRes(sign)">脚本执行记录</el-button>-->
             <!--</div>-->
             <span class="header_title">{{sign.subSortNo}}/{{sign.totalCount}} {{sign.lender}}与{{sign.respondents}}的借款合同纠纷</span>
+            <loanBillNoCopy :loanBillNo="sign.loanBillNo"></loanBillNoCopy>
             <div class="header_img">
               <img src="@/assets/img/idCard.png" alt="">
               <img class="icon" src="@/assets/img/success.png" v-if="sign.idStatus === 1" alt="">
@@ -114,6 +125,7 @@ import audit from "./modules/audit";
 import Mixins from "@/components/script/_mixin";
 import closeDlg from "@/components/closeDlg";
 import selectQuery from './modules/selectQuery'
+import loanBillNoCopy from '../idCardHearDetail/modules/loanBillNoCopy'
 export default {
   extends: Mixins,
   data() {
@@ -278,10 +290,10 @@ export default {
             if (mark) {
               setTimeout(() => {
                 if(this.$refs[this.markflag])
-                  document.documentElement.querySelector('.body_container').scrollTo(0,this.$refs[this.markflag][0].offsetTop)
+                  document.documentElement.querySelector('.el-scrollbar__wrap').scrollTo(0,this.$refs[this.markflag][0].offsetTop)
               }, 500);
             }else{
-              document.documentElement.querySelector('.body_container').scrollTo(0,0);
+              document.documentElement.querySelector('.el-scrollbar__wrap').scrollTo(0,0);
             }
           }
           loading.close();
@@ -312,7 +324,8 @@ export default {
     closeDlg,
     selectQuery,
     rule,
-    ruleResult
+    ruleResult,
+    loanBillNoCopy
   },
   mounted() {
     this.subBatchNo = this.$route.query.subBatchNo;
