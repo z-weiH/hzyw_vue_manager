@@ -10,7 +10,7 @@
         <p class="warning" v-if="type === 2">即将对当前模板进行完成联调操作，请填写备注（如有）。</p>
 
 
-          <el-input type="textarea"  v-model="remark" placeholder="请输入"></el-input>
+          <el-input type="textarea"  v-model.trim="remark" placeholder="请输入"></el-input>
 
 
         <div slot="footer" class="dialog-footer">

@@ -124,6 +124,13 @@ export default {
 						},
 					],
 				},
+        {
+          label: '借款单号',
+          type: 'text',
+          placeholder: '借款单号',
+          colSpan: 4,
+          property: 'loanBillNo'
+        },
 				{
 					label: '被申请人',
 					type: 'text',
@@ -199,6 +206,10 @@ export default {
 					label: '产品名称',
 					property: 'productName',
 				},
+        {
+          label: '借款单号',
+          property: 'loanBillNo'
+        },
 				{
 					label: '被申请人',
 					property: 'respondentName',

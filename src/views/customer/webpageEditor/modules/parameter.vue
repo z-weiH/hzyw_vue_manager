@@ -253,6 +253,9 @@
 .webpage-editor-parameter{
   height: 100%;
   background-color: #fff;
+  tr{
+    cursor: pointer;
+  }
   td{
     word-wrap:break-word;
   }

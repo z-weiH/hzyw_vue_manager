@@ -120,7 +120,12 @@
                     <!--<span v-ellipsis.20>{{scope.row.productName  + '' + scope.row.prodCode}}</span>-->
                     <!--</template>-->
                   </el-table-column>
-                  <el-table-column prop="valueType" label="类型"></el-table-column>
+                  <el-table-column prop="valueType" label="类型">
+                    <!--1:数字,2:字符串,3:日期,4:金额-->
+                    <template slot-scope="scope">
+                      <span >{{scope.row.valueType === 1 ? 'Integer' : scope.row.valueType === 2 ? 'String' : scope.row.valueType === 3 ? 'Date' : scope.row.valueType === 4 ? 'Decimal' : '--'}}</span>
+                    </template>
+                  </el-table-column>
                   <el-table-column prop="paramValue" label="值">
                     <template slot-scope="scope">
                       <el-button type="text" v-if="scope.row.paramValue && scope.row.paramValue.indexOf('http') === 0" @click="openValue(scope.row.paramValue)">打开链接</el-button>
@@ -173,7 +178,12 @@
                     <!--<span v-ellipsis.20>{{scope.row.productName  + '' + scope.row.prodCode}}</span>-->
                     <!--</template>-->
                   </el-table-column>
-                  <el-table-column prop="valueType" label="类型"></el-table-column>
+                  <el-table-column prop="valueType" label="类型">
+                    <!--1:数字,2:字符串,3:日期,4:金额-->
+                    <template slot-scope="scope">
+                      <span >{{scope.row.valueType === 1 ? 'Integer' : scope.row.valueType === 2 ? 'String' : scope.row.valueType === 3 ? 'Date' : scope.row.valueType === 4 ? 'Decimal' : '--'}}</span>
+                    </template>
+                  </el-table-column>
                   <el-table-column prop="paramValue" label="值">
                     <template slot-scope="scope">
                       <el-button type="text" v-if="scope.row.paramValue && scope.row.paramValue.indexOf('http') === 0" @click="openValue(scope.row.paramValue)">打开链接</el-button>
@@ -266,8 +276,9 @@
               <el-table
                 :data="eviInfoObject.eviList"
                 border
-                :span-method="objectSpanMethod"
+                :span-method="getObjectSpanMethod(eviInfoObject.eviList)"
               >
+                <el-table-column prop="groupNum" label="组别" width="50px"></el-table-column>
                 <el-table-column prop="sortNum" label="序号" width="50px">
                 </el-table-column>
                 <el-table-column prop="eviTitle" label="证据名称"></el-table-column>
@@ -395,7 +406,7 @@
           const currentList = items;
           console.error(currentList);
           return ({row, column, rowIndex, columnIndex ,property}) => {
-            if (columnIndex === 0 && column.property === 'groupNum') {
+            if ((columnIndex === 0 && column.property === 'groupNum') || (columnIndex === 7 && column.property === 'eviContent')) {
               console.log({row, column, rowIndex, columnIndex, property});
               property = 'groupNum';
               if (rowIndex === 0 || (currentList[rowIndex] && row[property] !== currentList[rowIndex - 1][property])) {
@@ -625,6 +636,12 @@
 
       queryEviInfo(){
         this.$http.post("/caseInfo/getEviInfoByCaseOrderId.htm",{caseOrderId: this.caseOrderId}).then(res => {
+          res.result.eviList = res.result.eviList.sort((a,b) => {
+            if(a.groupNum - b.groupNum !== 0){
+              return a.groupNum - b.groupNum;
+            }
+            return a.sortNum - b.sortNum;
+          });
           this.eviInfoObject = res.result;
           console.log(this.eviInfoObject);
 

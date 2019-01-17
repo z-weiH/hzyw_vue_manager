@@ -96,13 +96,23 @@
           </el-form-item>
 
           <el-form-item label="数据来源" prop="dataSource">
-            <el-select clearable style="width:400px;" v-model="ruleForm.dataSource" placeholder="请选择数据来源">
+            <el-select @change="handleDataChange" clearable style="width:400px;" v-model="ruleForm.dataSource" placeholder="请选择数据来源">
               <el-option label="接口" :value="0"></el-option>
               <el-option label="脚本" :value="1"></el-option>
               <el-option label="公式" :value="2"></el-option>
-              <el-option label="账户" :value="3"></el-option>
+              <el-option label="其他" :value="3"></el-option>
             </el-select>
           </el-form-item>
+
+          <el-form-item v-if="ruleForm.dataSource === 1 || ruleForm.dataSource === 2" label=" " 
+            :rules="[
+              {required : true , message : `请输入${ruleForm.dataSource === 1 ? '脚本' : '公式'}` , trigger : 'blur'},
+            ]"
+            prop="expression">
+						<el-input type="textarea" style="width:400px;" v-model.trim="ruleForm.expression" 
+              :placeholder="`请输入${ruleForm.dataSource === 1 ? '脚本' : '公式'}`"
+            ></el-input>
+					</el-form-item>
 
           <el-form-item label="说明" prop="paramNote">
 						<el-input type="textarea" style="width:400px;" v-model.trim="ruleForm.paramNote" placeholder="请输入"></el-input>
@@ -167,6 +177,8 @@
           dataSource : '',
           // 说明
           paramNote : '',
+          // 填写公式 或者 脚本
+          expression : '',
         },
         rules : {
           paramCode : [
@@ -318,6 +330,10 @@
       },
       searchShow() {
         this.searchActive = true;
+      },
+      // 数据来源 change
+      handleDataChange() {
+        this.ruleForm.expression = '';
       },
       searchClose() {
         this.tabActive = '0';

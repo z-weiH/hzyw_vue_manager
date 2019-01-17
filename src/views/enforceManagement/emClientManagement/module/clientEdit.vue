@@ -24,7 +24,7 @@
           <el-input v-model="item.mandatoryName"></el-input>
         </el-form-item>
         <el-form-item label="性别" prop="gender">
-          <el-select v-model="item.gender">
+          <el-select clearable v-model="item.gender" >
             <el-option label="女" :value="0"></el-option>
             <el-option label="男" :value="1"></el-option>
           </el-select>
@@ -34,7 +34,7 @@
         </el-form-item>
         <el-form-item label="工作单位" prop="channelId">
           <!--<el-input v-model="item.channelName"></el-input>-->
-          <el-select v-model="item.channelId">
+          <el-select clearable v-model="item.channelId">
             <el-option
               v-for="item in channerList"
               :key="item.channelId"
@@ -53,7 +53,7 @@
       <template v-else>
         <el-form-item label="律所名称" prop="channelId">
           <!--<el-input v-model="item.channelName"></el-input>-->
-          <el-select v-model="item.channelId">
+          <el-select clearable v-model="item.channelId">
             <el-option
               v-for="item in channerList"
               :key="item.channelId"
@@ -66,7 +66,7 @@
           <el-input v-model="item.mandatoryName"></el-input>
         </el-form-item>
         <el-form-item label="性别" prop="gender">
-          <el-select v-model="item.gender">
+          <el-select clearable v-model="item.gender">
             <el-option label="女" :value="0"></el-option>
             <el-option label="男" :value="1"></el-option>
           </el-select>

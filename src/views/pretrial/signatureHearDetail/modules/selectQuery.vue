@@ -33,7 +33,7 @@
           </div>
         <div style="line-height: 30px;margin-top:10px;">
           <span class="form_desc" >案件搜索</span>
-          <el-input style="display: inline-block;width: 330px" v-model="keyWords" placeholder="请输入案件编号或被申请人姓名进行搜索"></el-input>
+          <el-input style="display: inline-block;width: 330px" v-model="keyWords" placeholder="借款单号、被申请人姓名"></el-input>
         </div>
       </div>
       <div style="padding: 10px;overflow: hidden;text-align: center;">

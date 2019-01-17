@@ -41,6 +41,8 @@
                 <div class="smallBatch_title mt-10 f_18">
                   <span class="f_14">{{card.subSortNo}}</span>/<span class="f_14">{{card.totalCount}}</span>
                   <span>{{card.lender}}</span>与<span>{{card.respondents}}</span>的借款合同纠纷
+                  <loanBillNoCopy :loanBillNo="card.loanBillNo"></loanBillNoCopy>
+
                   <span class="ico_group">
                         <i class="ico_idcard" v-if="card.idStatus === 0"></i>
                         <i class="ico_idcard right" v-if="card.idStatus === 1"></i>
@@ -248,6 +250,7 @@ import selectQuery from './modules/query';
 import closeDig from '@/components/closeDlg.vue'
 import PicZoom from "@/components/Piczoom";
 import imgZoom from "@/components/v-zoom"
+  import loanBillNoCopy from '../idCardHearDetail/modules/loanBillNoCopy'
 // import vZoom from '@/components/vZoom'
 // import scrollY from '@/components/scroll-y'
 import { URL_JSON } from '../../../components/script/url_json'
@@ -663,7 +666,8 @@ export default {
 		backTop,
     selectQuery,
     respondentEdit,
-    ruleResult
+    ruleResult,
+    loanBillNoCopy
 	},
 }
 </script>
