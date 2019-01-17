@@ -371,7 +371,8 @@
         eviInfoObject: {eviList: []},
         caseFailReasonList: [],
         toggleScreenView: false,
-        colseTipFlag: false
+        colseTipFlag: false,
+        eviInfoObjectClone: {}
       }
     },
     computed:{
@@ -514,7 +515,7 @@
 
       //全屏查看
       handleScreenView(){
-        this.$refs.screenView.toggleShow(this.eviInfoObject);
+        this.$refs.screenView.toggleShow(this.eviInfoObjectClone);
         this.toggleScreenView = true;
       },
       openEvi(url){
@@ -636,7 +637,12 @@
 
       queryEviInfo(){
         this.$http.post("/caseInfo/getEviInfoByCaseOrderId.htm",{caseOrderId: this.caseOrderId}).then(res => {
-          res.result.eviList = res.result.eviList.sort((a,b) => {
+          this.eviInfoObjectClone  =  JSON.parse(JSON.stringify(res.result));
+          let obj = this.eviInfoObjectClone.eviList.pop();
+          this.eviInfoObjectClone.eviList.unshift(obj);
+          console.error(this.eviInfoObjectClone.eviList);
+
+          res.result.eviList = res.result.eviList.filter(it => it.eviTitle  !== '证据目录').sort((a,b) => {
             if(a.groupNum - b.groupNum !== 0){
               return a.groupNum - b.groupNum;
             }

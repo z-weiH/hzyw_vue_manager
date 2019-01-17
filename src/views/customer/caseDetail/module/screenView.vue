@@ -74,7 +74,7 @@
             this.applicationUrl = obj.applicationUrl;
             this.evidence = obj;
             console.log(obj);
-            let evi = this.evidence.eviList.find(it  => it.eviStatus == 1);
+            let evi = this.evidence.eviList.find(it  => it.eviTitle  == '证据目录' || it.eviStatus == 1);
             if(evi){
               this.scrollbarClick(evi);
 
