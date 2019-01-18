@@ -226,9 +226,9 @@
         let money = '';
         row.paramCode = row.paramCode + '';
         // money 类型特殊 处理 凭借 money()字段
-        /* if(row.valueType === 4) {
+        if(row.valueType === 4) {
           money = '${money('+ row.paramCode +')}';
-        } */
+        }
         /* if(row.paramCode.search(/^rate/g) !== -1) {
           money = '${money('+ row.paramCode +')}%';
         } */
