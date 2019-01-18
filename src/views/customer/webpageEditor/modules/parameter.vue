@@ -215,6 +215,9 @@
       // 模块 滚动某一位置
       moduleScroll(item) {
         let target = document.querySelector(`[data-categoryCode="${item.type}"]`);
+        if(!target) {
+          return;
+        }
         let offsetTop = target.offsetTop - 83 - 75 - 11;
         document.querySelector('.list-box').scrollTop = offsetTop;
       },
