@@ -129,7 +129,7 @@
                   <el-table-column prop="paramValue" label="值">
                     <template slot-scope="scope">
                       <el-button type="text" v-if="scope.row.paramValue && scope.row.paramValue.indexOf('http') === 0" @click="openValue(scope.row.paramValue)">打开链接</el-button>
-                      <span v-else>{{scope.row.paramValue}}</span>
+                      <span v-else>{{(scope.row.paramValue && scope.row.paramValue != 'null')  ? scope.row.paramValue : '-'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column prop="dataSource" label="数据来源">
@@ -244,7 +244,7 @@
             </div>
             <div class="sqr" v-for="(item,idx) in litigantList.respondents" :key="item.img01+idx">
               <div class="desc">
-                {{`被请人(${item.name})${item.type === 0 ? '身份证照片' : '申请人营业执照'}`}}
+                {{`被申请人(${item.name})${item.type === 0 ? '身份证照片' : '申请人营业执照'}`}}
               </div>
               <div class="sfz" v-if="item.type == 0">
                 <img :src="item.img01" alt="">
