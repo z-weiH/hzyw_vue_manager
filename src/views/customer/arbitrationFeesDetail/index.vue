@@ -232,6 +232,7 @@
       // 点击查询
       handleSearch() {
         this.initTableList();
+        this.initStatistics();
       },
       // 表格详情
       handleDetail(row) {

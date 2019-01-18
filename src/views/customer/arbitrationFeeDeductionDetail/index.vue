@@ -195,6 +195,7 @@
       // 点击查询
       handleSearch() {
         this.initTableList();
+        this.initStatistics();
       },
       // 点击返回
       handleGoBack() {

@@ -82,7 +82,7 @@
             value : '0',
           },
           {
-            label : '退券',
+            label : '退款',
             value : '1',
           },
         ],
