@@ -29,22 +29,30 @@
               </template>
               <!-- 赠券 -->
               <template v-else-if="tabsVal === '2'">
-                <el-table-column prop="ticketCount" label="获赠仲券" :key="11"></el-table-column>
+                <el-table-column prop="ticketCountGift" label="获赠仲券" :key="11"></el-table-column>
                 <el-table-column prop="applyName" label="申请人" :key="12"></el-table-column>
-                <el-table-column prop="applyRemark" label="申请备注" :key="13"></el-table-column>
+                <el-table-column prop="applyRemark" label="申请备注" :key="13">
+                  <template slot-scope="scope">
+                    {{scope.row.applyRemark || '--'}}
+                  </template>
+                </el-table-column>
               </template>
               <!-- 退券 -->
               <template v-else-if="tabsVal === '1'">
                 <el-table-column prop="ticketCount" label="退款仲券" :key="14"></el-table-column>
                 <el-table-column prop="applyName" label="申请人" :key="15"></el-table-column>
-                <el-table-column prop="applyRemark" label="申请备注" :key="16"></el-table-column>
+                <el-table-column prop="applyRemark" label="申请备注" :key="16">
+                  <template slot-scope="scope">
+                    {{scope.row.applyRemark || '--'}}
+                  </template>
+                </el-table-column>
               </template>
               <el-table-column prop="auditName" label="审核人"></el-table-column>
               <el-table-column prop="auditId" label="审核人员账号"></el-table-column>
               <el-table-column prop="auditTime" label="审核时间"></el-table-column>
               <el-table-column prop="auditRemark" label="审核结果">
                 <template slot-scope="scope">
-                  {{scope.row.auditRemark || '/'}}
+                  {{scope.row.auditRemark || '--'}}
                 </template>
               </el-table-column>
             </el-table>
