@@ -3,7 +3,7 @@
     <div class="pdf_warpper">
       <div class="w-352 left-content">
         <div class="content">
-          <p class="left-title">选中参数.</p>
+          <p class="left-title">选中参数</p>
           <div>
             <el-input
               type="textarea"
