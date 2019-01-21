@@ -215,6 +215,9 @@
       // 模块 滚动某一位置
       moduleScroll(item) {
         let target = document.querySelector(`[data-categoryCode="${item.type}"]`);
+        if(!target) {
+          return;
+        }
         let offsetTop = target.offsetTop - 83 - 75 - 11;
         document.querySelector('.list-box').scrollTop = offsetTop;
       },
@@ -223,9 +226,9 @@
         let money = '';
         row.paramCode = row.paramCode + '';
         // money 类型特殊 处理 凭借 money()字段
-        /* if(row.valueType === 4) {
+        if(row.valueType === 4) {
           money = '${money('+ row.paramCode +')}';
-        } */
+        }
         /* if(row.paramCode.search(/^rate/g) !== -1) {
           money = '${money('+ row.paramCode +')}%';
         } */
