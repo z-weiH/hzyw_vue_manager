@@ -40,8 +40,6 @@
           <timeFrame
             :startDate.sync="ruleForm.closeStartDate"
             :endDate.sync="ruleForm.closeEndDate"
-            startPlaceholder="预审开始"
-            endPlaceholder="预审结束"
           >
           </timeFrame>
 
@@ -50,8 +48,6 @@
           <timeFrame
             :startDate.sync="ruleForm.applyStartDate"
             :endDate.sync="ruleForm.applyEndDate"
-            startPlaceholder="预审开始"
-            endPlaceholder="预审结束"
           >
           </timeFrame>
 
