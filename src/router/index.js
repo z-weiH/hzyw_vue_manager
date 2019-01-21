@@ -546,6 +546,20 @@ let router = new Router({
             name: 'caseManagement',
           },
         },
+        {
+          path: 'caseUploadRecord',
+          component: () => import('@/views/case/caseUploadRecord'), // 案件上传记录
+          meta: {
+            name: 'caseUploadRecord',
+          },
+        },
+        {
+          path: 'caseUploadView',
+          component: () => import('@/views/case/caseUploadView'), // 案件上传记录 -->案件上传
+          meta: {
+            name: 'caseUploadView',
+          },
+        },
         /* 案件相关module end */
 
         /* 财务管理module start */

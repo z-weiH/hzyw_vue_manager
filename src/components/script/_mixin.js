@@ -28,20 +28,18 @@ export default {
     // 该方法和query一直-配置是mock的规则，调试模拟数据用
     query_mock(url, item) {
       Object.assign(item, this.pager, this.fixedSearchItrems)
-      let promise = this.$http.post(url, item).then(res => {
+      this.$http.post(url, item).then(res => {
         console.log('query::数据')
         // mock格式转换成正规json格式
         res = Mock.mock(res)
-        console.log(res)
-        if (res.code === '0000') {
-          this.tableData = res.result.list
-          this.pager.count = res.result.count
-        } else {
-          this.$message.error(res.description)
-        }
+        console.log('-------',res)
+        console.log('res.data.result.list', res.data.result.list)
+        this.tableData = res.data.result.list
+        this.pager.count = res.data.result.count
+
         return res
       })
-      return promise
+
     },
     /**
      * @method

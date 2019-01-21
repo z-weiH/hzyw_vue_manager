@@ -35,7 +35,7 @@ axios.interceptors.request.use((config) => {
   if (config.method === 'post' && config.mheaders !== true) {
     config.data = qs.stringify(config.data);
   }
-  config.url = (config.apiPrefix ? "/" + config.apiPrefix  :  host.target ) + config.url;
+  // config.url = (config.apiPrefix ? "/" + config.apiPrefix  :  host.target ) + config.url;
   // config.url = (config.apiPrefix == undefined ? "/" + config.apiPrefix  :  host.target ) + config.url;
   return config;
 }, (error) => {
@@ -60,18 +60,18 @@ axios.interceptors.response.use((res) => {
     res.data.description = '用户登录超时';
     return Promise.reject(res);
   }
-  // 联调的时候下面这段开启
-   if (res.data.code != '0000') {
-    Message({
-      type: 'error',
-      message: res.data.description,
-      duration: 5000,
-      showClose: true
-    });
-    return Promise.reject(res);
-  }
+  // // 联调的时候下面这段开启
+  //  if (res.data.code != '0000') {
+  //   Message({
+  //     type: 'error',
+  //     message: res.data.description,
+  //     duration: 5000,
+  //     showClose: true
+  //   });
+  //   return Promise.reject(res);
+  // }
   // end
-  return res.data;
+  return res;
 }, (error) => {
   // console.error(error,error.response,'netError');
   if(error.response.config.noMessage){

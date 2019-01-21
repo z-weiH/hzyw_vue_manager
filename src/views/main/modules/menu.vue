@@ -311,6 +311,11 @@
                 menuId : 53,
                 menuUrl : 'caseManagement'
               },
+              {
+                menuName : '案件上传记录',
+                menuId : 54,
+                menuUrl : 'caseUploadRecord'
+              },
             ],
           },
           {
