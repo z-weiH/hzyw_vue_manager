@@ -61,6 +61,10 @@ import CustomerButton from './components/customerButton/index'
 
 Vue.use(CustomerButton);
 
+// 全局引入progress-ui组件
+import ProgressZbar from './components/progress'
+Vue.use(ProgressZbar)
+
 
 String.prototype.splice = function(idx, rem, str) {
   return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
