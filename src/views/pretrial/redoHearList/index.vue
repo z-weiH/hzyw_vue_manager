@@ -85,10 +85,13 @@ export default {
           labelfield: "userName",
           valuefield: "userId"
         },
+
+        {type: 'date',newline: true, placeholder: '复审开始时间', property: 'beginReviewFinishTime', colSpan: 4, lt: 'endReviewFinishTime'},
+        {type: 'date',placeholder: '复审结束时间', property: 'endReviewFinishTime', colSpan: 4, gt: 'beginReviewFinishTime'},
         {
           type: "select",
           placeholder: "批次状态",
-          colSpan: 3,
+          colSpan: 4,
           property: "reviewStatus",
           options: [
             {
@@ -104,7 +107,8 @@ export default {
               label: "审核完成"
             },
           ]
-        }
+        },
+
       ],
       columnDefine: [
         {

@@ -7,7 +7,7 @@
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
         <el-form-item label=" " prop="keyWords">
-          <el-input style="width:470px;" v-model.trim="ruleForm.keyWords" placeholder="请输入互金企业、产品名称、模板号、借款单号、被申请人姓名、手机"></el-input>
+          <el-input @keyup.native.enter="handleSearch" style="width:470px;" v-model.trim="ruleForm.keyWords" placeholder="请输入互金企业、产品名称、模板号、借款单号、被申请人姓名、手机"></el-input>
         </el-form-item>
 
         <el-form-item label=" " prop="accountPeriodType">

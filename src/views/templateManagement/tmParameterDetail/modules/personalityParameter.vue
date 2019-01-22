@@ -59,6 +59,7 @@
               <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                   <el-button @click="handleEdit(scope.row)" type="text">编辑</el-button>
+                  <el-button @click="handleDelete(scope.row)" type="text">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -169,6 +170,28 @@
         this.$refs.parameterDialog.show('edit',{
           ...row,
           productId : this.productActive.productId,
+        });
+      },
+      handleDelete(row) {
+        this.$confirm('确认删除该参数?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          cancelButtonClass: 'cancel',
+          confirmButtonClass: 'confirm',
+          center: true,
+        }).then(() => {
+          this.$http({
+            method : 'post',
+            url : '/param/deleteParamByParamId.htm',
+            data : {
+              paramId : row.paramId,
+            },
+          }).then((res) => {
+            this.$message.success('删除成功');
+            this.initTable();
+          });
+        }).catch(() => {
+
         });
       },
       // 弹窗成功回调 表格

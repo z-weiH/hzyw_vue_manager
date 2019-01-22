@@ -12,7 +12,7 @@
         <div>
           <span class="form-item">结案文书查询：</span>
           <el-form-item label=" " prop="keyWords">
-            <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入仲裁案号、申请人、被申请人姓名" style="width:282px;"></el-input>
+            <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.keyWords" placeholder="请输入仲裁案号、申请人、被申请人姓名" style="width:282px;"></el-input>
           </el-form-item>
 
           <span class="form-item">客户名称：</span>
@@ -40,8 +40,6 @@
           <timeFrame
             :startDate.sync="ruleForm.closeStartDate"
             :endDate.sync="ruleForm.closeEndDate"
-            startPlaceholder="预审开始"
-            endPlaceholder="预审结束"
           >
           </timeFrame>
 
@@ -50,8 +48,6 @@
           <timeFrame
             :startDate.sync="ruleForm.applyStartDate"
             :endDate.sync="ruleForm.applyEndDate"
-            startPlaceholder="预审开始"
-            endPlaceholder="预审结束"
           >
           </timeFrame>
 

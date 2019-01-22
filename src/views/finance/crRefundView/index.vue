@@ -8,7 +8,7 @@
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入申请人、被申请人、被申请人电话" style="width:300px;"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.keyWords" placeholder="请输入申请人、被申请人、被申请人电话" style="width:300px;"></el-input>
         </el-form-item>
 
         <el-form-item label=" " prop="clientCode">

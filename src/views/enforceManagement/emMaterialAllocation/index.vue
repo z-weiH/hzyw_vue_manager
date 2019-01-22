@@ -43,7 +43,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="">
-        <el-input style="width: 230px;" v-model="searchItem.keyWords" placeholder="法院名、受委托人"></el-input>
+        <el-input @keyup.native.enter="doQuery" style="width: 230px;" v-model="searchItem.keyWords" placeholder="法院名、受委托人"></el-input>
       </el-form-item>
       <el-button  type="warning"  @click="doQuery">查询</el-button>
     </el-form>

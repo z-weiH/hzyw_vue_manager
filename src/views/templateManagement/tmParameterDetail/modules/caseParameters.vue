@@ -54,6 +54,7 @@
               <el-table-column label="操作" align="center">
                 <template slot-scope="scope">
                   <el-button @click="handleEdit(item,scope.row)" type="text">编辑</el-button>
+                  <el-button @click="handleDelete(item,scope.row)" type="text">删除</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -124,11 +125,58 @@
           method : 'post',
           url : '/param/queryCaseParamList.htm',
         }).then((res) => {
-          this.list = res.result;
+          this.list = this.dataFormat(res.result);
           callback && callback();
         }).catch(() => {
           callback && callback();
         });
+      },
+      // 处理数据 解决后台返回值不全问题（用于完整显示左侧菜单，以及空表格）
+      dataFormat(tableData) {
+        const typeArr = [
+          {
+            categoryCode : 1,
+            categoryDesc : '基础类型',
+          },
+          {
+            categoryCode : 2,
+            categoryDesc : '金额信息',
+          },
+          {
+            categoryCode : 3,
+            categoryDesc : '当事人信息',
+          },
+          {
+            categoryCode : 4,
+            categoryDesc : '日期信息',
+          },
+          {
+            categoryCode : 5,
+            categoryDesc : '证据信息',
+          },
+          {
+            categoryCode : 6,
+            categoryDesc : '还款信息',
+          },
+          {
+            categoryCode : 7,
+            categoryDesc : '借款人银行卡信息',
+          },
+          {
+            categoryCode : 8,
+            categoryDesc : '分期贷信息',
+          },
+          {
+            categoryCode : 9,
+            categoryDesc : '代偿信息',
+          },
+        ];
+        const result = [];
+        typeArr.map((v) => {
+          v.params = [];
+          result.push(tableData.filter(v1 => v.categoryCode === v1.categoryCode)[0] || v);
+        });
+        return result;
       },
       // 左侧中文
       getCnText() {
@@ -145,6 +193,29 @@
         this.$refs.parameterDialog.show('edit',{
           ...row,
           categoryCode : item.categoryCode,
+        });
+      },
+      // 点击删除
+      handleDelete(item,row) {
+        this.$confirm('确认删除该参数?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          cancelButtonClass: 'cancel',
+          confirmButtonClass: 'confirm',
+          center: true,
+        }).then(() => {
+          this.$http({
+            method : 'post',
+            url : '/param/deleteParamByParamId.htm',
+            data : {
+              paramId : row.paramId,
+            },
+          }).then((res) => {
+            this.$message.success('删除成功');
+            this.init();
+          });
+        }).catch(() => {
+
         });
       },
       // 弹窗成功回调

@@ -3,7 +3,7 @@
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入负责人、客户、产品" style="width:217px;"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.keyWords" placeholder="请输入负责人、客户、产品" style="width:217px;"></el-input>
         </el-form-item>
 
         <el-form-item label=" " prop="isPay">

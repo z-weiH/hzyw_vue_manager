@@ -1,11 +1,12 @@
 import axios from 'axios'
+import moment from 'moment'
 
 export default {
 	namespaced: true,
 	state : {
 		// 菜单 当前选中
 		menuActive : '',
-		// 推送记录 未读数量
+		// 推送记录 活跃客户数量
 		pushRecordUnread : 0,
 	},
 	mutations : {
@@ -20,9 +21,13 @@ export default {
 		upDataPushRecordUnread(context) {
 			axios({
 				method : 'post',
-				url : '/pushRecord/queryUnReadMsgNum.htm',
+				url : '/pushRecord/pushInfoList.htm',
+				data : {
+					startDate: moment().format('YYYY-MM-DD 00:00:00'),
+          endDate: moment().format('YYYY-MM-DD hh:mm:ss'),
+				},
 			}).then((res) => {
-				context.commit('setPushRecordUnread',res.result);
+				context.commit('setPushRecordUnread',res.result.clientCount);
 			});
 		},
 	},

@@ -34,7 +34,7 @@
 
         <span class="inline">法官：</span>
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="姓名、手机、座机" style="width:178px;"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.keyWords" placeholder="姓名、手机、座机" style="width:178px;"></el-input>
         </el-form-item>
 
 				<div class="mt-20">

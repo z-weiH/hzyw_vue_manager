@@ -110,7 +110,7 @@
         </el-table-column>
         <el-table-column prop="remark" label="备注">
           <template slot-scope="scope">
-            <a @click.stop="handleEditRemarks(scope.row)">{{scope.row.remark}}</a>
+            <a @click.stop="handleEditRemarks(scope.row)">{{scope.row.remark || '--'}}</a>
           </template>
         </el-table-column>
       </el-table>

@@ -7,7 +7,7 @@
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入模板编码、模板名称"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.keyWords" placeholder="请输入模板编码、模板名称"></el-input>
         </el-form-item>
         <el-button @click="handleSearch" type="warning">查询</el-button>
 

@@ -70,9 +70,7 @@ export default {
      * @param item 查询条件
      */
     doQuery(url, item) {
-      this.query_mock ?
-       this.query_mock(url, item)
-       :this.query(url, item)
+      this.query(url, item);
     },
     queryDetail(url, item) {
       return this.$http.post(url, item).then(res => {

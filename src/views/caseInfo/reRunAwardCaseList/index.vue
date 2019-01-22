@@ -8,7 +8,7 @@
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
         <span style="display:inline-block;margin-top:15px;">案件查询：</span>
         <el-form-item label=" " prop="keyWords">
-          <el-input style="width:300px;" v-model.trim="ruleForm.keyWords" placeholder="仲裁案号、申请人、被申请人"></el-input>
+          <el-input @keyup.native.enter="isSearch && handleSearch()" style="width:300px;" v-model.trim="ruleForm.keyWords" placeholder="仲裁案号、申请人、被申请人"></el-input>
         </el-form-item>
 
         <span style="display:inline-block;margin-top:15px;">日期类型：</span>
