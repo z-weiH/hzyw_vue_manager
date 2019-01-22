@@ -33,15 +33,16 @@
     <div class="content-box">
       <div class="fl m-left">
 
-
-        <el-tree node-key="levelId" class="self-tree" :data="treeData" :default-expanded-keys="keys" :props="defaultProps" @node-click="handleNodeClickPlus"></el-tree>
+        <div class="fl" style="padding: 5px 8px 0;background: #fff;width: calc(100% - 16px);">
+          <el-input v-model="filterText" placeholder="按业务、产品、模版筛选"></el-input>
+        </div>
+        <div style="clear: both;"></div>
+        <el-tree ref="tree" node-key="levelId" :filter-node-method="filterNode" class="self-tree" :data="treeData" :default-expanded-keys="keys" :props="defaultProps" @node-click="handleNodeClickPlus"></el-tree>
       </div>
       <div class="fl m-right" style="height: 100%;">
           <div class="rule_title">
             {{currentRule}}
           </div>
-
-
         <div class="rule_body" >
           <div v-if="contentFlag">
             <div class="rule_desc">
@@ -185,6 +186,7 @@
     data() {
       return {
 
+        filterText: '',
         currentFunction: {},
         //證據鏈參數
         pdfParam: '',
@@ -339,6 +341,10 @@
     },
 
     watch: {
+
+      filterText(val) {
+        this.$refs.tree.filter(val);
+      },
       'editState'(val,oldVal){
         if(val == 1 || val == 2){
           this.showSelect = false;
@@ -405,6 +411,11 @@
     },
     methods : {
 
+
+      filterNode(value, data){
+        if (!value) return true;
+        return data.labelName.indexOf(value) !== -1;
+      },
 
       exeCancel(){
         this.executing = false;

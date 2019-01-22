@@ -11,16 +11,17 @@
         <div v-if="tab === 0">
           <div class="m-header" style="margin-bottom: 5px;">
             <el-button class="fr" @click="changeTab" type="primary" size="mini">抓取案例</el-button>
+            <customer-button class="fr mr-20" @click="batchDelete" :disabled="!$refs.table1 || !$refs.table1.selection || $refs.table1.selection.length === 0" type="primary" size="mini">批量删除</customer-button>
             <span style="line-height: 28px;">共{{pager1.count}}件样例</span>
-
           </div>
           <div class="m-table">
-            <el-table  key="table1" :data="list1" style="width: 100%" border empty-text="暂无案件样例">
+            <el-table  key="table1"  ref="table1"  :data="list1" style="width: 100%" border empty-text="暂无案件样例">
 
 
+              <el-table-column type="selection" width="50"> </el-table-column>
               <el-table-column type="index" label="序号" width="50"> </el-table-column>
-              <el-table-column prop="caseNo" label="案件编号" width="180"> </el-table-column>
-              <el-table-column prop="resName" label="被申请人名字" width="180"> </el-table-column>
+              <el-table-column prop="caseNo" label="案件编号" width="150"> </el-table-column>
+              <el-table-column prop="resName" label="被申请人名字" width="160"> </el-table-column>
               <el-table-column prop="resPhone" label="被申请人手机号" width="188"> </el-table-column>
               <el-table-column prop="captureTime" label="抓取时间" width="180"> </el-table-column>
               <el-table-column prop="index" label="操作" width="180">
@@ -193,6 +194,29 @@
       }
     },
     methods : {
+
+      batchDelete () {
+        this.$msgbox({
+          title: "提示",
+          message:  `确定删除所选${this.$refs.table1.selection.length}件样例？`,
+          center: true,
+          showCancelButton: true,
+          confirmButtonText: "确定",
+          cancelButtonText: "取消"
+        }).then(r => {
+          if(r){
+            let ids = '';
+            this.$refs.table1.selection.forEach(it => {
+              ids += it.sampleId + ',';
+            });
+            ids = ids.substring(0, ids.length - 1);
+            this.$http.post('/caseSample/batchDeleteCaseSimpleBySampleIds.htm', {sampleIds: ids}).then(res => {
+              this.$message.success('删除成功');
+              this.init();
+            })
+          }
+        })
+      },
 
       clacNum(){
         this.selectedNum = 0;
