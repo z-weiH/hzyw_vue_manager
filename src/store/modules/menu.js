@@ -24,7 +24,7 @@ export default {
 				url : '/pushRecord/pushInfoList.htm',
 				data : {
 					startDate: moment().format('YYYY-MM-DD 00:00:00'),
-          endDate: moment().format('YYYY-MM-DD hh:mm:ss'),
+          endDate: moment().format('YYYY-MM-DD HH:mm:ss'),
 				},
 			}).then((res) => {
 				context.commit('setPushRecordUnread',res.result.clientCount);
