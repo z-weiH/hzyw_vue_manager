@@ -14,7 +14,7 @@
           <template v-for="(child) in item.children">
 
             <!-- 如果当前是 推送记录菜单 特殊处理-->
-            <template v-if="child.menuUrl === 'messagePushList'">
+            <template v-if="child.menuUrl === 'msgPushRecord'">
               <el-menu-item :key="child.menuId" :index="`/main/${child.menuUrl}`">
                 <i class="ico_userManage2"></i>
                 {{child.menuName}}
