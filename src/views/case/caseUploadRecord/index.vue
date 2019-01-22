@@ -127,7 +127,7 @@ export default {
         {
           label: "模版编码",
           type: "select",
-          property: "templateCode",
+          property: "templateId",
           colSpan: 4,
           options: [],
           // labelfield: "templateName",
@@ -186,7 +186,7 @@ export default {
             console.log(item["value"]);
             if (item["value"] === "") {
               this.$set(this.searchItem, "productCode", "");
-              this.$set(this.searchItem, "templateCode", "");
+              this.$set(this.searchItem, "templateId", "");
               this.searchItems[5].options = [];
             } else {
               // 缓存当前的->cache:cacheclientCode,方便别的方法调用
@@ -199,7 +199,7 @@ export default {
             console.log("opProduct-", this.opProduct);
 
             if (item["value"] === "") {
-              this.$set(this.searchItem, "templateCode", "");
+              this.$set(this.searchItem, "templateId", "");
               this.searchItems[6].options = [];
             } else {
               // let $opPro = distinctArrObj(

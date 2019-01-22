@@ -47,13 +47,13 @@
             filterable
             clearable
             style="width:170px;"
-            v-model="ruleForm.templateCode"
+            v-model="ruleForm.templateId"
             placeholder="请选择模板"
             @change="handleTmplChange"
           >
             <el-option
               :label="item.templateName"
-              :value="item.templateCode"
+              :value="item.templateId"
               v-for="(item,index) in templateOptions"
               :key="index"
             ></el-option>
@@ -65,31 +65,35 @@
     <!-- BEGIN 内容 -->
     <div class="item-title of-hidden">
       <span class="item-title-sign">案件上传操作</span>
-      <progress-zbar></progress-zbar>
     </div>
     <div class="item-table num-detection-cont">
-      <template>
-        <div class="font-center" style="padding-top: 100px;">
-          <el-upload
-            class="upload-box"
-            :action="`${$host}/phoneDetect/uploadExcel.htm`"
-            :show-file-list="false"
-            :before-upload="uploadBefore"
-            :on-success="uploadSuccess"
-            :on-error="uploadError"
-            :data="{
-              token : token,
+      <div class="panel_wrapper" v-if="show_uploadbar">
+        <progress-zbar ref="z_bar"></progress-zbar>
+        <span class="text">{{progress_text}}%</span>
+      </div>
+      <div v-else class="font-center" style="padding-top: 100px;">
+        <el-upload
+          class="upload-box"
+          :action="`${$host}/caseupload/caseUpload.htm`"
+          :show-file-list="false"
+          :before-upload="uploadBefore"
+          :on-progress="pushFileUp"
+          :on-success="uploadSuccess"
+          :on-error="uploadError"
+          :data="{
+              clientCode: this.ruleForm.clientCode,
+              productCode: this.prodCode,
+              templateId: this.ruleForm.templateId
             }"
-            accept=".zip"
-            :disabled="filebtnstate"
-          >
-            <el-button type="primary" :disabled="filebtnstate">
-              <i class="el-icon-upload el-icon--left"></i>批量上传案件
-            </el-button>
-          </el-upload>
-          <p class="mt-20 color-666">请上传符合规范格式的模板文件，支持文件格式.zip</p>
-        </div>
-      </template>
+          accept=".zip"
+          :disabled="filebtnstate"
+        >
+          <el-button type="primary" :disabled="filebtnstate">
+            <i class="el-icon-upload el-icon--left"></i>批量上传案件
+          </el-button>
+        </el-upload>
+        <p class="mt-20 color-666">请上传符合规范格式的模板文件，支持文件格式.zip</p>
+      </div>
     </div>
     <!-- END 内容 -->
   </div>
@@ -107,13 +111,16 @@ export default {
   components: {},
   data() {
     return {
+      progress_text:0,
+      show_uploadbar: false,
+      prodCode: "",
       ruleForm: {
         // 互金企业
         clientCode: "",
         // 产品名称
         productCode: "",
         // 模板号
-        templateCode: ""
+        templateId: ""
       },
       // 所属企业 options
       companyOptions: [
@@ -132,7 +139,6 @@ export default {
       // 所属模板 options
       templateOptions: [
         /* '3001', */
-
       ],
       pager: {
         // 数据总数
@@ -172,7 +178,7 @@ export default {
     handleClientCodeChange(val) {
       // 清空旧数据
       this.ruleForm.productCode = "";
-      this.ruleForm.templateCode = "";
+      this.ruleForm.templateId = "";
       this.productOptions = [];
       this.templateOptions = [];
       // 拉取产品列表
@@ -181,7 +187,7 @@ export default {
     // 产品名称 change
     handleProductCodeChange(val) {
       // 清空旧数据
-      this.ruleForm.templateCode = "";
+      this.ruleForm.templateId = "";
       this.templateOptions = [];
       // 拉取模板列表
       val && this.optsTemplateCode();
@@ -211,11 +217,11 @@ export default {
           prodCode: this.ruleForm.productCode.split("__")[1]
         })
         .then(res => {
-          console.log(res)
+          console.log(res);
+          this.prodCode = this.ruleForm.productCode.split("__")[1];
           // this.templateOptions = res.result;
           res.result.forEach(el => {
-            this.templateOptions.push({templateName: el, templateCode: el})
-
+            this.templateOptions.push({ templateName: el, templateId: el });
           });
           console.log(this.templateOptions);
         });
@@ -227,10 +233,31 @@ export default {
         //   this.total = res.result.count;
       });
     },
+    // 文件上传前回调
+    uploadBefore(file) {
+      console.log("uploadBefore", file);
+      this.show_uploadbar = true;
+    },
+    pushFileUp(event, file, fileList) {
+      if (event.lengthComputable) {
+        //evt.loaded：文件上传的大小   evt.total：文件总的大小
+        var percentComplete = Math.round((event.loaded * 100) / event.total);
+        //加载进度条，同时显示信息
+        console.log(percentComplete + "%");
+        this.progress_text = percentComplete
+        // console.log('bar-------', this.$refs.z_bar);
+        this.$refs.z_bar.px = percentComplete
+      }
+      // 文件上传中
+      console.log("文件上传中:", event, file, fileList);
+    },
     // 文件上传成功
     uploadSuccess(res, file, fileList) {
       // 上传成功
       if (res.code === "0000") {
+        console.log("上传成功:", res, file, fileList);
+        this.show_uploadbar = false;
+        this.$message.success("文件上传成功");
       } else {
         this.$message.error(res.description);
       }
@@ -238,12 +265,9 @@ export default {
     // 文件上传失败
     uploadError() {
       this.$message.error("文件上传失败，请稍后重试");
-    },
-    // 文件上传前回调
-    uploadBefore(file) {}
+    }
   },
   created() {
-    // this.caseUploadBtnType();
     this.optsCompanyListView(); //互金企业
   },
   mounted() {}
@@ -257,5 +281,16 @@ export default {
 }
 .num-detection-cont {
   height: 300px;
+}
+.panel_wrapper {
+  padding-top: 100px;
+  padding-left: 70px;
+  padding-right: 70px;
+  text-align: center;
+  .text{
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 2;
+  }
 }
 </style>
