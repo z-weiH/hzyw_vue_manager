@@ -40,9 +40,9 @@ export default {
   mixins: [Mixins],
   data() {
     return {
-      queryUrl:'/12/caseupload/queryCaseUploadRecord.htm',
+      queryUrl: "/caseupload/queryCaseUploadRecord.htm",
       opCompany: [],
-			opProduct: [],
+      opProduct: [],
       searchItem: {},
       item: {},
       pager: {
@@ -77,61 +77,62 @@ export default {
         },
         {
           type: "select",
-          label:"状态",
+          label: "状态",
           colSpan: 4,
-          property:"recordStatus",
+          property: "recordStatus",
           options: [
             {
-              label: '上传中',
-              value: 0,
+              label: "上传中",
+              value: 0
             },
             {
-              label: '上传失败',
-              value: 1,
+              label: "上传失败",
+              value: 1
             },
             {
-              label: '上传成功',
-              value: 2,
+              label: "上传成功",
+              value: 2
             },
             {
-              label: '处理失败',
-              value: 3,
+              label: "处理失败",
+              value: 3
             },
             {
-              label: '处理成功',
-              value: 4,
-            },
+              label: "处理成功",
+              value: 4
+            }
           ]
-
         },
         {
-					label: '互金企业',
-					type: 'select',
-					property: 'merchantCode',
-					colSpan: 4,
-					newline: 1,
-					options: this.opCompany,
-					labelfield: 'merchantName',
-					valuefield: 'code',
-					filterable: true,
-				},
-				{
-					label: '产品名称',
-					type: 'select',
-					property: 'prodName',
-					colSpan: 4,
-					options: this.opProduct,
-					labelfield: 'prodName',
-					valuefield: 'prodName',
-					filterable: true,
-				},
-				{
-					label: '模版编码',
-					type: 'select',
-					property: 'templateCode',
-					colSpan: 4,
-					options: [],
-				},
+          label: "互金企业",
+          type: "select",
+          property: "clientCode",
+          colSpan: 4,
+          newline: 1,
+          options: this.opCompany,
+          labelfield: "merchantName",
+          valuefield: "code",
+          filterable: true
+        },
+        {
+          label: "产品名称",
+          type: "select",
+          property: "productCode",
+          colSpan: 4,
+          options: this.opProduct,
+          labelfield: "prodName",
+          valuefield: "prodName",
+          filterable: true
+        },
+        {
+          label: "模版编码",
+          type: "select",
+          property: "templateCode",
+          colSpan: 4,
+          options: [],
+          // labelfield: "templateName",
+          // valuefield: "templateCode"
+        }
       ],
       columnDefine: [
         {
@@ -151,7 +152,7 @@ export default {
         },
         {
           label: "操作时间",
-          property: "operTime",
+          property: "operTime"
         },
         {
           label: "产品名称",
@@ -165,102 +166,116 @@ export default {
         },
         {
           label: "模版号",
-          property: "templateId",
-        },
+          property: "templateId"
+        }
       ],
-      actions:[
+      actions: [
         {
-          label: '操作',
-          btns: [
-            {label: '通知', function: this.doInform}
-          ]
+          label: "操作",
+          btns: [{ label: "通知", function: this.doInform }]
         }
       ]
     };
   },
   methods: {
     searchItemChange(item) {
-			console.log('parent valuechange init')
-			for (var i in item) {
-				switch (item[i]) {
-					case 'merchantCode':
-						console.log(item['value'])
-						if (item['value'] === '') {
-							this.$set(this.searchItem, 'prodName', '')
-							this.$set(this.searchItem, 'templateCode', '')
-							this.searchItems[6].options = []
-						} else {
-							// 缓存当前的->cache:cacheMerchantCode,方便别的方法调用
-							this.cacheMerchantCode = item['value']
-							this.optsPduListView({ merchantCode: item['value'] })
-						}
-						break
-					case 'prodName':
-						console.log('prodName: ', item['value'])
-						console.log('opProduct-', this.opProduct)
+      console.log("parent valuechange init");
+      for (var i in item) {
+        switch (item[i]) {
+          case "clientCode":
+            console.log(item["value"]);
+            if (item["value"] === "") {
+              this.$set(this.searchItem, "productCode", "");
+              this.$set(this.searchItem, "templateCode", "");
+              this.searchItems[5].options = [];
+            } else {
+              // 缓存当前的->cache:cacheclientCode,方便别的方法调用
+              this.cacheclientCode = item["value"];
+              this.optsPduListView({ merchantCode: item["value"] });
+            }
+            break;
+          case "productCode":
+            console.log("productCode: ", item["value"]);
+            console.log("opProduct-", this.opProduct);
 
-						if (item['value'] === '') {
-							this.$set(this.searchItem, 'templateCode', '')
-							this.searchItems[7].options = []
-						} else {
-							let $opPro = distinctArrObj(
-								this.opProduct.filter(it => {
-									return it.prodName == item['value']
-								})
-							)
-							console.log('$opPro--', $opPro[0]['prodCode'])
-							this.optsTemplateCode({
-								merchantCode: this.cacheMerchantCode,
-								prodCode: $opPro[0]['prodCode'],
-							})
-						}
-						break
-					default:
-						break
-				}
-			}
-		},
-    optsCompanyListView() {
-			this.$http.post(URL_JSON['selectCompany']).then(res => {
-				console.log('selectCompany:::', res)
-
-				this.searchItems[5].options = res.result
-				// console.log('list:',res.result);
-			})
-		},
-		optsPduListView(params) {
-			this.searchItems[6].options = []
-			this.$http.post(URL_JSON['selectProduct'], params).then(res => {
-				// console.log('selectProduct:::',res);
-				this.searchItems[6].options = res.result
-				this.opProduct = res.result
-				this.$set(this.searchItem, 'prodName', '')
-			})
-		},
-		optsTemplateCode(params) {
-			this.$http.post(URL_JSON['selectTemplateItem'], params).then(res => {
-				this.searchItems[7].options = []
-				res.result.forEach(el => {
-					this.searchItems[7].options.push({ label: el, value: el })
-				})
-			})
-		},
-    gotoCaseUploadView(){
-      this.$router.push('caseUploadView')
+            if (item["value"] === "") {
+              this.$set(this.searchItem, "templateCode", "");
+              this.searchItems[6].options = [];
+            } else {
+              // let $opPro = distinctArrObj(
+              //   this.opProduct.filter(it => {
+              //     return it.productCode == item["value"];
+              //   })
+              // );
+              // console.log("$opPro--", $opPro[0]["templateCode"]);
+              this.optsTemplateCode({
+                merchantCode: this.cacheclientCode,
+                prodCode: this.opProduct[0]['prodCode']
+              });
+            }
+            break;
+          default:
+            break;
+        }
+      }
     },
-    doInform(){
+    optsCompanyListView() {
+      this.$http.post("/merchant/queryMerchants.htm").then(res => {
+        console.log("selectCompany:::", res);
+
+        this.searchItems[4].options = res.result.list;
+        // console.log('list:',res.result);
+      });
+    },
+    optsPduListView(params) {
+      this.searchItems[5].options = [];
+      this.$http.post("/case/queryProducts.htm", params).then(res => {
+        // console.log('selectProduct:::',res);
+        this.searchItems[5].options = res.result;
+        this.opProduct = res.result;
+        this.$set(this.searchItem, "productCode", "");
+      });
+    },
+    optsTemplateCode(params) {
+      this.$http
+        .post("/case/queryTemplatesByProductCode.htm", params)
+        .then(res => {
+          // this.searchItem[6].options = [];
+          res.result.forEach(el => {
+            console.log(el);
+            this.searchItems[6].options.push({ label: el, value: el });
+          });
+        });
+    },
+    gotoCaseUploadView() {
+      this.$router.push("caseUploadView");
+    },
+    doInform(it) {
+      console.log(it);
       // 通知方法
+      this.$http
+        .post("/caseupload/caseUploadRecordNotify.htm", {
+          recordId: it.recordId
+        })
+        .then(res => {
+          if (res.code == "0000") {
+            this.$message({
+              message: '通知成功',
+              type: "success"
+            });
+          }
+        });
     },
     doQuery(url, item) {
-      this.query_mock(url, item).then(res => {
-          console.info('1111',);
+      this.query(url, item).then(res => {
+        console.info("1111");
         //  this.tableData = res.result.list;
         //   this.total = res.result.count;
       });
     }
   },
   created() {
-    this.optsCompanyListView() //互金企业
+    this.optsCompanyListView(); //互金企业
   },
   mounted() {
     this.doQuery(this.queryUrl, this.searchItem);
