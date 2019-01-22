@@ -155,6 +155,7 @@
     <inputTemplate ref="inputTemplate"></inputTemplate>
     <pdfHtml ref="pdfHtml"></pdfHtml>
     <executeRuleDialog ref="executeRule" @progressCancel="exeCancel" @hiddenDialog="executing = true;" @progress="setExeItem" @progressDown="exeOver"></executeRuleDialog>
+    <pdfSwitch ref="pdfSwitch"></pdfSwitch>
   </div>
 </template>
 
@@ -169,6 +170,7 @@
   import copyRule from './modules/copyRuleDialog'
   import inputTemplate from './modules/inputTemplate'
   import pdfHtml from './modules/pdf_html'
+  import pdfSwitch from './modules/pdfSwitch'
   export default {
     components : {
       'm-progress' : progress,
@@ -180,7 +182,8 @@
       copyRule,
       inputTemplate,
       pdfHtml,
-      executeRuleDialog
+      executeRuleDialog,
+      pdfSwitch
     },
     data() {
       return {
@@ -656,19 +659,9 @@
         console.error(this.ruleType);
 
         if(this.ruleType === 4){
-          const loading =this.$loading({
-            lock: true,
-            text: '正在加载...',
-            fullscreen: true,
-            spinner: 'el-icon-loading',
-            background: "hsla(0,0%,100%,.9)"
-          });
-          this.$http.post("/ruleBase/queryPdfUrlAndWithHigh.htm",{levelId: this.currentMenu.levelId, pdfParam: this.pdfParam}).then(res => {
-            loading.close();
-            window.open(res.result.pdfUrl, '_blank');
-          }).catch(() => {
-            loading.close()
-          })
+          const router = this.$router.resolve({path: '/rulePdfSwitch',query: {levelId: this.currentMenu.levelId, pdfParam: this.pdfParam}}).href;
+          window.open(router,'_blank');
+
         }
         else if(this.ruleType !== 3){
           this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: this.pdfParam, type: this.ruleType});

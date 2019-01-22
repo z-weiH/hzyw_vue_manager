@@ -55,13 +55,6 @@
       <div class="fr right-content" :style="{'width': width}">
         <!--<input type="text" style="border:1px solid #aaa;" v-model="pageNum">-->
         <div class="title" style="height: 50px;line-height: 50px;text-align: center;background: #333333;color: #fff;margin-bottom: 10px;" :style="{'width': width}" >
-          <div class="fl ml-10">
-            <el-button size="mini" @click="onPrevPage">上一页</el-button>
-          </div>
-          <div class="fr mr-10">
-            <el-button size="mini" @click="onNextPage">下一页</el-button>
-            <!--<button @click="testPdf1">console</button>-->
-          </div>
           {{pageNum}}/{{numpages}}
         </div>
 
@@ -373,7 +366,6 @@ export default {
     left: 0;
     right: 0;
     height: 100%;
-    overflow-y: scroll;
     background: #5C5C5C;
     z-index: 99999;
     .pdf_warpper{

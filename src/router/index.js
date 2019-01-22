@@ -1186,6 +1186,13 @@ let router = new Router({
         name: 'tmCaseDetail',
       },
     },
+    {
+      path: '/rulePdfSwitch',
+      component: () => import('@/views/ruleBaseManagement/ruleBase/modules/pdfSwitch.vue'), //规则库切换pdf tab页
+      metas: {
+        name: 'rulePdfSwitch'
+      }
+    }
   ],
 })
 
