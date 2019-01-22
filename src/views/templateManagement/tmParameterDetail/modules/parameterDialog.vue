@@ -19,7 +19,7 @@
 					</el-form-item>
 
 					<el-form-item label="类型1：" prop="valueType">
-            <el-select :disabled="type === 'edit'" clearable style="width:400px;" v-model="ruleForm.valueType" placeholder="请选择类型1">
+            <el-select clearable style="width:400px;" v-model="ruleForm.valueType" placeholder="请选择类型1">
               <el-option label="Integer" :value="1"></el-option>
               <el-option label="String" :value="2"></el-option>
               <el-option label="Date" :value="3"></el-option>
@@ -28,18 +28,18 @@
           </el-form-item>
 
           <el-form-item label="类型2：" prop="paramType">
-            <el-select :disabled="type === 'edit'" clearable style="width:400px;" v-model="ruleForm.paramType" placeholder="请选择类型2">
+            <el-select clearable style="width:400px;" v-model="ruleForm.paramType" placeholder="请选择类型2">
               <el-option label="普通参数" :value="0"></el-option>
               <el-option label="数组参数" :value="1"></el-option>
             </el-select>
           </el-form-item>
 
           <el-form-item label="默认值：" prop="paramValue">
-						<el-input :disabled="type === 'edit'" style="width:400px;" v-model.trim="ruleForm.paramValue" placeholder="请输入"></el-input>
+						<el-input style="width:400px;" v-model.trim="ruleForm.paramValue" placeholder="请输入"></el-input>
 					</el-form-item>
 
           <el-form-item v-if="$route.query.type === '0'" label="属性：" prop="isCommon">
-            <el-select :disabled="type === 'edit'" clearable style="width:400px;" v-model="ruleForm.isCommon" placeholder="请选择属性">
+            <el-select clearable style="width:400px;" v-model="ruleForm.isCommon" placeholder="请选择属性">
               <el-option label="通用" :value="1"></el-option>
               <el-option label="非通用" :value="0"></el-option>
             </el-select>
