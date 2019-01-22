@@ -67,7 +67,7 @@
                   <el-dropdown-item :command="16">表格-结束</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
-              
+
               <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>插入表格<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
@@ -126,7 +126,7 @@
 </template>
 
 <script>
-  /* 
+  /*
     let value = this.$refs.ueeditor.getContent();
     let $content = $('<div></div>').append($(value));
     $content.find('*').each((k,v) => {
@@ -260,7 +260,8 @@
         if(type === 1) {
           message = '${参数}';
         }else if(type === 2) {
-          message = '&lt;#if 参数 &lt;= 0&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
+          // message = '&lt;#if 参数 &lt;= 0&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
+          message = ["&lt;#if 参数 &lt;= 0&gt;","第一结果","&lt;#else&gt;","第二结果","&lt;/#if&gt;"];
           // message = `<pre class="brush:js;toolbar:false;">&lt;#if 参数 &lt;= 0&gt;<br>  第一结果<br>&lt;#else&gt;<br>  第二结果<br>&lt;/#if&gt;<br></pre>`;
         }else if(type === 3) {
           message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
@@ -521,4 +522,4 @@
 }
 
 
-</style> 
+</style>

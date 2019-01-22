@@ -81,6 +81,7 @@
               token : token,
             }"
             accept=".zip"
+            :disabled="filebtnstate"
           >
             <el-button type="primary" :disabled="filebtnstate">
               <i class="el-icon-upload el-icon--left"></i>批量上传案件
@@ -103,8 +104,7 @@ import Mixins from "@/components/script/_mixin";
 export default {
   name: "caseUploadView",
   mixins: [Mixins],
-  components: {
-  },
+  components: {},
   data() {
     return {
       ruleForm: {
@@ -132,6 +132,7 @@ export default {
       // 所属模板 options
       templateOptions: [
         /* '3001', */
+
       ],
       pager: {
         // 数据总数
@@ -195,15 +196,28 @@ export default {
       });
     },
     optsPduListView(params) {
-      this.$http.post("/case/queryProducts.htm", params).then(res => {
-        this.productOptions = res.result;
-      });
+      this.$http
+        .post("/case/queryProducts.htm", {
+          merchantCode: this.ruleForm.clientCode
+        })
+        .then(res => {
+          this.productOptions = res.result;
+        });
     },
     optsTemplateCode(params) {
       this.$http
-        .post("/case/queryTemplatesByProductCode.htm", params)
+        .post("/case/queryTemplatesByProductCode.htm", {
+          merchantCode: this.ruleForm.clientCode,
+          prodCode: this.ruleForm.productCode.split("__")[1]
+        })
         .then(res => {
-          this.templateOptions = res.result;
+          console.log(res)
+          // this.templateOptions = res.result;
+          res.result.forEach(el => {
+            this.templateOptions.push({templateName: el, templateCode: el})
+
+          });
+          console.log(this.templateOptions);
         });
     },
     doQuery(url, item) {
