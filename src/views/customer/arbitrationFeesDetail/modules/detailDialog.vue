@@ -25,17 +25,17 @@
             >
               <!-- 充值 -->
               <template v-if="tabsVal === '0'">
-                <el-table-column prop="ticketCount" label="充值仲裁费" :key="10">
+                <el-table-column prop="amtFee" label="充值仲裁费" :key="10">
                   <template slot-scope="scope">
-                    {{scope.row.ticketCount || '--'}}
+                    {{scope.row.amtFee || '--'}}
                   </template>
                 </el-table-column>
               </template>
               <!-- 退券 -->
               <template v-else-if="tabsVal === '1'">
-                <el-table-column prop="ticketCount" label="退款仲裁费" :key="14">
+                <el-table-column prop="amtFee" label="退款仲裁费" :key="14">
                   <template slot-scope="scope">
-                    {{scope.row.ticketCount || '--'}}
+                    {{scope.row.amtFee || '--'}}
                   </template>
                 </el-table-column>
                 <el-table-column prop="applyName" label="申请人" :key="15"></el-table-column>

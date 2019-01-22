@@ -38,7 +38,7 @@
         </el-form-item>
 
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model="searchForm.keyWords" placeholder="请输入仲裁案号、申请人"></el-input>
+          <el-input v-model="searchForm.keyWords" placeholder="请输入仲裁案号、被申请人"></el-input>
         </el-form-item>
         <el-button @click="handleSearch" type="warning">查询</el-button>
 
