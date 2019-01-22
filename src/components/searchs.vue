@@ -4,7 +4,7 @@
       <el-row :gutter="10">
         <div v-for="(search, index) in searchItems" :key="index">
           <!-- <el-form-item :prop="search.property"> -->
-            <search-item class="searchs" :item="item" v-bind:value="item[search.property]" v-bind:search-item="search" @valueChange="valueChange">
+            <search-item :btnClickHandle="btnClickHandle" class="searchs" :item="item" v-bind:value="item[search.property]" v-bind:search-item="search" @valueChange="valueChange">
             </search-item>
           <!-- </el-form-item> -->
 

@@ -10,7 +10,7 @@
         </label>
         <label v-if="searchItem.connectIco" class="cc_Ico">{{searchItem.connectIco}}</label>
       </div>
-      <el-input v-if="searchItem.type == 'text' || !searchItem.type" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder"></el-input>
+      <el-input @keyup.native.enter="btnClickHandle" v-if="searchItem.type == 'text' || !searchItem.type" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder"></el-input>
       <el-select clearable :filterable="searchItem.filterable" :remote="searchItem.remote" :reserve-keyword="searchItem.reserveKey" @change="valueChange" v-if="searchItem.type ==  'select'" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder"
         :remote-method="searchItem.remoteMethod">
         <el-option v-for="(option,index) in searchItem.options" :key="index" :label="searchItem.labelfield ? option[searchItem.labelfield] : option.label" :value="searchItem.valuefield ? option[searchItem.valuefield] : option.value">
@@ -41,6 +41,7 @@
       item: Object,
       value: {},
       searchItem: Object, // 定义表单对象 type: 'text'
+      btnClickHandle : Function,
     },
     computed: {
       baseFmat() {
