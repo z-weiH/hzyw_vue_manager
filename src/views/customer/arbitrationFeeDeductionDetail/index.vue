@@ -38,7 +38,7 @@
         </el-form-item>
 
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model="searchForm.keyWords" placeholder="请输入仲裁案号、申请人"></el-input>
+          <el-input v-model="searchForm.keyWords" placeholder="请输入仲裁案号、被申请人"></el-input>
         </el-form-item>
         <el-button @click="handleSearch" type="warning">查询</el-button>
 
@@ -49,13 +49,13 @@
 
       <el-row>
         <el-col :span="8">
-          <p class="ml-10">预收受理费总数：{{statistics.preOffTotal}}张</p>
+          <p class="ml-10">预收受理费总数：{{statistics.preOffTotal}}元</p>
         </el-col>
         <el-col :span="8">
-          <p class="ml-10">实收受理费总数：{{statistics.offTotal}}张</p>
+          <p class="ml-10">实收受理费总数：{{statistics.offTotal}}元</p>
         </el-col>
         <el-col :span="8">
-          <p class="ml-10">案件处理费总数：{{statistics.handTotal}}张</p>
+          <p class="ml-10">案件处理费总数：{{statistics.handTotal}}元</p>
         </el-col>
       </el-row>
     </div>
