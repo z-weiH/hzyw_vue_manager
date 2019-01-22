@@ -33,8 +33,9 @@
               <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
                 <el-button>日期计算<i class="el-icon-arrow-down el-icon--right"></i></el-button>
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item :command="24">加</el-dropdown-item>
-                  <el-dropdown-item :command="25">减</el-dropdown-item>
+                  <el-dropdown-item :command="26">日期格式</el-dropdown-item>
+                  <el-dropdown-item :command="24">数字格式（加）</el-dropdown-item>
+                  <el-dropdown-item :command="25">数字格式（减）</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
               <!-- <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
@@ -315,6 +316,8 @@
           message = '&lt;@dateDiffCalc date1=nowDate （当日）date2=violateStartDate（裁决日期） days=-6 /&gt;';
         }else if(type === 25) {
           message = '&lt;@dateDiffCalc date1=nowDate （当日）date2=violateStartDate（裁决日期） days=6 /&gt;';
+        }else if(type === 26) {
+          message = '&lt;@dateOffsetCalc date=violateStartDate days=1 /&gt;';
         }
         this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
