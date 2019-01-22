@@ -7,22 +7,22 @@
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="100px">
         <el-form-item label="短信ID：" prop="smsId">
-          <el-input v-model.trim="ruleForm.smsId" placeholder="请输入短信ID" style="width:170px;"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.smsId" placeholder="请输入短信ID" style="width:170px;"></el-input>
         </el-form-item>
 
         <el-form-item label="客户短信ID：" prop="clientSmsId">
-          <el-input v-model.trim="ruleForm.clientSmsId" placeholder="请输入客户短信ID" style="width:170px;"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.clientSmsId" placeholder="请输入客户短信ID" style="width:170px;"></el-input>
         </el-form-item>
 
         <el-form-item label="所属客户：" prop="clientName">
-          <el-input v-model.trim="ruleForm.clientName" placeholder="请输入所属客户" style="width:170px;"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.clientName" placeholder="请输入所属客户" style="width:170px;"></el-input>
         </el-form-item>
 
         <div class="mt-10"></div> 
         
 
         <el-form-item label="接收号码：" prop="toPhone">
-          <el-input v-model.trim="ruleForm.toPhone" placeholder="请输入接收号码" style="width:170px;"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.toPhone" placeholder="请输入接收号码" style="width:170px;"></el-input>
         </el-form-item>
 
         <el-form-item label="短信类型：" prop="smsType">

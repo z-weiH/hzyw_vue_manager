@@ -9,7 +9,7 @@
   <el-form :inline="true" class="searchs item-search" >
 
     <el-form-item style="margin-bottom: 0;" label="">
-      <el-input clearable style="width: 230px;" v-model="searchItem.keyWords" placeholder="请输入产品模板"></el-input>
+      <el-input @keyup.native.enter="doQuery" clearable style="width: 230px;" v-model="searchItem.keyWords" placeholder="请输入产品模板"></el-input>
     </el-form-item>
     <timeFrame
       :startDate.sync="searchItem.startTime"

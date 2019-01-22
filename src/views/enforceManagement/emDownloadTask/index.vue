@@ -8,7 +8,7 @@
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="80px">
         <el-form-item label="批次号：" prop="batchNo">
-          <el-input v-model.trim="ruleForm.batchNo" placeholder="强制执行批次号"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.batchNo" placeholder="强制执行批次号"></el-input>
         </el-form-item>
 
         <el-button @click="handleSearch" type="warning">查询</el-button>

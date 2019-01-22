@@ -11,7 +11,7 @@
           <el-col :span="24">
             <span class="search-span">案件查询：</span>
             <el-form-item label=" " prop="keyWords">
-              <el-input v-model.trim="ruleForm.keyWords" placeholder="案号、申请人、被申请人、手机号" style="width:456px;"></el-input>
+              <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.keyWords" placeholder="案号、申请人、被申请人、手机号" style="width:456px;"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

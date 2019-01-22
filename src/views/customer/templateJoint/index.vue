@@ -9,7 +9,7 @@
       <div class="item-search">
         <el-form :inline="true" ref="searchItem" :model="searchItem" label-width="80px">
           <el-form-item label="" prop="keyWords" style="margin-bottom: 0;">
-            <el-input style="width: 400px;" v-model.trim="searchItem.keyWords" placeholder="请输入客户名称、产品名称、模板号"></el-input>
+            <el-input @keyup.native.enter="handleSearch" style="width: 400px;" v-model.trim="searchItem.keyWords" placeholder="请输入客户名称、产品名称、模板号"></el-input>
           </el-form-item>
           <el-form-item label="" prop="debugStatus" style="margin-bottom: 0;">
             <el-select clearable v-model="searchItem.debugStatus" placeholder="联调状态">

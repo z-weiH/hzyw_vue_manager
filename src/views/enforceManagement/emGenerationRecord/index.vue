@@ -7,7 +7,7 @@
     <el-form :inline="true" class="searchs item-search" >
 
       <el-form-item label="批次号">
-        <el-input style="width: 180px;" v-model="searchItem.keyWords" placeholder="强制执行案件处理批次号"></el-input>
+        <el-input @keyup.native.enter="doQuery" style="width: 180px;" v-model="searchItem.keyWords" placeholder="强制执行案件处理批次号"></el-input>
       </el-form-item>
       <el-form-item label="操作人">
 

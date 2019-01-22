@@ -7,7 +7,7 @@
       <el-form :inline="true" class="searchs item-search" >
 
             <el-form-item label="案件查询">
-              <el-input style="width: 230px;" v-model="searchItem.keyWords" placeholder="案号、申请人、被申请人、法院名称"></el-input>
+              <el-input @keyup.native.enter="doQuery" style="width: 230px;" v-model="searchItem.keyWords" placeholder="案号、申请人、被申请人、法院名称"></el-input>
             </el-form-item>
             <el-form-item label="所在地区">
               <!--<el-input style="width: 320px;" v-model="searchItem.user" placeholder="案号、申请人、被申请人、手机号、法院名称"></el-input>-->

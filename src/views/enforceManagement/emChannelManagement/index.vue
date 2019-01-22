@@ -8,7 +8,7 @@
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="searchItem" >
         <el-form-item label="" prop="keyWords" >
-          <el-input style="width: 240px;" v-model.trim="searchItem.keyWords" placeholder="渠道名称、联系电话、联系人"></el-input>
+          <el-input @keyup.native.enter="doQuery" style="width: 240px;" v-model.trim="searchItem.keyWords" placeholder="渠道名称、联系电话、联系人"></el-input>
         </el-form-item>
 
         <el-button @click="doQuery" type="warning">查询</el-button>

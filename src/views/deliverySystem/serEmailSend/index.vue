@@ -7,29 +7,29 @@
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="125px">
         <el-form-item label="邮件ID：" prop="mailId">
-          <el-input v-model.trim="ruleForm.mailId" placeholder="请输入邮件ID" style="width:170px;"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.mailId" placeholder="请输入邮件ID" style="width:170px;"></el-input>
         </el-form-item>
 
         <el-form-item label="发送邮件地址：" prop="senderAddress">
-          <el-input v-model.trim="ruleForm.senderAddress" placeholder="请输入发送邮件地址" style="width:170px;"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.senderAddress" placeholder="请输入发送邮件地址" style="width:170px;"></el-input>
         </el-form-item>
 
         <el-form-item label="发送邮件人名称：" prop="senderName">
-          <el-input v-model.trim="ruleForm.senderName" placeholder="请输入发送邮件人名称" style="width:170px;"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.senderName" placeholder="请输入发送邮件人名称" style="width:170px;"></el-input>
         </el-form-item>
 
         <div class="mt-10"></div> 
         
         <el-form-item label="接收邮件地址：" prop="toEmail">
-          <el-input v-model.trim="ruleForm.toEmail" placeholder="请输入接收邮件地址" style="width:170px;"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.toEmail" placeholder="请输入接收邮件地址" style="width:170px;"></el-input>
         </el-form-item>
 
         <el-form-item label="接收邮件人名称：" prop="mailReceiver">
-          <el-input v-model.trim="ruleForm.mailReceiver" placeholder="请输入接收邮件人名称" style="width:170px;"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.mailReceiver" placeholder="请输入接收邮件人名称" style="width:170px;"></el-input>
         </el-form-item>
 
         <el-form-item label="邮件标题：" prop="mailTitle">
-          <el-input v-model.trim="ruleForm.mailTitle" placeholder="请输入邮件标题" style="width:170px;"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.mailTitle" placeholder="请输入邮件标题" style="width:170px;"></el-input>
         </el-form-item>
 
         <div class="mt-10"></div> 

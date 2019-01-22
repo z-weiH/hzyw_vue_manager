@@ -8,7 +8,7 @@
 		<div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" style="width:280px;" placeholder="案号、申请人、被申请人、手机、法院"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.keyWords" style="width:280px;" placeholder="案号、申请人、被申请人、手机、法院"></el-input>
         </el-form-item>
 
 				<timeFrame

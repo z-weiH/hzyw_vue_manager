@@ -8,7 +8,7 @@
     <div class="item-search">
       <el-form :inline="true" ref="searchItem" :model="searchItem" >
         <el-form-item label="" prop="keyWords">
-          <el-input style="width: 250px;" v-model.trim="searchItem.keyWords" placeholder="受托人姓名、手机号、身份证号"></el-input>
+          <el-input @keyup.native.enter="doQuery" style="width: 250px;" v-model.trim="searchItem.keyWords" placeholder="受托人姓名、手机号、身份证号"></el-input>
         </el-form-item>
         <el-form-item label="类型" prop="channelType">
           <el-select style="width: 180px;"  clearable v-model="searchItem.channelType" placeholder="选择">

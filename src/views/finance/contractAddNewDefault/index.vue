@@ -7,7 +7,7 @@
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
         <el-form-item label=" " prop="keyWords">
-          <el-input style="width:160px;" v-model.trim="ruleForm.keyWords" placeholder="合同编号、客户名称"></el-input>
+          <el-input @keyup.native.enter="handleSearch" style="width:160px;" v-model.trim="ruleForm.keyWords" placeholder="合同编号、客户名称"></el-input>
         </el-form-item>
 
         <!-- 时间范围 选择 -->
