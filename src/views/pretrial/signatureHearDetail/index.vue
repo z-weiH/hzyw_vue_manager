@@ -250,9 +250,9 @@ export default {
     },
     handleCurrentChange(page) {
       this.pager.currentNum = page;
-      this.HandleQuery();
+      this.HandleQuery(null,true);
     },
-    HandleQuery(mark) {
+    HandleQuery(mark,toTop) {
       const loading =this.$loading({
         lock: true,
         text: '拼命加载中',
@@ -292,7 +292,8 @@ export default {
                 if(this.$refs[this.markflag])
                   document.documentElement.querySelector('.el-scrollbar__wrap').scrollTo(0,this.$refs[this.markflag][0].offsetTop)
               }, 500);
-            }else{
+            }
+            if(toTop){
               document.documentElement.querySelector('.el-scrollbar__wrap').scrollTo(0,0);
             }
           }
