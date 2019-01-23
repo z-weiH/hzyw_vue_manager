@@ -263,6 +263,13 @@ let router = new Router({
             name: 'numDetection',
           },
         },
+        {
+          path: 'caseStatisticsWorkbench',
+          component: () => import('@/views/caseInfo/caseStatisticsWorkbench'), // 案件统计工作台
+          meta: {
+            name: 'caseStatisticsWorkbench',
+          },
+        },
         /* 案件信息module end */
         /* 短信记录 start */
         {

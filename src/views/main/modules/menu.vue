@@ -435,7 +435,12 @@
                 menuName : '重跑裁决书案件列表',
                 menuId : 78,
                 menuUrl : 'reRunAwardCaseList'
-              }
+              },
+              {
+                menuName : '案件统计工作台',
+                menuId : 79,
+                menuUrl : 'caseStatisticsWorkbench'
+              },
             ],
           },
            {
