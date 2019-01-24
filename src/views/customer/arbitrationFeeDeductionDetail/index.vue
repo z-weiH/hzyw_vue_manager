@@ -41,23 +41,31 @@
           <el-input v-model="searchForm.keyWords" placeholder="请输入仲裁案号、被申请人"></el-input>
         </el-form-item>
         <el-button @click="handleSearch" type="warning">查询</el-button>
-
-        <div class="fr">
-          <el-button @click="handleExportFile" type="primary">导出</el-button>
-        </div>
       </el-form>
 
       <el-row>
         <el-col :span="8">
-          <p class="ml-10">预收受理费总数：{{statistics.preOffTotal}}元</p>
+          <p class="ml-10">扣除受理费总数：{{statistics.offTotal}}元</p>
         </el-col>
         <el-col :span="8">
-          <p class="ml-10">实收受理费总数：{{statistics.offTotal}}元</p>
+          <p class="ml-10">退款总数：{{statistics.refundTotal}}元</p>
         </el-col>
         <el-col :span="8">
           <p class="ml-10">案件处理费总数：{{statistics.handTotal}}元</p>
         </el-col>
       </el-row>
+
+      <div class="mt-10 item-radio">
+        <el-radio-group v-model="searchForm.orderType" size="mini">
+          <el-radio-button :label="1">预收受理费</el-radio-button>
+          <el-radio-button :label="2">退款</el-radio-button>
+          <el-radio-button :label="3">案件处理费</el-radio-button>
+        </el-radio-group>
+
+        <div class="fr">
+          <el-button @click="handleExportFile" type="primary" size="mini">导出</el-button>
+        </div>
+      </div>
     </div>
 
     <div class="item-table">
@@ -70,15 +78,26 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="clientName" label="客户名称"></el-table-column>
-        <el-table-column prop="caseNoWz" label="仲裁案号"></el-table-column>
-        <el-table-column prop="caseStatusWz" label="案件状态"></el-table-column>
-        <el-table-column prop="respondents" label="被申请人"></el-table-column>
-        <el-table-column prop="amtCase" label="标的金额（元）"></el-table-column>
-        <el-table-column prop="preAmtFee" label="预收受理费（元）"></el-table-column>
-        <el-table-column prop="actualAmtFee" label="实收受理费（元）"></el-table-column>
-        <el-table-column prop="refundAmtFee" label="退款（元）"></el-table-column>
-        <el-table-column prop="handFee" label="案件处理费（元）"></el-table-column>
+				<el-table-column prop="clientName" label="客户名称" key="1"></el-table-column>
+        <el-table-column prop="caseNoWz" label="仲裁案号" key="2"></el-table-column>
+        <el-table-column prop="caseStatusWz" label="案件状态" key="3"></el-table-column>
+        <el-table-column prop="respondents" label="被申请人" key="4"></el-table-column>
+        <el-table-column prop="amtCase" label="标的金额（元）" key="5"></el-table-column>
+
+        <template v-if="searchForm.orderType === 1">
+          <el-table-column prop="amtFee" label="预收受理费（元）" key="6"></el-table-column>
+          <el-table-column prop="operTime" label="预收受理费时间" key="8"></el-table-column>
+        </template>
+
+        <template v-if="searchForm.orderType === 2">
+          <el-table-column prop="amtFee" label="退款（元）" key="9"></el-table-column>
+          <el-table-column prop="operTime" label="退款时间" key="10"></el-table-column>
+        </template>
+
+        <template v-if="searchForm.orderType === 3">
+          <el-table-column prop="amtFee" label="案件处理费（元）" key="11"></el-table-column>
+          <el-table-column prop="operTime" label="扣除时间" key="12"></el-table-column>
+        </template>
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -121,12 +140,14 @@
           clientCode : '',
           // 关键字
           keyWords : '',
+          // 业务类型
+          orderType : 1,
         },
         // 统计
         statistics : {
-          handTotal : '9000', // 案件处理费总数
-          offTotal : '4000', // 实收受理费总数
-          preOffTotal : '3000', // 预收受理费总数
+          handTotal : '9000', // 	案件处理费总数
+          offTotal : '4000', // 扣除受理费总数
+          refundTotal : '3000', // 退款受理费总数
         },
 
         // 表格数据
@@ -146,6 +167,14 @@
       this.initClient();
       this.initStatistics();
       this.initTableList();
+    },
+    watch : {
+      ['searchForm.orderType']() {
+        this.currentPage = 1;
+        this.pageSize = 10;
+        this.initTableList();
+        this.initStatistics();
+      },
     },
     methods : {
       // 获取客户 options
@@ -242,6 +271,13 @@
 <style lang="scss">
 
 .arbitration-fee-deduction-detail{
+  .el-radio-button:focus:not(.is-focus):not(:active){
+    box-shadow: none;
+  }
+  .item-radio{
+    border-top:1px solid #E9EDF0;
+    padding-top: 10px;
+  }
   .m-item{
     background-color: #ffffff;
     border: 1px solid #E9EDF0;
