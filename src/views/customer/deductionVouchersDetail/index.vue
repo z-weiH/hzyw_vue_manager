@@ -111,13 +111,13 @@
         },
         // 统计
         statistics : {
-          offTotal : '4000', // 扣除仲券总数
+          offTotal : '', // 扣除仲券总数
         },
 
         // 表格数据
         tableData : [],
         // 数据总数
-        total : 11,
+        total : 0,
         // 当前页数
         currentPage : 1,
         // 每页数量

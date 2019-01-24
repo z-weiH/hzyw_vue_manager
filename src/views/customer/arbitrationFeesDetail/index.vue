@@ -148,8 +148,8 @@
 
         // 统计
         statistics : {
-          rechargeTotal : '2', // 充值仲裁费总数（元）
-          refundTotal : '3', // 退款总数（元）
+          rechargeTotal : '', // 充值仲裁费总数（元）
+          refundTotal : '', // 退款总数（元）
         },
         // 用于表格搜索
         searchForm : {
@@ -165,9 +165,9 @@
         clientOptions : [],
 
         // 表格数据
-        tableData : [{}],
+        tableData : [],
         // 数据总数
-        total : 11,
+        total : 0,
         // 当前页数
         currentPage : 1,
         // 每页数量

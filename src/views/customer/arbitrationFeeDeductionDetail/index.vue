@@ -145,15 +145,15 @@
         },
         // 统计
         statistics : {
-          handTotal : '9000', // 	案件处理费总数
-          offTotal : '4000', // 扣除受理费总数
-          refundTotal : '3000', // 退款受理费总数
+          handTotal : '', // 	案件处理费总数
+          offTotal : '', // 扣除受理费总数
+          refundTotal : '', // 退款受理费总数
         },
 
         // 表格数据
         tableData : [],
         // 数据总数
-        total : 11,
+        total : 0,
         // 当前页数
         currentPage : 1,
         // 每页数量
