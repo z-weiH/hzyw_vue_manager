@@ -52,7 +52,7 @@
         <div class="mt-10">
           <span style="display:inline-block;margin-top:15px;">案件状态：</span>
           <el-form-item label=" " prop="statusThree">
-            <el-select filterable style="width:300px;" clearable v-model="ruleForm.statusThree" placeholder="请选择互金企业">
+            <el-select filterable style="width:300px;" clearable v-model="ruleForm.statusThree" placeholder="请选择案件状态">
               <el-option :label="item.desc" :value="item.status" v-for="(item,index) in statusOptions" :key="index"></el-option>
             </el-select>
           </el-form-item>
