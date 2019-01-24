@@ -322,6 +322,13 @@ body {
     tr:hover {
         background-color: #f6f6f7;
     }
+    .th th{
+        padding: 17px 0;
+        text-align: center;
+    }
+    .th:hover{
+        background-color: #fff;
+    }
     tr.table-edits td {
         padding: 9px 10px !important;
     }
