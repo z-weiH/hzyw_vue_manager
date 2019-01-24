@@ -40,7 +40,7 @@
       <span class="item-title-sign">案件情况统计表 - {{date}}（案件总数量：{{total}}笔）</span>
     </div>
 
-    <div class="item-table">
+    <div class="item-table mb-20">
       <table
         class="m-primordial-table mt-10
           el-table el-table--fit el-table--border 
