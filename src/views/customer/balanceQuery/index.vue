@@ -1,13 +1,55 @@
 <template>
   <div class="balance-query">
-     <div class="wsbodyhead" >
-        <a>所在位置</a>
-        <router-link :to="'/main/balanceQuery'" class="aside_tit">账户余额</router-link>
-      </div>  
+    <div class="wsbodyhead" >
+      <a>所在位置</a>
+      <router-link :to="'/main/balanceQuery'" class="aside_tit">账户余额</router-link>
+    </div>
+
+    <div class="statistics-box">
+      <el-row :gutter="10">
+        <el-col :span="6">
+          <div class="m-grid-content">
+            <p>昨日仲券充值总数（张）</p>
+            <div class="grid-num grid-num-origin">{{statistics.ticketRechargeTotal}}</div>
+            <div class="grid-detail">
+              <el-button @click="handleGo(1)" type="text">明细</el-button>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="m-grid-content">
+            <p>昨日仲裁费充值总数（元）</p>
+            <div class="grid-num grid-num-origin">{{statistics.feeRechargeTotal}}</div>
+            <div class="grid-detail">
+              <el-button @click="handleGo(2)" type="text">明细</el-button>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="m-grid-content">
+            <p>昨日仲券扣除总数（张）</p>
+            <div class="grid-num grid-num-green">{{statistics.ticketOffTotal}}</div>
+            <div class="grid-detail">
+              <el-button @click="handleGo(3)" type="text">明细</el-button>
+            </div>
+          </div>
+        </el-col>
+        <el-col :span="6">
+          <div class="m-grid-content">
+            <p>昨日仲裁费扣除总数（元）</p>
+            <div class="grid-num grid-num-green">{{statistics.feeOffTotal}}</div>
+            <div class="grid-detail">
+              <el-button @click="handleGo(4)" type="text">明细</el-button>
+            </div>
+          </div>
+        </el-col>
+      </el-row>
+    </div>
+
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入客户名称"></el-input>
+          <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.keyWords" placeholder="请输入客户名称"></el-input>
         </el-form-item>
 
         <el-button @click="handleSearch" type="warning">查询</el-button>
@@ -40,7 +82,8 @@
         </el-table-column>
         <el-table-column prop="ticketGiftAvail" label="可用赠券">
           <template slot-scope="scope">
-           <span class="colLink" @click="handleDetail(scope.row)">{{scope.row.ticketGiftAvail || 0}}</span>
+           <!-- <span class="colLink" @click="handleDetail(scope.row)">{{scope.row.ticketGiftAvail || 0}}</span> -->
+           {{scope.row.ticketGiftAvail || 0}}
           </template>
         </el-table-column>
         <el-table-column prop="amtAvail" label="可用仲裁费"></el-table-column>
@@ -81,6 +124,13 @@
           // 客户名称
           keyWords : '',
         },
+        // 统计 集合
+        statistics : {
+          feeOffTotal : '3101', // 仲裁费扣除总数（元）
+          feeRechargeTotal : '3102', // 仲裁费充值总数（元）
+          ticketOffTotal : '3103', // 仲券扣除总数（张）
+          ticketRechargeTotal : '3104', // 仲券充值总数（张）
+        },
 
         // 表格数据
         tableData : [],
@@ -94,8 +144,18 @@
     },
     mounted() {
       this.initTableList();
+      this.initStatistics();
     },
     methods : {
+      // 获取统计
+      initStatistics() {
+        this.$http({
+          method : 'post',
+          url : '/account/queryYesterdayTotal.htm',
+        }).then((res) => {
+          this.statistics = Object.assign(this.statistics,res.result);
+        });
+      },
       //详情页面
       handleDetail(row) {
         this.$router.push({
@@ -114,6 +174,22 @@
       handleSearch() {
         this.currentPage = 1;
         this.initTableList();
+      },
+      // 点击明细
+      handleGo(type) {
+        let path;
+        if(type === 1) {
+          path = 'certificatesDetail';
+        }else if(type === 2) {
+          path = 'arbitrationFeesDetail';
+        }else if(type === 3) {
+          path = 'deductionVouchersDetail';
+        }else if(type === 4) {
+          path = 'arbitrationFeeDeductionDetail';
+        }
+        this.$router.push({
+          path : path,
+        });
       },
 
       // 表格相关 start
@@ -163,6 +239,34 @@
 .balance-query{
   .el-form-item{
     margin-bottom: 0;
+  }
+
+  .statistics-box{
+    margin-bottom: 10px;
+    .m-grid-content{
+      background-color: #fff;
+      height: 90px;
+      padding: 12px 12px 5px 20px;
+      box-sizing: border-box;
+
+      .grid-num{
+        font-size: 22px;
+        font-weight: bold;
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: center;
+      }
+      .grid-num-origin{
+        color: #FF9933;
+      }
+      .grid-num-green{
+        color: #66CC66;
+      }
+      .grid-detail{
+        text-align: right;
+        margin-top: -20px;
+      }
+    }
   }
 }
 
