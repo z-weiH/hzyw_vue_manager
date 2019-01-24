@@ -36,7 +36,7 @@ export default [
   '/main/emBatchDownload', // 强制执行-材料选择
   '/main/staffMangement', //员工管理
 
-  '/main/caseUploadRecord', //案件相关 - 案件上传记录
+  '/main/caseUploadView', //案件相关 - 案件上传记录
 
   '/tmCaseDetail', // 案件详情
   '/tmParameterDetail', // 参数列表 子页面
