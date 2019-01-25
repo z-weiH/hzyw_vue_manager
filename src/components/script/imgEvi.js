@@ -16,7 +16,7 @@ export  default {
               let h = element.offsetHeight;
               element.onmousewheel = (e) =>{
                 e.preventDefault();
-                let url = element.src;
+                /* let url = element.src;
                 if(url.indexOf('?x-oss-process=image/resize') == -1){
                   element.src = url + `?x-oss-process=image/resize,p_100`;
                 }
@@ -32,6 +32,17 @@ export  default {
                 }
                 if(e.deltaY< 0){
                   element.src = left +'_'+ (right+10);
+                } */
+
+
+                let width = + element.style.width.slice(0,element.style.width.length - 1);
+                let min = 25;
+                if(e.deltaY > 0) {
+                  element.style.width = (width - 5 <= min ? min : width - 5) + '%';
+                }
+                if(e.deltaY < 0) {
+                  let width = + element.style.width.slice(0,element.style.width.length - 1);
+                  element.style.width = width + 5 + '%';
                 }
               }
             }
