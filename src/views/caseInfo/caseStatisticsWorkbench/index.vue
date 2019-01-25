@@ -130,6 +130,14 @@
             </template>  
           </template>  
         </template>  
+
+        <template v-if="tableData.length === 0">
+          <tr>
+            <th style="text-align:center;" colspan="9">
+              <div>暂无数据</div>
+            </th>
+          </tr>
+        </template>
       </table>  
     </div> 
   </div>
@@ -375,9 +383,9 @@
             ...this.ruleForm,
           },
         }).then((res) => {
-          this.total = res.result.count;
-          this.tableData = this.tableFormat(res.result.list);
-          this.tableScreen(res.result.list);
+          this.total = res.result.length;
+          this.tableData = this.tableFormat(res.result);
+          this.tableScreen(res.result);
         });
       },
       // 点击导出
