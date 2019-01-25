@@ -46,16 +46,16 @@
     </div>
     <div v-for="(info,index) in items" :key="index" class="info">
       <div class="item-title part_tit">
-        <el-button type="warning" class="fr" style="margin-right: 18px;" v-if="info.idStatus === 1 && info.signStatus === 1 && info.eviStatus === 1 && info.batchStatus%2 === 0" @click="HandleSubmit(info)">提交</el-button>
+        <customer-button type="warning" class="fr" style="margin-right: 18px;" v-if="info.idStatus === 1 && info.signStatus === 1 && info.eviStatus === 1 && info.batchStatus%2 === 0" @click="HandleSubmit(info)">提交</customer-button>
         子批次-{{index + 1}}
         <span>({{info.countCase}}件)</span>
         <button class="title_btn ml-5" disabled>{{getStatusName(info.batchStatus)}}</button>
         <!---->
-        <el-button v-if="info.batchStatus == 2" round type="primary"   @click="handleResult(info)">查看原因</el-button>
+        <customer-button v-if="info.batchStatus == 2" round type="primary"   @click="handleResult(info)">查看原因</customer-button>
       </div>
       <ul class="info_ul">
         <li>
-            <el-button type="primary" v-if="info.idStatus === 0" class="fr mt-10" @click="gotoIdCard(info)">审核</el-button>
+            <customer-button type="primary" v-if="info.idStatus === 0" class="fr mt-10" @click="gotoIdCard(info)">审核</customer-button>
             <span  v-if="info.idStatus === 1"  style="font-size: 15px;" class="fr colLink mt-20 mr-20" @click="gotoIdCard(info,true)">查看</span>
           <p class="info_title">身份证信息</p>
           <p v-if="info.countIdChecked === 0 && info.idStatus === 0">审核未开始</p>
@@ -63,7 +63,7 @@
           <p v-if="info.idStatus !== 0">通过{{info.idCheck && info.idCheck.passNum}}件，未通过{{info.idCheck && info.idCheck.unPassNum}}件</p>
         </li>
         <li>
-          <el-button type="primary" v-if="info.signStatus === 0" class="fr mt-10" @click="gotoSignature(info)">审核</el-button>
+          <customer-button type="primary" v-if="info.signStatus === 0" class="fr mt-10" @click="gotoSignature(info)">审核</customer-button>
           <span  v-if="info.signStatus === 1" style="font-size: 15px;" class="colLink fr mt-20 mr-20" @click="gotoSignature(info,true)">查看</span>
           <p class="info_title">签名信息</p>
           <p v-if="info.countSignChecked === 0 && info.signStatus === 0">审核未开始</p>
@@ -71,7 +71,7 @@
           <p v-else-if="info.signStatus !== 0">通过{{info.signCheck&& info.signCheck.passNum}}件，未通过{{ info.signCheck && info.signCheck.unPassNum}}件</p>
         </li>
         <li>
-          <el-button type="primary" v-if="info.eviStatus === 0" class="fr mt-10" @click="gotoeEidenceWire(info)">审核</el-button>
+          <customer-button type="primary" v-if="info.eviStatus === 0" class="fr mt-10" @click="gotoeEidenceWire(info)">审核</customer-button>
           <span v-if="info.eviStatus === 1" style="font-size: 15px;" class="colLink fr mt-20 mr-20" @click="gotoeEidenceWire(info,true)">查看</span>
           <p class="info_title">证据链信息</p>
           <p v-if="info.countEviChecked === 0 && info.eviStatus === 0">审核未开始</p>
@@ -108,7 +108,7 @@
         </ul>
       </div>
       <span slot="footer" class="dialog-footer clear">
-          <el-button type="primary"  @click="showReason = 0">关  闭</el-button>
+          <customer-button type="primary"  @click="showReason = 0">关  闭</customer-button>
         </span>
     </el-dialog>
 

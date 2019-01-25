@@ -21,7 +21,7 @@
                 <template slot-scope="scope" :style="{'max-width': col.width -20  + 'px'}">
                   <div style="overflow:hidden" :style="{'max-width': col.width -20  + 'px'}" @mouseenter="setTip($event,scope.row[col.property])"
                     @mouseleave="hiddenTip($event)">
-                  <span  :class="{colLink: col.isLink}" @click="col.linkShowPanel && col.linkShowPanel.bind($parent)(scope.row)">{{scope.row[col.property]}}</span>
+                  <span  :class="{colLink: col.isLink}" @click="col.linkShowPanel && col.linkShowPanel.bind($parent)(scope.row)">{{(!scope.row[col.property] && col.defaultVal) ? col.defaultVal : scope.row[col.property]}}</span>
                   </div>
                 </template>
             </el-table-column>

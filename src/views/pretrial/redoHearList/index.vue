@@ -130,6 +130,11 @@ export default {
         {
           label: "初审人",
           property: "firstAuditName",
+        },
+        {
+          label: '复审人',
+          property: 'reviewUserName',
+          defaultVal: '--'
         }
       ]
     };
@@ -156,10 +161,8 @@ export default {
         this.total = res.result.count;
       });
     },
-    gotoLargeTs(row) {
-      //大批次审核
-      console.info("row::::", row);
-      // localStorage.setItem("redoHearSearchItem",JSON.stringify(this.searchItem));
+
+    getosh(row){
       this.$store.commit('setSearchItem',this.searchItem);
       this.$router.push({
         path: "/main/redoHearDetail",
@@ -168,6 +171,50 @@ export default {
           clientN: compileStr(row.clientName)
         }
       });
+    },
+
+    updateReviewUserName(batchNo) {
+      return this.$http.post("/againAudit/updateReviewUserNameByBatchNo.htm", {batchNo: batchNo}).then(res => {
+        return Promise.resolve(true);
+      }).catch(() => {
+        return Promise.reject(false);
+      })
+    },
+
+    gotoLargeTs(row) {
+      //大批次审核
+      console.info("row::::", row);
+      if(row.reviewStatus === 1 ){
+        if(!row.reviewUserName){
+          this.updateReviewUserName(row.batchNo).then(() => {
+            this.getosh(row);
+          })
+        }else{
+          if(JSON.parse(localStorage.getItem('loginInfo')).userName !== row.reviewUserName ){
+            this.updateReviewUserName(row.batchNo).then(() => {
+              this.$msgbox({
+                title: '提示',
+                message:`是否将复审人由${row.reviewUserName}变更为${JSON.parse(localStorage.getItem('loginInfo')).userName}？`,
+                center: true,
+                showCancelButton: true,
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+              }).then(() => {
+                this.updateReviewUserName(row.batchNo).then(() => {
+                  this.getosh(row);
+                })
+              })
+            })
+          }else{
+            this.getosh(row);
+          }
+        }
+      }
+      else{
+        this.getosh(row);
+      }
+      // localStorage.setItem("redoHearSearchItem",JSON.stringify(this.searchItem));
+
     }
   },
 
