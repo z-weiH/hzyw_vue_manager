@@ -148,6 +148,7 @@
   export default {
     data() {
       return {
+        loading : '',
         ruleForm : {
           applicants : '', // 申请人
           statusThree : '', // 案件状态
@@ -273,8 +274,8 @@
     },
     mounted() {
       // 测试数据
-      this.tableData = this.tableFormat(this.tableData2);
-      this.tableScreen(this.tableData2);
+      /* this.tableData = this.tableFormat(this.tableData2);
+      this.tableScreen(this.tableData2); */
 
       this.initTableList();
     },
@@ -373,7 +374,8 @@
 
       // 初始化 表格数据
       initTableList() {
-        this.$http({
+        this.loading = this.$loading();
+        return this.$http({
           url : '/case/queryStatsClientCaseInfo.htm',
           method : 'post',
           data : {
@@ -383,9 +385,12 @@
             ...this.ruleForm,
           },
         }).then((res) => {
+          this.loading.close();
           this.total = res.result.length;
           this.tableData = this.tableFormat(res.result);
           this.tableScreen(res.result);
+        }).catch(() => {
+          this.loading.close();
         });
       },
       // 点击导出
