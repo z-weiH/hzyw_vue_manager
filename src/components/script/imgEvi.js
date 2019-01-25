@@ -37,6 +37,15 @@ export  default {
 
                 let width = + element.style.width.slice(0,element.style.width.length - 1);
                 let min = 25;
+                let left = parseInt(element.style.left) || 0;
+                let top = parseInt(element.style.top) || 0;
+                let mouseTop = e.offsetX;
+                let mouseLeft = e.offsetY;
+                let imgWidth = element.width;
+                let imgHeight = element.height;
+                let imgWidthNew , imgHeightNew;
+                let originW = imgWidth / 2;
+                let originH = imgHeight / 2;
                 if(e.deltaY > 0) {
                   element.style.width = (width - 5 <= min ? min : width - 5) + '%';
                 }
@@ -44,6 +53,16 @@ export  default {
                   let width = + element.style.width.slice(0,element.style.width.length - 1);
                   element.style.width = width + 5 + '%';
                 }
+                imgWidthNew = element.width;
+                imgHeightNew = element.height;
+                let centerHeight = top + -( (imgHeightNew - imgHeight) / 2 );
+                let centerWidth = left + -( (imgWidthNew - imgWidth) / 2 );
+
+                element.style.top = centerHeight -  + 'px';
+                element.style.left = centerWidth + 'px';
+
+                console.log(imgWidth,imgWidthNew,'width');
+                console.log(imgHeight,imgHeightNew,'height');
               }
             }
 
