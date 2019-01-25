@@ -33,6 +33,7 @@
         </el-form-item>
 
         <el-button @click="initTableList" type="warning">查询</el-button>
+        <el-button @click="handleExport" type="primary">导出</el-button>
       </el-form>
     </div>
 
@@ -58,8 +59,48 @@
           <col width="12%">
         </colgroup>
         <tr class="th">
-          <th colspan="1">申请人</th>
-          <th colspan="1">案件状态</th>
+          <th colspan="1">
+            <div class="mth-title">
+              申请人
+              <!-- <i 
+                @click="applicantsVisible = !applicantsVisible" 
+                class="cursor" 
+                :class="[applicantsVisible ? 'el-icon-arrow-up' : 'el-icon-arrow-down']"
+              >
+              </i>
+              <el-collapse-transition>
+                <div class="mth-dialog" v-show="applicantsVisible">
+                  <el-checkbox-group v-model="applicantsCheck">
+                    <template v-for="(item,index) in applicantsList">
+                      <el-checkbox :label="item" :key="index + '' + item" class="mb-10">{{item}}</el-checkbox>
+                      <br :key="index" />
+                    </template>
+                  </el-checkbox-group>
+                </div>
+              </el-collapse-transition> -->
+            </div>
+          </th>
+          <th colspan="1">
+            <div class="mth-title">
+              案件状态
+              <!-- <i 
+                @click="statusThreeVisible = !statusThreeVisible" 
+                class="cursor" 
+                :class="[statusThreeVisible ? 'el-icon-arrow-up' : 'el-icon-arrow-down']"
+              >
+              </i>
+              <el-collapse-transition>
+                <div class="mth-dialog" v-show="statusThreeVisible">
+                  <el-checkbox-group v-model="statusThreeCheck">
+                    <template v-for="(item,index) in statusThreeList">
+                      <el-checkbox :label="item" :key="index + '' + item" class="mb-10">{{item}}</el-checkbox>
+                      <br :key="index" />
+                    </template>
+                  </el-checkbox-group>
+                </div>
+              </el-collapse-transition> -->
+            </div>
+          </th>
           <th colspan="1">案件状态数量</th>
           <th colspan="1">提交日期</th>
           <th colspan="1">处理天数</th>
@@ -72,7 +113,7 @@
           <template v-for="(item2,index2) in item">
             <template v-for="(item3,index3) in item2">
               <template v-for="(item4,index4) in item3">
-                <tr :Key="index + '' + index2 + index3 + index4">
+                <tr :Key="index + '' + index2 + index3 + index4" v-if="trIsShow(item4,index,index2,index3,index4)">
                   <td v-if="item4.rowspan1" :rowspan="item4.rowspan1">{{item4.applicants}}</td>
                   <td v-if="item4.rowspan2" :rowspan="item4.rowspan2">{{item4.statusThree}}</td>
                   <td v-if="item4.rowspan2" :rowspan="item4.rowspan2">{{item4.statusCount}}</td>
@@ -95,6 +136,7 @@
 </template>
 
 <script>
+  import exportFile from '@/assets/js/exportFile.js'
   export default {
     data() {
       return {
@@ -182,6 +224,18 @@
             opinionCount : '62',
           },
           {
+            applicants : '曾诚',
+            statusThree : '啦啦啦',
+            submitDate : '2019-01-03',
+            id : 66,
+            statusCount : '12',
+            processDays : '22',
+            templateName : '32',
+            templateCount : '42',
+            awardTemplate : '52',
+            opinionCount : '62',
+          },
+          {
             applicants : '大同果壳',
             statusThree : '调解中',
             submitDate : '2018-12-01',
@@ -199,10 +253,21 @@
         total : 0,
         // 当前日期
         date : this.$moment().format('YYYY.MM.DD'),
+        // 申请人 list 用于表格过滤
+        applicantsList : [],
+        applicantsCheck : [],
+        applicantsVisible : false,
+        // 案件状态 list 用于表格过滤
+        statusThreeList : [],
+        statusThreeCheck : [],
+        statusThreeVisible : false,
       }
     },
     mounted() {
+      // 测试数据
       this.tableData = this.tableFormat(this.tableData2);
+      this.tableScreen(this.tableData2);
+
       this.initTableList();
     },
     methods : {
@@ -275,6 +340,28 @@
         console.log(JSON.parse(JSON.stringify(arr)),'arr-for3');
         return JSON.parse(JSON.stringify(arr));
       },
+      // 表格数据 筛选出 申请人list 案件状态list
+      tableScreen(tableData) {
+        let obj1 = {};
+        let obj2 = {};
+        let arr1 = [];
+        let arr2 = [];
+        tableData.map((v,k) => {
+          if(!obj1[v.applicants]) {
+            arr1.push(v.applicants);
+            obj1[v.applicants] = true;
+          }
+          if(!obj2[v.statusThree]) {
+            arr2.push(v.statusThree);
+            obj2[v.statusThree] = true;
+          }
+        });
+
+        this.applicantsList = arr1;
+        this.applicantsCheck = arr1;
+        this.statusThreeList = arr2;
+        this.statusThreeCheck = arr2;
+      },
 
       // 初始化 表格数据
       initTableList() {
@@ -290,7 +377,21 @@
         }).then((res) => {
           this.total = res.result.count;
           this.tableData = this.tableFormat(res.result.list);
+          this.tableScreen(res.result.list);
         });
+      },
+      // 点击导出
+      handleExport() {
+        exportFile({
+          url : '/aaa',
+          data : {
+            ...this.ruleForm,
+          },
+        });
+      },
+      trIsShow(item4,index,index2,index3,index4) {
+        let applicantsType = this.applicantsCheck.indexOf(item4.applicants) !== -1;
+        return applicantsType;
       },
     },
   }
@@ -306,6 +407,28 @@
   }
   .el-form-item{
     margin-bottom: 0;
+  }
+
+  .mth-title{
+    position: relative;
+    .mth-dialog{
+      position: absolute;
+      z-index: 100;
+      border: 1px solid #ebeef5;
+      border-radius: 2px;
+      background-color: #fff;
+      box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+      text-align: left;
+    }
+  }
+  .el-table th,.el-table th div{
+    overflow: initial;
+  }
+  .el-table th div{
+    line-height: initial;
+  }
+  .m-primordial-table{
+    overflow: initial;
   }
 }
 
