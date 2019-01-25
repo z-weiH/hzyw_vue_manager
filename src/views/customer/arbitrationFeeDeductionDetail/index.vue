@@ -85,18 +85,42 @@
         <el-table-column prop="amtCase" label="标的金额（元）" key="5"></el-table-column>
 
         <template v-if="searchForm.orderType === 1">
-          <el-table-column prop="amtFee" label="预收受理费（元）" key="6"></el-table-column>
-          <el-table-column prop="operTime" label="预收受理费时间" key="8"></el-table-column>
+          <el-table-column prop="amtFee" label="预收受理费（元）" key="6">
+            <template slot-scope="scope">
+              {{scope.row.amtFee || '--'}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="operTime" label="预收受理费时间" key="8">
+            <template slot-scope="scope">
+              {{scope.row.operTime || '--'}}
+            </template>
+          </el-table-column>
         </template>
 
         <template v-if="searchForm.orderType === 2">
-          <el-table-column prop="amtFee" label="退款（元）" key="9"></el-table-column>
-          <el-table-column prop="operTime" label="退款时间" key="10"></el-table-column>
+          <el-table-column prop="amtFee" label="退款（元）" key="9">
+            <template slot-scope="scope">
+              {{scope.row.amtFee || '--'}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="operTime" label="退款时间" key="10">
+            <template slot-scope="scope">
+              {{scope.row.operTime || '--'}}
+            </template>
+          </el-table-column>
         </template>
 
         <template v-if="searchForm.orderType === 3">
-          <el-table-column prop="amtFee" label="案件处理费（元）" key="11"></el-table-column>
-          <el-table-column prop="operTime" label="扣除时间" key="12"></el-table-column>
+          <el-table-column prop="amtFee" label="案件处理费（元）" key="11">
+            <template slot-scope="scope">
+              {{scope.row.amtFee || '--'}}
+            </template>
+          </el-table-column>
+          <el-table-column prop="operTime" label="扣除时间" key="12">
+            <template slot-scope="scope">
+              {{scope.row.operTime || '--'}}
+            </template>
+          </el-table-column>
         </template>
       </el-table>
       <!-- 分页 -->
@@ -236,6 +260,7 @@
 
       // 初始化 表格数据
       initTableList() {
+        let loading = this.$loading();
         this.$http({
           url : '/account/queryFeeOffList.htm',
           method : 'post',
@@ -249,6 +274,9 @@
         }).then((res) => {
           this.total = res.result.count;
           this.tableData = res.result.list;
+          loading.close();
+        }).catch(() => {
+          loading.close();
         });
       },
       // 页数 change

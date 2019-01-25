@@ -279,6 +279,7 @@
 
       // 初始化 表格数据
       initTableList() {
+        let loading = this.$loading();
         this.$http({
           url : '/account/queryTicketRechargeList.htm',
           method : 'post',
@@ -295,6 +296,9 @@
         }).then((res) => {
           this.total = res.result.count;
           this.tableData = res.result.list;
+          loading.close();
+        }).catch(() => {
+          loading.close();
         });
       },
       // 页数 change

@@ -42,7 +42,7 @@ export default {
 				{
 					label: '互金企业',
 					type: 'select',
-					colSpan: 4,
+					colSpan: 5,
 					property: 'merchantCode',
 					options: this.opCompany,
 					labelfield: 'clientName',
