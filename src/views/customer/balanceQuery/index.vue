@@ -126,16 +126,16 @@
         },
         // 统计 集合
         statistics : {
-          feeOffTotal : '3101', // 仲裁费扣除总数（元）
-          feeRechargeTotal : '3102', // 仲裁费充值总数（元）
-          ticketOffTotal : '3103', // 仲券扣除总数（张）
-          ticketRechargeTotal : '3104', // 仲券充值总数（张）
+          feeOffTotal : '', // 仲裁费扣除总数（元）
+          feeRechargeTotal : '', // 仲裁费充值总数（元）
+          ticketOffTotal : '', // 仲券扣除总数（张）
+          ticketRechargeTotal : '', // 仲券充值总数（张）
         },
 
         // 表格数据
         tableData : [],
         // 数据总数
-        total : 11,
+        total : 0,
         // 当前页数
         currentPage : 1,
         // 每页数量

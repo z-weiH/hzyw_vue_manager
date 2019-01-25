@@ -50,6 +50,13 @@
         </el-form-item>
 
         <div class="mt-10">
+          <span style="display:inline-block;margin-top:15px;">案件状态：</span>
+          <el-form-item label=" " prop="statusThree">
+            <el-select filterable style="width:300px;" clearable v-model="ruleForm.statusThree" placeholder="请选择案件状态">
+              <el-option :label="item.desc" :value="item.status" v-for="(item,index) in statusOptions" :key="index"></el-option>
+            </el-select>
+          </el-form-item>
+
           <el-button :disabled="!isSearch" @click="handleSearch" type="warning">查询</el-button>
           <el-button :disabled="!isSearch" @click="handleGetAward" type="primary">重新获取裁决书</el-button>
         </div>
@@ -116,7 +123,7 @@
     computed : {
       // 判断查询条件是否为空
       isSearch() {
-        return !(!this.ruleForm.keyWords && !this.ruleForm.dateType && !this.ruleForm.startDate && !this.ruleForm.endDate && !this.ruleForm.clientCode && !this.ruleForm.productCode && !this.ruleForm.templateCode);
+        return !(!this.ruleForm.keyWords && !this.ruleForm.dateType && !this.ruleForm.startDate && !this.ruleForm.endDate && !this.ruleForm.clientCode && !this.ruleForm.productCode && !this.ruleForm.templateCode && !this.ruleForm.statusThree);
       },
     },
     watch : {
@@ -141,6 +148,8 @@
           productCode : '',
           // 模板号
           templateCode : '',
+          // 案件状态
+          statusThree : '',
 				},
 				rules : {
         },
@@ -163,6 +172,8 @@
         templateCodeOptions : [
           /* '3001', */
         ],
+        // 案件状态 options
+        statusOptions : [],
 
 				// 表格数据
         tableData : [],
@@ -180,6 +191,7 @@
     mounted() {
       // this.initTableList();
       this.getClientCodeOptions();
+      this.getStatusOptions();
     },
 		methods : {
 			// 点击搜索
@@ -274,6 +286,18 @@
           },
         }).then((res) => {
           this.templateCodeOptions = res.result;
+        });
+      },
+      // 获取案件状态 options
+      getStatusOptions() {
+        this.$http({
+          method : 'post',
+          url : '/caseStatus/queryCaseStatusThreeLevel.htm',
+          data : {
+            status : '3',
+          },
+        }).then((res) => {
+          this.statusOptions = res.result.list;
         });
       },
       // 重置 搜索条件 以及 表格相关数据

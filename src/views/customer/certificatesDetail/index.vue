@@ -176,9 +176,9 @@
         endDateText : time,
         // 统计
         statistics : {
-          giftTotal : '1', // 赠券总数（张）
-          rechargeTotal : '2', // 充值仲券总数（张）
-          refundTotal : '3', // 退券总数（张）
+          giftTotal : '', // 赠券总数（张）
+          rechargeTotal : '', // 充值仲券总数（张）
+          refundTotal : '', // 退券总数（张）
         },
         // 用于表格搜索
         searchForm : {
@@ -193,9 +193,9 @@
         },
 
         // 表格数据
-        tableData : [{}],
+        tableData : [],
         // 数据总数
-        total : 11,
+        total : 0,
         // 当前页数
         currentPage : 1,
         // 每页数量
