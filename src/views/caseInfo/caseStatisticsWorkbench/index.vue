@@ -383,7 +383,7 @@
       // 点击导出
       handleExport() {
         exportFile({
-          url : '/aaa',
+          url : '/case/excelStatClientCaseInfo.htm',
           data : {
             ...this.ruleForm,
           },
