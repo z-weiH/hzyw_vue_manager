@@ -10,7 +10,7 @@
         <el-form-item label=" " prop="merchantCode">
           <el-select clearable style="width:120px;" v-model="ruleForm.merchantCode" placeholder="请选择客户">
             <template v-for="(item,index) in merchantOptions">
-              <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
+              <el-option :key="item.code + '' + index" :label="item.merchantName" :value="item.code"></el-option>
             </template>
           </el-select>
         </el-form-item>
@@ -24,8 +24,8 @@
 
         <el-form-item label=" " prop="orderStatus">
           <el-select clearable style="width:120px;" v-model="ruleForm.orderStatus" placeholder="请选择案件">
-            <template v-for="(item) in orderStatuOptions">
-              <el-option :key="item.code" :label="item.name" :value="item.code"></el-option>
+            <template v-for="(item,index) in orderStatuOptions">
+              <el-option :key="item.code + '' + index" :label="item.name" :value="item.code"></el-option>
             </template>
           </el-select>
         </el-form-item>

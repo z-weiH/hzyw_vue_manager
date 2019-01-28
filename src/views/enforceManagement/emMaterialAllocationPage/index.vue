@@ -238,13 +238,13 @@
             </el-form-item>
             <el-form-item label="渠道选择" prop="channelId">
               <el-select style="width: 100%;" v-model="swtrObj.channelId" placeholder="请选择渠道">
-                <el-option v-for="(item,idx) in channelIdList" :value="item.channelId" :label="item.channelName" :key="idx"></el-option>
+                <el-option v-for="(item,idx) in channelIdList" :value="item.channelId" :label="item.channelName" :key="item.channelId + '' + idx"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="受委托人" prop="mandatoryId">
               <el-select style="width: 100%;" v-model="swtrObj.mandatoryId" placeholder="请选择受托人">
                 <el-option value="0000" label="受托人为空"></el-option>
-                <el-option v-for="(item,idx) in mandatoryIdList" :value="item.mandatoryId" :label="item.mandatoryName" :key="idx"></el-option>
+                <el-option v-for="(item,idx) in mandatoryIdList" :value="item.mandatoryId" :label="item.mandatoryName" :key="item.mandatoryId + '' + idx"></el-option>
               </el-select>
             </el-form-item>
           </el-form>
@@ -270,7 +270,7 @@
             <div class="left title">文书材料</div>
             <div class="right title">份数</div>
           </li>
-          <li v-for="(item) in clfsListClone">
+          <li v-for="(item,index) in clfsListClone" :key="index">
             <div class="left ">{{getmaterialName(item.materialType)}}</div>
             <div class="right ">
               <input type="text" v-model="item.materialNum"/>
@@ -301,12 +301,12 @@
             <!--1：自营渠道：2：律所代理：3：公司代理-->
             <el-form-item label="执行款账户户名" prop="accountName">
               <el-select style="width: 100%;" v-model="yhzhObj.accountName" placeholder="请选择执行款账户户名">
-                <el-option  v-for="(item,idx) in bankNameList" :key="idx" :value="item">{{item}}</el-option>
+                <el-option  v-for="(item,idx) in bankNameList" :key="item + '' + idx" :value="item">{{item}}</el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="开户银行" prop="applicantCardId">
               <el-select style="width: 100%;" v-model="yhzhObj.applicantCardId" placeholder="请选择开户银行">
-                <el-option  v-for="(item,idx) in bankInfoList" :key="idx" :value="item.applicantCardId" :label="item.depositBank"></el-option>
+                <el-option  v-for="(item,idx) in bankInfoList" :key="item.applicantCardId + '' + idx" :value="item.applicantCardId" :label="item.depositBank"></el-option>
 
               </el-select>
             </el-form-item>

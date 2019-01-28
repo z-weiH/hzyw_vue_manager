@@ -10,9 +10,9 @@
         <el-form-item label=" " prop="busiCode">
           <el-select clearable v-model="ruleForm.busiCode" placeholder="请选择业务">
             <el-option label="请选择业务编码" value=""></el-option>
-            <template v-for="(item) in busiCodeOptions">
+            <template v-for="(item,index) in busiCodeOptions">
               <el-option 
-                :key="item.busiCode" 
+                :key="item.busiCode + '' + index" 
                 :label="item.busiCode" 
                 :value="item.busiCode"
               >
@@ -24,9 +24,9 @@
         <el-form-item label=" " prop="isProcessed">
           <el-select clearable v-model="ruleForm.isProcessed" placeholder="处理状态">
             <el-option label="请选择" value=""></el-option>
-            <template v-for="(item) in processingStateOptions">
+            <template v-for="(item,index) in processingStateOptions">
               <el-option 
-                :key="item.value" 
+                :key="item.value + '' + index" 
                 :label="item.label" 
                 :value="item.value"
               >

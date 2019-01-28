@@ -53,8 +53,8 @@
                   <el-form-item label=" " prop="arbId">
                     <el-select v-model="ruleForm.arbId" placeholder="所属仲裁委">
                       <el-option label="请选择" value=""></el-option>
-                      <template v-for="(item) in arbIdOptions">
-                        <el-option :key="item.arbId" :label="item.arbName" :value="item.arbId"></el-option>
+                      <template v-for="(item,index) in arbIdOptions">
+                        <el-option :key="item.arbId + '' + index" :label="item.arbName" :value="item.arbId"></el-option>
                       </template>
                     </el-select>
                   </el-form-item>
@@ -82,8 +82,8 @@
                   <el-form-item label=" " prop="hzmngUserId">
                     <el-select v-model="ruleForm.hzmngUserId" placeholder="所属仲裁委">
                       <el-option label="请选择" value=""></el-option>
-                      <template v-for="(item) in hzmngUserIdOptions">
-                        <el-option :key="item.userId" :label="item.userName" :value="item.userId"></el-option>
+                      <template v-for="(item,index) in hzmngUserIdOptions">
+                        <el-option :key="item.userId + '' + index" :label="item.userName" :value="item.userId"></el-option>
                       </template>
                     </el-select>
                   </el-form-item>
