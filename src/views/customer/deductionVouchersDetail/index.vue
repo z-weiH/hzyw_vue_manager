@@ -61,7 +61,11 @@
           </template>
         </el-table-column>
 				<el-table-column prop="clientName" label="客户名称"></el-table-column>
-        <el-table-column prop="caseNoWz" label="仲裁案号"></el-table-column>
+        <el-table-column prop="caseNoWz" label="仲裁案号">
+          <template slot-scope="scope">
+            {{scope.row.caseNoWz || '--'}}
+          </template>
+        </el-table-column>
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column prop="amtCase" label="标的金额（元）"></el-table-column>
         <el-table-column prop="caseTicket" label="扣除仲券"></el-table-column>

@@ -81,24 +81,7 @@
           </template>
         </el-table-column>
 				<el-table-column prop="clientName" label="客户名称"></el-table-column>
-        <el-table-column prop="finalFee" label="期末仲裁费余额">
-          <template slot="header" slot-scope="scope">
-            <span :key="scope.$index">
-              期末仲裁费余额
-              <el-tooltip class="item" effect="dark" placement="bottom">
-                <i class="el-icon-info ml-10"></i>
-                <div slot="content">
-                  期末仲裁费余额意思为：所选时
-                  <br />间范围内，该客户账户最新的可
-                  <br />用仲裁费余额，如：选择查看1
-                  <br />月1号到1月30号时间范围，那
-                  <br />么此项将显示1月30号0点时，
-                  <br />该账户可用仲裁费余额
-                </div>
-              </el-tooltip>
-            </span>
-          </template>
-        </el-table-column>
+        <el-table-column prop="finalFee" label="期末仲裁费余额" :render-header="headerFinalFee"></el-table-column>
         <el-table-column prop="periodFeeRecharge" label="期间充值仲裁费"></el-table-column>
         <el-table-column prop="periodFeeRefund" label="期间退款仲裁费"></el-table-column>
         <el-table-column label="操作">
@@ -281,6 +264,25 @@
       },
 
       // 表格相关 end
+
+      headerFinalFee(h, { column, $index }) {
+        return (
+          <span>
+            期末仲裁费余额
+            <el-tooltip class="item" effect="dark" placement="bottom">
+              <i class="el-icon-info ml-10"></i>
+              <div slot="content">
+                期末仲裁费余额意思为：所选时
+                <br />间范围内，该客户账户最新的可
+                <br />用仲裁费余额，如：选择查看1
+                <br />月1号到1月30号时间范围，那
+                <br />么此项将显示1月30号0点时，
+                <br />该账户可用仲裁费余额
+              </div>
+            </el-tooltip>
+          </span>
+        )
+      },
     },
   }
 </script>
