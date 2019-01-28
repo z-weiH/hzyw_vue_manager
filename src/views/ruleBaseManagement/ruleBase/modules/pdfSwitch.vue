@@ -1,7 +1,7 @@
 <template>
     <div class="pdfSwitch" v-if="pdfFlag">
       <div class="iframe-warpar">
-        <iframe :src="pdfUrl" frameborder="0"></iframe>
+        <iframe :src="pdfUrl.replace(/http:|https:/g,'')" frameborder="0"></iframe>
         <div class="content">
           <div class="fl">
             <el-select popper-class="pdf_select" v-model="pdfUrl"  style="width: 190px;">
