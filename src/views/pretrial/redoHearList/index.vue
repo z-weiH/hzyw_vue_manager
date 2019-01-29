@@ -85,9 +85,16 @@ export default {
           labelfield: "userName",
           valuefield: "userId"
         },
-
-        {type: 'date',newline: true, placeholder: '复审开始时间', property: 'beginReviewFinishTime', colSpan: 4, lt: 'endReviewFinishTime'},
-        {type: 'date',placeholder: '复审结束时间', property: 'endReviewFinishTime', colSpan: 4, gt: 'beginReviewFinishTime'},
+        {
+          type: 'select',
+          placeholder: '复审人',
+          colSpan: 4,
+          property: 'reviewUserId',
+          options: [
+          ],
+          labelfield: 'reviewUserName',
+          valuefield: 'reviewUserId'
+        },
         {
           type: "select",
           placeholder: "批次状态",
@@ -108,6 +115,9 @@ export default {
             },
           ]
         },
+        {type: 'date',newline: true, placeholder: '复审开始时间', property: 'beginReviewFinishTime', colSpan: 4, lt: 'endReviewFinishTime'},
+        {type: 'date',placeholder: '复审结束时间', property: 'endReviewFinishTime', colSpan: 4, gt: 'beginReviewFinishTime'},
+
 
       ],
       columnDefine: [
@@ -215,9 +225,20 @@ export default {
       }
       // localStorage.setItem("redoHearSearchItem",JSON.stringify(this.searchItem));
 
+    },
+    queryAgainAuditUserList(){
+      this.$http.post("/againAudit/queryAgainAuditUserList.htm").then(res => {
+        let item = this.searchItems.find(it => it.property === 'reviewUserId');
+        if(item){
+          item.options = res.result;
+        }
+      })
     }
   },
 
+  created() {
+    this.queryAgainAuditUserList();
+  },
   mounted() {
     this.queryFirstPerson(this.queryFirstPersonURL, this.fpersonType);
 
