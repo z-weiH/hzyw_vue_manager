@@ -386,7 +386,11 @@
           },
         }).then((res) => {
           this.loading.close();
-          this.total = res.result.length;
+          // 计算案件数量
+          let total = 0;
+          res.result.map(v => total += v.templateCount);
+          this.total = total;
+
           this.tableData = this.tableFormat(res.result);
           this.tableScreen(res.result);
         }).catch(() => {
