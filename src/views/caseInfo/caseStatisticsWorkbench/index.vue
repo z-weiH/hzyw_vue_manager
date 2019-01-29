@@ -16,14 +16,12 @@
           <el-input @keyup.native.enter="initTableList" v-model.trim="ruleForm.statusThree" placeholder="案件状态" style="200px"></el-input>
         </el-form-item>
 
-        <el-form-item label="提交日期：" prop="submitDate">
-          <el-date-picker
-            v-model="ruleForm.submitDate"
-            type="date"
-            placeholder="选择日期"
-            value-format="yyyy-MM-dd"
+        <el-form-item label="提交日期：">
+          <timeFrame
+            :startDate.sync="ruleForm.beginDate"
+            :endDate.sync="ruleForm.endDate"
           >
-          </el-date-picker>
+          </timeFrame>
         </el-form-item>
 
         <div class="mt-10"></div>
@@ -144,15 +142,20 @@
 </template>
 
 <script>
+  import timeFrame from '@/components/timeFrame.vue'
   import exportFile from '@/assets/js/exportFile.js'
   export default {
+    components : {
+			timeFrame,
+		},
     data() {
       return {
         loading : '',
         ruleForm : {
           applicants : '', // 申请人
           statusThree : '', // 案件状态
-          submitDate : '', // 提交日期
+          beginDate : '', // 提交日期 开始
+          endDate : '', // 提交日期 结束
           templateName : '', // 申请书模版
         },
         rules : {
@@ -417,6 +420,9 @@
 <style lang="scss">
 
 .case-statistics-workbench{
+  .m-span{
+    margin-top: 0!important;
+  }
   .search-span{
     display: inline-block;
     margin-top: 15px;
