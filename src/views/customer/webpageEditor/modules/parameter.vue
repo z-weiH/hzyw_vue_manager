@@ -31,6 +31,7 @@
               <td @click="handleCopyRight(item2)">{{item2.paramName}}</td>
             </tr>
           </table>
+          <p v-if="item.children.length === 0" style="color:#666;padding-left:10px;">暂无数据</p>
         </div>
       </template>
 
@@ -141,7 +142,6 @@
             ],
           }
         ],
-        listDefault : [],
       }
     },
     mounted() {
@@ -159,9 +159,9 @@
         }).then((res) => {
           if(this.typeActive === 0) {
             res.result = this.dataProcessing(res.result);
+            res.result = this.dataProcessing2(res.result);
           }
 
-          this.listDefault = copyArray(res.result);
           this.list = copyArray(res.result);
 
           callback && callback();
@@ -195,6 +195,57 @@
           }
         });
         return copyArray(arr);
+      },
+      // 处理顺序 以及 默认值
+      dataProcessing2(result) {
+        let moduleList = [
+          {
+            text : '基础',
+            type : 1,
+          },
+          {
+            text : '金额',
+            type : 2,
+          },
+          {
+            text : '日期',
+            type : 4,
+          },
+          {
+            text : '当事人',
+            type : 3,
+          },
+          {
+            text : '证据',
+            type : 5,
+          },
+          {
+            text : '银行卡',
+            type : 7,
+          },
+          {
+            text : '还款',
+            type : 6,
+          },
+          {
+            text : '分期',
+            type : 8,
+          },
+          {
+            text : '代偿',
+            type : 9,
+          },
+        ];
+        let arr = [];
+        moduleList.map(v => {
+          let res = result.filter(v1 => v.type === v1.categoryCode);
+          arr.push(res[0] || {
+            categoryCode : v.type,
+            categoryDesc : v.text,
+            children : [],
+          });
+        });
+        return arr;
       },
       // 类型 点击
       handleType(item) {
@@ -241,6 +292,10 @@
       // 点击刷新
       handleReload() {
         this.loading = true;
+        // 滚动条 置顶
+        this.moduleActive = 1;
+        document.querySelector('.list-box').scrollTop = '0';
+
         this.init(() => {
           window.setTimeout(() => {
             this.loading = false;
