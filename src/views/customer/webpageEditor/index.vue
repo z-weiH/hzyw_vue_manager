@@ -137,10 +137,12 @@
     });
     let FangSongValue = $content[0].innerHTML;
   */
+  import $ from 'jquery'
   import ueeditor from '@/components/ueeditor'
   import previewDialog from './modules/previewDialog.vue'
   import parameter from './modules/parameter.vue'
   import helpDialog from './modules/helpDialog.vue'
+
 
   export default {
     components : {
@@ -151,6 +153,7 @@
     },
     data() {
       return {
+        um:null,
         title : '',
         imgShow : true,
         boxShow : false,
@@ -226,6 +229,8 @@
         },
       }).then((res) => {
         fn(res.result[this.$route.query.type] || '');
+
+
       }).catch(() => {
         close.close();
       });
@@ -262,9 +267,12 @@
         }else if(type === 2) {
           message = '&lt;#if 参数 &lt;= 0&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
           // message = `<pre class="brush:js;toolbar:false;">&lt;#if 参数 &lt;= 0&gt;<br>  第一结果<br>&lt;#else&gt;<br>  第二结果<br>&lt;/#if&gt;<br></pre>`;
+          console.log('iddddddddddddddddd',this.$refs.ueeditor.single)
+          this.$refs.ueeditor.single.insetCodeBtn();
         }else if(type === 3) {
           message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
           // message = `<pre class="brush:js;toolbar:false;">&lt;#if x == 1&gt;<br>  x is 1<br>&lt;#elseif x == 2&gt;<br>  x is 2<br>&lt;#else&gt;<br>  x is not 1 nor 2<br>&lt;/#if&gt;<br></pre>`;
+          this.$refs.ueeditor.multi.insetCodeBtn();
         }else if(type === 22) {
           message = '&lt;#if dateCompare("2018-11-10", "2018-11-10") == 1&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
           //message = `<pre class="brush:js;toolbar:false;">&lt;#if  dateCompare('2018-11-10', '2018-11-10') == 1&gt;<br>  第一结果<br>&lt;#else&gt;<br>  第二结果<br>&lt;/#if&gt;<br></pre>`;
@@ -319,7 +327,13 @@
         }else if(type === 26) {
           message = '&lt;@dateOffsetCalc date=violateStartDate days=1 /&gt;';
         }
-        this.$refs.ueeditor.insertHtml(message);
+        if(type != 2 && type !=3){
+          this.$refs.ueeditor.insertHtml(message);
+        // console.log(this.$refs.ueeditor,'---------------------');
+        // console.log($(this.$refs.ueeditor.$el).find('iframe'),'---------iframe')
+
+
+        }
         this.handleBox();
       },
       // 表格模板 - 华夏信财

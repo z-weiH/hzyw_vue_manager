@@ -7,7 +7,7 @@
 </template>
 
 <script>
-
+import { readyIntoPreAboutCtrl,codeFormat } from '@/assets/js/FmkCodeFormat'
   export default {
     props : {
       width : {
@@ -27,12 +27,18 @@
     data() {
       return {
         um : '',
-        id : `myEditor${ + new Date() }`
+        id : `myEditor${ + new Date() }`,
+        single:null,
+        multi:null
       }
     },
     mounted() {
       this.$nextTick(() => {
         this.um = UE.getEditor(this.id);
+        // 等ueditor的数据全部渲染完成后执行
+        readyIntoPreAboutCtrl(this.um);
+        this.single = new codeFormat('single',this.um);
+			  this.multi = new codeFormat('multi',this.um);
       });
     },
     methods : {
@@ -68,7 +74,7 @@
   .edui-container >div[style*=height]{
     display: none;
   }
-  
+
   // 隐藏无用数据
   .edui-editor-bottomContainer{
     display: none!important;
