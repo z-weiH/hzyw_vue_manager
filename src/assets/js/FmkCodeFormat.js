@@ -197,7 +197,7 @@ export class codeFormat {
       const ele = arr[i]
       // // RegExp:匹配-当前行起始位置的中文字符串（起始位置中文之间不得有空格，否则正则失效）
       // // let test_first_zhcn = /^[^\u0000-\u00FF]+/g.test(output_cutspace)
-      let zh_num_en_spec = /^[A-Za-z0-9\s\!\@\#\$\^\*\-\_\+\=\:\\\'\;\,\.\/\?\(\)\{\}\[\]\u4e00-\u9fa5]+$/
+      let zh_num_en_spec = /^[A-Za-z0-9\s\!\@\#\$\^\*\-\_\+\=\:\\\'\;\,\.\/\?\(\)\{\}\[\]，。%:：、\u4e00-\u9fa5]+$/
       // let test_first_zhcn = zh_num_en_spec.test(output_cutspace)
 
       if (/^(&#8203;)/.test(ele)) {
