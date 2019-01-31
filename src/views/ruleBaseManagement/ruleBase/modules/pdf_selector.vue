@@ -2,7 +2,26 @@
   <div class="pdf-slector" v-show="pdfFlag">
     <div class="pdf_warpper">
       <div class="w-352 left-content">
+
+
+
         <div class="content">
+          <p class="left-title">切换样例</p>
+          <div>
+            <el-select popper-class="pdf_select" v-model="pdfUrl"  style="width: 100%;">
+                <el-option
+                  v-for="(item,idx) in pdfList"
+                  :key="idx"
+                  :value="item.pdfUrl"
+                  :label="item.resName">
+                </el-option>
+            </el-select>
+
+          </div>
+        </div>
+
+
+        <div class="content mt-20">
           <p class="left-title">选中参数</p>
           <div>
             <el-input
@@ -35,25 +54,19 @@
 
       <div class="fr right-content" :style="{'width': width}">
         <!--<input type="text" style="border:1px solid #aaa;" v-model="pageNum">-->
-        <div class="title" style="height: 50px;line-height: 50px;text-align: center;background: #333333;color: #fff;margin-bottom: 10px;">
-          <div class="fl ml-10">
-            <el-button size="mini" @click="onPrevPage">上一页</el-button>
-          </div>
-          <div class="fr mr-10">
-            <el-button size="mini" @click="onNextPage">下一页</el-button>
-            <!--<button @click="testPdf1">console</button>-->
-          </div>
+        <div class="title" style="height: 50px;line-height: 50px;text-align: center;background: #333333;color: #fff;margin-bottom: 10px;" :style="{'width': width}" >
           {{pageNum}}/{{numpages}}
         </div>
 
 
 
         <!--一共{{}}页-->
-        <div style="position:relative;" id="canvas"  >
+        <div style="position:relative;margin-top: 60px;height: calc(100vh - 100px);overflow: auto;" id="canvas"  >
           <!--<pdf ref="pdf" style="width:595.3px;" src="../../../../../static/借款协议.pdf"-->
           <!--@num-pages="pageCount = $event"-->
           <!--&gt;</pdf>-->
-          <canvas ref="canvas" id="the-canvas" :style="{'width': width,'height': height}"></canvas>
+          <canvas v-for="num in numpages" :key="num"  ref="canvas" :id="'the-canvas'+num" :style="{'width': width,'height': height}"></canvas>
+            <!--<img src="../../../../assets/img/picnotfound.gif" alt="" style="height: 2000px;width: 100%;position: relative;z-index: 2;">-->
           <!--<div class="resizeMe" id="testDiv" ref="testDiv">-->
             <!--<div id="innerNice" ref="innerNice">-->
 
@@ -82,6 +95,7 @@ export default {
   name: 'pdf_selector',
   data(){
       return {
+        pdfList: [],
         pdfFlag: false,
         showEditor1: false,
         showEditor2: false,
@@ -92,26 +106,36 @@ export default {
         pageNum: 1,
         pageRendering: false,
         pageNumPending: null,
-        scale: 0.9,
         numpages: 0,
         width: '',
         height: '',
         pdfUrl: '',
-        scale: 1.3,
+        scale: 1.3, //放大倍数
         type: 0,
       }
   },
   components:{
     pdfEditor
   },
+  watch:{
+    'pdfUrl'(val,oldval){
+      if(val){
+        this.$nextTick(() => {
+          // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
+          this.showPDF(this.pdfUrl.replace(/http:|https:/g, ''));
+          this.getRangeValue();
+        })
+      }
+    }
+  },
   created(){
-    console.log(PDFJS);
     PDFJS.workerSrc = 'static/pdfjs/build/pdf.worker.js';
     PDFJS.cMapUrl  = 'static/pdfjs/web/cmaps/';
     PDFJS.cMapPacked = true;
   },
   methods:{
     //確定提交結果
+
     submitRes(e){
       e.stopPropagation();
       this.pdfFlag = false;
@@ -128,7 +152,6 @@ export default {
       this.$http.post("/ruleBase/queryPdfCoordinates.htm",{type: this.type,pdfUrl: this.pdfUrl,list:arr},{mheaders: true}).then(res => {
         console.log(res);
         if(res.code === '0000'){
-
           let value = '';
           res.result.forEach( it => {
             if(this.type === 0){
@@ -151,20 +174,24 @@ export default {
 
       this.$http.post("/ruleBase/queryPdfUrlAndWithHigh.htm",item).then(res => {
         if(res.code === "0000"){
-          this.pdfFlag = true;
-          this.showEditor1 = this.showEditor2 = false;
-          this.pdfRange = this.pdfValue = '';
-          this.pdfUrl= res.result.pdfUrl;
-          this.width = res.result.width * this.scale  + 'px';
-          this.height = res.result.height * this.scale  + 'px';
+          if(res.result && res.result.length > 0){
+            this.pdfFlag = true;
+            this.showEditor1 = this.showEditor2 = false;
+            this.pdfRange = this.pdfValue = '';
+            this.pdfList = res.result;
+            this.pdfUrl= res.result[0].pdfUrl;
+            this.width = res.result[0].width * this.scale  + 'px';
+            this.height = res.result[0].height * this.scale  + 'px';
 
 
-          this.$nextTick(() => {
-            // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
-            this.showPDF(this.pdfUrl.replace(/http:|https:/g,''));
+            this.$nextTick(() => {
+              // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
+              this.showPDF(this.pdfUrl.replace(/http:|https:/g,''));
 
-            document.querySelector("#canvas").onmousedown = (e) => { this.doDown(e)};
-          })
+              document.querySelector("#canvas").onmousedown = (e) => { this.doDown(e)};
+            })
+          }
+
 
         }
       })
@@ -174,9 +201,13 @@ export default {
       let _this = this;
       PDFJS.getDocument(url).then(function (pdf) {
         _this.numpages = pdf.numPages;
-        _this.pdfDoc = pdf
-        _this.renderPage(1)
+        _this.pdfDoc = pdf;
         _this.pageNum = 1;
+        _this.$nextTick(() => {
+          for(let i = 1; i <= _this.numpages; i++){
+            _this.renderPage(i);
+          }
+        })
       })
     },
     renderPage (num) {
@@ -184,7 +215,7 @@ export default {
       let _this = this
       this.pdfDoc.getPage(num).then(function (page) {
         var viewport = page.getViewport(_this.scale)
-        let canvas = document.getElementById('the-canvas')
+        let canvas = document.getElementById('the-canvas' + num)
         canvas.height = viewport.height
         canvas.width = viewport.width
 
@@ -255,7 +286,9 @@ export default {
         this.$nextTick(() => {
 
           this.$refs.edit1.init();
-          this.$refs.edit1.setTopLeft(e.offsetX,e.offsetY);0.
+          const scroll = document.querySelector('#canvas').scrollTop;
+          console.error(scroll,'scroll',e);
+          this.$refs.edit1.setTopLeft(e.offsetX,e.offsetY + e.target.offsetTop);
 
 
           document.querySelector("#canvas").onmousemove=(el) => {
@@ -276,7 +309,9 @@ export default {
 
         this.$nextTick(() => {
           this.$refs.edit2.init();
-          this.$refs.edit2.setTopLeft(e.offsetX,e.offsetY);
+          const scroll = document.querySelector('#canvas').scrollTop;
+          console.error(scroll,'scroll',e);
+          this.$refs.edit2.setTopLeft(e.offsetX,e.offsetY + e.target.offsetTop);
           document.querySelector("#canvas").onmousemove=(el) => {
 
             this.$refs.edit2.setWH(el.offsetX -e.offsetX,el.offsetY -e.offsetY);
@@ -306,19 +341,31 @@ export default {
   },
   mounted(){
     // this.showPDF("../../../../../static/借款协议.pdf");
+    document.querySelector("#canvas").addEventListener('scroll',(e) => {
+      // console.log(e.target.scrollTop,e);
+      this.pageNum = Math.ceil(e.target.scrollTop/(+this.height.substring(0,this.height.length -2)));
+      this.pageNum === 0 && (this.pageNum = 1);
+    })
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
+
+
+    .el-select-dropdown.el-popper.pdf_select{
+      z-index: 200000 !important;
+    }
 
   .pdf-slector{
+
+
+
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     height: 100%;
-    overflow-y: scroll;
     background: #5C5C5C;
     z-index: 99999;
     .pdf_warpper{
@@ -343,7 +390,10 @@ export default {
 
       }
       .right-content{
-
+        .title{
+          position: fixed;
+          top: 30px;
+        }
       }
     }
   }

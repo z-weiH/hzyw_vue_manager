@@ -11,7 +11,7 @@
         <label v-if="searchItem.connectIco" class="cc_Ico">{{searchItem.connectIco}}</label>
       </div>
       <el-input @keyup.native.enter="doQuery" v-if="searchItem.type == 'text' || !searchItem.type" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder"></el-input>
-      <el-select clearable :filterable="searchItem.filterable" :remote="searchItem.remote" :reserve-keyword="searchItem.reserveKey" @change="valueChange" v-if="searchItem.type ==  'select'" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder"
+      <el-select style="width: 100%;" clearable :filterable="searchItem.filterable" :remote="searchItem.remote" :reserve-keyword="searchItem.reserveKey" @change="valueChange" v-if="searchItem.type ==  'select'" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder"
         :remote-method="searchItem.remoteMethod">
         <el-option v-for="(option,index) in searchItem.options" :key="index" :label="searchItem.labelfield ? option[searchItem.labelfield] : option.label" :value="searchItem.valuefield ? option[searchItem.valuefield] : option.value">
         </el-option>

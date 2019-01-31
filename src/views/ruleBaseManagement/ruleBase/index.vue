@@ -49,7 +49,7 @@
               <div style="margin-top: 5px; color:#aaa;" class="fr">
                 <el-button plain @click="copyRules">复制规则</el-button>
                 <el-button plain @click="handleAvriable">参数列表</el-button>
-                <el-button plain @click="runSet">执行集合</el-button>
+                <!--<el-button plain @click="runSet">执行集合</el-button>-->
                 <el-button plain @click="showCaseSample">案件样例</el-button>
                 <el-button  icon="el-icon-plus"  type="primary" plain @click="handleCreate">添加规则</el-button>
               </div>
@@ -62,11 +62,12 @@
                 <div class="ruleDesc">
                   <div class="btns fr">
                     <span class="edit_btn colLink" @click="handleEdit(rule,$event)">编辑</span>
-                    <span class="delete_btn colLink" @click="handleDelete(rule,$event)">删除</span>
+                    <span class="edit_btn colLink" @click="handleDelete(rule,$event)">删除</span>
+                    <span class="edit_btn colLink" @click="handleEnable(rule,$event)">{{rule.ruleStatus === 1 ? '停用' : '启用'}}</span>
                   </div>
                   <b >{{(pager.currentNum-1) * pager.pageSize + index + 1}}.</b>
                   <span>{{rule.ruleDesc}}</span>
-                  <span class="mark" v-if="checkRuleConfiged(rule.ruleId)">已配置</span>
+                  <span class="mark" v-if="rule.ruleStatus === 1">已启用</span>
                 </div>
                 <div>{{rule.ruleInfo}}</div>
               </li>
@@ -201,7 +202,7 @@
         disabled: false,
 
         //已配置规则
-        configurationRules: [],
+        // configurationRules: [],
 
         //默认展开的规则
         keys: [],
@@ -667,19 +668,12 @@
         console.error(this.ruleType);
 
         if(this.ruleType === 4){
-          const loading =this.$loading({
-            lock: true,
-            text: '正在加载...',
-            fullscreen: true,
-            spinner: 'el-icon-loading',
-            background: "hsla(0,0%,100%,.9)"
-          });
           this.$http.post("/ruleBase/queryPdfUrlAndWithHigh.htm",{levelId: this.currentMenu.levelId, pdfParam: this.pdfParam}).then(res => {
-            loading.close();
-            window.open(res.result.pdfUrl, '_blank');
-          }).catch(() => {
-            loading.close()
+            const router = this.$router.resolve({path: '/rulePdfSwitch',query: {levelId: this.currentMenu.levelId, pdfParam: this.pdfParam}}).href;
+            window.open(router,'_blank');
           })
+
+
         }
         else if(this.ruleType !== 3){
           this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: this.pdfParam, type: this.ruleType});
@@ -708,9 +702,9 @@
       },
 
       //执行集合
-      runSet(){
-        this.$refs.executionSetDialog.show({levelId : this.currentMenu.levelId})
-      },
+      // runSet(){
+      //   this.$refs.executionSetDialog.show({levelId : this.currentMenu.levelId})
+      // },
 
       //运行按钮
       handleRun(){
@@ -885,6 +879,16 @@
           }
         })
       },
+
+
+      handleEnable(rule, e){
+        e.stopPropagation();
+        this.$http.post("/rule/updateRuleStatusByRuleId.htm",{ruleId: rule.ruleId}).then(res => {
+          this.$set(rule, 'ruleStatus', 1- rule.ruleStatus);
+          this.$message.success(`规则已${rule.ruleStatus === 1 ? '启用' : '停用'}`)
+        })
+      },
+
       //删除规则
       handleDelete(rule,e){
         e.stopPropagation();
@@ -960,23 +964,23 @@
       },
 
       //刷新规则
-      refreshRules(item){
-        this.$http.post('/collection/queryRuleCollectionList.htm',{levelId: item.levelId}).then(res => {
-          this.configurationRules = [];
-          res.result.exeCollectionList.forEach(it => {
-            this.configurationRules.push(it.ruleId);
-          })
-        })
-      },
+      // refreshRules(item){
+      //   this.$http.post('/collection/queryRuleCollectionList.htm',{levelId: item.levelId}).then(res => {
+      //     this.configurationRules = [];
+      //     res.result.exeCollectionList.forEach(it => {
+      //       this.configurationRules.push(it.ruleId);
+      //     })
+      //   })
+      // },
 
       //判断规则是否被配置
-      checkRuleConfiged(ruleId){
-        return this.configurationRules.indexOf(ruleId) != -1;
-      },
+      // checkRuleConfiged(ruleId){
+      //   return this.configurationRules.indexOf(ruleId) != -1;
+      // },
 
       handleNodeClickPlus(item){
         this.handleNodeClick(item, true);
-        this.refreshRules(item);
+        // this.refreshRules(item);
       },
 
 
@@ -1085,6 +1089,9 @@
 
 <style lang="scss" scoped>
 
+  .edit_btn{
+    text-decoration: none;
+  }
 
   .showPdf_btn{
     font-size: 10px;

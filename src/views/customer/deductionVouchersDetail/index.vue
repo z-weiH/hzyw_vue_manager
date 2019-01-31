@@ -61,7 +61,11 @@
           </template>
         </el-table-column>
 				<el-table-column prop="clientName" label="客户名称"></el-table-column>
-        <el-table-column prop="caseNoWz" label="仲裁案号"></el-table-column>
+        <el-table-column prop="caseNoWz" label="仲裁案号">
+          <template slot-scope="scope">
+            {{scope.row.caseNoWz || '--'}}
+          </template>
+        </el-table-column>
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column prop="amtCase" label="标的金额（元）"></el-table-column>
         <el-table-column prop="caseTicket" label="扣除仲券"></el-table-column>
@@ -111,13 +115,13 @@
         },
         // 统计
         statistics : {
-          offTotal : '4000', // 扣除仲券总数
+          offTotal : '', // 扣除仲券总数
         },
 
         // 表格数据
         tableData : [],
         // 数据总数
-        total : 11,
+        total : 0,
         // 当前页数
         currentPage : 1,
         // 每页数量
@@ -192,6 +196,7 @@
 
       // 初始化 表格数据
       initTableList() {
+        let loading = this.$loading();
         this.$http({
           url : '/account/queryTicketOffList.htm',
           method : 'post',
@@ -205,6 +210,9 @@
         }).then((res) => {
           this.total = res.result.count;
           this.tableData = res.result.list;
+          loading.close();
+        }).catch(() => {
+          loading.close();
         });
       },
       // 页数 change

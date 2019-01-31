@@ -91,40 +91,8 @@
           </template>
         </el-table-column>
 				<el-table-column prop="clientName" label="客户名称"></el-table-column>
-        <el-table-column prop="finalTicket" label="期末仲券数">
-          <template slot="header" slot-scope="scope">
-            <span :key="scope.$index">
-              期末仲券数
-              <el-tooltip class="item" effect="dark" placement="bottom">
-                <i class="el-icon-info ml-10"></i>
-                <div slot="content">
-                  在所选择的时间范围内，该客户最新的账户
-                  <br />可用仲券，如：当在2月15日当天，查询1
-                  <br />月1日至1月30日的数据，期末仲券数=1月3
-                  <br />0日24点该客户账户剩余的可用仲券数，而
-                  <br />非2月15日的实时数据。
-                </div>
-              </el-tooltip>
-            </span>
-          </template>
-        </el-table-column>
-        <el-table-column prop="finalTicketGift" label="期末赠券数">
-          <template slot="header" slot-scope="scope">
-            <span :key="scope.$index">
-              期末赠券数
-              <el-tooltip class="item" effect="dark" placement="bottom">
-                <i class="el-icon-info ml-10"></i>
-                <div slot="content">
-                  在所选择的时间范围内，该客户最新的账户
-                  <br />可用赠券，如：当在2月15日当天，查询1
-                  <br />月1日至1月30日的数据，期末赠券数=1月3
-                  <br />0日24点该客户账户剩余的可用赠券数，而
-                  <br />非2月15日的实时数据。
-                </div>
-              </el-tooltip>
-            </span>
-          </template>
-        </el-table-column>
+        <el-table-column prop="finalTicket" label="期末仲券数" :render-header="headerFinalTicket"></el-table-column>
+        <el-table-column prop="finalTicketGift" label="期末赠券数" :render-header="headerFinalTicketGift"></el-table-column>
         <el-table-column prop="ticketValue" label="单张券面值（元）"></el-table-column>
         <el-table-column prop="periodTicketRecharge" label="期间充值仲券"></el-table-column>
         <el-table-column prop="periodTicketGift" label="期间赠券"></el-table-column>
@@ -176,9 +144,9 @@
         endDateText : time,
         // 统计
         statistics : {
-          giftTotal : '1', // 赠券总数（张）
-          rechargeTotal : '2', // 充值仲券总数（张）
-          refundTotal : '3', // 退券总数（张）
+          giftTotal : '', // 赠券总数（张）
+          rechargeTotal : '', // 充值仲券总数（张）
+          refundTotal : '', // 退券总数（张）
         },
         // 用于表格搜索
         searchForm : {
@@ -193,9 +161,9 @@
         },
 
         // 表格数据
-        tableData : [{}],
+        tableData : [],
         // 数据总数
-        total : 11,
+        total : 0,
         // 当前页数
         currentPage : 1,
         // 每页数量
@@ -279,6 +247,7 @@
 
       // 初始化 表格数据
       initTableList() {
+        let loading = this.$loading();
         this.$http({
           url : '/account/queryTicketRechargeList.htm',
           method : 'post',
@@ -295,6 +264,9 @@
         }).then((res) => {
           this.total = res.result.count;
           this.tableData = res.result.list;
+          loading.close();
+        }).catch(() => {
+          loading.close();
         });
       },
       // 页数 change
@@ -310,6 +282,41 @@
       },
 
       // 表格相关 end
+
+      headerFinalTicket(h, { column, $index }) {
+        return (
+          <span>
+            期末仲券数
+            <el-tooltip class="item" effect="dark" placement="bottom">
+              <i class="el-icon-info ml-10"></i>
+              <div slot="content">
+                在所选择的时间范围内，该客户最新的账户
+                <br />可用仲券，如：当在2月15日当天，查询1
+                <br />月1日至1月30日的数据，期末仲券数=1月3
+                <br />0日24点该客户账户剩余的可用仲券数，而
+                <br />非2月15日的实时数据。
+              </div>
+            </el-tooltip>
+          </span>
+        )
+      },
+      headerFinalTicketGift(h, { column, $index }) {
+        return (
+          <span>
+            期末赠券数
+            <el-tooltip class="item" effect="dark" placement="bottom">
+              <i class="el-icon-info ml-10"></i>
+              <div slot="content">
+                在所选择的时间范围内，该客户最新的账户
+                <br />可用赠券，如：当在2月15日当天，查询1
+                <br />月1日至1月30日的数据，期末赠券数=1月3
+                <br />0日24点该客户账户剩余的可用赠券数，而
+                <br />非2月15日的实时数据。
+              </div>
+            </el-tooltip>
+          </span>
+        )
+      },
     },
   }
 </script>

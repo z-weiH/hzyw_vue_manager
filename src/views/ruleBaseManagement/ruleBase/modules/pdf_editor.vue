@@ -1,5 +1,5 @@
 <template>
-  <div class="resizeMe" id="testDiv" ref="testDiv">
+  <div class="resizeMe" id="testDiv" ref="testDiv" >
     <div id="innerNice" ref="innerNice">
 
 
@@ -52,6 +52,7 @@
           this.theobject.el = el;
           this.theobject.dir = dir;
 
+
           this.theobject.grabx = e['clientX'];
           this.theobject.graby = e['clientY'];
           this.theobject.width = el.offsetWidth;
@@ -97,6 +98,8 @@
           }
           //Dragging starts here
           if(this.theobject != null) {
+            const scroll = document.querySelector("#canvas").scrollTop;
+
             if (this.theobject.dir.indexOf("e") != -1)
               this.theobject.el.style.width = Math.max(xMin, this.theobject.width + e['clientX'] - this.theobject.grabx) + "px";
 
@@ -110,7 +113,7 @@
             }
             if (this.theobject.dir.indexOf("n") != -1) {
               let s=Math.min(this.theobject.top + e['clientY'] - this.theobject.graby,this.theobject.top + this.theobject.height - yMin) ;
-              this.theobject.el.style.top =s+'px';
+              this.theobject.el.style.top =  s+'px';
               this.theobject.el.style.height = Math.max(yMin, this.theobject.height - e['clientY'] + this.theobject.graby) + "px";
             }
 
@@ -151,6 +154,7 @@
               // if(_x>500-w) _x=500-w;
               // if(_y<=0) _y=0;
               // if(_y>=(400-h)) _y=400-h;
+              console.error(_x,_y);
               this.$refs.testDiv.style.left = _x + 'px';
               this.$refs.testDiv.style.top = _y + 'px';
 
@@ -158,7 +162,8 @@
           }
         },
         getResult(){
-          return '['+ (this.$parent.pageNum -1) + ',' + this.calcScale(this.$refs.testDiv.style.left.substring(0,this.$refs.testDiv.style.left.length-2)) + ',' + this.calcScale(this.$refs.testDiv.style.top.substring(0,this.$refs.testDiv.style.top.length -2))+ ',' +this.calcScale(this.$refs.testDiv.offsetWidth)+ ',' +this.calcScale(this.$refs.testDiv.offsetHeight) + ']';
+          let page = Math.floor(this.$refs.testDiv.style.top.substring(0,this.$refs.testDiv.style.top.length -2)/(this.$parent.height.substring(0,this.$parent.height.length -2)));
+          return '['+ page + ',' + this.calcScale(this.$refs.testDiv.style.left.substring(0,this.$refs.testDiv.style.left.length-2)) + ',' + this.calcScale(this.$refs.testDiv.style.top.substring(0,this.$refs.testDiv.style.top.length -2) - page * (this.$parent.height.substring(0,this.$parent.height.length-2)))+ ',' +this.calcScale(this.$refs.testDiv.offsetWidth)+ ',' +this.calcScale(this.$refs.testDiv.offsetHeight) + ']';
         },
         setTopLeft(left,top){
           this.$refs.testDiv.style.top = top + 'px';
@@ -196,9 +201,9 @@
     left: 30px;
     top:0;
     width: 0px;
-    z-index: 2;
     margin: 0px;
     padding:2px;
+    z-index: 111;
   }
   #innerNice{
     background-color: transparent;

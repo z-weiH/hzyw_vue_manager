@@ -85,9 +85,16 @@ export default {
           labelfield: "userName",
           valuefield: "userId"
         },
-
-        {type: 'date',newline: true, placeholder: '复审开始时间', property: 'beginReviewFinishTime', colSpan: 4, lt: 'endReviewFinishTime'},
-        {type: 'date',placeholder: '复审结束时间', property: 'endReviewFinishTime', colSpan: 4, gt: 'beginReviewFinishTime'},
+        {
+          type: 'select',
+          placeholder: '复审人',
+          colSpan: 4,
+          property: 'reviewUserId',
+          options: [
+          ],
+          labelfield: 'reviewUserName',
+          valuefield: 'reviewUserId'
+        },
         {
           type: "select",
           placeholder: "批次状态",
@@ -108,6 +115,9 @@ export default {
             },
           ]
         },
+        {type: 'date',newline: true, placeholder: '复审开始时间', property: 'beginReviewFinishTime', colSpan: 4, lt: 'endReviewFinishTime'},
+        {type: 'date',placeholder: '复审结束时间', property: 'endReviewFinishTime', colSpan: 4, gt: 'beginReviewFinishTime'},
+
 
       ],
       columnDefine: [
@@ -130,6 +140,11 @@ export default {
         {
           label: "初审人",
           property: "firstAuditName",
+        },
+        {
+          label: '复审人',
+          property: 'reviewUserName',
+          defaultVal: '--'
         }
       ]
     };
@@ -156,10 +171,8 @@ export default {
         this.total = res.result.count;
       });
     },
-    gotoLargeTs(row) {
-      //大批次审核
-      console.info("row::::", row);
-      // localStorage.setItem("redoHearSearchItem",JSON.stringify(this.searchItem));
+
+    getosh(row){
       this.$store.commit('setSearchItem',this.searchItem);
       this.$router.push({
         path: "/main/redoHearDetail",
@@ -168,9 +181,64 @@ export default {
           clientN: compileStr(row.clientName)
         }
       });
+    },
+
+    updateReviewUserName(batchNo) {
+      return this.$http.post("/againAudit/updateReviewUserNameByBatchNo.htm", {batchNo: batchNo}).then(res => {
+        return Promise.resolve(true);
+      }).catch(() => {
+        return Promise.reject(false);
+      })
+    },
+
+    gotoLargeTs(row) {
+      //大批次审核
+      console.info("row::::", row);
+      if(row.reviewStatus === 1 ){
+        if(!row.reviewUserName){
+          this.updateReviewUserName(row.batchNo).then(() => {
+            this.getosh(row);
+          })
+        }else{
+          if(JSON.parse(localStorage.getItem('loginInfo')).userName !== row.reviewUserName ){
+            this.updateReviewUserName(row.batchNo).then(() => {
+              this.$msgbox({
+                title: '提示',
+                message:`是否将复审人由${row.reviewUserName}变更为${JSON.parse(localStorage.getItem('loginInfo')).userName}？`,
+                center: true,
+                showCancelButton: true,
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+              }).then(() => {
+                this.updateReviewUserName(row.batchNo).then(() => {
+                  this.getosh(row);
+                })
+              })
+            })
+          }else{
+            this.getosh(row);
+          }
+        }
+      }
+      else{
+        this.getosh(row);
+      }
+      // localStorage.setItem("redoHearSearchItem",JSON.stringify(this.searchItem));
+
+    },
+    queryAgainAuditUserList(){
+      this.$http.post("/againAudit/queryAgainAuditUserList.htm").then(res => {
+        let item = this.searchItems.find(it => it.property === 'reviewUserId');
+        if(item){
+          item.options = res.result;
+        }
+      })
     }
   },
 
+  created() {
+    this.queryAgainAuditUserList();
+  },
   mounted() {
     this.queryFirstPerson(this.queryFirstPersonURL, this.fpersonType);
 

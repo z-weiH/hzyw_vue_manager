@@ -83,7 +83,8 @@
           :data="{
               clientCode: this.ruleForm.clientCode,
               productCode: this.prodCode,
-              templateId: this.ruleForm.templateId
+              templateId: this.ruleForm.templateId,
+              token : token,
             }"
           accept=".zip"
           :disabled="filebtnstate"
@@ -111,6 +112,7 @@ export default {
   components: {},
   data() {
     return {
+      token : JSON.parse(localStorage.getItem('loginInfo')).token,
       progress_text:0,
       show_uploadbar: false,
       prodCode: "",

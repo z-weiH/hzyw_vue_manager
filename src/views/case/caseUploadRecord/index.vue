@@ -129,7 +129,7 @@ export default {
           type: "select",
           property: "templateId",
           colSpan: 4,
-          options: [],
+          options: []
           // labelfield: "templateName",
           // valuefield: "templateCode"
         }
@@ -138,7 +138,30 @@ export default {
         {
           label: "客户名称",
           property: "clientName",
-          width: 150
+          width: 180
+        },
+        {
+          label: "产品名称",
+          property: "productName",
+          width: 180
+        },
+        {
+          label: "状态",
+          property: "recordStatus",
+          width: 100,
+          type: 'select',
+          options: [
+            { label: "上传中", value: "0" },
+            { label: "上传失败", value: "1" },
+            { label: "上传成功", value: "2" },
+            { label: "处理失败", value: "3" },
+            { label: "处理成功", value: "4" }
+          ]
+        },
+        {
+          label: "模版号",
+          property: "templateId",
+          width: 150,
         },
         {
           label: "失败原因",
@@ -148,25 +171,12 @@ export default {
         {
           label: "操作人",
           property: "operName",
-          width: 100
+          width: 140
         },
         {
           label: "操作时间",
-          property: "operTime"
-        },
-        {
-          label: "产品名称",
-          property: "productName",
-          width: 150
-        },
-        {
-          label: "状态",
-          property: "recordStatus",
-          width: 100
-        },
-        {
-          label: "模版号",
-          property: "templateId"
+          property: "operTime",
+          width: 180
         }
       ],
       actions: [
@@ -210,7 +220,7 @@ export default {
               // console.log("$opPro--", $opPro[0]["templateCode"]);
               this.optsTemplateCode({
                 merchantCode: this.cacheclientCode,
-                prodCode: this.opProduct[0]['prodCode']
+                prodCode: this.opProduct[0]["prodCode"]
               });
             }
             break;
@@ -260,7 +270,7 @@ export default {
         .then(res => {
           if (res.code == "0000") {
             this.$message({
-              message: '通知成功',
+              message: "通知成功",
               type: "success"
             });
           }

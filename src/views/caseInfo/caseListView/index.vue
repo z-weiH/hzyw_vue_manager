@@ -277,7 +277,7 @@ export default {
 				{
 					label: '借款单号',
 					property: 'loanBillNo',
-					width: 120,
+					width: 220,
 				},
 				{
 					label: '仲裁案号',

@@ -5,17 +5,17 @@
       :default-active="$store.state.menu.menuActive"
       :unique-opened="true"
     >
-      <template v-for="(item) in menuList">
+      <template v-for="(item,index) in menuList">
 
-        <el-submenu :key="item.menuId" :index="item.menuId + ''">
+        <el-submenu :key="item.menuId + '' + index" :index="item.menuId + ''">
           <template slot="title">
             <span>{{item.menuName}}</span>
           </template>
-          <template v-for="(child) in item.children">
+          <template v-for="(child,index2) in item.children">
 
             <!-- 如果当前是 推送记录菜单 特殊处理-->
             <template v-if="child.menuUrl === 'msgPushRecord'">
-              <el-menu-item :key="child.menuId" :index="`/main/${child.menuUrl}`">
+              <el-menu-item :key="child.menuId + '' + index2" :index="`/main/${child.menuUrl}`">
                 <i class="ico_userManage2"></i>
                 {{child.menuName}}
                 <span

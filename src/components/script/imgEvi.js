@@ -16,7 +16,7 @@ export  default {
               let h = element.offsetHeight;
               element.onmousewheel = (e) =>{
                 e.preventDefault();
-                let url = element.src;
+                /* let url = element.src;
                 if(url.indexOf('?x-oss-process=image/resize') == -1){
                   element.src = url + `?x-oss-process=image/resize,p_100`;
                 }
@@ -32,7 +32,37 @@ export  default {
                 }
                 if(e.deltaY< 0){
                   element.src = left +'_'+ (right+10);
+                } */
+
+
+                let width = + element.style.width.slice(0,element.style.width.length - 1);
+                let min = 25;
+                let left = parseInt(element.style.left) || 0;
+                let top = parseInt(element.style.top) || 0;
+                let mouseTop = e.offsetX;
+                let mouseLeft = e.offsetY;
+                let imgWidth = element.width;
+                let imgHeight = element.height;
+                let imgWidthNew , imgHeightNew;
+                let originW = imgWidth / 2;
+                let originH = imgHeight / 2;
+                if(e.deltaY > 0) {
+                  element.style.width = (width - 5 <= min ? min : width - 5) + '%';
                 }
+                if(e.deltaY < 0) {
+                  let width = + element.style.width.slice(0,element.style.width.length - 1);
+                  element.style.width = width + 5 + '%';
+                }
+                imgWidthNew = element.width;
+                imgHeightNew = element.height;
+                let centerHeight = top + -( (imgHeightNew - imgHeight) / 2 );
+                let centerWidth = left + -( (imgWidthNew - imgWidth) / 2 );
+
+                element.style.top = centerHeight -  + 'px';
+                element.style.left = centerWidth + 'px';
+
+                console.log(imgWidth,imgWidthNew,'width');
+                console.log(imgHeight,imgHeightNew,'height');
               }
             }
 

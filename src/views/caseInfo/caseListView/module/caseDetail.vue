@@ -72,7 +72,7 @@
         </div>
          <div ref="evidenceWarper"  class="pdf fr" >
            <iframe v-if="checkPdf(currentUrl)" :src="currentUrl.replace(/http:|https:/g,'')" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
-           <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;" :src="currentUrl" alt=""></div>
+           <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;width:100%;" :src="currentUrl" alt=""></div>
          </div>
          <div class="clear"></div>
        </div>
@@ -227,7 +227,7 @@ export default {
               console.log(e.path[0].width);
               let bl = (660/e.path[0].width) * 100;
               console.log(bl.toFixed(0));
-              this.currentUrl += `?x-oss-process=image/resize,p_${bl.toFixed(0)}`;
+              this.currentUrl += ``;
             }
             img.src=evi.eviUrl;
       }

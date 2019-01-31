@@ -13,7 +13,7 @@
           <div class="fl">脚本名称</div>
           <div class="fl">执行结果</div>
           <div class="fl">核对结果</div>
-          <div class="fl">审核意见是否采纳</div>
+          <div class="fl">是否采纳</div>
 
         </div>
         <hr>
@@ -21,7 +21,7 @@
           <el-scrollbar  :class="{'showHidden': logList.length > 10}">
             <div class="li" v-for="(item,idx) in logList" :index="idx" >
               <div class="fl">{{item.createTime}}</div>
-              <div class="fl ellipsis">{{item.ruleDesc}}</div>
+              <div class="fl">{{item.ruleDesc}}</div>
               <div class="fl">
              <span>
                <img class="mr-10" v-if="item.ruleExeStatus === 0"  src="@/assets/img/error_tag_01.png" alt="">
@@ -121,14 +121,14 @@ export default {
       width: 180px;
     }
     &:nth-child(2){
-      width: 330px;
+      width: 430px;
       padding-right: 20px;
     }
     &:nth-child(3),&:nth-child(4){
       width: 120px;
     }
     &:nth-child(5){
-      width: 150px;
+      width: 80px;
     }
   }
 </style>

@@ -28,6 +28,7 @@ export default [
   '/caseDetail', //复审临时页面
 
   '/ruleParameterList', //规则库 - 参数列表
+  '/rulePdfSwitch', //规则库pdf切换
   '/ctJointCase', // 客户管理-模板联调-联调案件
   '/ctInterfaceList', // 客户管理-模板联调-接口列表
   '/ruleExeDetail', //规则执行详情
@@ -36,7 +37,7 @@ export default [
   '/main/emBatchDownload', // 强制执行-材料选择
   '/main/staffMangement', //员工管理
 
-  '/main/caseUploadRecord', //案件相关 - 案件上传记录
+  '/main/caseUploadView', //案件相关 - 案件上传记录
 
   '/tmCaseDetail', // 案件详情
   '/tmParameterDetail', // 参数列表 子页面
@@ -48,4 +49,5 @@ export default [
   '/main/arbitrationFeesDetail', // 仲裁费充值总数 明细
   '/main/deductionVouchersDetail', // 仲券扣除总数 明细
   '/main/arbitrationFeeDeductionDetail', // 仲裁费扣除总数 明细
+
 ]
