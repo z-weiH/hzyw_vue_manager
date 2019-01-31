@@ -70,6 +70,7 @@
     <div class="item-title of-hidden">
       <span class="item-title-sign">案件列表</span>
       <div class="fr">
+        <el-button @click="handleExport" type="primary">导出</el-button>
         <el-button @click="handleDistributionCases" type="primary">分配案件</el-button>
       </div>
     </div>
@@ -145,6 +146,7 @@
 <script>
   import timeFrame from '@/components/timeFrame.vue'
   import CaseDialog from './modules/dialog.vue'
+  import exportFile from "@/assets/js/exportFile";
   export default {
     components : {
       timeFrame,
@@ -185,6 +187,11 @@
       this.initTableList();
     },
     methods : {
+
+      handleExport () {
+        exportFile({ url: "/preCaseLib/exeportCaseInfoByCondition.htm", data: this.ruleForm })
+      },
+
       // 点击搜索
       handleSearch() {
         this.currentPage = 1;
