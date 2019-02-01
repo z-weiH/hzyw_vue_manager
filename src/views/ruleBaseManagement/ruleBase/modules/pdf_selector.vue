@@ -179,17 +179,17 @@ export default {
             this.showEditor1 = this.showEditor2 = false;
             this.pdfRange = this.pdfValue = '';
             this.pdfList = res.result;
-            this.pdfUrl= res.result[0].pdfUrl;
+            this.pdfUrl= res.result[0].pdfUrl + "?timestamp=" + new Date().valueOf();
             this.width = res.result[0].width * this.scale  + 'px';
             this.height = res.result[0].height * this.scale  + 'px';
 
 
-            this.$nextTick(() => {
-              // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
-              this.showPDF(this.pdfUrl.replace(/http:|https:/g,''));
-
-              document.querySelector("#canvas").onmousedown = (e) => { this.doDown(e)};
-            })
+            // this.$nextTick(() => {
+            //   // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
+            //   this.showPDF(this.pdfUrl.replace(/http:|https:/g,''));
+            //
+            //   document.querySelector("#canvas").onmousedown = (e) => { this.doDown(e)};
+            // })
           }
 
 
