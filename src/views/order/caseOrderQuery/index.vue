@@ -9,9 +9,9 @@
 
         <el-select clearable class="mr-10" style="width:120px;" v-model="ruleForm.processfingState" placeholder="处理状态">
           <el-option label="请选择" value=""></el-option>
-          <template v-for="(item) in processingStateOptions">
+          <template v-for="(item,index) in processingStateOptions">
             <el-option 
-              :key="item.productId" 
+              :key="item.productId + '' + index" 
               :label="item.label" 
               :value="item.value"
             >
