@@ -1111,6 +1111,7 @@
     background: #EAB468;
     color: #fff;
     border-radius:8px;
+    white-space: nowrap;
   }
 
   .textarea_select{
