@@ -13,7 +13,7 @@ module.exports = {
     proxyTable: {
       '*':{
         changeOrigin: true,
-        // target: 'http://localhost:90', // 118 环境
+        target: 'http://localhost:90', // 118 环境
         // target: 'http://localhost:70', // 118 环境
         // target: 'http://192.168.30.120:8080/mockjs', // rap
         // target: 'http://192.168.30.80:7030',   //费余波
@@ -26,7 +26,7 @@ module.exports = {
         // target: 'http://192.168.30.18:7030',   //刘全全
         // target: 'http://118.31.39.65:7030',   // 测试环境
         // target: 'http://118.31.39.65:7030',   // 测试环境
-        target: 'http://118.31.39.65:7030',   // 测试环境
+        // target: 'http://118.31.39.65:7030',   // 测试环境
         // target: 'http://47.98.237.36:7030',   // 测试环境 新
         // target: 'http://192.168.30.64:3000',   // 本地node
         // target: 'http://192.168.30.17:7030', // 毛世桥``````

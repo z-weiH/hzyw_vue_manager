@@ -252,7 +252,7 @@
           })
         },
         openView(url){
-          window.open(url,"_blank");
+          window.open(url.replace('http','https'),"_blank");
         },
         //修改值
         cellClick(row, column, cell, event){

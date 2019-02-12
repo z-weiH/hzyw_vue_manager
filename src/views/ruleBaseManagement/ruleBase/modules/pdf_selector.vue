@@ -122,7 +122,7 @@ export default {
       if(val){
         this.$nextTick(() => {
           // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
-          this.showPDF(this.pdfUrl.replace(/http:|https:/g, ''));
+          this.showPDF(this.pdfUrl.replace(/http:|https:/g, '') + "?timestamp=" + new Date().valueOf());
           this.getRangeValue();
         })
       }
@@ -179,7 +179,7 @@ export default {
             this.showEditor1 = this.showEditor2 = false;
             this.pdfRange = this.pdfValue = '';
             this.pdfList = res.result;
-            this.pdfUrl= res.result[0].pdfUrl + "?timestamp=" + new Date().valueOf();
+            this.pdfUrl= res.result[0].pdfUrl;
             this.width = res.result[0].width * this.scale  + 'px';
             this.height = res.result[0].height * this.scale  + 'px';
 
