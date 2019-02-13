@@ -1,12 +1,12 @@
 import $ from 'jquery'
 
-export function readyIntoPreAboutCtrl(um) {
+export function readyIntoPreAboutCtrl (um) {
   let ue = um
-  // this.um = ue;
+  // this.um = ue
   console.log(ue)
   // console.log(`ummmmmmmmmmmmmmmmmmmmm---${this.um}`)
   // console.log('this.$refs.ueeditor.$el', $(this.$refs.ueeditor.$el).find('iframe'))
-  ue.addListener('ready', function(editor) {
+  ue.addListener('ready', function (editor) {
     console.log('ready')
     let _iframe = $('#ueditor_0').contents()
     console.log(_iframe)
@@ -17,8 +17,8 @@ export function readyIntoPreAboutCtrl(um) {
     var jq_ifmScript = document.createElement('script')
     jq_ifmScript.id = 'jq_ifm'
     jq_ifmScript.type = 'text/javascript'
-    // jq_ifmScript.crossorigin = 'anonymous';
-    // jq_ifmScript.integrity = 'sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb';
+    // jq_ifmScript.crossorigin = 'anonymous'
+    // jq_ifmScript.integrity = 'sha384-I6F5OKECLVtK/BL+8iSLDEHowSAfUo76ZL9+kGAgTRdiByINKJaqTPH/QVNS1VDb'
     jq_ifmScript.src = 'static/jquery/2.2.3/jquery.min.js'
     jq_ifmHead.appendChild(jq_ifmScript)
 
@@ -65,21 +65,21 @@ export function readyIntoPreAboutCtrl(um) {
 					Q_SELECTION = Q_EDITFORM_DOCUMENT.selection
 					Q_RANGE = Q_SELECTION.createRange()
 					Q_RANGE_TEXT = Q_RANGE.text
-					//alert(Q_RANGE_TEXT);
+					//alert(Q_RANGE_TEXT)
 				} else {
 					var sel = window.getSelection && window.getSelection()
 					console.log(sel)
 					Q_SELECTION = Q_EDITFORM_DOCUMENT.getSelection()
-					// console.log(Q_SELECTION);
+					// console.log(Q_SELECTION)
 					Q_RANGE = Q_SELECTION.getRangeAt(0)
 					Q_RANGE_TEXT = Q_RANGE.toString()
-					// console.log(Q_RANGE_TEXT);
+					// console.log(Q_RANGE_TEXT)
 				}
 			}
 
 			function te() {
 				//HtmlEditor为编辑器iframe的id
-				//HtmlEditor.focus();
+				//HtmlEditor.focus()
 				//调用getParentNode()前必须初始化文档对象
 				QEditformDocument()
 				QSelection()
@@ -87,35 +87,41 @@ export function readyIntoPreAboutCtrl(um) {
 				console.log('tagName:', parentobj.tagName, ' className:', parentobj.className)
 				console.log(parentobj)
 				// parentobj.innerHTML = 'hello world'
-				// console.dir(parentobj);
+				// console.dir(parentobj)
 				if (parentobj.tagName == 'PRE' && parentobj.className == 'code_flag') {
 
           $("pre.code_flag").removeAttr('mark')
 					$(parentobj).attr('mark', 'current')
 				}
-			}`
+			}
+      `
     ifm_head.appendChild(ifm_script)
     console.log($('#s2'))
+    $(_iframe[0]).on('click', 'pre', function () {
+      // console.log('<pre>----', document.getElementById('ueditor_0').contentWindow.te)
+      let ifm_dom = document.getElementById('ueditor_0').contentWindow;
+      ifm_dom.te();
+    })
   })
 }
 
 export class codeFormat {
-  // fmkType: string;
+  // fmkType: string
   // _dom :object {ueditor初始化的实例}
-  constructor(_fmkType,_dom) {
+  constructor (_fmkType, _dom) {
     this.fmkType = _fmkType
     this.um = _dom
   }
-  insetCodeBtn() {
+  insetCodeBtn () {
     if (this.fmkType === 'single') {
       this.singleScript()
     } else if (this.fmkType === 'multi') {
       this.multiScript()
     }
   }
-  singleScript() {
-    let ue = this.um;
-    console.log('singleScript',ue)
+  singleScript () {
+    let ue = this.um
+    console.log('singleScript', ue)
     // 单分支判断模板
     let message = this.fmkTempCenter()
     // 单分支判断模板 - 插入页面
@@ -124,7 +130,7 @@ export class codeFormat {
     let _arr = _text.split('<br>')
     this.initcode_def_flat(_arr)
   }
-  multiScript() {
+  multiScript () {
     let ue = this.um
     console.log('multiScript', ue)
     // 多分支判断模板
@@ -135,7 +141,7 @@ export class codeFormat {
     let _arr = _text.split('<br>')
     this.initcode_def_flat(_arr)
   }
-  fmkTempCenter() {
+  fmkTempCenter () {
     if (this.fmkType === 'single') {
       return [
         '<pre contenteditable="true" class="code_flag" onclick="te()">',
@@ -144,7 +150,7 @@ export class codeFormat {
         '&lt;#else&gt;<br>',
         '  第二结果<br>',
         '&lt;/#if&gt;<br>',
-        '</pre>',
+        '</pre>'
       ]
     } else if (this.fmkType === 'multi') {
       return [
@@ -156,18 +162,18 @@ export class codeFormat {
         '&lt;#else&gt;<br>',
         '  x is not 1 nor 2<br>',
         '&lt;/#if&gt;',
-        '</pre>',
+        '</pre>'
       ]
     }
   }
-  getDhtml(ele) {
+  getDhtml (ele) {
     let cur_text = ''
     // 获取代码段文本内容
     let _dom = $('#ueditor_0')
       .contents()
       .find(ele)
 
-    $.each(_dom, function(i) {
+    $.each(_dom, function (i) {
       console.log('_dom', _dom)
       const cur_obj = _dom.eq(i)
       cur_text = cur_obj.html()
@@ -175,7 +181,7 @@ export class codeFormat {
     })
     return cur_text
   }
-  initcode_def_flat(arr) {
+  initcode_def_flat (arr) {
     let i = 0
     let newTmplArr = []
     let _iframe = $('#ueditor_0').contents()
@@ -189,9 +195,9 @@ export class codeFormat {
     }
     this.digui(newTmplArr)
   }
-  digui(arr) {
+  digui (arr) {
     let kcount = ''
-    let newTmpl = '' //用于接收格式化后的模板容器
+    let newTmpl = '' // 用于接收格式化后的模板容器
     let i = 0
     while (i < arr.length) {
       const ele = arr[i]
@@ -208,7 +214,7 @@ export class codeFormat {
       // else if ('&lt;#if 参数 &lt;= 0&gt;' == ele) {
       else if (/^(&lt;#if)/.test(ele)) {
         console.log('我是#if的行：', ele)
-        // let base = kcount + '&lt;#if 参数 &lt;= 0&gt;';
+        // let base = kcount + '&lt;#if 参数 &lt;= 0&gt;'
         let base = kcount + ele
         console.log('base', base)
         kcount += '    '
@@ -228,7 +234,7 @@ export class codeFormat {
         newTmpl += '<br>'
         console.log(`newTmpl:${newTmpl}`)
       } else if ('&lt;#else&gt;' == ele) {
-        // kcount = '';
+        // kcount = ''
         let _kcount = kcount.replace(/^(    )/, '')
         let base = _kcount + '&lt;#else&gt;'
         newTmpl += base
@@ -238,7 +244,7 @@ export class codeFormat {
       }
       // else if('&lt;/#if&gt;' == ele){
       else if (/^(&lt;\/#if&gt;)/.test(ele)) {
-        // kcount = '';
+        // kcount = ''
         let _kcount = kcount.replace(/^(    )/, '')
         let base = _kcount + '&lt;/#if&gt;'
         kcount = _kcount
@@ -253,11 +259,11 @@ export class codeFormat {
         }
       }
       // else if('&lt;/pre&gt;' == ele){
-      //   let base = kcount + unescapeHTML('&lt;/pre&gt;');
-      //   newTmpl += base;
+      //   let base = kcount + unescapeHTML('&lt;/pre&gt;')
+      //   newTmpl += base
       //   console.log(`newTmpl:${newTmpl}`)
       // }
-      // break;
+      // break
       i++
       console.log(`final----newTmpl:${newTmpl}`)
       let _iframe = this.getRootIfm()
@@ -269,7 +275,7 @@ export class codeFormat {
       console.log('原容器格式化后赋值内容：', _iframe.find('.code_flag').html())
     }
   }
-  getRootIfm() {
+  getRootIfm () {
     return $('#ueditor_0').contents()
   }
 }
