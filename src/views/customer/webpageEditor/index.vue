@@ -187,7 +187,6 @@
         try{
           this.$refs.ueeditor.setContent(data);
           this.ueeditorHeight = document.body.clientHeight - 75 - 75 - 20;
-          close.close();
           document.querySelector('iframe').contentDocument.addEventListener('click',this.globalClickFn);
           document.addEventListener('click',this.globalClickFn);
           document.querySelector('iframe').contentDocument.body.oncopy = this.globalCopyFn;
@@ -195,6 +194,13 @@
           let style = document.createElement('style');
           style.innerHTML = 'pre{white-space: pre-wrap;word-wrap: break-word;word-break: break-all;}';
           document.querySelector('iframe').contentDocument.head.appendChild(style);
+          // 触发 富文本html按钮点击事件 解决pre样式问题
+          setTimeout(() => {
+            document.querySelector('#edui4_body').click();
+            document.querySelector('#edui4_body').click();
+            close.close();
+          },0);
+
           // 初始化 title
           this.$http({
             url : '/templateSetting/queryTemplateInfoByProdTempId.htm',
