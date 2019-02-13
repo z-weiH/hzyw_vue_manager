@@ -106,6 +106,8 @@
               <template v-if="$route.query.channelType == 1">
                 <el-radio label="FINANCE">财务</el-radio>
                 <el-radio label="OPERATOR">运营</el-radio>
+                <el-radio label="FINANCE_SUPERVISOR">财务主管</el-radio>
+                <el-radio label="OPERATOR_SUPERVISOR">运营主管</el-radio>
               </template>
               <template v-else>
                 <el-radio label="SUPERVISOR">负责人</el-radio>
