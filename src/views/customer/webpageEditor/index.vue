@@ -53,6 +53,9 @@
                   <el-dropdown-item :command="2">插入判断条件</el-dropdown-item>
                   <el-dropdown-item :command="3">插入多判断条件</el-dropdown-item>
                   <el-dropdown-item :command="22">日期判断</el-dropdown-item>
+                  <el-dropdown-item :command="27">插入判断条件（样式）</el-dropdown-item>
+                  <el-dropdown-item :command="28">插入多判断条件（样式）</el-dropdown-item>
+                  <el-dropdown-item :command="29">日期判断（样式）</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
               <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
@@ -273,28 +276,16 @@
         if(type === 1) {
           message = '${参数}';
         }else if(type === 2) {
-          //message = '&lt;#if 参数 &lt;= 0&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
+          message = '&lt;#if 参数 &lt;= 0&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
           // message = `<pre class="brush:js;toolbar:false;">&lt;#if 参数 &lt;= 0&gt;<br>  第一结果<br>&lt;#else&gt;<br>  第二结果<br>&lt;/#if&gt;<br></pre>`;
           //this.$refs.ueeditor.single.insetCodeBtn();
-
-          let {contStep , ifStep , br} = this.getEditorSpace();
-          message = `<pre class="brush:js;toolbar:false;">${br}${ifStep}&lt;#if 参数 &lt;= 0&gt;<br>${contStep}第一结果<br>${ifStep}&lt;#else&gt;<br>${contStep}第二结果<br>${ifStep}&lt;/#if&gt;<br></pre>`;
-
         }else if(type === 3) {
-          // message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
+          message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
           // message = `<pre class="brush:js;toolbar:false;">&lt;#if x == 1&gt;<br>  x is 1<br>&lt;#elseif x == 2&gt;<br>  x is 2<br>&lt;#else&gt;<br>  x is not 1 nor 2<br>&lt;/#if&gt;<br></pre>`;
           //this.$refs.ueeditor.multi.insetCodeBtn();
-
-          let {contStep , ifStep , br} = this.getEditorSpace();
-          message = `<pre class="brush:js;toolbar:false;">${br}${ifStep}&lt;#if x == 1&gt;<br>${contStep}x is 1<br>${ifStep}&lt;#elseif x == 2&gt;<br>${contStep}x is 2<br>${ifStep}&lt;#else&gt;<br>${contStep}x is not 1 nor 2<br>${ifStep}&lt;/#if&gt;<br></pre>`;
-
         }else if(type === 22) {
-          // message = '&lt;#if dateCompare("2018-11-10", "2018-11-10") == 1&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
+          message = '&lt;#if dateCompare("2018-11-10", "2018-11-10") == 1&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
           //message = `<pre class="brush:js;toolbar:false;">&lt;#if  dateCompare('2018-11-10', '2018-11-10') == 1&gt;<br>  第一结果<br>&lt;#else&gt;<br>  第二结果<br>&lt;/#if&gt;<br></pre>`;
-
-          let {contStep , ifStep , br} = this.getEditorSpace();
-          message = `<pre class="brush:js;toolbar:false;">${br}${ifStep}&lt;#if  dateCompare('2018-11-10', '2018-11-10') == 1&gt;<br>${contStep}第一结果<br>&lt;#else${ifStep}&gt;<br>${contStep}第二结果<br>${ifStep}&lt;/#if&gt;<br></pre>`;
-
         }else if(type === 4) {
           message = '&lt;@myPage /&gt;';
         }else if(type === 5) {
@@ -345,6 +336,15 @@
           message = '&lt;@dateDiffCalc date1=nowDate （当日）date2=violateStartDate（裁决日期） days=6 /&gt;';
         }else if(type === 26) {
           message = '&lt;@dateOffsetCalc date=violateStartDate days=1 /&gt;';
+        }else if(type === 27) {
+          let {contStep , ifStep , br} = this.getEditorSpace();
+          message = `<pre class="brush:js;toolbar:false;">${br}${ifStep}&lt;#if 参数 &lt;= 0&gt;<br>${contStep}第一结果<br>${ifStep}&lt;#else&gt;<br>${contStep}第二结果<br>${ifStep}&lt;/#if&gt;<br></pre>`;
+        }else if(type === 28) {
+          let {contStep , ifStep , br} = this.getEditorSpace();
+          message = `<pre class="brush:js;toolbar:false;">${br}${ifStep}&lt;#if x == 1&gt;<br>${contStep}x is 1<br>${ifStep}&lt;#elseif x == 2&gt;<br>${contStep}x is 2<br>${ifStep}&lt;#else&gt;<br>${contStep}x is not 1 nor 2<br>${ifStep}&lt;/#if&gt;<br></pre>`;
+        }else if(type === 29) {
+          let {contStep , ifStep , br} = this.getEditorSpace();
+          message = `<pre class="brush:js;toolbar:false;">${br}${ifStep}&lt;#if  dateCompare('2018-11-10', '2018-11-10') == 1&gt;<br>${contStep}第一结果<br>&lt;#else${ifStep}&gt;<br>${contStep}第二结果<br>${ifStep}&lt;/#if&gt;<br></pre>`;
         }
         /* if(type != 2 && type !=3){
           this.$refs.ueeditor.insertHtml(message);
@@ -471,7 +471,7 @@
           ifStep += step;
         }
         // 如果当前为第一层 不插入br
-        let br = num === 0 ? '' : '<br>';
+        let br = num === 0 ? '<br>' : '<br>';
         return {contStep , ifStep , br}
       },
     },
