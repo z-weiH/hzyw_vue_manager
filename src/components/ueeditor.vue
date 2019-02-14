@@ -36,9 +36,9 @@ import { readyIntoPreAboutCtrl,codeFormat } from '@/assets/js/FmkCodeFormat'
       this.$nextTick(() => {
         this.um = UE.getEditor(this.id);
         // 等ueditor的数据全部渲染完成后执行
-        readyIntoPreAboutCtrl(this.um);
+        /* readyIntoPreAboutCtrl(this.um);
         this.single = new codeFormat('single',this.um);
-			  this.multi = new codeFormat('multi',this.um);
+			  this.multi = new codeFormat('multi',this.um); */
       });
     },
     methods : {
@@ -53,6 +53,9 @@ import { readyIntoPreAboutCtrl,codeFormat } from '@/assets/js/FmkCodeFormat'
       // 获得内容
       getContent() {
         return UE.getEditor(this.id).getContent();
+      },
+      getContentTxt() {
+        return UE.getEditor(this.id).getContentTxt();
       },
       // 插入内容
       insertHtml(value) {

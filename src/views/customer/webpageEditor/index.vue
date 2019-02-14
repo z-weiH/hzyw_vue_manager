@@ -153,6 +153,7 @@
     },
     data() {
       return {
+        caretOffset : '',
         um:null,
         title : '',
         imgShow : true,
@@ -196,10 +197,11 @@
           document.querySelector('iframe').contentDocument.head.appendChild(style);
           // 触发 富文本html按钮点击事件 解决pre样式问题
           setTimeout(() => {
-            document.querySelector('#edui4_body').click();
-            document.querySelector('#edui4_body').click();
+            /* document.querySelector('#edui4_body').click();
+            document.querySelector('#edui4_body').click(); */
             close.close();
           },0);
+          document.querySelector('iframe').contentDocument.body.addEventListener('click',this.getEditorCursor);
 
           // 初始化 title
           this.$http({
@@ -271,17 +273,28 @@
         if(type === 1) {
           message = '${参数}';
         }else if(type === 2) {
-          message = '&lt;#if 参数 &lt;= 0&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
+          //message = '&lt;#if 参数 &lt;= 0&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
           // message = `<pre class="brush:js;toolbar:false;">&lt;#if 参数 &lt;= 0&gt;<br>  第一结果<br>&lt;#else&gt;<br>  第二结果<br>&lt;/#if&gt;<br></pre>`;
-          console.log('iddddddddddddddddd',this.$refs.ueeditor.single)
-          this.$refs.ueeditor.single.insetCodeBtn();
+          //this.$refs.ueeditor.single.insetCodeBtn();
+
+          let {contStep , ifStep , br} = this.getEditorSpace();
+          message = `<pre class="brush:js;toolbar:false;">${br}${ifStep}&lt;#if 参数 &lt;= 0&gt;<br>${contStep}第一结果<br>${ifStep}&lt;#else&gt;<br>${contStep}第二结果<br>${ifStep}&lt;/#if&gt;<br></pre>`;
+
         }else if(type === 3) {
-          message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
+          // message = '&lt;#if x == 1&gt;x is 1&lt;#elseif x == 2&gt;x is 2&lt;#else&gt;x is not 1 nor 2&lt;/#if&gt;';
           // message = `<pre class="brush:js;toolbar:false;">&lt;#if x == 1&gt;<br>  x is 1<br>&lt;#elseif x == 2&gt;<br>  x is 2<br>&lt;#else&gt;<br>  x is not 1 nor 2<br>&lt;/#if&gt;<br></pre>`;
-          this.$refs.ueeditor.multi.insetCodeBtn();
+          //this.$refs.ueeditor.multi.insetCodeBtn();
+
+          let {contStep , ifStep , br} = this.getEditorSpace();
+          message = `<pre class="brush:js;toolbar:false;">${br}${ifStep}&lt;#if x == 1&gt;<br>${contStep}x is 1<br>${ifStep}&lt;#elseif x == 2&gt;<br>${contStep}x is 2<br>${ifStep}&lt;#else&gt;<br>${contStep}x is not 1 nor 2<br>${ifStep}&lt;/#if&gt;<br></pre>`;
+
         }else if(type === 22) {
-          message = '&lt;#if dateCompare("2018-11-10", "2018-11-10") == 1&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
+          // message = '&lt;#if dateCompare("2018-11-10", "2018-11-10") == 1&gt;第一结果&lt;#else&gt;第二结果&lt;/#if&gt;';
           //message = `<pre class="brush:js;toolbar:false;">&lt;#if  dateCompare('2018-11-10', '2018-11-10') == 1&gt;<br>  第一结果<br>&lt;#else&gt;<br>  第二结果<br>&lt;/#if&gt;<br></pre>`;
+
+          let {contStep , ifStep , br} = this.getEditorSpace();
+          message = `<pre class="brush:js;toolbar:false;">${br}${ifStep}&lt;#if  dateCompare('2018-11-10', '2018-11-10') == 1&gt;<br>${contStep}第一结果<br>&lt;#else${ifStep}&gt;<br>${contStep}第二结果<br>${ifStep}&lt;/#if&gt;<br></pre>`;
+
         }else if(type === 4) {
           message = '&lt;@myPage /&gt;';
         }else if(type === 5) {
@@ -333,13 +346,10 @@
         }else if(type === 26) {
           message = '&lt;@dateOffsetCalc date=violateStartDate days=1 /&gt;';
         }
-        if(type != 2 && type !=3){
+        /* if(type != 2 && type !=3){
           this.$refs.ueeditor.insertHtml(message);
-        // console.log(this.$refs.ueeditor,'---------------------');
-        // console.log($(this.$refs.ueeditor.$el).find('iframe'),'---------iframe')
-
-
-        }
+        } */
+        this.$refs.ueeditor.insertHtml(message);
         this.handleBox();
       },
       // 表格模板 - 华夏信财
@@ -411,11 +421,65 @@
       handleHelp() {
         window.open('http://file.arbexpress.cn/zct/document/template/template_dynamic_document.pdf');
       },
+      // 获取富文本 光标所在位置
+      getEditorCursor() {
+        let _win = document.querySelector('iframe').contentWindow;
+        let element = _win.document.body;
+        var caretOffset = 0;
+        var doc = element.ownerDocument || element.document;
+        var win = doc.defaultView || doc.parentWindow;
+        var sel;
+        if (typeof win.getSelection != "undefined") {//谷歌、火狐
+          sel = win.getSelection();
+          if (sel.rangeCount > 0) {//选中的区域
+            var range = win.getSelection().getRangeAt(0);
+            var preCaretRange = range.cloneRange();//克隆一个选中区域
+            preCaretRange.selectNodeContents(element);//设置选中区域的节点内容为当前节点
+            preCaretRange.setEnd(range.endContainer, range.endOffset);  //重置选中区域的结束位置
+            caretOffset = preCaretRange.toString().length;
+          }
+        } else if ((sel = doc.selection) && sel.type != "Control") {//IE
+          var textRange = sel.createRange();
+          var preCaretTextRange = doc.body.createTextRange();
+          preCaretTextRange.moveToElementText(element);
+          preCaretTextRange.setEndPoint("EndToEnd", textRange);
+          caretOffset = preCaretTextRange.text.length;
+        }
+        this.caretOffset = caretOffset;
+      },
+      // 根据富文本 光标所在位置 计算空格
+      getEditorSpace() {
+        let text = this.$refs.ueeditor.getContentTxt();
+        // 根据当前位置 截取字符串
+        text = text.slice(0,this.caretOffset);
+        // 获取开头 if
+        let ifStart = text.match(/<#if/g) ? text.match(/<#if/g).length : 0;
+        // 获取结束 if
+        let ifEnd = text.match(/#if>/g) ? text.match(/#if>/g).length : 0;
+        // 获取 不相等的数量 即当前光标所在if嵌套层数
+        let num = ifStart - ifEnd;
+        // if 内容拼接 字符串
+        let contStep = '';
+        // if 开头拼接 字符串
+        let ifStep = '';
+        // 步长 当前两个空格
+        let step = '  ';
+        for(let i = 0 ; i < num + 1 ; i ++) {
+          contStep += step;
+        }
+        for(let i = 0 ; i < num; i ++) {
+          ifStep += step;
+        }
+        // 如果当前为第一层 不插入br
+        let br = num === 0 ? '' : '<br>';
+        return {contStep , ifStep , br}
+      },
     },
     destroyed() {
       document.querySelector('iframe').contentDocument.removeEventListener('click',this.globalClickFn);
       document.removeEventListener('click',this.globalClickFn);
       document.querySelector('iframe').contentDocument.body.removeEventListener('copy',this.globalCopyFn);
+      document.querySelector('iframe').contentDocument.body.removeEventListener('click',this.getEditorCursor);
     },
   }
 </script>
