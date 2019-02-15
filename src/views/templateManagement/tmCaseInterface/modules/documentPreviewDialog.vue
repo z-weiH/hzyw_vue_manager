@@ -197,7 +197,9 @@
 <style scoped lang="scss">
 
 .tm-caseInterface-document-preview-dialog{
-
+  td{
+    word-wrap: break-word;
+  }
 }
 
 </style>
