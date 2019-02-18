@@ -184,12 +184,12 @@ export default {
             this.height = res.result[0].height * this.scale  + 'px';
 
 
-            // this.$nextTick(() => {
-            //   // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
-            //   this.showPDF(this.pdfUrl.replace(/http:|https:/g,''));
-            //
-            //   document.querySelector("#canvas").onmousedown = (e) => { this.doDown(e)};
-            // })
+            this.$nextTick(() => {
+              // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
+              this.showPDF(this.pdfUrl.replace(/http:|https:/g,''));
+
+              document.querySelector("#canvas").onmousedown = (e) => { this.doDown(e)};
+            })
           }
 
 
