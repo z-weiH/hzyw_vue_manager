@@ -61,7 +61,7 @@
 
 
         <!--一共{{}}页-->
-        <div style="position:relative;margin-top: 60px;height: calc(100vh - 100px);overflow: auto;" id="canvas"  >
+        <div style="position:relative;margin-top: 60px;height: calc(100vh - 100px);overflow: auto;" id="canvas" ref="canvas" >
           <!--<pdf ref="pdf" style="width:595.3px;" src="../../../../../static/借款协议.pdf"-->
           <!--@num-pages="pageCount = $event"-->
           <!--&gt;</pdf>-->
@@ -123,6 +123,8 @@ export default {
         this.$nextTick(() => {
           // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
           this.showPDF(this.pdfUrl.replace(/http:|https:/g, '') + "?timestamp=" + new Date().valueOf());
+          this.$refs.canvas.scrollTop = 0;
+          console.log(this.$refs.canvas,this.$refs.canvas.scrollTop);
           this.getRangeValue();
         })
       }
@@ -182,11 +184,11 @@ export default {
             this.pdfUrl= res.result[0].pdfUrl;
             this.width = res.result[0].width * this.scale  + 'px';
             this.height = res.result[0].height * this.scale  + 'px';
-
-
+            // this.$refs.dialog.$el.scrollTop = 0;
             this.$nextTick(() => {
               // document.querySelector("#canvas").addEventListener('mousedown',this.doDown)
-              this.showPDF(this.pdfUrl.replace(/http:|https:/g,''));
+              // this.showPDF(this.pdfUrl.replace(/http:|https:/g,''));
+              this.$refs.canvas.scrollTop = 0;
 
               document.querySelector("#canvas").onmousedown = (e) => { this.doDown(e)};
             })
