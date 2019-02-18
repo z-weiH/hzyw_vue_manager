@@ -1,7 +1,31 @@
 <template>
     <div class="paramList">
       <div class="parameter-list-title">
-        <div class="width-1200">参数列表</div>
+        <div class="width-1200">
+          <el-popover
+            placement="bottom"
+            class="fr"
+            ref="popover"
+            width="120"
+            style="margin:0;"
+            trigger="click">
+            <div class="dropdown-content" :style="{'height': (result.paramsList && result.paramsList .length > 10 ) ? '280px' : 'auto'}">
+                <el-scrollbar style="height: 100%">
+                  <div class="content" style="width: 120px;">
+                    <ul>
+                      <li style="line-height: 30px;font-size: 14px;cursor: pointer;width: 115px;margin: 0;"  v-for="(item,idx) in result.paramsList" :key="idx" @click="paramChange(item,idx)">{{`案件样例${idx + 1}`}}</li>
+                    </ul>
+                  </div>
+                </el-scrollbar>
+
+
+            </div>
+            <span slot="reference" class="el-dropdown-link" style="font-size: 14px;line-height: 30px;cursor: pointer;">
+              {{paramName}}<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+          </el-popover>
+          参数列表
+        </div>
       </div>
       <div class="content">
         <div class="m-left">
@@ -11,22 +35,21 @@
             text-color="#7C7C7C"
             active-text-color="#13367D"
             >
-            <el-submenu index="1" >
-              <span slot="title">字段列表 <b v-if="numList.length === 0">(暂无样例)</b></span>
+            <el-menu-item index="1" @click="tabChange(0)">
+              <span slot="title" >字段列表 <b v-if="numList.length === 0">(暂无样例)</b></span>
+              <!--<el-menu-item-group>-->
+                <!--<el-menu-item v-for="(item,idx) in numList"  :index="'1-'+ (idx+ 1)" :key="idx" @click="showFieldList(idx)">案件样例{{idx + 1}}</el-menu-item>-->
+              <!--</el-menu-item-group>-->
 
-              <el-menu-item-group>
-                <el-menu-item v-for="(item,idx) in numList"  :index="'1-'+ (idx+ 1)" :key="idx" @click="showFieldList(idx)">案件样例{{idx + 1}}</el-menu-item>
-              </el-menu-item-group>
+            </el-menu-item>
+            <el-menu-item index="2" @click="tabChange(1)">
+              <span slot="title" >证据列表 <b v-if="numList.length === 0">(暂无样例)</b></span>
 
-            </el-submenu>
-            <el-submenu index="2" >
-              <span slot="title">证据列表 <b v-if="numList.length === 0">(暂无样例)</b></span>
+              <!--<el-menu-item-group>-->
+                <!--<el-menu-item v-for="(item,idx) in numList"  :index="'2-'+ (idx+ 1)" :key="idx" @click="showEviList(idx)">案件样例{{idx + 1}}</el-menu-item>-->
+              <!--</el-menu-item-group>-->
 
-              <el-menu-item-group>
-                <el-menu-item v-for="(item,idx) in numList"  :index="'2-'+ (idx+ 1)" :key="idx" @click="showEviList(idx)">案件样例{{idx + 1}}</el-menu-item>
-              </el-menu-item-group>
-
-            </el-submenu>
+            </el-menu-item>
 
             <el-menu-item index="3" @click="returnCodeList()">
               <span slot="title" >返回编码</span>
@@ -164,6 +187,9 @@
       },
       data(){
           return{
+            currentObj: {},
+            //参数列表名字
+            paramName: '参数列表',
             //当前的激活的tab 0-字段列表, 1-证据列表,2-返回编码
             tab: 0,
             //案列数量
@@ -197,6 +223,28 @@
       },
       methods:{
 
+        tabChange(tab){
+          this.tab = tab;
+          if(this.tab === 0){
+            this.currentList = this.currentObj.field;
+          }
+          else if(this.tab === 1){
+            this.currentList = this.currentObj.evi;
+          }
+          console.log(tab, this.currentList)
+
+        },
+
+        paramChange(item,idx){
+          this.paramName = `案件样例${idx + 1}`;
+          this.currentObj = this.result.paramsList[idx];
+          if(this.tab === 0){
+            this.currentList = this.result.paramsList[idx].field;
+          }
+          else if(this.tab === 1){
+            this.currentList = this.result.paramsList[idx].evi;
+          }
+        },
 
         addCode(){
           this.$refs.addCodeDialog.init();
@@ -348,6 +396,8 @@
           console.log(this.currentList);
           this.currentTitle = '返回编码';
         },
+
+
         //initList
         initList(){
           if(this.numList.length > 0){
@@ -385,6 +435,22 @@
                 }
               }
               this.result.returnCodeList.sort(compare2);
+
+              let  result = [];
+              this.result.eviList.forEach(it => {
+                if(it[0]){
+                  let obj = {evi:it};
+                  result.push(obj);
+                  let item = this.result.fieldList.find(ii => ii.find(i => i.sampleId === it[0].sampleId));
+                  if(item){
+                    obj.field = item;
+                  }
+                }
+              })
+              this.result.paramsList = result;
+              console.log(this.result,'result');
+
+
               this.initList();
             }
           })
