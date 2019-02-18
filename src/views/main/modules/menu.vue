@@ -670,9 +670,14 @@
                 menuUrl: 'emChannelManagement'
               },
               {
-                menuName: '委托人管理',
+                menuName: '受委托人管理',
                 menuId: 'fyajgl5',
                 menuUrl: 'emClientManagement'
+              },
+              {
+                menuName: '委托人管理',
+                menuId: 'fyajgl10',
+                menuUrl: 'emWtrClientManagement'
               },
               {
                 menuName: '被执行人财产状况',

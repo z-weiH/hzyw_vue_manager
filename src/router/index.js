@@ -1046,9 +1046,16 @@ let router = new Router({
 
         {
           path: 'emClientManagement',
-          component: () => import('@/views/enforceManagement/emClientManagement'), // 委托人管理
+          component: () => import('@/views/enforceManagement/emClientManagement'), // 受委托人管理
           meta: {
             name: 'emClientManagement',
+          },
+        },
+        {
+          path: 'emWtrClientManagement',
+          component: () => import('@/views/enforceManagement/emWtrClientManagement'), // 委托人管理
+          meta: {
+            name: 'emWtrClientManagement',
           },
         },
         {
