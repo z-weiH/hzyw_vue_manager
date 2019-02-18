@@ -227,7 +227,9 @@
         }
       },
       'editFlag'(val,oldval){
-        this.$refs.editform.clearValidate();
+        if(!val){
+          this.$refs.editform.resetFields();
+        }
       }
     },
     methods : {
@@ -421,12 +423,14 @@
       // 关闭浮层
       handleClose() {
         this.dialogVisible = false;
+        // 重置表单数据
+        if(this.$refs.ruleForm){
+          this.$refs.ruleForm.resetFields();
+        }
         // 取消按钮禁用
         setTimeout(() => {
           this.submitDisabled = false;
 				},500);
-				// 重置表单数据
-        this.$refs.ruleForm.resetFields();
       },
       // 点击提交
       handleSubmit() {
