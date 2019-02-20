@@ -107,6 +107,9 @@
                   negReasonMsg : this.ruleForm.reasonMsg,
                   reasonType : this.ruleForm.type,
                   code: this.ruleForm.code,
+                  clientName: this.companyList.find(it => it.code === this.ruleForm.clientCode).merchantName,
+                  codeIndex: this.companyList.find(it => it.code === this.ruleForm.clientCode).codeIndex,
+                  clientCode: this.ruleForm.clientCode,
                 },
               }).then((res) => {
                 this.$message.success('添加成功');
