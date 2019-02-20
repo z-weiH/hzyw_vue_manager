@@ -9,7 +9,7 @@
   >
     <div class="reasonView">
       <p class="title">将以下哪些脚本规则的返回编码替换为“{{rule.code}}”（{{rule.negReasonMsg}}）？</p>
-      <div class="content">
+      <div class="content" v-if="items.length > 0">
             <div class="w160">
               <el-scrollbar style="height: 100%">
 
@@ -46,11 +46,14 @@
             </ul>
             </el-scrollbar>
             <div v-else>
-              <p class="mt-20" style="line-height: 40px;text-align: center;font-size: 18px;color: #333;font-weight: bold;">暂无案例</p>
+              <p class="mt-20" style="line-height: 40px;text-align: center;font-size: 18px;color: #333;font-weight: bold;">暂无规则</p>
             </div>
 
           </div>
 
+      </div>
+      <div v-else class="mt-20" style="height: 300px;line-height: 40px;text-align: center;font-size: 18px;color: #333;font-weight: bold;">
+        暂无模版
       </div>
     </div>
     <div style="text-align: center;margin-top: 15px;">

@@ -24,7 +24,11 @@
               <el-table-column type="selection" width="50"> </el-table-column>
               <el-table-column type="index" label="序号" width="50"> </el-table-column>
               <el-table-column prop="caseNo" label="案件编号" width="120"> </el-table-column>
-              <el-table-column prop="caseNo" label="样例名称" width="108"> </el-table-column>
+              <el-table-column prop="sampleName" label="样例名称" width="108">
+                <template slot-scope="scope">
+                  {{scope.row.sampleName || '--'}}
+                </template>
+              </el-table-column>
               <el-table-column prop="resName" label="被申请人名字" width="120"> </el-table-column>
               <el-table-column prop="resPhone" label="被申请人手机号" width="150"> </el-table-column>
               <el-table-column prop="captureTime" label="抓取时间" width="180"> </el-table-column>
@@ -170,6 +174,7 @@
         //编辑flag
         editFlag: false,
 
+        currentSample: {},
         //控制鼠标连点
         disabled: false,
 
@@ -238,6 +243,11 @@
         this.$refs.editform.validate((valid) => {
           if (valid) {
             //Todo 保存样例名称
+            this.$http.post("/caseSample/updateCaseSampleName.htm",{sampleId: this.currentSample.sampleId, sampleName: this.editItem.sampleName}).then(res => {
+              this.$message.success("修改成功");
+              this.init();
+              this.editFlag = false;
+            })
           }
         })
       },
@@ -246,6 +256,8 @@
       //修改样例名称
       editName(row){
         console.log(row)
+        this.currentSample = row;
+        this.editItem = {sampleName: row.sampleName};
         this.editFlag = true;
       },
 

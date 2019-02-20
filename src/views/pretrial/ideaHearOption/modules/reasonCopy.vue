@@ -31,17 +31,19 @@
                 <el-checkbox style="vertical-align: baseline;margin-top: -1px; overflow: hidden;
         text-overflow:ellipsis;
         white-space: nowrap;
-        width: 230px;" v-model="item.selected" @change="handleChange">{{item.merchantName}}</el-checkbox>
+        width: 230px;" v-model="item.selected" @change="handleChange($event,item)">{{item.merchantName}}</el-checkbox>
 
               </li>
             </ul>
           </el-scrollbar>
         </div>
         <div class="right fr">
-          <p style="line-height: 36px;color: #aaa;">请在左侧选择目标公司</p>
+          <p v-if="companyListCopy.filter(it => it.selected).length === 0" style="line-height: 36px;color: #aaa;">请在左侧选择目标公司</p>
+          <p v-else style="line-height: 36px;color: #aaa;">已选 {{companyListCopy.filter(it => it.selected).length}}</p>
           <el-scrollbar style="max-height: 340px;">
             <ul>
               <li v-for="(item,idx) in companyListCopy.filter(it => it.selected)" :key="idx">
+                <img class="fr" @click="handleSingleDel(item)"  style="width: 14px; height: 14px; cursor:pointer;margin-top: 8px; z-index: 100" src="../../../../assets/img/Delete.png" alt="">
                 {{item.merchantName}}
               </li>
             </ul>
@@ -83,15 +85,23 @@
       },
       methods: {
 
+        handleSingleDel(item){
+          // this.$set(item,'selected', false);
+          item.selected = false;
+          let res = this.companyList.find(it => it.code == item.code);
+          if(res){
+            res.selected = false;
+          }
 
-        handleChange(val){
-          console.log(val,this.companyList)
-          this.companyList.filter(it => it.selected).forEach(it => {
-            let item = this.companyListCopy.find(i => i.code === it.code);
-            if(item){
-              this.$set(item, 'selected', true)
+        },
+
+        handleChange(val,item){
+          console.log(val,item)
+            let res = this.companyListCopy.find(i => i.code === item.code);
+            if(res){
+              this.$set(res, 'selected', val)
             }
-          })
+
         },
 
         //确定复制
@@ -145,10 +155,14 @@
       }
     }
     .right li {
+      padding-right: 25px;
       overflow: hidden;
       text-overflow:ellipsis;
       white-space: nowrap;
       width: 230px;
+      img{
+        position: relative;
+      }
     }
   }
 </style>

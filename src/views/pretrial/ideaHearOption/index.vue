@@ -69,14 +69,15 @@
                 <span style="color: #FFCC33;cursor: pointer;" class="ml-10" @click="handleShowRule(item)" v-if="item.returnCodeCount > 0">{{item.returnCodeCount}}次引用</span>
               </span>
               <div class="fr">
-                <template v-if="(index > (
-                    activeName === '0' ? 5 :
-                    activeName === '1' ? 2 : -1
-                  )) && (item.active === true) ">
+                <template v-if="item.active">
                   <img class="edit_icon"  @click="handleEdit(item)" src="../../../assets/img/edit.png" alt="">
                   <img class="edit_icon"  @click="handleSingleCopy(item)" src="../../../assets/img/copy.png" alt="">
                   <img class="edit_icon" @click="handleSingleSet(item)" src="../../../assets/img/set.png" alt="">
-                  <img class="edit_icon" @click="handleSingleDel(item)" style="width: 14px; height: 14px;" src="../../../assets/img/Delete.png" alt="">
+                  <img class="edit_icon" v-if="(index > (
+                    activeName === '0' ? 5 :
+                    activeName === '1' ? 2 : -1
+                  )) && (item.returnCodeCount === 0)" @click="handleSingleDel(item)" style="width: 14px; height: 14px;" src="../../../assets/img/Delete.png" alt="">
+                  <img class="edit_icon" v-else  style="cursor:not-allowed;width: 14px; height: 14px;" src="../../../assets/img/delete_disabled.png" alt="">
                   <!--<el-button @click="handleEdit(item)" type="text">修改</el-button>-->
                   <!--<span>|</span>-->
                   <!--<el-button @click="handleDelete(item)" type="text">删除</el-button>-->
@@ -149,7 +150,11 @@
         let arr1 = this.listDefault.filter(it => it.reasonType === 1).slice(3);
         let arr2 = this.listDefault.filter(it => it.reasonType === 2);
         let res = arr.concat(arr1, arr2);
-        return !res.find(it => it.selected);
+        let r = res.filter(it => it.selected);
+        if(r.length === 0)
+          return true;
+        else
+          return r.find(it => it.returnCodeCount > 0);
       }
     },
     mounted() {
