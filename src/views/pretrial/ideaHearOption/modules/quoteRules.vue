@@ -7,8 +7,8 @@
     :close-on-press-escape="false"
     width="800px"
   >
-    <p>以下 {{'3'}} 条脚本规则引用了审核意见“{{`[${item.code}]${item.negReasonMsg}`}}”。</p>
-        <ul class="ul" style="max-height: 400px;overflow: auto">
+    <p>以下 {{ruleList.length}} 条脚本规则引用了审核意见“{{`[${item.code}]${item.negReasonMsg}`}}”。</p>
+        <ul class="ul" ref="ul" style="max-height: 400px;overflow: auto">
           <li class="li" v-for="(li,idx) in ruleList" :key="idx">
             <div class="left">
               {{idx + 1}}
@@ -17,7 +17,7 @@
               <ul>
                 <li>
                   <span class="label">产品模板</span>
-                  <span class="value">{{li.templateName}}</span>
+                  <span class="value">{{li.prodTempCode}}</span>
                 </li>
                 <li>
                   <span class="label">规则描述</span>
@@ -25,7 +25,7 @@
                 </li>
                 <li>
                   <span class="label">规则代码</span>
-                  <span class="value">{{li.ruleContent}}</span>
+                  <span class="value">{{li.ruleInfo}}</span>
                 </li>
               </ul>
             </div>
@@ -47,20 +47,23 @@
           flag: false,
           item: {},
           ruleList: [
-            {templateName: '奇速贷-1001', ruleDesc: '验证借款起止时间与合同中约定的时间是否一致', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
-            {templateName: '奇速贷-1001', ruleDesc: '验证借款起止时间与合同中约定的时间是否一致', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
-            {templateName: '奇速贷-1001', ruleDesc: '验证借款起止时间与合同中约定的时间是否一致', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
-            {templateName: '奇速贷-1001', ruleDesc: '验证借款起止时间与合同中约定的时间是否一致', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
-            {templateName: '奇速贷-1001', ruleDesc: '验证借款起止时间与合同中约定的时间是否一致', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
-            {templateName: '奇速贷-1001', ruleDesc: '验证借款起止时间与合同中约定的时间是否一致', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075},if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075},if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075},if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
+
           ]
         }
       },
       methods: {
         show(obj) {
           console.log(obj);
-          this.item = obj;
-          this.flag = true;
+          this.$http.post("/reason/queryRuleInfoByErrorCode.htm", {errorCode: obj.code}).then(res => {
+            this.item = obj;
+            this.ruleList = res.result;
+            this.flag = true;
+            this.$nextTick(() => {
+              this.$refs.ul.scrollTop = 0;
+            })
+          })
+
+
         }
       }
     }

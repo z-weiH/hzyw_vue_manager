@@ -31,7 +31,7 @@
                 <el-checkbox style="vertical-align: baseline;margin-top: -1px; overflow: hidden;
         text-overflow:ellipsis;
         white-space: nowrap;
-        width: 230px;" v-model="item.selected" >{{item.name}}</el-checkbox>
+        width: 230px;" v-model="item.selected" @change="handleChange">{{item.merchantName}}</el-checkbox>
 
               </li>
             </ul>
@@ -41,8 +41,8 @@
           <p style="line-height: 36px;color: #aaa;">请在左侧选择目标公司</p>
           <el-scrollbar style="max-height: 340px;">
             <ul>
-              <li v-for="(item,idx) in companyList.filter(it => it.selected)" :key="idx">
-                {{item.name}}
+              <li v-for="(item,idx) in companyListCopy.filter(it => it.selected)" :key="idx">
+                {{item.merchantName}}
               </li>
             </ul>
           </el-scrollbar>
@@ -50,7 +50,7 @@
       </div>
 
       <div slot="footer" >
-        <el-button type="primary" :disabled="disabled"  class="mr-20">确定复制</el-button>
+        <el-button type="primary" :disabled="disabled" @click="handleClick" class="mr-20">确定复制</el-button>
         <el-button @click="flag = false">取消</el-button>
       </div>
     </el-dialog>
@@ -63,21 +63,17 @@
         return {
           flag: false,
           searchValue: '',
-          companyList: [
-            {name: '杭州晋天科技有限公司11111111111111111111111123333', selected: false},
-            {name: '杭州晋天科技有限公司11111111111111111111111123333', selected: false},
-            {name: '杭州晋天科技有限公司11111111111111111111111123333', selected: false},
-            {name: '杭州晋天科技有限公司11111111111111111111111123333', selected: false},
-            {name: '杭州晋天科技有限公司11111111111111111111111123333', selected: false},
-            {name: '杭州晋天科技有限公司11111111111111111111111123333', selected: false},
-            {name: '杭州晋天科技有限公司11111111111111111111111123333', selected: false},
-            {name: '杭州晋天科技有限公司11111111111111111111111123333', selected: false},
-            {name: '杭州晋天科技有限公司11111111111111111111111123333', selected: false},
-            {name: '杭州晋天科技有限公司11111111111111111111111123333', selected: false},
-            {name: '杭州晋天科技有限公司11111111111111111111111123333', selected: false},
-            {name: '杭州晋天科技有限公司11111111111111111111111123333', selected: false},
-            {name: '杭州晋天科技有限公司11111111111111111111111123333', selected: false},
-          ]
+          companyList: [],
+          companyListCopy: [],
+          tab: null,
+          reasonSOList: []
+
+        }
+      },
+      watch: {
+        searchValue(val,oldval){
+
+          this.companyList= this.companyListCopy.filter(it => it.merchantName.indexOf(this.searchValue) > -1);
         }
       },
       computed:{
@@ -86,8 +82,50 @@
         }
       },
       methods: {
-        show() {
-          this.flag = true
+
+
+        handleChange(val){
+          console.log(val,this.companyList)
+          this.companyList.filter(it => it.selected).forEach(it => {
+            let item = this.companyListCopy.find(i => i.code === it.code);
+            if(item){
+              this.$set(item, 'selected', true)
+            }
+          })
+        },
+
+        //确定复制
+        handleClick() {
+          let arr = [];
+          this.reasonSOList.forEach(it => {
+            arr.push({ reasonId: it.reasonId, type: it.reasonType})
+          })
+          this.companyList.forEach(it => {
+            it.clientName = it.merchantName;
+            it.clientCode = it.code;
+          })
+
+          this.$http.post("/reason/saveReasonPrivate.htm",{reasonSOList: arr, clientSOList: this.companyList.filter(it => it.selected)},{mheaders: true}).then(res => {
+            console.log(res);
+            this.$message.success("复制成功");
+            this.flag = false;
+          })
+        },
+
+        show(obj, list, flag) {
+          if(flag){
+            this.reasonSOList = [obj];
+          }
+          else{
+            this.reasonSOList = obj;
+          }
+          console.log(this.reasonSOList)
+          this.flag = true;
+          this.companyList = list;
+          this.companyList.forEach(it => {
+            this.$set(it, 'selected', false);
+          })
+          this.companyListCopy = JSON.parse(JSON.stringify(this.companyList));
         }
       }
     }

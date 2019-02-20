@@ -32,12 +32,12 @@
           </div>
           <div class="content">
             <ul>
-              <li v-for="(item,idx) in companyList" :key="idx" @click="companyClick">{{item}}</li>
+              <li v-for="(item,idx) in companyList" :key="idx" @click="companyClick(item)">{{item.merchantName}}</li>
             </ul>
           </div>
         </div>
         <span slot="reference" class="el-dropdown-link">
-          下拉菜单<i class="el-icon-arrow-down el-icon--right"></i>
+          {{currentCompany.merchantName}}<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
       </el-popover>
     </div>
@@ -46,7 +46,7 @@
       <div class="add-button">
         <el-button type="text" @click="handleAdd"  size="small">添加</el-button>
         <el-button type="text" @click="handleCopy" :disabled="disabled" size="small">复制</el-button>
-        <el-button type="text" @click="handleDel" :disabled="disabled" size="small">删除</el-button>
+        <el-button type="text" @click="handleDel" :disabled="disabled1" size="small">删除</el-button>
       </div>
 
       <div class="tabs-box">
@@ -66,7 +66,7 @@
                 {{index + 1}}.
                 <span v-if="item.code">[{{item.code}}]</span>
                 {{item.negReasonMsg}}
-                <span style="color: #FFCC33;cursor: pointer;" class="ml-10" @click="handleShowRule(item)">{{'3次引用'}}</span>
+                <span style="color: #FFCC33;cursor: pointer;" class="ml-10" @click="handleShowRule(item)" v-if="item.returnCodeCount > 0">{{item.returnCodeCount}}次引用</span>
               </span>
               <div class="fr">
                 <template v-if="(index > (
@@ -94,10 +94,10 @@
       <reason-copy ref="copy"></reason-copy>
 
       <!--审核意见引用-->
-      <reason-view ref="view"></reason-view>
+      <reason-view ref="view" @successCBK="successCBK"></reason-view>
 
       <!--引用规则-->
-      <quote-rules ref="quote"></quote-rules>
+      <quote-rules ref="quote" ></quote-rules>
     </div>
   </div>
 </template>
@@ -130,19 +130,39 @@
         listDefault : [],
         searchText: '', //公司输入
         currentCompany: {}, //当前公司
-        companyList: ['公共','杭州晋天科技有限公司1111111111111111111111112333333333111111111111111','达飞云贷科技（北京）有限公司'],//公司列表
+        companyList: [],//公司列表
+        companyListCopy: [] //公司列表复制
+        // companyName: ''
+      }
+    },
+    watch: {
+      searchText(val,oldval){
+        this.companyList = this.companyListCopy.filter(it => it.merchantName.indexOf(this.searchText) > -1);
       }
     },
     computed: {
       disabled(){
         return !this.listDefault.find(it => it.selected);
+      },
+      disabled1() {
+        let arr = this.listDefault.filter(it => it.reasonType === 0).slice(6);
+        let arr1 = this.listDefault.filter(it => it.reasonType === 1).slice(3);
+        let arr2 = this.listDefault.filter(it => it.reasonType === 2);
+        let res = arr.concat(arr1, arr2);
+        return !res.find(it => it.selected);
       }
     },
     mounted() {
-      // 加载列表
-      this.loadList();
+
     },
     methods : {
+
+      //调取删除api
+      doDelete(reasonIds){
+        return this.$http.post("/reason/deleteErrorReasonByReasonId.htm",{reasonIds: reasonIds}).then(res => {
+          return res;
+        })
+      },
 
       //批量删除
       handleDel() {
@@ -154,7 +174,12 @@
           confirmButtonText: '确定',
           cancelButtonText: '取消',
         }).then(() => {
-          //TODO 批量删除
+          //TODO 批量删除d
+            this.doDelete(this.listDefault.filter(it => it.selected).map(v => v.reasonId).join(',')).then(res => {
+              console.log(res);
+              this.$message.success("删除成功")
+              this.companyClick(this.currentCompany);
+            })
 
         }).catch(() => {
           //TODO 取消
@@ -163,19 +188,34 @@
 
       //复制审核意见
       handleCopy(){
-        this.$refs.copy.show();
+        this.$refs.copy.show(this.listDefault.filter(it => it.selected), this.companyListCopy.slice(1));
       },
 
-      companyClick(){
-        console.log(this.$refs.popover)
+      companyClick(row){
         this.$refs.popover.showPopper = false;
+        this.currentCompany = row;
+        console.log({clientCode: row.code})
+        this.loadList({clientCode: row.code})
       },
+
+      //查询列表/reason/queryPreMerchantNameWithReason.htm
+      queryPreMerchantName(){
+        this.$http.post("/reason/queryPreMerchantNameWithReason.htm").then(res => {
+            this.companyList = res.result;
+            this.companyListCopy = JSON.parse(JSON.stringify(this.companyList));
+          // 加载列表
+          console.log(this.companyList[0])
+          this.companyClick(this.companyList[0])
+        })
+      },
+
 
       // 加载 列表
-      loadList() {
+      loadList(data) {
         this.$http({
           method : 'post',
           url : '/reason/idCardAudit.htm',
+          data:data
         }).then((res) => {
           this.listDefault = res.result;
           this.initList();
@@ -189,7 +229,7 @@
       },
       // 点击新增
       handleAdd() {
-        this.$refs.dialog.show('add');
+        this.$refs.dialog.show('add',this.currentCompany);
       },
       // 点击修改
       handleEdit(row) {
@@ -206,7 +246,7 @@
 
       //单个复制
       handleSingleCopy(row){
-        this.$refs.copy.show();
+        this.$refs.copy.show(row, this.companyListCopy.slice(1), true);
       },
 
       //单个删除
@@ -216,18 +256,27 @@
           cancelButtonText: "取消",
           center: true
         }).then(() => {
-          //TODO 单个删除
+          // 单个删除
+          this.doDelete(row.reasonId).then(res => {
+            console.log(res);
+            this.$message.success("删除成功")
+            this.companyClick(this.currentCompany);
+          })
         }).catch(() => {})
       },
 
       //单个设置
       handleSingleSet(row) {
-        this.$refs.view.show(row);
+        this.$http.post("/reason/queryClientTemplateRuleList.htm", {clientCode: this.currentCompany.code, errorCode: row.code}).then(res => {
+          // console.log(res);
+          this.$refs.view.show(row,res.result);
+
+        })
       },
 
       // dialog success
       successCBK() {
-        this.loadList();
+        this.companyClick(this.currentCompany);
       },
       // 点击删除
       handleDelete(row) {
@@ -261,6 +310,9 @@
         this.list[index].active = false;
       },
     },
+    created(){
+      this.queryPreMerchantName();
+    }
   }
 </script>
 

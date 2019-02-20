@@ -15,7 +15,7 @@
 
               <ul>
                 <li v-for="(item, idx)  in items" :class="{'active': idx === currentIndex}" :key="idx" @click="handleClick(idx)">
-                  {{`${item.clientName}-${item.clientCode}`}}
+                  {{`${item.clientName}-${item.prodTempCode}`}}
                   <span v-if="item.selectedNum > 0">{{`(${item.selectedNum})`}}</span>
                 </li>
               </ul>
@@ -23,7 +23,7 @@
 
             </div>
           <div class="rules">
-            <el-scrollbar style="height: 100%">
+            <el-scrollbar style="height: 100%" v-if="ruleList && ruleList.length > 0">
 
             <ul>
               <li v-for="(rule, idx) in ruleList" :key="idx">
@@ -38,13 +38,16 @@
                     </li>
                     <li>
                       <div class="label">规则代码</div>
-                      <div class="value">{{rule.ruleContent}}</div>
+                      <div class="value">{{rule.ruleInfo}}</div>
                     </li>
                   </ul>
                 </div>
               </li>
             </ul>
             </el-scrollbar>
+            <div v-else>
+              <p class="mt-20" style="line-height: 40px;text-align: center;font-size: 18px;color: #333;font-weight: bold;">暂无案例</p>
+            </div>
 
           </div>
 
@@ -77,16 +80,25 @@
 
       watch: {
         'currentIndex'(val,oldval){
-          this.ruleList = this.items[this.currentIndex].rules;
+          if(this.currentIndex !== -1){
+            this.ruleList = this.items[this.currentIndex].ruleList;
+          }
         },
         'flag'(val,oldval){
           if(!val){
-            this.items = null;
+             // this.items = [];
+            // this.items
+            this.currentIndex = -1;
             this.disabled = true;
-            this.$refs.check.forEach(it => {
-              it.model = false;
+            this.items.forEach(it => {
+              it.ruleList.forEach(i => {
+                i.selected = false;
+              })
             })
-            console.log(this.items)
+            // this.$refs.check.forEach(it => {
+            //   it.value = false;
+            // })
+            // console.log(this.items)
 
           }
         }
@@ -102,51 +114,53 @@
         },
 
         handleOK() {
+          console.error(this.ruleList === this.items[0].ruleList)
+          let arr = [];
+          this.items.forEach(it => {
+            it.ruleList.forEach(i => {
+              if(i.selected){
+                arr.push(i.ruleId)
+              }
+            })
+          })
+          console.log(arr, this.items, this.$refs.check);
+          this.$http.post("/reason/updateRuleReturnCodeByRuleIds.htm", {ruleIds: arr.join(','),errorCode: this.rule.code}).then(res => {
+            this.$message.success("返回编码修改成功");
+            this.flag = false;
+            this.$emit('successCBK');
 
+          })
         },
 
         handleClick(idx) {
           this.currentIndex = idx;
         },
 
-        show(rule){
-          console.log(rule);
+        show(rule,list){
+          console.error(rule,list);
           this.rule = rule;
           this.flag = true;
-          this.currentIndex = 0;
+
+
 
           //TODO 获取数据
-          this.items = [
-            {clientName: '奇速贷', clientCode: '1001', rules: [
-                {ruleDesc: '验证借款起止时间与合同中约定的时间是否一致', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
-                {ruleDesc: '验证借款起止时间与合同中约定的时间是否一致', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
-                {ruleDesc: '验证借款起止时间与合同中约定的时间是否一致', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
-              ]
-            },
-            {clientName: '奇速贷', clientCode: '1002', rules: [
-                {ruleDesc: '验证借款起止时间与合同中约定的时间是否一致2', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
-                {ruleDesc: '验证借款起止时间与合同中约定的时间是否一致', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
-                {ruleDesc: '验证借款起止时间与合同中约定的时间是否一致', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
-              ]
-            },
-            {clientName: '奇速贷', clientCode: '1003', rules: [
-                {ruleDesc: '验证借款起止时间与合同中约定的时间是否一致3', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
-                {ruleDesc: '验证借款起止时间与合同中约定的时间是否一致', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
-                {ruleDesc: '验证借款起止时间与合同中约定的时间是否一致', ruleContent: 'if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}if(resIdCard !=getContent(VOUCHER,0,228,281,169,16)){return 3075}'},
-              ]
-            }
-          ];
+          // this.$http.post("/reason/queryClientTemplateRuleList.htm", {clientCode: this.currentCompany.code, errorCode: row.code}).then(res => {
+          //   console.log(res);
+          // })
+          this.items = list;
+          this.currentIndex = 0;
+
 
           this.initItems()
         },
         initItems(){
           this.items.forEach(it => {
-            it.rules.forEach(i => {
+            it.ruleList.forEach(i => {
               this.$set(i,'selected',false)
             })
             Object.defineProperty(it,'selectedNum', {
               get: function () {
-                return it.rules.filter(it => it.selected).length
+                return it.ruleList.filter(it => it.selected).length
               }
             })
           })
