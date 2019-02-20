@@ -1,33 +1,53 @@
 <template>
   <el-dialog
-    :visible.sync="show"
+    :visible.sync="flag"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     :title="'审核意见'"
-    @open="HandleOpen"
+    class="audit"
     width="560px"
     center>
     <el-form>
       <el-form-item label="审核结果" label-width="100px" label-position="left">
-        <el-select style="width: 300px;" v-model="status" >
-          <el-option label="通过" :value="1"></el-option>
-          <el-option label="未通过" :value="0"></el-option>
-        </el-select>
+        <!--<el-select style="width: 300px;" v-model="status" >-->
+          <!--<el-option label="通过" :value="1"></el-option>-->
+          <!--<el-option label="未通过" :value="0"></el-option>-->
+        <!--</el-select>-->
+        <el-radio v-model="status" :label="1">通过</el-radio>
+        <el-radio v-model="status" :label="2">未通过</el-radio>
       </el-form-item>
-      <el-form-item class="audit" label="原因(多选)" prop="type" label-width="100px" v-if="status === 0">
-        <el-input style="width: 300px;" v-model="filterValue" placeholder="请输入关键字搜索审核意见"></el-input>
+      <el-form-item class="audit" label="原因(多选)" prop="type" label-width="100px" v-if="status === 2">
+        <el-input style="width: 400px;" v-model="filterValue" placeholder="请输入关键字搜索审核意见"></el-input>
+        <el-radio-group class="self_group" v-model="tab" style="margin-bottom: 30px;" v-if="!filterValue">
+          <el-radio-button  :label="0">{{resObj.clientName}}</el-radio-button>
+          <el-radio-button :label="1">公共</el-radio-button>
+        </el-radio-group>
         <el-checkbox-group v-model="reasonIds">
-          <el-checkbox  v-for="(opt,index) in list" :key="index" :label="opt.reasonMsg" name="type"></el-checkbox>
+          <el-checkbox  v-for="(opt,index) in resObj.publicRes" v-if="tab === 1 && !filterValue" :key="index" :label="opt.reasonId" name="type">{{opt.reasonMsg}}</el-checkbox>
+          <p v-if="tab === 1 && !filterValue && resObj.publicRes.length === 0" style="text-align: center;width: 300px;padding: 10px;">未找到匹配的审核意见</p>
+
+          <el-checkbox  v-for="(opt,index) in resObj.privateRes" v-if="tab === 0 && !filterValue" :key="index" :label="opt.reasonId" name="type">{{opt.negReasonMsg}}</el-checkbox>
+          <p v-if="tab === 0 && !filterValue && resObj.privateRes.length === 0" style="text-align: center;width: 300px;padding: 10px;">未找到匹配的审核意见</p>
+
+          <template v-if="filterValue">
+            <p class="checkbox_label">{{resObj.clientName}}</p>
+            <el-checkbox  v-for="(opt,index) in filterObj.publicRes"  :key="index" :label="opt.reasonId" name="type">{{opt.reasonMsg}}</el-checkbox>
+            <p class="checkbox_label">公共</p>
+            <el-checkbox  v-for="(opt,index) in filterObj.privateRes"  :key="index" :label="opt.reasonId" name="type">{{opt.negReasonMsg}}</el-checkbox>
+
+          </template>
+
+
           <!--<el-checkbox label="地推活动" name="type"></el-checkbox>-->
           <!--<el-checkbox label="线下主题活动" name="type"></el-checkbox>-->
           <!--<el-checkbox label="单纯品牌曝光" name="type"></el-checkbox>-->
         </el-checkbox-group>
-        <p v-if="list.length === 0" style="text-align: center;width: 300px;padding: 10px;">未找到匹配的审核意见</p>
       </el-form-item>
+
     </el-form>
     <span slot="footer" class="dialog-footer">
           <el-button type="primary" @click="HandleAuditConfirm">确 认</el-button>
-          <el-button @click="$parent.editState = 0" >取 消</el-button>
+          <el-button @click="flag = false" >取 消</el-button>
       </span>
   </el-dialog>
 </template>
@@ -37,41 +57,40 @@ export default {
   name: 'audit',
   data() {
     return {
-      status: 0,
+      resObj: {},
+      resObjClone: [],
+      flag: false,
+      status: null,
       reasonIds: [],
-      list: [],
-      filterValue: ''
+      filterValue: '',
+      filterObj: [],
+      tab:null
     }
   },
   props: {
-    caseId: String,
     type: Number,
     selValue: null
   },
   watch:{
     'filterValue'(val,oldVal){
       if(val){
-        this.list = this.list.filter(it=> it.reasonMsg.indexOf(val)!== -1);
-      }else{
-        this.list = this.clone(this.listClone);
+        this.filterObj = {publicRes: this.resObj.publicRes.filter(it => it.reasonMsg.indexOf(val) > -1) , privateRes: this.resObj.privateRes.filter(it => it.negReasonMsg.indexOf(val) > -1)}
       }
     }
   },
   methods: {
     //提交
     HandleAuditConfirm() {
-      // console.log(this.reasonIds)
 
-
-
-      let auditList = this.listClone.filter(it => this.reasonIds.indexOf(it.reasonMsg) !== -1);
-      if(this.status === 0 && auditList.length === 0){
+      console.log(this.reasonIds);
+      let auditList = this.resObj.publicRes.filter(it => this.reasonIds.indexOf(it.reasonId) >= 0).concat(this.resObj.privateRes.filter(it => this.reasonIds.indexOf(it.reasonId) >= 0));
+      if(this.status === 2 && this.reasonIds.length === 0){
         return this.$message.error('请选择不通过原因');
       }
       if(this.status === 1){ //通过的话
         auditList = [];
       }
-      this.$http.post('/firstAudit/auditConfirm.htm',{caseId: this.caseId,isPass: 1 - this.status,reasonIdList:auditList,type: this.type},{mheaders: true})
+      this.$http.post('/firstAudit/auditConfirm.htm',{caseId: this.resObj.caseId,isPass: this.status - 1,reasonIdList:auditList,type: this.type},{mheaders: true})
         .then(res => {
           if(res.code === '0000'){
             this.$message.success(res.description);
@@ -133,7 +152,8 @@ export default {
             //   item[keyArray[1]] = auditList;
             //
             // }
-            this.$parent.editState = 0;
+            // this.$parent.editState = 0;
+            this.flag =false;
             this.$parent.HandleQuery();
           }
         })
@@ -146,50 +166,76 @@ export default {
       })
       return newArr;
     },
-    HandleOpen() {
+    showInit(obj) {
+      let {caseId, clientName, status, publicRes, privateRes} = obj;
+      this.resObj = obj;
+      this.flag= true;
+      this.status = status;
+      this.tab = 0;
       this.filterValue = '';
-      this.list = this.$parent.auditLists;
-      this.listClone = this.clone(this.list);
+      // this.resObjClone = this.clone(publicRes).concat(this.clone(privateRes));
       this.reasonIds = [];
-      this.list.forEach(it => {
-        if(it.reasonType === 1){
-          this.reasonIds.push(it.reasonMsg);
+      privateRes.forEach(it => {
+        if(it.isChecked === 1){
+          this.reasonIds.push(it.reasonId);
         }
       })
-      console.log(this.reasonIds);
-        let arr = this.list.filter(it => it.reasonType === this.type);
-        /* if(this.type === 2){
-          this.status = 1;
+      publicRes.forEach(it => {
+        if(it.type === 1){
+          this.reasonIds.push(it.reasonId);
         }
-        else{
-          this.status = this.selValue === 2 ? 0 : 1;
-        } */
-        if(this.$parent.activeItem.mmmType === 'sfz' && this.$parent.activeItem.auditListWrap && this.$parent.activeItem.auditListWrap.length === 0) {
-          this.status = 1;
-        }else if(this.$parent.activeItem.mmmType === 'qm' && this.$parent.activeItem.checkSignList && this.$parent.activeItem.checkSignList.length === 0) {
-          this.status = 1;
-        }else if(this.$parent.activeItem.mmmType === 'zjl' && this.$parent.activeItem.checkAuditList && this.$parent.activeItem.checkAuditList.length === 0) {
-          this.status = 1;
-        }else{
-          this.status = 0;
-        }
+      })
+      this.resObjClone = JSON.parse(JSON.stringify(this.resObj));
     }
   },
   computed:{
-    show: {
-      get: function () {
-        return this.$parent.editState !== 0;
-      },
-      set: function (v) {
-        if(!v)
-          this.$parent.editState = 0
-      }
-    },
+    // show: {
+    //   get: function () {
+    //     return this.$parent.editState !== 0;
+    //   },
+    //   set: function (v) {
+    //     if(!v)
+    //       this.$parent.editState = 0
+    //   }
+    // },
 
   },
 }
 </script>
 
-<style scoped>
+<style lang="scss">
+.audit{
+
+  .checkbox_label{
+    color: #0F357F;
+    font-size: 16px;
+    font-weight: bold;
+    &::before{
+      display: inline-block;
+      content: '';
+      border-left: 6px solid #0F357F;
+      height: 16px;
+      margin-right: 6px;
+      vertical-align: sub;
+    }
+  }
+
+  .self_group{
+    width: 400px;
+    margin-top: 10px;
+    margin-bottom: 0;
+    .el-radio-button{
+      width: 50%;
+      overflow: hidden;
+      text-overflow:ellipsis;
+      white-space: nowrap;
+      box-shadow: none !important;
+      .el-radio-button__inner{
+        width: 100%;
+        box-shadow: none !important;
+      }
+    }
+  }
+}
 
 </style>

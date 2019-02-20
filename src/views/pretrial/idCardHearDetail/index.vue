@@ -150,7 +150,7 @@
 
       </div>
     </el-scrollbar>
-    <audit :caseId="currentCaseId" :selValue="selValue" :type="0"></audit>
+    <audit ref="audit" :caseId="currentCaseId" :selValue="selValue" :type="0"></audit>
     <closeDlg :message="'已完成身份证审核，请关闭本页'" v-if="showCloseDlg"></closeDlg>
     <respondent-edit :currentRespodent="currentRespodent" :respondentItem="respondentItem"></respondent-edit>
     <ruleResult ref="ruleResult"></ruleResult>
@@ -291,36 +291,28 @@ export default {
 
     //审核意见
     HandleShow(card) {
-      console.log(window.opener)
-      // window.opener.location.href=window.opener.location.href;
-
-      this.$http
-        .post("/firstAudit/queryAuditInfoByCaseId.htm", {
-          caseId: card.caseId,
-          type: 0
-        })
+      this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: card.caseId,type: 2})
         .then(res => {
-          if (res.code === "0000") {
-            this.activeItem = {mmmType : 'sfz' , ...card};
-            this.auditLists = res.result;
-            let codeList = ['1000','1001','1002','1003'];
-            if(this.auditLists.find(it => codeList.indexOf(it.code) !== -1 && it.reasonType === 1) ){
-              let item = this.auditLists.find(it => it.code === '1013');
-              if(item && item.reasonType !== 1){
-                item.reasonType = 1;
+          if(res.code === '0000'){
+            this.$http.post('/firstAudit/queryAuditReasonByClientCode.htm', {caseId: card.caseId,type: 0, clientCode: card.clientCode}).then(res1 => {
+              console.log(res1);
+              let obj = {
+                clientName: card.clientName,
+                status: res1.result.status,
+                publicRes: res.result,
+                privateRes: res1.result.suggestions,
+                caseId: card.caseId
               }
-            }
-            for(let idx = this.auditLists.length - 1; idx>=0 ; idx--){
-              if(codeList.indexOf(this.auditLists[idx].code) !== -1 ){
-                this.auditLists.splice(idx,1);
-              }
-            }
+              this.$refs.audit.showInit(obj);
 
-            this.editState = 1;
-            this.currentCaseId = card.caseId;
-            this.selValue = card.idStatus;
+            })
+            // this.activeItem = {mmmType : 'zjl' , ...evidence};
+            // console.log(res);
+            // this.auditLists = res.result;
+            // this.editState = 1;
+            // this.currentCaseId = evidence.caseId;
           }
-        });
+        })
     },
     HandleAudit() {
       const h = this.$createElement;
