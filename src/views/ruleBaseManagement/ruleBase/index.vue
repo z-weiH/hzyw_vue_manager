@@ -505,6 +505,7 @@
             let idx8 = strcopy.lastIndexOf('getPdfNum(');
             let idx9 = strcopy.lastIndexOf('getPdfDate(');
             let idx10 = strcopy.lastIndexOf('getPdfIdCard(');
+            let idx11 = strcopy.lastIndexOf('getTableStingByPosition(');
             if(idx1 != -1 && new RegExp("^getnum\\([A-Z_0-9]+$").test(strcopy.substring(idx1))){
               type = 0;
               this.currentFunction.affix = strcopy.substring(idx1);
@@ -540,6 +541,10 @@
             }
             else if(idx10 != -1 && new RegExp("^getPdfIdCard\\([A-Z_0-9]+$").test(strcopy.substring(idx10))){
                 type = 4;
+            }
+            else if(idx11 != -1 && new RegExp("^getTableStingByPosition\\([A-Z_0-9]+$").test(strcopy.substring(idx11))){
+                type = 1;
+              this.currentFunction.affix = strcopy.substring(idx11);
             }
             if(type != -1){
               this.ruleType = type;
