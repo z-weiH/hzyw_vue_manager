@@ -4,6 +4,9 @@
       :title="title"
       :visible.sync="dialogVisible"
       width="1000px"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      v-dialogDrag
       @close="handleClose"
 			ref="dialog"
     >
@@ -20,14 +23,20 @@
 
               <el-table-column type="selection" width="50"> </el-table-column>
               <el-table-column type="index" label="序号" width="50"> </el-table-column>
-              <el-table-column prop="caseNo" label="案件编号" width="150"> </el-table-column>
-              <el-table-column prop="resName" label="被申请人名字" width="160"> </el-table-column>
-              <el-table-column prop="resPhone" label="被申请人手机号" width="188"> </el-table-column>
+              <el-table-column prop="caseNo" label="案件编号" width="120"> </el-table-column>
+              <el-table-column prop="sampleName" label="样例名称" width="108">
+                <template slot-scope="scope">
+                  {{scope.row.sampleName || '--'}}
+                </template>
+              </el-table-column>
+              <el-table-column prop="resName" label="被申请人名字" width="120"> </el-table-column>
+              <el-table-column prop="resPhone" label="被申请人手机号" width="150"> </el-table-column>
               <el-table-column prop="captureTime" label="抓取时间" width="180"> </el-table-column>
-              <el-table-column prop="index" label="操作" width="180">
+              <el-table-column prop="index" label="操作" width="150">
                 <template slot-scope="scope">
                   <div style="text-align: center;">
-                    <span class="colLink mr-20" @click="showDetails(scope.row)">查看</span>
+                    <span class="colLink mr-10" @click="showDetails(scope.row)">查看</span>
+                    <span class="colLink mr-10" @click="editName(scope.row)">编辑</span>
                     <span class="colLink" @click="deleteCase(scope.row)">删除</span>
                   </div>
                 </template>
@@ -127,6 +136,28 @@
         </template>
 
       </span>
+
+      <el-dialog
+        width="600px"
+        title="编辑样例名称"
+        :visible.sync="editFlag"
+        :close-on-click-modal="false"
+        :close-on-press-escape="false"
+        v-dialogDrag
+        append-to-body>
+        <el-form :label-width="'100px'" :model="editItem" ref="editform">
+          <el-form-item label="样例名称：" :rules="[
+            {required : true , message : '请输入样例名称' , trigger : 'blur'}
+          ]" prop="sampleName">
+            <el-input  v-model.trim="editItem.sampleName" placeholder="请输入样例名称"></el-input>
+          </el-form-item>
+        </el-form>
+        <div style="text-align: center;">
+          <el-button type="primary" @click="handleEdit">确定</el-button>
+          <el-button @click="editFlag = false">取消</el-button>
+        </div>
+      </el-dialog>
+
     </el-dialog>
   </div>
 </template>
@@ -136,6 +167,14 @@
     data() {
       return {
 
+        //样例名称
+        editItem: {
+          sampleName: ''
+        },
+        //编辑flag
+        editFlag: false,
+
+        currentSample: {},
         //控制鼠标连点
         disabled: false,
 
@@ -191,9 +230,36 @@
           this.localList =[];
           this.selectedNum = 0;
         }
+      },
+      'editFlag'(val,oldval){
+        if(!val){
+          this.$refs.editform.resetFields();
+        }
       }
     },
     methods : {
+
+      handleEdit(){
+        this.$refs.editform.validate((valid) => {
+          if (valid) {
+            //Todo 保存样例名称
+            this.$http.post("/caseSample/updateCaseSampleName.htm",{sampleId: this.currentSample.sampleId, sampleName: this.editItem.sampleName}).then(res => {
+              this.$message.success("修改成功");
+              this.init();
+              this.editFlag = false;
+            })
+          }
+        })
+      },
+
+
+      //修改样例名称
+      editName(row){
+        console.log(row)
+        this.currentSample = row;
+        this.editItem = {sampleName: row.sampleName};
+        this.editFlag = true;
+      },
 
       batchDelete () {
         this.$msgbox({
@@ -262,7 +328,7 @@
       },
       //参数列表跳转
       showDetails(row){
-        window.open(this.$router.resolve({path:'/ruleParameterList',query:{sampleId:row.sampleId,levelId: this.$parent.currentMenu.levelId}}).href,'_blank');
+        window.open(this.$router.resolve({path:'/ruleParameterList',query:{sampleId:row.sampleId,levelId: this.$parent.currentMenu.levelId, sampleName: row.sampleName || row.resName}}).href,'_blank');
       },
       //列表选择
       handleSelectionChange(val){
@@ -369,12 +435,14 @@
       // 关闭浮层
       handleClose() {
         this.dialogVisible = false;
+        // 重置表单数据
+        if(this.$refs.ruleForm){
+          this.$refs.ruleForm.resetFields();
+        }
         // 取消按钮禁用
         setTimeout(() => {
           this.submitDisabled = false;
 				},500);
-				// 重置表单数据
-        this.$refs.ruleForm.resetFields();
       },
       // 点击提交
       handleSubmit() {

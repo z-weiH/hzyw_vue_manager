@@ -111,7 +111,7 @@
 
       </div>
     </el-scrollbar>
-    <audit :selValue="selValue" :caseId="currentCaseId" :type="1"></audit>
+    <audit :selValue="selValue" ref="audit" :type="1"></audit>
     <closeDlg :message="'已完成签名审核，请关闭本页'" v-if="showCloseDlg"></closeDlg>
     <!--<rule></rule>-->
     <ruleResult ref="ruleResult"></ruleResult>
@@ -172,21 +172,28 @@ export default {
   methods: {
     //意见审核
     HandleShow(sign) {
-      this.$http
-        .post("/firstAudit/queryAuditInfoByCaseId.htm", {
-          caseId: sign.caseId,
-          type: 1
-        })
+      this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: sign.caseId,type: 2})
         .then(res => {
-          if (res.code === "0000") {
-            this.activeItem = {mmmType : 'qm' , ...sign};
-            console.log(res);
-            this.auditLists = res.result;
-            this.editState = 1;
-            this.currentCaseId = sign.caseId;
-            this.selValue = sign.signStatus;
+          if(res.code === '0000'){
+            this.$http.post('/firstAudit/queryAuditReasonByClientCode.htm', {caseId: sign.caseId,type: 2, clientCode: sign.clientCode}).then(res1 => {
+              console.log(res1);
+              let obj = {
+                clientName: sign.clientName,
+                status: res1.result.status,
+                publicRes: res.result,
+                privateRes: res1.result.suggestions,
+                caseId: sign.caseId
+              }
+              this.$refs.audit.showInit(obj);
+
+            })
+            // this.activeItem = {mmmType : 'zjl' , ...evidence};
+            // console.log(res);
+            // this.auditLists = res.result;
+            // this.editState = 1;
+            // this.currentCaseId = evidence.caseId;
           }
-        });
+        })
     },
     openWindow(url) {
       window.open(url, "_blank");

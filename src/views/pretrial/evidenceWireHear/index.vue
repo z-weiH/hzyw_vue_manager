@@ -115,7 +115,7 @@
       </div>
     </el-scrollbar>
 
-    <audit :caseId="currentCaseId" :type="2"></audit>
+    <audit ref="audit"  :type="2"></audit>
 
     <closeDlg :message="'已完成证据链审核，请关闭本页'"  v-if="showCloseDlg"></closeDlg>
     <ruleResult ref="ruleResult"></ruleResult>
@@ -232,11 +232,23 @@
         this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: evidence.caseId,type: 2})
           .then(res => {
             if(res.code === '0000'){
-              this.activeItem = {mmmType : 'zjl' , ...evidence};
-              console.log(res);
-              this.auditLists = res.result;
-              this.editState = 1;
-              this.currentCaseId = evidence.caseId;
+              this.$http.post('/firstAudit/queryAuditReasonByClientCode.htm', {caseId: evidence.caseId,type: 2, clientCode: this.evidenceItems[0].clientCode}).then(res1 => {
+                console.log(res1);
+                let obj = {
+                  clientName: this.evidenceItems[0].clientName,
+                  status: res1.result.status,
+                  publicRes: res.result,
+                  privateRes: res1.result.suggestions,
+                  caseId: evidence.caseId
+                }
+                this.$refs.audit.showInit(obj);
+
+              })
+              // this.activeItem = {mmmType : 'zjl' , ...evidence};
+              // console.log(res);
+              // this.auditLists = res.result;
+              // this.editState = 1;
+              // this.currentCaseId = evidence.caseId;
             }
           })
       },

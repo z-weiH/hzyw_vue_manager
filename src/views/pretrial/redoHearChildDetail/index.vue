@@ -448,7 +448,7 @@ export default {
 		},
 		FooAuditReason(card) {
 			// 审核意见
-			this.audit_state = 1
+			// this.audit_state = 1
 			this.HandleShow(card)
 		},
 		// HandleQuery(_val) {
@@ -476,55 +476,67 @@ export default {
 		// },
 		HandleShow(card) {
 			//意见审核
-			this.$http
-				.post(URL_JSON['queryAllReasonList'], {
-					caseId: card.caseId,
-				})
-				.then(res => {
-					console.log('queryAllReasonList:: ', res.result)
-					if (res.code === '0000') {
-						console.log('所有审核原因', res)
-						this.audit_state = 1
-						this.auditLists = res.result.suggestions
-						console.log('auditLists:', this.auditLists)
-
-            let codeList = ['1000','1001','1002','1003'];
-            if(this.auditLists.find(it => codeList.indexOf(it.code) !== -1 && it.isChecked === 1) ){
-              let item = this.auditLists.find(it => it.code === '1013');
-              if(item && item.isChecked !== 1){
-                item.isChecked = 1;
-              }
-            }
-            for(let idx = this.auditLists.length - 1; idx>=0 ; idx--){
-              if(codeList.indexOf(this.auditLists[idx].code) !== -1 ){
-                this.auditLists.splice(idx,1);
-              }
-            }
-
-
-						let reasonIds = res.result.suggestions
-							.filter(v => {
-								return v.isChecked === 1
-							})
-							.map(v => {
-								return v.reasonId
-							})
-						console.log(reasonIds)
-						this.$refs.audit.reasonIds = reasonIds
-						// 人审-审核意见
-						// card.evi.checkAuditList//证据链
-						// card.sign.checkSignList//签名
-						// card.idCard.failReasonList//身份证
-						let _person = card.evi.checkAuditList.length
-						let _csign = card.sign.checkSignList.length
-						let _idcard = card.idCard.failReasonList.length
-						_person === 0 && _csign === 0 && _idcard === 0 ? (this.$refs.audit.status = 1) : ''
-						// 传入当前页数据card-对象
-						this.curCardObj = card
-						this.auditOptsByCase = res.result
-						console.log('auditOptsByCase:: ', this.auditOptsByCase)
-					}
-				})
+			// this.$http
+			// 	.post(URL_JSON['queryAllReasonList'], {
+			// 		caseId: card.caseId,
+			// 	})
+			// 	.then(res => {
+			// 		console.log('queryAllReasonList:: ', res.result)
+			// 		if (res.code === '0000') {
+			// 			console.log('所有审核原因', res)
+			// 			this.audit_state = 1
+			// 			this.auditLists = res.result.suggestions
+			// 			console.log('auditLists:', this.auditLists)
+      //
+      //       let codeList = ['1000','1001','1002','1003'];
+      //       if(this.auditLists.find(it => codeList.indexOf(it.code) !== -1 && it.isChecked === 1) ){
+      //         let item = this.auditLists.find(it => it.code === '1013');
+      //         if(item && item.isChecked !== 1){
+      //           item.isChecked = 1;
+      //         }
+      //       }
+      //       for(let idx = this.auditLists.length - 1; idx>=0 ; idx--){
+      //         if(codeList.indexOf(this.auditLists[idx].code) !== -1 ){
+      //           this.auditLists.splice(idx,1);
+      //         }
+      //       }
+      //
+      //
+			// 			let reasonIds = res.result.suggestions
+			// 				.filter(v => {
+			// 					return v.isChecked === 1
+			// 				})
+			// 				.map(v => {
+			// 					return v.reasonId
+			// 				})
+			// 			console.log(reasonIds)
+			// 			this.$refs.audit.reasonIds = reasonIds
+			// 			// 人审-审核意见
+			// 			// card.evi.checkAuditList//证据链
+			// 			// card.sign.checkSignList//签名
+			// 			// card.idCard.failReasonList//身份证
+			// 			let _person = card.evi.checkAuditList.length
+			// 			let _csign = card.sign.checkSignList.length
+			// 			let _idcard = card.idCard.failReasonList.length
+			// 			_person === 0 && _csign === 0 && _idcard === 0 ? (this.$refs.audit.status = 1) : ''
+			// 			// 传入当前页数据card-对象
+			// 			this.curCardObj = card
+			// 			this.auditOptsByCase = res.result
+			// 			console.log('auditOptsByCase:: ', this.auditOptsByCase)
+			// 		}
+			// 	})
+      this.$http.post("/againAudit/queryAuditOpinionByCaseId.htm",{caseId: card.caseId}).then(res => {
+        this.$http.post("/firstAudit/queryAuditReasonByClientCode.htm", { caseId: card.caseId, clientCode: card.clientCode}).then(res1 => {
+          let obj = {
+            clientName: card.clientName,
+            publicRes: res.result.suggestions,
+            privateRes: res1.result.suggestions,
+            caseId: card.caseId,
+            status: res1.result.status
+          }
+          this.$refs.audit.show(obj);
+        })
+      })
 		},
 		gotoPrevPage(card) {
 			if (this.currentNum > 1) {

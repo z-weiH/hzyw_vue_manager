@@ -8,6 +8,11 @@
   >
     <div class="m-content">
       <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
+        <el-form-item  label="公司：" prop="clientCode" >
+          <el-select disabled v-model="ruleForm.clientCode">
+            <el-option v-for="(item, idx) in companyList" :key="idx" :label="item.merchantName" :value="item.code"></el-option>
+          </el-select>
+        </el-form-item>
         <el-form-item label="模块：" prop="type">
           <el-select v-model="ruleForm.type" placeholder="请选择模块">
             <el-option label="身份证审核" value="0"></el-option>
@@ -38,7 +43,7 @@
       data() {
         return {
           dialogVisible : false,
-
+          companyList: [],
           ruleForm : {
             // 审核意见
             type: '',
@@ -53,6 +58,7 @@
               {required : true , message : '请输入审核意见' , trigger : 'blur'}
             ]
           },
+          clientObj: {}
         }
       },
       computed:{
@@ -63,19 +69,26 @@
       watch: {
         'ruleForm.type'(val,oldval){
           if(val){
-            this.$http.post("/reason/queryCodeByType.htm",{type: val}).then(res => {
+            this.$http.post("/reason/queryCodeByType.htm",{type: val,clientCode: this.ruleForm.clientCode, codeIndex: this.companyList.find(it => it.code === this.ruleForm.clientCode).codeIndex}).then(res => {
               this.ruleForm.code = res.result;
             })
           }
         }
       },
+      created(){
+        this.$http.post("/reason/queryPreMerchantNameWithReason.htm").then(res => {
+          this.companyList = res.result;
+        });
+      },
       methods: {
-        init(){
+        init(obj){
+          this.clientObj = obj;
           this.dialogVisible = true;
           this. ruleForm = {
             type: '',
             code: '--',
             reasonMsg : '',
+            clientCode: obj.clientCode
           };
         },
         // 点击关闭
@@ -94,6 +107,9 @@
                   negReasonMsg : this.ruleForm.reasonMsg,
                   reasonType : this.ruleForm.type,
                   code: this.ruleForm.code,
+                  clientName: this.companyList.find(it => it.code === this.ruleForm.clientCode).merchantName,
+                  codeIndex: this.companyList.find(it => it.code === this.ruleForm.clientCode).codeIndex,
+                  clientCode: this.ruleForm.clientCode,
                 },
               }).then((res) => {
                 this.$message.success('添加成功');

@@ -1,42 +1,69 @@
 <template>
     <div class="paramList">
       <div class="parameter-list-title">
-        <div class="width-1200">参数列表</div>
+        <div class="width-1200">
+          <!--<span v-if="$route.query.sampleName">{{$route.query.sampleName}}</span>-->
+          <el-popover
+            placement="bottom"
+            class="fr"
+            ref="popover"
+            width="120"
+            style="margin:0;"
+            trigger="click">
+            <div class="dropdown-content" :style="{'height': (result.paramsList && result.paramsList .length > 10 ) ? '280px' : 'auto'}">
+                <el-scrollbar style="height: 100%">
+                  <div class="content" style="width: 120px;">
+                    <ul>
+                      <li style="line-height: 30px;font-size: 14px;cursor: pointer;width: 115px;margin: 0;"  v-for="(item,idx) in result.paramsList" :key="idx" @click="paramChange(item,idx)">{{item.sampleName}}</li>
+                    </ul>
+                  </div>
+                </el-scrollbar>
+
+
+            </div>
+            <span slot="reference" class="el-dropdown-link" style="font-size: 14px;line-height: 30px;cursor: pointer;">
+              {{paramName}}<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+          </el-popover>
+          参数列表
+        </div>
       </div>
       <div class="content">
         <div class="m-left">
           <el-menu
-            default-active="1-1"
+            default-active="1"
             background-color="#fff"
             text-color="#7C7C7C"
             active-text-color="#13367D"
             >
-            <el-submenu index="1" >
-              <span slot="title">字段列表 <b v-if="numList.length === 0">(暂无样例)</b></span>
+            <el-menu-item index="1" @click="tabChange(0)">
+              <span slot="title" >字段列表 <b v-if="numList.length === 0">(暂无样例)</b></span>
+              <!--<el-menu-item-group>-->
+                <!--<el-menu-item v-for="(item,idx) in numList"  :index="'1-'+ (idx+ 1)" :key="idx" @click="showFieldList(idx)">案件样例{{idx + 1}}</el-menu-item>-->
+              <!--</el-menu-item-group>-->
 
-              <el-menu-item-group>
-                <el-menu-item v-for="(item,idx) in numList"  :index="'1-'+ (idx+ 1)" :key="idx" @click="showFieldList(idx)">案件样例{{idx + 1}}</el-menu-item>
-              </el-menu-item-group>
+            </el-menu-item>
+            <el-menu-item index="2" @click="tabChange(1)">
+              <span slot="title" >证据列表 <b v-if="numList.length === 0">(暂无样例)</b></span>
 
-            </el-submenu>
-            <el-submenu index="2" >
-              <span slot="title">证据列表 <b v-if="numList.length === 0">(暂无样例)</b></span>
+              <!--<el-menu-item-group>-->
+                <!--<el-menu-item v-for="(item,idx) in numList"  :index="'2-'+ (idx+ 1)" :key="idx" @click="showEviList(idx)">案件样例{{idx + 1}}</el-menu-item>-->
+              <!--</el-menu-item-group>-->
 
-              <el-menu-item-group>
-                <el-menu-item v-for="(item,idx) in numList"  :index="'2-'+ (idx+ 1)" :key="idx" @click="showEviList(idx)">案件样例{{idx + 1}}</el-menu-item>
-              </el-menu-item-group>
+            </el-menu-item>
 
-            </el-submenu>
-
-            <el-menu-item index="3" @click="returnCodeList()">
-              <span slot="title" >返回编码</span>
+            <el-menu-item index="3" @click="selfReturnCodeList()">
+              <span slot="title" >返回编码(当前客户)</span>
+            </el-menu-item>
+            <el-menu-item index="4" @click="returnCodeList()">
+              <span slot="title" >返回编码(公共)</span>
             </el-menu-item>
 
           </el-menu>
         </div>
         <div class="m-right">
           <div class="m-header">
-            <div class="fr add_btn" v-if="tab === 2">
+            <div class="fr add_btn" v-if="tab >= 2">
               <span @click="addCode">+添加</span>
             </div>
             {{currentTitle}}
@@ -126,6 +153,35 @@
             </el-table>
           </div>
 
+          <div class="fieldList" v-if="tab === 3">
+            <el-table
+              :data="currentList"
+              :span-method="objectSpanMethod2"
+              :header-cell-style="getRowStyle"
+              border
+              key="returnCodeList"
+              style="width: 100%; margin-top: 20px">
+              <el-table-column prop="module" label="模块" width="283">
+                <template slot-scope="scope">
+                  <div style="text-align: center;">
+                    <span>{{getModuleName(scope.row.module)}}</span>
+                  </div>
+                </template>
+              </el-table-column>
+              <el-table-column prop="returnCode" label="返回编码" width="283">
+                <template slot-scope="scope">
+                  <el-popover trigger="hover" placement="right" width="80">
+                    <el-button type="primary" @click="copyStr(scope.row.returnCode)">复制</el-button>
+                    <span slot="reference" class="name-wrapper">
+                      {{ scope.row.returnCode }}
+                    </span>
+                  </el-popover>
+                </template>
+              </el-table-column>
+              <el-table-column prop="desc" label="含义（审核意见）" width="283"> </el-table-column>
+            </el-table>
+          </div>
+
         </div>
         <div class="clear"></div>
       </div>
@@ -164,7 +220,10 @@
       },
       data(){
           return{
-            //当前的激活的tab 0-字段列表, 1-证据列表,2-返回编码
+            currentObj: {},
+            //参数列表名字
+            paramName: '参数列表',
+            //当前的激活的tab 0-字段列表, 1-证据列表,2-返回编码 3-私有编码
             tab: 0,
             //案列数量
             numList: [],
@@ -197,9 +256,40 @@
       },
       methods:{
 
+        tabChange(tab){
+          this.tab = tab;
+          if(this.tab === 0){
+            this.currentList = this.currentObj.field;
+            this.currentTitle = '字段列表（案件样例'+  this.result.paramsList[0].sampleName  + ')';
+          }
+          else if(this.tab === 1){
+            this.currentList = this.currentObj.evi;
+            this.currentTitle = '字段列表（证据列表'+  this.result.paramsList[0].sampleName  + ')';
+          }
+          console.log(tab, this.currentList)
+
+        },
+
+        paramChange(item,idx){
+          this.paramName = item.sampleName;
+          this.currentObj = this.result.paramsList[idx];
+          if(this.tab === 0){
+            this.currentList = this.result.paramsList[idx].field;
+          }
+          else if(this.tab === 1){
+            this.currentList = this.result.paramsList[idx].evi;
+          }
+          this.$refs.popover.showPopper = false;
+        },
 
         addCode(){
-          this.$refs.addCodeDialog.init();
+          let obj = {clientCode: this.result.clientCode, clientName: this.result.clientName, codeIndex: this.result.codeIndex};
+          if(this.tab === 2){
+            obj.clientCode = '0';
+            obj.codeIndex = '0';
+            obj.clientName = '公共';
+          }
+          this.$refs.addCodeDialog.init(obj);
         },
 
         styleFun({row, column, rowIndex, columnIndex}){
@@ -247,6 +337,24 @@
                 }
               }
               this.result.returnCodeList.sort(compare2);
+              // this.paramChange(this.result.fieldList[0], 0)
+
+              let  result = [];
+              this.result.eviList.forEach(it => {
+                if(it[0]){
+                  let obj = {evi:it};
+                  obj.sampleName = this.$route.query.sampleName;
+                  result.push(obj);
+                  let item = this.result.fieldList.find(ii => ii.find(i => i.sampleId === it[0].sampleId));
+                  if(item){
+                    obj.field = item;
+                  }
+                }
+              })
+              this.result.paramsList = result;
+              console.log(this.result,'result');
+              this.paramChange(this.result.paramsList[0], 0)
+
               this.initList();
             }
           })
@@ -330,7 +438,7 @@
           this.tab= 0;
           this.currentList = this.result.fieldList[idx];
           console.log(this.currentList);
-          this.currentTitle = '字段列表（案件样例'+ (idx+1) + ')';
+          this.currentTitle = '字段列表（案件样例'+  this.result.paramsList[0].sampleName  + ')';
 
         },
         //切换证据列表
@@ -338,7 +446,7 @@
           this.tab = 1;
           this.currentList = this.result.eviList[idx];
           console.log(this.currentList);
-          this.currentTitle = '字段列表（证据列表'+ (idx+1) + ')';
+          this.currentTitle = '字段列表（证据列表'+  this.result.paramsList[0].sampleName  + ')';
 
         },
         //切换返回编码
@@ -346,14 +454,23 @@
           this.tab = 2;
           this.currentList = this.result.returnCodeList;
           console.log(this.currentList);
-          this.currentTitle = '返回编码';
+          this.currentTitle = '返回编码(公共)';
         },
+        //私有返回编码
+        selfReturnCodeList() {
+          this.tab = 3;
+          console.log(this.result);
+          this.currentList = this.result.reasonList;
+          this.currentTitle = '返回编码（当前客户）';
+        },
+
+
         //initList
         initList(){
           if(this.numList.length > 0){
             this.tab = 0;
             this.currentList = this.result.fieldList[0];
-            this.currentTitle = '字段列表（案件样例1）';
+            this.currentTitle = '字段列表（'+ this.result.paramsList[0].sampleName +'）';
           }else{
             this.tab = 2;
             this.currentList = this.result.returnCodeList;
@@ -385,6 +502,23 @@
                 }
               }
               this.result.returnCodeList.sort(compare2);
+
+              let  result = [];
+              this.result.eviList.forEach(it => {
+                if(it[0]){
+                  let obj = {evi:it};
+                  obj.sampleName = it[0].sampleName;
+                  result.push(obj);
+                  let item = this.result.fieldList.find(ii => ii.find(i => i.sampleId === it[0].sampleId));
+                  if(item){
+                    obj.field = item;
+                  }
+                }
+              })
+              this.result.paramsList = result;
+              console.log(this.result,'result');
+              this.paramChange(this.result.paramsList[0], 0)
+
               this.initList();
             }
           })
