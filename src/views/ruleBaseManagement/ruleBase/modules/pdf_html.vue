@@ -5,6 +5,22 @@
           <i class="el-icon-arrow-left"></i>
           返回
         </div>
+
+        <div class="content" >
+          <p class="left-title">切换样例</p>
+          <div>
+            <el-select @change="refreshHtml" popper-class="pdf_select" v-model="pdfSrc"  style="width: 100%;">
+              <el-option
+                v-for="(item,idx) in items"
+                :key="idx"
+                :value="item.pdfUrl"
+                :label="item.resName">
+              </el-option>
+            </el-select>
+
+          </div>
+        </div>
+
         <iframe ref="iframe" style="cursor: pointer;"  :src="src.replace(/http:|https:/g,'')" scrolling="auto"   frameborder="0" ></iframe>
 
         <div ref="tap" class="tap">
@@ -32,11 +48,24 @@ export default {
       src: '',
       pId: '111',
       width: 0,
+      items: [],
+      item: {},
+      pdfSrc: ''
     }
   },
   methods:{
-    show(item){
-      this.$http.post('/ruleBase/getHtmlUrlByPdf.htm',{url: item.pdfUrl}).then(res => {
+
+    refreshHtml(){
+      this.$http.post('/ruleBase/getHtmlUrlByPdf.htm',{url: this.pdfSrc}).then(res => {
+        this.src = res.result;
+      })
+    },
+
+    show(items){
+      console.log(items);
+      this.items = items;
+      this.pdfSrc = items[0].pdfUrl;
+      this.$http.post('/ruleBase/getHtmlUrlByPdf.htm',{url: items[0].pdfUrl}).then(res => {
         // if(window.location.href.indexOf('https') === 0){
         //   this.src = 'https' + res.result.substr(4);
 
@@ -112,9 +141,23 @@ export default {
       position: absolute;
       left: 0;
       top: 0;
-      padding: 18px 35px;
+      padding: 18px 0;
+      width: 160px;
       background: #fff;
       font-size: 16px;
+    }
+    .content{
+      position: absolute;
+      left: 0;
+      top: 60px;
+      width: 160px;
+      .left-title{
+        background: #fff;
+        padding: 10px 0;
+        color: #000;
+        font-size: 16px;
+        font-weight: bold;
+      }
     }
   }
   }
