@@ -260,11 +260,11 @@
           this.tab = tab;
           if(this.tab === 0){
             this.currentList = this.currentObj.field;
-            this.currentTitle = '字段列表（案件样例'+  this.result.paramsList[0].sampleName  + ')';
+            this.currentTitle = '字段列表（'+  this.currentObj.sampleName  + ')';
           }
           else if(this.tab === 1){
             this.currentList = this.currentObj.evi;
-            this.currentTitle = '字段列表（证据列表'+  this.result.paramsList[0].sampleName  + ')';
+            this.currentTitle = '字段列表（'+  this.currentObj.sampleName  + ')';
           }
           console.log(tab, this.currentList)
 
@@ -275,9 +275,12 @@
           this.currentObj = this.result.paramsList[idx];
           if(this.tab === 0){
             this.currentList = this.result.paramsList[idx].field;
+            this.currentTitle = '字段列表（'+  this.currentObj.sampleName  + ')';
           }
           else if(this.tab === 1){
             this.currentList = this.result.paramsList[idx].evi;
+            this.currentTitle = '字段列表（'+  this.currentObj.sampleName  + ')';
+
           }
           this.$refs.popover.showPopper = false;
         },
