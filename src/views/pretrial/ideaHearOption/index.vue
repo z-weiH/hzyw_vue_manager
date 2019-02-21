@@ -24,6 +24,7 @@
         placement="bottom"
         class="fr"
         ref="popover"
+        @show = "searchText = ''"
         width="350"
         trigger="click">
         <div class="dropdown-content">
@@ -183,6 +184,7 @@
           message:`确定删除这${this.listDefault.filter(it => it.selected).length}条审核意见？`,
           center: true,
           showCancelButton: true,
+
           confirmButtonText: '确定',
           cancelButtonText: '取消',
         }).then(() => {
