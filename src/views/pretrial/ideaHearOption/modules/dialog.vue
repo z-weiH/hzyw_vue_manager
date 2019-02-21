@@ -80,27 +80,29 @@
       this.$refs.dialog.rendered = true;
     },
     watch: {
-      'ruleForm.clientCode'(val,oldval){
-        if(this.ruleForm.clientCode && this.ruleForm.type){
-          this.queryCode({type: this.ruleForm.type, clientCode: this.ruleForm.clientCode, codeIndex: this.companyList.find(it => it.code === this.ruleForm.clientCode).codeIndex}).then(res => {
-            this.$set(this.ruleForm, 'code',res.result);
-          })
-        }
-      },
-      'ruleForm.type'(val,oldval){
-        if(this.ruleForm.clientCode && this.ruleForm.type){
-          this.queryCode({type: this.ruleForm.type, clientCode: this.ruleForm.clientCode, codeIndex: this.companyList.find(it => it.code === this.ruleForm.clientCode).codeIndex}).then(res => {
-            this.$set(this.ruleForm, 'code',res.result);
-          })
-        }
-      },
+      // 'ruleForm.clientCode'(val,oldval){
+      //
+      // },
+      // 'ruleForm.type'(val,oldval){
+      //   if(this.ruleForm.clientCode && this.ruleForm.type){
+      //     this.queryCode({type: this.ruleForm.type, clientCode: this.ruleForm.clientCode, codeIndex: this.companyList.find(it => it.code === this.ruleForm.clientCode).codeIndex}).then(res => {
+      //       this.$set(this.ruleForm, 'code',res.result);
+      //     })
+      //   }
+      // },
     },
     methods : {
+
 
 
       //刷新编码
       selectChange() {
         console.log(this.ruleForm)
+        if(this.ruleForm.clientCode && this.ruleForm.type){
+          this.queryCode({type: this.ruleForm.type, clientCode: this.ruleForm.clientCode, codeIndex: this.companyList.find(it => it.code === this.ruleForm.clientCode).codeIndex}).then(res => {
+            this.$set(this.ruleForm, 'code',res.result);
+          })
+        }
       },
 
       //获取编码
@@ -112,16 +114,18 @@
       },
       show(type,row) {
         this.ruleForm.type = this.type;
-        this.ruleForm.clientCode = row.code;
         this.status = type;
         this.dialogVisible = true;
         //查询code值
         if(type === 'edit'){
+          console.log(row);
+          this.ruleForm.clientCode = row.clientCode;
           this.reasonId = row.reasonId;
           this.ruleForm.reasonMsg = row.negReasonMsg;
           this.ruleForm.code = row.code;
         }else{
           this.queryCode({type: this.type, clientCode: row.code, codeIndex: row.codeIndex}).then(res => {
+            this.ruleForm.clientCode = row.code;
             if(res.code === '0000'){
               this.$set(this.ruleForm, 'code',res.result);
             }

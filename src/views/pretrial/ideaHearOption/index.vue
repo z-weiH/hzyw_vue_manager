@@ -238,7 +238,7 @@
       },
       // 点击修改
       handleEdit(row) {
-        this.$refs.dialog.show('edit',row);
+        this.$refs.dialog.show('edit',{...row, clientCode: this.currentCompany.code});
       },
 
 

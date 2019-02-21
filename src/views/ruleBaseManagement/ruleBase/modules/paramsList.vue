@@ -2,6 +2,7 @@
     <div class="paramList">
       <div class="parameter-list-title">
         <div class="width-1200">
+          <!--<span v-if="$route.query.sampleName">{{$route.query.sampleName}}</span>-->
           <el-popover
             placement="bottom"
             class="fr"
@@ -259,9 +260,11 @@
           this.tab = tab;
           if(this.tab === 0){
             this.currentList = this.currentObj.field;
+            this.currentTitle = '字段列表（案件样例'+  this.result.paramsList[0].sampleName  + ')';
           }
           else if(this.tab === 1){
             this.currentList = this.currentObj.evi;
+            this.currentTitle = '字段列表（证据列表'+  this.result.paramsList[0].sampleName  + ')';
           }
           console.log(tab, this.currentList)
 
@@ -334,6 +337,24 @@
                 }
               }
               this.result.returnCodeList.sort(compare2);
+              // this.paramChange(this.result.fieldList[0], 0)
+
+              let  result = [];
+              this.result.eviList.forEach(it => {
+                if(it[0]){
+                  let obj = {evi:it};
+                  obj.sampleName = this.$route.query.sampleName;
+                  result.push(obj);
+                  let item = this.result.fieldList.find(ii => ii.find(i => i.sampleId === it[0].sampleId));
+                  if(item){
+                    obj.field = item;
+                  }
+                }
+              })
+              this.result.paramsList = result;
+              console.log(this.result,'result');
+              this.paramChange(this.result.paramsList[0], 0)
+
               this.initList();
             }
           })
@@ -439,7 +460,7 @@
         selfReturnCodeList() {
           this.tab = 3;
           console.log(this.result);
-          this.currentList = this.result.reasonVOList;
+          this.currentList = this.result.reasonList;
           this.currentTitle = '返回编码（当前客户）';
         },
 
