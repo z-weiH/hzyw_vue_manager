@@ -291,7 +291,7 @@ export default {
 
     //审核意见
     HandleShow(card) {
-      this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: card.caseId,type: 2})
+      this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: card.caseId,type: 0})
         .then(res => {
           if(res.code === '0000'){
             this.$http.post('/firstAudit/queryAuditReasonByClientCode.htm', {caseId: card.caseId,type: 0, clientCode: card.clientCode}).then(res1 => {

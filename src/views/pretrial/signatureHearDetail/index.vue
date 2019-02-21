@@ -172,10 +172,10 @@ export default {
   methods: {
     //意见审核
     HandleShow(sign) {
-      this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: sign.caseId,type: 2})
+      this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: sign.caseId,type: 1})
         .then(res => {
           if(res.code === '0000'){
-            this.$http.post('/firstAudit/queryAuditReasonByClientCode.htm', {caseId: sign.caseId,type: 2, clientCode: sign.clientCode}).then(res1 => {
+            this.$http.post('/firstAudit/queryAuditReasonByClientCode.htm', {caseId: sign.caseId,type: 1, clientCode: sign.clientCode}).then(res1 => {
               console.log(res1);
               let obj = {
                 clientName: sign.clientName,
