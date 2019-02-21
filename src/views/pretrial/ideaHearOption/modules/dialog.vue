@@ -9,13 +9,13 @@
     >
       <div class="m-content">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
-          <el-form-item label="公司" prop="clientCode">
-            <el-select v-model="ruleForm.clientCode" @change="selectChange">
+          <el-form-item  label="公司" prop="clientCode">
+            <el-select :disabled="edittype === 'edit'" v-model="ruleForm.clientCode" @change="selectChange">
               <el-option v-for="(item, idx) in companyList" :key="idx" :label="item.merchantName" :value="item.code"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="模块" prop="type">
-            <el-select v-model="ruleForm.type" @change="selectChange">
+          <el-form-item :disabled="edittype === 'edit'" label="模块" prop="type">
+            <el-select  v-model="ruleForm.type" @change="selectChange">
               <el-option label="身份证审核" value="0"></el-option>
               <el-option label="签名意见" value="1"></el-option>
               <el-option label="证据意见" value="2"></el-option>
@@ -72,7 +72,8 @@
           ]
         },
         reasonId : '',
-        companyList: [] //公司列表
+        companyList: [], //公司列表
+        edittype: ''
       }
     },
     mounted() {
@@ -113,6 +114,7 @@
         })
       },
       show(type,row) {
+        this.edittype = type;
         this.ruleForm.type = this.type;
         this.status = type;
         this.dialogVisible = true;

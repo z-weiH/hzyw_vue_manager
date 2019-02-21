@@ -131,6 +131,7 @@
           }
           console.log(this.reasonSOList)
           this.flag = true;
+          this.searchValue = '';
           this.companyList = list;
           this.companyList.forEach(it => {
             this.$set(it, 'selected', false);
