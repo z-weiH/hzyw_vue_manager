@@ -1,5 +1,9 @@
 <template>
-  <el-dialog class="audit" :visible.sync="flag" :title="'审核意见'"  width="560px" center >
+  <el-dialog
+    v-dialogDrag
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+    class="audit" :visible.sync="flag" :title="'审核意见'"  width="560px" center >
     <el-form>
       <el-form-item label="审核结果" label-width="100px" label-position="left">
         <el-radio v-model="status" :label="1">通过</el-radio>

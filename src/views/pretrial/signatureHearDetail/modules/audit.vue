@@ -1,6 +1,7 @@
 <template>
   <el-dialog
     :visible.sync="flag"
+    v-dialogDrag
     :close-on-click-modal="false"
     :close-on-press-escape="false"
     :title="'审核意见'"

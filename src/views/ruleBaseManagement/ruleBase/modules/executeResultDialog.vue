@@ -2,9 +2,10 @@
   <el-dialog
     :visible.sync="flag"
     v-dialogDrag
-    title="执行结果"
     :close-on-click-modal="false"
     :close-on-press-escape="false"
+    title="执行结果"
+
     width="890px"
     >
     <div style="width: 850px; margin: 20px auto;">
