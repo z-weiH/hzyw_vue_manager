@@ -128,7 +128,7 @@ export default {
       width: 120px;
     }
     &:nth-child(5){
-      width: 80px;
+      width: 60px;
     }
   }
 </style>
