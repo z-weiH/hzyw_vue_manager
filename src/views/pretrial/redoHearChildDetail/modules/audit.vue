@@ -172,6 +172,9 @@ export default {
       if(this.status && auditList.length == 0){
         return this.$message.error('请选择不通过原因');
       }
+      if(this.status == 1){
+        auditList = [];
+      }
       this.$http.post("/againAudit/saveAuditSuggestion.htm",{caseId: this.resObj.caseId, suggestions: auditList},{mheaders: true}).then(res => {
             this.$message.success('保存成功');
             this.$parent.getRecheckDetail();
