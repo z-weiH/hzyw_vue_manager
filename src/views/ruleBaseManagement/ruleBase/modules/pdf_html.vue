@@ -9,7 +9,7 @@
         <div class="content" >
           <p class="left-title">切换样例</p>
           <div>
-            <el-select @change="refreshHtml" popper-class="pdf_select" v-model="pdfSrc"  style="width: 100%;">
+            <el-select @change="refreshHtml" class="html_select" popper-class="pdf_select" v-model="pdfSrc"  style="width: 100%;">
               <el-option
                 v-for="(item,idx) in items"
                 :key="idx"
@@ -120,7 +120,7 @@ export default {
 
 </script>
 
-<style scoped lang="scss">
+<style  lang="scss">
   .pdf_html{
     position: fixed;
     top: 0;
@@ -160,41 +160,48 @@ export default {
       }
     }
   }
-  }
-  .tap{
-    position: absolute;
-    top: -1000px;
-    left: 400px;
-    background: rgb(252,255,190);
-    padding: 8px 10px;
-    border: 1px solid #aaa;
 
-    .top{
+    .html_select{
+      .el-input__inner{
+        border-radius: 0 !important;
+      }
+    }
+    .tap{
       position: absolute;
-      top: -15px;
-      left: calc(50% - 10px);
-      display:block;
-      width:0;
-      height:0;
-      border-width:0 10px 10px;
-      border-style:solid;
-      border-color:transparent transparent #aaa;
-      position:absolute;
-      top:-10px;
-      left:50%;/* 三角形居中显示 */
-      margin-left:-10px;/* 三角形居中显示 */
-      span{
+      top: -1000px;
+      left: 400px;
+      background: rgb(252,255,190);
+      padding: 8px 10px;
+      border: 1px solid #aaa;
+
+      .top{
+        position: absolute;
+        top: -15px;
+        left: calc(50% - 10px);
         display:block;
         width:0;
         height:0;
         border-width:0 10px 10px;
         border-style:solid;
-        border-color:transparent transparent rgb(252,255,190);
+        border-color:transparent transparent #aaa;
         position:absolute;
-        top:1px;
-        left:-10px;
+        top:-10px;
+        left:50%;/* 三角形居中显示 */
+        margin-left:-10px;/* 三角形居中显示 */
+        span{
+          display:block;
+          width:0;
+          height:0;
+          border-width:0 10px 10px;
+          border-style:solid;
+          border-color:transparent transparent rgb(252,255,190);
+          position:absolute;
+          top:1px;
+          left:-10px;
+        }
       }
     }
+
   }
 
 </style>

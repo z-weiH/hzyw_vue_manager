@@ -108,6 +108,8 @@
                 <el-radio label="OPERATOR">运营</el-radio>
                 <el-radio label="FINANCE_SUPERVISOR">财务主管</el-radio>
                 <el-radio label="OPERATOR_SUPERVISOR">运营主管</el-radio>
+                <el-radio label="SUPERVISOR">负责人</el-radio>
+                <el-radio label="COMMONEMP">普通员工</el-radio>
               </template>
               <template v-else>
                 <el-radio label="SUPERVISOR">负责人</el-radio>
@@ -245,6 +247,14 @@
     }
 </script>
 
-<style scoped lang="scss">
-
+<style  lang="scss">
+.staffMangement{
+  .el-radio-group{
+    label{
+      width: 33%;
+      margin:0;
+      text-align: left;
+    }
+  }
+}
 </style>

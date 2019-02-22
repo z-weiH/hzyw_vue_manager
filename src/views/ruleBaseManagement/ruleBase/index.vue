@@ -121,7 +121,7 @@
         <el-form-item label="机审规则：" prop="ruleInfo">
           <el-input type="textarea" class="rule_textarea" ref="textarea_rule" v-model="form.ruleInfo" @focus="handleFocus1" @keyup.native.13="changeLine"  :rows="12" placeholder="请填写机审规则"></el-input>
           <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:21px;box-sizing: border-box;"  v-html="ruleInfo_html" ></div>
-          <div class="textarea_warpar" ref="textarea_warpar1" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:21px;box-sizing: border-box;"  v-html="ruleInfo_html1" ></div>
+          <!--<div class="textarea_warpar" ref="textarea_warpar1" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:21px;box-sizing: border-box;"  v-html="ruleInfo_html1" ></div>-->
           <!--<ul class="textarea_select" v-if="showSelect" ref="textarea_select">-->
             <!--<li v-for="(name,index) in ruleNames" :key="index" :class="{'active': index == ruleIndex}">{{name}}</li>-->
           <!--</ul>-->
@@ -358,7 +358,7 @@
               this.$refs.textarea_rule.$el.querySelector("textarea").onscroll =() => {
                 console.log('what');
                 this.textareaValueChange(this.form.ruleInfo);
-                this.textareaValueChange1(this.form.ruleInfo);
+                // this.textareaValueChange1(this.form.ruleInfo);
               }
             })
           }
@@ -404,7 +404,7 @@
 
       console.error(val,'valueChange');
        this.textareaValueChange(val);
-       this.textareaValueChange1(val);
+       // this.textareaValueChange1(val);
 
 
 
@@ -440,44 +440,44 @@
       },
 
 
-      textareaValueChange1(val){
-        this.ruleInfo_html1 = val.replace(/\n/g,'<br/>')
-          .replace(/\s/g,'&nbsp;')
-          .replace(/\/\/([\u4e00-\u9fa5]+)/g,'<span class="m-notes">$&</span>')
-          .replace(/[\u4e00-\u9fa5]+/g,'<span class="mark" style="height: 16px; line-height: 16px;background: #13367D; color: #13367D; opacity: .4;box-sizing: border-box;display: inline-block;">$&</span>')
-
-        setTimeout(() => {
-          console.log(this.$refs.textarea_warpar1.querySelectorAll('span'));
-          this.$refs.textarea_rule.$el.querySelectorAll('span').forEach(node => {
-
-            this.$refs.textarea_rule.$el.removeChild(node);
-          })
-          this.$refs.textarea_warpar1.querySelectorAll('span.mark').forEach(it => {
-            // let span =document.createElement("span");
-            // it.style.background = "#13367D";
-            // it.style.color = "#13367D";
-            if(it.parentElement.className != 'm-notes'){
-              console.log(it.offsetTop, it.offsetLeft,it.innerHtml,it.offsetWidth);
-              let scrollTop = this.$refs.textarea_rule.$el.querySelector('textarea').scrollTop;
-              let span =it.cloneNode();
-              span.style.position = 'absolute';
-              span.style.opacity = '.4';
-              span.style.top = it.offsetTop - scrollTop +3 + 'px';
-              span.style.left = it.offsetLeft + 'px';
-              span.style.background = '#f9ef4a';
-              span.style.width = it.offsetWidth + 'px';
-              if(it.offsetTop - scrollTop +3 < 0 || it.offsetTop - scrollTop +3 > this.$refs.textarea_rule.$el.querySelector("textarea").offsetHeight - 16 ){
-                span.style.display = 'none';
-              }
-              // span.style.height = it.style.height;
-              console.log(span.style.top, span.style.left);
-              this.$refs.textarea_rule.$el.appendChild(span);
-            }
-
-          })
-
-        },400)
-      },
+      // textareaValueChange1(val){
+      //   this.ruleInfo_html1 = val.replace(/\n/g,'<br/>')
+      //     .replace(/\s/g,'&nbsp;')
+      //     .replace(/\/\/([\u4e00-\u9fa5]+)/g,'<span class="m-notes">$&</span>')
+      //     .replace(/[\u4e00-\u9fa5]+/g,'<span class="mark" style="height: 16px; line-height: 16px;background: #13367D; color: #13367D; opacity: .4;box-sizing: border-box;display: inline-block;">$&</span>')
+      //
+      //   setTimeout(() => {
+      //     console.log(this.$refs.textarea_warpar1.querySelectorAll('span'));
+      //     this.$refs.textarea_rule.$el.querySelectorAll('span').forEach(node => {
+      //
+      //       this.$refs.textarea_rule.$el.removeChild(node);
+      //     })
+      //     this.$refs.textarea_warpar1.querySelectorAll('span.mark').forEach(it => {
+      //       // let span =document.createElement("span");
+      //       // it.style.background = "#13367D";
+      //       // it.style.color = "#13367D";
+      //       if(it.parentElement.className != 'm-notes'){
+      //         console.log(it.offsetTop, it.offsetLeft,it.innerHtml,it.offsetWidth);
+      //         let scrollTop = this.$refs.textarea_rule.$el.querySelector('textarea').scrollTop;
+      //         let span =it.cloneNode();
+      //         span.style.position = 'absolute';
+      //         span.style.opacity = '.4';
+      //         span.style.top = it.offsetTop - scrollTop +3 + 'px';
+      //         span.style.left = it.offsetLeft + 'px';
+      //         span.style.background = '#f9ef4a';
+      //         span.style.width = it.offsetWidth + 'px';
+      //         if(it.offsetTop - scrollTop +3 < 0 || it.offsetTop - scrollTop +3 > this.$refs.textarea_rule.$el.querySelector("textarea").offsetHeight - 16 ){
+      //           span.style.display = 'none';
+      //         }
+      //         // span.style.height = it.style.height;
+      //         console.log(span.style.top, span.style.left);
+      //         this.$refs.textarea_rule.$el.appendChild(span);
+      //       }
+      //
+      //     })
+      //
+      //   },400)
+      // },
 
 
       textareaValueChange(val){
