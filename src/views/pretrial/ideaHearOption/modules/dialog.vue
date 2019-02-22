@@ -14,8 +14,8 @@
               <el-option v-for="(item, idx) in companyList" :key="idx" :label="item.merchantName" :value="item.code"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item :disabled="edittype === 'edit'" label="模块" prop="type">
-            <el-select  v-model="ruleForm.type" @change="selectChange">
+          <el-form-item  label="模块" prop="type">
+            <el-select :disabled="edittype === 'edit'" v-model="ruleForm.type" @change="selectChange">
               <el-option label="身份证审核" value="0"></el-option>
               <el-option label="签名意见" value="1"></el-option>
               <el-option label="证据意见" value="2"></el-option>

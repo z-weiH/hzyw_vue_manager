@@ -77,11 +77,11 @@
                   <img class="edit_icon" title="编辑" @click="handleEdit(item)" src="../../../assets/img/edit.png" alt="">
                   <img class="edit_icon" title="复制" @click="handleSingleCopy(item)" src="../../../assets/img/copy.png" alt="">
                   <img class="edit_icon" title="配置" @click="handleSingleSet(item)" src="../../../assets/img/set.png" alt="">
-                  <img class="edit_icon" title="删除" v-if="(index > (
+                  <img class="edit_icon" title="删除" v-if="( currentCompany && currentCompany.code == '0' && index > (
                     activeName === '0' ? 5 :
                     activeName === '1' ? 2 : -1
-                  )) && (item.returnCodeCount === 0)" @click="handleSingleDel(item)" style="width: 14px; height: 14px;" src="../../../assets/img/Delete.png" alt="">
-                  <img class="edit_icon" title="删除" v-else  style="cursor:not-allowed;width: 14px; height: 14px;" src="../../../assets/img/delete_disabled.png" alt="">
+                  )) || (item.returnCodeCount !== 0)"  style="cursor:not-allowed;width: 14px; height: 14px;" src="../../../assets/img/delete_disabled.png" alt="">
+                  <img class="edit_icon" v-else title="删除"  @click="handleSingleDel(item)" style="width: 14px; height: 14px;" src="../../../assets/img/Delete.png" alt="">
                   <!--<el-button @click="handleEdit(item)" type="text">修改</el-button>-->
                   <!--<span>|</span>-->
                   <!--<el-button @click="handleDelete(item)" type="text">删除</el-button>-->
