@@ -140,7 +140,7 @@
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button type="primary"  @click="HandleSave" :disabled="disabled">保存并关闭</el-button>
+          <customer-button type="primary"  @click="HandleSave" :disabled="disabled">保存并关闭</customer-button>
           <el-button @click="editState = 0">取 消</el-button>
         </span>
     </el-dialog>
