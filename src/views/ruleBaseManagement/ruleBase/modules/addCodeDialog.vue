@@ -1,5 +1,8 @@
 <template>
   <el-dialog
+    :close-on-click-modal="false"
+    :close-on-press-escape="false"
+    v-dialogDrag
     ref="dialog"
     title="添加审核意见"
     :visible.sync="dialogVisible"
