@@ -860,8 +860,12 @@
 
       //查看参数
       handleAvriable() {
-
-        window.open(this.$router.resolve({path:'/ruleParameterList',query:{levelId: this.currentMenu.levelId}}).href,'_blank');
+        this.$http.post("/caseSample/queryCaseSampleList.htm",{levelId: this.currentMenu.levelId}).then(res => {
+            if(res.result.count === 0){
+                return this.$message.error("当前暂无案例")
+            }
+          window.open(this.$router.resolve({path:'/ruleParameterList',query:{levelId: this.currentMenu.levelId}}).href,'_blank');
+        })
 
       },
       //編輯規則
