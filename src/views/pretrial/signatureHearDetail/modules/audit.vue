@@ -184,6 +184,9 @@ export default {
       publicRes.forEach(it => {
         if(it.type === 1){
           this.reasonIds.push(it.reasonId);
+          if(this.status === 1){
+            this.status = 2;
+          }
         }
       })
       this.resObjClone = JSON.parse(JSON.stringify(this.resObj));
