@@ -77,7 +77,7 @@
                   <img class="edit_icon" title="编辑" @click="handleEdit(item)" src="../../../assets/img/edit.png" alt="">
                   <img class="edit_icon" title="复制" @click="handleSingleCopy(item)" src="../../../assets/img/copy.png" alt="">
                   <img class="edit_icon" title="配置" @click="handleSingleSet(item)" src="../../../assets/img/set.png" alt="">
-                  <img class="edit_icon" title="删除" v-if="( currentCompany && currentCompany.code == '0' && index > (
+                  <img class="edit_icon" title="删除" v-if="( currentCompany && currentCompany.code == '0' && index <= (
                     activeName === '0' ? 5 :
                     activeName === '1' ? 2 : -1
                   )) || (item.returnCodeCount !== 0)"  style="cursor:not-allowed;width: 14px; height: 14px;" src="../../../assets/img/delete_disabled.png" alt="">
