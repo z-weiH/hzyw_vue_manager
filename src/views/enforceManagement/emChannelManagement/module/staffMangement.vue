@@ -250,6 +250,7 @@
 <style  lang="scss">
 .staffMangement{
   .el-radio-group{
+    width: 100%;
     label{
       width: 33%;
       margin:0;
