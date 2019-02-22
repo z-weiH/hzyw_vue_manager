@@ -175,6 +175,11 @@ export default {
       if(this.status == 1){
         auditList = [];
       }
+      auditList.forEach(it => {
+        if(!it.reasonMsg){
+          it.reasonMsg = it.negReasonMsg;
+        }
+      })
       this.$http.post("/againAudit/saveAuditSuggestion.htm",{caseId: this.resObj.caseId, suggestions: auditList},{mheaders: true}).then(res => {
             this.$message.success('保存成功');
             this.$parent.getRecheckDetail();
