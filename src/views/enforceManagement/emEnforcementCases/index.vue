@@ -208,7 +208,15 @@
             <span>{{scope.row.caseNo}}</span>  
           </template>
         </el-table-column>
-        <el-table-column prop="executedBorrowAmt" label="债转"></el-table-column>
+        <el-table-column prop="zqzrStatus" label="债转">
+          <template slot-scope="scope">
+            {{
+              scope.row.zqzrStatus === 0 ? '未定义' :
+              scope.row.zqzrStatus === 1 ? '债转' :
+              scope.row.zqzrStatus === 2 ? '非债转' : '--'
+            }}
+          </template>
+        </el-table-column>
         <el-table-column prop="applicants" label="仲裁申请人" min-width="120">
           <template slot-scope="scope">
             <span>{{scope.row.applicants}}</span>  
