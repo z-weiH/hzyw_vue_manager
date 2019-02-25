@@ -150,10 +150,18 @@
         return !this.listDefault.find(it => it.selected);
       },
       disabled1() {
-        let arr = this.listDefault.filter(it => it.reasonType === 0).slice(6);
-        let arr1 = this.listDefault.filter(it => it.reasonType === 1).slice(3);
-        let arr2 = this.listDefault.filter(it => it.reasonType === 2);
-        let res = arr.concat(arr1, arr2);
+
+        if(this.currentCompany.code === '0'){
+          let arr = this.listDefault.filter(it => it.reasonType === 0).slice(0,6);
+          let arr1 = this.listDefault.filter(it => it.reasonType === 1).slice(0,3);
+          // let arr2 = this.listDefault.filter(it => it.reasonType === 2);
+          let res1 = arr.concat(arr1)
+          if(res1.find(it => it.selected)){
+            return true;
+          }
+
+        }
+         let res = JSON.parse(JSON.stringify(this.listDefault));
         let r = res.filter(it => it.selected);
         if(r.length === 0)
           return true;
