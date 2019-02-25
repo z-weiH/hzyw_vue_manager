@@ -289,9 +289,8 @@
       </el-pagination>
 
     </div>
-
-    <setDialog ref="setDialog"></setDialog>
     <timeDialog @successCBK="timeSuccess" ref="timeDialog"></timeDialog>
+    <setDialog ref="setDialog"></setDialog>
     <batchImportDialog ref="batchImportDialog"></batchImportDialog>
     <zzErrorDialog ref="zzErrorDialog"></zzErrorDialog>
 	</div>
@@ -626,8 +625,12 @@
             caseId : row.caseId,
           },
         }).then((res) => {
+          // 扯淡需求
+          if(res.result.settingIsOk === false && res.result.unSettingTemplateList.length === 0 && res.result.unSettingBankCardList.length > 0 && res.result.unSettingCourtNameList.length === 0 && res.result.unSettingClienteleList && res.result.unSettingClienteleList.length === 0 ) {
+            this.$refs.setDialog.show(res.result);
+            this.$refs.timeDialog.show({...row,mtype:'yulan'});
           // 未配置
-          if(res.result.settingIsOk === false) {
+          }else if(res.result.settingIsOk === false) {
             this.$refs.setDialog.show(res.result);
           // 已配置选择预览时间
           }else{

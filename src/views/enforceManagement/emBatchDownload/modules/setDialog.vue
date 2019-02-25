@@ -63,10 +63,10 @@
 
         this.$nextTick(() => {
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
-          this.unSettingTemplateList = data.unSettingTemplateList;
-          this.unSettingBankCardList = data.unSettingBankCardList;
-          this.unSettingCourtNameList = data.unSettingCourtNameList;
-          this.unSettingClienteleList = data.unSettingClienteleList;
+          this.unSettingTemplateList = data.unSettingTemplateList || [];
+          this.unSettingBankCardList = data.unSettingBankCardList || [];
+          this.unSettingCourtNameList = data.unSettingCourtNameList || [];
+          this.unSettingClienteleList = data.unSettingClienteleList || [];
         });
       },
     },
