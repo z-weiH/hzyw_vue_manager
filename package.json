@@ -10,7 +10,7 @@
     "start": "npm run dev",
     "build": "node build/build.js",
     "build:stats": "webpack --env production --json > stats.json",
-    "analyz": "cross-env NODE_ENV=production npm_config_report=true npm run build"
+    "analyz":"npm run build --report"
   },
   "dependencies": {
     "autosize": "4.0.2",
@@ -36,7 +36,6 @@
     "chalk": "2.0.1",
     "compression-webpack-plugin": "^1.1.12",
     "copy-webpack-plugin": "4.0.1",
-    "cross-env": "^5.2.0",
     "css-loader": "0.28.0",
     "element-ui": "2.3.7",
     "exports-loader": "0.7.0",
