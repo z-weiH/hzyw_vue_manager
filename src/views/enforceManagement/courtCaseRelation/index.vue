@@ -7,8 +7,9 @@
       <el-form :inline="true" class="searchs item-search" >
 
             <el-form-item label="案件查询">
-              <el-input @keyup.native.enter="doQuery" style="width: 230px;" v-model="searchItem.keyWords" placeholder="案号、申请人、被申请人、法院名称"></el-input>
+              <el-input @keyup.native.enter="doQuery" style="width: 380px;" v-model="searchItem.keyWords" placeholder="案号、申请人、被申请人、法院名称、被申请人身份证"></el-input>
             </el-form-item>
+            <br />
             <el-form-item label="所在地区">
               <!--<el-input style="width: 320px;" v-model="searchItem.user" placeholder="案号、申请人、被申请人、手机号、法院名称"></el-input>-->
               <el-select style="width: 100px;"  clearable v-model="searchItem.provinceCode" placeholder="省">
@@ -47,6 +48,7 @@
             </el-option>
           </el-select>
         </el-form-item>
+        <br />
         <el-form-item label="提交时间">
           <el-date-picker
             v-model="searchItem.closeTimeBegin"
@@ -82,7 +84,6 @@
         <el-table
           :data="tableData"
           border
-          :max-height="650"
           style="width: 100%;">
           <el-table-column
             type="index"
@@ -102,6 +103,7 @@
           <el-table-column
             prop="applicants"
             label="申请人姓名"
+            width="120"
           >
             <template slot-scope="scope">
               {{scope.row.applicants}}
@@ -114,6 +116,15 @@
           >
             <template slot-scope="scope">
               {{scope.row.respondents}}
+            </template>
+          </el-table-column>
+          <el-table-column
+            prop="idcard"
+            label="被申请人身份证号"
+            width="140"
+          >
+            <template slot-scope="scope">
+              {{scope.row.idcard}}
             </template>
           </el-table-column>
           <el-table-column

@@ -22,18 +22,18 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-				<el-table-column prop="respondents" label="委托人名称"></el-table-column>
-        <el-table-column prop="respondents" label="法人"></el-table-column>
-        <el-table-column prop="respondents" label="法人职务"></el-table-column>
-        <el-table-column prop="respondents" label="法人身份证正反面照片">
+				<el-table-column prop="clienteleName" label="委托人名称"></el-table-column>
+        <el-table-column prop="corporationName" label="法人"></el-table-column>
+        <el-table-column prop="corporationPosition" label="法人职务"></el-table-column>
+        <el-table-column prop="corporationIdcard" label="法人身份证正反面照片">
           <template slot-scope="scope">
-            <a target="_blank" :href="scope.row.aaaaa">查看</a>
+            <a target="_blank" :href="scope.row.corporationIdcard">查看</a>
           </template>
         </el-table-column>
-        <el-table-column prop="respondents" label="联系电话"></el-table-column>
-        <el-table-column prop="respondents" label="营业执照">
+        <el-table-column prop="corporationPhone" label="联系电话"></el-table-column>
+        <el-table-column prop="businessLicense" label="营业执照">
           <template slot-scope="scope">
-            <a target="_blank" :href="scope.row.aaaaa">查看</a>
+            <a target="_blank" :href="scope.row.businessLicense">查看</a>
           </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -100,9 +100,9 @@
         }).then(() => {
           this.$http({
             method : 'post',
-            url : '/templatevidence/deleteTemplateEvidence.htm',
+            url : '/clientele/deleteClienteleInfo.htm',
             data : {
-              eviId : row.eviId,
+              clienteleId : row.clienteleId,
             },
           }).then((res) => {
             this.$message.success('删除成功');
@@ -121,13 +121,11 @@
       // 初始化 表格数据
       initTableList() {
         return this.$http({
-          url : '/preCaseLib/queryCaseListByCondition.htm',
+          url : '/clientele/queryClientelelist.htm',
           method : 'post',
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
-
-            ...this.ruleForm,
           },
         }).then((res) => {
           this.total = res.result.count;

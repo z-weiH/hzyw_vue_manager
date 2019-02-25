@@ -10,23 +10,31 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
           
-					<el-form-item label="委托人名称：" prop="aaaaa">
-						<el-input style="width:400px;" v-model.trim="ruleForm.aaaaa" placeholder="请输入"></el-input>
+					<el-form-item label="委托人名称：" prop="clienteleName">
+						<el-input style="width:400px;" v-model.trim="ruleForm.clienteleName" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="法人：" prop="bbbbb">
-						<el-input style="width:400px;" v-model.trim="ruleForm.bbbbb" placeholder="请输入"></el-input>
+          <el-form-item label="通信地址：" prop="address">
+						<el-input style="width:400px;" v-model.trim="ruleForm.address" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="法人职务：" prop="ccccc">
-						<el-input style="width:400px;" v-model.trim="ruleForm.ccccc" placeholder="请输入"></el-input>
+          <el-form-item label="法人：" prop="corporationName">
+						<el-input style="width:400px;" v-model.trim="ruleForm.corporationName" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="联系电话：" prop="ddddd">
-						<el-input style="width:400px;" v-model.trim="ruleForm.ddddd" placeholder="请输入"></el-input>
+          <el-form-item label="法人职务：" prop="corporationPosition">
+						<el-input style="width:400px;" v-model.trim="ruleForm.corporationPosition" placeholder="请输入"></el-input>
 					</el-form-item>
 
-          <el-form-item label="法人身份证正反面照片：" prop="eeeee" label-width="200px">
+          <el-form-item label="联系电话：" prop="corporationPhone">
+						<el-input style="width:400px;" v-model.trim="ruleForm.corporationPhone" placeholder="请输入"></el-input>
+					</el-form-item>
+
+          <el-form-item label="统一社会信用代码：" prop="creditCode" label-width="200px">
+						<el-input style="width:320px;" v-model.trim="ruleForm.creditCode" placeholder="请输入"></el-input>
+					</el-form-item>
+
+          <el-form-item label="法人身份证正反面照片：" prop="corporationIdcard" label-width="200px">
             <el-upload
               accept="image/*"
               class="upload-demo"
@@ -44,13 +52,13 @@
                 上传
               </el-button>
               <!-- 编辑 查看 -->
-              <template v-if="ruleForm.eeeee">
-                <a class="ml-10" slot="tip" :href="ruleForm.eeeee" target="_blank">查看</a>
+              <template v-if="ruleForm.corporationIdcard">
+                <a class="ml-10" slot="tip" :href="ruleForm.corporationIdcard" target="_blank">查看</a>
               </template>
             </el-upload>
 					</el-form-item>
 
-          <el-form-item label="营业执照：" prop="fffff">
+          <el-form-item label="营业执照：" prop="businessLicense">
             <el-upload
               accept="image/*"
               class="upload-demo"
@@ -68,8 +76,8 @@
                 上传
               </el-button>
               <!-- 编辑 查看 -->
-              <template v-if="ruleForm.fffff">
-                <a class="ml-10" slot="tip" :href="ruleForm.fffff" target="_blank">查看</a>
+              <template v-if="ruleForm.businessLicense">
+                <a class="ml-10" slot="tip" :href="ruleForm.businessLicense" target="_blank">查看</a>
               </template>
             </el-upload>
 					</el-form-item>
@@ -98,36 +106,46 @@
 
         ruleForm : {
           // 委托人名称
-          aaaaa : '',
+          clienteleName : '',
+          // 通讯地址
+          address : '',
           // 法人
-          bbbbb : '',
+          corporationName : '',
           // 法人职务
-          ccccc : '',
+          corporationPosition : '',
           // 联系电话
-          ddddd : '',
+          corporationPhone : '',
           // 法人身份证正反面照片
-          eeeee : '',
+          corporationIdcard : '',
           // 营业执照
-          fffff : '',
+          businessLicense : '',
+          // 统一社会信用代码
+          creditCode : '',
         },
         rules : {
-          aaaaa : [
+          clienteleName : [
             {required : true , message : '请输入委托人名称' , trigger : 'blur'},
           ],
-          bbbbb : [
+          address : [
+            {required : true , message : '请输入通讯地址' , trigger : 'blur'},
+          ],
+          corporationName : [
             {required : true , message : '请输入法人' , trigger : 'blur'},
           ],
-          ccccc : [
+          corporationPosition : [
             {required : true , message : '请输入法人职务' , trigger : 'blur'},
           ],
-          ddddd : [
+          corporationPhone : [
             {required : true , message : '请输入联系电话' , trigger : 'blur'},
           ],
-          eeeee : [
+          corporationIdcard : [
             {required : true , message : '请上传法人身份证正反面照片' , trigger : 'change'},
           ],
-          fffff : [
+          businessLicense : [
             {required : true , message : '请上传营业执照' , trigger : 'blur'},
+          ],
+          creditCode : [
+            {required : true , message : '请输入统一社会信用代码' , trigger : 'blur'},
           ],
         },
       }
@@ -177,11 +195,11 @@
             let form = {...this.ruleForm};
             // 编辑
             if(this.type === 'edit') {
-
+              form.clienteleId = this.row.clienteleId;
             }
 						this.$http({
               method : 'post',
-              url : '/demo',
+              url : '/clientele/insertOrUpdateClienteleInfo.htm',
               data : form,
             }).then((res) => {
               this.$message.success('操作成功');
@@ -209,12 +227,12 @@
         if(res.code === '0000') {
           // 身份证
           if(type === 1) {
-            this.ruleForm.eeeee = res.result;
-            this.$refs.ruleForm.validateField('eeeee');
+            this.ruleForm.corporationIdcard = res.result;
+            this.$refs.ruleForm.validateField('corporationIdcard');
           // 营业执照
           }else{
-            this.ruleForm.fffff = res.result;
-            this.$refs.ruleForm.validateField('fffff');
+            this.ruleForm.businessLicense = res.result;
+            this.$refs.ruleForm.validateField('businessLicense');
           }
         }else{
           this.$message.error(res.description);

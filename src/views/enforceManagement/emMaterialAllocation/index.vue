@@ -73,11 +73,19 @@
           </template>
         </el-table-column>
         <el-table-column
+          prop="clienteleName"
+          label="委托人"
+          >
+          <template slot-scope="scope">
+            <span v-ellipsis.20>{{scope.row.clienteleName || '--'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column
           prop="mandatoryName"
           label="受委托人"
           >
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.mandatoryName ? scope.row.mandatoryName : scope.row.mandatoryName === '' ? '空委托人' : '-'}}</span>
+            <span v-ellipsis.20>{{scope.row.mandatoryName ? scope.row.mandatoryName : scope.row.mandatoryName === '' ? '空委托人' : '--'}}</span>
           </template>
         </el-table-column>
 

@@ -31,7 +31,7 @@
           <!--</li>-->
 
           <li  v-for="(item,index) in checkList" :key="index" class="doc-list">
-            <el-checkbox @change="handleChange" v-model="item.checked">{{item.label}}</el-checkbox>
+            <el-checkbox :disabled="item.disabled" @change="handleChange" v-model="item.checked">{{item.label}}</el-checkbox>
           </li>
         </ul>
       </div>
@@ -90,6 +90,11 @@
             value : 'sqwts',
             checked : false,
           },
+          {
+            label : '劳动合同扫描件',
+            value : 'ldhtsmj',
+            checked : false,
+          },
           // {
           //   label : '受委托人在仲裁代理中不收取报酬的承诺书',
           //   value : 'bsqbccns',
@@ -124,11 +129,13 @@
             label : '债权转让协议',
             value : 'zqzrxy',
             checked : false,
+            disabled : this.$route.query.disabled === 'true',
           },
           {
             label : '债权转让确认',
             value : 'zqzrqrs',
             checked : false,
+            disabled : this.$route.query.disabled === 'true',
           },
 
           {
@@ -242,7 +249,9 @@
       handleCheckAllChange(val) {
         this.isIndeterminate = false;
         this.checkList = this.checkList.map(v => {
-          v.checked = val;
+          if(!v.disabled) {
+            v.checked = val;
+          }
           return v;
         });
       },

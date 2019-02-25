@@ -13,6 +13,15 @@
             <el-form-item label=" " prop="keyWords">
               <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.keyWords" placeholder="案号、申请人、被申请人、手机号" style="width:456px;"></el-input>
             </el-form-item>
+
+            <el-form-item label="是否债转：" prop="zqzrStatus" label-width="90px">
+              <el-select clearable v-model="ruleForm.zqzrStatus" placeholder="请选择" style="width:197px;">
+                <el-option label="全部" value=""></el-option>
+                <el-option label="债转" :value="1"></el-option>
+                <el-option label="非债转" :value="2"></el-option>
+                <el-option label="未定义" :value="0"></el-option>
+              </el-select>
+            </el-form-item>
           </el-col>
         </el-row>
 
@@ -135,12 +144,24 @@
     </div>
 
     <div class="item-title of-hidden">
-      <span class="item-title-sign">已选{{multipleSelection.length}}个案件</span>
+      <div class="fl">
+        <span class="item-title-sign">已选{{multipleSelection.length}}个案件</span>
+        <el-radio-group v-if="importQueryState" @change="handleImportDebtTransfer" v-model="importIsDebtTransfer" class="m-zz">
+          <el-radio :label="1">债转</el-radio>
+          <el-radio :label="2">非债转</el-radio>
+        </el-radio-group>
+      </div>
       <div class="fr">
         <div class="handle-box">
           <span @click="handleExportList">导出列表</span>
           <span class="handle-line">|</span>
-          <span @click="handleTableTemplateDownload">表格模板下载</span>
+          <el-dropdown @command="handleTableTemplateDownload" trigger="click">
+            <span>表格模板下载</span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item :command="1">强制执行案件导入模板</el-dropdown-item>
+              <el-dropdown-item :command="2">批量录入债转类型模板</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
           <span class="handle-line">|</span>
           <el-upload
             class="upload-box"
@@ -156,6 +177,20 @@
             <span>批量导入查询</span>
           </el-upload>
           <span class="handle-line">|</span>
+          <el-upload
+            class="upload-box"
+            :action="`${$host}/forceManager/batchDualCaseZzlx.htm`"
+            :show-file-list="false"
+            :before-upload="uploadBefore"
+            :on-success="uploadSuccess2"
+            :on-error="uploadError"
+            :data="{
+              token : token,
+            }"
+          >
+            <span>批量录入债转类型</span>
+          </el-upload>
+          <span class="handle-line">|</span>
           <span @click="handleBatchDownload" :class="{'handle-disabled' : multipleSelection.length === 0}">批量下载</span>
         </div>
       </div>
@@ -168,11 +203,12 @@
         @selection-change="handleSelectionChange"
       >
         <el-table-column type="selection" width="55"></el-table-column>
-				<el-table-column prop="caseNo" label="案号" width="180">
+				<el-table-column prop="caseNo" label="案号" width="210">
           <template slot-scope="scope">
             <span>{{scope.row.caseNo}}</span>  
           </template>
         </el-table-column>
+        <el-table-column prop="executedBorrowAmt" label="债转"></el-table-column>
         <el-table-column prop="applicants" label="仲裁申请人" min-width="120">
           <template slot-scope="scope">
             <span>{{scope.row.applicants}}</span>  
@@ -249,6 +285,7 @@
     <setDialog ref="setDialog"></setDialog>
     <timeDialog @successCBK="timeSuccess" ref="timeDialog"></timeDialog>
     <batchImportDialog ref="batchImportDialog"></batchImportDialog>
+    <zzErrorDialog ref="zzErrorDialog"></zzErrorDialog>
 	</div>
 </template>
 
@@ -263,6 +300,8 @@
   import timeDialog from '../emBatchDownload/modules/timeDialog.vue'
   // 批量导入异常 dialog
   import batchImportDialog from './modules/batchImportDialog.vue'
+  // 录入债转类型 error dialog
+  import zzErrorDialog from './modules/zzErrorDialog.vue'
 	export default {
 		components : {
       timeFrame,
@@ -270,6 +309,7 @@
       setDialog,
       timeDialog,
       batchImportDialog,
+      zzErrorDialog,
 		},
 		data() {
 			return {
@@ -315,9 +355,14 @@
           productId : '',
           // 模板id
           templateCode : '',
+          // 执行状态
+          execStatus: '',
 
-          execStatus: ''
-				},
+          // 是否债转（普通查询） 	0：未定义；1：是；2：否
+          zqzrStatus : '',
+        },
+        // 是否债转（批量导入查询）
+        importIsDebtTransfer : '',
         rules : {},
         // 表格选中数据
         multipleSelection : [],
@@ -360,7 +405,8 @@
           cjs: true,
           xzgxfsms: true,
           xgmdsqs: true,
-          sxmdsqs: true
+          sxmdsqs: true,
+          ldhtsmj : true,
         },
         
         pageLoading : '',
@@ -383,6 +429,8 @@
         this.importQueryState = false;
 				this.currentPage = 1;
         this.initTableList();
+
+        this.importIsDebtTransfer = '';
       },
       // 地区 选择完成回调
       cityFinish(val) {
@@ -477,10 +525,18 @@
         }
       },
       // 点击 表格模板下载
-      handleTableTemplateDownload() {
-        exportFile({
-          url : '/forceManager/moduleExcelDownload.htm',
-        });
+      handleTableTemplateDownload(val) {
+        // 强制执行案件导入模板
+        if(val === 1) {
+          exportFile({
+            url : '/forceManager/moduleExcelDownload.htm',
+          });
+        // 批量录入债转类型模板
+        }else{
+          exportFile({
+            url : '/forceManager/exceOutZzlxTemplate.htm',
+          });
+        }
       },
       // 批量导入相关事件
 
@@ -497,9 +553,11 @@
       },
       // 文件上传成功
       uploadSuccess(res, file, fileList) {
+        this.importIsDebtTransfer = '';
         this.pageLoading.close();
         this.importQueryState = true;
         this.tableData = res.result.caseInfos;
+        this.tableDataDefault = res.result.caseInfos;
         
         this.$refs.batchImportDialog.show({
           total : res.result.caseNum,
@@ -510,8 +568,19 @@
           execCaseList: res.result.execCaseList
         });
       },
+      // 文件上传成功（批量录入债转类型）
+      uploadSuccess2(res, file, fileList) {
+        this.importIsDebtTransfer = '';
+        this.pageLoading.close();
+        if(res.result.isok === false) {
+          this.$refs.zzErrorDialog.show(res.result);
+        }else{
+          this.$message.success('操作成功');
+        }
+      },
       // 文件上传失败
       uploadError() {
+        this.pageLoading.close();
         this.$message.error('文件上传失败，请稍后重试');
       },
 
@@ -521,17 +590,24 @@
         if(this.multipleSelection.length === 0) {
           return;
         }
+        if(!this.zzVerify('batch')) {
+          return;
+        }
         this.$router.push({
           path : 'emBatchDownload',
           query : {
             caseIds : this.multipleSelection.map(v => v.caseId).join(','),
             type : '2',
+            disabled : this.zzDisabled('batch'),
           },
         });
       },
 
       // 点击 预览
       handlePreview(row) {
+        if(!this.zzVerify('single',row)) {
+          return;
+        }
         // 预览前校验
         this.$http({
           method : 'post',
@@ -553,27 +629,87 @@
       },
       // 点击 下载
       handleDownload(row) {
+        if(!this.zzVerify('single',row)) {
+          return;
+        }
         this.$router.push({
           path : 'emBatchDownload',
           query : {
             caseIds : row.caseId + '',
             type : '2',
+            disabled : this.zzDisabled('single',row),
           },
         });
       },
+      // 债转校验逻辑
+      zzVerify(type,row) {
+        // 批量下载 校验
+        if(type === 'batch') {
+          let und = [];
+          let zz = [];
+          let fzz = [];
+          this.multipleSelection.map(v => {
+            if(v.zqzrStatus === 0) {
+              und.push(v);
+            }else if(v.zqzrStatus === 1) {
+              zz.push(v);
+            }else if(v.zqzrStatus === 2) {
+              fzz.push(v);
+            }
+          });
+          if(und.length > 0) {
+            this.$message.warning('选择了未定义债转类型的案件');
+            return false;
+          }
+          if( !(zz.length === 0 || fzz.length === 0) ) {
+            this.$message.warning('选择了多种债转类型的案件！');
+            return false;
+          }
+        // 单个校验
+        }else{
+          if(row.zqzrStatus === 0) {
+            this.$message.warning('选择了未定义债转类型的案件');
+            return false
+          }
+        }
+        return true;
+      },
+      // 处理业务 非债转类型 ，债转协议等相关文书不可选
+      zzDisabled(type,row) {
+        let disabled = false;
+        // 批量
+        if(type === 'batch') {
+          if(this.multipleSelection[0].zqzrStatus === 2){
+            disabled = true;
+          }
+        // 单个
+        }else{
+          if(row.zqzrStatus === 2){
+            disabled = true;
+          }
+        }
+        return disabled;
+      },
+      
       // 时间dialog 回调
       timeSuccess(time,row) {
         let win = window.open('');
         let loading = this.$loading({
           text : '预览生成中'
         });
+        // 处理业务
+        let checkList = {...this.checkList};
+        if(this.zzDisabled('single',row) === true) {
+          delete checkList.zqzrxy;
+          delete checkList.zqzrqrs;
+        }
         // 预览逻辑
         if(row.mtype === 'yulan') {
           this.$http({
             method : 'post',
             url : '/forceManager/previewCaseDocPost.htm',
             data : {
-              ...this.checkList,
+              ...checkList,
 
               caseId : row.caseId,
               docDate : time,
@@ -586,7 +722,7 @@
             win.close();
           });
         // 下载逻辑
-        }else{
+        }/* else{
           this.$http({
             method : 'post',
             url : '/forceManager/downloadDocsPost.htm',
@@ -600,7 +736,12 @@
             this.$message.success('操作成功');
             this.$router.push('emDownloadTask');
           });
-        }
+        } */
+      },
+      // 批量导入 债转change
+      handleImportDebtTransfer(val) {
+        // 过滤逻辑
+        this.tableData = this.tableDataDefault.filter(v => v.zqzrStatus === val);
       },
 
 			// 表格相关 start
@@ -678,6 +819,14 @@
 <style lang="scss">
 
 .em-enforcement-cases{
+  .m-zz{
+    .el-radio:focus:not(.is-focus):not(:active) .el-radio__inner{
+      box-shadow: none;
+    }
+    .el-radio+.el-radio{
+      margin-left: 10px;
+    }
+  }
   .item-search{
     .el-form-item{
       margin-bottom: 0;

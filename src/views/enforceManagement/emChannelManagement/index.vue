@@ -17,6 +17,7 @@
 
     <div class="item-title of-hidden" style="position: relative;">
       <el-button style="position: absolute;top: 6px;right: 10px;" type="primary" @click="addChannel">添加</el-button>
+      <el-button @click="handleExport" style="position: absolute;top: 6px;right: 90px;">导出</el-button>
       <span class="item-title-sign">渠道管理</span>
     </div>
 
@@ -133,6 +134,7 @@
 
 <script>
   import channelEdit from './module/channelEdit'
+  import exportFile from '@/assets/js/exportFile.js'
   export default {
     name: 'emChannelManagement',
     components:{
@@ -189,7 +191,16 @@
 
       addChannel(){
         this.$refs.channelEdit.show();
-      }
+      },
+      // 点击导出
+      handleExport() {
+        exportFile({
+          url : '/channel/excelOut.htm',
+          data : {
+            keyWords : this.searchItem.keyWords || '',
+          },
+        });
+      },
     },
     created(){
       this.doQuery();
