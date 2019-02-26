@@ -365,7 +365,7 @@
           // 执行状态
           execStatus: '',
 
-          // 是否债转（普通查询） 	0：未定义；1：是；2：否
+          // 是否债转（普通查询） 	0：未定义；1：债转；2：非债转
           zqzrStatus : '',
         },
         // 是否债转（批量导入查询）
@@ -615,12 +615,18 @@
         if(!this.zzVerify('single',row)) {
           return;
         }
+        // 处理业务
+        let checkList = {...this.checkList};
+        if(this.zzDisabled('single',row) === true) {
+          delete checkList.zqzrxy;
+          delete checkList.zqzrqrs;
+        }
         // 预览前校验
         this.$http({
           method : 'post',
           url : '/forceManager/previewCaseDocPre.htm',
           data : {
-            ...this.checkList,
+            ...checkList,
 
             caseId : row.caseId,
           },
