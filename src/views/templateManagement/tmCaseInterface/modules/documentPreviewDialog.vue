@@ -8,10 +8,17 @@
 			ref="dialog"
     >
       <div class="m-conetnt">
-        <el-radio-group @change="handleChange" v-model="type" size="small">
-          <el-radio-button :label="1">参数列表</el-radio-button>
-          <el-radio-button :label="2">参数样例</el-radio-button>
-        </el-radio-group>
+        <div class="of-hidden">
+          <el-radio-group @change="handleChange" v-model="type" size="small">
+            <el-radio-button :label="1">参数列表</el-radio-button>
+            <el-radio-button :label="2">参数样例</el-radio-button>
+          </el-radio-group>
+
+          <div class="fr">
+            <el-button size="small" type="primary" @click="handleSubmit">确定生成</el-button>
+            <el-button size="small" type="info" @click="handleExportExcel">生成excel</el-button>
+          </div>
+        </div>
 
         <div>
           <template v-if="type === 1">
@@ -69,11 +76,6 @@
           </template>
         </div>
       </div>
-
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleSubmit">确定生成</el-button>
-        <el-button @click="dialogVisible = false">取消</el-button>
-      </span>
     </el-dialog>
   </div>
 </template>
@@ -184,6 +186,16 @@
       handleSubmit(submitType) {
         exportFile({
           url : '/interface/downloadInterfaceDoc.htm',
+          data : {
+            dataId : this.dataId,
+            prodTempId : this.prodTempId,
+          },
+        });
+      },
+      // 生成 excel
+      handleExportExcel() {
+        exportFile({
+          url : '/interface/downloadInterfaceExcel.htm',
           data : {
             dataId : this.dataId,
             prodTempId : this.prodTempId,
