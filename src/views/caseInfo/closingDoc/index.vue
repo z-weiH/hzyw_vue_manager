@@ -15,7 +15,7 @@
             <el-input @keyup.native.enter="handleSearch" v-model.trim="ruleForm.keyWords" placeholder="请输入仲裁案号、申请人、被申请人姓名" style="width:282px;"></el-input>
           </el-form-item>
 
-          <span class="form-item">客户名称：</span>
+          <span class="form-item">互金企业：</span>
           <el-form-item label=" " prop="clientCode">
             <el-select filterable clearable v-model="ruleForm.clientCode" placeholder="请选择">
               <template v-for="(item,index) in merchantOptions">
@@ -69,6 +69,11 @@
           </template>
         </el-table-column>
 				<el-table-column prop="caseNoZw" label="仲裁案号"></el-table-column>
+        <el-table-column prop="clientName" label="互金企业">
+          <template slot-scope="scope">
+            {{scope.row.clientName || '--'}}
+          </template>
+        </el-table-column>
         <el-table-column prop="applicants" label="申请人"></el-table-column>
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column prop="resPhone" label="被申请人电话"></el-table-column>
