@@ -119,12 +119,12 @@
             </template>
           </el-table-column>
           <el-table-column
-            prop="idcard"
+            prop="partyIdcard"
             label="被申请人身份证号"
             width="140"
           >
             <template slot-scope="scope">
-              {{scope.row.idcard}}
+              {{scope.row.partyIdcard || '--'}}
             </template>
           </el-table-column>
           <el-table-column

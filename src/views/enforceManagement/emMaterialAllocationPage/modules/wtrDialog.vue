@@ -102,11 +102,11 @@
 
           },
         }).then((res) => {
-          this.tableData = res.result.list;
+          this.tableData = res.result;
 
           // 设置表格 选中状态
           setTimeout(() => {
-            res.result.list.map(v => {
+            res.result.map(v => {
               let len = this.row.filter(v1 => v1.clienteleId === v.clienteleId).length;
               len > 0 && this.$refs.multipleTable.toggleRowSelection(v)
             });

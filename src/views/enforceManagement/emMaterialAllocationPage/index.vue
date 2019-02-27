@@ -377,7 +377,7 @@
         remark: '',
         remarkFlag: false,
         swtrList: [],
-        wtrList : [{useStatus : true},{useStatus : false}],
+        wtrList : [],
         channelIdList: [],
         mandatoryIdList: [],
         swtrFlag: false,

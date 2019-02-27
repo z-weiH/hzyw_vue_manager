@@ -56,9 +56,9 @@
 
         this.$nextTick(() => {
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
-          this.unSettingTemplateList = data.errorDateFormatList || [];
-          this.unSettingBankCardList = data.unexistCaseList || [];
-          this.unSettingCourtNameList = data.unsettingDateList || [];
+          this.errorDateFormatList = data.errorDateFormatList || [];
+          this.unexistCaseList = data.unexistCaseList || [];
+          this.unsettingDateList = data.unsettingDateList || [];
         });
       },
     },

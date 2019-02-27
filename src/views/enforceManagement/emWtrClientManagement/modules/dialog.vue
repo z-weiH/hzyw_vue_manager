@@ -36,7 +36,7 @@
 
           <el-form-item label="法人身份证正反面照片：" prop="corporationIdcard" label-width="200px">
             <el-upload
-              accept="image/*"
+              accept="image/*,.pdf"
               class="upload-demo"
               :action="`${$host}/file/upload.htm`"
               :show-file-list="false"
@@ -60,7 +60,7 @@
 
           <el-form-item label="营业执照：" prop="businessLicense">
             <el-upload
-              accept="image/*"
+              accept="image/*,.pdf"
               class="upload-demo"
               :action="`${$host}/file/upload.htm`"
               :show-file-list="false"
@@ -196,6 +196,8 @@
             // 编辑
             if(this.type === 'edit') {
               form.clienteleId = this.row.clienteleId;
+            }else{
+              delete form.clienteleId;
             }
 						this.$http({
               method : 'post',
@@ -203,6 +205,7 @@
               data : form,
             }).then((res) => {
               this.$message.success('操作成功');
+              this.handleClose();
               this.$emit('successCBK');
             }).catch(() => {
               this.submitDisabled = false;
@@ -215,7 +218,7 @@
       // 文件上传前回调
       uploadBefore(file) {
         let fileType = file.name.split('.').pop().toLocaleLowerCase();
-        let arr = ['jpg','png','jpeg','gif'];
+        let arr = ['jpg','png','jpeg','gif','pdf'];
         if(arr.indexOf(fileType) === -1){
           this.$message.warning('文件格式有误');
           return false;

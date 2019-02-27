@@ -268,7 +268,7 @@
             {{scope.row.execStatus === 0 ? '未执行' : '已执行'}}
           </template>
         </el-table-column>
-        <el-table-column label="操作" align="center" min-width="120">
+        <el-table-column fixed="right" label="操作" align="center" min-width="120">
           <template slot-scope="scope">
             <el-button @click="handlePreview(scope.row)" type="text">预览</el-button>
             <el-button @click="handleDownload(scope.row)" type="text">下载</el-button>
@@ -579,10 +579,14 @@
       uploadSuccess2(res, file, fileList) {
         this.importIsDebtTransfer = '';
         this.pageLoading.close();
-        if(res.result.isok === false) {
-          this.$refs.zzErrorDialog.show(res.result);
+        if(res.code === '0000') {
+          if(res.result.isok === false) {
+            this.$refs.zzErrorDialog.show(res.result);
+          }else{
+            this.$message.success('操作成功');
+          }
         }else{
-          this.$message.success('操作成功');
+          this.$message.warning(res.description);
         }
       },
       // 文件上传失败
@@ -605,7 +609,7 @@
           query : {
             caseIds : this.multipleSelection.map(v => v.caseId).join(','),
             type : '2',
-            disabled : this.zzDisabled('batch'),
+            disabled : this.zzDisabled('batch') + '',
           },
         });
       },
@@ -654,7 +658,7 @@
           query : {
             caseIds : row.caseId + '',
             type : '2',
-            disabled : this.zzDisabled('single',row),
+            disabled : this.zzDisabled('single',row) + '',
           },
         });
       },
