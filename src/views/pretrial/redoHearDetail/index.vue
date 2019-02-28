@@ -220,8 +220,8 @@ export default {
 			let item = this.childBatchList.find(it => {
 				return (
 					(it.batchStatus === 0 || it.batchStatus === 2) &&
-					(it.countEviChecked < it.countCase ||
-						it.countIdChecked < it.countCase ||
+					(it.countEviChecked < it.countCase &&
+						it.countIdChecked < it.countCase &&
 						it.countSignChecked < it.countCase)
 				)
 			})
