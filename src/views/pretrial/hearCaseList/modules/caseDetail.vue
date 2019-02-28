@@ -80,6 +80,71 @@
               <div class="title">
                 参数值
               </div>
+              <div class="paramsValue-content" v-for="(item,idx) in paramsList" :key="idx">
+                <div class="desc">
+                  {{item.categoryDesc}}
+                </div>
+
+
+                <div class="table" v-if="!item.hasGroupNum">
+                  <el-table
+                    :data="item.params"
+                    border
+
+                  >
+                    <el-table-column prop="date" label="序号" width="50px">
+                      <template slot-scope="scope">
+                        {{scope.$index + 1}}
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="paramCode" label="参数"></el-table-column>
+                    <el-table-column prop="paramName" label="中文">
+                      <!--<template slot-scope="scope">-->
+                      <!--<span v-ellipsis.20>{{scope.row.productName  + '' + scope.row.prodCode}}</span>-->
+                      <!--</template>-->
+                    </el-table-column>
+                    <el-table-column prop="valueType" label="类型">
+                      <!--1:数字,2:字符串,3:日期,4:金额-->
+                      <template slot-scope="scope">
+                        <span >{{scope.row.valueType === 1 ? 'Integer' : scope.row.valueType === 2 ? 'String' : scope.row.valueType === 3 ? 'Date' : scope.row.valueType === 4 ? 'Decimal' : '--'}}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="paramValue" label="值">
+                      <template slot-scope="scope">
+                        <el-button type="text" v-if="scope.row.paramValue && scope.row.paramValue.indexOf('http') === 0" @click="openValue(scope.row.paramValue)">打开链接</el-button>
+                        <span v-else>{{(scope.row.paramValue && scope.row.paramValue != 'null')  ? scope.row.paramValue : '-'}}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="dataSource" label="数据来源">
+                      <template slot-scope="scope">
+                        <!--0-接口 1-脚本 2-公式-->
+                        <span>{{scope.row.dataSource === 0 ? '接口' : scope.row.dataSource === 1 ? '脚本' : scope.row.dataSource === 2 ? '公式' : '--'}}</span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="isCorrect" label="正确性">
+                      <template slot-scope="scope">
+                        <!--0-错误 1-正确-->
+                        <span>
+                        <img class="mr-10" v-if="scope.row.isCorrect === 0"  src="@/assets/img/error_tag_01.png" alt="">
+                         <img class="mr-5" v-if="scope.row.isCorrect === 1" src="@/assets/img/success_tag.png" alt="">
+                      </span>
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="errorReason" label="错误原因">
+                      <template slot-scope="scope">
+                        <!--0-错误 1-正确-->
+                        <span>
+                        {{scope.row.errorReason  }}
+                          <!--{{scope.row.errorReason ? scope.row.errorReason : '&#45;&#45;' }}-->
+                      </span>
+                      </template>
+                    </el-table-column>
+                  </el-table>
+
+                </div>
+
+              </div>
+
             </div>
           </div>
 
@@ -113,10 +178,8 @@
       //单元格合并
       getObjectSpanMethod(items){
         const currentList = items;
-        console.error(currentList);
         return ({row, column, rowIndex, columnIndex ,property}) => {
           if ((columnIndex === 0 && column.property === 'groupNum') || (columnIndex === 7 && column.property === 'eviContent')) {
-            console.log({row, column, rowIndex, columnIndex, property});
             property = 'groupNum';
             if (rowIndex === 0 || (currentList[rowIndex] && row[property] !== currentList[rowIndex - 1][property])) {
               let idx = -1;
@@ -159,7 +222,7 @@
 
       //参数值
       queryParamsList(){
-        this.$http.post("/caseInfo/queryCaseParamList.htm",{caseOrderId: this.caseOrderId}).then(res => {
+        this.$http.post("/caseInfo/queryCaseParamList.htm",{caseOrderId: this.$route.query.caseId}).then(res => {
           this.paramsList = res.result;
           this.paramsList.forEach(it => {
             if(it.params && it.params.length > 0 && it.params.find(i => i.groupNum)){
@@ -172,8 +235,6 @@
               let arr1 = it.params.filter(i => i.groupNum !== '-').sort((a,b) => a.groupNum - b.groupNum);
               let arr2 = it.params.filter(i => i.groupNum === '-');
               it.params = arr1.concat(arr2);
-              console.error(arr1,arr2,it.params,'params');
-              this.toggleShowAll(it);
             }
           })
           console.log(this.paramsList);
@@ -202,6 +263,7 @@
     },
      created(){
       this.queryEviInfo();
+      this.queryParamsList();
      }
   }
 </script>
