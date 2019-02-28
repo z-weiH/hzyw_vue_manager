@@ -124,6 +124,13 @@
             }}
           </template>
         </el-table-column>
+
+        <el-table-column align="center" prop="status" label="操作" width="150px">
+          <template slot-scope="scope">
+            <customer-button type="text" @click="gotoDetail(scope.row)">详情</customer-button>
+          </template>
+        </el-table-column>
+
       </el-table>
       <!-- 分页 -->
       <el-pagination
@@ -187,6 +194,11 @@
       this.initTableList();
     },
     methods : {
+
+      gotoDetail(row){
+        window.open(this.$router.resolve({ path: '/hearCaseListDetail', query: {caseId: row.caseId}}).href,"_blank");
+      },
+
 
       handleExport () {
         exportFile({ url: "/preCaseLib/exeportCaseInfoByCondition.htm", data: this.ruleForm })
