@@ -222,8 +222,19 @@ export default {
       margin-right: 6px;
       vertical-align: sub;
     }
-  }
 
+  }
+  .el-checkbox, .el-checkbox__input{
+    white-space: normal;
+  }
+  .el-checkbox__input{
+    display: table-cell;
+  }
+  .el-checkbox__label{
+    word-break: break-all;
+    width: 360px;
+    display: table-cell;
+  }
   .self_group{
     width: 400px;
     margin-top: 10px;
