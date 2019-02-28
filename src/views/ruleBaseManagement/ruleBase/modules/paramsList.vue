@@ -310,7 +310,7 @@
           console.log(this.$refs);
           this.$refs.fieldForm.validate(res => {
             if(res){
-              this.$http.post("/paramsList/saveParamsList.htm",{...this.fieldForm,levelId: this.$route.query.levelId}).then(res => {
+              this.$http.post("/paramsList/saveParamsList.htm",{...this.fieldForm,levelId: this.$route.query.levelId,sampleId: this.$route.query.sampleId}).then(res => {
                 if(res.code === '0000'){
                   this.$message.success("修改成功");
                   this.editFlag = false;
