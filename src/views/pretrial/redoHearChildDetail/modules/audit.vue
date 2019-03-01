@@ -173,7 +173,7 @@ export default {
 
     HandleAuditConfirm() {
       let auditList = this.resObj.publicRes.filter(it => this.reasonIds.indexOf(it.reasonId) >= 0).concat(this.resObj.privateRes.filter(it => this.reasonIds.indexOf(it.reasonId) >= 0));
-      if(this.status === 0 && auditList.length == 0){
+      if(this.status === 2 && auditList.length == 0){
         return this.$message.error('请选择不通过原因');
       }
       if(this.status == 1){
