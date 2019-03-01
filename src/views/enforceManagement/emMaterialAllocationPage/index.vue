@@ -506,7 +506,7 @@
             }
             let obj ={channelId: this.swtrObj.channelId  ,mandatoryId: this.swtrObj.mandatoryId,useStatus : this.swtrObj.useStatus};
             if(this.swtrObj.mandatoryId === '0000'){
-              obj ={channelId: this.swtrObj.channelId};
+              obj ={channelId: this.swtrObj.channelId , useStatus : this.swtrObj.useStatus};
             }
             this.$http.post('/court/addMandatory.htm',{...obj,courtId: this.$route.query.courtId}).then(res => {
               // console.log()
