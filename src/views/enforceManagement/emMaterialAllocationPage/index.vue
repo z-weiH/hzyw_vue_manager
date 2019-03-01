@@ -6,10 +6,42 @@
       <span style="font-size: 16px; color: #333;">{{$route.query.courtName}}</span>
     </div>
     <div class="content">
+      <!-- 委托人 -->
+      <div class="wtr li">
+        <div class="title">
+          1.委托人
+          <div class="fr">
+            <el-button @click="handleWtrAdd">添加</el-button>
+          </div>
+        </div>
+        <el-table
+          :data="wtrList"
+          :header-cell-style="getRowStyle"
+          border
+          style="width: 100%;"
+        >
+          <el-table-column
+            type="index"
+            width="50"
+            label="序号"
+          >
+          </el-table-column>
+
+          <el-table-column prop="clienteleName" label="委托人名称"></el-table-column>
+          <el-table-column prop="corporationName" label="法人"></el-table-column>
+          <el-table-column prop="corporationPhone" label="联系电话"></el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-checkbox @click.native.prevent="handleWtrCheck(scope.row,$event)" v-model="scope.row.useStatus" class="mr-10">启用</el-checkbox>
+              <el-button type="text" @click="handleWtrDelete(scope.row,scope.$index)" size="small">刪除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
       <div class="swtr li">
         <div class="title">
           <el-button style="margin-top: 10px;color: #0F357F;" class="fr" @click="addswtr">添加</el-button>
-          1.受委托人
+          2.受委托人
         </div>
         <div class="table">
           <el-table
@@ -70,6 +102,7 @@
               label="操作"
               >
               <template slot-scope="scope">
+                <el-checkbox @click.native.prevent="handleSwtrCheck(scope.row,$event)" v-model="scope.row.useStatus" class="mr-10">启用</el-checkbox>
                 <el-button type="text" @click="delswtr(scope.row,scope.$index)" size="small">刪除</el-button>
               </template>
             </el-table-column>
@@ -82,7 +115,7 @@
       <div class="yhzh li">
         <div class="title">
           <el-button style="margin-top: 10px;color: #0F357F;" class="fr" @click="addyhzh" :disabled="yhzhList.length === 1">添加</el-button>
-          2.申请执行人银行账户
+          3.申请执行人银行账户
         </div>
         <div class="table">
           <el-table
@@ -165,7 +198,7 @@
         <div class="title">
           <customer-button style="margin-top: 10px;color: #0F357F;" class="fr" v-if="!remarkFlag" @click="remarkFlag = true;">编辑</customer-button>
           <customer-button style="margin-top: 10px;" class="fr" type="primary" v-if="remarkFlag" @click="handleRemarkSave">保存</customer-button>
-          3.备注
+          4.备注
         </div>
         <div class="input">
           <el-input type="textarea" v-model="remark" :disabled="!remarkFlag" rows="6"></el-input>
@@ -175,7 +208,7 @@
       <div class="clfs li">
         <div class="title">
           <el-button style="margin-top: 10px;color: #0F357F;" class="fr" @click="configclfs">配置</el-button>
-          4.下载材料份数设置
+          5.下载材料份数设置
         </div>
         <div class="table">
           <el-table
@@ -237,7 +270,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="渠道选择" prop="channelId">
-              <el-select style="width: 100%;" v-model="swtrObj.channelId" placeholder="请选择渠道">
+              <el-select ref="swtrQd" style="width: 100%;" v-model="swtrObj.channelId" placeholder="请选择渠道">
                 <el-option v-for="(item,idx) in channelIdList" :value="item.channelId" :label="item.channelName" :key="item.channelId + '' + idx"></el-option>
               </el-select>
             </el-form-item>
@@ -246,6 +279,13 @@
                 <el-option value="0000" label="受托人为空"></el-option>
                 <el-option v-for="(item,idx) in mandatoryIdList" :value="item.mandatoryId" :label="item.mandatoryName" :key="item.mandatoryId + '' + idx"></el-option>
               </el-select>
+            </el-form-item>
+
+            <el-form-item label="是否启用" prop="useStatus" style="text-align: left;">
+              <el-radio-group v-model="swtrObj.useStatus">
+                <el-radio :label="0">是</el-radio>
+                <el-radio :label="1">否</el-radio>
+              </el-radio-group>
             </el-form-item>
           </el-form>
         </div>
@@ -320,23 +360,32 @@
         </span>
     </el-dialog>
 
-
+    <wtrDialog @successCBK="wtrSuccessCBK" ref="wtrDialog"></wtrDialog>
   </div>
 </template>
 
 <script>
+  import wtrDialog from './modules/wtrDialog.vue'
   export default {
     name: 'emMaterialAllocationPage',
+    components : {
+      wtrDialog,
+    },
     data(){
       return {
 
         remark: '',
         remarkFlag: false,
         swtrList: [],
+        wtrList : [],
         channelIdList: [],
         mandatoryIdList: [],
         swtrFlag: false,
-        swtrObj: {channelId: ''},
+        swtrObj: {
+          channelId: '',
+          // 是否启用
+          useStatus : 0,
+        },
         yhzhFlag: false,
         yhzhObj: {applicantCardId:'',accountName: ''},
         yhzhList: [],
@@ -360,6 +409,7 @@
 
 
           {materialType: 2,materialNum: 0 },
+          {materialType: 18,materialNum: 0 },
           // {materialType: 3,materialNum: 0 },
           {materialType: 4,materialNum: 0 },
           {materialType: 7,materialNum: 0 },
@@ -401,7 +451,10 @@
           mandatoryId:[
             { required : true , message : '请选择受托人' , trigger : 'blur'},
 
-          ]
+          ],
+          useStatus : [
+            { required : true , message : '请选择是否启用' , trigger : 'change'},
+          ],
         }
       }
     },
@@ -447,7 +500,11 @@
         this.$refs.swtrform.validate(res => {
           console.log(res);
           if(res){
-            let obj ={channelId: this.swtrObj.channelId  ,mandatoryId: this.swtrObj.mandatoryId};
+            // 添加受委托人 启用时校验
+            if(!this.swtrVerify()) {
+              return;
+            }
+            let obj ={channelId: this.swtrObj.channelId  ,mandatoryId: this.swtrObj.mandatoryId,useStatus : this.swtrObj.useStatus};
             if(this.swtrObj.mandatoryId === '0000'){
               obj ={channelId: this.swtrObj.channelId};
             }
@@ -491,7 +548,7 @@
       },
 
       addswtr(){
-        this.swtrObj = {channelType: '', channelId: '', mandatoryId: ''};
+        this.swtrObj = {channelType: '', channelId: '', mandatoryId: '' , useStatus : 0};
         this.swtrFlag = true;
         this.$nextTick(() => {
           this.$refs.swtrform.resetFields();
@@ -541,22 +598,24 @@
         let obj = {
           courtId: this.$route.query.courtId,
           // bsqbccns: this.clfsListClone[2].materialNum,
-          cczksm: this.clfsListClone[6+3].materialNum,
-          fwxy: this.clfsListClone[4+3].materialNum,
-          jkxy: this.clfsListClone[3+3].materialNum,
+          cczksm: this.clfsListClone[6+3+1].materialNum,
+          fwxy: this.clfsListClone[4+3+1].materialNum,
+          jkxy: this.clfsListClone[3+3+1].materialNum,
           qzzxsqs: this.clfsListClone[0].materialNum,
-          sfzzfm: this.clfsListClone[5+3].materialNum,
+          sfzzfm: this.clfsListClone[5+3+1].materialNum,
           sqwts: this.clfsListClone[1+3].materialNum,
-          xzgxfsms: this.clfsListClone[8+3+2].materialNum,
-          zxkyhzhqds: this.clfsListClone[2+3].materialNum,
-          cjs : this.clfsListClone[7+3+2].materialNum,
+          xzgxfsms: this.clfsListClone[8+3+2+1].materialNum,
+          zxkyhzhqds: this.clfsListClone[2+3+1].materialNum,
+          cjs : this.clfsListClone[7+3+2+1].materialNum,
           yyzz : this.clfsListClone[1].materialNum,
           frsfzzfm : this.clfsListClone[2].materialNum,
           frdbrsfzms : this.clfsListClone[3].materialNum,
-          zqzrxy: this.clfsListClone[10].materialNum,
-          zqzrqrs: this.clfsListClone[11].materialNum,
-          xgmdsqs: this.clfsListClone[14].materialNum,
-          sxmdsqs: this.clfsListClone[15].materialNum,
+          zqzrxy: this.clfsListClone[10+1].materialNum,
+          zqzrqrs: this.clfsListClone[11+1].materialNum,
+          xgmdsqs: this.clfsListClone[14+1].materialNum,
+          sxmdsqs: this.clfsListClone[15+1].materialNum,
+
+          ldhtsmj: this.clfsListClone[5].materialNum,
         };
         let obj1 = {};
         for(let key in obj){
@@ -618,6 +677,8 @@
           return '限高名单申请书';
         else if(type === 17)
           return '失信名单申请书';
+        else if(type === 18)
+          return '劳动合同扫描';
 
       },
       initPage(){
@@ -625,10 +686,19 @@
           console.log('init',res);
           this.remark = res.result.remark;
           if(res.result.mandatoryList){
-            this.swtrList = res.result.mandatoryList;
+            this.swtrList = res.result.mandatoryList.map(v => {
+              v.useStatus = v.useStatus === 0 ? true : false;
+              return v;
+            });
           }
           if(res.result.bankList){
             this.yhzhList = res.result.bankList;
+          }
+          if(res.result.clienteleInfoList) {
+            this.wtrList = res.result.clienteleInfoList.map(v => {
+              v.useStatus = v.useStatus === 0 ? true : false;
+              return v;
+            });
           }
           if(res.result.materialNumSetting){
             res.result.materialNumSetting.forEach(it => {
@@ -643,7 +713,111 @@
 
 
         })
-      }
+      },
+
+      // 受委托人 新增 校验
+      swtrVerify() {
+        if(this.swtrObj.useStatus === 0) {
+          let check = this.swtrList.filter(v => v.useStatus === true);
+          let channelName = this.$refs.swtrQd.$el.querySelector('.el-input__inner').value;
+          let type = true;
+          check.map(v => {
+            if(channelName !== v.channelName) {
+              type = false;
+            }
+          });
+          if(type === false) {
+            this.$message.warning('已经启用的其他渠道，不能启用当前渠道');
+            return false;
+          }else{
+            return true;
+          }
+        }else{
+          return true;
+        }
+      },
+      // 受委托人 启用
+      handleSwtrCheck(row,e) {
+        // 只判断当前是未选中状态的数据
+        if(row.useStatus === false) {
+          let check = this.swtrList.filter(v => v.useStatus === true);
+          let channelName = row.channelName;
+          let type = true;
+          check.map(v => {
+            if(channelName !== v.channelName) {
+              e.preventDefault();
+              type = false;
+            }
+          });
+          if(type === false) {
+            this.$message.warning('工作单位不一致');
+            return;
+          }
+        }
+        this.$http({
+          method : 'post',
+          url : '/court/useOrUnuseMandatory.htm',
+          data : {
+            courtId : this.$route.query.courtId,
+            id : row.id,
+            useStatus : row.useStatus === true ? 1 : 0,
+            channelId : row.channelId,
+          },
+        }).then(() => {
+          row.useStatus = !row.useStatus;
+        }).catch(() => {
+        });
+      },
+      // 委托人 启用
+      handleWtrCheck(row,e) {
+        // 只判断当前是未选中状态的数据
+        if(row.useStatus === false) {
+          let check = this.wtrList.filter(v => v.useStatus === true);
+          if(check.length > 0) {
+            e.preventDefault();
+            this.$message.warning('只能启用一个委托人');
+            return;
+          }
+        }
+        this.$http({
+          method : 'post',
+          url : '/court/useOrUnuseClientele.htm',
+          data : {
+            courtId : this.$route.query.courtId,
+            id : row.id,
+            useStatus : row.useStatus === true ? 1 : 0,
+          },
+        }).then(() => {
+          row.useStatus = !row.useStatus;
+        }).catch(() => {
+        });
+      },
+      // 委托人 添加
+      handleWtrAdd() {
+        this.$refs.wtrDialog.show('add',this.wtrList);
+      },
+      // 委托人 删除
+      handleWtrDelete(row,index) {
+        this.$confirm('确定要删除该条记录吗?', '提示', {
+          center: true,
+        }).then(() => {
+          this.$http({
+            method : 'post',
+            url : '/court/deleteClienteleInfo.htm',
+            data : {
+              clienteleId : row.clienteleId,
+              courtId : this.$route.query.courtId,
+            },
+          }).then(() => {
+            this.$message.success('删除成功');
+            this.initPage();
+          });
+        }).catch(() => {});
+      },
+      // 委托人 成功回调
+      wtrSuccessCBK() {
+        this.initPage();
+      },
     },
     created(){
       this.initPage();
