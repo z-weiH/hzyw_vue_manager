@@ -254,7 +254,7 @@
       width="555px"
       center>
       <div class="dialog-content">
-        <p class="detail">《授权委托书》和《受委托人在仲裁代理中不收取报酬的承诺书》</p>
+        <p class="detail">《授权委托书》</p>
         <p style="text-align: right;">
           <span @click="setswtr" class='colLink'>无选项去设置</span>
         </p>
@@ -727,7 +727,7 @@
             }
           });
           if(type === false) {
-            this.$message.warning('已经启用的其他渠道，不能启用当前渠道');
+            this.$message.warning('已经启用了其他渠道，不能启用当前渠道');
             return false;
           }else{
             return true;
@@ -750,7 +750,7 @@
             }
           });
           if(type === false) {
-            this.$message.warning('工作单位不一致');
+            this.$message.warning('已经启用了其他渠道，不能启用当前渠道');
             return;
           }
         }
