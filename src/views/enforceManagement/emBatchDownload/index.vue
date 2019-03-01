@@ -31,14 +31,14 @@
           <!--</li>-->
 
           <li  v-for="(item,index) in checkList" :key="index" class="doc-list">
-            <el-checkbox @change="handleChange" v-model="item.checked">{{item.label}}</el-checkbox>
+            <el-checkbox :disabled="item.disabled" @change="handleChange" v-model="item.checked">{{item.label}}</el-checkbox>
           </li>
         </ul>
       </div>
     </div>
 
-    <setDialog ref="setDialog"></setDialog>
     <timeDialog @successCBK="timeSuccess" ref="timeDialog"></timeDialog>
+    <setDialog ref="setDialog"></setDialog>
   </div>
 </template>
 
@@ -90,6 +90,11 @@
             value : 'sqwts',
             checked : false,
           },
+          {
+            label : '劳动合同扫描件',
+            value : 'ldhtsmj',
+            checked : false,
+          },
           // {
           //   label : '受委托人在仲裁代理中不收取报酬的承诺书',
           //   value : 'bsqbccns',
@@ -124,11 +129,13 @@
             label : '债权转让协议',
             value : 'zqzrxy',
             checked : false,
+            disabled : this.$route.query.disabled === 'true',
           },
           {
             label : '债权转让确认',
             value : 'zqzrqrs',
             checked : false,
+            disabled : this.$route.query.disabled === 'true',
           },
 
           {
@@ -195,8 +202,12 @@
             caseId : this.caseIds.split(',')[0],
           },
         }).then((res) => {
+          // 扯淡需求
+          if(res.result.settingIsOk === false && res.result.unSettingTemplateList.length === 0 && res.result.unSettingBankCardList.length > 0 && res.result.unSettingCourtNameList.length === 0 && res.result.unSettingClienteleList && res.result.unSettingClienteleList.length === 0 ) {
+            this.$refs.setDialog.show(res.result);
+            this.$refs.timeDialog.show({mtype:'yulan'});
           // 未配置
-          if(res.result.settingIsOk === false) {
+          }else if(res.result.settingIsOk === false) {
             this.$refs.setDialog.show(res.result);
           // 已配置选择预览时间
           }else{
@@ -221,8 +232,12 @@
           timeout : '0',
         }).then((res) => {
           loading.close();
+          // 扯淡需求
+          if(res.result.settingIsOk === false && res.result.unSettingTemplateList.length === 0 && res.result.unSettingBankCardList.length > 0 && res.result.unSettingCourtNameList.length === 0 && res.result.unSettingClienteleList && res.result.unSettingClienteleList.length === 0 ) {
+            this.$refs.setDialog.show(res.result);
+            this.$refs.timeDialog.show({mtype:'xiazai'});
           // 未配置
-          if(res.result.settingIsOk === false) {
+          }else if(res.result.settingIsOk === false) {
             this.$refs.setDialog.show(res.result);
           // 已配置选择预览时间
           }else{
@@ -242,7 +257,9 @@
       handleCheckAllChange(val) {
         this.isIndeterminate = false;
         this.checkList = this.checkList.map(v => {
-          v.checked = val;
+          if(!v.disabled) {
+            v.checked = val;
+          }
           return v;
         });
       },
