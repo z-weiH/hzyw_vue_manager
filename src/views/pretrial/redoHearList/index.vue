@@ -201,7 +201,7 @@ export default {
           })
         }else{
           if(JSON.parse(localStorage.getItem('loginInfo')).userName !== row.reviewUserName ){
-            this.updateReviewUserName(row.batchNo).then(() => {
+            // this.updateReviewUserName(row.batchNo).then(() => {
               this.$msgbox({
                 title: '提示',
                 message:`是否将复审人由${row.reviewUserName}变更为${JSON.parse(localStorage.getItem('loginInfo')).userName}？`,
@@ -214,7 +214,7 @@ export default {
                   this.getosh(row);
                 })
               })
-            })
+            // })
           }else{
             this.getosh(row);
           }
