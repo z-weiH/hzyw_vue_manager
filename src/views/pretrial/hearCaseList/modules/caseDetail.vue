@@ -8,6 +8,24 @@
           <customer-button type="primary">去审核</customer-button>
         </div>
       </div>
+      <div class="colseTip" v-if="colseTipFlag">
+        <span>本案已整合失败</span>
+        <span class="colLink" style="text-decoration: none;" @click="showCaseFailReasonList">查看原因</span>
+      </div>
+      <!--v-if="baseInfoObject.caseStatus == 13"-->
+
+      <el-alert
+        type="error"
+        title=""
+        center
+        @close="handleAlertClose"
+        :show-icon="false">
+        <slot name="title">
+          <span>本案已整合失败</span>
+          <span class="colLink" style="text-decoration: none;" @click="showCaseFailReasonList">查看原因</span>
+        </slot>
+      </el-alert>
+
       <div class="tm-body">
         <div class="fl" >
           <scrollTop :text="text"></scrollTop>
@@ -149,30 +167,44 @@
           </div>
 
         </el-scrollbar>
+        <transition name="fade" >
+          <div class="log_warpar" :class="{'active': logFlag}" >
+            <steps></steps>
+          </div>
+        </transition>
 
       </div>
     </div>
 </template>
 
 <script>
+  import steps from './steps'
   import scrollTop from '@/components/scrollTop'
   export default {
     name: 'caseDetail',
     components: {
-      scrollTop
+      scrollTop,
+      steps
     },
     data() {
       return {
         text: ['基本信息','文书与证据', '参数值'],
         eviInfoObject: {},
         eviInfoObjectClone: {},
-        paramsList: []
+        paramsList: [],
+        logFlag: false,
+        colseTipFlag: false
       }
     },
     methods: {
 
-      showLogDialog(){
+      showCaseFailReasonList(){
 
+      },
+
+
+      showLogDialog(){
+        this.logFlag = !this.logFlag;
       },
 
       //单元格合并
@@ -270,6 +302,31 @@
 
 <style lang="scss">
 .caseDetail_1{
+  .colseTip{
+    position: absolute;
+    right: 0;
+    top: 50px;
+    height: 40px;
+    font-size: 14px;
+    color: #FF9900;
+    border: 1px solid #FF9900;
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+    padding: 0 30px;
+    z-index: 888;
+
+    &:hover{
+      span.colLink{
+        display: inline-block;
+      }
+    }
+    span{
+      line-height: 40px;
+      &.colLink{
+        display: none;
+      }
+    }
+  }
   .tm-head{
     background-color: #fff;
     height: 50px;
@@ -340,6 +397,22 @@
         }
 
       }
+    }
+  }
+
+
+  .log_warpar{
+    position: fixed;
+    bottom: calc(50px - 100vh);
+    right: calc(200px - 100vw);
+    width: calc(100vw - 200px);
+    height: calc(100vh - 50px);
+    z-index: 99;
+    background: #fff;
+    transition: all 1s;
+    &.active{
+      bottom: 0;
+      right: 0;
     }
   }
 }
