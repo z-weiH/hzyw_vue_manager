@@ -79,6 +79,7 @@
       <template v-if="item.channelType === 1">
         <el-form-item label=" " prop="contractPath">
           <el-upload
+            accept=".pdf"
             class="upload-box"
             :action="`${$host}/file/upload.htm`"
             :show-file-list="false"
@@ -155,7 +156,7 @@
       },
       'item.channelType'(val,oldval){
         console.log(val,oldval)
-        if(val && val != oldval && !this.item.mandatoryId){
+        if(val && val != oldval && !this.item.mandatoryId && /[\u4e00-\u9fa5]/g.test(val) === false){
           this.item.channelId = '';
           this.$http.post("/channel/queryChannelByList.htm",{channelType: val}).then(res => {
             this.channerList = res.result;
