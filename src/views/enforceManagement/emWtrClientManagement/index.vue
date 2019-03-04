@@ -23,6 +23,7 @@
           </template>
         </el-table-column>
 				<el-table-column prop="clienteleName" label="委托人名称"></el-table-column>
+        <el-table-column prop="address" label="通信地址"></el-table-column>
         <el-table-column prop="corporationName" label="法人"></el-table-column>
         <el-table-column prop="corporationPosition" label="法人职务"></el-table-column>
         <el-table-column prop="corporationIdcard" label="法人身份证正反面照片">
@@ -36,6 +37,7 @@
             <a target="_blank" :href="scope.row.businessLicense">查看</a>
           </template>
         </el-table-column>
+        <el-table-column prop="creditCode" label="统一社会信用代码"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button @click="handleEdit(scope.row)" type="text">编辑</el-button>
