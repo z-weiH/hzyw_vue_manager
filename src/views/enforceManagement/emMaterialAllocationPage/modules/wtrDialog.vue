@@ -120,7 +120,10 @@
 <style scoped lang="scss">
 
 .em-material-allocation-page-wtr-dialog{
-
+  .m-conetnt{
+    max-height: 555px;
+    overflow-y: auto;
+  }
 }
 
 </style>
