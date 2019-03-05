@@ -6,6 +6,8 @@
         <i @click="handleHelp" title="查看帮助文档" class="el-icon-question"></i>
 
         <div class="fr">
+          <el-button v-if="autoSave" type="text" class="fadeIn">自动保存中...</el-button>
+          <el-button @click="handleRecovery" v-if="autoSave === false" type="text">恢复</el-button>
           <el-button @click="handleCancel" size="small" icon="el-icon-back"></el-button>
           <el-button @click="handlePreview" size="small">预览</el-button>
           <el-button @click="handleSubmit" type="primary" size="small">保存</el-button>
@@ -56,6 +58,7 @@
                   <el-dropdown-item :command="27">插入判断条件（样式）</el-dropdown-item>
                   <el-dropdown-item :command="28">插入多判断条件（样式）</el-dropdown-item>
                   <el-dropdown-item :command="29">日期判断（样式）</el-dropdown-item>
+                  <el-dropdown-item :command="30">段落</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
               <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
@@ -180,6 +183,8 @@
         },
         // 当前复制是否 携带样式 false - 不带样式 ， true 带样式
         copyStyle : false,
+        // 自动保存中 状态 true 自动保存中 
+        autoSave : false,
       }
     },
     mounted() {
@@ -205,6 +210,16 @@
             close.close();
           },0);
           document.querySelector('iframe').contentDocument.body.addEventListener('click',this.getEditorCursor);
+          
+          //自动保存
+          this.autoSaveTime = setInterval(() => {
+            localStorage.setItem('ueditor_content',this.$refs.ueeditor.getContent());
+
+            this.autoSave = true;
+            setTimeout(() => {
+              this.autoSave = false;
+            },3000);
+          },1000 * 10);
 
           // 初始化 title
           this.$http({
@@ -345,6 +360,9 @@
         }else if(type === 29) {
           let {contStep , ifStep , br} = this.getEditorSpace();
           message = `<pre class="brush:js;toolbar:false;">${br}${ifStep}&lt;#if  dateCompare('2018-11-10', '2018-11-10') == 1&gt;<br>${contStep}第一结果<br>&lt;#else${ifStep}&gt;<br>${contStep}第二结果<br>${ifStep}&lt;/#if&gt;<br></pre>`;
+        }else if(type === 30) {
+          let {contStep , ifStep , br} = this.getEditorSpace();
+          message = `<pre class="brush:js;toolbar:false;">${br}${ifStep}&lt;section&gt;<br>${contStep}段落<br>&lt;/section&gt;</pre>`;
         }
         /* if(type != 2 && type !=3){
           this.$refs.ueeditor.insertHtml(message);
@@ -474,12 +492,18 @@
         let br = num === 0 ? '<br>' : '<br>';
         return {contStep , ifStep , br}
       },
+      // 点击恢复
+      handleRecovery() {
+        let cont = localStorage.getItem('ueditor_content');
+        cont && this.$refs.ueeditor.setContent(cont);
+      },
     },
     destroyed() {
       document.querySelector('iframe').contentDocument.removeEventListener('click',this.globalClickFn);
       document.removeEventListener('click',this.globalClickFn);
       document.querySelector('iframe').contentDocument.body.removeEventListener('copy',this.globalCopyFn);
       document.querySelector('iframe').contentDocument.body.removeEventListener('click',this.getEditorCursor);
+      this.autoSaveTime && clearInterval(this.autoSaveTime);
     },
   }
 </script>
@@ -490,6 +514,31 @@
 .webpage-editor-box{
   overflow: auto;
   height: 100%;
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    25% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+  .fadeIn{
+    -webkit-animation-duration: 3s;
+    -webkit-animation-fill-mode: both;
+    animation-duration: 3s;
+    animation-fill-mode: both;
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+  }
 }
 .webpage-editor-title{
   height: 75px;
