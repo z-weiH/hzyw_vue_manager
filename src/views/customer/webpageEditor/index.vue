@@ -219,7 +219,7 @@
             setTimeout(() => {
               this.autoSave = false;
             },3000);
-          },1000 * 10);
+          },1000 * 60 * 2);
 
           // 初始化 title
           this.$http({
