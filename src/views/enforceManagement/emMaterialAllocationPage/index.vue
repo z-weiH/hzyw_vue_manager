@@ -42,6 +42,14 @@
         <div class="title">
           <el-button style="margin-top: 10px;color: #0F357F;" class="fr" @click="addswtr">添加</el-button>
           2.受委托人
+          <el-tooltip effect="dark" placement="right">
+            <div slot="content">
+              律所授权委托书模板：支持配置1-2个受委托人
+              <br />
+              公司授权委托书模板：只支持配置1个受委托人
+            </div>
+            <i class="el-icon-question" style="font-size:14px;"></i>
+          </el-tooltip>
         </div>
         <div class="table">
           <el-table
