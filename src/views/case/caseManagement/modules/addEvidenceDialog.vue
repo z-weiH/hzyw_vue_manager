@@ -187,7 +187,7 @@
 
       /* 上传证据 上传前 */
       evidenceBefore(file) {
-        let fileType = file.name.split('.').pop();
+        let fileType = file.name.split('.').pop().toLocaleLowerCase();
         let arr = ['jpg','png','gif','jpeg','pdf','doc','docx'];
         if(arr.indexOf(fileType) === -1){
           this.$message.error('文件格式有误');
