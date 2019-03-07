@@ -1,21 +1,34 @@
 <template>
   <div class="content">
-    <div class='content'>
-      <div class='wsbodyhead'>
+    <div class="content">
+      <div class="wsbodyhead">
         <a>所在位置</a>
-        <router-link :to='$options.name' class='aside_tit'>发送记录</router-link>
+        <router-link :to="$options.name" class="aside_tit">发送记录</router-link>
       </div>
-      <searchs class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl'>
-        <template slot='moreBtn'><el-button class='ml-20' type='primary' @click='exportFileFoo'>导出Excel</el-button></template>
+      <searchs
+        class="item-search"
+        :search-items="searchItems"
+        :item="searchItem"
+        :query-url="queryUrl"
+      >
+        <template slot="moreBtn">
+          <el-button class="ml-20" type="primary" @click="exportFileFoo">导出Excel</el-button>
+        </template>
       </searchs>
-<div class='item-title'>
-  发送记录列表
-</div>
-<div class='item-table'>
-<table-component  :pager="pager"  @refreshList="doQuery(this.queryUrl, this.searchItem)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data='tableData' :column-define='columnDefine' ></table-component>
-</div>
-</div>
- </div>
+      <div class="item-title">发送记录列表</div>
+      <div class="item-table">
+        <table-component
+          :pager="pager"
+          @refreshList="doQuery(this.queryUrl, this.searchItem)"
+          :currentPage.sync="pager.currentPage"
+          :total="pager.total"
+          :pageSize="pager.pageSize"
+          :table-data="tableData"
+          :column-define="columnDefine"
+        ></table-component>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
@@ -29,19 +42,19 @@ export default {
   mixins: [Mixins],
   data() {
     return {
-      misShow : (() => {
-				try{
-					let userName = JSON.parse(localStorage.getItem('loginInfo')).userName;
-					let arr = ['费玉琳','金凤','蒋慧芳','超级管理员'];
-					if(arr.indexOf(userName) !== -1) {
-						return true;
-					}else {
-						return false;
-					}
-				}catch(err) {
-					return false;
-				}
-			})(),
+      misShow: (() => {
+        try {
+          let userName = JSON.parse(localStorage.getItem("loginInfo")).userName;
+          let arr = ["费玉琳", "金凤", "蒋慧芳", "超级管理员"];
+          if (arr.indexOf(userName) !== -1) {
+            return true;
+          } else {
+            return false;
+          }
+        } catch (err) {
+          return false;
+        }
+      })(),
       item: {},
       exportUrl: URL_JSON["exportEsmqLogView"],
       queryUrl: URL_JSON["queryEsmqLogView"], ///14/send/querySmsSendByBaseQuery.htm
@@ -94,9 +107,14 @@ export default {
             {
               value: "8",
               label: "仲裁闪信"
-            }, {
+            },
+            {
               value: "9",
               label: "调解闪信"
+            },
+            {
+              value: "11",
+              label: "受理通知"
             }
           ]
         },
@@ -123,43 +141,43 @@ export default {
       columnDefine: [
         {
           label: "案件编号",
-          property: "caseNum",
+          property: "caseNum"
         },
         {
           label: "申请人",
-          property: "applicants",
+          property: "applicants"
         },
         {
           label: "被申请人",
-          property: "respondents",
+          property: "respondents"
         },
         {
           label: "发送手机号",
-          property: "sendPhone",
+          property: "sendPhone"
         },
         {
           label: "发送时间",
-          property: "sendTime",
+          property: "sendTime"
         },
         {
           label: "发送结果",
-          property: "sendResult",
+          property: "sendResult"
         },
         {
           label: "接收结果",
-          property: "receiveResult",
+          property: "receiveResult"
         },
         {
           label: "短信类型",
-          property: "messageType",
+          property: "messageType"
         },
         {
           label: "返回详情",
-          property: "returnDetails",
+          property: "returnDetails"
         },
         {
           label: "短信内容",
-          property: "messageContent",
+          property: "messageContent"
         }
       ]
     };
@@ -171,8 +189,8 @@ export default {
         this.total = res.result.count;
       });
     },
-    exportFileFoo(){
-      exportFile({url: this.exportUrl, data: this.searchItem});
+    exportFileFoo() {
+      exportFile({ url: this.exportUrl, data: this.searchItem });
     }
   },
   mounted() {
