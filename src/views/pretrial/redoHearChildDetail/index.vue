@@ -188,7 +188,7 @@
             </div>
             <div class="applybook_content of-hidden">
               <div class="article_left fl" style="position: relative;">
-                <customer-button icon="el-icon-refresh" type="large" circle style="background: #F2F2F2;position: absolute;top: 70px; right: 40px;" @click="refreshApplicationUrl"></customer-button>
+                <el-button icon="el-icon-refresh" type="large" circle style="background: #F2F2F2;position: absolute;top: 70px; right: 40px;" @click="refreshApplicationUrl"></el-button>
                 <iframe :src="applicationUrl" width="100%" height="100%">
                 </iframe>
               </div>
