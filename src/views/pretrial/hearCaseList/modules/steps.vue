@@ -290,7 +290,7 @@
                   <span class="label">审核意见</span>
                   <span class="value">
                     <ul>
-                       <li v-for="(reason,idx) in currentObj.logObj.totalReasonList">{{`${idx + 1}.${reason.reasonMsg}`}}</li>
+                       <li v-for="(reason,idx) in currentObj.logObj.totalReasonList">{{`${idx + 1}.${reason}`}}</li>
                         <li v-if="!currentObj.logObj.totalReasonList || currentObj.logObj.totalReasonList.length === 0">通过</li>
                     </ul>
                   </span>
@@ -343,7 +343,7 @@
                   <span class="label">审核意见</span>
                   <span class="value">
                     <ul>
-                       <li v-for="(reason,idx) in currentObj.logObj.totalReasonList">{{`${idx + 1}.${reason.reasonMsg}`}}</li>
+                       <li v-for="(reason,idx) in currentObj.logObj.totalReasonList">{{`${idx + 1}.${reason}`}}</li>
                         <li v-if="!currentObj.logObj.totalReasonList || currentObj.logObj.totalReasonList.length === 0">通过</li>
                     </ul>
                 </span>
