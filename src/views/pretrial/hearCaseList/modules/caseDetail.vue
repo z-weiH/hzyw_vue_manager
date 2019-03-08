@@ -245,7 +245,7 @@
                             </td>
                           <td>
                             <div>
-                              <el-button type="text" v-if="item.params[2 * idx ].paramValue && item.params[2 * idx].paramValue.indexOf('http') === 0" @click="openValue(item.params[2 * idx].paramValue)">打开链接</el-button>
+                              <customer-button type="text" v-if="item.params[2 * idx ].paramValue && item.params[2 * idx].paramValue.indexOf('http') === 0" @click="openValue(item.params[2 * idx].paramValue)">打开链接</customer-button>
                               <span v-else>{{( item.params[2 * idx ].paramValue && item.params[2 * idx].paramValue !== 'null')  ? item.params[2 * idx ].paramValue : '-'}}</span>
                               <!--{{item.params[2 * idx].paramValue === 'null' ? '-' : item.params[2 * idx].paramValue}}-->
                             </div>
@@ -258,7 +258,7 @@
                                 </td>
                               <td >
                                 <div>
-                                  <el-button type="text" v-if="item.params[2 * idx + 1].paramValue && item.params[2 * idx + 1].paramValue.indexOf('http') === 0" @click="openValue(item.params[2 * idx + 1].paramValue)">打开链接</el-button>
+                                  <customer-button type="text" v-if="item.params[2 * idx + 1].paramValue && item.params[2 * idx + 1].paramValue.indexOf('http') === 0" @click="openValue(item.params[2 * idx + 1].paramValue)">打开链接</customer-button>
                                   <span v-else>{{(item.params[2 * idx + 1].paramValue && item.params[2 * idx + 1].paramValue !== 'null') ? item.params[2 * idx + 1].paramValue : '-'}}</span>
                                   <!--{{// item.params[2 * idx + 1].paramValue === 'null' ? '-' : item.params[2 * idx + 1].paramValue}}-->
                                 </div>
@@ -293,7 +293,7 @@
                             </td>
                             <td>
                               <div>
-                                <el-button type="text" v-if="group.data[2 * idx ].paramValue &&group.data[2 * idx].paramValue.indexOf('http') === 0" @click="openValue(group.data[2 * idx].paramValue)">打开链接</el-button>
+                                <customer-button type="text" v-if="group.data[2 * idx ].paramValue &&group.data[2 * idx].paramValue.indexOf('http') === 0" @click="openValue(group.data[2 * idx].paramValue)">打开链接</customer-button>
                                 <span v-else>{{( group.data[2 * idx ].paramValue && group.data[2 * idx].paramValue !== 'null')  ? group.data[2 * idx ].paramValue : '-'}}</span>
                                 <!--{{item.params[2 * idx].paramValue === 'null' ? '-' : item.params[2 * idx].paramValue}}-->
                               </div>
@@ -306,7 +306,7 @@
                               </td>
                               <td >
                                 <div>
-                                  <el-button type="text" v-if="group.data[2 * idx + 1].paramValue && group.data[2 * idx + 1].paramValue.indexOf('http') === 0" @click="openValue(group.data[2 * idx + 1].paramValue)">打开链接</el-button>
+                                  <customer-button type="text" v-if="group.data[2 * idx + 1].paramValue && group.data[2 * idx + 1].paramValue.indexOf('http') === 0" @click="openValue(group.data[2 * idx + 1].paramValue)">打开链接</customer-button>
                                   <span v-else>{{(group.data[2 * idx + 1].paramValue && group.data[2 * idx + 1].paramValue !== 'null') ? group.data[2 * idx + 1].paramValue : '-'}}</span>
                                   <!--{{// item.params[2 * idx + 1].paramValue === 'null' ? '-' : item.params[2 * idx + 1].paramValue}}-->
                                 </div>
@@ -344,7 +344,7 @@
                       </el-table-column>
                       <el-table-column v-for="(obj,idx) in item.columns" :prop="obj.prop" :label="obj.label">
                           <template slot-scope="scope">
-                            <el-button type="text" v-if="scope.row[obj.prop] && scope.row[obj.prop].indexOf('http') === 0" @click="openValue(scope.row[obj.prop])">打开链接</el-button>
+                            <customer-button type="text" v-if="scope.row[obj.prop] && scope.row[obj.prop].indexOf('http') === 0" @click="openValue(scope.row[obj.prop])">打开链接</customer-button>
                             <span v-else>{{scope.row[obj.prop] ? scope.row[obj.prop] : '-'}}</span>
                           </template>
                       </el-table-column>

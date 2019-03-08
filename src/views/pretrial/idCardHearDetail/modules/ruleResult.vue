@@ -52,7 +52,7 @@
         当前案件暂无已执行规则
     </div>
     <span slot="footer" class="dialog-footer">
-          <el-button type="primary"  @click="showFlag = false;">关闭</el-button>
+          <customer-button type="primary"  @click="showFlag = false;">关闭</customer-button>
     </span>
   </el-dialog>
 </template>

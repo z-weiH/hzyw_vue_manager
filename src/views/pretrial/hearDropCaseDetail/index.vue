@@ -7,10 +7,10 @@
       <span class="aside_tit"> > {{item.caseOrderId}}</span>
     </div>
     <div class="item-title">
-      <el-button type="primary" v-if="showBtn" class="fr" plain @click="HandleReset">重新整合</el-button>
-      <el-button type="primary" v-if="showBtn" class="fr mr-15" plain @click="HandleFetch">告知客户</el-button>
+      <customer-button type="primary" v-if="showBtn" class="fr" plain @click="HandleReset">重新整合</customer-button>
+      <customer-button type="primary" v-if="showBtn" class="fr mr-15" plain @click="HandleFetch">告知客户</customer-button>
       案件订单编号：{{item.caseOrderId}}
-      <el-button type="warning" round class="ml-10" disabled>{{btnName}}</el-button>
+      <customer-button type="warning" round class="ml-10" disabled>{{btnName}}</customer-button>
     </div>
     <div class="item-table mt-5">
       <div class="baseInfo">

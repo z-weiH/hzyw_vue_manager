@@ -128,8 +128,8 @@
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit">确 定</el-button>
-        <el-button @click="handleClose">取 消</el-button>
+        <customer-button :disabled="submitDisabled" type="primary" @click="handleSubmit">确 定</customer-button>
+        <customer-button @click="handleClose">取 消</customer-button>
       </span>
     </el-dialog>
   </div>
@@ -272,7 +272,7 @@
             isRepayment: this.ruleForm.isRepayment
           },
         }).then((res) => {
-          // 需求修改 初始化时 总案件数 一定等于 待分配件数 
+          // 需求修改 初始化时 总案件数 一定等于 待分配件数
           this.totalCount = res.result.undistributeTotalCount;
           this.undistributeTotalCount = res.result.undistributeTotalCount;
           this.undistributeTotalCountStorage = res.result.undistributeTotalCount;

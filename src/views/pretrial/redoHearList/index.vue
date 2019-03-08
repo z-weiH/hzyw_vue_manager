@@ -30,16 +30,16 @@
 
         <el-table-column label="操作" slot="defineCol" width="140px">
             <template slot-scope="scope" >
-              <el-button
+              <customer-button
                 size="mini"
-                @click="gotoLargeTs(scope.row)" v-if="scope.row.reviewStatus == 0 || scope.row.reviewStatus == 2" >查看</el-button>
-                <el-button
+                @click="gotoLargeTs(scope.row)" v-if="scope.row.reviewStatus == 0 || scope.row.reviewStatus == 2" >查看</customer-button>
+                <customer-button
                 size="mini"
-                @click="gotoLargeTs(scope.row)" v-if="scope.row.reviewStatus == 1" >审核</el-button>
+                @click="gotoLargeTs(scope.row)" v-if="scope.row.reviewStatus == 1" >审核</customer-button>
                 <span v-if="scope.row.reviewStatus == 3">预审完成</span>
-                <!-- <el-button
+                <!-- <customer-button
                 size="mini"
-                @click="gotoLargeTs(scope.row)" >审核</el-button> -->
+                @click="gotoLargeTs(scope.row)" >审核</customer-button> -->
             </template>
           </el-table-column>
         <!-- ** -->

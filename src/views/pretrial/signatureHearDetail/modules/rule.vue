@@ -31,7 +31,7 @@
               </ul>
             </div>
             <div class="dailog_footer">
-              <el-button type="info" size="mini" @click="closeDailog">关闭</el-button>
+              <customer-button type="info" size="mini" @click="closeDailog">关闭</customer-button>
             </div>
           </div>
 

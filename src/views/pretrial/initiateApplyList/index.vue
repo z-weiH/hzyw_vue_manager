@@ -8,7 +8,7 @@
     </searchs>
     <div class='item-title clear of-hidden'>
       <span class="fl mt-10">案件列表</span>
-      <el-button class='fr' type='primary' @click='create' :disabled="dfBtnStatus">申请立案</el-button>
+      <customer-button class='fr' type='primary' @click='create' :disabled="dfBtnStatus">申请立案</customer-button>
     </div>
     <div class='item-table'>
       <table-component :pager="pager" @refreshList="doQuery(this.queryUrl, this.searchItem)" :currentPage.sync="pager.currentPage" :total="pager.total" :pageSize="pager.pageSize" :table-data="tableData" :column-define="columnDefine">

@@ -75,10 +75,10 @@
         <div>案件列表</div>
         <div>
           <div class="resetSettle_div">
-            <el-button type="primary" @click="resetSettle">重新整合</el-button>
+            <customer-button type="primary" @click="resetSettle">重新整合</customer-button>
           </div>
 
-          <el-button type="primary" @click="expfileBtn">导出</el-button>
+          <customer-button type="primary" @click="expfileBtn">导出</customer-button>
         </div>
       </div>
       <div class="item-table">
@@ -122,7 +122,7 @@
         </template>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="showType=0">取 消</el-button>
+        <customer-button @click="showType=0">取 消</customer-button>
       </span>
     </el-dialog>
   </div>

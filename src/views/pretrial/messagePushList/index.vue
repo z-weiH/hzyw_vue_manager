@@ -11,8 +11,8 @@
           <el-input style="width:300px;" v-model.trim="ruleForm.keyWords" placeholder="请输入互金企业"></el-input>
         </el-form-item>
 
-        <el-button @click="handleSearch" type="warning">查询</el-button>
-        <el-button @click="handleSign" type="info">标记全部为已读</el-button>
+        <customer-button @click="handleSearch" type="warning">查询</customer-button>
+        <customer-button @click="handleSign" type="info">标记全部为已读</customer-button>
       </el-form>
     </div>
 
@@ -23,7 +23,7 @@
     <div class="item-table">
       <table
         class="m-primordial-table mt-10
-          el-table el-table--fit el-table--border 
+          el-table el-table--fit el-table--border
           el-table--enable-row-hover"
           style="table-layout:fixed;"
       >
@@ -36,9 +36,9 @@
                   <i :class="{'opacity-0' : item.isRead === 1}" class="is-read"></i>
                   <span class="mr-10 m-tit">{{item.merchantName}}</span>
 
-                  <el-button v-if="item.status === 0" type="primary" round size="mini">正在推送</el-button>
-                  <el-button v-if="item.status === 2" type="info" round size="mini">处理完成</el-button>
-                  <el-button v-if="item.status === 1" round size="mini">推送完成，正在处理</el-button>
+                  <customer-button v-if="item.status === 0" type="primary" round size="mini">正在推送</customer-button>
+                  <customer-button v-if="item.status === 2" type="info" round size="mini">处理完成</customer-button>
+                  <customer-button v-if="item.status === 1" round size="mini">推送完成，正在处理</customer-button>
 
                   <p class="m-num">
                     <template v-if="item.status === 0">
@@ -125,7 +125,7 @@
         this.currentPage = 1;
         this.initTableList();
       },
-      // 点击标记 
+      // 点击标记
       handleSign() {
         this.$http({
           method : 'post',
@@ -166,7 +166,7 @@
       },
       // 分页 change
       handleCurrentChange(val) {
-        this.currentPage = val; 
+        this.currentPage = val;
         this.initTableList();
       },
 

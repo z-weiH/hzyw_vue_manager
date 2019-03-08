@@ -9,7 +9,7 @@
     <div class="item-title of-hidden">
       <span class="item-title-sign">模板条件设置</span>
       <div class="fr">
-        <el-button @click="handleAdd">添加</el-button>
+        <customer-button @click="handleAdd">添加</customer-button>
       </div>
     </div>
 
@@ -20,9 +20,9 @@
             <div class="m-text">{{index + 1}}.{{item.detailMessage}}</div>
             <div class="fr">
               <template v-if="(item.active === true)">
-                <el-button @click="handleEdit(item)" type="text">修改</el-button>
+                <customer-button @click="handleEdit(item)" type="text">修改</customer-button>
                 <span>|</span>
-                <el-button @click="handleDelete(item)" type="text">删除</el-button>
+                <customer-button @click="handleDelete(item)" type="text">删除</customer-button>
               </template>
             </div>
           </li>

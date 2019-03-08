@@ -17,8 +17,8 @@
       </div>
     </div>
     <span slot="footer" class="dialog-footer">
-          <el-button type="primary"  @click="handleRespondentEdit">确 定</el-button>
-          <el-button @click="$parent.respondentEditFlag = false">取 消</el-button>
+          <customer-button type="primary"  @click="handleRespondentEdit">确 定</customer-button>
+          <customer-button @click="$parent.respondentEditFlag = false">取 消</customer-button>
         </span>
   </el-dialog>
 </template>

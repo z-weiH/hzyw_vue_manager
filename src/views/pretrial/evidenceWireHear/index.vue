@@ -5,7 +5,7 @@
         <div class="header_container">
 
           <div class="header">
-            <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
+            <customer-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</customer-button>
             <span class="header_title">证据链审核</span>
             <!--<el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>-->
             <!--<template v-if="disabled">-->
@@ -31,15 +31,15 @@
           <div class="card_header" style="overflow: hidden;position: relative;">
             <div class="fr mt-5" style="position: relative" v-if="!disabled">
               <transition name="addmark" >
-                <el-button class="addmark" type="text" v-if="mark !== evidence.subSortNo" @click="HandleAddmark(evidence)">添加书签</el-button>
+                <customer-button class="addmark" type="text" v-if="mark !== evidence.subSortNo" @click="HandleAddmark(evidence)">添加书签</customer-button>
               </transition>
               <transition name="bookmark">
                 <img  v-if="mark === evidence.subSortNo" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
               </transition>
-              <el-button type="primary"  plain @click="HandleShow(evidence)">审核意见</el-button>
+              <customer-button type="primary"  plain @click="HandleShow(evidence)">审核意见</customer-button>
             </div>
             <div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">
-              <el-button type="text" @click="HandleRuleRes(evidence)">脚本执行记录</el-button>
+              <customer-button type="text" @click="HandleRuleRes(evidence)">脚本执行记录</customer-button>
             </div>
             <span class="header_title">{{evidence.subSortNo}}/{{evidence.totalCount}} {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷</span>
             <loanBillNoCopy :loanBillNo="evidence.loanBillNo"></loanBillNoCopy>

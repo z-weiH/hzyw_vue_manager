@@ -23,8 +23,8 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-          <el-button type="primary" >确 认</el-button>
-          <el-button @click="$parent.editState = 0" >取 消</el-button>
+          <customer-button type="primary" >确 认</customer-button>
+          <customer-button @click="$parent.editState = 0" >取 消</customer-button>
       </span>
   </el-dialog>
 </template>

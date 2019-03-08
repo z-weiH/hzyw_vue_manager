@@ -13,14 +13,14 @@
     >
       <template slot="moreBtn">
 
-        <el-button
+        <customer-button
           class="ml-20"
           type="primary"
           @click="handleExport"
           :disabled="(
             searchItem.keyWords ||searchItem.productName || searchItem.productId || searchItem.startDate || searchItem.endDate
           ) ? false : true"
-        >导出Excel</el-button>
+        >导出Excel</customer-button>
       </template>
     </searchs>
     <div class="item-title">缺失案件列表</div>

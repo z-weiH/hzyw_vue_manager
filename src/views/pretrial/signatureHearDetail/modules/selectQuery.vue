@@ -37,7 +37,7 @@
         </div>
       </div>
       <div style="padding: 10px;overflow: hidden;text-align: center;">
-        <el-button   type="primary" @click="HandleQuery">确定</el-button>
+        <customer-button   type="primary" @click="HandleQuery">确定</customer-button>
       </div>
 
 

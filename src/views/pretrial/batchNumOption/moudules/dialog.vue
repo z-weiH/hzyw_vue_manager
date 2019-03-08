@@ -8,7 +8,7 @@
     >
       <div class="m-content">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
-          
+
           <el-form-item label="子批次数量：" prop="subBatchCount">
             <el-input style="width:300px;" v-model="ruleForm.subBatchCount" />件
           </el-form-item>
@@ -16,8 +16,8 @@
       </div>
 
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="handleSubmit">确 定</el-button>
-        <el-button @click="handleClose">取 消</el-button>
+        <customer-button type="primary" @click="handleSubmit">确 定</customer-button>
+        <customer-button @click="handleClose">取 消</customer-button>
       </span>
     </el-dialog>
   </div>

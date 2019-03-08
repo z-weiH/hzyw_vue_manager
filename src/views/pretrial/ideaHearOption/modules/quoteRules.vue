@@ -33,7 +33,7 @@
         </ul>
 
       <div style="text-align: center"  slot="footer">
-        <el-button @click="flag = false">关闭</el-button>
+        <customer-button @click="flag = false">关闭</customer-button>
       </div>
 
     </el-dialog>

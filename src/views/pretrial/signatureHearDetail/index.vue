@@ -4,7 +4,7 @@
       <div class="body_container">
         <div class="header_container">
           <div class="header">
-            <el-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</el-button>
+            <customer-button type="primary" class="fr mr-10 mt-20" @click="HandleAudit" v-if="!disabled">审核完成</customer-button>
             <span class="header_title">签名审核</span>
             <!--<el-checkbox v-if="!disabled" class="header_checkbox" v-model="auditStatus">显示全部案件</el-checkbox>-->
             <!--<template v-if="disabled">-->
@@ -33,15 +33,15 @@
           <div class="card_header" style="overflow: hidden;position: relative;">
             <div class="fr mt-5" style="position: relative;" v-if="!disabled">
               <transition name="addmark" >
-                <el-button class="addmark" type="text" v-if="mark !== sign.subSortNo" @click="HandleAddmark(sign)">添加书签</el-button>
+                <customer-button class="addmark" type="text" v-if="mark !== sign.subSortNo" @click="HandleAddmark(sign)">添加书签</customer-button>
               </transition>
               <transition name="bookmark" >
                 <img  v-if="mark === sign.subSortNo" src="@/assets/img/bookmark.png" class="bookmark" alt="" >
               </transition>
-              <el-button type="primary"  plain @click="HandleShow(sign)">审核意见</el-button>
+              <customer-button type="primary"  plain @click="HandleShow(sign)">审核意见</customer-button>
             </div>
             <!--<div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">-->
-              <!--<el-button type="text" @click="HandleRuleRes(sign)">脚本执行记录</el-button>-->
+              <!--<customer-button type="text" @click="HandleRuleRes(sign)">脚本执行记录</customer-button>-->
             <!--</div>-->
             <span class="header_title">{{sign.subSortNo}}/{{sign.totalCount}} {{sign.lender}}与{{sign.respondents}}的借款合同纠纷</span>
             <loanBillNoCopy :loanBillNo="sign.loanBillNo"></loanBillNoCopy>

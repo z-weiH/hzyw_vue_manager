@@ -9,8 +9,8 @@
        </el-col>
      </el-row>
     <span slot="footer" class="dialog-footer">
-            <el-button type="primary" @click="passAllCase">确 认</el-button>
-            <el-button @click="$parent.pview_state = 0" >取 消</el-button>
+            <customer-button type="primary" @click="passAllCase">确 认</customer-button>
+            <customer-button @click="$parent.pview_state = 0" >取 消</customer-button>
         </span>
   </el-dialog>
 </template>

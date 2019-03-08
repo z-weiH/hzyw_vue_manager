@@ -74,7 +74,7 @@
           </el-select>
         </el-form-item>
 
-        <el-button @click="handleSearch" type="warning">查询</el-button>
+        <customer-button @click="handleSearch" type="warning">查询</customer-button>
 
       </el-form>
     </div>
@@ -145,7 +145,7 @@
     data() {
       return {
         ruleForm : {
-          // 互金企业 
+          // 互金企业
           merchantCode : '',
           // 模板
           productId : '',
@@ -174,7 +174,7 @@
         // 互金企业 options
         merchantOptions : [
           /* {merchantName : '张三' , code : '张三'} */
-        ], 
+        ],
         // 模板 options
         productOptions : [
           /* {prodName : '模板1' , prodCode : '模板1'} */

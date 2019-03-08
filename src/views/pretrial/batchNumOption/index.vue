@@ -14,7 +14,7 @@
       <div class="m-content">
         <span class="m-text">当前子批次数量</span>
         <span class="m-num">{{subBatchCount}}件</span>
-        <el-button class="m-btn" @click="handleEdit" type="text">修改</el-button>
+        <customer-button class="m-btn" @click="handleEdit" type="text">修改</customer-button>
       </div>
     </div>
 
@@ -28,7 +28,7 @@
     components : {mdialog},
     data() {
       return {
-        // 数量 
+        // 数量
         subBatchCount : '',
         // 主键 id
         batchId : '',

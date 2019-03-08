@@ -11,9 +11,9 @@
       <table-component :pager="pager" @refreshList="refresh" :table-data="tableData" :column-define="columnDefine" >
         <el-table-column label="操作" slot="defineCol">
           <template slot-scope="scope" >
-            <el-button
+            <customer-button
               size="mini"
-              @click="gotoDetail(scope.row)" >{{scope.row.batchStatus === 0 ? "审核" : "查看"}}</el-button>
+              @click="gotoDetail(scope.row)" >{{scope.row.batchStatus === 0 ? "审核" : "查看"}}</customer-button>
           </template>
         </el-table-column>
       </table-component>

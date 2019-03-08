@@ -19,8 +19,8 @@
                 <selectQuery ref="query" :parent="this" :disabled="subViewType" :queryConfig="queryConfig" :queryItem.sync="queryItem"></selectQuery>
               </el-col>
               <el-col :span="15">
-                <el-button v-if="subViewType == 1" type="primary" class="fr mr-10 mt-20" @click="FooPassCheck">通过</el-button>
-                <el-button v-if="subViewType == 1" class="fr mr-10 mt-20" @click="FooRebak">退回</el-button>
+                <customer-button v-if="subViewType == 1" type="primary" class="fr mr-10 mt-20" @click="FooPassCheck">通过</customer-button>
+                <customer-button v-if="subViewType == 1" class="fr mr-10 mt-20" @click="FooRebak">退回</customer-button>
               </el-col>
             </el-row>
           </div>
@@ -59,10 +59,10 @@
               </el-col>
               <el-col :span="6">
                 <div class="fr mt-5">
-                  <el-button v-if="subViewType == 1" @click="FooAuditReason(card)">审核意见</el-button>
+                  <customer-button v-if="subViewType == 1" @click="FooAuditReason(card)">审核意见</customer-button>
                 </div>
                 <div class="fr mt-5 mr-20">
-                  <el-button  type="text" @click="HandleRuleRes(card)">脚本执行记录</el-button>
+                  <customer-button  type="text" @click="HandleRuleRes(card)">脚本执行记录</customer-button>
                 </div>
 
               </el-col>
@@ -188,7 +188,7 @@
             </div>
             <div class="applybook_content of-hidden">
               <div class="article_left fl" style="position: relative;">
-                <el-button icon="el-icon-refresh" type="large" circle style="background: #F2F2F2;position: absolute;top: 70px; right: 40px;" @click="refreshApplicationUrl"></el-button>
+                <customer-button icon="el-icon-refresh" type="large" circle style="background: #F2F2F2;position: absolute;top: 70px; right: 40px;" @click="refreshApplicationUrl"></customer-button>
                 <iframe :src="applicationUrl" width="100%" height="100%">
                 </iframe>
               </div>

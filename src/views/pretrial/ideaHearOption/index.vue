@@ -45,9 +45,9 @@
 
     <div class="item-table">
       <div class="add-button">
-        <el-button type="text" @click="handleAdd"  size="small">添加</el-button>
-        <el-button type="text" @click="handleCopy" :disabled="disabled" size="small">复制</el-button>
-        <el-button type="text" @click="handleDel" :disabled="disabled1" size="small">删除</el-button>
+        <customer-button type="text" @click="handleAdd"  size="small">添加</customer-button>
+        <customer-button type="text" @click="handleCopy" :disabled="disabled" size="small">复制</customer-button>
+        <customer-button type="text" @click="handleDel" :disabled="disabled1" size="small">删除</customer-button>
       </div>
 
       <div class="tabs-box">
@@ -82,9 +82,9 @@
                     activeName === '1' ? 2 : -1
                   )) || (item.returnCodeCount !== 0)"  style="cursor:not-allowed;width: 14px; height: 14px;" src="../../../assets/img/delete_disabled.png" alt="">
                   <img class="edit_icon" v-else title="删除"  @click="handleSingleDel(item)" style="width: 14px; height: 14px;" src="../../../assets/img/Delete.png" alt="">
-                  <!--<el-button @click="handleEdit(item)" type="text">修改</el-button>-->
+                  <!--<customer-button @click="handleEdit(item)" type="text">修改</customer-button>-->
                   <!--<span>|</span>-->
-                  <!--<el-button @click="handleDelete(item)" type="text">删除</el-button>-->
+                  <!--<customer-button @click="handleDelete(item)" type="text">删除</customer-button>-->
                 </template>
               </div>
             </li>

@@ -52,8 +52,8 @@
       </div>
 
       <div slot="footer" >
-        <el-button type="primary" :disabled="disabled" @click="handleClick" class="mr-20">确定复制</el-button>
-        <el-button @click="flag = false">取消</el-button>
+        <customer-button type="primary" :disabled="disabled" @click="handleClick" class="mr-20">确定复制</customer-button>
+        <customer-button @click="flag = false">取消</customer-button>
       </div>
     </el-dialog>
 </template>

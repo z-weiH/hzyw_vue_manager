@@ -47,8 +47,8 @@
 
     </el-form>
     <span slot="footer" class="dialog-footer">
-          <el-button type="primary" @click="HandleAuditConfirm">确 认</el-button>
-          <el-button @click="flag = false" >取 消</el-button>
+          <customer-button type="primary" @click="HandleAuditConfirm">确 认</customer-button>
+          <customer-button @click="flag = false" >取 消</customer-button>
       </span>
   </el-dialog>
 </template>

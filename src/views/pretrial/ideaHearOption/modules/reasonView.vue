@@ -57,8 +57,8 @@
       </div>
     </div>
     <div style="text-align: center;margin-top: 15px;">
-      <el-button type="primary" @click="handleOK" :disabled="disabled">确定</el-button>
-      <el-button @click="flag = false">取消</el-button>
+      <customer-button type="primary" @click="handleOK" :disabled="disabled">确定</customer-button>
+      <customer-button @click="flag = false">取消</customer-button>
     </div>
 
 

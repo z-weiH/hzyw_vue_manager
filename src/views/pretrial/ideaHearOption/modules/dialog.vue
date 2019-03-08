@@ -38,7 +38,7 @@
 
       <span slot="footer" class="dialog-footer">
         <customer-button type="primary" @click="handleSubmit" :disabled="!ruleForm.code">确 定</customer-button>
-        <el-button @click="handleClose">取 消</el-button>
+        <customer-button @click="handleClose">取 消</customer-button>
       </span>
     </el-dialog>
   </div>

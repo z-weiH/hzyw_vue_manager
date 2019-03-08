@@ -62,8 +62,8 @@
           </el-select>
         </el-form-item>
 
-        <el-button @click="handleSearch" type="warning">查询</el-button>
-        <el-button @click="handleExport" type="primary">导出</el-button>
+        <customer-button @click="handleSearch" type="warning">查询</customer-button>
+        <customer-button @click="handleExport" type="primary">导出</customer-button>
 
       </el-form>
     </div>
@@ -71,7 +71,7 @@
     <div class="item-title of-hidden">
       <span class="item-title-sign">案件列表</span>
       <div class="fr">
-        <el-button @click="handleDistributionCases" type="primary">分配案件</el-button>
+        <customer-button @click="handleDistributionCases" type="primary">分配案件</customer-button>
       </div>
     </div>
 

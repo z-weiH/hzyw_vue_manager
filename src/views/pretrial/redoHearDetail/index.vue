@@ -9,7 +9,7 @@
       <span class="tit">
                   <i class="fg_ico">|</i>批次信息
                 </span>
-      <el-button v-if="showBtn" class="fr" @click="queryDialogFCperson">变更初审人</el-button>
+      <customer-button v-if="showBtn" class="fr" @click="queryDialogFCperson">变更初审人</customer-button>
 
     </div>
     <div>
@@ -59,7 +59,7 @@
                 <a href="javascript:;" class="btn_link" style="margin-left:15px;" @click="handleResult(opts)">查看原因</a>
               </span>
         <button v-else-if="opts.batchStatus == 3" class="title_btn ml-5" disabled>预审完成</button>
-        <div class="fr" v-if="opts.batchStatus == 3"><el-button type="primary" size="small" @click="childBatchExcel(opts)" round>导出Excel</el-button></div>
+        <div class="fr" v-if="opts.batchStatus == 3"><customer-button type="primary" size="small" @click="childBatchExcel(opts)" round>导出Excel</customer-button></div>
       </div>
       <el-row class="message part">
         <el-col :span="22">
@@ -73,7 +73,7 @@
           </ul>
         </el-col>
         <el-col :span="2" style="text-align:center;">
-          <el-button v-if="opts.batchStatus == 1" type="primary" size="medium" round @click="gotoSmallTs(opts)">审核</el-button>
+          <customer-button v-if="opts.batchStatus == 1" type="primary" size="medium" round @click="gotoSmallTs(opts)">审核</customer-button>
           <span v-if="opts.batchStatus == 3" class="btn_link" @click="gotoSmallTs(opts)">查看</span>
         </el-col>
       </el-row>
@@ -101,7 +101,7 @@
         </div>
       </el-row>
       <span slot="footer" class="dialog-footer">
-                <el-button @click="reasonPanelType = false">关闭</el-button>
+                <customer-button @click="reasonPanelType = false">关闭</customer-button>
               </span>
     </el-dialog>
     <!-- ** -->
@@ -139,8 +139,8 @@
         </el-row>
       </el-form>
       <span slot="footer" class="dialog-footer">
-          <el-button @click="saveNewFPerson" type="primary">确认</el-button>
-          <el-button @click="changeFpeopleType = false">取消</el-button>
+          <customer-button @click="saveNewFPerson" type="primary">确认</customer-button>
+          <customer-button @click="changeFpeopleType = false">取消</customer-button>
         </span>
     </el-dialog>
     <!-- ** -->
