@@ -78,6 +78,7 @@
               <el-option label="String" :value="2"></el-option>
               <el-option label="Date" :value="3"></el-option>
               <el-option label="Decimal" :value="4"></el-option>
+              <el-option label="JSON" :value="5"></el-option>
             </el-select>
           </el-form-item>
 
@@ -401,6 +402,7 @@
       getAJCS() {
         // 处理页面案件参数列表中 不出现重复问题
         let dataFormat = (arr) => {
+          return copyArray(arr)
           let result = [];
           let parentData = [];
           this.$parent.tableData.map(v => {

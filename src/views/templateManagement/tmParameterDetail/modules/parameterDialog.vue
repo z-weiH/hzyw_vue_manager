@@ -24,6 +24,7 @@
               <el-option label="String" :value="2"></el-option>
               <el-option label="Date" :value="3"></el-option>
               <el-option label="Decimal" :value="4"></el-option>
+              <el-option label="JSON" :value="5"></el-option>
             </el-select>
           </el-form-item>
 

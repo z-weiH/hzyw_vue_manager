@@ -56,7 +56,8 @@
                             item2.valueType === 1 ? 'Integer' :
                             item2.valueType === 2 ? 'String' :
                             item2.valueType === 3 ? 'Date' :
-                            item2.valueType === 4 ? 'Decimal' : ''
+                            item2.valueType === 4 ? 'Decimal' :
+                            item2.valueType === 5 ? 'JSON' : ''
                           )
                         }}
                       </td>
