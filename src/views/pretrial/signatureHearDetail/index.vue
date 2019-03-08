@@ -40,9 +40,10 @@
               </transition>
               <customer-button type="primary"  plain @click="HandleShow(sign)">审核意见</customer-button>
             </div>
-            <!--<div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">-->
+            <div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">
               <!--<customer-button type="text" @click="HandleRuleRes(sign)">脚本执行记录</customer-button>-->
-            <!--</div>-->
+              <customer-button v-if="sign.logStatus === 1"  type="text" @click="gotourl(sign.caseId)">查看日志</customer-button>
+            </div>
             <span class="header_title">{{sign.subSortNo}}/{{sign.totalCount}} {{sign.lender}}与{{sign.respondents}}的借款合同纠纷</span>
             <loanBillNoCopy :loanBillNo="sign.loanBillNo"></loanBillNoCopy>
             <div class="header_img">
@@ -171,6 +172,10 @@ export default {
 
   },
   methods: {
+    gotourl(caseId){
+      const href = this.$router.resolve({path: 'hearCaseListDetail', query: {caseId: caseId , log: true}}).href;
+      window.open(href, "_blank");
+    },
     //意见审核
     HandleShow(sign) {
       this.$http.post('/firstAudit/queryAuditInfoByCaseId.htm',{caseId: sign.caseId,type: 1})

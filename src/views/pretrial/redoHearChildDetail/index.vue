@@ -62,7 +62,9 @@
                   <customer-button v-if="subViewType == 1" @click="FooAuditReason(card)">审核意见</customer-button>
                 </div>
                 <div class="fr mt-5 mr-20">
+                  <customer-button v-if="card.logStatus === 1"  type="text" @click="gotourl(card.caseId)">查看日志</customer-button>
                   <customer-button  type="text" @click="HandleRuleRes(card)">脚本执行记录</customer-button>
+
                 </div>
 
               </el-col>
@@ -365,6 +367,10 @@ export default {
 
 	methods: {
 
+    gotourl(caseId){
+      const href = this.$router.resolve({path: 'hearCaseListDetail', query: {caseId: caseId , log: true}}).href;
+      window.open(href, "_blank");
+    },
     refreshApplicationUrl(){
       let idx = this.applicationUrl.lastIndexOf('=');
       this.applicationUrl = this.applicationUrl.substring(0,idx) + '=' +new Date().getTime();

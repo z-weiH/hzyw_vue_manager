@@ -713,6 +713,12 @@
 
 
     },
+    mounted(){
+      if(this.$route.query.log){
+        this.logFlag = true;
+        this.$refs.steps.init(this.$route.query.caseId);
+      }
+    },
      created(){
       this.queryEviInfo();
       this.queryBaseInfo();

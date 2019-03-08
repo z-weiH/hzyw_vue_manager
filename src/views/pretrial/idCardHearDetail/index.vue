@@ -54,7 +54,7 @@
             <!--</div>-->
             <div class="mt-5 rule_res"  :style="{right: disabled ? '25px' : '185px'}">
               <!--<customer-button type="text" @click="HandleRuleRes(card)">脚本执行记录</customer-button>-->
-              <customer-button   type="text" @click="gotourl(card.caseId)">查看日志</customer-button>
+              <customer-button v-if="card.logStatus === 1"  type="text" @click="gotourl(card.caseId)">查看日志</customer-button>
 
             </div>
             <span class="header_title">{{card.subSortNo}}/{{card.countCase}} {{card.personWrap.applicant}}与{{card.personWrap.respondent}}的借款合同纠纷</span>

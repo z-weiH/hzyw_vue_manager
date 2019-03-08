@@ -39,6 +39,7 @@
               <customer-button type="primary"  plain @click="HandleShow(evidence)">审核意见</customer-button>
             </div>
             <div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">
+              <customer-button v-if="evidence.logStatus === 1"  type="text" @click="gotourl(evidence.caseId)">查看日志</customer-button>
               <customer-button type="text" @click="HandleRuleRes(evidence)">脚本执行记录</customer-button>
             </div>
             <span class="header_title">{{evidence.subSortNo}}/{{evidence.totalCount}} {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷</span>
@@ -193,6 +194,10 @@
     },
     methods: {
 
+      gotourl(caseId){
+        const href = this.$router.resolve({path: 'hearCaseListDetail', query: {caseId: caseId , log: true}}).href;
+        window.open(href, "_blank");
+      },
       //机审规则
       HandleRuleRes(card){
         // this.$http.post("/againAudit/machineWhoseRules.htm",{caseId:card.caseId}).then(res => {
