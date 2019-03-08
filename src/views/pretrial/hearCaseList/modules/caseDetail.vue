@@ -342,7 +342,7 @@
                           {{scope.$index + 1}}
                         </template>
                       </el-table-column>
-                      <el-table-column v-for="(obj,idx) in item.columns" :prop="obj.prop" :label="obj.label">
+                      <el-table-column v-for="(obj,idx) in item.columns" :key="idx" :prop="obj.prop" :label="obj.label">
                           <template slot-scope="scope">
                             <customer-button type="text" v-if="scope.row[obj.prop] && scope.row[obj.prop].indexOf('http') === 0" @click="openValue(scope.row[obj.prop])">打开链接</customer-button>
                             <span v-else>{{scope.row[obj.prop] ? scope.row[obj.prop] : '-'}}</span>
@@ -692,6 +692,14 @@
         this.$http.post('/preCaseLib/queryPreCaseInfoByCaseId.htm', { caseId: this.$route.query.caseId }).then(res => {
           console.log(res);
           this.baseInfoObject = res.result;
+          this.judgeFlag = new Date(this.baseInfoObject.templateDate).valueOf() >= new Date(this.judgementTime).valueOf();
+          if(this.judgeFlag){//新版
+            this.text = ['基本信息','文书与证据', '参数值'];
+            this.queryParamsList();
+          }else{//
+            this.text = ['基本信息','文书与证据', '主体证明材料'];
+            this.queryLitigantList();
+          }
         })
       },
       //主体证明材料
@@ -709,14 +717,7 @@
       this.queryEviInfo();
       this.queryBaseInfo();
       console.error(new Date().valueOf(), new Date(this.judgementTime).valueOf());
-      this.judgeFlag = new Date().valueOf() >= new Date(this.judgementTime).valueOf();
-      if(this.judgeFlag){//新版
-        this.text = ['基本信息','文书与证据', '参数值'];
-        this.queryParamsList();
-      }else{//
-        this.text = ['基本信息','文书与证据', '主体证明材料'];
-        this.queryLitigantList();
-      }
+
 
      }
   }
