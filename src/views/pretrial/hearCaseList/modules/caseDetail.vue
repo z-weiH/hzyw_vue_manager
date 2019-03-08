@@ -447,7 +447,7 @@
         baseInfoObject: {caseInfo: {}}, //基本信息
         reasonFlag: false,
         caseFailReasonList: [],
-        judgementTime: '2019-03-08',  //判断新旧版本的时间
+        judgementTime: '2018-01-18',  //判断新旧版本的时间
         judgeFlag: false,
         litigantList: [],
         auditFlag: false
