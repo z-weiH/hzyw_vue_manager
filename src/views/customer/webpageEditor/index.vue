@@ -58,7 +58,7 @@
                   <el-dropdown-item :command="27">插入判断条件（样式）</el-dropdown-item>
                   <el-dropdown-item :command="28">插入多判断条件（样式）</el-dropdown-item>
                   <el-dropdown-item :command="29">日期判断（样式）</el-dropdown-item>
-                  <!-- <el-dropdown-item :command="30">段落</el-dropdown-item> -->
+                  <el-dropdown-item :command="30">段落</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
               <el-dropdown @command="handleInsertGrammar" style="width:100%;" class="mb-20">
