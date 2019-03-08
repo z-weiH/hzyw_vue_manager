@@ -162,7 +162,8 @@
           pageSize: 1
         },
         currentUrl: '',
-        selfflag: 0
+        selfflag: 0,
+        caseId: ''
       }
     },
     // watch: {
@@ -320,7 +321,13 @@
           background: "hsla(0,0%,100%,.9)"
         });
         let obj={};
-        if(!this.disabled){
+        if(this.caseId){
+          Object.assign(obj,
+            { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus ,passStatus: +this.passStatus,keyWords: this.keyWords,correctionStatus: this.correctionStatus,caseId:this.caseId},
+            this.pager
+          )
+        }
+        else if(!this.disabled){
           Object.assign(obj,
             { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus ,passStatus: +this.passStatus,keyWords: this.keyWords,correctionStatus: this.correctionStatus},
             this.pager
@@ -382,6 +389,7 @@
       this.markflag = +this.$route.query.markflag;
       this.disabled = Boolean(this.$route.query.disabled);
       this.batchNo = this.$route.query.batchNo;
+      this.caseId = this.$route.query.caseId;
       this.handleCountQuery({check: this.disabled ? 0 : 1,subBatchNo:this.subBatchNo, type: 3 });
       this.pager.currentNum = Math.ceil(this.markflag/1);
       if(this.pager.currentNum === 0)

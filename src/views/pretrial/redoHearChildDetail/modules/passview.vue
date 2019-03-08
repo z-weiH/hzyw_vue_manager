@@ -31,7 +31,8 @@ export default {
     passAllCase() {
       this.$http
         .post(URL_JSON["savePassBatchId"], {
-          subBatchId: this.subBatchNo
+          subBatchId: this.subBatchNo,
+          type: 1
         })
         .then(res => {
           if(res.code === "0000"){

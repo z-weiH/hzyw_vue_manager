@@ -176,7 +176,7 @@
               confirmButtonText: '确定',
               cancelButtonText: '取消',
             }).then(res =>{
-              this.$http.post('/firstAudit/submitFirstAudit.htm',{subBatchNo: info.subBatchNo})
+              this.$http.post('/firstAudit/submitFirstAudit.htm',{subBatchNo: info.subBatchNo, type: 0})
                 .then(r => {
                   if(r.code === '0000'){
                     this.$message.success(r.description);

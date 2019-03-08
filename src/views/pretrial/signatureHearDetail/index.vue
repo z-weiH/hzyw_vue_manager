@@ -151,7 +151,8 @@ export default {
         total: 1,
         pageSize: 20
       },
-      selValue: null
+      selValue: null,
+      caseId: ''
     };
   },
   computed: {
@@ -267,7 +268,13 @@ export default {
         background: "hsla(0,0%,100%,.9)"
       });
       let obj={};
-      if(!this.disabled){
+      if(this.caseId){
+        Object.assign(obj,
+          { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus,keyWords: this.keyWords,passStatus: +this.passStatus ,correctionStatus: this.correctionStatus,caseId: this.caseId},
+          this.pager
+        )
+      }
+      else if(!this.disabled){
         Object.assign(obj,
           { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus,keyWords: this.keyWords,passStatus: +this.passStatus ,correctionStatus: this.correctionStatus},
           this.pager
@@ -340,6 +347,7 @@ export default {
     this.markflag = +this.$route.query.markflag;
     this.disabled = Boolean(this.$route.query.disabled);
     this.batchNo = this.$route.query.batchNo;
+    this.caseId = this.$route.query.caseId;
     this.handleCountQuery({check: this.disabled ? 0 : 1,subBatchNo:this.subBatchNo, type: 2 });
     //查询 和  标签定位
     this.pager.currentNum = Math.ceil(this.markflag/20);
