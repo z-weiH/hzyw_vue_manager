@@ -40,6 +40,7 @@
         <div class="card" :ref="card.subSortNo" v-for="(card, index) in idCardList" :key="index">
           <div class="card_header" style="overflow: hidden;position: relative;">
 
+
             <div class="fr mt-5" style="position: relative;" v-if="!disabled">
               <transition name="addmark">
                 <customer-button class="addmark" type="text" v-if="mark !== card.subSortNo" @click="HandleAddmark(card)">添加书签</customer-button>
@@ -49,9 +50,13 @@
               </transition>
               <customer-button type="primary"  plain @click="HandleShow(card)">审核意见</customer-button>
             </div>
-            <!--<div class="mt-5 rule_res"  :style="{right: disabled ? '25px' : '185px'}">-->
-              <!--<customer-button type="text" @click="HandleRuleRes(card)">脚本执行记录</customer-button>-->
+            <!--<div class="fr mt-5" style="position: relative;">-->
             <!--</div>-->
+            <div class="mt-5 rule_res"  :style="{right: disabled ? '25px' : '185px'}">
+              <!--<customer-button type="text" @click="HandleRuleRes(card)">脚本执行记录</customer-button>-->
+              <customer-button   type="text" @click="gotourl(card.caseId)">查看日志</customer-button>
+
+            </div>
             <span class="header_title">{{card.subSortNo}}/{{card.countCase}} {{card.personWrap.applicant}}与{{card.personWrap.respondent}}的借款合同纠纷</span>
             <loanBillNoCopy :loanBillNo="card.loanBillNo"></loanBillNoCopy>
             <div class="header_img">
@@ -248,6 +253,10 @@ export default {
   },
   methods: {
 
+    gotourl(caseId){
+      const href = this.$router.resolve({path: 'hearCaseListDetail', query: {caseId: caseId , log: true}}).href;
+      window.open(href, "_blank");
+    },
     //机审规则
     HandleRuleRes(card){
       // this.$http.post("/againAudit/machineWhoseRules.htm",{caseId:card.caseId}).then(res => {

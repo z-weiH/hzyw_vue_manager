@@ -199,7 +199,8 @@ export default {
           this.updateReviewUserName(row.batchNo).then(() => {
             this.getosh(row);
           })
-        } else {
+        }
+        else {
           if (JSON.parse(localStorage.getItem('loginInfo')).userName !== row.reviewUserName) {
             // this.updateReviewUserName(row.batchNo).then(() => {
             this.$msgbox({
@@ -214,13 +215,17 @@ export default {
                 this.getosh(row);
               })
             })
+          }else{
+            this.getosh(row);
           }
+        }
+      }
           else {
             this.getosh(row);
           }
           // localStorage.setItem("redoHearSearchItem",JSON.stringify(this.searchItem));
-        }
-      }
+
+
     },
     queryAgainAuditUserList(){
       this.$http.post("/againAudit/queryAgainAuditUserList.htm").then(res => {
