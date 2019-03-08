@@ -211,7 +211,7 @@
               this.oldParamsList = res.result;
               if(this.paramLevel === 0){
                 this.list1 = [];
-                const typeObj = {1:'基础信息', 2:'金额信息', 3:'当事人信息', 4:'日期信息', 5:'证据信息', 6:'还款信息', 7:'借款人银行卡信息' ,8:'分期贷信息', 9:'代偿信息'};
+                const typeObj = {1:'基础信息', 2:'金额信息', 3:'当事人信息', 4:'日期信息', 5:'证据信息', 6:'还款信息', 7:'借款人银行卡信息' ,8:'分期贷信息', 9:'代偿信息',10 : '短信信息'};
                 res.result.forEach(it => {
                   let obj = this.list1.find(i => i.categoryCode === it.categoryCode);
                   if(obj){

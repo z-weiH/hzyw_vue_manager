@@ -35,7 +35,8 @@
                       scope.row.valueType === 1 ? 'Integer' :
                       scope.row.valueType === 2 ? 'String' :
                       scope.row.valueType === 3 ? 'Date' :
-                      scope.row.valueType === 4 ? 'Decimal' : ''
+                      scope.row.valueType === 4 ? 'Decimal' :
+                      scope.row.valueType === 5 ? 'JSON' : ''
                     )
                   }}
                 </template>
@@ -169,6 +170,10 @@
           {
             categoryCode : 9,
             categoryDesc : '代偿信息',
+          },
+          {
+            categoryCode : 10,
+            categoryDesc : '短信信息',
           },
         ];
         const result = [];
