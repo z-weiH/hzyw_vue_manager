@@ -622,6 +622,15 @@
       //参数值
       queryParamsList(){
         this.$http.post("/caseInfo/queryCaseParamList.htm",{caseOrderId: this.$route.query.caseId}).then(res => {
+          this.judgeFlag = res.result.length > 0;
+          if(this.judgeFlag){//新版
+            this.text = ['基本信息','文书与证据', '参数值'];
+            // this.queryParamsList();
+          }else{//
+            this.text = ['基本信息','文书与证据', '主体证明材料'];
+            this.queryLitigantList();
+          }
+
           this.paramsList = res.result;
           this.paramsList.forEach(it => {
             if(it.params && it.params.length > 0 && it.params.find(i => i.groupNum)){
@@ -692,14 +701,7 @@
         this.$http.post('/preCaseLib/queryPreCaseInfoByCaseId.htm', { caseId: this.$route.query.caseId }).then(res => {
           console.log(res);
           this.baseInfoObject = res.result;
-          this.judgeFlag = new Date(this.baseInfoObject.templateDate).valueOf() >= new Date(this.judgementTime).valueOf();
-          if(this.judgeFlag){//新版
-            this.text = ['基本信息','文书与证据', '参数值'];
-            this.queryParamsList();
-          }else{//
-            this.text = ['基本信息','文书与证据', '主体证明材料'];
-            this.queryLitigantList();
-          }
+
         })
       },
       //主体证明材料
@@ -722,6 +724,7 @@
      created(){
       this.queryEviInfo();
       this.queryBaseInfo();
+      this.queryParamsList();
       console.error(new Date().valueOf(), new Date(this.judgementTime).valueOf());
 
 
