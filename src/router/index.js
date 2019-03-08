@@ -713,6 +713,9 @@ let router = new Router({
             name: 'hearCaseList',
           },
         },
+
+
+
         {
           path: 'hearDropCaseList',
           component: () => import('@/views/pretrial/hearDropCaseList'), //证据缺失案件库
@@ -1220,6 +1223,13 @@ let router = new Router({
       metas: {
         name: 'rulePdfSwitch'
       }
+    },
+    {
+      path: '/hearCaseListDetail',
+      component: () => import('@/views/pretrial/hearCaseList/modules/caseDetail'), //预审案件库
+      meta: {
+        name: 'hearCaseListDetail',
+      },
     }
   ],
 })

@@ -50,4 +50,6 @@ export default [
   '/main/deductionVouchersDetail', // 仲券扣除总数 明细
   '/main/arbitrationFeeDeductionDetail', // 仲裁费扣除总数 明细
 
+  '/hearCaseListDetail',//预审案件库 详情
+
 ]

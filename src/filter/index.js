@@ -39,6 +39,16 @@ Vue.filter('TimeMoment', function(time) {
 		return week[weekIndex] + '  ' + year + '年' + month + '月' + day + '日 '
 	});
 
+  Vue.filter('TimeMomentCN', function (time) {
+    let myDate = new Date(time);
+    let year = myDate.getFullYear();
+    let month = myDate.getMonth() + 1 >= 10 ? myDate.getMonth() + 1 : '0' + (myDate.getMonth() + 1);
+    let day = myDate.getDate() >= 10 ? myDate.getDate() : '0' + myDate.getDate();
+    let weekIndex = myDate.getDay();
+    let week = ["周日","周一","周二","周三","周四","周五","周六"];
+    return  year + '-' + month + '-' + day + '  ' + week[weekIndex]
+  })
+
   // 过滤：年月日-格式
   Vue.filter('TimeYearMonthDay',function(time){
     	let myDate = new Date(time)

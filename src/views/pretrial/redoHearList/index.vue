@@ -194,37 +194,33 @@ export default {
     gotoLargeTs(row) {
       //大批次审核
       console.info("row::::", row);
-      if(row.reviewStatus === 1 ){
-        if(!row.reviewUserName){
+      if(row.reviewStatus === 1 ) {
+        if (!row.reviewUserName) {
           this.updateReviewUserName(row.batchNo).then(() => {
             this.getosh(row);
           })
-        }else{
-          if(JSON.parse(localStorage.getItem('loginInfo')).userName !== row.reviewUserName ){
+        } else {
+          if (JSON.parse(localStorage.getItem('loginInfo')).userName !== row.reviewUserName) {
             // this.updateReviewUserName(row.batchNo).then(() => {
-              this.$msgbox({
-                title: '提示',
-                message:`是否将复审人由${row.reviewUserName}变更为${JSON.parse(localStorage.getItem('loginInfo')).userName}？`,
-                center: true,
-                showCancelButton: true,
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-              }).then(() => {
-                this.updateReviewUserName(row.batchNo).then(() => {
-                  this.getosh(row);
-                })
+            this.$msgbox({
+              title: '提示',
+              message: `是否将复审人由${row.reviewUserName}变更为${JSON.parse(localStorage.getItem('loginInfo')).userName}？`,
+              center: true,
+              showCancelButton: true,
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+            }).then(() => {
+              this.updateReviewUserName(row.batchNo).then(() => {
+                this.getosh(row);
               })
-            // })
-          }else{
+            })
+          }
+          else {
             this.getosh(row);
           }
+          // localStorage.setItem("redoHearSearchItem",JSON.stringify(this.searchItem));
         }
       }
-      else{
-        this.getosh(row);
-      }
-      // localStorage.setItem("redoHearSearchItem",JSON.stringify(this.searchItem));
-
     },
     queryAgainAuditUserList(){
       this.$http.post("/againAudit/queryAgainAuditUserList.htm").then(res => {

@@ -220,7 +220,7 @@ export default {
         maskOpacity:0.2
       },
 
-
+      caseId: ''
 
     };
   },
@@ -384,7 +384,13 @@ export default {
         background: "hsla(0,0%,100%,.9)"
       });
       let obj={};
-      if(!this.disabled){
+      if(this.caseId){
+        Object.assign(obj,
+          { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus,passStatus: +this.passStatus,keyWords: this.keyWords,correctionStatus: this.correctionStatus,caseId: this.caseId},
+          this.pager
+        )
+      }
+      else if(!this.disabled){
         Object.assign(obj,
           { subBatchNo: this.subBatchNo, auditStatus: +this.auditStatus,passStatus: +this.passStatus,keyWords: this.keyWords,correctionStatus: this.correctionStatus},
           this.pager
@@ -509,6 +515,7 @@ export default {
     this.markflag = this.$route.query.markflag;
     this.disabled = Boolean(this.$route.query.disabled);
     this.batchNo = this.$route.query.batchNo;
+    this.caseId = this.$route.query.caseId;
     if(!this.disabled){
       this.pager.currentNum = Math.ceil(this.markflag/20);
     }
