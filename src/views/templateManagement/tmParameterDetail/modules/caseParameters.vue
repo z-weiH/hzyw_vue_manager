@@ -171,6 +171,10 @@
             categoryCode : 9,
             categoryDesc : '代偿信息',
           },
+          {
+            categoryCode : 10,
+            categoryDesc : '短信信息',
+          },
         ];
         const result = [];
         typeArr.map((v) => {
