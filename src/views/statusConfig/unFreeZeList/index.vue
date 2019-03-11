@@ -284,7 +284,6 @@ export default {
               this.optsPduListView({ merchantCode: item['value'] })
             }else{
               this.searchItems[5].options = [];
-              // console.log('sssssssssssss',this.searchItem)
               this.$set(this.searchItem,"productId","")
             }
 						break
