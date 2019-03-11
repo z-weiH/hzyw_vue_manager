@@ -437,7 +437,7 @@ export default {
 	},
 	created() {
 		this.optsCompanyListView() //互金企业
-		this.optsPduListView() //产品名称
+		// this.optsPduListView() //产品名称
 		this.optsHkCaseStageView() //还款案件阶段
 		this.optsHkCaseStatusView() //还款案件状态
 	},
