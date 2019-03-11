@@ -1,31 +1,39 @@
 <template>
-<div class="content">
-        <div class='wsbodyhead'>
-         <a>所在位置</a>
-         <router-link :to='$options.name' class='aside_tit'>调解短信</router-link>
-        </div>
-        <searchs class='item-search' :search-items='searchItems' :item='searchItem' :query-url='queryUrl' @valueChange="getChange">
-        </searchs>
-        <div class='item-title'>
-
-        </div>
-        <div class='item-table'>
-           <table-component  :pager="pager" :needCheckbox="true" :table-data="tableData"  :column-define="columnDefine" @slectionChange="slectionChange"></table-component>
-          <div class="center mb-20">
-            <el-button type="primary" :disabled="isDisabled" @click="sendInfo">发送调解通知</el-button>
-          </div>
-        </div>
-        <send-info ref="sendInfoDlg" :edit-state="editState"></send-info>
-
-</div>
+  <div class="content">
+    <div class="wsbodyhead">
+      <a>所在位置</a>
+      <router-link :to="$options.name" class="aside_tit">调解短信</router-link>
+    </div>
+    <searchs
+      class="item-search"
+      :search-items="searchItems"
+      :item="searchItem"
+      :query-url="queryUrl"
+      @valueChange="searchItemChange"
+    ></searchs>
+    <div class="item-title">调解短信列表</div>
+    <div class="item-table">
+      <table-component
+        :pager="pager"
+        :needCheckbox="true"
+        :table-data="tableData"
+        :column-define="columnDefine"
+        @slectionChange="slectionChange"
+      ></table-component>
+      <div class="center mb-20">
+        <el-button type="primary" :disabled="isDisabled" @click="sendInfo">发送调解通知</el-button>
+      </div>
+    </div>
+    <send-info ref="sendInfoDlg" :edit-state="editState"></send-info>
+  </div>
 </template>
 <script type="text/ecmascript-6">
 import { URL_JSON } from "../../../components/script/url_json";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
-import SendInfo from './modules/sendInfo'
-import Vue from 'vue'
+import SendInfo from "./modules/sendInfo";
+import Vue from "vue";
 export default {
   name: "mediationMsg",
   extends: Mixins,
@@ -35,9 +43,7 @@ export default {
       item: {},
       queryUrl: "/adjust/queryAdjustCaseListByBaseQuery.htm",
       searchItem: {},
-      tableData: [
-
-      ],
+      tableData: [],
       searchItems: [
         {
           label: "案件查询",
@@ -52,23 +58,23 @@ export default {
           colSpan: 3,
           property: "dateType",
           options: [
-            {label: '提交日期', value: 1},
-            {label: '立案日期', value: 2},
-            {label: '组庭日期', value: 3},
-            {label: '结案日期', value: 4},
-            {label: '应裁日期', value: 5},
+            { label: "提交日期", value: 1 },
+            { label: "立案日期", value: 2 },
+            { label: "组庭日期", value: 3 },
+            { label: "结案日期", value: 4 },
+            { label: "应裁日期", value: 5 }
           ]
         },
         {
           type: "date",
           colSpan: 4,
-          placeholder: '开始时间',
+          placeholder: "开始时间",
           property: "startDate"
         },
         {
           type: "date",
           colSpan: 4,
-          placeholder: '结束时间',
+          placeholder: "结束时间",
           property: "endDate"
         },
         {
@@ -78,14 +84,14 @@ export default {
           options: [],
           property: "merchantCode",
           labelfield: "merchantName",
-          valuefield: "code"
+          valuefield: "code",
+          newline: 1
         },
         {
           label: "产品名称",
           type: "select",
           colSpan: 3,
           property: "productCode",
-          newline: true,
           options: [],
           labelfield: "prodName",
           valuefield: "prodCode"
@@ -142,14 +148,14 @@ export default {
           property: "statusThree",
           options: [],
           labelfield: "desc",
-          valuefield: "status"
+          valuefield: "status",
+          newline: 1
         },
         {
           label: "应裁情况",
           type: "select",
           colSpan: 3,
           property: "decideStatus",
-          newline: true,
           options: [
             {
               label: "未应裁",
@@ -171,39 +177,32 @@ export default {
           colSpan: 3,
           property: "messageDelivery",
           // 0未送达，1送达
-          options: [
-            {label:'未送达', value: 0},
-            {label:'送达', value: 1}
-          ]
+          options: [{ label: "未送达", value: 0 }, { label: "送达", value: 1 }]
         },
         {
           label: "短链查看",
           type: "select",
           colSpan: 3,
           property: "shortChainView",
-          options: [
-            {label:'未查看', value: 0},
-            {label:'查看', value: 1}
-          ]
-        },
-
+          options: [{ label: "未查看", value: 0 }, { label: "查看", value: 1 }]
+        }
       ],
       columnDefine: [
         // 案件编号	互金企业	申请人	被申请人	被申请人手机	案件阶段	案件状态	提交日期	标的金额	应裁情况	短信送达	短链查看
         // 发送调解通知
-        {label:'案件编号',property: 'arbCaseId'},
-        {label:'互金企业',property: 'platName'},
-        {label:'申请人',property: 'applicants'},
-        {label:'被申请人',property: 'respondents'},
-        {label:'被申请人手机',property: 'resPhone'},
-        {label:'案件阶段',property: 'caseProcessDesc'},
-        {label:'案件状态',property: 'caseStatusDesc'},
-        {label:'提交日期',property: 'submitTime'},
-        {label:'标的金额',property: 'amtBorrow'},
-        {label:'应裁情况',property: 'decideStatus'},
-        {label:'短信送达',property: 'messageDelivery'},
-        {label:'短链查看',property: 'shortChainView'},
-      ],
+        { label: "案件编号", property: "arbCaseId" },
+        { label: "互金企业", property: "platName" },
+        { label: "申请人", property: "applicants" },
+        { label: "被申请人", property: "respondents" },
+        { label: "被申请人手机", property: "resPhone" },
+        { label: "案件阶段", property: "caseProcessDesc" },
+        { label: "案件状态", property: "caseStatusDesc" },
+        { label: "提交日期", property: "submitTime" },
+        { label: "标的金额", property: "amtBorrow" },
+        { label: "应裁情况", property: "decideStatus" },
+        { label: "短信送达", property: "messageDelivery" },
+        { label: "短链查看", property: "shortChainView" }
+      ]
     };
   },
   computed: {
@@ -211,13 +210,10 @@ export default {
       return this.selection.length === 0;
     }
   },
-  mounted() {
-
-  },
+  mounted() {},
   methods: {
     getMerchantCode() {
       this.$http.post(URL_JSON["selectCompany"]).then(res => {
-
         this.searchItems[4].options = res.result;
         // console.log('list:',res.result);
       });
@@ -248,43 +244,64 @@ export default {
         }, 300);
       });
     },
-    getChange(obj) {
-      console.log(obj);
-      if(obj.property === 'merchantCode'){
-        this.getProductCode({merchantCode: obj.value});
-      }
-      if(obj.property === 'caseProcess'){
-        this.getStatusThree({status: obj.value});
+    searchItemChange(item) {
+      console.log(item);
+      for (let i in item) {
+        switch (item[i]) {
+          case "merchantCode":
+            if (item["value"] != "") {
+              this.getProductCode({ merchantCode: item.value });
+            } else {
+              this.searchItems[5].options = [];
+              this.$set(this.searchItem, "productCode", "");
+            }
+            break;
+          case "caseProcess":
+            if (item["value"] != "") {
+              this.getStatusThree({ status: item.value });
+            } else {
+              this.searchItems[8].options = [];
+              this.$set(this.searchItem, "statusThree", "");
+            }
+            break;
+          default:
+            break;
+        }
       }
     },
     sendInfo() {
       this.editState = 1;
       let myDate = new Date();
       let year = myDate.getFullYear();
-      let month = myDate.getMonth() + 1 >= 10 ? myDate.getMonth() + 1 : '0' + (myDate.getMonth() + 1);
-      let day = myDate.getDate()+1 >= 10 ? myDate.getDate()+1 : '0' + (myDate.getDate()+1);
-      this.$refs['sendInfoDlg'].mediatorId1 = '';
-      this.$refs['sendInfoDlg'].mediatorId2 = '';
-      this.$refs['sendInfoDlg'].date2 = year + '-' + month + '-' + day;
-      this.$refs['sendInfoDlg'].hour2 = 24;
-      this.$refs['sendInfoDlg'].date3 = year + '-' + month + '-' + day;
-      this.$refs['sendInfoDlg'].hour3 = 24;
-      this.$refs['sendInfoDlg'].mediatorId4 = '';
-      this.$refs['sendInfoDlg'].payment4 = '';
+      let month =
+        myDate.getMonth() + 1 >= 10
+          ? myDate.getMonth() + 1
+          : "0" + (myDate.getMonth() + 1);
+      let day =
+        myDate.getDate() + 1 >= 10
+          ? myDate.getDate() + 1
+          : "0" + (myDate.getDate() + 1);
+      this.$refs["sendInfoDlg"].mediatorId1 = "";
+      this.$refs["sendInfoDlg"].mediatorId2 = "";
+      this.$refs["sendInfoDlg"].date2 = year + "-" + month + "-" + day;
+      this.$refs["sendInfoDlg"].hour2 = 24;
+      this.$refs["sendInfoDlg"].date3 = year + "-" + month + "-" + day;
+      this.$refs["sendInfoDlg"].hour3 = 24;
+      this.$refs["sendInfoDlg"].mediatorId4 = "";
+      this.$refs["sendInfoDlg"].payment4 = "";
 
-      this.$refs['sendInfoDlg'].smsType = '';
-      this.$refs['sendInfoDlg'].mediatorIdz1 = '';
-      this.$refs['sendInfoDlg'].mediatorIdz2 = '';
+      this.$refs["sendInfoDlg"].smsType = "";
+      this.$refs["sendInfoDlg"].mediatorIdz1 = "";
+      this.$refs["sendInfoDlg"].mediatorIdz2 = "";
     },
-    slectionChange(selection){
+    slectionChange(selection) {
       console.log(selection);
       this.selection = selection;
     }
-
   },
   created() {
     this.getMerchantCode();
-    this.getProductCode();
+    // this.getProductCode();
     this.getCaseProcess();
     this.getStatusThree();
     this.doQuery(this.queryUrl, this.item);
