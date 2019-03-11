@@ -280,7 +280,13 @@ export default {
 				switch (item[i]) {
 					case 'merchantCode':
 						console.log(item['value'])
-						this.optsPduListView({ merchantCode: item['value'] })
+            if(item['value'] != ""){
+              this.optsPduListView({ merchantCode: item['value'] })
+            }else{
+              this.searchItems[5].options = [];
+              // console.log('sssssssssssss',this.searchItem)
+              this.$set(this.searchItem,"productId","")
+            }
 						break
 					case 'caseProcess':
 						console.warn(item['value'])
