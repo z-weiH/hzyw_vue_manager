@@ -266,6 +266,9 @@
             this.currentList = this.currentObj.evi;
             this.currentTitle = '字段列表（'+  this.currentObj.sampleName  + ')';
           }
+          else if(this.tab === 2){
+
+          }
           console.log(tab, this.currentList)
 
         },
@@ -289,7 +292,7 @@
           let obj = {clientCode: this.result.clientCode, clientName: this.result.clientName, codeIndex: this.result.codeIndex};
           if(this.tab === 2){
             obj.clientCode = '0';
-            obj.codeIndex = '0';
+            obj.codeIndex = '100';
             obj.clientName = '公共';
           }
           this.$refs.addCodeDialog.init(obj);
