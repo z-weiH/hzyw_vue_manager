@@ -40,9 +40,9 @@
         <el-tree ref="tree" node-key="levelId" :filter-node-method="filterNode" class="self-tree" :data="treeData" :default-expanded-keys="keys" :props="defaultProps" @node-click="handleNodeClickPlus"></el-tree>
       </div>
       <div class="fl m-right" style="height: 100%;">
-          <div class="rule_title">
-            {{currentRule}}
-          </div>
+        <div class="rule_title">
+          {{currentRule}}
+        </div>
         <div class="rule_body" >
           <div v-if="contentFlag">
             <div class="rule_desc">
@@ -97,7 +97,7 @@
             </div>
 
           </div>
-          </div>
+        </div>
       </div>
       <div class="clear"></div>
     </div>
@@ -123,7 +123,7 @@
           <div class="textarea_warpar" ref="textarea_warpar" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:21px;box-sizing: border-box;"  v-html="ruleInfo_html" ></div>
           <!--<div class="textarea_warpar" ref="textarea_warpar1" style="width: 100%;height: 100%;position: absolute;visibility: hidden;padding: 5px 15px;line-height:21px;box-sizing: border-box;"  v-html="ruleInfo_html1" ></div>-->
           <!--<ul class="textarea_select" v-if="showSelect" ref="textarea_select">-->
-            <!--<li v-for="(name,index) in ruleNames" :key="index" :class="{'active': index == ruleIndex}">{{name}}</li>-->
+          <!--<li v-for="(name,index) in ruleNames" :key="index" :class="{'active': index == ruleIndex}">{{name}}</li>-->
           <!--</ul>-->
           <span class="showPdf_btn"  v-if="showSelect"  ref="textarea_select" @click="pdfFlagChange">获取字段</span>
           <div class="rightBtns" >
@@ -134,8 +134,8 @@
             <el-button size="mini" type="primary" @click="handleRun" :disabled="canYanZheng">验证</el-button>
           </div>
           <!--<div class="runRes" v-if="runRes != 0">-->
-            <!--<i :class="runRes == 1 ? 'error' : 'succ'"></i>-->
-            <!--<span>{{runRes == 2? '可用' : '不可用'}}</span>-->
+          <!--<i :class="runRes == 1 ? 'error' : 'succ'"></i>-->
+          <!--<span>{{runRes == 2? '可用' : '不可用'}}</span>-->
           <!--</div>-->
         </el-form-item>
       </el-form>
@@ -350,18 +350,18 @@
         if(val == 1 || val == 2){
           this.showSelect = false;
           console.log(this.showSelect);
-            if(val == 1)
-              this.title = '编辑规则';
-            if(val == 2)
-              this.title = '添加规则';
-            this.$nextTick(() => {
-              this.$refs.textarea_rule.$el.querySelector("textarea").onscroll =() => {
-                console.log('what');
-                this.textareaValueChange(this.form.ruleInfo);
-                // this.textareaValueChange1(this.form.ruleInfo);
-              }
-            })
-          }
+          if(val == 1)
+            this.title = '编辑规则';
+          if(val == 2)
+            this.title = '添加规则';
+          this.$nextTick(() => {
+            this.$refs.textarea_rule.$el.querySelector("textarea").onscroll =() => {
+              console.log('what');
+              this.textareaValueChange(this.form.ruleInfo);
+              // this.textareaValueChange1(this.form.ruleInfo);
+            }
+          })
+        }
 
       },
       //控制全部规则，选中全部
@@ -402,9 +402,9 @@
 
       'form.ruleInfo'(val,oldVal){
 
-      console.error(val,'valueChange');
-       this.textareaValueChange(val);
-       // this.textareaValueChange1(val);
+        console.error(val,'valueChange');
+        this.textareaValueChange(val);
+        // this.textareaValueChange1(val);
 
 
 
@@ -491,78 +491,90 @@
 
         console.log(this.ruleInfo_html,val);
         if(val){
-            // console.error(',出现');
-            this.currentFunction.idx = val.length-1;
-            let strcopy = val.replace(/\s+/g, "");
-            let type = -1;
-            let idx1 = strcopy.lastIndexOf('getnum(');
-            let idx2 = strcopy.lastIndexOf('getContent(');
-            let idx3 = strcopy.lastIndexOf('takeId(');
-            let idx4 = strcopy.lastIndexOf('takeNumId(');
-            let idx5 = strcopy.lastIndexOf('getDate(');
-            let idx6 = strcopy.lastIndexOf('getDateId(');
-            let idx7 = strcopy.lastIndexOf('getPdfString(');
-            let idx8 = strcopy.lastIndexOf('getPdfNum(');
-            let idx9 = strcopy.lastIndexOf('getPdfDate(');
-            let idx10 = strcopy.lastIndexOf('getPdfIdCard(');
-            let idx11 = strcopy.lastIndexOf('getTableStingByPosition(');
-            if(idx1 != -1 && new RegExp("^getnum\\([A-Z_0-9]+$").test(strcopy.substring(idx1))){
-              type = 0;
-              this.currentFunction.affix = strcopy.substring(idx1);
-            }
-            else if(idx2 != -1 && new RegExp("^getContent\\([A-Z_0-9]+$").test(strcopy.substring(idx2))){
-              type = 1;
-              this.currentFunction.affix = strcopy.substring(idx2);
-            }
-            else if(idx5 != -1 && new RegExp("^getDate\\([A-Z_0-9]+$").test(strcopy.substring(idx5))){
-              type = 1;
-              this.currentFunction.affix = strcopy.substring(idx5);
-            }
-            else if(idx3 != -1 && new RegExp("^takeId\\([A-Z_0-9]+$").test(strcopy.substring(idx3))){
-              type = 3;
-              this.currentFunction.affix = strcopy.substring(idx3);
-            }
-            else if(idx4 != -1 && new RegExp("^takeNumId\\([A-Z_0-9]+$").test(strcopy.substring(idx4))){
-              type = 3;
-              this.currentFunction.affix = strcopy.substring(idx4);
-            }
-            else if(idx6 != -1 && new RegExp("^getDateId\\([A-Z_0-9]+$").test(strcopy.substring(idx6))){
-              type = 3;
-              this.currentFunction.affix = strcopy.substring(idx6);
-            }
-            else if(idx7 != -1 && new RegExp("^getPdfString\\([A-Z_0-9]+$").test(strcopy.substring(idx7))){
-                type = 4;
-            }
-            else if(idx8 != -1 && new RegExp("^getPdfNum\\([A-Z_0-9]+$").test(strcopy.substring(idx8))){
-                type = 4;
-            }
-            else if(idx9 != -1 && new RegExp("^getPdfDate\\([A-Z_0-9]+$").test(strcopy.substring(idx9))){
-                type = 4;
-            }
-            else if(idx10 != -1 && new RegExp("^getPdfIdCard\\([A-Z_0-9]+$").test(strcopy.substring(idx10))){
-                type = 4;
-            }
-            else if(idx11 != -1 && new RegExp("^getTableStingByPosition\\([A-Z_0-9]+$").test(strcopy.substring(idx11))){
-                type = 1;
-              this.currentFunction.affix = strcopy.substring(idx11);
-            }
-            if(type != -1){
-              this.ruleType = type;
-              let idx = val.lastIndexOf('(');
-              this.pdfParam = val.substring(idx+1).trim();
-              this.ruleInfo_html += `<span style='font-size: 10px;padding: 2px 3px;'>获取字段</span>`
-              this.showSelect = true;
-              this.$nextTick(() => {
-                let scrollTop = this.$refs.textarea_rule.$el.querySelector('textarea').scrollTop;
-                let elms = this.$refs.textarea_warpar.querySelectorAll('span');
-                let elm = elms[elms.length - 1];
-                this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
-                this.$refs.textarea_select.style.top = elm.offsetTop - scrollTop + 'px';
-              });
-            }else{
-              console.log(type,strcopy);
-              this.showSelect && (this.showSelect = false);
-            }
+          // console.error(',出现');
+          this.currentFunction.idx = val.length-1;
+          let strcopy = val.replace(/\s+/g, "");
+          let type = -1;
+          let idx1 = strcopy.lastIndexOf('getnum(');
+          let idx2 = strcopy.lastIndexOf('getContent(');
+          let idx3 = strcopy.lastIndexOf('takeId(');
+          let idx4 = strcopy.lastIndexOf('takeNumId(');
+          let idx5 = strcopy.lastIndexOf('getDate(');
+          let idx6 = strcopy.lastIndexOf('getDateId(');
+          let idx7 = strcopy.lastIndexOf('getPdfString(');
+          let idx8 = strcopy.lastIndexOf('getPdfNum(');
+          let idx9 = strcopy.lastIndexOf('getPdfDate(');
+          let idx10 = strcopy.lastIndexOf('getPdfIdCard(');
+          let idx11 = strcopy.lastIndexOf('getTableStingByPosition(');
+          let idx12 = strcopy.lastIndexOf('getNumAnAnnual(');
+          let idx13 = strcopy.lastIndexOf('getZeroWidthValueString(');
+          let idx14 = strcopy.lastIndexOf('getZeroWidthNum(');
+          if(idx1 != -1 && new RegExp("^getnum\\([A-Z_0-9]+$").test(strcopy.substring(idx1))){
+            type = 0;
+            this.currentFunction.affix = strcopy.substring(idx1);
+          }
+          else if(idx2 != -1 && new RegExp("^getContent\\([A-Z_0-9]+$").test(strcopy.substring(idx2))){
+            type = 1;
+            this.currentFunction.affix = strcopy.substring(idx2);
+          }
+          else if(idx5 != -1 && new RegExp("^getDate\\([A-Z_0-9]+$").test(strcopy.substring(idx5))){
+            type = 1;
+            this.currentFunction.affix = strcopy.substring(idx5);
+          }
+          else if(idx3 != -1 && new RegExp("^takeId\\([A-Z_0-9]+$").test(strcopy.substring(idx3))){
+            type = 3;
+            this.currentFunction.affix = strcopy.substring(idx3);
+          }
+          else if(idx4 != -1 && new RegExp("^takeNumId\\([A-Z_0-9]+$").test(strcopy.substring(idx4))){
+            type = 3;
+            this.currentFunction.affix = strcopy.substring(idx4);
+          }
+          else if(idx6 != -1 && new RegExp("^getDateId\\([A-Z_0-9]+$").test(strcopy.substring(idx6))){
+            type = 3;
+            this.currentFunction.affix = strcopy.substring(idx6);
+          }
+          else if(idx7 != -1 && new RegExp("^getPdfString\\([A-Z_0-9]+$").test(strcopy.substring(idx7))){
+            type = 4;
+          }
+          else if(idx8 != -1 && new RegExp("^getPdfNum\\([A-Z_0-9]+$").test(strcopy.substring(idx8))){
+            type = 4;
+          }
+          else if(idx9 != -1 && new RegExp("^getPdfDate\\([A-Z_0-9]+$").test(strcopy.substring(idx9))){
+            type = 4;
+          }
+          else if(idx10 != -1 && new RegExp("^getPdfIdCard\\([A-Z_0-9]+$").test(strcopy.substring(idx10))){
+            type = 4;
+          }
+          else if(idx11 != -1 && new RegExp("^getTableStingByPosition\\([A-Z_0-9]+$").test(strcopy.substring(idx11))){
+            type = 1;
+            this.currentFunction.affix = strcopy.substring(idx11);
+          }else if(idx12 != -1 && new RegExp("^getNumAnAnnual\\([A-Z_0-9]+$").test(strcopy.substring(idx12))){
+            type = 1;
+            this.currentFunction.affix = strcopy.substring(idx12);
+          }
+          else if(idx13 != -1 && new RegExp("^getZeroWidthValueString\\([A-Z_0-9]+$").test(strcopy.substring(idx13))){
+            type = 4;
+          }
+          else if(idx14 != -1 && new RegExp("^getZeroWidthNum\\([A-Z_0-9]+$").test(strcopy.substring(idx14))){
+            type = 4;
+          }
+          if(type != -1){
+            this.ruleType = type;
+            let idx = val.lastIndexOf('(');
+            this.pdfParam = val.substring(idx+1).trim();
+            this.ruleInfo_html += `<span style='font-size: 10px;padding: 2px 3px;'>获取字段</span>`
+            this.showSelect = true;
+            this.$nextTick(() => {
+              let scrollTop = this.$refs.textarea_rule.$el.querySelector('textarea').scrollTop;
+              let elms = this.$refs.textarea_warpar.querySelectorAll('span');
+              let elm = elms[elms.length - 1];
+              this.$refs.textarea_select.style.left = elm.offsetLeft+6 + 'px';
+              this.$refs.textarea_select.style.top = elm.offsetTop - scrollTop + 'px';
+            });
+          }else{
+            console.log(type,strcopy);
+            this.showSelect && (this.showSelect = false);
+          }
 
         }
       },
@@ -619,8 +631,8 @@
       getCursorPos(pTextArea) {
         var cursurPosition= this.form.ruleInfo.length;
         if(pTextArea.selectionStart){//非IE浏览器
-           cursurPosition= pTextArea.selectionStart;
-         }else{//IE
+          cursurPosition= pTextArea.selectionStart;
+        }else{//IE
           try{
             var range = document.selection.createRange();
             range.moveStart("character",-pTextArea.value.length);
@@ -861,9 +873,9 @@
       //查看参数
       handleAvriable() {
         this.$http.post("/caseSample/queryCaseSampleList.htm",{levelId: this.currentMenu.levelId}).then(res => {
-            if(res.result.count === 0){
-                return this.$message.error("当前暂无案例")
-            }
+          if(res.result.count === 0){
+            return this.$message.error("当前暂无案例")
+          }
           window.open(this.$router.resolve({path:'/ruleParameterList',query:{levelId: this.currentMenu.levelId}}).href,'_blank');
         })
 
@@ -1016,7 +1028,7 @@
           if(flag){
             this.pager.currentNum = 1;
           }
-            this.$http.post("/ruleBase/queryRuleInfoByBaseQuery.htm",Object.assign(obj,this.pager)).then(res => {
+          this.$http.post("/ruleBase/queryRuleInfoByBaseQuery.htm",Object.assign(obj,this.pager)).then(res => {
             if(res.code === '0000'){
               this.ruleList = res.result.list;
               this.ruleList.forEach(it => {
@@ -1079,7 +1091,7 @@
           // this.deleteProperty([res.result],"children");
           this.treeData = [res.result];
           this.deleteProperty(this.treeData,"children");
-            this.keys = [this.treeData[0].levelId];
+          this.keys = [this.treeData[0].levelId];
           // this.treeData = res.result;
           console.log(this.treeData)
           this.handleNodeClick(Object.assign({},this.treeData[0]));
@@ -1173,66 +1185,66 @@
     bottom: 0;
   }
   /*.runRes{*/
-    /*font-size:12px;*/
-    /*line-height: 12px;*/
-    /*i{*/
-      /*height:0px;*/
-      /*width:0px;*/
-      /*display: inline-block;*/
-      /*border: 6px solid #3A3A3A;*/
-      /*border-radius: 50%;*/
-      /*&.succ{*/
-        /*border-color: #66CC33;*/
-      /*}*/
-      /*&.error{*/
-        /*border-color:#CC0000;*/
-      /*}*/
-    /*}*/
-    /*position: absolute;*/
-    /*left: 10px;*/
-    /*bottom: 10px;*/
+  /*font-size:12px;*/
+  /*line-height: 12px;*/
+  /*i{*/
+  /*height:0px;*/
+  /*width:0px;*/
+  /*display: inline-block;*/
+  /*border: 6px solid #3A3A3A;*/
+  /*border-radius: 50%;*/
+  /*&.succ{*/
+  /*border-color: #66CC33;*/
+  /*}*/
+  /*&.error{*/
+  /*border-color:#CC0000;*/
+  /*}*/
+  /*}*/
+  /*position: absolute;*/
+  /*left: 10px;*/
+  /*bottom: 10px;*/
 
   /*}*/
 
-.rule-base{
-  height: 100%;
-  overflow: auto;
-  background-color: #F1F2F7;
-  .title-box{
-    height: 75px;
-    background-color: #fff;
-    >div{
+  .rule-base{
+    height: 100%;
+    overflow: auto;
+    background-color: #F1F2F7;
+    .title-box{
+      height: 75px;
+      background-color: #fff;
+      >div{
+        width: 1200px;
+        margin: 0 auto;
+      }
+      .m-title{
+        color: #0f357f;
+        display: inline-block;
+        margin-top: 21px;
+        >span{
+          font-size: 30px;
+        }
+      }
+    }
+    .content-box{
       width: 1200px;
       margin: 0 auto;
-    }
-    .m-title{
-      color: #0f357f;
-      display: inline-block;
-      margin-top: 21px;
-      >span{
-        font-size: 30px;
+      margin-top: 10px;
+      .m-left{
+        width: 300px;
+        overflow-x:hidden;
+        min-height: calc(100vh - 100px);
+        background: transparent;
+      }
+      .m-right{
+        width: 890px;
+        margin-left: 10px;
+        background-color: #fff;
+
+        height: 300px;
       }
     }
   }
-  .content-box{
-    width: 1200px;
-    margin: 0 auto;
-    margin-top: 10px;
-    .m-left{
-      width: 300px;
-      overflow-x:hidden;
-      min-height: calc(100vh - 100px);
-      background: transparent;
-    }
-    .m-right{
-      width: 890px;
-      margin-left: 10px;
-      background-color: #fff;
-
-      height: 300px;
-    }
-  }
-}
   .rule_title{
     height: 56px;
     background: #EEF3FF;
