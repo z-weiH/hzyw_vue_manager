@@ -193,7 +193,6 @@
         ruleForm : {
           // 互金企业
           keyWords : '',
-          loanBillNos: null,
           // 账龄
           accountPeriodType : '',
           // 推送开始时间
@@ -228,7 +227,7 @@
 
       cancelUpload(){
         console.log(this.ruleForm)
-        this.ruleForm.loanBillNos = null;
+        // this.ruleForm.loanBillNos = null;
         this.ruleForm = {};
         this.handleSearch();
       },
@@ -248,8 +247,9 @@
         // 上传成功
         if (res.code === "0000") {
           console.log("导入成功:", res, file, fileList);
-          this.ruleForm = {};
-          this.ruleForm.loanBillNos = res.result;
+          if(res.result.length > 0){
+            this.ruleForm = {loanBillNos: res.result};
+          }
           this.handleSearch();
           this.$message.success("导入成功");
         } else {
