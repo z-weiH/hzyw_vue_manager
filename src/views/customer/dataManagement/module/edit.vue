@@ -235,7 +235,7 @@
                 })
                 this.list3.forEach(it => {
                   let item = this.productList.find(i => i.productId == it.productId);
-                  console.log(this.productList); 
+                  console.log(this.productList);
                   if(item){
                     it.categoryText = item.productName;
                   }
@@ -333,16 +333,15 @@
     .footerBtn{
       position: fixed;
       bottom: 30px;
-      width: 100%;
-      left: 0;
+      width: 300px;
+      left: calc(50% - 40px);
       height: 70px;
       .btns-container{
-        width:1200px;
+        width:100%;
         margin: 0 auto;
         height: 100%;
       }
       .btns{
-        margin-left: 240px;
         height: 100%;
         text-align: center;
 

@@ -24,9 +24,9 @@
               <div class="fl">{{item.ruleDesc}}</div>
               <div class="fl">
              <span>
-               <img class="mr-10" v-if="item.ruleExeStatus === 0"  src="@/assets/img/error_tag_01.png" alt="">
+               <img class="mr-10" v-if="item.ruleExeStatus === 0"  src="@/assets/img/warning_tag.png" alt="">
               <img class="mr-5" v-if="item.ruleExeStatus === 1" src="@/assets/img/success_tag.png" alt="">
-              <img class="mr-5" v-if="item.ruleExeStatus === 2" src="@/assets/img/warning_tag_01.png" alt="">
+              <img class="mr-5" v-if="item.ruleExeStatus === 2" src="@/assets/img/error_tag.png" alt="">
                 <b v-if="item.ruleExeStatus === 2">检出错误</b>
                 <b v-if="item.ruleExeStatus === 0">执行错误</b>
                 <b v-if="item.ruleExeStatus === 1">过检</b>

@@ -61,9 +61,28 @@
             <el-option label="立案申请失败" :value="7"></el-option>
           </el-select>
         </el-form-item>
+        <!--<customer-button @click="">导入</customer-button>-->
+        <el-upload
+          class="upload-box"
+          style="display: inline-block"
+          :action="`${$host}/preCaseLib/importExcelLoanBillNos.htm`"
+          :show-file-list="false"
+          :on-success="uploadSuccess"
+          :on-error="uploadError"
+          accept=".xlsx,.xls"
+          :disabled="ruleForm.loanBillNos && ruleForm.loanBillNos.length > 0"
+          :before-upload="beforeUpload"
+          :data="{
+              token : token,
+            }"
+        >
+          <div class="importBtn">
+            <customer-button type="primary">{{ (ruleForm.loanBillNos && ruleForm.loanBillNos.length > 0) ? `已导入${ruleForm.loanBillNos.length}件` : '导入' }}</customer-button>
+            <customer-button class="copy_button" :class="{'active': ruleForm.loanBillNos && ruleForm.loanBillNos.length}" @click="cancelUpload" size="mini" >取消</customer-button>
+          </div>
 
+        </el-upload>
         <customer-button @click="handleSearch" type="warning">查询</customer-button>
-        <customer-button @click="handleExport" type="primary">导出</customer-button>
 
       </el-form>
     </div>
@@ -71,6 +90,7 @@
     <div class="item-title of-hidden">
       <span class="item-title-sign">案件列表</span>
       <div class="fr">
+        <customer-button @click="handleExport" type="primary">导出</customer-button>
         <customer-button @click="handleDistributionCases" type="primary">分配案件</customer-button>
       </div>
     </div>
@@ -160,7 +180,16 @@
       CaseDialog,
     },
     data() {
+
+      let token = 0;
+        try{
+          token =  JSON.parse(localStorage.getItem('loginInfo')).token
+        }catch (e) {
+
+        }
+
       return {
+          token: token,
         ruleForm : {
           // 互金企业
           keyWords : '',
@@ -187,6 +216,7 @@
         currentPage : 1,
         // 每页数量
         pageSize : 10,
+        loading: null
 
       }
     },
@@ -194,6 +224,42 @@
       this.initTableList();
     },
     methods : {
+
+      cancelUpload(){
+        console.log(this.ruleForm)
+        // this.ruleForm.loanBillNos = null;
+        this.ruleForm = {};
+        this.handleSearch();
+      },
+      //上传前
+      beforeUpload(){
+        this.loading = this.$loading({
+          lock: true,
+          text: '正在载入',
+          spinner: 'el-icon-loading',
+          background: 'rgba(255, 255, 255, 0.7)'
+        });
+      },
+
+      // 文件上传成功
+      uploadSuccess(res, file, fileList) {
+        this.loading.close();
+        // 上传成功
+        if (res.code === "0000") {
+          console.log("导入成功:", res, file, fileList);
+          if(res.result.length > 0){
+            this.ruleForm = {loanBillNos: res.result};
+          }
+          this.handleSearch();
+          this.$message.success("导入成功");
+        } else {
+          this.$message.error(res.description);
+        }
+      },
+      // 文件上传失败
+      uploadError() {
+        this.$message.error("文件上传失败，请稍后重试");
+      },
 
       gotoDetail(row){
         window.open(this.$router.resolve({ path: '/hearCaseListDetail', query: {caseId: row.caseId}}).href,"_blank");
@@ -229,7 +295,7 @@
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
-
+            loanBillNos: this.ruleForm.loanBillNos,
             keyWords : this.ruleForm.keyWords,
             accountPeriodType : this.ruleForm.accountPeriodType,
             pushStartDate : this.ruleForm.pushStartDate,
@@ -265,6 +331,22 @@
 </script>
 
 <style lang="scss" scoped>
+.importBtn{
+  position: relative;
+  &:hover{
+    .copy_button.active{
+      display: block;
+    }
+  }
+  .copy_button{
+    display: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+  }
+}
 
 .hear-case-list{
   .item-title{

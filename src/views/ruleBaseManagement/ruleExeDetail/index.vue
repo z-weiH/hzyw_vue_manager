@@ -91,13 +91,24 @@
             </div>
             <div class="rule_list">
               <ul>
-                <li :class="{'mr-20': idx%2 === 0}" v-for="(item,idx) in evidence.ruleExeResultList" :key="idx" style="width: 645px; float: left;margin-bottom: 15px;">
-                  <el-checkbox class="error_checkbox" :disabled="disabled"  :label="item.id" v-model="item.isSelected" @change="saveSelectedStatus(item)" :key="item.id">
-                    {{item.ruleDesc}}
-                    <span v-if="item.ruleExeStatus===2" class="exeStatus2">检出错误</span>
-                    <span v-if="item.ruleExeStatus===0" class="exeStatus0">执行错误</span>
-                  </el-checkbox>
-                </li>
+                <div v-for="(item,idx) in evidence.ruleExeResultList" style="clear: both;overflow: hidden;" >
+                  <li class="mr-20"   style="width: 645px; float: left;margin-bottom: 15px;" v-if="2*idx < evidence.ruleExeResultList.length">
+                    <el-checkbox class="error_checkbox" :disabled="disabled"  :label="evidence.ruleExeResultList[2*idx].id" v-model="evidence.ruleExeResultList[2*idx].isSelected" @change="saveSelectedStatus(evidence.ruleExeResultList[2*idx])" :key="evidence.ruleExeResultList[2*idx].id">
+                      {{evidence.ruleExeResultList[2*idx].ruleDesc+evidence.ruleExeResultList[2*idx].ruleDesc}}
+                      <span v-if="evidence.ruleExeResultList[2*idx].ruleExeStatus===2" class="exeStatus2">检出错误</span>
+                      <span v-if="evidence.ruleExeResultList[2*idx].ruleExeStatus===0" class="exeStatus0">执行错误</span>
+                    </el-checkbox>
+                  </li>
+                  <li    style="width: 645px; float: left;margin-bottom: 15px;" v-if="2*idx+1 < evidence.ruleExeResultList.length">
+                    <el-checkbox class="error_checkbox" :disabled="disabled"  :label="evidence.ruleExeResultList[2*idx+1].id" v-model="evidence.ruleExeResultList[2*idx+1].isSelected" @change="saveSelectedStatus(evidence.ruleExeResultList[2*idx+1])" :key="evidence.ruleExeResultList[2*idx+1].id">
+                      {{evidence.ruleExeResultList[2*idx+1].ruleDesc+evidence.ruleExeResultList[2*idx+1].ruleDesc}}
+                      <span v-if="evidence.ruleExeResultList[2*idx+1].ruleExeStatus===2" class="exeStatus2">检出错误</span>
+                      <span v-if="evidence.ruleExeResultList[2*idx+1].ruleExeStatus===0" class="exeStatus0">执行错误</span>
+                    </el-checkbox>
+                  </li>
+
+                </div>
+
               </ul>
             </div>
           </div>

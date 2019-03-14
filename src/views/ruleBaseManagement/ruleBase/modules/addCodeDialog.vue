@@ -116,6 +116,9 @@
                 },
               }).then((res) => {
                 this.$message.success('添加成功');
+                // console.log(this.$parent)
+                if(! this.$parent.currentList)
+                  this.$parent.currentList = [];
                 this.$parent.currentList.push({module: +this.ruleForm.type,returnCode: this.ruleForm.code,desc: this.ruleForm.reasonMsg});
                 let compare2 = (a,b) => {
                   if(a.module != b.module){

@@ -266,6 +266,9 @@
             this.currentList = this.currentObj.evi;
             this.currentTitle = '字段列表（'+  this.currentObj.sampleName  + ')';
           }
+          else if(this.tab === 2){
+
+          }
           console.log(tab, this.currentList)
 
         },

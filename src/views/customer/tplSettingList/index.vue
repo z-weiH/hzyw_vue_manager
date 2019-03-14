@@ -77,7 +77,7 @@
               
               scope.row.applyStatus === 0 ? '待设置' :
               scope.row.applyStatus === 1 ? '启用' : 
-              scope.row.applyStatus === 2 ? '停用' : ''
+              scope.row.applyStatus === 2 ? '停用' : '--'
             }}
           </template>
         </el-table-column>
@@ -87,7 +87,7 @@
               
               scope.row.adjudeStatus === 0 ? '待设置' :
               scope.row.adjudeStatus === 1 ? '启用' : 
-              scope.row.adjudeStatus === 2 ? '停用' : ''
+              scope.row.adjudeStatus === 2 ? '停用' : '--'
             }}
           </template>
         </el-table-column>
@@ -97,7 +97,7 @@
               
               scope.row.enforceStatus === 0 ? '待设置' :
               scope.row.enforceStatus === 1 ? '启用' : 
-              scope.row.enforceStatus === 2 ? '停用' : ''
+              scope.row.enforceStatus === 2 ? '停用' : '--'
             }}
           </template>
         </el-table-column>

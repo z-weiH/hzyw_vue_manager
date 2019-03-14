@@ -640,7 +640,11 @@ textarea::-webkit-scrollbar {
 }
 
 .error_checkbox{
+  width: 100%;
+  white-space: initial !important;
   .el-checkbox__input{
+    vertical-align: top;
+    margin-top: 3px;
     &.is-checked{
       .el-checkbox__inner{
         background: #fff;
@@ -668,6 +672,9 @@ textarea::-webkit-scrollbar {
         }
       }
     }
+  }
+  .el-checkbox__label{
+    width: calc(100% - 30px);
   }
 }
 

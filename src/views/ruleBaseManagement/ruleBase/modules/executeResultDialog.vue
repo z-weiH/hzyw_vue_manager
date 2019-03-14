@@ -6,9 +6,9 @@
     :close-on-press-escape="false"
     title="执行结果"
 
-    width="890px"
+    width="1000px"
     >
-    <div style="width: 850px; margin: 20px auto;">
+    <div style="width: 960px; margin: 20px auto;">
 
       <p class="content-title">
         <el-button class="fr" type="primary" size="mini" @click="openView" v-if="isRuleExe">查看详情</el-button>
@@ -29,19 +29,49 @@
         </el-table-column>
         <el-table-column label="被申请人姓名" prop="respondents">
         </el-table-column>
-        <el-table-column label="被申请人手机号" prop="phones">
+        <el-table-column label="产品模版" prop="clientName">
+          <template slot-scope="scope">
+            <span>{{scope.row.clientName + '-' + scope.row.prodTempCode}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="案件状态" prop="caseStatus">
+          <template slot-scope="scope">
+            <span>{{caseStatusName(scope.row.caseStatus)}}</span>
+          </template>
         </el-table-column>
         <el-table-column label="执行结果" prop="exeStatus">
           <template slot-scope="scope">
             <div style="text-align: center;">
-              <span>
-               <img class="mr-10" v-if="scope.row.exeStatus === 0"  src="@/assets/img/warning_tag.png" alt="">
-              <img class="mr-5" v-if="scope.row.exeStatus === 1" src="@/assets/img/success_tag.png" alt="">
-              <img class="mr-5" v-if="scope.row.exeStatus === 2" src="@/assets/img/error_tag.png" alt="">
-                <b v-if="scope.row.exeStatus === 2">检出错误</b>
-                <b v-if="scope.row.exeStatus === 0">执行错误</b>
-                <b v-if="scope.row.exeStatus === 1">过检</b>
+
+              <template v-if="!isRuleExe">
+                <span v-if="scope.row.exeStatus === 1">
+                  <img class="" src="@/assets/img/success_tag.png" alt="">
+                  过检
+                </span>
+                <span v-if="scope.row.exeStatus === 0">
+                  <img class="" src="@/assets/img/warning_tag.png" alt="">
+                  执行错误
+                </span>
+                <span v-if="scope.row.exeStatus === 2">
+                  <img class="" src="@/assets/img/error_tag.png" alt="">
+                  检出错误
+                </span>
+              </template>
+              <template v-else>
+                <span class="mr-10">
+                  <img class="" src="@/assets/img/success_tag.png" alt="">
+                  {{scope.row.successCount}}
               </span>
+                <span class="mr-10">
+                <img class="" src="@/assets/img/error_tag.png" alt="">
+                  {{scope.row.errorCount}}
+              </span>
+                <span class="mr-10">
+               <img class="mr-5" src="@/assets/img/warning_tag.png" alt="">
+                {{scope.row.exceptionCount}}
+              </span>
+              </template>
+
             </div>
           </template>
         </el-table-column>
@@ -56,12 +86,36 @@
 
         <el-table-column  type="expand">
           <template slot-scope="props">
-            <ul>
+            <ul v-if="isRuleExe">
               <li v-for="(item,idx) in props.row.results" style="margin:10px 0;">
-                <p class="result-content">{{item.ruleDesc}}</p>
-                <p class="result-content">{{item.exeResult}}</p>
-                <p class="result-content">{{item.returnResult ? item.returnResult : '--'}}</p>
+                <div class="result-content">
+                  <img class="mr-10" v-if="item.ruleExeStatus === 0"  src="@/assets/img/warning_tag.png" alt="">
+                  <img class="mr-5" v-if="item.ruleExeStatus === 1" src="@/assets/img/success_tag.png" alt="">
+                  <img class="mr-5" v-if="item.ruleExeStatus === 2" src="@/assets/img/error_tag.png" alt="">
+                  <span>{{item.ruleDesc}}</span>
+                </div>
+                <div class="result-desc" v-if="item.ruleExeStatus === 0">
+                  {{item.exeResult}}
+                </div>
 
+              </li>
+            </ul>
+            <ul class="exeRule_result" v-else>
+              <li style="margin:10px 0;">
+                <span class="label">【规则描述】</span>
+                <span class="value">{{props.row.results[0].ruleDesc}}</span>
+              </li>
+              <li style="margin:10px 0;">
+                <span class="label">【执行提示】</span>
+                <span class="value">{{props.row.results[0].exeResult}}</span>
+              </li>
+              <li style="margin:10px 0;">
+                <span class="label">【脚本内容】</span>
+                <span class="value">{{ruleContent}}</span>
+              </li>
+              <li style="margin:10px 0;" v-if="props.row.results[0].ruleExeStatus !== 0">
+                <span class="label">【数值填充】</span>
+                <span class="value">{{props.row.results[0].expression}}</span>
               </li>
             </ul>
           </template>
@@ -104,11 +158,30 @@
           pageSize:10
         },
         flag: false,
-        exeId: 0
+        exeId: 0,
+        ruleContent: ''
       }
     },
     methods:{
 
+      caseStatusName(status){
+        if(status === 0)
+          return '待分配';
+        else if(status === 1)
+          return '待初审';
+        else if(status === 2)
+          return '待复审';
+        else if(status === 3)
+          return '退回重审';
+        else if(status === 4)
+          return '预审通过';
+        else if(status === 5)
+          return '预审未通过';
+        else if(status === 6)
+          return '立案申请成功';
+        else if(status === 7)
+          return '立案申请失败';
+      },
       openView(){
         let routeData = this.$router.resolve({
           path: '/ruleExeDetail',
@@ -117,7 +190,8 @@
         window.open(routeData.href, '_blank')
       },
 
-      show(exeId,isRuleExe){
+      show(exeId,isRuleExe,ruleContent){
+        this.ruleContent = ruleContent;
         this.flag = true;
         this.isRuleExe = isRuleExe;
         this.exeId = exeId;
@@ -183,13 +257,33 @@
     }
   }
   .result-content{
-    word-wrap: break-word;
-    word-break: break-all;
-    display: inline-block;
-    width: 240px;
-    box-sizing: border-box;
-    padding: 0 5px;
-    vertical-align: middle;
+    line-height: 30px;
+    /*word-wrap: break-word;*/
+    /*word-break: break-all;*/
+    /*display: inline-block;*/
+    /*width: 240px;*/
+    /*box-sizing: border-box;*/
+    /*padding: 0 5px;*/
+    /*vertical-align: middle;*/
+  }
+  .result-desc{
+    line-height: 24px;
+    color: #999;
+  }
+  .exeRule_result{
+    li{
+      clear: both;
+      .label{
+        width: 100px;
+        float: left;
+      }
+      .value{
+        float: left;
+        width: calc(100% - 100px);
+        word-wrap: break-word;
+        word-break: break-all;
+      }
+    }
   }
 
 </style>
