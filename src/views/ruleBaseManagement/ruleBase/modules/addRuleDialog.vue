@@ -165,7 +165,8 @@
         selectedList2: [],
         //缓存的list
         localList1: [],
-        localList2: []
+        localList2: [],
+        ruleInfo: ''
       }
 
     },
@@ -214,7 +215,8 @@
       },
 
       //验证初始化
-      initVerify(list1,count1,list2,count2,menu) {
+      initVerify(list1,count1,list2,count2,menu,ruleObj) {
+        this.ruleInfo = ruleObj;
         this.list1 = list1;
         this.list2 = list2;
         this.localList1 = [];
@@ -278,7 +280,7 @@
               loading.close();
               this.isExecuting = true;
               this.$nextTick(() => {
-                this.$refs.executeResult.show(item.exeId,false);
+                this.$refs.executeResult.show(item.exeId,false,this.ruleInfo);
               })
 
             }

@@ -73,16 +73,21 @@
             </template>
           </el-table-column>
 
-          <el-table-column label="执行结果" prop="exeStatus" :render-header="headerRender">
+          <el-table-column label="执行结果" prop="exeStatus" >
             <template slot-scope="scope">
               <div style="text-align: center;">
-              <span>
-              <img class="mr-10" v-if="scope.row.exeStatus === 0"  src="@/assets/img/warning_tag.png" alt="">
-                <img class="mr-5" v-if="scope.row.exeStatus === 1" src="@/assets/img/success_tag.png" alt="">
-                <img class="mr-5" v-if="scope.row.exeStatus === 2" src="@/assets/img/error_tag.png" alt="">
-                <b v-if="scope.row.exeStatus === 2">检出错误</b>
-                <b v-if="scope.row.exeStatus === 0">执行错误</b>
-                <b v-if="scope.row.exeStatus === 1">过检</b>
+
+              <span class="mr-10">
+                  <img class="" src="@/assets/img/success_tag.png" alt="">
+                  {{scope.row.successCount}}
+              </span>
+                <span class="mr-10">
+                <img class="" src="@/assets/img/error_tag.png" alt="">
+                  {{scope.row.errorCount}}
+              </span>
+                <span class="mr-10">
+               <img class="mr-5" src="@/assets/img/warning_tag.png" alt="">
+                {{scope.row.exceptionCount}}
               </span>
               </div>
             </template>
@@ -101,9 +106,15 @@
             <template slot-scope="props">
               <ul>
                 <li v-for="(item,idx) in props.row.results" style="margin:10px 0;">
-                  <p class="result-content">{{item.ruleDesc}}</p>
-                  <p class="result-content">{{item.exeResult}}</p>
-                  <p class="result-content">{{item.returnResult ? item.returnResult : '--'}}</p>
+                  <div class="result-content">
+                    <img class="mr-10" v-if="item.ruleExeStatus === 0"  src="@/assets/img/warning_tag.png" alt="">
+                    <img class="mr-5" v-if="item.ruleExeStatus === 1" src="@/assets/img/success_tag.png" alt="">
+                    <img class="mr-5" v-if="item.ruleExeStatus === 2" src="@/assets/img/error_tag.png" alt="">
+                    <span>{{item.ruleDesc}}</span>
+                  </div>
+                  <div class="result-desc" v-if="item.ruleExeStatus === 0">
+                    {{item.exeResult}}
+                  </div>
 
                 </li>
               </ul>
@@ -401,13 +412,18 @@
     }
   }
   .result-content{
-    word-wrap: break-word;
-    word-break: break-all;
-    display: inline-block;
-    width: 30%;
-    box-sizing: border-box;
-    padding: 0 5px;
-    vertical-align: middle;
+    line-height: 30px;
+    /*word-wrap: break-word;*/
+    /*word-break: break-all;*/
+    /*display: inline-block;*/
+    /*width: 240px;*/
+    /*box-sizing: border-box;*/
+    /*padding: 0 5px;*/
+    /*vertical-align: middle;*/
+  }
+  .result-desc{
+    line-height: 24px;
+    color: #999;
   }
 
 

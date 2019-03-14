@@ -756,7 +756,7 @@
                 }else{
                   this.$refs.addRule.addRuleFlag = true;
                   //初始化验证规则的内容
-                  this.$refs.addRule.initVerify(arr2,re.result.count,arr1,res.result.count,this.currentMenu);
+                  this.$refs.addRule.initVerify(arr2,re.result.count,arr1,res.result.count,this.currentMenu, this.form.ruleInfo);
                 }
               }
             })
