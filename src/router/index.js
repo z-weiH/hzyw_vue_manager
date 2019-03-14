@@ -1239,7 +1239,7 @@ let router = new Router({
 router.beforeEach((to, from, next) => {
   // 返回顶部
   // window.scrollTo(0, 0);
-  document.querySelector('.page-content .el-scrollbar__wrap') && document.querySelector('.page-content .el-scrollbar__wrap').scrollTo(0,0);
+  document.querySelector('.page-content .el-scrollbar__wrap') && (document.querySelector('.page-content .el-scrollbar__wrap').scrollTop = 0);
   NProgress.start();
 
   let exclude = ['login', '404', ''];
