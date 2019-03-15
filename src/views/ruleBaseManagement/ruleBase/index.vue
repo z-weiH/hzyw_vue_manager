@@ -251,7 +251,7 @@
         rules: {
           'ruleDesc': [
             { required: true, message: '请输入规则描述', trigger: 'blur' },
-            {  max: 50, message: '规则描述最多50字', trigger: 'blur' }
+            {  max: 100, message: '规则描述最多100字', trigger: 'blur' }
           ],
           'ruleInfo': [
             { required: true, message: '请输入机审规则', trigger: 'blur' },
