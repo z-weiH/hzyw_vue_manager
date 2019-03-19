@@ -258,15 +258,16 @@ export default {
       // 上传成功
       if (res.code === "0000") {
         console.log("上传成功:", res, file, fileList);
-        this.show_uploadbar = false;
         this.$message.success("文件上传成功");
       } else {
         this.$message.error(res.description);
       }
+      this.show_uploadbar = false;
     },
     // 文件上传失败
     uploadError() {
       this.$message.error("文件上传失败，请稍后重试");
+      this.show_uploadbar = false;
     }
   },
   created() {
