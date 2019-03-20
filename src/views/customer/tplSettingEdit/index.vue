@@ -46,6 +46,11 @@
             <el-option label="融资租赁合同纠纷" :value="2"></el-option>
             <el-option label="买卖合同纠纷" :value="3"></el-option>
           </el-select>
+          <span class="ml-20">向申请人发送短信：</span>
+          <el-select @change="handleSendSMS" style="width:130px;" v-model="ruleForm.sendSmsApplicants">
+            <el-option label="不发送" :value="0"></el-option>
+            <el-option label="发送" :value="1"></el-option>
+          </el-select>
         </div>
       </div>
 
@@ -229,6 +234,8 @@
           arbProcedureDay : '',
           // 案由 0借款合同纠纷 1追偿权纠纷 2融资租赁合同纠纷
           caseReason : '',
+          // 向申请人发送短信 0-不发送，1-发送
+          sendSmsApplicants : '',
           // 申请书 时间
           applyUpdateTime : '',
           // 证据设置状态 0(未设置),1(已设置) ---
@@ -386,6 +393,12 @@
       handleCaseReason(val) {
         this.editFn({
           caseReason : val,
+        });
+      },
+      // 发送短信
+      handleSendSMS(val) {
+        this.editFn({
+          sendSmsApplicants : val,
         });
       },
       // 修改页面参数接口

@@ -119,7 +119,7 @@
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column prop="resPhone" label="被申请人手机"></el-table-column>
         <el-table-column prop="amtCase" label="标的金额"></el-table-column>
-        <el-table-column prop="dayOverDue" label="逾期天数"></el-table-column>
+        <el-table-column prop="aging" label="逾期天数"></el-table-column>
         <el-table-column prop="pushTime" label="推送时间">
           <template slot-scope="scope">
             <span v-ellipsis.20>{{scope.row.pushTime}}</span>

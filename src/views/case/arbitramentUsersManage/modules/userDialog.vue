@@ -95,13 +95,13 @@
                 <td colspan="1">手机号：</td>
                 <td colspan="1">
                   <el-form-item label=" " prop="phone">
-                    <el-input placeholder="请输入手机号" v-model="ruleForm.phone"></el-input>
+                    <el-input :disabled="type === 'edit'" placeholder="请输入手机号" v-model="ruleForm.phone"></el-input>
                   </el-form-item>
                 </td>
                 <td colspan="1">电子邮箱：</td>
                 <td colspan="1">
                   <el-form-item label=" " prop="email">
-                    <el-input placeholder="请输入电子邮箱" v-model="ruleForm.email"></el-input>
+                    <el-input :disabled="type === 'edit'" placeholder="请输入电子邮箱" v-model="ruleForm.email"></el-input>
                   </el-form-item>
                 </td>
               </tr>
@@ -303,13 +303,13 @@
                 <td colspan="1">手机号：</td>
                 <td colspan="1">
                   <el-form-item label=" " prop="phone">
-                    <el-input placeholder="请输入手机号" v-model="ruleForm.phone"></el-input>
+                    <el-input :disabled="type === 'edit'" placeholder="请输入手机号" v-model="ruleForm.phone"></el-input>
                   </el-form-item>
                 </td>
                 <td colspan="1">电子邮箱：</td>
                 <td colspan="1">
                   <el-form-item label=" " prop="email">
-                    <el-input placeholder="请输入电子邮箱" v-model="ruleForm.email"></el-input>
+                    <el-input :disabled="type === 'edit'" placeholder="请输入电子邮箱" v-model="ruleForm.email"></el-input>
                   </el-form-item>
                 </td>
               </tr>

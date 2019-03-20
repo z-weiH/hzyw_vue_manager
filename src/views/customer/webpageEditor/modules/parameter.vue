@@ -17,7 +17,11 @@
       </div>
     </div>
 
-    <div v-loading="listLoading" class="list-box" :style="{height : `calc(100% - ${typeActive === 0 ? '83' : '45'}px - 40px)`}">
+    <div>
+      <el-input v-if="!(typeActive === 2 && list.length === 0)" v-model="keyWords" class="keywords-input" placeholder="请输入关键字进行搜索" size="mini" />
+    </div>
+
+    <div v-loading="listLoading" class="list-box" :style="{height : `calc(100% - ${typeActive === 0 ? '121' : '83'}px - 40px)`}">
       <template v-if="typeActive === 0">
         <div v-for="(item,index) in list" :key="index">
           <div :data-categoryCode="item.categoryCode" class="mb-10 mt-10">{{item.categoryDesc}}</div>
@@ -31,15 +35,17 @@
               <td @click="handleCopyRight(item2)">{{item2.paramName}}</td>
             </tr>
           </table>
-          <p v-if="item.children.length === 0" style="color:#666;padding-left:10px;">暂无数据</p>
+          <p v-if="item.children && item.children.length === 0 && !keyWords" style="color:#666;padding-left:10px;">暂无数据</p>
         </div>
+        <!-- 用于数据为空保持样式一直 没有实际业务意义 -->
+        <div v-if="list.length === 0" class="mt-10"></div>
       </template>
 
       <template v-else>
         <table
           class="m-primordial-table 
             el-table el-table--fit el-table--border 
-            el-table--enable-row-hover mt-10 mb-10"
+            el-table--enable-row-hover mt-10"
         >
           <tr v-for="(item,index) in list" :key="index">
             <td @click=handleCopyLeft(item)>{{item.paramCode}}</td>
@@ -66,6 +72,7 @@
       return {
         loading : false,
         listLoading : false,
+        keyWords : '',
         // 类型 list
         typeList : [
           {
@@ -142,7 +149,35 @@
             ],
           }
         ],
+        // list copy
+        listDefault : [],
       }
+    },
+    watch : {
+      // 过滤
+      keyWords() {
+        let key = this.keyWords;
+        key = key.trim().toLocaleLowerCase();
+        if(!key) {
+          return this.list = this.listDefault;
+        }
+        // 当前案件参数 菜单
+        if(this.typeActive === 0) {
+          let arr = [];
+          this.listDefault.map(v => {
+            let data = copyArray(v);
+            data.children = data.children.filter(v1 => {
+              return v1.paramName.toLocaleLowerCase().indexOf(key) !== -1 || v1.paramCode.toLocaleLowerCase().indexOf(key) !== -1;
+            });
+            data.children.length > 0 && (arr.push(data));
+          });
+          this.list = arr;
+        }else{
+          this.list = this.listDefault.filter(v => {
+            return v.paramName.toLocaleLowerCase().indexOf(key) !== -1 || v.paramCode.toLocaleLowerCase().indexOf(key) !== -1;
+          });
+        }
+      },
     },
     mounted() {
       this.init();
@@ -163,6 +198,7 @@
           }
 
           this.list = copyArray(res.result);
+          this.listDefault = copyArray(res.result);
 
           callback && callback();
         }).catch(() => {
@@ -252,6 +288,7 @@
         this.typeActive = item.paramBizType;
         this.moduleActive = 1;
         this.listLoading = true;
+        this.keyWords = '';
         this.init(() => {
           window.setTimeout(() => {
             this.listLoading = false;
@@ -311,6 +348,11 @@
 .webpage-editor-parameter{
   height: 100%;
   background-color: #fff;
+  .keywords-input{
+    margin-left: 10px;
+    width: 295px;
+    margin-top: 10px;
+  }
   tr{
     cursor: pointer;
   }

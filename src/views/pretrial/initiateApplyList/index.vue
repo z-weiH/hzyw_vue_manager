@@ -228,7 +228,7 @@ export default {
 				},
 				{
 					label: '逾期天数',
-					property: 'overdueDate',
+					property: 'aging',
 				},
 				{
 					label: '还款情况',
