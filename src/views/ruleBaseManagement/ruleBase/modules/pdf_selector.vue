@@ -398,5 +398,11 @@ export default {
         }
       }
     }
+    #canvas::-webkit-scrollbar
+    {
+      width: 1px;
+      height: 16px;
+      background-color: #F5F5F5;
+    }
   }
 </style>
