@@ -58,7 +58,11 @@
         border
         :span-method="arraySpanMethod"
       >
-        <el-table-column prop="clientName" label="客户名称"></el-table-column>
+        <el-table-column prop="clientName" label="客户名称">
+          <template slot-scope="scope">
+            <span @click="handleDetail(scope.row)" class="fn-a" e-ellipsis>{{scope.row.clientName}}</span>
+          </template>
+        </el-table-column>
 				<el-table-column prop="salesman" label="销售"></el-table-column>
         <el-table-column prop="operator" label="运营"></el-table-column>
         <el-table-column prop="productName" label="产品名称"></el-table-column>
@@ -166,6 +170,10 @@
       // 点击修改
       handleEdit(row) {
         this.$refs.mdialog.show('edit',row);
+      },
+      // 点击详情
+      handleDetail(row) {
+        this.$refs.mdialog.show('detail',row);
       },
       // 点击删除
       handleDelete(row) {

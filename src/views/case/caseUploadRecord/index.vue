@@ -138,12 +138,10 @@ export default {
         {
           label: "客户名称",
           property: "clientName",
-          width: 180
         },
         {
           label: "产品名称",
           property: "productName",
-          width: 180
         },
         {
           label: "状态",
@@ -182,7 +180,8 @@ export default {
       actions: [
         {
           label: "操作",
-          btns: [{ label: "通知", function: this.doInform }]
+          btns: [{ label: "通知", function: this.doInform }],
+          width:136
         }
       ]
     };
