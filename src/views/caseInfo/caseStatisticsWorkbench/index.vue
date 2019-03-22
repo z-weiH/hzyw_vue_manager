@@ -420,6 +420,25 @@
 <style lang="scss">
 
 .case-statistics-workbench{
+  .loading{  
+    min-width: 2px;
+    min-height: 2px;
+    display: inline-block;
+    box-shadow: 2px 0 currentColor , 6px 0 currentColor , 10px 0 currentColor;
+    animation: dot 2.4s infinite steps(1,start);
+  }  
+
+  @keyframes dot{  
+      25%{  
+          box-shadow:none;  
+      }  
+      50%{  
+          box-shadow:2px 0 currentColor ;  
+      }  
+      75%{  
+          box-shadow:2px 0 currentColor,6px 0 currentColor;  
+      }  
+  }
   .m-span{
     margin-top: 0!important;
   }
