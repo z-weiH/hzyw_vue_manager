@@ -126,13 +126,26 @@
                   <el-col :span="12">
                     <div class="desc">
                       <div class="label fl">
-                        标的金额
+                        净标的
                       </div>
                       <div class="value fl">
-                        {{baseInfoObject.caseInfo.amtCase}}
+                        {{baseInfoObject.caseInfo.amtCase}}元
                       </div>
                     </div>
                   </el-col>
+                  <el-col :span="12">
+                    <div class="desc">
+                      <div class="label fl">
+                        仲裁标的
+                      </div>
+                      <div class="value fl">
+                        {{baseInfoObject.caseInfo.subjectAmt}}元
+                      </div>
+                    </div>
+                  </el-col>
+
+                </el-row>
+                <el-row :gutter="20">
                   <el-col :span="12">
                     <div class="desc">
                       <div class="label fl">
@@ -143,8 +156,6 @@
                       </div>
                     </div>
                   </el-col>
-                </el-row>
-                <el-row :gutter="20">
                   <el-col :span="12">
                     <div class="desc">
                       <div class="label fl">

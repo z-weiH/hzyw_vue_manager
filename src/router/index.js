@@ -1296,7 +1296,14 @@ router.afterEach((to, from) => {
 
   if (to.path === '/main/redoHearList') {
     if (from.path !== "/main/redoHearDetail") {
-      store.commit("setSearchItem", {})
+      store.commit("setSearchItem", {prop: 'redo', value: {}})
+      store.commit("setPager",{prop: 'redo', value: { total: 11,currentPage: 1,pageSize: 10}} )
+    }
+  }
+  if (to.path === '/main/initialHearList') {
+    if (from.path !== "/main/initialHearDetail") {
+      store.commit("setSearchItem", {prop: 'first', value: {}})
+      store.commit("setPager",{prop: 'first', value: { total: 11,currentPage: 1,pageSize: 10}} )
     }
   }
 });

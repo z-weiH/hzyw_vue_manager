@@ -118,7 +118,8 @@
         <el-table-column prop="loanBillNo" label="案件订单编号"></el-table-column>
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column prop="resPhone" label="被申请人手机"></el-table-column>
-        <el-table-column prop="amtCase" label="标的金额"></el-table-column>
+        <el-table-column prop="amtCase" label="净标的"></el-table-column>
+        <el-table-column prop="subjectAmt" label="仲裁标的"></el-table-column>
         <el-table-column prop="aging" label="逾期天数"></el-table-column>
         <el-table-column prop="pushTime" label="推送时间">
           <template slot-scope="scope">

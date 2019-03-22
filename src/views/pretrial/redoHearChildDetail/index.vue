@@ -177,7 +177,7 @@
               </ul>
             </div>
             <div class="bdje" style="margin-bottom: 20px;;font-size: 16px;">
-              <span style="color: #193b8c;font-size: 18px;">标的金额：</span>{{card.amtCase}}元
+              <span style="color: #193b8c;font-size: 18px;">仲裁标的：</span>{{card.amtCase}}元
             </div>
             <div class="applybook_title of-hidden">
               <div class="tit fl">仲裁申请书</div>

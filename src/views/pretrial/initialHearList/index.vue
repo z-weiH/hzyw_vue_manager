@@ -26,6 +26,7 @@
   import Searchs from "@/components/searchs";
   import TableComponent from "@/components/table";
   import Mixins from "@/components/script/_mixin";
+  import {mapGetters} from 'vuex';
   export default {
     name: "initialHearList",
     mixins: [Mixins],
@@ -59,10 +60,15 @@
         ]
       };
     },
+    computed: {
+      ...mapGetters(['searchItemClone','pagerClone'])
+    },
     methods: {
       gotoDetail(row) {
         console.log(row);
         let batchNo =  row.batchNo;
+        this.$store.commit('setSearchItem',{prop: 'first', value: this.searchItem});
+        this.$store.commit('setPager',{prop: 'first', value: this.pager});
         this.$router.push({
           path:'/main/initialHearDetail',
           query: {batchNo: batchNo}
@@ -70,6 +76,8 @@
       }
     },
     created() {
+      this.pager = this.pagerClone.first;
+      this.searchItem = this.searchItemClone.first;
       this.doQuery(this.queryUrl, this.searchItem);
 
     },

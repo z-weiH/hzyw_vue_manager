@@ -223,8 +223,11 @@ export default {
 					property: 'address',
 				},
 				{
-					label: '标的金额',
+					label: '净标的',
 					property: 'amtCase',
+				},{
+					label: '仲裁标的',
+					property: 'subjectAmt',
 				},
 				{
 					label: '逾期天数',
