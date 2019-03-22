@@ -95,7 +95,7 @@
       </div>
     </div>
 
-    <div class="item-table">
+    <div class="item-table" v-loading="tableLoading">
       <el-table
         :data="tableData"
         border
@@ -217,8 +217,8 @@
         currentPage : 1,
         // 每页数量
         pageSize : 10,
-        loading: null
-
+        loading: null,
+        tableLoading: false
       }
     },
     mounted() {
@@ -290,6 +290,7 @@
 
       // 初始化 表格数据
       initTableList() {
+        // this.tableLoading = true;
         this.$http({
           url : '/preCaseLib/queryCaseListByCondition.htm',
           method : 'post',
