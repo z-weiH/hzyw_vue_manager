@@ -68,7 +68,7 @@
               </ul>
             </div>
             <div class="bdje" style="line-height: 50px;font-size: 16px;">
-              <span style="color: #193b8c;font-size: 18px;">仲裁标的：</span>{{evidence.amtCase}}元
+              <span style="color: #193b8c;font-size: 18px;">仲裁标的：</span>{{evidence.subjectAmt}}元
             </div>
             <div class="applybook_body">
               <div class="applybook_title of-hidden">

@@ -95,7 +95,7 @@
       </div>
     </div>
 
-    <div class="item-table" v-loading="tableLoading">
+    <div class="item-table">
       <el-table
         :data="tableData"
         border

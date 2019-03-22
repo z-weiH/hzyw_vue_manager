@@ -390,7 +390,7 @@ export default {
 
 				{
 					label: '仲裁标的',
-					property: 'subjectAmt',
+					property: 'amtBorrow',
 					width: 150,
 					children: [
             {
