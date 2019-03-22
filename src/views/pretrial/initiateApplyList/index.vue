@@ -230,7 +230,7 @@ export default {
 					property: 'subjectAmt',
 				},
 				{
-					label: '逾期天数',
+					label: '账龄',
 					property: 'aging',
 				},
 				{
