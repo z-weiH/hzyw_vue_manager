@@ -387,11 +387,17 @@ export default {
 						},
 					],
 				},
+
 				{
-					label: '标的金额',
+					label: '仲裁标的',
 					property: 'amtBorrow',
 					width: 150,
 					children: [
+            {
+              label: '净标的',
+              property: 'amtCase',
+              width: 150,
+            },
 						{
 							label: '调解还款额',
 							property: 'adjustAmt',

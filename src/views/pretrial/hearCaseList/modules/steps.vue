@@ -434,6 +434,23 @@
             </ul>
           </template>
 
+          <template v-if="currentObj.operStatus === 20">
+            <ul>
+              <li>
+                <span class="label">推送失败原因</span>
+                <span class="value">{{currentObj.logObj.pushFileReason || '--'}}</span>
+              </li>
+              <li>
+                <span class="label">是否推送客户</span>
+                <span class="value">{{currentObj.logObj.pushClientName === 1 ? '是' : '否'}}</span>
+              </li>
+              <li>
+                <span class="label">操作人</span>
+                <span class="value">{{currentObj.logObj.userName || '--'}}</span>
+              </li>
+            </ul>
+          </template>
+
         </div>
       </div>
     </el-scrollbar>
@@ -527,6 +544,8 @@
           return '立案申请提交完成';
         }else if(status === 19){
           return '退回重审';
+        }else if(status === 20) {
+          return '手动状态返回';
         }
       },
       calc(price, times){

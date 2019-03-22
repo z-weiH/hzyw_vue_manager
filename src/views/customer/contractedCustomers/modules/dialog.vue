@@ -1,14 +1,14 @@
 <template>
   <div class="customer-contracted-customers-dialog">
     <el-dialog
-      :title="type === 'add' ? '新增' : '修改'"
+      :title="type === 'add' ? '新增' : type === 'edit' ? '修改' : '详情'"
       :visible.sync="dialogVisible"
       width="610px"
       @close="handleClose"
 			ref="dialog"
     >
       <div class="m-conetnt">
-        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="150px">
+        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="150px" v-show="type !== 'detail'">
           
 					<el-form-item label="销售：" prop="salesman">
 						<el-input style="width:400px;" v-model.trim="ruleForm.salesman" placeholder="请输入"></el-input>
@@ -150,10 +150,123 @@
             </el-select>
           </el-form-item>
 
+          <el-form-item label="备注：" prop="remark">
+						<el-input type="textarea" style="width:400px;" v-model.trim="ruleForm.remark" placeholder="请输入"></el-input>
+					</el-form-item>
+
         </el-form>
+
+        <div v-if="type === 'detail'">
+          <ul>
+            <li class="item">
+              <div class="item-label">销售：</div>
+              <div class="item-value">{{ruleForm.salesman}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">运营：</div>
+              <div class="item-value">{{ruleForm.operator}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">客户名称：</div>
+              <div class="item-value">{{ruleForm.clientName}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">产品名称：</div>
+              <div class="item-value">{{ruleForm.productName}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">业务模式：</div>
+              <div class="item-value">{{ruleForm.bizMode}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">资金来源：</div>
+              <div class="item-value">{{ruleForm.sourceFund}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">资金方：</div>
+              <div class="item-value">{{ruleForm.capitalSide}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">获得债权依据：</div>
+              <div class="item-value">{{ruleForm.bondBasis}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">合同签订时间：</div>
+              <div class="item-value">{{ruleForm.contractTime}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">是否完成付款：</div>
+              <div class="item-value">{{ruleForm.isPay === 1 ? '已付款' : '未付款'}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">第一次打款时间：</div>
+              <div class="item-value">{{ruleForm.firstPayTime}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">协议是否上线：</div>
+              <div class="item-value">{{ruleForm.agreementStatus === 1 ? '已上线' : '未上线'}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">协议上线时间：</div>
+              <div class="item-value">{{ruleForm.arbitrationTime}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">协议上线区域：</div>
+              <div class="item-value">{{ruleForm.agreementRegion}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">系统是否完成对接：</div>
+              <div class="item-value">{{ruleForm.finishAbutment === 1 ? '已上线' : '未上线'}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">系统对接完成时间：</div>
+              <div class="item-value">{{ruleForm.finishTime}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">均件：</div>
+              <div class="item-value">{{ruleForm.averageQuantity}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">月放款量：</div>
+              <div class="item-value">{{ruleForm.lendingVolume}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">放款单数：</div>
+              <div class="item-value">{{ruleForm.totalCount}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">预计提交案件逾期天数：</div>
+              <div class="item-value">{{ruleForm.overdueDay}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">月新增逾期件数：</div>
+              <div class="item-value">{{ruleForm.overdueRate}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">存量多少：</div>
+              <div class="item-value">{{ruleForm.stockCount}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">放款量前10的省份：</div>
+              <div class="item-value">{{ruleForm.provinceOrder}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">月新增逾期总标的（万元）：</div>
+              <div class="item-value">{{ruleForm.customerExpect}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">客户是否可以债转：</div>
+              <div class="item-value">{{ruleForm.debtTransfer === 1 ? '可债转' : '不可债转'}}</div>
+            </li>
+            <li class="item">
+              <div class="item-label">备注：</div>
+              <div class="item-value">{{ruleForm.remark}}</div>
+            </li>
+          </ul>
+        </div>
       </div>
 
-      <span slot="footer" class="dialog-footer">
+      <span slot="footer" class="dialog-footer" v-if="type !== 'detail'">
         <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit">确 定</el-button>
         <el-button @click="dialogVisible = false">取 消</el-button>
       </span>
@@ -221,6 +334,8 @@
           customerExpect : '',
           // 客户是否可以债转 1-可债转,0-不可债转
           debtTransfer : '',
+          // 备注
+          remark : '',
         },
         rules : {
           salesman : [
@@ -241,7 +356,8 @@
     },
     methods : {
       show(type,data) {
-				this.dialogVisible = true;
+        this.dialogVisible = true;
+        this.type = type;
 				// dialog 返回顶部
         this.$nextTick(() => {
           this.$refs.dialog.$el.scrollTop = 0;
@@ -249,7 +365,7 @@
 
         this.$nextTick(() => {
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
-          if(type === 'edit') {
+          if(type === 'edit' || type === 'detail') {
             this.id = data.id;
             // 获取回显数据
             this.$http({
@@ -309,7 +425,22 @@
 <style scoped lang="scss">
 
 .customer-contracted-customers-dialog{
-
+  .item{
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .item-label{
+    width: 150px;
+    float: left;
+    text-align: right;
+  }
+  .item-value{
+    float: left;
+    width: calc(100% - 150px);
+    word-wrap: break-word;
+    word-break: normal;
+    word-break: break-all;
+  }
 }
 
 </style>

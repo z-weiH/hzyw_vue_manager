@@ -2,7 +2,9 @@
 <div class="content">
         <div class='wsbodyhead'>
          <a>所在位置</a>
-         <router-link :to='$options.name' class='aside_tit'>还款信息</router-link>
+         <router-link :to='$options.name' class='aside_tit'>
+           服务费日对账
+         </router-link>
         </div>
         <searchs class='item-search' :search-items='searchItems' :item='item' :query-url='queryUrl'>
           <template slot='moreBtn'><el-button class='ml-20' type='primary' @click=''>核实日对账</el-button></template>

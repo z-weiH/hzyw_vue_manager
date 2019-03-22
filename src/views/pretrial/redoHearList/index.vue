@@ -146,11 +146,12 @@ export default {
           property: 'reviewUserName',
           defaultVal: '--'
         }
-      ]
+      ],
+      searchItem: {}
     };
   },
   computed: {
-    ...mapGetters(['searchItem'])
+    ...mapGetters(['searchItemClone','pagerClone'])
   },
   watch:{
     total(val,oldval){
@@ -173,7 +174,8 @@ export default {
     },
 
     getosh(row){
-      this.$store.commit('setSearchItem',this.searchItem);
+      this.$store.commit('setSearchItem',{prop: 'redo', value: this.searchItem});
+      this.$store.commit('setPager',{prop: 'redo', value: this.pager});
       this.$router.push({
         path: "/main/redoHearDetail",
         query: {
@@ -244,6 +246,8 @@ export default {
     this.queryFirstPerson(this.queryFirstPersonURL, this.fpersonType);
 
     setTimeout(() => {
+      this.pager = this.pagerClone.redo;
+      this.searchItem = this.searchItemClone.redo;
       this.doQuery(this.queryUrl, this.searchItem);
     },500);
   },
