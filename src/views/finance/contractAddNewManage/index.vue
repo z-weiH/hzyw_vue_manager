@@ -6,11 +6,16 @@
     </div>
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
-        <el-form-item label=" " prop="keyWords">
-          <el-input @keyup.native.enter="handleSearch" style="width:160px;" v-model.trim="ruleForm.keyWords" placeholder="合同编号、客户名称"></el-input>
+        <el-form-item label="签约客户:" prop="keyWords" label-width="100px">
+          <el-select filterable clearable v-model="ruleForm.keyWords" style="width:304px;">
+            <el-option :label="item.merchantName" :value="item.merchantName" v-for="(item,index) in clientOptions" :key="index"></el-option>
+          </el-select>
         </el-form-item>
 
+        <div class="mt-10"></div>
+
         <!-- 时间范围 选择 -->
+        <span style="display:inline-block;margin-top:14px;width:96px;text-align:right;">到款时间：</span>
         <timeFrame
           class="m-timeFrame"
           :startDate.sync="ruleForm.startDate"
@@ -18,8 +23,8 @@
         >
         </timeFrame>
 
-        <el-form-item label=" " prop="orderStatus">
-          <el-select clearable style="width:100px;" v-model="ruleForm.orderStatus">
+        <el-form-item label="状态" prop="orderStatus" label-width="100px">
+          <el-select clearable v-model="ruleForm.orderStatus">
             <el-option label="待处理" value="1"></el-option>
             <el-option label="已加款" value="2"></el-option>
             <el-option label="未通过" value="3"></el-option>
@@ -47,14 +52,14 @@
         </el-table-column>
         <el-table-column label="合同号">
           <template slot-scope="scope">
-            <span class="fn-a" @click="handleDetail(scope.row)">{{scope.row.contractNo}}</span>
+            <span v-ellipsis.20 class="fn-a" @click="handleDetail(scope.row)">{{scope.row.contractNo}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="contractDate" label="合同时间"></el-table-column>
         <el-table-column prop="merchantName" label="签约客户">
           <template slot-scope="scope">
             <el-tooltip :content="scope.row.merchantName" placement="top-start">
-              <span class="ellipsis" style="max-width:74px;">{{scope.row.merchantName}}</span>
+              <span v-ellipsis.20>{{scope.row.merchantName}}</span>
             </el-tooltip>
           </template>
         </el-table-column>
@@ -133,12 +138,24 @@
         // 每页数量
         pageSize : 10,
 
+        // 客户 options
+        clientOptions : [],
       }
     },
     mounted() {
       this.initTableList();
+      this.initClientOptions();
     },
     methods : {
+      // 获取客户options
+      initClientOptions() {
+        this.$http({
+          method : 'post',
+          url : '/case/queryCustomerList.htm',
+        }).then((res) => {
+          this.clientOptions = res.result;
+        });
+      },
       // 点击搜索
       handleSearch() {
         this.currentPage = 1;

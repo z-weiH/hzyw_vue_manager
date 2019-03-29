@@ -592,6 +592,20 @@ let router = new Router({
           },
         },
         {
+          path: 'acontractDeduction',
+          component: () => import('@/views/finance/acontractDeduction'), // 合同扣款【财务人员】
+          meta: {
+            name: 'acontractDeduction',
+          },
+        },
+        {
+          path: 'contractDeductionAudit',
+          component: () => import('@/views/finance/contractDeductionAudit'), // 合同扣款【审核】
+          meta: {
+            name: 'contractDeductionAudit',
+          },
+        },
+        {
           path: 'orderAddNewDefault',
           component: () => import('@/views/finance/orderAddNewDefault'), //订单加款【财务人员】
           meta: {

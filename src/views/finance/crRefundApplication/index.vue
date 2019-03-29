@@ -77,6 +77,7 @@
       </el-pagination>
 
       <detailDialog ref="detailDialog"></detailDialog>
+      <applyRefundDialog @successCBK="successCBK" ref="applyRefundDialog"></applyRefundDialog>
     </div>
 	</div>
 </template>
@@ -84,10 +85,12 @@
 <script>
   import timeFrame from '@/components/timeFrame.vue'
   import detailDialog from '@/views/case/caseManagement/modules/detailDialog.vue'
+  import applyRefundDialog from './modules/applyRefundDialog.vue'
 	export default {
 		components : {
       timeFrame,
       detailDialog,
+      applyRefundDialog,
 		},
 		data() {
 			return {
@@ -136,33 +139,21 @@
       
       // 点击退款退款申请
       handleRefundApplication(row) {
-        this.$confirm('确认申请退款?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          cancelButtonClass: 'cancel',
-          confirmButtonClass: 'confirm',
-          center: true,
-        }).then(() => {
-          let obj = {
-            applicants : row.applicants,
-            borrowAmt : row.borrowAmt,
-            caseId : row.caseId,
-            caseOrderId : row.caseOrderId,
-            caseTicket : row.caseTicket,
-            clientCode : row.clientCode,
-            clientName : row.clientName,
-            resPhone : row.resPhone,
-            respondents : row.respondents,
-          };
-          this.$http({
-            method : 'post',
-            url : '/ticketRefund/saveTicketRefundApply.htm',
-            data : obj,
-          }).then((res) => {
-            this.$message.success('已提交申请');
-            this.initTableList();
-          });
-        }).catch(() => {});
+        let obj = {
+          applicants : row.applicants,
+          borrowAmt : row.borrowAmt,
+          caseId : row.caseId,
+          caseOrderId : row.caseOrderId,
+          caseTicket : row.caseTicket,
+          clientCode : row.clientCode,
+          clientName : row.clientName,
+          resPhone : row.resPhone,
+          respondents : row.respondents,
+        };
+        this.$refs.applyRefundDialog.show(obj);
+      },
+      successCBK() {
+        this.initTableList();
       },
       // 点击 查看
       handleSee(row) {

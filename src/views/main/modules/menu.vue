@@ -332,6 +332,14 @@
                 menuId : 63,
                 menuUrl : 'contractAddNewManage'
               },{
+                menuName : '合同扣款【财务人员】',
+                menuId : 718,
+                menuUrl : 'acontractDeduction'
+              },{
+                menuName : '合同扣款【审核】',
+                menuId : 719,
+                menuUrl : 'contractDeductionAudit'
+              },{
                 menuName : '订单加款【财务人员】',
                 menuId : 64,
                 menuUrl : 'orderAddNewDefault'

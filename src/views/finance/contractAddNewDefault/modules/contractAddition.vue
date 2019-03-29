@@ -24,6 +24,19 @@
 
               <tr>
                 <td colspan="1">
+                  客户名称：
+                </td>
+                <td colspan="1">
+                  <el-form-item label=" " prop="merchantCode">
+                    <el-select @change="handleClientChange" ref="merchantCode" filterable v-model="ruleForm.merchantCode" placeholder="请选择">
+                      <el-option label="请选择" value=""></el-option>
+                      <template v-for="(item,index) in merchantOptions">
+                        <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
+                      </template>
+                    </el-select>
+                  </el-form-item>
+                </td>
+                <td colspan="1">
                   合同编号：
                 </td>
                 <td colspan="1">
@@ -31,6 +44,9 @@
                     <el-input v-model="ruleForm.contractNo" placeholder="请输入合同编号" />
                   </el-form-item>
                 </td>
+              </tr>
+
+              <tr>
                 <td colspan="1">
                   合同日期：
                 </td>
@@ -43,22 +59,6 @@
                       value-format="yyyy-MM-dd"
                     >
                     </el-date-picker>
-                  </el-form-item>
-                </td>
-              </tr>
-
-              <tr>
-                <td colspan="1">
-                  客户名称：
-                </td>
-                <td colspan="1">
-                  <el-form-item label=" " prop="merchantCode">
-                    <el-select ref="merchantCode" v-model="ruleForm.merchantCode" placeholder="请选择">
-                      <el-option label="请选择" value=""></el-option>
-                      <template v-for="(item,index) in merchantOptions">
-                        <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
-                      </template>
-                    </el-select>
                   </el-form-item>
                 </td>
                 <td colspan="1">
@@ -144,25 +144,25 @@
 
               <tr>
                 <td colspan="1">
+                  客户名称：
+                </td>
+                <td colspan="1">
+                  {{ruleForm.merchantName}}
+                </td>
+                <td colspan="1">
                   合同编号：
                 </td>
                 <td colspan="1">
                   {{ruleForm.contractNo}}
                 </td>
+              </tr>
+
+              <tr>
                 <td colspan="1">
                   合同日期：
                 </td>
                 <td colspan="1">
                   {{ruleForm.contractDate}}
-                </td>
-              </tr>
-
-              <tr>
-                <td colspan="1">
-                  客户名称：
-                </td>
-                <td colspan="1">
-                  {{ruleForm.merchantName}}
                 </td>
                 <td colspan="1">
                   预缴受理费（元）：
@@ -857,7 +857,7 @@
           url : '/contractOrder/queryOrderDetailByOrderId.htm',
           method : 'post',
           data : {
-            orderId : row.orderId,
+            detailId : row.detailId,
           },
         }).then((res) => {
           // 用于显示 赠券有效期
@@ -883,7 +883,7 @@
           url : '/contractOrder/queryOrderDetailByOrderId.htm',
           method : 'post',
           data : {
-            orderId : row.orderId,
+            detailId : row.detailId,
           },
         }).then((res) => {
           this.ruleForm = Object.assign(this.ruleForm,res.result);
@@ -897,7 +897,7 @@
           url : '/contractOrder/queryOrderDetailByOrderId.htm',
           method : 'post',
           data : {
-            orderId : row.orderId,
+            detailId : row.detailId,
           },
         }).then((res) => {
           // 设置 如果当前是审核状态  初始化为 请选择
@@ -919,10 +919,23 @@
           url : '/contractOrder/queryOrderDetailByOrderId.htm',
           method : 'post',
           data : {
-            orderId : row.orderId,
+            detailId : row.detailId,
           },
         }).then((res) => {
           this.ruleForm = Object.assign(this.ruleForm,res.result);
+        });
+      },
+      // 客户 change
+      handleClientChange(val) {
+        this.$http({
+          url : '/contractOrder/queryClientContractInfo.htm',
+          method : 'post',
+          data : {
+            clientCode : val,
+          },
+        }).then((res) => {
+          this.ruleForm.contractNo = res.result.contractNo;
+          this.ruleForm.contractDate = res.result.contractDate;
         });
       },
 
