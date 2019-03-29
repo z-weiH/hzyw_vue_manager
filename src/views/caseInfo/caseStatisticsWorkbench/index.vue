@@ -37,10 +37,20 @@
 
     <div class="item-title of-hidden">
       <span class="item-title-sign">案件情况统计表 - {{date}}（案件总数量：{{total}}笔）</span>
+      <div class="fr">
+        <template v-if="update === false">
+          <el-button @click="handleUpdate" type="primary">更新数据</el-button>
+        </template>
+        <template v-else>
+          <el-button type="primary" disabled>正在更新<span class="loading"></span></el-button>
+        </template>
+      </div>
     </div>
 
     <div class="item-table mb-20">
       <table
+        v-loading="tableLoading"
+        element-loading-text="正在更新中 请稍后"
         class="m-primordial-table mt-10
           el-table el-table--fit el-table--border 
           el-table--enable-row-hover"
@@ -151,6 +161,10 @@
     data() {
       return {
         loading : '',
+        tableLoading : false,
+        // 更新数据状态 true 正在更新 false 更新数据
+        update : false,
+        
         ruleForm : {
           applicants : '', // 申请人
           statusThree : '', // 案件状态
@@ -413,6 +427,22 @@
         let applicantsType = this.applicantsCheck.indexOf(item4.applicants) !== -1;
         return applicantsType;
       },
+      // 点击更新数据
+      handleUpdate() {
+        this.tableLoading = true;
+        this.update = true;
+        this.$http({
+          url : '/case/updateStatClientCaseInfo.htm',
+          method : 'post',
+        }).then(res => {
+          this.tableLoading = false;
+          this.update = false;
+          this.initTableList();
+        }).catch(() => {
+          this.tableLoading = false;
+          this.update = false;
+        });
+      },
     },
   }
 </script>
@@ -438,6 +468,14 @@
       75%{  
           box-shadow:2px 0 currentColor,6px 0 currentColor;  
       }  
+  }
+  .item-title{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    .item-title-sign{
+      margin-top: 12px;
+      display: inline-block;
+    }
   }
   .m-span{
     margin-top: 0!important;
