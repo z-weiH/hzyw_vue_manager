@@ -287,7 +287,8 @@ export default {
         this.showEditor1 = true;
         this.$nextTick(() => {
 
-          this.$refs.edit1.init();
+          // this.$refs.edit1.init();
+          this.$refs.edit1.$refs.testDiv.style.border= '1px solid red';
           const scroll = document.querySelector('#canvas').scrollTop;
           console.error(scroll,'scroll',e);
           this.$refs.edit1.setTopLeft(e.offsetX,e.offsetY + e.target.offsetTop);
@@ -299,6 +300,7 @@ export default {
           }
           document.querySelector("#canvas").onmouseup = (e) => {
             // e.stopPropagation();
+            this.$refs.edit1.init();
             console.log(e);
               this.clacResult();
 
@@ -310,7 +312,8 @@ export default {
         this.showEditor2 = true;
 
         this.$nextTick(() => {
-          this.$refs.edit2.init();
+          // this.$refs.edit2.init();
+          this.$refs.edit2.$refs.testDiv.style.border= '1px solid red';
           const scroll = document.querySelector('#canvas').scrollTop;
           console.error(scroll,'scroll',e);
           this.$refs.edit2.setTopLeft(e.offsetX,e.offsetY + e.target.offsetTop);
@@ -320,6 +323,7 @@ export default {
           }
           document.querySelector("#canvas").onmouseup = (e) => {
             // e.stopPropagation();
+            this.$refs.edit2.init();
             this.clacResult();
             document.querySelector("#canvas").onmousemove = null;
             document.querySelector("#canvas").onmouseup = null;
