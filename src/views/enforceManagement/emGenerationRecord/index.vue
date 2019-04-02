@@ -97,14 +97,14 @@
             {{scope.row.createTime}}
           </template>
         </el-table-column>
-        <el-table-column
-          prop="zqzrDate"
-          label="债转时间"
-         >
-          <template slot-scope="scope">
-            {{scope.row.zqzrDate ? scope.row.zqzrDate : '--'}}
-          </template>
-        </el-table-column>
+        <!--<el-table-column-->
+          <!--prop="zqzrDate"-->
+          <!--label="债转时间"-->
+         <!--&gt;-->
+          <!--<template slot-scope="scope">-->
+            <!--{{scope.row.zqzrDate ? scope.row.zqzrDate : '&#45;&#45;'}}-->
+          <!--</template>-->
+        <!--</el-table-column>-->
         <el-table-column
           prop="userName"
           label="操作人"
