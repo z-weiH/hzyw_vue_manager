@@ -8,7 +8,10 @@
 			ref="dialog"
     >
       <div class="m-conetnt">
-        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
+        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
+          <el-form-item label="申请退券理由：" prop="refundReason">
+            <p style="word-wrap:break-word;word-break:break-all;">{{ruleForm.refundReason}}111</p>
+          </el-form-item>
           <el-form-item label="审核结果：" prop="refundStatus">
             <el-select clearable style="width:100%" v-model="ruleForm.refundStatus" placeholder="请选择">
               <el-option label="通过" value="2"></el-option>
@@ -60,7 +63,7 @@
         this.$nextTick(() => {
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
           this.ruleForm.refundId = data.refundId;
-
+          this.ruleForm.refundReason = data.refundReason;
         });
       },
 

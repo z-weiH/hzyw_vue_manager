@@ -31,7 +31,7 @@
               </el-col>
               <el-col :span="12">
                 <span>赠券余额：</span>
-                <span>{{ruleForm.giftTotal}}张</span>
+                <span>{{ruleForm.giftAvail}}张</span>
               </el-col>
             </el-row>
             <el-row>
@@ -66,7 +66,7 @@
     data() {
       let validator = (rule, value, callback) => {
         if(this.ruleForm.deductionType === 0) {
-          if(value > this.ruleForm.ticketAvail + this.ruleForm.giftTotal ) {
+          if(value > this.ruleForm.ticketAvail + this.ruleForm.giftAvail ) {
             callback('不能超过余额数目');
           }else{
             callback();
@@ -97,7 +97,7 @@
           // 仲券余额
           ticketAvail : '',
           // 赠券余额
-          giftTotal : '',
+          giftAvail : '',
           // 仲裁费余额
           deductionAmt : '',
         },
@@ -147,7 +147,7 @@
       },
       // 客户 change
       handleClientChange(val) {
-        this.$http({
+        val && this.$http({
           url : '/dedution/queryAccountInfoByClientCode.htm',
           method : 'post',
           data : {
@@ -155,7 +155,7 @@
           },
         }).then(res => {
           this.ruleForm.ticketAvail = res.result.ticketAvail;
-          this.ruleForm.giftTotal = res.result.giftTotal;
+          this.ruleForm.giftAvail = res.result.giftAvail;
           this.ruleForm.deductionAmt = res.result.amtAvail;
         });
       },
@@ -167,6 +167,11 @@
         setTimeout(() => {
           // 取消按钮禁用
           this.submitDisabled = false;
+
+          this.ruleForm.ticketAvail = '';
+          this.ruleForm.giftAvail = '';
+          this.ruleForm.deductionAmt = '';
+
           // 重置表单数据
           this.$refs.ruleForm.resetFields();
           this.$nextTick(() => {

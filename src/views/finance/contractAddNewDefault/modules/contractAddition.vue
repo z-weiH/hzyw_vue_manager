@@ -928,10 +928,10 @@
       // 客户 change
       handleClientChange(val) {
         this.$http({
-          url : '/contractOrder/queryClientContractInfo.htm',
+          url : '/contractOrder/queryContractOrderInfoByClientCode.htm',
           method : 'post',
           data : {
-            clientCode : val,
+            merchantCode : val,
           },
         }).then((res) => {
           this.ruleForm.contractNo = res.result.contractNo;

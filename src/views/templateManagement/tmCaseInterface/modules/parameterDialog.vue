@@ -381,6 +381,8 @@
             form.prodTempId = this.$route.query.prodTempId;
             if(this.type === 'edit') {
               form.id = this.row.id;
+            }else{
+              delete form.id;
             }
 						this.$http({
               method : 'post',

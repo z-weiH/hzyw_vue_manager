@@ -55,7 +55,7 @@
             <span v-ellipsis.20 class="fn-a" @click="handleDetail(scope.row)">{{scope.row.contractNo}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="contractDate" label="合同时间"></el-table-column>
+        <el-table-column prop="contractDate" label="到款时间"></el-table-column>
         <el-table-column prop="merchantName" label="签约客户">
           <template slot-scope="scope">
             <el-tooltip :content="scope.row.merchantName" placement="top-start">
