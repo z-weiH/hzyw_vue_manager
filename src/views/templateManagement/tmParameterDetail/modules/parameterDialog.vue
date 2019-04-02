@@ -183,6 +183,8 @@
             form.paramBizType = this.$route.query.type;
             if(this.type === 'edit') {
               form.paramId = this.itemData.paramId;
+            }else{
+              delete form.paramId;
             }
             if(this.$route.query.type === '2') {
               form.productId = this.itemData.productId;

@@ -82,8 +82,13 @@
         </el-table-column>
         <el-table-column prop="ticketGiftAvail" label="可用赠券">
           <template slot-scope="scope">
-           <!-- <span class="colLink" @click="handleDetail(scope.row)">{{scope.row.ticketGiftAvail || 0}}</span> -->
-           {{scope.row.ticketGiftAvail || 0}}
+           <template v-if="scope.row.ticketGiftAvail && scope.row.ticketGiftAvail > 0">
+             <span class="colLink" @click="handleDetail(scope.row)">{{scope.row.ticketGiftAvail}}</span>
+           </template>
+           <template v-else>
+             <span>0</span>
+           </template>
+           <!-- {{scope.row.ticketGiftAvail || 0}} -->
           </template>
         </el-table-column>
         <el-table-column prop="amtAvail" label="可用仲裁费"></el-table-column>

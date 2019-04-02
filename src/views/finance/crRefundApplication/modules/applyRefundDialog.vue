@@ -1,23 +1,19 @@
 <template>
-  <div class="cr-refund-audit-examine-dialog">
+  <div class="cr-refund-application-apply-refund-dialog">
     <el-dialog
-      title="案件仲券退款审核"
+      title="提示"
       :visible.sync="dialogVisible"
-      width="580px"
+      width="500px"
       @close="handleClose"
 			ref="dialog"
     >
       <div class="m-conetnt">
-        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
-          <el-form-item label="申请退券理由：" prop="refundReason">
-            <p style="word-wrap:break-word;word-break:break-all;">{{ruleForm.refundReason}}111</p>
-          </el-form-item>
-          <el-form-item label="审核结果：" prop="refundStatus">
-            <el-select clearable style="width:100%" v-model="ruleForm.refundStatus" placeholder="请选择">
-              <el-option label="通过" value="2"></el-option>
-              <el-option label="不通过" value="3"></el-option>
-            </el-select>
-          </el-form-item>
+        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-position="top" class="ml-10">
+          
+					<el-form-item label="填写申请退券理由：" prop="refundReason">
+						<el-input :autosize="{ minRows: 3, maxRows: 3}" style="width:440px;" type="textarea" v-model.trim="ruleForm.refundReason" placeholder="请输入"></el-input>
+					</el-form-item>
+
         </el-form>
       </div>
 
@@ -31,6 +27,7 @@
 
 <script>
   export default {
+    name : 'applyRefundDialog',
     data() {
       return {
         dialogVisible : false,
@@ -38,15 +35,15 @@
         submitDisabled : false,
 
         ruleForm : {
-          refundStatus : '',
-          refundId : '',
+          // 	退券原因
+          refundReason : '',
         },
         rules : {
-          refundStatus : [
-            {required : true , message : '请选择' , trigger : 'change'},
+          refundReason : [
+            {required : true , message : '请输入填写申请退券理由' , trigger : 'blur'},
           ],
         },
-
+        row : '',
       }
     },
     mounted() {
@@ -54,7 +51,8 @@
     },
     methods : {
       show(data) {
-				this.dialogVisible = true;
+        this.dialogVisible = true;
+        this.row = data;
 				// dialog 返回顶部
         this.$nextTick(() => {
           this.$refs.dialog.$el.scrollTop = 0;
@@ -62,20 +60,23 @@
 
         this.$nextTick(() => {
           // 处理逻辑 写在nextTick中 ， 防止dialog没有加载数据问题
-          this.ruleForm.refundId = data.refundId;
-          this.ruleForm.refundReason = data.refundReason;
         });
       },
 
       // 关闭浮层
       handleClose() {
         this.dialogVisible = false;
-        // 取消按钮禁用
+        
         setTimeout(() => {
+          // 取消按钮禁用
           this.submitDisabled = false;
+          // 重置表单数据
+          this.$refs.ruleForm.resetFields();
+          this.$nextTick(() => {
+            this.$refs.ruleForm.clearValidate();
+          });
 				},500);
-				// 重置表单数据
-        this.$refs.ruleForm.resetFields();
+				
       },
       // 点击提交
       handleSubmit(submitType) {
@@ -85,10 +86,13 @@
 						this.submitDisabled = true;
 						this.$http({
               method : 'post',
-              url : '/ticketRefund/auditTicketRefundApply.htm',
-              data : this.ruleForm,
+              url : '/ticketRefund/saveTicketRefundApply.htm',
+              data : {
+                ...this.row,
+                refundReason : this.ruleForm.refundReason,
+              },
             }).then((res) => {
-              this.$message.success('审核成功');
+              this.$message.success('已提交申请');
               this.handleClose();
               this.$emit('successCBK');
             }).catch(() => {
@@ -103,7 +107,7 @@
 
 <style scoped lang="scss">
 
-.cr-refund-audit-examine-dialog{
+.cr-refund-application-apply-refund-dialog{
 
 }
 
