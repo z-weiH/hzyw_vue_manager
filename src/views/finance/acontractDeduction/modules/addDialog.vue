@@ -106,7 +106,7 @@
             {required : true , message : '请选择类型' , trigger : 'change'},
           ],
           deductionTicket : [
-            {required : true , message : '请输入扣除数目' , trigger : 'blur'},
+            {required : true , pattern : /^[1-9]\d*$/, message : '请输入正整数' , trigger : 'blur'},
             { validator: validator, trigger: 'blur' }
           ],
           deductionDesc : [
