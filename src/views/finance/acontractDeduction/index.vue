@@ -140,7 +140,7 @@
       },
       handleExport() {
         exportFile({
-          url : '/dedution/queryContractDedutionVerifyOut.htm',
+          url : '/dedution/queryContractDedutionOut.htm',
           data : {
             clientCode : this.ruleForm.clientCode,
             deductionStatus : this.ruleForm.deductionStatus,

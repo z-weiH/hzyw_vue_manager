@@ -89,7 +89,7 @@
               deductionId : data.deductionId,
             },
           }).then(res => {
-            let obj = Object.assign((
+            let obj = Object.assign(this.ruleForm,(
               res.result.contractDeduction || {}
             ),(
               res.result.verifyInfo || {}
