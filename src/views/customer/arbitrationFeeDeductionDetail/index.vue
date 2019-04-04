@@ -85,7 +85,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="caseNo" label="仲裁案号" key="2"></el-table-column>
-        <el-table-column prop="caseStatusWz" label="案件状态" key="3"></el-table-column>
+        <!-- <el-table-column prop="caseStatusWz" label="案件状态" key="3"></el-table-column> -->
         <el-table-column prop="respondents" label="被申请人" key="4"></el-table-column>
         <el-table-column prop="amtBorrowed" label="标的金额（元）" key="5"></el-table-column>
 
