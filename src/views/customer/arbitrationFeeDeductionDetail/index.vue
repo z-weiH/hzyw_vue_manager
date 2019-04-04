@@ -57,7 +57,7 @@
 
       <div class="mt-10 item-radio">
         <el-radio-group v-model="searchForm.orderType" size="mini">
-          <el-radio-button :label="1">预收受理费</el-radio-button>
+          <el-radio-button :label="1">扣除受理费</el-radio-button>
           <el-radio-button :label="2">退款</el-radio-button>
           <el-radio-button :label="3">案件处理费</el-radio-button>
         </el-radio-group>
@@ -79,46 +79,51 @@
           </template>
         </el-table-column>
 				<el-table-column prop="clientName" label="客户名称" key="1"></el-table-column>
-        <el-table-column prop="caseNoWz" label="仲裁案号" key="2"></el-table-column>
+        <el-table-column prop="feeOrderType" label="类型" key="13">
+          <template slot-scope="scope">
+            {{scope.row.feeOrderType === 0 ? '系统自动' : '合同扣款'}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="caseNo" label="仲裁案号" key="2"></el-table-column>
         <el-table-column prop="caseStatusWz" label="案件状态" key="3"></el-table-column>
         <el-table-column prop="respondents" label="被申请人" key="4"></el-table-column>
-        <el-table-column prop="amtCase" label="标的金额（元）" key="5"></el-table-column>
+        <el-table-column prop="amtBorrowed" label="标的金额（元）" key="5"></el-table-column>
 
         <template v-if="searchForm.orderType === 1">
-          <el-table-column prop="amtFee" label="预收受理费（元）" key="6">
+          <el-table-column prop="orderFee" label="预收受理费（元）" key="6">
             <template slot-scope="scope">
-              {{scope.row.amtFee || '--'}}
+              {{scope.row.orderFee || '--'}}
             </template>
           </el-table-column>
-          <el-table-column prop="operTime" label="预收受理费时间" key="8">
+          <el-table-column prop="createTime" label="预收受理费时间" key="8">
             <template slot-scope="scope">
-              {{scope.row.operTime || '--'}}
+              {{scope.row.createTime || '--'}}
             </template>
           </el-table-column>
         </template>
 
         <template v-if="searchForm.orderType === 2">
-          <el-table-column prop="amtFee" label="退款（元）" key="9">
+          <el-table-column prop="orderFee" label="退款（元）" key="9">
             <template slot-scope="scope">
-              {{scope.row.amtFee || '--'}}
+              {{scope.row.orderFee || '--'}}
             </template>
           </el-table-column>
-          <el-table-column prop="operTime" label="退款时间" key="10">
+          <el-table-column prop="createTime" label="退款时间" key="10">
             <template slot-scope="scope">
-              {{scope.row.operTime || '--'}}
+              {{scope.row.createTime || '--'}}
             </template>
           </el-table-column>
         </template>
 
         <template v-if="searchForm.orderType === 3">
-          <el-table-column prop="amtFee" label="案件处理费（元）" key="11">
+          <el-table-column prop="orderFee" label="案件处理费（元）" key="11">
             <template slot-scope="scope">
-              {{scope.row.amtFee || '--'}}
+              {{scope.row.orderFee || '--'}}
             </template>
           </el-table-column>
-          <el-table-column prop="operTime" label="扣除时间" key="12">
+          <el-table-column prop="createTime" label="扣除时间" key="12">
             <template slot-scope="scope">
-              {{scope.row.operTime || '--'}}
+              {{scope.row.createTime || '--'}}
             </template>
           </el-table-column>
         </template>
@@ -216,9 +221,7 @@
           method : 'post',
           url : '/account/queryOffTotal.htm',
           data : {
-            bizType : 0,
-            ...this.ruleForm,
-            ...this.searchForm,
+            ...this.currencyDate(),
           },
         }).then((res) => {
           this.statistics = Object.assign(this.statistics,res.result);
@@ -240,8 +243,7 @@
         exportFile({
           url : '/account/queryFeeOffExport.htm',
           data : {
-            ...this.ruleForm,
-            ...this.searchForm,
+            ...this.currencyDate(),
           },
         });
       },
@@ -268,8 +270,7 @@
             pageSize : this.pageSize,
             currentNum : this.currentPage,
 
-            ...this.ruleForm,
-            ...this.searchForm,
+            ...this.currencyDate(),
           },
         }).then((res) => {
           this.total = res.result.count;
@@ -292,6 +293,24 @@
       },
 
       // 表格相关 end
+
+      // 页面三个接口 公共参数 （处理业务）
+      currencyDate() {
+        let data = {
+          ...this.ruleForm,
+          clientCode : this.searchForm.clientCode,
+          keyWords : this.searchForm.keyWords,
+        };
+        if(this.searchForm.orderType === 1) {
+          data.feeType = 0;
+        }else if(this.searchForm.orderType === 2) {
+          data.feeType = 0;
+          data.orderType = 4;
+        }else if(this.searchForm.orderType === 3) {
+          data.feeType = 1;
+        }
+        return data;
+      },
     },
   }
 </script>

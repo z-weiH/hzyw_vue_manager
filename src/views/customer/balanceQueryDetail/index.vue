@@ -31,10 +31,10 @@ export default {
     return {
       item: {},
       columnDefine: [
-        {label: '客户名称',property: 'clientName',width: 186.5},
-        {label: '可用赠券',property: 'ticket',width: 240},
-        {label: '赠送日期',property: 'startDate', width: 240},
-        {label: '有效期至',property: 'ticketPeriod', width: 240},
+        {label: '客户名称',property: 'clientName'},
+        {label: '可用赠券',property: 'ticket'},
+        {label: '赠送日期',property: 'startDate'},
+        {label: '有效期至',property: 'ticketPeriod'},
       ],
       queryUrl: '/account/queryAvailableTicket.htm',
       searchItem: {}
