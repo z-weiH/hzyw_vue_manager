@@ -38,7 +38,7 @@
         </el-form-item>
 
         <el-form-item label=" " prop="keyWords">
-          <el-input v-model="searchForm.keyWords" placeholder="请输入仲裁案号、被申请人"></el-input>
+          <el-input v-model="searchForm.keyWords" placeholder="请输入被申请人"></el-input>
         </el-form-item>
         <el-button @click="handleSearch" type="warning">查询</el-button>
 
@@ -66,11 +66,11 @@
             {{scope.row.feeOrderType === 0 ? '系统自动' : '合同扣款'}}
           </template>
         </el-table-column>
-        <el-table-column prop="caseNo" label="仲裁案号">
+        <!-- <el-table-column prop="caseNo" label="仲裁案号">
           <template slot-scope="scope">
             {{scope.row.caseNo || '--'}}
           </template>
-        </el-table-column>
+        </el-table-column> -->
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column prop="amtBorrowed" label="标的金额（元）"></el-table-column>
         <el-table-column prop="ticketCount" label="扣除仲券"></el-table-column>
@@ -161,7 +161,8 @@
             ...this.searchForm,
           },
         }).then((res) => {
-          this.statistics = Object.assign(this.statistics,res.result);
+          // this.statistics = Object.assign(this.statistics,res.result);
+          this.statistics.offTotal = res.result;
         });
       },
       // 时间搜索
