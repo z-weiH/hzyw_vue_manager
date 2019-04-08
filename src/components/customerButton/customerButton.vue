@@ -8,6 +8,10 @@
     export default {
         name: 'customerButton',
         props:{
+            time: {
+              type: Number,
+              default: 1000
+            },
             text: {
                 type: String,
                 default: ''
@@ -44,7 +48,7 @@
                     this.disabled1 = true;
                     setTimeout(() => {
                         this.disabled1 = false;
-                    },1000);
+                    },this.time);
                     this.$emit('click');
                 }
             },
