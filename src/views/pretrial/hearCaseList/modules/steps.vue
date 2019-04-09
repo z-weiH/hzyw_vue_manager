@@ -451,6 +451,24 @@
             </ul>
           </template>
 
+          <template v-if="currentObj.operStatus === 21">
+            <ul>
+
+              <li>
+                <span class="label">操作人</span>
+                <span class="value">{{currentObj.logObj.operUserName || '--'}}</span>
+              </li>
+              <li>
+                <span class="label">失败原因</span>
+                <span class="value">
+                  <ul v-for="(reson,idx) in currentObj.logObj.failedReasons">
+                      <li>{{idx+1 + '.' + reson}}</li>
+                  </ul>
+                </span>
+              </li>
+            </ul>
+          </template>
+
         </div>
       </div>
     </el-scrollbar>
@@ -546,6 +564,8 @@
           return '退回重审';
         }else if(status === 20) {
           return '手动状态返回';
+        }else if(status === 21){
+          return '立案提交失败';
         }
       },
       calc(price, times){
