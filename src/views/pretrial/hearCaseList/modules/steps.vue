@@ -469,6 +469,22 @@
             </ul>
           </template>
 
+          <template v-if="currentObj.operStatus === 22">
+            <ul>
+
+              <li>
+                <span class="label">回收人</span>
+                <span class="value">{{currentObj.logObj.recoveryName || '--'}}</span>
+              </li>
+              <li>
+                <span class="label">回收时间</span>
+                <span class="value">
+                  {{currentObj.logObj.operTime || '--'}}
+                </span>
+              </li>
+            </ul>
+          </template>
+
         </div>
       </div>
     </el-scrollbar>
@@ -566,6 +582,8 @@
           return '手动状态返回';
         }else if(status === 21){
           return '立案提交失败';
+        }else if(status === 22){
+          return '案件回收';
         }
       },
       calc(price, times){
