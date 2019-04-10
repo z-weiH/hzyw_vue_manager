@@ -9,7 +9,73 @@
     width="890px"
     center>
     <div class="dailog-container">
-      <table-edits ref="edits" :editDefines="edtDefines" :item="item" :disabled="editState == 9"></table-edits>
+      <table-edits ref="edits" :editDefines="edtDefines" :item="item" :disabled="editState == 9">
+        <table slot="tableAdded"   class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
+          <tbody>
+          <tr class="table-edits">
+            <td colspan="5">第八部分：结算方案</td>
+          </tr>
+          <tr class="table-edits">
+            <td colspan="1">
+              <!--<el-input type="textarea" v-model="item.apprerResult" placeholder="请输入审核原因" :disabled="$parent.editState == 9"></el-input>-->
+              设置结算类型
+            </td>
+            <td colspan="4" style="text-align: left;padding-left: 3rem !important;">
+              <el-radio :disabled="editState == 9" v-model="item.settleType" :label="2">比例结算</el-radio>
+              <el-radio :disabled="editState == 9" v-model="item.settleType" :label="1">仲券结算</el-radio>
+            </td>
+          </tr>
+          <template v-if="item.settleType === 2">
+            <tr class="table-edits" v-for="(settle, idx) in item.settleList">
+              <td colspan="5"  class="settleAdded">
+                <p>
+                  <i class="el-icon-close fr" style="cursor: pointer;" @click="handleSettleDel(idx)" v-if="idx !== 0"></i>
+                  {{'阶段' + (idx + 1)}}
+                </p>
+                <ul>
+                  <li>
+                    <div class="label">
+                      案件标的区间
+                    </div>
+                    <div class="content">
+                      <div class="input">
+                        <el-input size="small" v-model="settle.initialAmount" :disabled="editState == 9 || idx === 0" style="width: 180px;text-align: center;"></el-input>
+                        <div class="w100"></div>
+                        <el-input size="small" :disabled="editState == 9" v-model="settle.endAmount" style="width: 180px;text-align: center;"></el-input>
+                        元
+                      </div>
+                      <div class="input_desc">
+                        * 若节点置空，代表不封顶，如：100元以上，则只需在左框填写100
+                      </div>
+
+                    </div>
+                  </li>
+                  <li >
+                    <div class="label">
+                      收取比例
+                    </div>
+                    <div class="content">
+                      <div class="input">
+                        <el-input size="small" :disabled="editState == 9" v-model="settle.percentage"  style="width: 250px;text-align: center;"></el-input>
+                        %
+                      </div>
+                      <div class="input_desc">
+                        * 如：收取比例为1%，则填写1
+                      </div>
+
+                    </div>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </template>
+          </tbody>
+        </table>
+
+      </table-edits>
+      <p  v-if="item.settleType === 2" style="margin-top: 10px;text-align: center;width: 100%;">
+        <customer-button type="success" icon="el-icon-plus" plain round @click="handleSettleAdd">继续添加</customer-button>
+      </p>
     </div>
     <span slot="footer" class="dialog-footer">
           <el-button type="primary"  v-if="editState ==1 || editState ==2" @click="saveApply(0)">保 存</el-button>
@@ -203,9 +269,22 @@
         if(val || val == 0){
           this.item.preTicketAmt = this.item.preCaseTicket * 10;
         }
+      },
+      'item.settleType': function (val, oldval) {
+        if(val === 2 && !this.item.settleList){
+          this.$set(this.item, 'settleList', [{initialAmount: 0}])
+        }
       }
     },
     methods: {
+
+      handleSettleDel(idx){
+        this.item.settleList.splice(idx,1);
+      },
+
+      handleSettleAdd(){
+        this.item.settleList.push({initialAmount: ''});
+      },
       getAllArbList() {
         this.$http.post(URL_JSON['ArbListAccountApply'])
           .then(res=> {
@@ -271,6 +350,48 @@
 
 <style scoped lang="scss">
   .dailog-container{
+    .settleAdded{
+      padding: 10px 20px !important;
+      text-align: left;
+      >p{
+        font-size: 18px;
+        font-weight: 600;
+      }
+      >ul{
+        li{
+          margin: 10px 0;
+          display: flex;
+          height: 55px;
+          line-height: 55px;
+          .label{
+            width: 150px;
+            /*flex: 1;*/
+          }
+          .content{
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            .input{
+              height: 35px;
+              display: flex;
+              align-items: center;
+              .w100{
+                height: 2px;
+                width: 60px;
+                background: #333;
+              }
+            }
+            .input_desc{
+              height: 20px;
+              font-size: 13px;
+              line-height: 20px;
+              color: #999;
+            }
 
+          }
+        }
+
+      }
+    }
   }
 </style>

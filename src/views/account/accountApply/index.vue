@@ -131,7 +131,7 @@ export default {
   },
   methods: {
     create() {
-      this.item = { dataUrl: "" };
+      this.item = { dataUrl: "", settleType: 1 };
       this.editState = 2;
     },
     doEdit(row) {

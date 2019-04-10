@@ -16,7 +16,7 @@
             <el-option label="未通过" :value="2"></el-option>
           </el-select>
         </el-form-item>
-        
+
         <el-button @click="handleSearch" type="warning">查询</el-button>
         <el-button @click="handleExport" type="primary">导出Excel</el-button>
         <el-button @click="handleAdd" type="primary">添加扣款记录</el-button>
@@ -34,6 +34,16 @@
           </template>
         </el-table-column>
 				<el-table-column prop="clientName" label="客户名称"></el-table-column>
+				<el-table-column prop="settleType" label="结算类型">
+          <template slot-scope="scope">
+            {{scope.row.settleType == 1 ? '仲券结算' : '比例结算'}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="deductionServiceCharge" label="扣除服务费">
+          <template slot-scope="scope">
+            {{scope.row.deductionServiceCharge || '--'}}
+          </template>
+        </el-table-column>
         <el-table-column prop="deductionTicket" label="扣除仲券">
           <template slot-scope="scope">
             {{scope.row.deductionTicket || '--'}}
@@ -108,7 +118,7 @@
         currentPage : 1,
         // 每页数量
 				pageSize : 10,
-				
+
 			}
     },
     mounted() {
@@ -174,7 +184,7 @@
       },
       // 分页 change
       handleCurrentChange(val) {
-        this.currentPage = val; 
+        this.currentPage = val;
         this.initTableList();
       },
 
@@ -186,7 +196,7 @@
 <style lang="scss" scoped>
 
 .acontract-deduction{
-	
+
 }
 
 </style>

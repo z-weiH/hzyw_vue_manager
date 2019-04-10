@@ -1,5 +1,5 @@
 <template>
-    <el-button :round="round" :type="type" :disabled="buttonDisabled()" :size="size" @click="HanldeBtnClick" :plain="plain">
+    <el-button :round="round" :icon="icon" :type="type" :disabled="buttonDisabled()" :size="size" @click="HanldeBtnClick" :plain="plain">
         <slot>{{text}}</slot>
     </el-button>
 </template>
@@ -8,6 +8,10 @@
     export default {
         name: 'customerButton',
         props:{
+            icon: {
+              type: String,
+              default: ''
+            },
             time: {
               type: Number,
               default: 1000

@@ -51,6 +51,9 @@
         </tbody>
 
     </table>
+
+    <slot name="tableAdded"></slot>
+
     </el-form>
 
     <slot name="tablePlus"></slot>
