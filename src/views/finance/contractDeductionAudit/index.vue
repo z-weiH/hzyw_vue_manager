@@ -133,7 +133,7 @@
       },
       // 详情
       handleDetail(row) {
-        this.$refs.detailDialog.show(row);
+        this.$refs.detailDialog.show(row,'sh');
       },
       // 审核
       handleExamine(row) {

@@ -73,7 +73,7 @@
       handleClose() {
         this.ruleForm = {};
       },
-      show(data) {
+      show(data,type) {
         this.dialogVisible = true;
 				// dialog 返回顶部
         this.$nextTick(() => {
@@ -94,6 +94,9 @@
             ),(
               res.result.verifyInfo || {}
             ));
+            if(type === 'sh') {
+              obj.userName = res.result.verifyInfo.verifyName;
+            }
             this.$set(this.ruleForm,obj);
           });
         });

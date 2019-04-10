@@ -81,7 +81,10 @@
 				<el-table-column prop="clientName" label="客户名称" key="1"></el-table-column>
         <el-table-column prop="feeOrderType" label="类型" key="13">
           <template slot-scope="scope">
-            {{scope.row.feeOrderType === 0 ? '系统自动' : '合同扣款'}}
+            {{
+              scope.row.feeOrderType === 0 ? '系统自动' :
+              scope.row.feeOrderType === 1 ? '合同扣款' : '系统自动'   
+            }}
           </template>
         </el-table-column>
         <el-table-column prop="caseNo" label="仲裁案号" key="2"></el-table-column>
