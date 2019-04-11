@@ -10,7 +10,7 @@
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
           <el-form-item label="申请退券理由：" prop="refundReason">
-            <p style="word-wrap:break-word;word-break:break-all;">{{ruleForm.refundReason}}111</p>
+            <p style="word-wrap:break-word;word-break:break-all;">{{ruleForm.refundReason}}</p>
           </el-form-item>
           <el-form-item label="审核结果：" prop="refundStatus">
             <el-select clearable style="width:100%" v-model="ruleForm.refundStatus" placeholder="请选择">
@@ -40,6 +40,7 @@
         ruleForm : {
           refundStatus : '',
           refundId : '',
+          refundReason : '',
         },
         rules : {
           refundStatus : [
