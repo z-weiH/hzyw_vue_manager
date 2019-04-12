@@ -175,7 +175,7 @@ export default {
   methods:{
     //判断文件是否是pdf
     checkPdf(url){
-      if(url.substr(url.length-3) == 'pdf'){
+      if(url.substr(url.length-3).toLowerCase() == 'pdf'){
         return true;
       }
       return false;

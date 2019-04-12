@@ -421,7 +421,7 @@ export default {
     },
 
     checkPdf(url){
-      if(url.substr(url.length-3) == 'pdf' || this.checkMovie(url)){
+      if(url.substr(url.length-3).toLowerCase() == 'pdf' || this.checkMovie(url)){
         return true;
       }
       return false;
