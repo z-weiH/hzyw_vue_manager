@@ -78,7 +78,25 @@
 				},
 			}
 		},
-    created(){
+    beforeCreate(){
+			// 判断从工作台项目跳转过来
+			if(this.$route.query.token && this.$route.query.reject) {
+				let loading = this.$loading();
+				this.$http({
+					url : '/getUserMenuInfo.htm',
+					token : this.$route.query.token,
+				}).then(res => {
+					localStorage.clear();
+					localStorage.setItem('loginInfo', JSON.stringify(res.result.loginInfoVO));
+					localStorage.setItem('menuInfoList', JSON.stringify(res.result.menuInfoList));
+					this.$router.push(this.$route.query.reject);
+					window.setTimeout(() => {
+						loading.close();
+					},1000);
+				}).catch(err => {
+					loading.close();
+				});
+			}
     },
 		methods : {
 			handleSubmit() {

@@ -21,9 +21,9 @@ axios.interceptors.request.use((config) => {
   // post 请求 使用 form Data 请求方式
   let token='';
   // console.log(config);
-  if(localStorage.getItem('loginInfo')){
+  if(localStorage.getItem('loginInfo') || config.token){
     try{
-      token= JSON.parse(localStorage.getItem('loginInfo')).token;
+      token= config.token || JSON.parse(localStorage.getItem('loginInfo')).token;
       if(config.notoken !== true){
         config.headers['token'] = token;
       }
