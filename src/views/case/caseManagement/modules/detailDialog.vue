@@ -10,8 +10,8 @@
       <div class="m-content">
         <!-- 第一部分：案件基本信息 -->
         <table
-          class="m-primordial-table 
-            el-table el-table--fit el-table--border 
+          class="m-primordial-table
+            el-table el-table--fit el-table--border
             el-table--enable-row-hover"
         >
           <tr>
@@ -40,13 +40,41 @@
             <td colspan="1">协议仲裁条款<!-- {{ruleForm.hzCaseInfoVO.caseCause}} --></td>
           </tr>
 
+          <tr>
+            <td colspan="1">结算类型：</td>
+            <td colspan="1">{{ruleForm.hzCaseInfoVO.settleTypeWz}}</td>
+            <td colspan="1">服务费：</td>
+            <td colspan="1">{{ruleForm.hzCaseInfoVO.caseTicketFee}}</td>
+          </tr>
+
+          <tr>
+            <td colspan="1">申请人短信通知：</td>
+            <td colspan="1">
+              <template v-if="ruleForm.hzCaseInfoVO.applicantsMsgStatus === 0">
+                不发送
+              </template>
+              <template v-if="ruleForm.hzCaseInfoVO.applicantsMsgStatus === 1">
+                发送
+              </template>
+            </td>
+            <td colspan="1">是否申请财产保全：</td>
+            <td colspan="1">
+              <template v-if="ruleForm.hzCaseInfoVO.preservationStatus === 0">
+                否
+              </template>
+              <template v-if="ruleForm.hzCaseInfoVO.preservationStatus === 1">
+                是
+              </template>
+            </td>
+          </tr>
+
         </table>
 
         <!-- 申请人信息 与 被申请人信息 -->
         <template v-for="(item,index) in ruleForm.litigants">
           <table
             class="m-primordial-table mt-10
-              el-table el-table--fit el-table--border 
+              el-table el-table--fit el-table--border
               el-table--enable-row-hover"
             :key="index"
           >
@@ -176,7 +204,7 @@
         <!-- 第四部分：案件主要信息 -->
         <table
           class="m-primordial-table mt-10
-            el-table el-table--fit el-table--border 
+            el-table el-table--fit el-table--border
             el-table--enable-row-hover"
         >
           <tr>
@@ -192,7 +220,7 @@
 
         <table
           class="m-primordial-table mt-10
-            el-table el-table--fit el-table--border 
+            el-table el-table--fit el-table--border
             el-table--enable-row-hover"
         >
           <tr>
@@ -262,7 +290,7 @@
             // 事实与理由
             factsReason : '',
           },
-          
+
 
           // 申请人 与 被申请人 list 0申请人，1被申请人
           litigants : [
