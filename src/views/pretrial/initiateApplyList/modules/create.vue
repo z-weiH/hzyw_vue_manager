@@ -130,10 +130,10 @@ export default {
       let _newItem = Object.assign(this.item,this.$parent.searchItem);
       console.log("_newItem: ",_newItem);
       this.$http.post(URL_JSON["queryApplyCaseNum"], this.item).then(res => {
-        console.log("iiiii:--:", this.item);
+        // console.log("iiiii:--:", this.item);
         this.zqdata = res.result;
-        console.log("123123", this.zqdata);
-        console.log("rrrrr---", res.result);
+        console.log("queryApplyCaseNum::", this.zqdata);
+        // console.log("rrrrr---", res.result);
         this.editState1 = true;
       });
     },
