@@ -43,7 +43,7 @@ export default {
         content: [
           {label: '客户全称：', type: 'text', placeholder: '请输入客户全称',columns:1,property: 'custName'},
           {label: '账号：', type: 'text', placeholder: '请输入账号',columns:1,property: 'loginName'},
-          {label: '社会唯一信用号：', type: 'text', placeholder: '请输入社会唯一信用号',columns:1,property: 'custIdcard'},
+          {label: '统一社会信用代码：', type: 'text', placeholder: '请输入社会唯一信用号',columns:1,property: 'custIdcard'},
           {label: '法定代表人：', type: 'text', placeholder: '请输入法定代表人',columns:1, property: 'legallerName'},
           {label: '合同号：', type: 'text', placeholder: '请输入合同号',columns:2,property: 'contractNo'},
         ]

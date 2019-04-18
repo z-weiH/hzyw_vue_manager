@@ -43,7 +43,7 @@ export default {
         content: [
           {label: '客户全称：', type: 'text', placeholder: '请输入客户全称',columns:1,property: 'custName'},
           {label: '年营业额（万元）：', type: 'text', placeholder: '请输入年营业额',columns:1,property: 'busiAmount'},
-          {label: '社会唯一信用号：', type: 'text', placeholder: '请输入社会唯一信用号',columns:1,property: 'custIdcard'},
+          {label: '统一社会信用代码：', type: 'text', placeholder: '请输入社会唯一信用号',columns:1,property: 'custIdcard'},
           {label: '邮箱(账户)：', type: 'text', placeholder: '请输入邮箱(账户)',columns:1,property: 'loginName'},
           {label: '企业注册地址：', type: 'text', placeholder: '请输入企业注册地址',columns:2,property: 'custIdaddress'},
           {label: '网址或应用(名称)：', type: 'text', placeholder: '请输入网址或应用(名称)',columns:2,property: 'custWebsite'},

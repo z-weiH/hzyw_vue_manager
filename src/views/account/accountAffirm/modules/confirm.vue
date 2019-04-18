@@ -42,7 +42,7 @@
           content: [
             {label: '客户全称：', type: 'text', readonly: true,columns:1,property: 'custName'},
             {label: '帐号：', type: 'text', readonly: true,columns:1,property: 'loginName'},
-            {label: '社会唯一信用号：', type: 'text', readonly: true,columns:1,property: 'custIdcard'},
+            {label: '统一社会信用代码：', type: 'text', readonly: true,columns:1,property: 'custIdcard'},
             {label: '法定代表人：', type: 'text', readonly: true,columns:1,property: 'legallerName'},
             {label: '合同号：', type: 'text', readonly: true,columns:1,property: 'contactNo'},
           ]
