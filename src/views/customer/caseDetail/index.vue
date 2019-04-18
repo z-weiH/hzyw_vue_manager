@@ -143,7 +143,7 @@
                   <el-table-column prop="dataSource" label="数据来源">
                     <template slot-scope="scope">
                       <!--0-接口 1-脚本 2-公式-->
-                      <span>{{scope.row.dataSource === 0 ? '接口' : scope.row.dataSource === 1 ? '脚本' : scope.row.dataSource === 2 ? '公式' : '--'}}</span>
+                      <span>{{scope.row.dataSource === 0 ? '接口' : scope.row.dataSource === 1 ? '脚本' : scope.row.dataSource === 2 ? '公式' :  scope.row.dataSource === 3 ? '其他' : '--'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column prop="isCorrect" label="正确性">
@@ -209,7 +209,7 @@
                   <el-table-column prop="dataSource" label="数据来源">
                     <template slot-scope="scope">
                       <!--0-接口 1-脚本 2-公式-->
-                      <span>{{scope.row.dataSource === 0 ? '接口' : scope.row.dataSource === 1 ? '脚本' : scope.row.dataSource === 2 ? '公式' : '--'}}</span>
+                      <span>{{scope.row.dataSource === 0 ? '接口' : scope.row.dataSource === 1 ? '脚本' : scope.row.dataSource === 2 ? '公式' : scope.row.dataSource === 3 ? '其他' : '--'}}</span>
                     </template>
                   </el-table-column>
                   <el-table-column prop="isCorrect" label="正确性">
