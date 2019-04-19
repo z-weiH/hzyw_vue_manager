@@ -417,7 +417,7 @@
     methods : {
 
       completeTextarea(text){
-        this.form.ruleInfo += text;
+        this.form.ruleInfo = this.form.ruleInfo.splice(this.currentFunction.idx+ 1, 0,text);
         this.$refs.textarea_rule.focus();
         setTimeout(() => {
           this.showSelect = false;
