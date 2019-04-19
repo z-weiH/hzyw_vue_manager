@@ -58,6 +58,11 @@
                 }
               })} },
           {label: '合同号', property: 'contactNo',isLink: true, linkShowPanel: this.doView},
+          {label: '结算类型', property: 'settleType', type: 'select',
+            options: [
+              { label: "仲券结算", value: 1 },
+              { label: "比例结算", value: 2 }
+            ]},
           {label: '技术服务费(元)', property: 'serveAmount'},
           {label: '开户仲券(张)', property: 'ticketCount'},
           {label: '开户受理费(元)', property: 'caseAmount'},

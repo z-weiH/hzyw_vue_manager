@@ -55,7 +55,55 @@
     <slot name="tableAdded"></slot>
 
     </el-form>
+    <table
+      class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20" v-for="(def,index) in residueDefines" :key="index"
+    >
+      <tbody v-if="!def.hidden || def.hidden()" >
+      <tr>
+        <td colspan="4" v-if="def.title">{{def.title}}</td>
+      </tr>
+      <tr class="table-edits" v-for="cnt in def.content" >
+        <template v-for="td in cnt" >
+          <template v-if="!td.hidden || td.hidden(item)">
+            <td colspan="1" v-if="td.type != 'info' && td.type != 'img'">{{td.label}}</td>
+            <td :colspan="td.columns == 2 ? 3 : 1" v-if="td.type != 'info' && td.type != 'img'">
+              <el-form-item label="" :prop="td.property">
+                <el-date-picker  v-if="td.type == 'date' | td.type == 'moment' | td.type == 'month'"  :format="td.baseFmat" :value-format="td.val_baseFmat ? td.val_baseFmat : 'yyyy-MM-dd'" v-model="item[td.property]" :type="td.type" :placeholder="td.placeholder"  :disabled="disabled || td.disabled" :readonly="td.readonly">
+                </el-date-picker>
+                <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" type="text" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'text' " @mousewheel='scrollFunc' @DOMMouseScroll="scrollFunc"></el-input>
 
+                <el-input v-model.trim="item[td.property]" :placeholder="td.placeholder" type="text" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if=" td.type === 'number'" @mousewheel='scrollFunc' @DOMMouseScroll="scrollFunc" @keyup.native="HandleNumberCheck(td)"></el-input>
+                <el-select clearable  @change="valueChange({label:td.property,value:item[td.property]})" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly" v-if="td.type == 'select'">
+                  <el-option
+                    v-for="opt in td.options"
+                    :key="opt.value"
+                    :label="td.labelfield ? opt[td.labelfield] : opt.label"
+                    :value="td.valuefield ? opt[td.valuefield] : opt.value">
+                  </el-option>
+                </el-select>
+                <el-input type="textarea" v-model="item[td.property]" :placeholder="td.placeholder" :disabled="disabled || td.disabled" :readonly="td.readonly"  v-if="td.type == 'textarea'"></el-input>
+                <el-upload :ref="td.property" :on-success="uploadSucc"	 class="upload-demo" :data="{path: td.path , token : token}" :action="uploadUrl"   :limit="1"  v-if="td.type == 'file' && !(disabled || td.disabled)" >
+                  <el-button size="small" type="info" plain @click="startUpload(td)">点击这里上传文件</el-button>
+                </el-upload>
+                <template v-else>
+                  <a v-if="item[td.property] && td.type == 'file'" class="colLink" :href="item[td.property]" target="_blank">{{td.disabledLabel}}</a>
+                  <a v-if="!item[td.property] && td.type == 'file'" >未上传内容</a>
+                </template>
+              </el-form-item>
+
+            </td>
+            <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'info'">
+              <span>{{td.content}}</span>
+            </td>
+            <td :colspan="td.columns == 2 ? 4 : 2" v-if="td.type == 'img'">
+              <img :class="{'img-pointer':item[td.property]}" @click="HandleImgClick(item[td.property])" class="table_img" v-bind:src="item[td.property]" alt="">
+            </td>
+          </template>
+        </template>
+      </tr>
+      </tbody>
+
+    </table>
     <slot name="tablePlus"></slot>
   </div>
 </template>
@@ -87,14 +135,16 @@ import {RULES} from "./script/rules";
     props: {
       editDefines: Array,
       item: Object,
-      disabled: Boolean
+      disabled: Boolean,
+      sliceNumber: Number
     },
     data() {
       return {
         token : JSON.parse(localStorage.getItem('loginInfo')).token,
         uploadUrl: host.target + '/file/upload.htm'+'?token='+JSON.parse(localStorage.getItem('loginInfo')).token,
         path: '',
-        editPro: ''
+        editPro: '',
+        residueDefines: []
       }
     },
     computed: {
@@ -111,6 +161,10 @@ import {RULES} from "./script/rules";
           }
           returnArr.push(obj);
         })
+        if(this.sliceNumber){
+          this.residueDefines = returnArr.slice(this.sliceNumber);
+          return returnArr.slice(0,this.sliceNumber);
+        }
         return returnArr;
       },
       rules() {

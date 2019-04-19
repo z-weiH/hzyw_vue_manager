@@ -9,11 +9,11 @@
     width="890px"
     center>
     <div class="dailog-container">
-      <table-edits ref="edits" :editDefines="edtDefines" :item="item" :disabled="editState == 9">
+      <table-edits ref="edits" :editDefines="edtDefines" :item="item" :disabled="editState == 9" :sliceNumber="5">
         <table slot="tableAdded"   class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
           <tbody>
           <tr class="table-edits">
-            <td colspan="5">第八部分：结算方案</td>
+            <td colspan="5">第六部分：结算方案</td>
           </tr>
           <tr class="table-edits">
             <td colspan="1">
@@ -26,7 +26,7 @@
             </td>
           </tr>
           <template v-if="item.settleType === 2">
-            <tr class="table-edits" v-for="(settle, idx) in item.settleList">
+            <tr class="table-edits" v-for="(settle, idx) in item.formulas">
               <td colspan="5"  class="settleAdded">
                 <p>
                   <i class="el-icon-close fr" style="cursor: pointer;" @click="handleSettleDel(idx)" v-if="idx !== 0"></i>
@@ -39,9 +39,9 @@
                     </div>
                     <div class="content">
                       <div class="input">
-                        <el-input size="small" v-model="settle.initialAmount" :disabled="editState == 9 || idx === 0" style="width: 180px;text-align: center;"></el-input>
+                        <el-input size="small" v-model="settle.amtStart" :disabled="editState == 9 || idx === 0" style="width: 180px;text-align: center;"></el-input>
                         <div class="w100"></div>
-                        <el-input size="small" :disabled="editState == 9" v-model="settle.endAmount" style="width: 180px;text-align: center;"></el-input>
+                        <el-input size="small" :disabled="editState == 9" v-model="settle.amtEnd" style="width: 180px;text-align: center;"></el-input>
                         元
                       </div>
                       <div class="input_desc">
@@ -56,7 +56,7 @@
                     </div>
                     <div class="content">
                       <div class="input">
-                        <el-input size="small" :disabled="editState == 9" v-model="settle.percentage"  style="width: 250px;text-align: center;"></el-input>
+                        <el-input size="small" :disabled="editState == 9" v-model="settle.settleRate"  style="width: 250px;text-align: center;"></el-input>
                         %
                       </div>
                       <div class="input_desc">
@@ -198,7 +198,7 @@
             {type: 'img',columns:1,property:'dataUrl'},
           ]
         },{
-          title: '第六部分：合同信息',
+          title: '第七部分：合同信息',
           content: [
             {label: '合同编号：', type: 'text', placeholder: '请输入合同编号',columns:1,property: 'contractNo',rule:'require'},
             {label: '合同时间：', type: 'date', placeholder: '请输入合同时间',columns:1,property: 'contractDate',rule:'require'},
@@ -241,7 +241,7 @@
 
           ]
         },{
-          title: '第七部分：所属负责人',
+          title: '第八部分：所属负责人',
           content: [
             {label: '市场人员：',  type: 'select', options: [{label: '杭州仲裁委员会', value: 'hz'},{label: '衢州仲裁委员会', value: 'qz'}],columns:1,placeholder:'请选择市场人员',property: 'marketerId',valuefield: 'userId', labelfield: 'userName',rule:'require'},
             {type: 'info',columns:1, content:''},
@@ -271,19 +271,19 @@
         }
       },
       'item.settleType': function (val, oldval) {
-        if(val === 2 && !this.item.settleList){
-          this.$set(this.item, 'settleList', [{initialAmount: 0}])
+        if(val === 2 && !this.item.formulas){
+          this.$set(this.item, 'formulas', [{amtStart: 0}])
         }
       }
     },
     methods: {
 
       handleSettleDel(idx){
-        this.item.settleList.splice(idx,1);
+        this.item.formulas.splice(idx,1);
       },
 
       handleSettleAdd(){
-        this.item.settleList.push({initialAmount: ''});
+        this.item.formulas.push({amtStart: ''});
       },
       getAllArbList() {
         this.$http.post(URL_JSON['ArbListAccountApply'])
@@ -315,6 +315,26 @@
           // this.item.serviceAmt = 0;
 
         }
+
+        //判断比例阶梯是否输入完整
+        if(this.item.settleType === 2){
+          let msg;
+          this.item.formulas.forEach((it,idx) => {
+            if(!it.hasOwnProperty('amtStart') || !it.hasOwnProperty('amtEnd') || !it.hasOwnProperty('settleRate')){
+              return msg = `请确保比例结算阶段${idx + 1}输入完整`;
+            }
+            else if(it.amtStart >= it.amtEnd){
+              return msg = `请确保比例结算阶段${idx + 1}起始金额小于结束金额`;
+            }
+            else if(it.settleRate < 0 || it.settleRate > 0){
+              return msg = `请确保比例结算阶段${idx + 1}收取比例输入正确`;
+            }
+          })
+          if(msg)
+            return this.$message.error(msg);
+        }
+
+
         this.checkbeforeSave().then(() => {
           // "到款金额 = 仲券金额 + 技术服务费 + 添加受理费"
           if(this.item.preTicketAmt != (+this.item.preCaseTicket) * 10){
@@ -348,50 +368,51 @@
   }
 </script>
 
-<style scoped lang="scss">
-  .dailog-container{
-    .settleAdded{
-      padding: 10px 20px !important;
-      text-align: left;
-      >p{
-        font-size: 18px;
-        font-weight: 600;
-      }
-      >ul{
-        li{
-          margin: 10px 0;
-          display: flex;
-          height: 55px;
-          line-height: 55px;
-          .label{
-            width: 150px;
-            /*flex: 1;*/
-          }
-          .content{
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            .input{
-              height: 35px;
-              display: flex;
-              align-items: center;
-              .w100{
-                height: 2px;
-                width: 60px;
-                background: #333;
-              }
-            }
-            .input_desc{
-              height: 20px;
-              font-size: 13px;
-              line-height: 20px;
-              color: #999;
-            }
-
-          }
-        }
-
-      }
+<style  lang="scss">
+  .settleAdded{
+    padding: 10px 20px !important;
+    text-align: left;
+    >p{
+      font-size: 18px;
+      font-weight: 600;
     }
+    >ul{
+      li{
+        margin: 10px 0;
+        display: flex;
+        height: 55px;
+        line-height: 55px;
+        .label{
+          width: 150px;
+          /*flex: 1;*/
+        }
+        .content{
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          .input{
+            height: 35px;
+            display: flex;
+            align-items: center;
+            .w100{
+              height: 2px;
+              width: 60px;
+              background: #333;
+            }
+          }
+          .input_desc{
+            height: 20px;
+            font-size: 13px;
+            line-height: 20px;
+            color: #999;
+          }
+
+        }
+      }
+
+    }
+  }
+  .dailog-container{
+
   }
 </style>

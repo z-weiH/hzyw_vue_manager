@@ -6,7 +6,68 @@
     width="890px"
     center>
     <div class="dailog-container">
-      <table-edits :editDefines="edtDefines" :item="item" :disabled="true">
+      <table-edits :editDefines="edtDefines" :item="item" :disabled="true" :sliceNumber="3">
+        <table slot="tableAdded"   class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
+          <tbody>
+          <tr class="table-edits">
+            <td colspan="5">第四部分：结算方案</td>
+          </tr>
+          <tr class="table-edits">
+            <td colspan="1">
+              <!--<el-input type="textarea" v-model="item.apprerResult" placeholder="请输入审核原因" :disabled="$parent.editState == 9"></el-input>-->
+              设置结算类型
+            </td>
+            <td colspan="4" style="text-align: left;padding-left: 3rem !important;">
+              <el-radio disabled v-model="item.settleType" :label="2">比例结算</el-radio>
+              <el-radio disabled v-model="item.settleType" :label="1">仲券结算</el-radio>
+            </td>
+          </tr>
+          <template v-if="item.settleType === 2">
+            <tr class="table-edits" v-for="(settle, idx) in item.formulas">
+              <td colspan="5"  class="settleAdded">
+                <p>
+                  <!--<i class="el-icon-close fr" style="cursor: pointer;" @click="handleSettleDel(idx)" v-if="idx !== 0"></i>-->
+                  {{'阶段' + (idx + 1)}}
+                </p>
+                <ul>
+                  <li>
+                    <div class="label">
+                      案件标的区间
+                    </div>
+                    <div class="content">
+                      <div class="input">
+                        <el-input size="small" v-model="settle.amtStart" disabled style="width: 180px;text-align: center;"></el-input>
+                        <div class="w100"></div>
+                        <el-input size="small" disabled v-model="settle.amtEnd" style="width: 180px;text-align: center;"></el-input>
+                        元
+                      </div>
+                      <div class="input_desc">
+                        * 若节点置空，代表不封顶，如：100元以上，则只需在左框填写100
+                      </div>
+
+                    </div>
+                  </li>
+                  <li >
+                    <div class="label">
+                      收取比例
+                    </div>
+                    <div class="content">
+                      <div class="input">
+                        <el-input size="small" :disabled="editState == 9" v-model="settle.settleRate"  style="width: 250px;text-align: center;"></el-input>
+                        %
+                      </div>
+                      <div class="input_desc">
+                        * 如：收取比例为1%，则填写1
+                      </div>
+
+                    </div>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </template>
+          </tbody>
+        </table>
       </table-edits>
       <el-form v-if="editState != 9 " ref="edits" :model="item" >
         <el-form-item label="" :rules="[{ required : true , message : '不能为空' , trigger : 'blur'}]" prop="apprerResult">
@@ -89,7 +150,7 @@ export default {
         ]
       },
         {
-          title: '第四部分：审核结果',
+          title: '第五部分：审核结果',
           content: [
             {label:'审核状态：',type: 'text', columns: 2, property: 'auditStatus' },
             {label:'财务主管审批意见：',type: 'textarea', columns: 2, property: 'apprerResult' },
