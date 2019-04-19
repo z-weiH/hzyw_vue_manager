@@ -157,6 +157,7 @@
     <inputTemplate ref="inputTemplate"></inputTemplate>
     <pdfHtml ref="pdfHtml"></pdfHtml>
     <executeRuleDialog ref="executeRule" @progressCancel="exeCancel" @hiddenDialog="executing = true;" @progress="setExeItem" @progressDown="exeOver"></executeRuleDialog>
+    <pdf-switch ref="pdfSwitch" @over="completeTextarea"></pdf-switch>
   </div>
 </template>
 
@@ -171,6 +172,7 @@
   import copyRule from './modules/copyRuleDialog'
   import inputTemplate from './modules/inputTemplate'
   import pdfHtml from './modules/pdf_html'
+  import pdfSwitch from './modules/pdfSwitch'
   export default {
     components : {
       'm-progress' : progress,
@@ -182,7 +184,8 @@
       copyRule,
       inputTemplate,
       pdfHtml,
-      executeRuleDialog
+      executeRuleDialog,
+      pdfSwitch
     },
     data() {
       return {
@@ -413,6 +416,14 @@
     },
     methods : {
 
+      completeTextarea(text){
+        this.form.ruleInfo += text;
+        this.$refs.textarea_rule.focus();
+        setTimeout(() => {
+          this.showSelect = false;
+        },300)
+      },
+
 
       filterNode(value, data){
         if (!value) return true;
@@ -441,44 +452,6 @@
       },
 
 
-      // textareaValueChange1(val){
-      //   this.ruleInfo_html1 = val.replace(/\n/g,'<br/>')
-      //     .replace(/\s/g,'&nbsp;')
-      //     .replace(/\/\/([\u4e00-\u9fa5]+)/g,'<span class="m-notes">$&</span>')
-      //     .replace(/[\u4e00-\u9fa5]+/g,'<span class="mark" style="height: 16px; line-height: 16px;background: #13367D; color: #13367D; opacity: .4;box-sizing: border-box;display: inline-block;">$&</span>')
-      //
-      //   setTimeout(() => {
-      //     console.log(this.$refs.textarea_warpar1.querySelectorAll('span'));
-      //     this.$refs.textarea_rule.$el.querySelectorAll('span').forEach(node => {
-      //
-      //       this.$refs.textarea_rule.$el.removeChild(node);
-      //     })
-      //     this.$refs.textarea_warpar1.querySelectorAll('span.mark').forEach(it => {
-      //       // let span =document.createElement("span");
-      //       // it.style.background = "#13367D";
-      //       // it.style.color = "#13367D";
-      //       if(it.parentElement.className != 'm-notes'){
-      //         console.log(it.offsetTop, it.offsetLeft,it.innerHtml,it.offsetWidth);
-      //         let scrollTop = this.$refs.textarea_rule.$el.querySelector('textarea').scrollTop;
-      //         let span =it.cloneNode();
-      //         span.style.position = 'absolute';
-      //         span.style.opacity = '.4';
-      //         span.style.top = it.offsetTop - scrollTop +3 + 'px';
-      //         span.style.left = it.offsetLeft + 'px';
-      //         span.style.background = '#f9ef4a';
-      //         span.style.width = it.offsetWidth + 'px';
-      //         if(it.offsetTop - scrollTop +3 < 0 || it.offsetTop - scrollTop +3 > this.$refs.textarea_rule.$el.querySelector("textarea").offsetHeight - 16 ){
-      //           span.style.display = 'none';
-      //         }
-      //         // span.style.height = it.style.height;
-      //         console.log(span.style.top, span.style.left);
-      //         this.$refs.textarea_rule.$el.appendChild(span);
-      //       }
-      //
-      //     })
-      //
-      //   },400)
-      // },
 
 
       textareaValueChange(val){
@@ -494,71 +467,57 @@
         if(val){
           // console.error(',出现');
           this.currentFunction.idx = val.length-1;
+
+          const functions = [
+            {
+              //取前后值
+              type: 1,
+              names: ['getPdfNum', 'getPdfDate', 'getPdfIdCard', 'getPdfString']
+            },
+            {
+              //取前后值和小数位数
+              type: 2,
+              names: ['getPdfNumByDigits']
+            },
+            {
+              //选框选择范围
+              type: 3,
+              names: ['getnum', 'getContent', 'getDate','getTableStingByPosition', 'getNumAnAnnual']
+            },
+            {
+              //id选取操作
+              type: 4,
+              names: ['takeId','takeNumId','getDateId']
+            },
+            {
+              type: 5,
+              names: ['getZeroWidthValueString', 'getZeroWidthNum']
+            }
+          ]
+
+
           let strcopy = val.replace(/\s+/g, "");
           let type = -1;
-          let idx1 = strcopy.lastIndexOf('getnum(');
-          let idx2 = strcopy.lastIndexOf('getContent(');
-          let idx3 = strcopy.lastIndexOf('takeId(');
-          let idx4 = strcopy.lastIndexOf('takeNumId(');
-          let idx5 = strcopy.lastIndexOf('getDate(');
-          let idx6 = strcopy.lastIndexOf('getDateId(');
-          let idx7 = strcopy.lastIndexOf('getPdfString(');
-          let idx8 = strcopy.lastIndexOf('getPdfNum(');
-          let idx9 = strcopy.lastIndexOf('getPdfDate(');
-          let idx10 = strcopy.lastIndexOf('getPdfIdCard(');
-          let idx11 = strcopy.lastIndexOf('getTableStingByPosition(');
-          let idx12 = strcopy.lastIndexOf('getNumAnAnnual(');
-          let idx13 = strcopy.lastIndexOf('getZeroWidthValueString(');
-          let idx14 = strcopy.lastIndexOf('getZeroWidthNum(');
-          if(idx1 != -1 && new RegExp("^getnum\\([A-Z_0-9]+$").test(strcopy.substring(idx1))){
-            type = 0;
-            this.currentFunction.affix = strcopy.substring(idx1);
+
+
+
+          outer:
+          for(let i = 0; i< functions.length; i ++){
+            inner:
+            for(let j = 0; j< functions[i].names.length ; j++){
+              const reg = new RegExp(`^${functions[i].names[j]}\\([A-Z_0-9]+$`);
+              const idx = strcopy.lastIndexOf(`${functions[i].names[j]}(`);
+              if(idx !== -1 && reg.test(strcopy.substring(idx).trim())){
+                type = functions[i].type;
+                this.currentFunction.affix = strcopy.substring(idx);
+                this.currentFunction.name = functions[i].names[j];
+                break outer;
+              }
+            }
           }
-          else if(idx2 != -1 && new RegExp("^getContent\\([A-Z_0-9]+$").test(strcopy.substring(idx2))){
-            type = 1;
-            this.currentFunction.affix = strcopy.substring(idx2);
-          }
-          else if(idx5 != -1 && new RegExp("^getDate\\([A-Z_0-9]+$").test(strcopy.substring(idx5))){
-            type = 1;
-            this.currentFunction.affix = strcopy.substring(idx5);
-          }
-          else if(idx3 != -1 && new RegExp("^takeId\\([A-Z_0-9]+$").test(strcopy.substring(idx3))){
-            type = 3;
-            this.currentFunction.affix = strcopy.substring(idx3);
-          }
-          else if(idx4 != -1 && new RegExp("^takeNumId\\([A-Z_0-9]+$").test(strcopy.substring(idx4))){
-            type = 3;
-            this.currentFunction.affix = strcopy.substring(idx4);
-          }
-          else if(idx6 != -1 && new RegExp("^getDateId\\([A-Z_0-9]+$").test(strcopy.substring(idx6))){
-            type = 3;
-            this.currentFunction.affix = strcopy.substring(idx6);
-          }
-          else if(idx7 != -1 && new RegExp("^getPdfString\\([A-Z_0-9]+$").test(strcopy.substring(idx7))){
-            type = 4;
-          }
-          else if(idx8 != -1 && new RegExp("^getPdfNum\\([A-Z_0-9]+$").test(strcopy.substring(idx8))){
-            type = 4;
-          }
-          else if(idx9 != -1 && new RegExp("^getPdfDate\\([A-Z_0-9]+$").test(strcopy.substring(idx9))){
-            type = 4;
-          }
-          else if(idx10 != -1 && new RegExp("^getPdfIdCard\\([A-Z_0-9]+$").test(strcopy.substring(idx10))){
-            type = 4;
-          }
-          else if(idx11 != -1 && new RegExp("^getTableStingByPosition\\([A-Z_0-9]+$").test(strcopy.substring(idx11))){
-            type = 1;
-            this.currentFunction.affix = strcopy.substring(idx11);
-          }else if(idx12 != -1 && new RegExp("^getNumAnAnnual\\([A-Z_0-9]+$").test(strcopy.substring(idx12))){
-            type = 1;
-            this.currentFunction.affix = strcopy.substring(idx12);
-          }
-          else if(idx13 != -1 && new RegExp("^getZeroWidthValueString\\([A-Z_0-9]+$").test(strcopy.substring(idx13))){
-            type = 4;
-          }
-          else if(idx14 != -1 && new RegExp("^getZeroWidthNum\\([A-Z_0-9]+$").test(strcopy.substring(idx14))){
-            type = 4;
-          }
+
+
+
           if(type != -1){
             this.ruleType = type;
             let idx = val.lastIndexOf('(');
@@ -685,17 +644,22 @@
       pdfFlagChange(){
         console.error(this.ruleType);
 
-        if(this.ruleType === 4){
+        if(this.ruleType === 1 || this.ruleType === 2){
+          //获取前后文
           this.$http.post("/ruleBase/queryPdfUrlAndWithHigh.htm",{levelId: this.currentMenu.levelId, pdfParam: this.pdfParam}).then(res => {
-            const router = this.$router.resolve({path: '/rulePdfSwitch',query: {levelId: this.currentMenu.levelId, pdfParam: this.pdfParam}}).href;
-            window.open(router,'_blank');
+            this.$refs.pdfSwitch.init({levelId: this.currentMenu.levelId, pdfParam: this.pdfParam, ruleType: this.ruleType, functionName: this.currentFunction.name});
+            // const router = this.$router.resolve({path: '/rulePdfSwitch',query: }).href;
+            // window.open(router,'_blank');
           })
 
 
         }
-        else if(this.ruleType !== 3){
+        else if(this.ruleType === 3){
+          //选框选择
           this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: this.pdfParam, type: this.ruleType});
-        }else {
+        }
+        else if(this.ruleType === 4){
+          //takeId
           const loading =this.$loading({
             lock: true,
             text: '正在加载...',

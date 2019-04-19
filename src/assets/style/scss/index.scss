@@ -683,3 +683,6 @@ textarea::-webkit-scrollbar {
     border-color: transparent !important;
   }
 }
+.el-message{
+  z-index: 9999 !important;
+}
