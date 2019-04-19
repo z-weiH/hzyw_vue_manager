@@ -655,8 +655,12 @@
 
         }
         else if(this.ruleType === 3){
+          let type = 3;
+          if(['getContent', 'getDate'].indexOf(this.currentFunction.name) !== -1){
+            type = 1;
+          }
           //选框选择
-          this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: this.pdfParam, type: this.ruleType});
+          this.$refs.pdfSelector.show({levelId: this.currentMenu.levelId, pdfParam: this.pdfParam, type: type});
         }
         else if(this.ruleType === 4){
           //takeId
