@@ -42,7 +42,7 @@
               </el-col>
               <el-col :span="12">
                 <span>赠送服务费余额：</span>
-                <span>{{ruleForm.giftAvail}}张</span>
+                <span>{{ruleForm.giftAvail}}元</span>
               </el-col>
             </el-row>
             <el-row>
@@ -172,9 +172,15 @@
           },
         }).then(res => {
           this.ruleForm.settleType = res.result.settleType;
-          this.ruleForm.ticketAvail = res.result.ticketAvail;
-          this.ruleForm.giftAvail = res.result.giftAvail;
+          if(this.ruleForm.settleType === 2){
+            this.ruleForm.ticketAvail = res.result.serviceFee;
+            this.ruleForm.giftAvail = res.result.giftServiceFee;
+          }else{
+            this.ruleForm.ticketAvail = res.result.ticketAvail;
+            this.ruleForm.giftAvail = res.result.giftAvail;
+          }
           this.ruleForm.deductionAmt = res.result.amtAvail;
+
         });
       },
 
@@ -210,7 +216,7 @@
               deductionDesc : this.ruleForm.deductionDesc,
               deductionType : this.ruleForm.deductionType,
             };
-            if(this.ruleForm.deductionType === 0) {
+            if(this.ruleForm.deductionType !== 1) {
               obj.deductionTicket = this.ruleForm.deductionTicket;
             }else{
               obj.deductionAmt = this.ruleForm.deductionTicket;

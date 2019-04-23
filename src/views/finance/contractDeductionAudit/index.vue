@@ -35,17 +35,17 @@
 				<el-table-column prop="clientName" label="客户名称"></el-table-column>
         <el-table-column prop="deductionType" label="结算类型">
           <template slot-scope="scope">
-            {{scope.row.deductionType == 0 ? '仲券结算' : '比例结算'}}
+            {{scope.row.deductionType == 0 ? '仲券结算' :  '比例结算'}}
           </template>
         </el-table-column>
-        <el-table-column prop="deductionServiceCharge" label="扣除服务费">
+        <el-table-column prop="deductionTicket" label="扣除服务费">
           <template slot-scope="scope">
-            {{scope.row.deductionServiceCharge || '--'}}
+            {{scope.row.deductionType == 0 ? '/' : scope.row.deductionTicket}}
           </template>
         </el-table-column>
         <el-table-column prop="deductionTicket" label="扣除仲券">
           <template slot-scope="scope">
-            {{scope.row.deductionTicket || '--'}}
+            {{scope.row.deductionType == 2 ? '/' : scope.row.deductionTicket}}
           </template>
         </el-table-column>
         <el-table-column prop="deductionAmt" label="扣除仲裁费">

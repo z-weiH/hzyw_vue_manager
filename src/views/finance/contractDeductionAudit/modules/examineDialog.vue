@@ -16,7 +16,7 @@
 
           <div class="item">
             <span class="item-label">类型：</span>
-            <span class="item-value">{{ruleForm.deductionType === 0 ? '扣除仲券' : '扣除仲裁费'}}</span>
+            <span class="item-value">{{ruleForm.deductionType === 0 ? '扣除仲券' : ruleForm.deductionType === 1 ? '扣除仲裁费' : '扣除服务费'}}</span>
           </div>
 
           <div class="item">
@@ -80,7 +80,7 @@
       }
     },
     mounted() {
-      
+
     },
     methods : {
       show(data) {
@@ -112,7 +112,7 @@
       // 关闭浮层
       handleClose() {
         this.dialogVisible = false;
-        
+
         setTimeout(() => {
           // 取消按钮禁用
           this.submitDisabled = false;
@@ -165,8 +165,8 @@
     .item-value{
       width: 450px;
       display: inline-block;
-      word-wrap: break-word; 
-      word-break: normal; 
+      word-wrap: break-word;
+      word-break: normal;
       word-break:break-all;
       vertical-align: top;
     }
