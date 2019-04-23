@@ -69,7 +69,7 @@
           </tbody>
         </table>
       </table-edits>
-      <el-form v-if="editState != 9 " ref="edits" :model="item" >
+      <el-form v-if="editState != 9" ref="edits" :model="item" >
         <el-form-item label="" :rules="[{ required : true , message : '不能为空' , trigger : 'blur'}]" prop="apprerResult">
           <el-input type="textarea" v-model="item.apprerResult" placeholder="请输入审核意见"></el-input>
         </el-form-item>
@@ -123,30 +123,47 @@ export default {
       },{
         title: '第三部分：加款信息',
         content: [
-          {label: '添加仲券（张）：', type: 'text', placeholder: '请输入添加仲券',columns:1,property: 'ticketCount'},
-          {label: '仲券金额（元）：', type: 'text', placeholder: '请输入仲券金额',columns:1,property: 'ticketAmount'},
-          {label: '添加受理费（元）：', type: 'text', placeholder: '请输入添加受理费',columns:1,property: 'caseAmount'},
-          {label: '技术服务费（元）：', type: 'text', placeholder: '请输入技术服务费',columns:1,property: 'serveAmount'},
-          {label: '赠送仲券（张）：', type: 'text', placeholder: '请输入赠送仲券',columns:1,property: 'giftTicket'},
-          {
-            label: '赠券有效期 ：', type: 'select', placeholder: '请选择赠券有效期', columns: 1, property: 'giftPeriod', options: [
+          {labelFn: (item) => {
+              return item.settleType === 1 ? '添加仲券（张）：' : '添加服务费（元）：'
+            }, type: 'number', placeholder: '请输入',columns:1,property: 'ticketCount',rule:'require,gt0'},
+          {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'ticketAmount',rule:'require,gt0', disabled: true,hidden: () => this.item.settleType === 1},
+          {label: '添加受理费（元）：', type: 'number', placeholder: '请输入添加受理费',columns:1,property: 'caseAmount',rule:'require,gt0'},
+          {label: '技术服务费（元）：', type: 'number', placeholder: '请输入技术服务费',columns:1,property: 'serveAmount',rule:'gt0'},
+          {labelFn: (item) => {
+              return item.settleType === 1 ? '赠送仲券（张）：' : '赠送服务费（元）：'
+            },  type: 'number', placeholder: '请输入',columns:1,property: 'giftTicket',rule:'require,gt0'},
+          {labelFn: (item) => {
+              return item.settleType === 1 ? '赠券有效期：' : '赠送服务费有效期：'
+            }, type: 'select', placeholder: '请选择有效期',columns:1,property: 'giftPeriod',options: [
               {label: '请选择赠券有效期', value: ''},
-              {label: '1个月', value: 1},
-              {label: '2个月', value: 2},
-              {label: '3个月', value: 3},
-              {label: '4个月', value: 4},
-              {label: '5个月', value: 5},
-              {label: '6个月', value: 6},
-              {label: '7个月', value: 7},
-              {label: '8个月', value: 8},
-              {label: '9个月', value: 9},
-              {label: '10个月', value:10},
-              {label: '11个月', value: 11},
-              {label: '12个月', value: 12},
-            ], hidden: () => {
+              {label: '1个月', value: '1'},
+              {label: '2个月', value: '2'},
+              {label: '3个月', value: '3'},
+              {label: '4个月', value: '4'},
+              {label: '5个月', value: '5'},
+              {label: '6个月', value: '6'},
+              {label: '7个月', value: '7'},
+              {label: '8个月', value: '8'},
+              {label: '9个月', value: '9'},
+              {label: '10个月', value: '10'},
+              {label: '11个月', value: '11'},
+              {label: '12个月', value: '12'},
+            ],hidden: () => {
               return this.item.giftTicket && this.item.giftTicket != 0;
-            }
-          }
+            },
+            rule: [
+              {
+                validator: (rule, value, callback) => {
+                  if(this.item.giftTicket && this.item.giftTicket != 0 && !value){
+                    callback(new Error("不能为空"))
+                  }
+                  else {
+                    callback();
+                  }
+                }
+              }
+            ]
+          },
         ]
       },
         {

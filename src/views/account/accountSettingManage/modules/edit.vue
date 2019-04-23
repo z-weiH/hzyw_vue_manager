@@ -125,12 +125,18 @@ export default {
       },{
         title: '第四部分：加款信息',
         content: [
-          {label: '添加仲券（张）：', type: 'number', placeholder: '请输入添加仲券',columns:1,property: 'ticketCount',rule:'require,gt0'},
-          {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'ticketAmount',rule:'require,gt0', disabled: true},
+          {labelFn: (item) => {
+              return item.settleType === 1 ? '添加仲券（张）：' : '添加服务费（元）：'
+            }, type: 'number', placeholder: '请输入',columns:1,property: 'ticketCount',rule:'require,gt0'},
+          {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'ticketAmount',rule:'require,gt0', disabled: true,hidden: () => this.item.settleType === 1},
           {label: '添加受理费（元）：', type: 'number', placeholder: '请输入添加受理费',columns:1,property: 'caseAmount',rule:'require,gt0'},
           {label: '技术服务费（元）：', type: 'number', placeholder: '请输入技术服务费',columns:1,property: 'serveAmount',rule:'gt0'},
-          {label: '赠送仲券（张）：', type: 'number', placeholder: '请输入赠送仲券',columns:1,property: 'giftTicket',rule:'require,gt0'},
-          {label: '赠券有效期 ：', type: 'select', placeholder: '请选择赠券有效期',columns:1,property: 'giftPeriod',options: [
+          {labelFn: (item) => {
+              return item.settleType === 1 ? '赠送仲券（张）：' : '赠送服务费（元）：'
+            },  type: 'number', placeholder: '请输入',columns:1,property: 'giftTicket',rule:'require,gt0'},
+          {labelFn: (item) => {
+              return item.settleType === 1 ? '赠券有效期：' : '赠送服务费有效期：'
+            }, type: 'select', placeholder: '请选择有效期',columns:1,property: 'giftPeriod',options: [
               {label: '请选择赠券有效期', value: ''},
               {label: '1个月', value: '1'},
               {label: '2个月', value: '2'},
@@ -215,11 +221,15 @@ export default {
       }
     },
     handleChange() {
-      if(this.item.ticketCount)
-        this.item.ticketAmount = this.item.ticketCount * 10;
+      if(this.item.ticketCount){
+        if(this.item.settleType === 1){
+          this.item.ticketAmount = this.item.ticketCount * 10;
+        }else{
+          this.item.ticketAmount = this.item.ticketCount * 0;
+        }
+      }
     },
     handleArriveChange(target) {
-      console.error(123123132)
       if(!target){
         this.setServeAmount();
       }
@@ -227,8 +237,9 @@ export default {
       if(!num){
         num = 0;
       }
-      if(!isNaN(+this.item.ticketAmount) && !isNaN(+this.item.caseAmount)) {
-        this.item.arrivalAmt = (+this.item.ticketAmount) + (+this.item.caseAmount) + (+num);
+      if(!isNaN(+this.item.ticketCount) && !isNaN(+this.item.caseAmount)) {
+        let fix = this.item.settleType === 1 ? 10 : 1;
+        this.item.arrivalAmt = (+this.item.ticketCount * fix) + (+this.item.caseAmount) + (+num);
       }
     },
     save(num) {
@@ -237,12 +248,14 @@ export default {
       this.checkbeforeSave().then(res => {
         // "到款金额 = 仲券金额 + 技术服务费 + 添加受理费"
         console.log(this.item);
-        if(this.item.ticketCount * 10 != +this.item.ticketAmount){
+        if(this.item.ticketCount * 10 != +this.item.ticketAmount && this.item.settleType === 1){
           return this.$message.error("仲券金额 = 添加仲券 * 10")
         }
-        if(+this.item.arrivalAmt != (+this.item.ticketAmount) + (+this.item.caseAmount) + (+this.item.serveAmount)){
+        let fix = this.item.settleType === 1 ? 10 : 1;
+        if(+this.item.arrivalAmt != (+this.item.ticketCount * fix) + (+this.item.caseAmount) + (+this.item.serveAmount)){
           return this.$message.error("到款金额 = 仲券金额 + 技术服务费 + 添加受理费");
         }
+
         this.$http.post(URL_JSON['saveAccountSettingManage'],Object.assign({isCommit: num},this.item),{headers:{token: JSON.parse(localStorage.getItem('loginInfo')).token}})
           .then(res => {
             if(res.code === '0000'){

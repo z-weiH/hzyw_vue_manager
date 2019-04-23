@@ -57,6 +57,7 @@ export default {
             { label: "仲券结算", value: 1 },
             { label: "比例结算", value: 2 }
           ]},
+        {label: '服务费',property: 'ticketCount'},
         {label: '技术服务费(元)', property: 'serveAmount'},
         {label: '开户仲券(张)', property: 'ticketCount'},
         {label: '开户受理费(元)', property: 'caseAmount'},

@@ -10,72 +10,75 @@
     center>
     <div class="dailog-container">
       <table-edits ref="edits" :editDefines="edtDefines" :item="item" :disabled="editState == 9" :sliceNumber="5">
-        <table slot="tableAdded"   class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
-          <tbody>
-          <tr class="table-edits">
-            <td colspan="5">第六部分：结算方案</td>
-          </tr>
-          <tr class="table-edits">
-            <td colspan="1">
-              <!--<el-input type="textarea" v-model="item.apprerResult" placeholder="请输入审核原因" :disabled="$parent.editState == 9"></el-input>-->
-              设置结算类型
-            </td>
-            <td colspan="4" style="text-align: left;padding-left: 3rem !important;">
-              <el-radio :disabled="editState == 9" v-model="item.settleType" :label="2">比例结算</el-radio>
-              <el-radio :disabled="editState == 9" v-model="item.settleType" :label="1">仲券结算</el-radio>
-            </td>
-          </tr>
-          <template v-if="item.settleType === 2">
-            <tr class="table-edits" v-for="(settle, idx) in item.formulas">
-              <td colspan="5"  class="settleAdded">
-                <p>
-                  <i class="el-icon-close fr" style="cursor: pointer;" @click="handleSettleDel(idx)" v-if="idx !== 0"></i>
-                  {{'阶段' + (idx + 1)}}
-                </p>
-                <ul>
-                  <li>
-                    <div class="label">
-                      案件标的区间
-                    </div>
-                    <div class="content">
-                      <div class="input">
-                        <el-input size="small" v-model="settle.amtStart" :disabled="editState == 9 || idx === 0" style="width: 180px;text-align: center;"></el-input>
-                        <div class="w100"></div>
-                        <el-input size="small" :disabled="editState == 9" v-model="settle.amtEnd" style="width: 180px;text-align: center;"></el-input>
-                        元
-                      </div>
-                      <div class="input_desc">
-                        * 若节点置空，代表不封顶，如：100元以上，则只需在左框填写100
-                      </div>
-
-                    </div>
-                  </li>
-                  <li >
-                    <div class="label">
-                      收取比例
-                    </div>
-                    <div class="content">
-                      <div class="input">
-                        <el-input size="small" :disabled="editState == 9" v-model="settle.settleRate"  style="width: 250px;text-align: center;"></el-input>
-                        %
-                      </div>
-                      <div class="input_desc">
-                        * 如：收取比例为1%，则填写1
-                      </div>
-
-                    </div>
-                  </li>
-                </ul>
+        <template slot="tableAdded">
+          <table class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover">
+            <tbody>
+            <tr class="table-edits">
+              <td colspan="5">第六部分：结算方案</td>
+            </tr>
+            <tr class="table-edits">
+              <td colspan="1">
+                <!--<el-input type="textarea" v-model="item.apprerResult" placeholder="请输入审核原因" :disabled="$parent.editState == 9"></el-input>-->
+                设置结算类型
+              </td>
+              <td colspan="4" style="text-align: left;padding-left: 3rem !important;">
+                <el-radio :disabled="editState == 9" v-model="item.settleType" :label="2">比例结算</el-radio>
+                <el-radio :disabled="editState == 9" v-model="item.settleType" :label="1">仲券结算</el-radio>
               </td>
             </tr>
-          </template>
-          </tbody>
-        </table>
+            <template v-if="item.settleType === 2">
+              <tr class="table-edits" v-for="(settle, idx) in item.formulas" :key="idx">
+                <td colspan="5"  class="settleAdded">
+                  <p>
+                    <i class="el-icon-close fr" style="cursor: pointer;" @click="handleSettleDel(idx)" v-if="idx !== 0 && (editState ==1 || editState ==2)"></i>
+                    {{'阶段' + (idx + 1)}}
+                  </p>
+                  <ul>
+                    <li>
+                      <div class="label">
+                        案件标的区间
+                      </div>
+                      <div class="content">
+                        <div class="input">
+                          <el-input size="small" v-model="settle.amtStart" :disabled="editState == 9 || idx === 0" style="width: 180px;text-align: center;"></el-input>
+                          <div class="w100"></div>
+                          <el-input size="small" :disabled="editState == 9" v-model="settle.amtEnd" style="width: 180px;text-align: center;"></el-input>
+                          元
+                        </div>
+                        <div class="input_desc">
+                          * 若节点置空，代表不封顶，如：100元以上，则只需在左框填写100
+                        </div>
+
+                      </div>
+                    </li>
+                    <li >
+                      <div class="label">
+                        收取比例
+                      </div>
+                      <div class="content">
+                        <div class="input">
+                          <el-input size="small" :disabled="editState == 9" v-model="settle.settleRate"  style="width: 250px;text-align: center;"></el-input>
+                          %
+                        </div>
+                        <div class="input_desc">
+                          * 如：收取比例为1%，则填写1
+                        </div>
+
+                      </div>
+                    </li>
+                  </ul>
+                </td>
+              </tr>
+            </template>
+            </tbody>
+          </table>
+          <p  v-if="item.settleType === 2" style="margin: 8px 0 ;text-align: center;width: 100%;">
+            <customer-button type="success" icon="el-icon-plus" plain round @click="handleSettleAdd">继续添加</customer-button>
+          </p>
+        </template>
 
       </table-edits>
-      <p  v-if="item.settleType === 2" style="margin-top: 10px;text-align: center;width: 100%;">
-        <customer-button type="success" icon="el-icon-plus" plain round @click="handleSettleAdd">继续添加</customer-button>
-      </p>
+
     </div>
     <span slot="footer" class="dialog-footer">
           <el-button type="primary"  v-if="editState ==1 || editState ==2" @click="saveApply(0)">保 存</el-button>
@@ -204,10 +207,17 @@
             {label: '合同时间：', type: 'date', placeholder: '请输入合同时间',columns:1,property: 'contractDate',rule:'require'},
             {label: '预缴仲裁受理费（元）：', type: 'number', placeholder: '请输入预缴仲裁受理费',columns:1,property: 'preCaseAmt',rule:'require,gt0'},
             {label: '技术服务费（元）：', type: 'number', placeholder: '请输入技术服务费',columns:1,property: 'serviceAmt',rule:'gt0'},
-            {label: '充值仲券（张）：', type: 'number', placeholder: '请输入充值仲券',columns:1,property: 'preCaseTicket',rule:'require,gt0'},
-            {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'preTicketAmt',rule:'require,gt0',disabled: true},
-            {label: '赠送仲券（张）：', type: 'number', placeholder: '请输入赠送仲券',columns:1,property: 'preGiftTicket',rule:'require,gt0'},
-            {label: '赠券有效期 ：', type: 'select', placeholder: '请选择赠券有效期',columns:1,property: 'preGiftPeriod',options: [
+            {labelFn: (item) => {
+              return item.settleType === 1 ? '充值仲券（张）：' : '充值服务费（元）：'
+              }, type: 'number', placeholder: '请输入',columns:1,property: 'preCaseTicket',rule:'require,gt0'},
+            {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'preTicketAmt',rule:'require,gt0',disabled: true, hidden: () => this.item.settleType === 1},
+            {labelFn: (item) => {
+                return item.settleType === 1 ? '赠送仲券（张）：' : '赠送服务费（元）：'
+              }, type: 'number', placeholder: '请输入',columns:1,property: 'preGiftTicket',rule:'require,gt0'},
+            // {label: ''}
+            {labelFn: (item) => {
+                return item.settleType === 1 ? '赠券有效期：' : '赠送服务费有效期：'
+              }, type: 'select', placeholder: '请选择有效期',columns:1,property: 'preGiftPeriod',options: [
                 {label: '请选择赠券有效期', value: ''},
                 {label: '1个月', value: '1'},
                 {label: '2个月', value: '2'},
@@ -267,7 +277,11 @@
       },
       'item.preCaseTicket':function (val, oldval) {
         if(val || val == 0){
-          this.item.preTicketAmt = this.item.preCaseTicket * 10;
+          if(this.item.settleType === 1){
+            this.item.preTicketAmt = this.item.preCaseTicket * 10;
+          }else{
+            this.item.preTicketAmt = this.item.preCaseTicket * 0;
+          }
         }
       },
       'item.settleType': function (val, oldval) {
@@ -320,40 +334,43 @@
         if(this.item.settleType === 2){
           let msg;
           this.item.formulas.forEach((it,idx) => {
-            if(!it.hasOwnProperty('amtStart') || !it.hasOwnProperty('amtEnd') || !it.hasOwnProperty('settleRate')){
+            if(!it.hasOwnProperty('amtStart') || !it.hasOwnProperty('settleRate')){
               return msg = `请确保比例结算阶段${idx + 1}输入完整`;
             }
-            else if(it.amtStart >= it.amtEnd){
+            else if(+it.amtStart >= +it.amtEnd){
               return msg = `请确保比例结算阶段${idx + 1}起始金额小于结束金额`;
             }
-            else if(it.settleRate < 0 || it.settleRate > 0){
+            else if(+it.settleRate < 0 || +it.settleRate > 100){
               return msg = `请确保比例结算阶段${idx + 1}收取比例输入正确`;
             }
           })
+          console.log(msg);
           if(msg)
             return this.$message.error(msg);
         }
 
 
-        this.checkbeforeSave().then(() => {
+        // this.checkbeforeSave().then(() => {
           // "到款金额 = 仲券金额 + 技术服务费 + 添加受理费"
-          if(this.item.preTicketAmt != (+this.item.preCaseTicket) * 10){
+          if(this.item.preTicketAmt != (+this.item.preCaseTicket) * 10 && this.item.settleType === 1){
             return this.$message.error('仲券金额必须等于充值仲券 * 10');
           }
           if(!this.item.custAddress)
             this.item.custAddress = this.item.custIdaddress;
           let obj = Object.assign({isCommit: num}, this.item);
-          this.$http.post(URL_JSON['saveAccountApply'], obj, {headers:{token: JSON.parse(localStorage.getItem('loginInfo')).token}})
+          this.$http.post(URL_JSON['saveAccountApply'], obj, {mheaders: true})
             .then(res => {
               console.log(res);
               if(res.code === '0000'){
-                this.$message.success(res.description);
+                this.$message.success('操作成功');
                 this.$emit('refresh');
               }
             })
-        }).catch((err)=>{console.log(err)})
-
-      }
+        }
+        // )
+  // .catch((err)=>{console.log(err)})
+  //
+  //     }
     },
     components: {
       TableEdits
@@ -369,49 +386,7 @@
 </script>
 
 <style  lang="scss">
-  .settleAdded{
-    padding: 10px 20px !important;
-    text-align: left;
-    >p{
-      font-size: 18px;
-      font-weight: 600;
-    }
-    >ul{
-      li{
-        margin: 10px 0;
-        display: flex;
-        height: 55px;
-        line-height: 55px;
-        .label{
-          width: 150px;
-          /*flex: 1;*/
-        }
-        .content{
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          .input{
-            height: 35px;
-            display: flex;
-            align-items: center;
-            .w100{
-              height: 2px;
-              width: 60px;
-              background: #333;
-            }
-          }
-          .input_desc{
-            height: 20px;
-            font-size: 13px;
-            line-height: 20px;
-            color: #999;
-          }
 
-        }
-      }
-
-    }
-  }
   .dailog-container{
 
   }

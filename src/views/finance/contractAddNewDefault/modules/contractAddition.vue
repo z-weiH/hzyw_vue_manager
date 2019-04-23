@@ -73,18 +73,21 @@
 
               <tr>
                 <td colspan="1">
-                  充值仲券（张）：
+                  <!--充值仲券（张）：-->
+                  {{ruleForm.settleType === 1 ? '充值仲券（张）：' : '充值服务费（元）：'}}
                 </td>
                 <td colspan="1">
                   <el-form-item label=" " prop="preCaseTicket">
-                    <el-input v-model="ruleForm.preCaseTicket" placeholder="请输入充值仲券" />
+                    <el-input v-model="ruleForm.preCaseTicket" :placeholder="ruleForm.settleType ? '请输入充值仲券' : '请输入充值服务费'" />
                   </el-form-item>
                 </td>
-                <td colspan="1">
-                  仲券金额（元）：
+                <td colspan="1" >
+                  <span v-if="ruleForm.settleType === 1">
+                                      仲券金额（元）：
+                  </span>
                 </td>
-                <td colspan="1">
-                  <el-form-item label=" " prop="preTicketAmt">
+                <td colspan="1" >
+                  <el-form-item label=" " prop="preTicketAmt" v-if="ruleForm.settleType === 1">
                     <el-input :disabled="true" v-model="ruleForm.preTicketAmt" placeholder="请输入仲券金额" />
                   </el-form-item>
                 </td>
@@ -92,15 +95,17 @@
 
               <tr>
                 <td colspan="1">
-                  赠送仲券（张）：
+                  <!--赠送仲券（张）：-->
+                  {{ruleForm.settleType === 1 ? '赠送仲券（张）：' : '赠送服务费（元）：'}}
                 </td>
                 <td colspan="1">
                   <el-form-item label=" " prop="preGiftTicket">
-                    <el-input v-model="ruleForm.preGiftTicket" placeholder="请输入赠送仲券" />
+                    <el-input v-model="ruleForm.preGiftTicket" :placeholder="ruleForm.settleType === 1 ? '请输入赠送仲券' : '请输入赠送服务费'" />
                   </el-form-item>
                 </td>
                 <td v-if="preGiftPeriodIsShow" colspan="1">
-                  赠券有效期：
+                  <!--赠券有效期：-->
+                  {{ruleForm.settleType === 1 ? '赠券有效期' : '赠送服务费有效期'}}
                 </td>
                 <td colspan="1">
                   <el-form-item v-if="preGiftPeriodIsShow" label=" " prop="preGiftPeriod">
@@ -174,29 +179,30 @@
 
               <tr>
                 <td colspan="1">
-                  充值仲券（张）：
+                 {{ruleForm.settleType === 1 ? '充值仲券（张）：' : '充值服务费（元）：'}}
                 </td>
                 <td colspan="1">
                   {{ruleForm.preCaseTicket}}
                 </td>
-                <td colspan="1">
+                <td colspan="1" v-if="ruleForm.settleType === 1">
                   仲券金额（元）：
                 </td>
-                <td colspan="1">
+                <td colspan="1" v-if="ruleForm.settleType === 1">
                   {{ruleForm.preTicketAmt}}
                 </td>
               </tr>
 
               <tr>
                 <td colspan="1">
-                  赠送仲券（张）：
+                  {{ruleForm.settleType === 1 ? '赠送仲券（张）：' : '赠送服务费（元）：'}}
                 </td>
                 <td colspan="1">
                   {{ruleForm.preGiftTicket}}
                 </td>
                 <template v-if="ruleForm.preGiftTicket > 0">
                   <td colspan="1">
-                    赠券有效期：
+                    {{ruleForm.settleType === 1 ? '赠券有效期：' : '赠送服务费有效期：'}}
+
                   </td>
                   <td colspan="1">
                     {{ruleForm.preGiftPeriod}}个月
@@ -337,18 +343,22 @@
                 </tr>
 
                 <tr>
-                  <td colspan="1">添加仲券（张）：</td>
+                  <td colspan="1">
+                    {{ruleForm.settleType === 1 ? '添加仲券（张）：' : '添加服务费（元）：'}}
+
+                  </td>
                   <td colspan="1">
                     <el-form-item label=" "
                       :prop="`orderDetailList[${index}].addTicket`"
                       :rules="rules.addTicket"
                     >
-                      <el-input @input.native="handleAddTicket(item,index)" v-model="item.addTicket" placeholder="请输入添加仲券" />
+                      <el-input @input.native="handleAddTicket(item,index)" v-model="item.addTicket" :placeholder="ruleForm.settleType === 1 ? '请输入添加仲券' : '添加服务费'" />
                     </el-form-item>
                   </td>
-                  <td colspan="1">仲券金额（元）：</td>
+                  <td colspan="1" v-if="ruleForm.settleType === 1">仲券金额（元）：</td>
+                  <td colspan="1" v-else></td>
                   <td colspan="1">
-                    <el-form-item label=" "
+                    <el-form-item label=" " v-if="ruleForm.settleType === 1"
                       :prop="`orderDetailList[${index}].addTicketAmt`"
                       :rules="rules.addTicketAmt"
                     >
@@ -379,7 +389,9 @@
                 </tr>
 
                 <tr>
-                  <td colspan="1">赠送仲券（张）：</td>
+                  <td colspan="1">
+                    {{ruleForm.settleType === 1 ? '赠送仲券（张）：' : '赠送服务费（元）：'}}
+                    </td>
                   <td colspan="1">
                     <el-form-item label=" "
                       :prop="`orderDetailList[${index}].addGiftTicket`"
@@ -388,7 +400,9 @@
                       <el-input @input.native="handleAddGiftTicket(item,index)" v-model="item.addGiftTicket" placeholder="请输入赠送仲券" />
                     </el-form-item>
                   </td>
-                  <td v-if="item.addGiftPeriodStatus" colspan="1">赠券有效期：</td>
+                  <td v-if="item.addGiftPeriodStatus" colspan="1">
+                    {{ruleForm.settleType === 1 ? '赠券有效期：' : '赠送服务费有效期：'}}
+                    </td>
                   <td colspan="1">
                     <el-form-item label=" "
                       :prop="`orderDetailList[${index}].addGiftPeriod`"
@@ -480,13 +494,18 @@
                 </tr>
 
                 <tr>
-                  <td colspan="1">添加仲券（张）：</td>
+                  <td colspan="1">
+                    {{ruleForm.settleType === 1 ? '添加仲券（张）：' : '添加服务费（元）：'}}
+                    </td>
                   <td colspan="1">
                     {{item.addTicket}}
                   </td>
-                  <td colspan="1">仲券金额（元）：</td>
-                  <td colspan="1">
+                  <td colspan="1" v-if="ruleForm.settleType === 1">仲券金额（元）：</td>
+                  <td colspan="1" v-else></td>
+                  <td colspan="1" >
+                    <span v-if="ruleForm.settleType === 1">
                     {{item.addTicketAmt}}
+                    </span>
                   </td>
                 </tr>
 
@@ -502,12 +521,16 @@
                 </tr>
 
                 <tr>
-                  <td colspan="1">赠送仲券（张）：</td>
+                  <td colspan="1">
+                    {{ruleForm.settleType === 1 ? '赠送仲券（张）：' : '赠送服务费（元）：'}}
+                    </td>
                   <td colspan="1">
                     {{item.addGiftTicket}}
                   </td>
                   <template v-if="item.addGiftTicket > 0">
-                    <td colspan="1">赠券有效期：</td>
+                    <td colspan="1">
+                      {{ruleForm.settleType === 1 ? '赠券有效期：' : ' 赠送服务费有效期：'}}
+                     </td>
                     <td colspan="1">
                       {{item.addGiftPeriod}}个月
                     </td>
@@ -631,7 +654,12 @@
         if(type === false) {
           this.ruleForm.preTicketAmt = 0;
         }else{
-          this.ruleForm.preTicketAmt = val * this.multiple;
+          if(this.ruleForm.settleType === 1){
+            this.ruleForm.preTicketAmt = val * this.multiple;
+          }
+          else{
+            this.ruleForm.preTicketAmt = val * 0;
+          }
         }
       },
       // 监听 赠送仲券
@@ -714,6 +742,7 @@
               apprerResult : '',
               // 审核状态 2 通过 3不通过
               resultStatus : '',
+              settleType: ''
             },
           ],
         },
@@ -936,6 +965,7 @@
         }).then((res) => {
           this.ruleForm.contractNo = res.result.contractNo;
           this.ruleForm.contractDate = res.result.contractDate;
+          this.ruleForm.settleType = res.result.settleType;
         });
       },
 
@@ -959,7 +989,11 @@
         if(type === false) {
           this.ruleForm.orderDetailList[index].addTicketAmt = 0;
         }else{
-          this.ruleForm.orderDetailList[index].addTicketAmt = item.addTicket * this.multiple;
+          if(this.ruleForm.settleType === 1){
+            this.ruleForm.orderDetailList[index].addTicketAmt = item.addTicket * this.multiple;
+          }else{
+            this.ruleForm.orderDetailList[index].addTicketAmt = item.addTicket  * 0;
+          }
         }
 
         this.$nextTick(() => {
@@ -968,10 +1002,11 @@
       },
       // 新增加款 list 计算到账金额
       handleComputedArrivalAmt(item,index) {
-        let addTicketAmt = +item.addTicketAmt || 0;
+        let addTicket = +item.addTicket || 0;
+        let fix = this.ruleForm.settleType === 1 ? this.multiple : 1;
         let addAmt = +item.addAmt || 0;
         let addService = +item.addService || 0;
-        this.ruleForm.orderDetailList[index].arrivalAmt = (addTicketAmt + addAmt + addService) || '0';
+        this.ruleForm.orderDetailList[index].arrivalAmt = (addTicket * fix + addAmt + addService) || '0';
       },
 
       // 关闭浮层
@@ -1020,7 +1055,7 @@
           sendUrl = '/contractOrder/saveContractOrderInfo.htm';
           let sendDataArr = [
             'contractDate' , 'contractNo' , 'merchantCode' , 'preCaseAmt',
-            'preCaseTicket' , 'preGiftPeriod' , 'preGiftTicket' , 'preServiceAmt' , 'preTicketAmt'
+            'preCaseTicket' , 'preGiftPeriod' , 'preGiftTicket' , 'preServiceAmt' , 'preTicketAmt', 'settleType'
           ];
           sendDataArr.map((v,k) => {
             sendObj[v] = this.ruleForm[v];
@@ -1032,6 +1067,7 @@
         }else if(type === 'edit'){
           sendUrl = '/contractOrder/saveContractOrderInfo.htm';
           sendObj.orderId = this.ruleForm.orderId;
+          sendObj.settleType = this.ruleForm.settleType;
           sendObj.orderDetailList = (this.ruleForm.orderDetailList.filter((v) => {
             return v.orderStatus === 0;
           }));

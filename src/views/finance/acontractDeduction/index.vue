@@ -34,10 +34,7 @@
           </template>
         </el-table-column>
 				<el-table-column prop="clientName" label="客户名称"></el-table-column>
-				<el-table-column prop="settleType" label="结算类型">
-          <template slot-scope="scope">
-            {{scope.row.settleType == 1 ? '仲券结算' : '比例结算'}}
-          </template>
+				<el-table-column prop="deductionTypeDesc" label="结算类型">
         </el-table-column>
         <el-table-column prop="deductionServiceCharge" label="扣除服务费">
           <template slot-scope="scope">
