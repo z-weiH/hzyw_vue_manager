@@ -397,7 +397,7 @@
                       :prop="`orderDetailList[${index}].addGiftTicket`"
                       :rules="rules.addGiftTicket"
                     >
-                      <el-input @input.native="handleAddGiftTicket(item,index)" v-model="item.addGiftTicket" placeholder="请输入赠送仲券" />
+                      <el-input @input.native="handleAddGiftTicket(item,index)" v-model="item.addGiftTicket" placeholder="请输入" />
                     </el-form-item>
                   </td>
                   <td v-if="item.addGiftPeriodStatus" colspan="1">
@@ -762,14 +762,14 @@
             {pattern : /^\d+(\.\d+)?$/ , message : '格式输入有误' , trigger : 'blur'},
           ],
           preCaseTicket : [
-            {required : true , message : '请输入充值仲券' , trigger : 'blur'},
+            {required : true , message : '请输入' , trigger : 'blur'},
             {pattern : /^(0|[1-9][0-9]*)$/ , message : '格式输入有误' , trigger : 'blur'},
           ],
           /* preTicketAmt : [
             {required : true , message : '请输入仲券金额' , trigger : 'blur'}
           ], */
           preGiftTicket : [
-            {required : true , message : '请输入赠送仲券' , trigger : 'blur'},
+            {required : true , message : '请输入' , trigger : 'blur'},
             {pattern : /^(0|[1-9][0-9]*)$/ , message : '格式输入有误' , trigger : 'blur'},
           ],
           preGiftPeriod : [
@@ -803,7 +803,7 @@
             {required : true , message : '请输入转账摘要' , trigger : 'blur'}
           ],
           addTicket : [
-            {required : true , message : '请输入添加仲券' , trigger : 'blur'},
+            {required : true , message : '请输入' , trigger : 'blur'},
             {pattern : /^(0|[1-9][0-9]*)$/ , message : '格式输入有误' , trigger : 'blur'},
           ],
           /* addTicketAmt : [
@@ -818,7 +818,7 @@
             {pattern : /^\d+(\.\d+)?$/ , message : '格式输入有误' , trigger : 'blur'},
           ],
           addGiftTicket : [
-            {required : true , message : '请输入赠送仲券' , trigger : 'blur'},
+            {required : true , message : '请输入' , trigger : 'blur'},
             {pattern : /^(0|[1-9][0-9]*)$/ , message : '格式输入有误' , trigger : 'blur'},
           ],
           addGiftPeriod : [

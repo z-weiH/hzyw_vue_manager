@@ -60,6 +60,7 @@ export default {
         } else {
           this.$message.error(res.description)
         }
+        this.afterQuery();
         return res
       })
       return promise
@@ -71,6 +72,10 @@ export default {
      */
     doQuery(url, item) {
       this.query(url, item);
+    },
+
+    afterQuery(){
+
     },
     queryDetail(url, item) {
       return this.$http.post(url, item).then(res => {
