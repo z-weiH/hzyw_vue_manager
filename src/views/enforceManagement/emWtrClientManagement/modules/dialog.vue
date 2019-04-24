@@ -9,7 +9,7 @@
     >
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
-          
+
 					<el-form-item label="委托人名称：" prop="clienteleName">
 						<el-input style="width:400px;" v-model.trim="ruleForm.clienteleName" placeholder="请输入"></el-input>
 					</el-form-item>
@@ -36,7 +36,7 @@
 
           <el-form-item label="法人身份证正反面照片：" prop="corporationIdcard" label-width="200px">
             <el-upload
-              accept="image/*,.pdf"
+              accept=".PDF,.pdf"
               class="upload-demo"
               :action="`${$host}/file/upload.htm`"
               :show-file-list="false"
@@ -60,7 +60,7 @@
 
           <el-form-item label="营业执照：" prop="businessLicense">
             <el-upload
-              accept="image/*,.pdf"
+              accept=".pdf,.PDF"
               class="upload-demo"
               :action="`${$host}/file/upload.htm`"
               :show-file-list="false"
@@ -174,7 +174,7 @@
       // 关闭浮层
       handleClose() {
         this.dialogVisible = false;
-        
+
         setTimeout(() => {
           // 取消按钮禁用
           this.submitDisabled = false;
@@ -184,7 +184,7 @@
             this.$refs.ruleForm.clearValidate();
           });
 				},500);
-				
+
       },
       // 点击提交
       handleSubmit(submitType) {
