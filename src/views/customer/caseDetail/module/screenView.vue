@@ -57,7 +57,7 @@
         checkMovie(url){
           let idx = url.lastIndexOf('.');
           let str = url.substr(idx+1);
-          let arr = ["avi","mkv","mov","mp4","rmvb"];
+          let arr = ["avi","mkv","mov","mp4","rmvb", "avg", "svg"];
           return arr.indexOf(str) != -1;
         },
         //判断文件是否是pdf
