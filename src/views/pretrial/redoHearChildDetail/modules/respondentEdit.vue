@@ -79,20 +79,23 @@
               this.$http.post("/firstAudit/respondentModified.htm",{cardList:[obj],caseId:this.currentRespodent.caseId,resId:this.currentRespodent.resId},{mheaders: true}).then(res => {
                 if(res.code === '0000'){
                   this.$message.success("修改成功，仲裁申请书已更新");
-                  if(this.$parent.handleCountQuery && this.$parent.handleCountQuery instanceof Function){
-                    this.$parent.handleCountQuery({check: this.$parent.disabled ? 0 : 1,subBatchNo:this.$parent.subBatchNo, type: 1 });
-                  }
-                  if(this.$parent.queryCountAgainAuditCase && this.$parent.queryCountAgainAuditCase instanceof Function) {
-                    this.$parent.queryCountAgainAuditCase({subBatchNo: this.$parent.subBatchId});
-                  }
                   this.$parent.respondentEditFlag = false;
-                  if(this.$parent.HandleQuery && this.$parent.HandleQuery instanceof Function){
-                    this.$parent.HandleQuery();
-                  }
-                  //复审
-                  if(this.$parent.getRecheckDetail && this.$parent.getRecheckDetail instanceof Function){
-                    this.$parent.getRecheckDetail();
-                  }
+                  this.$nextTick(() => {
+                    if(this.$parent.handleCountQuery && this.$parent.handleCountQuery instanceof Function){
+                      this.$parent.handleCountQuery({check: this.$parent.disabled ? 0 : 1,subBatchNo:this.$parent.subBatchNo, type: 1 });
+                    }
+                    if(this.$parent.queryCountAgainAuditCase && this.$parent.queryCountAgainAuditCase instanceof Function) {
+                      this.$parent.queryCountAgainAuditCase({subBatchNo: this.$parent.subBatchId});
+                    }
+                    if(this.$parent.HandleQuery && this.$parent.HandleQuery instanceof Function){
+                      this.$parent.HandleQuery();
+                    }
+                    //复审
+                    if(this.$parent.getRecheckDetail && this.$parent.getRecheckDetail instanceof Function){
+                      this.$parent.getRecheckDetail();
+                    }
+                  })
+
 
                 }
               })
