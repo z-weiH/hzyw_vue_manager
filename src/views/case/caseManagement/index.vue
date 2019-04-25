@@ -134,6 +134,7 @@
       // 点击详情
       handleDetail(row) {
         let loading = this.$loading();
+        this.queryMuilRespondentInfo(row)
         this.$http({
           method : 'post',
           url : '/casemanage/selectCaseDetailByCaseId.htm',
@@ -146,6 +147,18 @@
         },(err) => {
           loading.close();
         });
+      },
+      queryMuilRespondentInfo(row){
+        // 查询多个被申请人信息
+        this.$http({
+          method:'post',
+          url:'/casemanage/queryRespondentInfo.htm',
+          data:{
+            caseId: row.caseId
+          }
+        }).then(res=>{
+          console.log(res.result)
+        })
       },
       // 点击新增 案件
       handleAdd() {
@@ -210,7 +223,7 @@
       },
       // 分页 change
       handleCurrentChange(val) {
-        this.currentPage = val; 
+        this.currentPage = val;
         this.initTableList();
       },
 
