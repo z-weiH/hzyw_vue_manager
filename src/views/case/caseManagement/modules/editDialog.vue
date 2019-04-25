@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import reg from "@/assets/js/regexp";
+
 // import EditPeopleInfo from "./editPeopleInfo";
 // const EditPeopleInfo = resolve => require(['./editPeopleInfo'], resolve)
 import EditPeopleInfo from "./editPeopleInfo";

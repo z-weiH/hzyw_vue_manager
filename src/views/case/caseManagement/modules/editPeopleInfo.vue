@@ -221,6 +221,7 @@
   </div>
 </template>
 <script>
+import reg from "@/assets/js/regexp";
 export default {
   watch: {
     echoItems(val) {
@@ -249,7 +250,7 @@ export default {
         legalPerson: [
           { required: true, message: "请输入法定代表人", trigger: "blur" }
         ],
-        nation: [{ required: true, message: "请输入名族", trigger: "blur" }],
+        nation: [{ required: true, message: "请输入名族", trigger: "blur" },{ pattern: reg.allCH, message:"只能输入汉字",trigger:"blur"}],
         phone: [
           { required: true, message: "请输入手机号", trigger: "blur" },
           { pattern: reg.tel, message: "手机号格式有误", trigger: "blur" }
