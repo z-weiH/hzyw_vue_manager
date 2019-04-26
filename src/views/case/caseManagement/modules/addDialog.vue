@@ -490,7 +490,7 @@
             <template v-for='(item,index) in ruleForm.evidences'>
               <!-- 循环 证据list -->
               <template v-for='(details,index2) in item.details'>
-                <tr :key='index + '' + index2'>
+                <tr :key='index + "" + index2'>
                   <td
                     v-if='index2 === 0'
                     colspan='1'
