@@ -316,7 +316,7 @@ export default {
     },
     // 点击导出
     handleExportFile(type) {
-      if (type == 1) {
+      if (type === 1) {
         exportFile({
           url: "/account/queryTicketRechargeExport.htm",
           data: {
@@ -328,13 +328,13 @@ export default {
             settleType: type
           }
         });
-      } else if (type == 2) {
+      } else if (type === 2) {
         exportFile({
           url: "/account/queryTicketRechargeExport.htm",
           data: {
             ...this.ruleForm,
             clientCode: this.searchForm1.clientCode,
-            hasGift: this.searchForm1.hasGift ? 1 : 0,
+            hasRecharge: this.searchForm1.hasRecharge ? 1 : 0,
             hasRefund: this.searchForm1.hasRefund ? 1 : 0,
             settleType: type
           }
