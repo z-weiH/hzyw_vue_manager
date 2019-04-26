@@ -76,7 +76,7 @@
               <el-checkbox v-model="searchForm.hasRefund">有退券记录</el-checkbox>
             </el-form-item>
 
-            <el-button @click="handleSearch" type="warning">查询</el-button>
+            <el-button @click="handleSearch(1)" type="warning">查询</el-button>
 
             <div class="fr">
               <el-button @click="handleExportFile(1)" type="primary">导出</el-button>
@@ -147,7 +147,7 @@
               <el-checkbox v-model="searchForm1.hasRefund">有退费记录</el-checkbox>
             </el-form-item>
 
-            <el-button @click="handleSearch" type="warning">查询</el-button>
+            <el-button @click="handleSearch(2)" type="warning">查询</el-button>
 
             <div class="fr">
               <el-button @click="handleExportFile(2)" type="primary">导出</el-button>
@@ -224,7 +224,7 @@ export default {
         rechargeTotal: "", // 充值仲券总数（张）
         refundTotal: "" // 退券总数（张）
       },
-      tabcardType:1,//选项卡(业务内容)全局下标 1代表仲券 2代表比例
+      tabcardType: 1, //选项卡(业务内容)全局下标 1代表仲券 2代表比例
       // 用于表格搜索
       searchForm: {
         // 客户
@@ -262,7 +262,7 @@ export default {
   mounted() {
     this.initClient();
     this.initStatistics();
-    this.initTableList();
+    this.initTableList(1);
   },
   methods: {
     handleSecuritiesAndRatioTab(tab, event) {
@@ -305,9 +305,9 @@ export default {
         return this.$message.warning("请至少选择一个时间");
       }
       this.initStatistics().then(() => {
-        if(this.tabcardType == 1){
-          this.initTableList();
-        }else if(this.tabcardType == 2){
+        if (this.tabcardType == 1) {
+          this.initTableList(1);
+        } else if (this.tabcardType == 2) {
           this.initTableList(2);
         }
         this.startDateText = this.ruleForm.startDate;
@@ -346,8 +346,12 @@ export default {
       this.$router.push("balanceQuery");
     },
     // 点击查询
-    handleSearch() {
-      this.initTableList();
+    handleSearch(type) {
+      if (type === 1) {
+        this.initTableList(1);
+      } else if (type === 2) {
+        this.initTableList(2);
+      }
       this.initStatistics();
     },
     // 表格详情
@@ -362,52 +366,82 @@ export default {
 
     // 初始化 表格数据
     initTableList(stype) {
-      let loading = this.$loading();
-      this.$http({
-        url: "/account/queryTicketRechargeList.htm",
-        method: "post",
-        data: {
-          pageSize: this.pageSize,
-          currentNum: this.currentPage,
+      this.queryTableData(stype);
+    },
+    queryTableData(stype) {
+       let loading = this.$loading();
+      if (stype === 1) {
+        // 查询表格数据
+        this.$http({
+          url: "/account/queryTicketRechargeList.htm",
+          method: "post",
+          data: {
+            pageSize: this.pageSize,
+            currentNum: this.currentPage,
 
-          ...this.ruleForm,
-          clientCode: this.searchForm.clientCode,
-          hasGift: this.searchForm.hasGift ? 1 : 0,
-          hasRecharge: this.searchForm.hasRecharge ? 1 : 0,
-          hasRefund: this.searchForm.hasRefund ? 1 : 0,
-          settleType: stype ? stype : 1
-        }
-      })
-        .then(res => {
-          this.total = res.result.count;
-          if (stype == 2) {
-            this.tableData1 = res.result.list;
-          } else {
-            this.tableData = res.result.list;
+            ...this.ruleForm,
+            clientCode: this.searchForm.clientCode,
+            hasGift: this.searchForm.hasGift ? 1 : 0,
+            hasRecharge: this.searchForm.hasRecharge ? 1 : 0,
+            hasRefund: this.searchForm.hasRefund ? 1 : 0,
+            settleType: stype ? stype : 1
           }
-          loading.close();
         })
-        .catch(() => {
-          loading.close();
-        });
+          .then(res => {
+            this.total = res.result.count;
+
+            this.tableData = res.result.list;
+
+            loading.close();
+          })
+          .catch(() => {
+            loading.close();
+          });
+      } else if (stype === 2) {
+        // 查询表格数据
+        this.$http({
+          url: "/account/queryTicketRechargeList.htm",
+          method: "post",
+          data: {
+            pageSize: this.pageSize,
+            currentNum: this.currentPage,
+
+            ...this.ruleForm,
+            clientCode: this.searchForm1.clientCode,
+            hasGift: this.searchForm1.hasGift ? 1 : 0,
+            hasRecharge: this.searchForm1.hasRecharge ? 1 : 0,
+            hasRefund: this.searchForm1.hasRefund ? 1 : 0,
+            settleType: stype ? stype : 1
+          }
+        })
+          .then(res => {
+            this.total = res.result.count;
+
+            this.tableData1 = res.result.list;
+
+            loading.close();
+          })
+          .catch(() => {
+            loading.close();
+          });
+      }
     },
     // 页数 change
     handleSizeChange(val) {
       this.pageSize = val;
       this.currentPage = 1;
-      if(this.tabcardType == 1){
-        this.initTableList();
-      }else if(this.tabcardType == 2){
+      if (this.tabcardType == 1) {
+        this.initTableList(1);
+      } else if (this.tabcardType == 2) {
         this.initTableList(2);
       }
-
     },
     // 分页 change
     handleCurrentChange(val) {
       this.currentPage = val;
-      if(this.tabcardType == 1){
-        this.initTableList();
-      }else if(this.tabcardType == 2){
+      if (this.tabcardType == 1) {
+        this.initTableList(1);
+      } else if (this.tabcardType == 2) {
         this.initTableList(2);
       }
     },
