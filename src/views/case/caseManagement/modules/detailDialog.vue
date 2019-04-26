@@ -84,8 +84,9 @@
 
               <tr>
                 <td class="m-bg" colspan="4">
-                  第{{index === 0 ? '二' : '三'}}部分：
-                  {{item.litigantType === 0 ? '申请人' : '被申请人'}}信息（{{item.type === 1 ? '企业' : '个人'}}）
+                  第{{item.litigantType === 2 ? '二' : '三'}}部分：{{item.litigantType === 0 ? '申请人' : '被申请人'}}信息（{{item.type === 1 ? '企业' : '个人'}}）
+                  <!-- 第{{index === 0 ? '二' : '三'}}部分：
+                  {{item.litigantType === 0 ? '申请人' : '被申请人'}}信息（{{item.type === 1 ? '企业' : '个人'}}） -->
                 </td>
               </tr>
 
@@ -137,8 +138,9 @@
 
               <tr>
                 <td class="m-bg" colspan="4">
-                  第{{index === 0 ? '二' : '三'}}部分：
-                  {{item.litigantType === 0 ? '申请人' : '被申请人'}}信息（{{item.type === 1 ? '企业' : '个人'}}）
+                  第{{item.litigantType === 2 ? '二' : '三'}}部分：{{item.litigantType === 0 ? '申请人' : '被申请人'}}信息（{{item.type === 1 ? '企业' : '个人'}}）
+                  <!-- 第{{index === 0 ? '二' : '三'}}部分：
+                  {{item.litigantType === 0 ? '申请人' : '被申请人'}}信息（{{item.type === 1 ? '企业' : '个人'}}） -->
                 </td>
               </tr>
 
