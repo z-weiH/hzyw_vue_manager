@@ -31,7 +31,7 @@
                     <template v-for='(item,index) in userOptions'>
                       <el-option
                         :key='item.userId + index'
-                        :label='`${item.name}${item.clientName ? `（${item.clientName}）` : ''}`'
+                        :label='`${item.name}${item.clientName ? `（${item.clientName}）` : ""}`'
                         :value='item.userId'
                       ></el-option>
                     </template>
