@@ -15,7 +15,7 @@
         <span>{{endDateText}}</span>
         <span>及之前</span>
       </template>
-      <span>仲券充值记录</span>
+      <span>服务费充值记录</span>
       <div class="fr">
         <el-form class="m-form" :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
           <timeFrame :startDate.sync="ruleForm.startDate" :endDate.sync="ruleForm.endDate"></timeFrame>
@@ -100,9 +100,21 @@
               :render-header="headerFinalTicketGift"
             ></el-table-column>
             <el-table-column prop="ticketValue" label="单张券面值（元）"></el-table-column>
-            <el-table-column prop="periodTicketRecharge" label="期间充值仲券"></el-table-column>
-            <el-table-column prop="periodTicketGift" label="期间赠券"></el-table-column>
-            <el-table-column prop="periodTicketRefund" label="期间退券"></el-table-column>
+            <el-table-column prop="periodTicketRecharge" label="期间充值仲券">
+              <template slot-scope="scope">
+                  {{scope.row.periodTicketRecharge/10}}
+              </template>
+            </el-table-column>
+            <el-table-column prop="periodTicketGift" label="期间赠券">
+                <template slot-scope="scope">
+                  {{scope.row.periodTicketGift/10}}
+                </template>
+            </el-table-column>
+            <el-table-column prop="periodTicketRefund" label="期间退券">
+                <template slot-scope="scope">
+                  {{scope.row.periodTicketRefund/10}}
+                </template>
+            </el-table-column>
             <el-table-column label="操作" width="140">
               <template slot-scope="scope">
                 <el-button @click="handleDetail(scope.row)" type="text">查看详情</el-button>
