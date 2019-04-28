@@ -63,8 +63,14 @@ export default {
       columnDefine: [
         {label: '企业名称',property: 'custName'},
         {label: '合同号',property: 'contactNo',isLink: 1, linkShowPanel: this.doView},
+        {label: '结算类型', property: 'settleType', type: 'select',
+          options: [
+            { label: "仲券结算", value: 1 },
+            { label: "比例结算", value: 2 }
+          ]},
+        {label: '服务费',property: 'ticketCount1'},
         {label: '技术服务费 （元）',property: 'serveAmount'},
-        {label: '开户仲券（张）',property: 'ticketCount'},
+        {label: '开户仲券（张）',property: 'ticketCount2'},
         {label: '开户受理费（元）',property: 'caseAmount'},
         {label: '申请时间',property: 'submitTime'},
       ],
@@ -73,6 +79,17 @@ export default {
     }
   },
   methods: {
+    afterQuery(){
+      this.tableData.forEach(it => {
+        if(it.settleType === 1){
+          it.ticketCount2 = it.ticketCount;
+          it.ticketCount1 = '/';
+        }else {
+          it.ticketCount1 = it.ticketCount;
+          it.ticketCount2 = '/';
+        }
+      })
+    },
     doView(row) {
       console.log(123123123123);
       this.$http.post(URL_JSON['editAccountAffirm'],{orderId: row.orderId})
@@ -89,7 +106,7 @@ export default {
       this.$http.post('/order/selectOpenCustomerConfirmAuditDetail.htm',{orderId: row.orderId})
         .then(res => {
           if(res.code == '0000'){
-            this.item = res.result;
+            this.item = {settleType: row.settleType, ...res.result};
             this.editState = 2;
           }
         })

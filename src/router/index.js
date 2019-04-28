@@ -1244,6 +1244,13 @@ let router = new Router({
       meta: {
         name: 'hearCaseListDetail',
       },
+    },
+    {
+      path: '/uploadPdf',
+      component: () => import('@/views/ruleBaseManagement/uploadPdf'),
+      meta: {
+        name: 'uploadPdf'
+      }
     }
   ],
 })

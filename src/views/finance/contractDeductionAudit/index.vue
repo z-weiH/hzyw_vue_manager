@@ -16,7 +16,7 @@
             <el-option label="未通过" :value="2"></el-option>
           </el-select>
         </el-form-item>
-        
+
         <el-button @click="handleSearch" type="warning">查询</el-button>
         <el-button @click="handleExport" type="primary">导出Excel</el-button>
       </el-form>
@@ -33,14 +33,24 @@
           </template>
         </el-table-column>
 				<el-table-column prop="clientName" label="客户名称"></el-table-column>
+        <el-table-column prop="deductionType" label="结算类型">
+          <template slot-scope="scope">
+            {{scope.row.deductionType == 0 ? '仲券结算' :  '比例结算'}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="deductionTicket" label="扣除服务费">
+          <template slot-scope="scope">
+            {{scope.row.deductionType == 2 ? scope.row.deductionTicket : '/'}}
+          </template>
+        </el-table-column>
         <el-table-column prop="deductionTicket" label="扣除仲券">
           <template slot-scope="scope">
-            {{scope.row.deductionTicket || '--'}}
+            {{scope.row.deductionType == 0 ? scope.row.deductionTicket : '/'}}
           </template>
         </el-table-column>
         <el-table-column prop="deductionAmt" label="扣除仲裁费">
           <template slot-scope="scope">
-            {{scope.row.deductionAmt || '--'}}
+            {{scope.row.deductionType == 1 ? scope.row.deductionAmt : '/'}}
           </template>
         </el-table-column>
         <el-table-column prop="deductionDesc" label="扣除说明"></el-table-column>
@@ -109,7 +119,7 @@
         currentPage : 1,
         // 每页数量
 				pageSize : 10,
-				
+
 			}
     },
     mounted() {
@@ -175,7 +185,7 @@
       },
       // 分页 change
       handleCurrentChange(val) {
-        this.currentPage = val; 
+        this.currentPage = val;
         this.initTableList();
       },
 
@@ -187,7 +197,7 @@
 <style lang="scss" scoped>
 
 .contract-deduction-audit{
-	
+
 }
 
 </style>

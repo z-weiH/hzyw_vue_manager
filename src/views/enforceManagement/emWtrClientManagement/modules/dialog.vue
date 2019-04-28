@@ -60,7 +60,7 @@
 
           <el-form-item label="营业执照：" prop="businessLicense">
             <el-upload
-              accept=".PDF,.pdf"
+              accept=".pdf,.PDF"
               class="upload-demo"
               :action="`${$host}/file/upload.htm`"
               :show-file-list="false"
