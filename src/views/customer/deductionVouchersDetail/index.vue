@@ -72,11 +72,11 @@
             <span v-if="scope.row.settleType === 2">比例结算</span>
           </template>
         </el-table-column>
-        <!-- <el-table-column prop="caseNo" label="仲裁案号">
+        <el-table-column prop="caseNo" label="仲裁案号">
           <template slot-scope="scope">
             {{scope.row.caseNo || '--'}}
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column prop="amtBorrowed" label="标的金额（元）"></el-table-column>
         <el-table-column prop="ticketCount" label="服务费(元)"></el-table-column>
