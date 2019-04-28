@@ -436,9 +436,14 @@ export default {
 							width: 110,
 						},
 						{
-							label: '仲券服务费',
+							label: '服务费(元)',
 							property: 'caseTicketFee',
 							width: 110,
+            },
+            {
+							label: '仲券(张)',
+							property: 'caseTicket',
+							width: 100,
 						},
 						{
 							label: '预缴受理费',
@@ -454,12 +459,7 @@ export default {
 							label: '处理费',
 							property: 'handFee',
 							width: 100,
-						},
-						{
-							label: '仲券',
-							property: 'caseTicket',
-							width: 100,
-						},
+						}
 					],
 				},
 				{
@@ -562,7 +562,8 @@ export default {
 				//  this.tableData = res.result.list;
 				//   this.total = res.result.count;
 				this.tableData = res.result.list.map((v) => {
-					v.phoneStatusResult = v.phoneStatusResult || '未检测';
+          (v.phoneStatusResult = v.phoneStatusResult || '未检测') &&
+          (v.settleType == 1 ? v.caseTicketFee = '/':v.caseTicket = '/');
 					return v;
 				});
         this.queryCount(item)
@@ -630,7 +631,7 @@ export default {
 		this.optsHkCaseStatusView() //还款案件状态
 	},
 	mounted() {
-		this.doQuery(this.queryUrl, this.searchItem)
+		this.doQuery(this.queryUrl, this.searchItem);
 	},
 	components: {
 		Searchs,

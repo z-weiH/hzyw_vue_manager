@@ -83,6 +83,7 @@
 </template>
 
 <script>
+  import {sortBy} from '@/assets/js/tool'
   import timeFrame from '@/components/timeFrame.vue'
   import addDialog from './modules/addDialog.vue'
   import detailDialog from './modules/detailDialog.vue'
@@ -134,6 +135,7 @@
       // 点击详情
       handleDetail(row) {
         let loading = this.$loading();
+        this.queryMuilRespondentInfo(row)
         this.$http({
           method : 'post',
           url : '/casemanage/selectCaseDetailByCaseId.htm',
@@ -142,10 +144,25 @@
           },
         }).then((res) => {
           loading.close();
-          this.$refs.detailDialog.show(res.result);
+          let data = res.result;
+          let litigants = data.litigants
+          data['litigants'] = litigants.sort(sortBy('litigantType',false));
+          this.$refs.detailDialog.show(data);
         },(err) => {
           loading.close();
         });
+      },
+      queryMuilRespondentInfo(row){
+        // 查询多个被申请人信息
+        this.$http({
+          method:'post',
+          url:'/casemanage/queryRespondentInfo.htm',
+          data:{
+            caseId: row.caseId
+          }
+        }).then(res=>{
+          console.log(res.result)
+        })
       },
       // 点击新增 案件
       handleAdd() {
@@ -210,7 +227,7 @@
       },
       // 分页 change
       handleCurrentChange(val) {
-        this.currentPage = val; 
+        this.currentPage = val;
         this.initTableList();
       },
 
