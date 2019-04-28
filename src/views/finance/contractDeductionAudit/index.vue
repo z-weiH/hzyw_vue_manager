@@ -40,17 +40,17 @@
         </el-table-column>
         <el-table-column prop="deductionTicket" label="扣除服务费">
           <template slot-scope="scope">
-            {{scope.row.deductionType == 0 ? '/' : scope.row.deductionTicket}}
+            {{scope.row.deductionType == 2 ? scope.row.deductionTicket : '/'}}
           </template>
         </el-table-column>
         <el-table-column prop="deductionTicket" label="扣除仲券">
           <template slot-scope="scope">
-            {{scope.row.deductionType == 2 ? '/' : scope.row.deductionTicket}}
+            {{scope.row.deductionType == 0 ? scope.row.deductionTicket : '/'}}
           </template>
         </el-table-column>
         <el-table-column prop="deductionAmt" label="扣除仲裁费">
           <template slot-scope="scope">
-            {{scope.row.deductionAmt || '--'}}
+            {{scope.row.deductionType == 1 ? scope.row.deductionAmt : '/'}}
           </template>
         </el-table-column>
         <el-table-column prop="deductionDesc" label="扣除说明"></el-table-column>

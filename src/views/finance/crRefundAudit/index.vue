@@ -44,8 +44,18 @@
 				<el-table-column prop="applicants" label="申请人"></el-table-column>
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column prop="resPhone" label="被申请人手机" width="150px"></el-table-column>
+        <el-table-column prop="settleType" label="结算类型" >
+          <template slot-scope="scope">
+            {{scope.row.settleType === 1 ? '仲券结算' : '比例结算'}}
+          </template>
+        </el-table-column>
+
         <el-table-column prop="borrowAmt" label="标的金额"></el-table-column>
-        <el-table-column prop="caseTicket" label="案件仲券"></el-table-column>
+        <el-table-column prop="caseTicket" label="扣除费用">
+          <template slot-scope="scope">
+            {{scope.row.settleType === 1 ? `仲券${scope.row.caseTicket}张` : `${scope.row.caseTicketFee}元`}}
+          </template>
+        </el-table-column>
         <el-table-column prop="refundStatus" label="退款状态">
           <template slot-scope="scope">
             {{
@@ -118,7 +128,7 @@
         currentPage : 1,
         // 每页数量
 				pageSize : 10,
-				
+
 			}
     },
     mounted() {
@@ -137,7 +147,7 @@
 				this.currentPage = 1;
         this.initTableList();
       },
-      
+
       // 查看
       handleSee(row) {
         let loading = this.$loading();
@@ -189,7 +199,7 @@
       },
       // 分页 change
       handleCurrentChange(val) {
-        this.currentPage = val; 
+        this.currentPage = val;
         this.initTableList();
       },
 
@@ -201,7 +211,7 @@
 <style lang="scss" scoped>
 
 .cr-refund-audit-box{
-	
+
 }
 
 </style>

@@ -44,7 +44,7 @@
         <el-table-column prop="borrowAmt" label="标的金额"></el-table-column>
         <el-table-column prop="caseTicket" label="扣除费用">
           <template slot-scope="scope">
-            {{scope.row.settleType === 1 ? `仲券${scope.row.caseTicket}张` : `${scope.row.caseTicket}元`}}
+            {{scope.row.settleType === 1 ? `仲券${scope.row.caseTicket}张` : `${scope.row.caseTicketFee}元`}}
           </template>
         </el-table-column>
         <!-- <el-table-column prop="clientCode" label="客户号"></el-table-column>
@@ -159,6 +159,9 @@
           clientName : row.clientName,
           resPhone : row.resPhone,
           respondents : row.respondents,
+          settleType: row.settleType,
+
+          caseTicketFee: row.caseTicketFee
         };
         this.$refs.applyRefundDialog.show(obj);
       },

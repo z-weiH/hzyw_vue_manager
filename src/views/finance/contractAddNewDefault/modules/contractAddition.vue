@@ -78,7 +78,7 @@
                 </td>
                 <td colspan="1">
                   <el-form-item label=" " prop="preCaseTicket">
-                    <el-input v-model="ruleForm.preCaseTicket" :placeholder="ruleForm.settleType ? '请输入充值仲券' : '请输入充值服务费'" />
+                    <el-input v-model="ruleForm.preCaseTicket" :placeholder="ruleForm.settleType=== 1 ? '请输入充值仲券' : '请输入充值服务费'" />
                   </el-form-item>
                 </td>
                 <td colspan="1" >
@@ -183,7 +183,7 @@
                 </td>
                 <td colspan="1">
                   {{ruleForm.preCaseTicket}}
-                </td>
+                </td>caseTicketFee
                 <td colspan="1" v-if="ruleForm.settleType === 1">
                   仲券金额（元）：
                 </td>

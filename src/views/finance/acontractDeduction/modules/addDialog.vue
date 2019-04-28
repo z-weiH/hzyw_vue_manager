@@ -175,10 +175,14 @@
           if(this.ruleForm.settleType === 2){
             this.ruleForm.ticketAvail = res.result.serviceFee;
             this.ruleForm.giftAvail = res.result.giftServiceFee;
+            this.ruleForm.deductionType =2;
           }else{
             this.ruleForm.ticketAvail = res.result.ticketAvail;
             this.ruleForm.giftAvail = res.result.giftAvail;
+            this.ruleForm.deductionType = 0;
           }
+          this.ruleForm. deductionTicket = '';
+         this.ruleForm.deductionDesc  =  '';
           this.ruleForm.deductionAmt = res.result.amtAvail;
 
         });
