@@ -83,6 +83,7 @@
 </template>
 
 <script>
+  import {sortBy} from '@/assets/js/tool'
   import timeFrame from '@/components/timeFrame.vue'
   import addDialog from './modules/addDialog.vue'
   import detailDialog from './modules/detailDialog.vue'
@@ -143,7 +144,10 @@
           },
         }).then((res) => {
           loading.close();
-          this.$refs.detailDialog.show(res.result);
+          let data = res.result;
+          let litigants = data.litigants
+          data['litigants'] = litigants.sort(sortBy('litigantType',false));
+          this.$refs.detailDialog.show(data);
         },(err) => {
           loading.close();
         });
