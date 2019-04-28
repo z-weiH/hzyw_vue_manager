@@ -15,7 +15,7 @@
         <span>{{endDateText}}</span>
         <span>及之前</span>
       </template>
-      <span>仲券扣除记录</span>
+      <span>服务费扣除记录</span>
       <div class="fr">
         <el-form class="m-form" :inline="true" ref="ruleForm" :model="ruleForm" label-width="0px">
           <timeFrame
@@ -47,7 +47,7 @@
         </div>
       </el-form>
 
-      <p class="ml-10">扣除仲券总数：{{statistics.offTotal}}张</p>
+      <p class="ml-10">扣除服务费总数：{{statistics.offTotal}}元</p>
     </div>
 
     <div class="item-table">
@@ -61,9 +61,15 @@
           </template>
         </el-table-column>
 				<el-table-column prop="clientName" label="客户名称"></el-table-column>
-        <el-table-column prop="feeOrderType" label="类型">
+        <el-table-column prop="feeOrderType" label="扣款类型">
           <template slot-scope="scope">
             {{scope.row.feeOrderType === 0 ? '系统自动' : '合同扣款'}}
+          </template>
+        </el-table-column>
+        <el-table-column prop="settleType" label="结算类型">
+          <template slot-scope="scope">
+            <span v-if="scope.row.settleType === 1">仲券结算</span>
+            <span v-if="scope.row.settleType === 2">比例结算</span>
           </template>
         </el-table-column>
         <!-- <el-table-column prop="caseNo" label="仲裁案号">
@@ -73,7 +79,7 @@
         </el-table-column> -->
         <el-table-column prop="respondents" label="被申请人"></el-table-column>
         <el-table-column prop="amtBorrowed" label="标的金额（元）"></el-table-column>
-        <el-table-column prop="ticketCount" label="扣除仲券"></el-table-column>
+        <el-table-column prop="ticketCount" label="服务费(元)"></el-table-column>
         <el-table-column prop="createTime" label="扣除时间"></el-table-column>
       </el-table>
       <!-- 分页 -->
@@ -120,7 +126,7 @@
         },
         // 统计
         statistics : {
-          offTotal : '', // 扣除仲券总数
+          offTotal : '', // 扣除服务费总数
         },
 
         // 表格数据
@@ -131,7 +137,7 @@
         currentPage : 1,
         // 每页数量
         pageSize : 10,
-        
+
         // 客户options
         clientOptions : [],
       }
@@ -176,7 +182,7 @@
           this.endDateText = this.ruleForm.endDate;
         });
       },
-      // 点击导出 
+      // 点击导出
       handleExportFile() {
         exportFile({
           url : '/account/queryTicketOffExport.htm',
@@ -228,7 +234,7 @@
       },
       // 分页 change
       handleCurrentChange(val) {
-        this.currentPage = val; 
+        this.currentPage = val;
         this.initTableList();
       },
 
