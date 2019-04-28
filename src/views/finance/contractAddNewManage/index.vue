@@ -66,7 +66,7 @@
         <el-table-column prop="settleTypeZw" label="结算方式"></el-table-column>
         <el-table-column prop="preCaseTicket" label="预加服务费">
           <template slot-scope="scope">
-            <span >{{scope.row.settleType === 2 ? scope.row.preTicketAmt : '/'}}</span>
+            <span >{{scope.row.settleType === 2 ? scope.row.preCaseTicket : '/'}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="preCaseAmt" label="预加受理费"></el-table-column>
