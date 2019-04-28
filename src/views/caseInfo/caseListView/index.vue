@@ -624,7 +624,9 @@ export default {
 		},
 	},
 	created() {
-		this.searchItem.caseProcess = +this.$route.query.caseProcess;
+		if(this.$route.query.caseProcess) {
+			this.searchItem.caseProcess = +this.$route.query.caseProcess;
+		}
 		this.optsCompanyListView() //互金企业
 		// this.optsPduListView() //产品名称
 		this.optsHkCaseStageView() //还款案件阶段
