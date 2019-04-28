@@ -29,19 +29,19 @@
         <el-col :span="8">
           <div class="m-grid-content">
             <p>充值服务费总数（元）</p>
-            <div class="grid-num grid-num-origin">{{statistics.rechargeTotal * 10}}</div>
+            <div class="grid-num grid-num-origin">{{statistics.rechargeTotal}}</div>
           </div>
         </el-col>
         <el-col :span="8">
           <div class="m-grid-content">
             <p>赠券服务费总数（元）</p>
-            <div class="grid-num grid-num-origin">{{statistics.giftTotal * 10}}</div>
+            <div class="grid-num grid-num-origin">{{statistics.giftTotal}}</div>
           </div>
         </el-col>
         <el-col :span="8">
           <div class="m-grid-content">
             <p>退款总数（元）</p>
-            <div class="grid-num grid-num-origin">{{statistics.refundTotal * 10}}</div>
+            <div class="grid-num grid-num-origin">{{statistics.refundTotal}}</div>
           </div>
         </el-col>
       </el-row>
@@ -92,20 +92,18 @@
             <el-table-column
               prop="finalTicket"
               label="期末仲券数"
-              width="150"
               :render-header="headerFinalTicket"
             ></el-table-column>
             <el-table-column
               prop="finalTicketGift"
               label="期末赠券数"
-              width="150"
               :render-header="headerFinalTicketGift"
             ></el-table-column>
-            <el-table-column prop="ticketValue" label="单张券面值（元）" width="140"></el-table-column>
-            <el-table-column prop="periodTicketRecharge" label="期间充值仲券" width="140"></el-table-column>
+            <el-table-column prop="ticketValue" label="单张券面值（元）"></el-table-column>
+            <el-table-column prop="periodTicketRecharge" label="期间充值仲券"></el-table-column>
             <el-table-column prop="periodTicketGift" label="期间赠券"></el-table-column>
             <el-table-column prop="periodTicketRefund" label="期间退券"></el-table-column>
-            <el-table-column label="操作">
+            <el-table-column label="操作" width="140">
               <template slot-scope="scope">
                 <el-button @click="handleDetail(scope.row)" type="text">查看详情</el-button>
               </template>
@@ -124,7 +122,7 @@
           ></el-pagination>
         </div>
       </el-tab-pane>
-      <el-tab-pane label="比例结算客户">
+      <!-- <el-tab-pane label="比例结算客户">
         <div class="item-search">
           <el-form :inline="true" ref="searchForm" :model="searchForm1" label-width="0px">
             <el-form-item label=" " prop="clientCode">
@@ -160,24 +158,24 @@
               <template slot-scope="scope">{{scope.$index + 1}}</template>
             </el-table-column>
             <el-table-column prop="clientName" label="客户名称" width="150"></el-table-column>
-            <el-table-column prop="finalFee" label="期末仲裁费余额" width="120"></el-table-column>
+            <el-table-column prop="finalFee" label="期末仲裁费余额" width="120"></el-table-column> -->
             <!-- <el-table-column
               prop="finalTicketGift"
               label="期末赠送服务费"
               :render-header="headerFinalTicketGift"
               width="160"
             ></el-table-column>-->
-            <el-table-column prop="rechargeFee" label="期间充值仲裁费" width="155"></el-table-column>
+            <!-- <el-table-column prop="rechargeFee" label="期间充值仲裁费" width="155"></el-table-column> -->
             <!-- <el-table-column prop="periodTicketGift" label="期间赠送服务费" width="155"></el-table-column> -->
-            <el-table-column prop="refundFee" label="期间退款仲裁费"></el-table-column>
+            <!-- <el-table-column prop="refundFee" label="期间退款仲裁费"></el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button @click="handleDetail(scope.row)" type="text">查看详情</el-button>
               </template>
             </el-table-column>
-          </el-table>
+          </el-table> -->
           <!-- 分页 -->
-          <el-pagination
+          <!-- <el-pagination
             class="mt-10 mb-10"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -188,7 +186,7 @@
             :total="total"
           ></el-pagination>
         </div>
-      </el-tab-pane>
+      </el-tab-pane> -->
     </el-tabs>
 
     <detailDialog ref="detailDialog" :modelType="tabcardType"></detailDialog>
