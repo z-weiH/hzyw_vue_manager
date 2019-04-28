@@ -38,7 +38,7 @@
         </el-table-column>
         <el-table-column prop="deductionTicket" label="扣除服务费">
           <template slot-scope="scope">
-            {{ scope.row.deductionType === 2 ? scope.row.deductionTicket : '/'}}
+            {{ scope.row.deductionType === 2 ? scope.row.deductionTicket4Fee : '/'}}
           </template>
         </el-table-column>
         <el-table-column prop="deductionTicket" label="扣除仲券">
