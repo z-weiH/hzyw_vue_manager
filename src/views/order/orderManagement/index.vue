@@ -168,6 +168,15 @@
         ],
       }
     },
+    created() {
+      if(this.$route.query.orderStatus) {
+        this.ruleForm.orderStatus = +this.$route.query.orderStatus;
+        // 清除url参数
+        this.$router.replace({
+          query : {},
+        });
+      }
+    },
     mounted() {
       this.initTableList();
       // 获取所有 商户
