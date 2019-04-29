@@ -22,7 +22,7 @@
           <span class="item-label">扣除数目：</span>
           <span class="item-value">
             {{
-              ruleForm.deductionType === 0 ? ruleForm.deductionTicket : ruleForm.deductionAmt
+              ruleForm.deductionType !== 1 ? ruleForm.deductionTicket : ruleForm.deductionAmt
             }}
           </span>
         </div>
@@ -118,8 +118,8 @@
     .item-value{
       width: 450px;
       display: inline-block;
-      word-wrap: break-word; 
-      word-break: normal; 
+      word-wrap: break-word;
+      word-break: normal;
       word-break:break-all;
       vertical-align: top;
     }
