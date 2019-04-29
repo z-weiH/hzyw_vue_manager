@@ -183,7 +183,7 @@
                 </td>
                 <td colspan="1">
                   {{ruleForm.preCaseTicket}}
-                </td>caseTicketFee
+                </td>
                 <td colspan="1" v-if="ruleForm.settleType === 1">
                   仲券金额（元）：
                 </td>
