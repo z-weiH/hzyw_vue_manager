@@ -55,8 +55,8 @@ axios.interceptors.response.use((res) => {
     });
     router.push(`/login?returnUrl=${router.history.current.path}`);
     // 清除缓存
-    sessionStorage.removeItem('loginInfo');
-    sessionStorage.removeItem('menuInfoList');
+    localStorage.removeItem('loginInfo');
+    localStorage.removeItem('menuInfoList');
     res.data.description = '用户登录超时';
     return Promise.reject(res);
   }
