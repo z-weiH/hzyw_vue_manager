@@ -95,6 +95,7 @@
 						this.$router.push(this.$route.query.reject);
 						loading.close();
 					}).catch(err => {
+						this.pageShow = true;
 						loading.close();
 					});
 				};
