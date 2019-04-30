@@ -15,7 +15,11 @@
         <div class="m-scrollbar-box">
           <el-scrollbar :native="false">
             <transition name="el-fade-in-linear" mode="out-in">
-              <router-view/>
+              <keep-alive
+                :include="include"
+              >
+                <router-view/>
+              </keep-alive>
             </transition>
           </el-scrollbar>
         </div>
@@ -35,6 +39,13 @@
       top,
       menuL,
       backTop
+    },
+    data() {
+      return {
+        include : [
+          'tplSetting',
+        ],
+      }
     },
   }
 </script>

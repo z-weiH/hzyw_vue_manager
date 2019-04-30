@@ -4,6 +4,7 @@
       router
       :default-active="$store.state.menu.menuActive"
       :unique-opened="true"
+      @select="handleSelect"
     >
       <template v-for="(item,index) in menuList">
 
@@ -773,6 +774,10 @@
       // 更新 推送记录
       timingRecord() {
         this.$store.dispatch('menu/upDataPushRecordUnread');
+      },
+      // menu选中
+      handleSelect(val) {
+        this.$store.commit('keepAlive/setkeepAliveStatus',false);
       },
     },
     destroyed() {
