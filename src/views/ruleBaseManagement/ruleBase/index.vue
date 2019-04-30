@@ -555,6 +555,7 @@
           });
         }else{
           this.manageArr(this.treeData);
+          console.log({treeData: this.treeData, keys: [this.currentMenu.parentId],rules: this.ruleList.filter(it => it.selected)});
           this.$refs.copyRule.show({treeData: this.treeData, keys: [this.currentMenu.parentId],rules: this.ruleList.filter(it => it.selected)});
         }
       },
@@ -563,14 +564,17 @@
       manageArr(arr){
 
         arr.forEach((it,idx) => {
+          this.$set(it, 'disabled', false);
           if(it.ruleLevel !== 4){
-            it.disabled = true;
+            this.$set(it, 'disabled', true);
+            // it.disabled = true;
             if(it.children){
               this.manageArr(it.children);
             }
           }else{
             if( it.levelId === this.currentMenu.levelId){
-              it.disabled = true;
+              this.$set(it, 'disabled', true);
+              // it.disabled = true;
             }
           }
         })
