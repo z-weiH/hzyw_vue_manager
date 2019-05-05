@@ -663,6 +663,11 @@
                 menuUrl: 'emEnforcementCases'
               },
               {
+                menuName: '执行标的计算器',
+                menuId: 'zxbdjsq',
+                menuUrl: 'emCalculator'
+              },
+              {
                 menuName: '下载任务页',
                 menuId: 'fyajgl2',
                 menuUrl: 'emDownloadTask'
