@@ -158,34 +158,22 @@
       </div>
 
       <div class="m-template-list">
-        <el-col :span="12">
-            <div>
-              <span class="list-text">强制申请书：</span>
-              <!-- <el-upload
-                v-show="!ruleForm.enforceUpdateTime"
-                ref="qzsqs"
-                class="upload-demo"
-                :action="`${$host}/templateSetting/uploadTemplateContent.htm`"
-                :show-file-list="false"
-                :before-upload="beforeAvatarUpload"
-                :on-success="handleAvatarSuccess"
-                :on-error="fileError"
-                :data="{
-                  path : 'demo',
-                  token : token,
-                  type : '3',
-                  prodTempId : $route.query.prodTempId,
-                }"
-              >
-                <el-button type="text">word上传</el-button>
-              </el-upload>
-              <el-button v-show="ruleForm.enforceUpdateTime" @click="handleCoverUpload('qzsqs')" type="text">word上传</el-button> -->
-              <el-button @click="handleWebpage('enforceContent')" type="text">网页编辑</el-button>
-              <span class="m-time ml-10">
-                {{ruleForm.enforceUpdateTime || '待设置'}}
-              </span>
-            </div>
-          </el-col>
+        <div class="of-hidden" v-if="ruleForm.qzzxList.length > 0">
+          <div class="fl list-text" style="margin-top:13px;">强制执行书：</div>
+          <el-row class="fl" style="width:calc(100% - 110px)">
+            <el-col :span="11" v-for="(item , index) in ruleForm.qzzxList" :key="index">
+              <div>
+                <span class="mr-10">裁决书 {{item.version && item.version.split(' ')[0]}}</span>
+                <el-button @click="handleWebpage('enforceContent',item.documentLogId)" type="text">网页编辑</el-button>
+                <span class="m-time ml-10">
+                  {{item.version || '待设置'}}
+                </span>
+              </div>
+            </el-col>
+          </el-row>
+        </div>
+
+        <el-row>
           <el-col :span="12">
             <el-row>
               <el-col :span="18">
@@ -195,13 +183,14 @@
                   {{ruleForm.executeUpdateTime || '待设置'}}
                 </span>
               </el-col>
-              <el-col :span="6">
+              <!-- <el-col :span="6">
                 <el-button @click="handleEnableOrDiscontinuation(3)" type="warning" size="medium" round>
                   {{ruleForm.enforceStatus === 1 ? '停用' : '启用'}}
                 </el-button>
-              </el-col>
+              </el-col> -->
             </el-row>
           </el-col>
+        </el-row>
       </div>
     </div>
 
@@ -267,11 +256,19 @@
           adjudeStatus : '', 
           // 强制申请书 	0:待设置,1:启用,2:停用
           enforceStatus : '',
+
+          // 强制执行 list
+          qzzxList : [],
+          // 申请书、裁决书、强制申请书documentId
+          documentIdList : [],
         },
       }
     },
     mounted() {
       this.init();
+      this.queryDocuemntId().then(() => {
+        this.queryQzzxList();
+      });
     },
     methods : {
       // 初始化数据
@@ -284,6 +281,30 @@
           },
         }).then((res) => {
           this.ruleForm = Object.assign(this.ruleForm,res.result);
+        });
+      },
+      // 获取 documentIdList
+      queryDocuemntId() {
+        return this.$http({
+          url : '/document/queryTemplateDocumentByProdTempId.htm',
+          method : 'post',
+          data : {
+            prodTempId : this.$route.query.prodTempId,
+          },
+        }).then(res => {
+          this.documentIdList = res.result;
+        });
+      },
+      // 获取 强制执行list
+      queryQzzxList() {
+        return this.$http({
+          url : '/document/queryTemplateDocumentLogListByDocumentId.htm',
+          method : 'post',
+          data : {
+            docuemntId : this.documentIdList.filter(v => v.documentType === 6)[0].documentId,
+          },
+        }).then(res => {
+          this.ruleForm.qzzxList = res.result;
         });
       },
       // 点击返回
@@ -303,8 +324,14 @@
         this.init();
       },
       // 点击网页编辑
-      handleWebpage(type) {
-        this.$router.push(`/webpageEditor?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}&type=${type}&templateId=${this.$route.query.templateId}`);
+      handleWebpage(type,documentLogId) {
+        let documentId = '';
+        if(!documentLogId && type === 'applyContent') {
+          documentId = this.documentIdList.filter(v => v.documentType === 1)[0].documentId;
+        }else if(!documentLogId && type === 'judgeContent') {
+          documentId = this.documentIdList.filter(v => v.documentType === 5)[0].documentId;
+        }
+        this.$router.push(`/webpageEditor?clientCode=${this.$route.query.clientCode}&prodTempId=${this.$route.query.prodTempId}&type=${type}&templateId=${this.$route.query.templateId}&documentLogId=${documentLogId || ''}&documentId=${documentId || ''}`);
       },
       // 点击证据设置
       handleEvidenceSetting() {

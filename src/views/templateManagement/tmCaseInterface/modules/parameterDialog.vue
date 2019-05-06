@@ -93,6 +93,8 @@
               <el-option label="借款人银行卡信息" :value="7"></el-option>
               <el-option label="分期贷信息" :value="8"></el-option>
               <el-option label="代偿信息" :value="9"></el-option>
+              <el-option label="短信信息" :value="10"></el-option>
+              <el-option label="贷款信息" :value="11"></el-option>
             </el-select>
           </el-form-item>
 
