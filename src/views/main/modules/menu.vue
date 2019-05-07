@@ -50,683 +50,695 @@
         // 是否存在 推送记录
         isPushRecord : false,
         // menu list
-        menuList : [
-          {
-            menuName : '系统管理',
-            menuId : 1,
-            children : [
+        menuList : (() => {
+          /* 
+              头皮发麻
+                el-menu bug
+                el-menu 内部组件中 items 初始化问题， 数据必须在初始化中加载完成。
+                否则高亮逻辑失效
+          */
+          if(process.env.NODE_ENV === 'development') {
+            return [
               {
-                menuName : '用户查询',
-                menuId : 2,
-                menuUrl : 'userQuery',
+                menuName : '系统管理',
+                menuId : 1,
+                children : [
+                  {
+                    menuName : '用户查询',
+                    menuId : 2,
+                    menuUrl : 'userQuery',
+                  },
+                  {
+                    menuName : '角色管理',
+                    menuId : 3,
+                    menuUrl : 'roleManage',
+                  },
+                  {
+                    menuName : '用户管理',
+                    menuId : 4,
+                    menuUrl : 'userControl',
+                  },
+                  {
+                    menuName : '菜单管理',
+                    menuId : 5,
+                    menuUrl : 'menuManage',
+                  },
+                  {
+                    menuName : '个人信息',
+                    menuId : 6,
+                    menuUrl : 'personInfo',
+                  },
+                  {
+                    menuName : '修改密码',
+                    menuId : 7,
+                    menuUrl : 'changePwd',
+                  },
+                  {
+                    menuName : '权限分配',
+                    menuId : 8,
+                    menuUrl : 'permissionAllot',
+                  },
+                  {
+                    menuName : '权限列表',
+                    menuId : 9,
+                    menuUrl : 'permissionList',
+                  }
+                ],
               },
               {
-                menuName : '角色管理',
-                menuId : 3,
-                menuUrl : 'roleManage',
+                menuName : '开户管理',
+                menuId : 10,
+                children: [
+                  {
+                    menuName : '用户查询',
+                    menuId : 11,
+                    menuUrl : 'userSearch'
+                  },
+                  {
+                    menuName : '开户申请',
+                    menuId : 12,
+                    menuUrl : 'accountApply'
+                  },
+                  {
+                    menuName : '开户设置【财务主管】',
+                    menuId : 13,
+                    menuUrl : 'accountSettingDefault'
+                  },
+                  {
+                    menuName : '开户设置【财务人员】',
+                    menuId : 14,
+                    menuUrl : 'accountSettingManage'
+                  },
+                  {
+                    menuName : '开户确认',
+                    menuId : 15,
+                    menuUrl : 'accountAffirm'
+                  }
+                ]
               },
-              {
-                menuName : '用户管理',
-                menuId : 4,
-                menuUrl : 'userControl',
-              },
-              {
-                menuName : '菜单管理',
-                menuId : 5,
-                menuUrl : 'menuManage',
-              },
-              {
-                menuName : '个人信息',
-                menuId : 6,
-                menuUrl : 'personInfo',
-              },
-              {
-                menuName : '修改密码',
-                menuId : 7,
-                menuUrl : 'changePwd',
-              },
-              {
-                menuName : '权限分配',
-                menuId : 8,
-                menuUrl : 'permissionAllot',
-              },
-              {
-                menuName : '权限列表',
-                menuId : 9,
-                menuUrl : 'permissionList',
-              }
-            ],
-          },
-          {
-            menuName : '开户管理',
-            menuId : 10,
-            children: [
-              {
-                menuName : '用户查询',
-                menuId : 11,
-                menuUrl : 'userSearch'
-              },
-              {
-                menuName : '开户申请',
-                menuId : 12,
-                menuUrl : 'accountApply'
-              },
-              {
-                menuName : '开户设置【财务主管】',
-                menuId : 13,
-                menuUrl : 'accountSettingDefault'
-              },
-              {
-                menuName : '开户设置【财务人员】',
-                menuId : 14,
-                menuUrl : 'accountSettingManage'
-              },
-              {
-                menuName : '开户确认',
-                menuId : 15,
-                menuUrl : 'accountAffirm'
-              }
-            ]
-          },
-          {
-            menuName : '仲裁委管理',
-            menuId : 150,
-            children: [
               {
                 menuName : '仲裁委管理',
-                menuId : 151,
-                menuUrl : 'arbitramentManage',
+                menuId : 150,
+                children: [
+                  {
+                    menuName : '仲裁委管理',
+                    menuId : 151,
+                    menuUrl : 'arbitramentManage',
+                  },
+                  {
+                    menuName : '通知邮箱管理',
+                    menuId : 152,
+                    menuUrl : 'informEmailManage',
+                  },
+                ]
               },
               {
-                menuName : '通知邮箱管理',
-                menuId : 152,
-                menuUrl : 'informEmailManage',
-              },
-            ]
-          },
-          {
-            menuName : '官网管理',
-            menuId : 160,
-            children: [
-              {
-                menuName : '客户案例',
-                menuId : 161,
-                menuUrl : 'customerCase',
-              },
-              {
-                menuName : '咨询管理',
-                menuId : 162,
-                menuUrl : 'advisoryManage',
-              },
-              {
-                menuName : '新闻动态',
-                menuId : 163,
-                menuUrl : 'newsDynamicState',
-              },
-            ]
-          },
-          {
-            menuName : '第三方管理',
-            menuId : 21,
-            children : [
-              {
-                menuName : '邮件发送',
-                menuId : 22,
-                menuUrl : 'mailSend',
+                menuName : '官网管理',
+                menuId : 160,
+                children: [
+                  {
+                    menuName : '客户案例',
+                    menuId : 161,
+                    menuUrl : 'customerCase',
+                  },
+                  {
+                    menuName : '咨询管理',
+                    menuId : 162,
+                    menuUrl : 'advisoryManage',
+                  },
+                  {
+                    menuName : '新闻动态',
+                    menuId : 163,
+                    menuUrl : 'newsDynamicState',
+                  },
+                ]
               },
               {
-                menuName : '短信发送',
-                menuId : 23,
-                menuUrl : 'noteSend',
-              },
-              {
-                menuName : '短信渠道管理',
-                menuId : 24,
-                menuUrl : 'channelManage',
-              },
-              /* {
-                menuName : '邮件发送日志',
-                menuId : 24,
-                menuUrl : 'mailSendLog',
-              }, */
-              /* {
-                menuName : '短信发送',
-                menuId : 25,
-                menuUrl : 'noteSend',
-              },
-              {
-                menuName : '邮件发送',
-                menuId : 26,
-                menuUrl : 'mailSend',
-              }, */
-            ],
-          },
-          {
-            menuName : '客户管理',
-            menuId : 31,
-            children : [
-              {
-                menuName : '客户账号管理',
-                menuId : 39,
-                menuUrl : 'accountManagement',
+                menuName : '第三方管理',
+                menuId : 21,
+                children : [
+                  {
+                    menuName : '邮件发送',
+                    menuId : 22,
+                    menuUrl : 'mailSend',
+                  },
+                  {
+                    menuName : '短信发送',
+                    menuId : 23,
+                    menuUrl : 'noteSend',
+                  },
+                  {
+                    menuName : '短信渠道管理',
+                    menuId : 24,
+                    menuUrl : 'channelManage',
+                  },
+                  /* {
+                    menuName : '邮件发送日志',
+                    menuId : 24,
+                    menuUrl : 'mailSendLog',
+                  }, */
+                  /* {
+                    menuName : '短信发送',
+                    menuId : 25,
+                    menuUrl : 'noteSend',
+                  },
+                  {
+                    menuName : '邮件发送',
+                    menuId : 26,
+                    menuUrl : 'mailSend',
+                  }, */
+                ],
               },
               {
                 menuName : '客户管理',
-                menuId : 32,
-                menuUrl : 'clientManagement',
+                menuId : 31,
+                children : [
+                  {
+                    menuName : '客户账号管理',
+                    menuId : 39,
+                    menuUrl : 'accountManagement',
+                  },
+                  {
+                    menuName : '客户管理',
+                    menuId : 32,
+                    menuUrl : 'clientManagement',
+                  },
+                  {
+                    menuName : '账户余额查询',
+                    menuId : 33,
+                    menuUrl : 'balanceQuery',
+                  },
+                  {
+                    menuName : '模板设置',
+                    menuId : 34,
+                    menuUrl : 'tplSetting',
+                  },
+                  /* {
+                    menuName : '模板证据设置',
+                    menuId : 35,
+                    menuUrl : 'tplEvidenceSetting',
+                  }, */
+                  {
+                    menuName : '业务类型设置',
+                    menuId : 36,
+                    menuUrl : 'businessTypeSetting',
+                  },
+                  {
+                    menuName : '模板列表',
+                    menuId : 37,
+                    menuUrl : 'templateList',
+                  },
+                  {
+                    menuName : '数据管理',
+                    menuId : 38,
+                    menuUrl : 'dataManagement',
+                  },
+                  /* {
+                    menuName : '模板联调',
+                    menuId : 310,
+                    menuUrl : 'templateJoint',
+                  },
+                  {
+                    menuName : '参数列表',
+                    menuId : 311,
+                    menuUrl : 'ctParameterList',
+                  }, */
+                  {
+                    menuName : '签约客户',
+                    menuId : 312,
+                    menuUrl : 'contractedCustomers',
+                  },
+                ],
               },
               {
-                menuName : '账户余额查询',
-                menuId : 33,
-                menuUrl : 'balanceQuery',
+                menuName : '案件订单',
+                menuId : 41,
+                children : [
+                  {
+                    menuName : '仲裁端定时任务管理',
+                    menuId : 42,
+                    menuUrl : 'arbitramentTimeTaskManage'
+                  },
+                  {
+                    menuName : '客户端定时任务管理',
+                    menuId : 43,
+                    menuUrl : 'clientTimeTaskManage'
+                  },
+                  /* {
+                    menuName : '案件提交日志',
+                    menuId : 44,
+                    menuUrl : 'caseOrderQuery'
+                  }, */
+                  {
+                    menuName : '身份证校验',
+                    menuId : 45,
+                    menuUrl : 'idCardVerfy'
+                  },
+                  {
+                    menuName : '订单管理',
+                    menuId : 46,
+                    menuUrl : 'orderManagement'
+                  },
+                  {
+                    menuName : '快速通道',
+                    menuId : 47,
+                    menuUrl : 'fastTrack'
+                  },
+                ],
               },
               {
-                menuName : '模板设置',
-                menuId : 34,
-                menuUrl : 'tplSetting',
-              },
-              /* {
-                menuName : '模板证据设置',
-                menuId : 35,
-                menuUrl : 'tplEvidenceSetting',
-              }, */
-              {
-                menuName : '业务类型设置',
-                menuId : 36,
-                menuUrl : 'businessTypeSetting',
-              },
-              {
-                menuName : '模板列表',
-                menuId : 37,
-                menuUrl : 'templateList',
-              },
-              {
-                menuName : '数据管理',
-                menuId : 38,
-                menuUrl : 'dataManagement',
-              },
-              /* {
-                menuName : '模板联调',
-                menuId : 310,
-                menuUrl : 'templateJoint',
+                menuName : '案件相关',
+                menuId : 51,
+                children : [
+                  {
+                    menuName : '仲裁用户管理',
+                    menuId : 52,
+                    menuUrl : 'arbitramentUsersManage'
+                  },
+                  {
+                    menuName : '案件管理',
+                    menuId : 53,
+                    menuUrl : 'caseManagement'
+                  },
+                  {
+                    menuName : '案件上传记录',
+                    menuId : 54,
+                    menuUrl : 'caseUploadRecord'
+                  },
+                ],
               },
               {
-                menuName : '参数列表',
-                menuId : 311,
-                menuUrl : 'ctParameterList',
-              }, */
-              {
-                menuName : '签约客户',
-                menuId : 312,
-                menuUrl : 'contractedCustomers',
-              },
-            ],
-          },
-          {
-            menuName : '案件订单',
-            menuId : 41,
-            children : [
-              {
-                menuName : '仲裁端定时任务管理',
-                menuId : 42,
-                menuUrl : 'arbitramentTimeTaskManage'
-              },
-              {
-                menuName : '客户端定时任务管理',
-                menuId : 43,
-                menuUrl : 'clientTimeTaskManage'
-              },
-              /* {
-                menuName : '案件提交日志',
-                menuId : 44,
-                menuUrl : 'caseOrderQuery'
-              }, */
-              {
-                menuName : '身份证校验',
-                menuId : 45,
-                menuUrl : 'idCardVerfy'
-              },
-              {
-                menuName : '订单管理',
-                menuId : 46,
-                menuUrl : 'orderManagement'
-              },
-              {
-                menuName : '快速通道',
-                menuId : 47,
-                menuUrl : 'fastTrack'
-              },
-            ],
-          },
-          {
-            menuName : '案件相关',
-            menuId : 51,
-            children : [
-              {
-                menuName : '仲裁用户管理',
-                menuId : 52,
-                menuUrl : 'arbitramentUsersManage'
-              },
-              {
-                menuName : '案件管理',
-                menuId : 53,
-                menuUrl : 'caseManagement'
-              },
-              {
-                menuName : '案件上传记录',
-                menuId : 54,
-                menuUrl : 'caseUploadRecord'
-              },
-            ],
-          },
-          {
-            menuName : '财务管理',
-            menuId : 61,
-            children : [
-              {
-                menuName : '合同加款【财务人员】',
-                menuId : 62,
-                menuUrl : 'contractAddNewDefault'
-              },
-              {
-                menuName : '合同加款【审核】',
-                menuId : 63,
-                menuUrl : 'contractAddNewManage'
-              },{
-                menuName : '合同扣款【财务人员】',
-                menuId : 718,
-                menuUrl : 'acontractDeduction'
-              },{
-                menuName : '合同扣款【审核】',
-                menuId : 719,
-                menuUrl : 'contractDeductionAudit'
-              },{
-                menuName : '订单加款【财务人员】',
-                menuId : 64,
-                menuUrl : 'orderAddNewDefault'
-              },{
-                menuName : '订单加款【审核】',
-                menuId : 65,
-                menuUrl : 'orderAddNewManage'
-              },{
-                menuName : '受理费日对账',
-                menuId : 66,
-                menuUrl : 'billingDay'
-              },{
-                menuName : '服务费日对账',
-                menuId : 67,
-                menuUrl : 'serviceChargeDayCheck'
-              },{
-                menuName : '仲券赠送【销售申请】',
-                menuId : 671,
-                menuUrl : 'zticketDonateGeneral'
-              },{
-                menuName : '仲券赠送【销售主管初审】',
-                menuId : 68,
-                menuUrl : 'zticketDonateDefault'
-              },{
-                menuName : '仲券赠送【CEO复审】',
-                menuId : 69,
-                menuUrl : 'zticketDonateManage'
-              },{
-                menuName : '退款【财务人员】',
-                menuId : 70,
-                menuUrl : 'refundListDefault'
-              },{
-                menuName : '退款【审核】',
-                menuId : 711,
-                menuUrl : 'refundListManage'
-              },{
-                menuName : '技术服务费日对账',
-                menuId : 712,
-                menuUrl : 'techServiceDayCheck'
-              },{
-                menuName : '受理费结算',
-                menuId : 713,
-                menuUrl : 'processingFeeSettle'
-              },{
-                menuName : '受理费结算复核',
-                menuId : 714,
-                menuUrl : 'processingFeeSettleReview'
+                menuName : '财务管理',
+                menuId : 61,
+                children : [
+                  {
+                    menuName : '合同加款【财务人员】',
+                    menuId : 62,
+                    menuUrl : 'contractAddNewDefault'
+                  },
+                  {
+                    menuName : '合同加款【审核】',
+                    menuId : 63,
+                    menuUrl : 'contractAddNewManage'
+                  },{
+                    menuName : '合同扣款【财务人员】',
+                    menuId : 718,
+                    menuUrl : 'acontractDeduction'
+                  },{
+                    menuName : '合同扣款【审核】',
+                    menuId : 719,
+                    menuUrl : 'contractDeductionAudit'
+                  },{
+                    menuName : '订单加款【财务人员】',
+                    menuId : 64,
+                    menuUrl : 'orderAddNewDefault'
+                  },{
+                    menuName : '订单加款【审核】',
+                    menuId : 65,
+                    menuUrl : 'orderAddNewManage'
+                  },{
+                    menuName : '受理费日对账',
+                    menuId : 66,
+                    menuUrl : 'billingDay'
+                  },{
+                    menuName : '服务费日对账',
+                    menuId : 67,
+                    menuUrl : 'serviceChargeDayCheck'
+                  },{
+                    menuName : '仲券赠送【销售申请】',
+                    menuId : 671,
+                    menuUrl : 'zticketDonateGeneral'
+                  },{
+                    menuName : '仲券赠送【销售主管初审】',
+                    menuId : 68,
+                    menuUrl : 'zticketDonateDefault'
+                  },{
+                    menuName : '仲券赠送【CEO复审】',
+                    menuId : 69,
+                    menuUrl : 'zticketDonateManage'
+                  },{
+                    menuName : '退款【财务人员】',
+                    menuId : 70,
+                    menuUrl : 'refundListDefault'
+                  },{
+                    menuName : '退款【审核】',
+                    menuId : 711,
+                    menuUrl : 'refundListManage'
+                  },{
+                    menuName : '技术服务费日对账',
+                    menuId : 712,
+                    menuUrl : 'techServiceDayCheck'
+                  },{
+                    menuName : '受理费结算',
+                    menuId : 713,
+                    menuUrl : 'processingFeeSettle'
+                  },{
+                    menuName : '受理费结算复核',
+                    menuId : 714,
+                    menuUrl : 'processingFeeSettleReview'
+                  },
+                  {
+                    menuName : '案件仲券退款申请',
+                    menuId : 715,
+                    menuUrl : 'crRefundApplication'
+                  },
+                  {
+                    menuName : '案件仲券退款审核',
+                    menuId : 716,
+                    menuUrl : 'crRefundAudit'
+                  },
+                  {
+                    menuName : '案件仲券退款查看',
+                    menuId : 717,
+                    menuUrl : 'crRefundView'
+                  },
+                ],
               },
               {
-                menuName : '案件仲券退款申请',
-                menuId : 715,
-                menuUrl : 'crRefundApplication'
+                menuName : '案件信息',
+                menuId : 71,
+                children : [
+                  {
+                    menuName : '案件列表',
+                    menuId : 72,
+                    menuUrl : 'caseListView'
+                  },
+                  {
+                    menuName : '被申请人反馈',
+                    menuId : 73,
+                    menuUrl : 'respondentsFeedback'
+                  },
+                  {
+                    menuName : '还款信息',
+                    menuId : 74,
+                    menuUrl : 'paymentInformation'
+                  },
+                  {
+                    menuName : '被申请人操作记录',
+                    menuId : 75,
+                    menuUrl : 'respondentsOperateRecord'
+                  },
+                  {
+                    menuName : '结案文书管理',
+                    menuId : 76,
+                    menuUrl : 'closingDoc'
+                  },
+                  {
+                    menuName : '号码检测',
+                    menuId : 77,
+                    menuUrl : 'numDetection'
+                  },
+                  {
+                    menuName : '重跑裁决书案件列表',
+                    menuId : 78,
+                    menuUrl : 'reRunAwardCaseList'
+                  },
+                  {
+                    menuName : '案件统计工作台',
+                    menuId : 79,
+                    menuUrl : 'caseStatisticsWorkbench'
+                  },
+                ],
               },
               {
-                menuName : '案件仲券退款审核',
-                menuId : 716,
-                menuUrl : 'crRefundAudit'
-              },
-              {
-                menuName : '案件仲券退款查看',
-                menuId : 717,
-                menuUrl : 'crRefundView'
-              },
-            ],
-          },
-          {
-            menuName : '案件信息',
-            menuId : 71,
-            children : [
-              {
-                menuName : '案件列表',
-                menuId : 72,
-                menuUrl : 'caseListView'
-              },
-              {
-                menuName : '被申请人反馈',
-                menuId : 73,
-                menuUrl : 'respondentsFeedback'
-              },
-              {
-                menuName : '还款信息',
-                menuId : 74,
-                menuUrl : 'paymentInformation'
-              },
-              {
-                menuName : '被申请人操作记录',
-                menuId : 75,
-                menuUrl : 'respondentsOperateRecord'
-              },
-              {
-                menuName : '结案文书管理',
-                menuId : 76,
-                menuUrl : 'closingDoc'
-              },
-              {
-                menuName : '号码检测',
-                menuId : 77,
-                menuUrl : 'numDetection'
-              },
-              {
-                menuName : '重跑裁决书案件列表',
-                menuId : 78,
-                menuUrl : 'reRunAwardCaseList'
-              },
-              {
-                menuName : '案件统计工作台',
-                menuId : 79,
-                menuUrl : 'caseStatisticsWorkbench'
-              },
-            ],
-          },
-           {
-            menuName : '短信记录',
-            menuId : 81,
-            children : [
-              {
-                menuName : '发送记录',
-                menuId : 82,
-                menuUrl : 'esmqLogView'
-              },
-              {
-                menuName : '接收记录',
-                menuId : 83,
-                menuUrl : 'receiveLog'
-              },
-              {
-                menuName : '调解短信',
-                menuId : 84,
-                menuUrl : 'mediationMsg'
-              },
-              {
-                menuName : '调解短信设置',
-                menuId : 85,
-                menuUrl : 'mediationMsgSet'
-              }
-            ],
-          }, {
-            menuName : '状态配置',
-            menuId : 91,
-            children : [
-              {
-                menuName : '客户分配',
-                menuId : 92,
-                menuUrl : 'customerAllot'
-              },
-              {
-                menuName : '调解状态设置',
-                menuId : 93,
-                menuUrl : 'mediateStatusSet'
-              },
+                menuName : '短信记录',
+                menuId : 81,
+                children : [
+                  {
+                    menuName : '发送记录',
+                    menuId : 82,
+                    menuUrl : 'esmqLogView'
+                  },
+                  {
+                    menuName : '接收记录',
+                    menuId : 83,
+                    menuUrl : 'receiveLog'
+                  },
+                  {
+                    menuName : '调解短信',
+                    menuId : 84,
+                    menuUrl : 'mediationMsg'
+                  },
+                  {
+                    menuName : '调解短信设置',
+                    menuId : 85,
+                    menuUrl : 'mediationMsgSet'
+                  }
+                ],
+              }, {
+                menuName : '状态配置',
+                menuId : 91,
+                children : [
+                  {
+                    menuName : '客户分配',
+                    menuId : 92,
+                    menuUrl : 'customerAllot'
+                  },
+                  {
+                    menuName : '调解状态设置',
+                    menuId : 93,
+                    menuUrl : 'mediateStatusSet'
+                  },
 
-            ],
-          },
-          {
-            menuName : '预审系统',
-            menuId : 'ys1',
-            children : [
-              {
-                menuName : '预审案件库',
-                menuId : 'ys2',
-                menuUrl : 'hearCaseList'
+                ],
               },
               {
-                menuName : '证据缺失案件库',
-                menuId : 'ys3',
-                menuUrl : 'hearDropCaseList'
+                menuName : '预审系统',
+                menuId : 'ys1',
+                children : [
+                  {
+                    menuName : '预审案件库',
+                    menuId : 'ys2',
+                    menuUrl : 'hearCaseList'
+                  },
+                  {
+                    menuName : '证据缺失案件库',
+                    menuId : 'ys3',
+                    menuUrl : 'hearDropCaseList'
+                  },
+                  {
+                    menuName : '案件初审',
+                    menuId : 'ys4',
+                    menuUrl : 'initialHearList'
+                  },
+                  {
+                    menuName : '案件复审',
+                    menuId : 'ys5',
+                    menuUrl : 'redoHearList'
+                  },
+                  {
+                    menuName : '立案申请',
+                    menuId : 'ys6',
+                    menuUrl : 'initiateApplyList'
+                  },
+                  {
+                    menuName : '推送记录',
+                    menuId : 'ys7',
+                    menuUrl : 'msgPushRecord'
+                  },
+                  {
+                    menuName : '数据统计',
+                    menuId : 'ys8',
+                    menuUrl : 'dataStatisticsView'
+                  },
+                  {
+                    menuName : '预审设置',
+                    menuId : 'ys9',
+                    menuUrl : 'advanceHearSetsList'
+                  },
+                ],
               },
               {
-                menuName : '案件初审',
-                menuId : 'ys4',
-                menuUrl : 'initialHearList'
+                menuName : '复核管理',
+                menuId : 'fh1',
+                children : [
+                  {
+                    menuName : '案件列表',
+                    menuId : 'fh2',
+                    menuUrl : 'reviewCaseList'
+                  },
+                  {
+                    menuName : '案件复核',
+                    menuId : 'fh3',
+                    menuUrl : 'reviewCaseReview'
+                  },
+                  {
+                    menuName : '复核监控',
+                    menuId : 'fh4',
+                    menuUrl : 'monitor'
+                  },
+                  {
+                    menuName : '撤案对接',
+                    menuId : 'fh5',
+                    menuUrl : 'withdrawCase'
+                  },
+                  {
+                    menuName : '复核设置',
+                    menuId : 'fh6',
+                    menuUrl : 'reviewSetting'
+                  },
+                ],
               },
               {
-                menuName : '案件复审',
-                menuId : 'ys5',
-                menuUrl : 'redoHearList'
+                menuName : '规则库管理',
+                menuId : 'gzk1',
+                children : [
+                  {
+                    menuName : '规则库',
+                    menuId : 'gzk2',
+                    menuUrl : 'ruleBaseNavigation'
+                  },
+                  {
+                    menuName : '规则模版',
+                    menuId : 'gzmb',
+                    menuUrl : 'ruleTemplate'
+                  },
+                  {
+                    menuName : '执行记录',
+                    menuId : 'zxjl',
+                    menuUrl : 'exeRecord'
+                  },
+                ],
               },
               {
-                menuName : '立案申请',
-                menuId : 'ys6',
-                menuUrl : 'initiateApplyList'
+                menuName: '执行管理',
+                menuId: 'zxm1',
+                children: [
+                  {
+                    menuName: '法院信息表',
+                    menuId: 'zxm2',
+                    menuUrl: 'courtInfo'
+                  },
+                  {
+                    menuName: '注册法官信息',
+                    menuId: 'zxm3',
+                    menuUrl: 'judgeInfo'
+                  },
+                  {
+                    menuName: '注册信息审核',
+                    menuId: 'zxm4',
+                    menuUrl: 'judgeRegisterInfo'
+                  },
+                  {
+                    menuName: '案件操作记录',
+                    menuId: 'zxm5',
+                    menuUrl: 'caseOperationRecord'
+                  }
+                ]
               },
               {
-                menuName : '推送记录',
-                menuId : 'ys7',
-                menuUrl : 'msgPushRecord'
+                menuName: '送达系统',
+                menuId: 'sdxt',
+                children: [
+                  {
+                    menuName: '渠道管理',
+                    menuId: 'sdxt1',
+                    menuUrl: 'serChannelManage'
+                  },
+                  {
+                    menuName: '业务管理',
+                    menuId: 'sdxt2',
+                    menuUrl: 'serBusinessManage'
+                  },
+                  {
+                    menuName: '客户管理',
+                    menuId: 'sdxt3',
+                    menuUrl: 'serCustomerManage'
+                  },
+                  {
+                    menuName: '模板管理',
+                    menuId: 'sdxt4',
+                    menuUrl: 'serTemplateManage'
+                  },
+                  {
+                    menuName: '短信发送',
+                    menuId: 'sdxt5',
+                    menuUrl: 'serSmsSend'
+                  },
+                  {
+                    menuName: '邮件发送',
+                    menuId: 'sdxt6',
+                    menuUrl: 'serEmailSend'
+                  },
+                ]
               },
               {
-                menuName : '数据统计',
-                menuId : 'ys8',
-                menuUrl : 'dataStatisticsView'
-              },
-              {
-                menuName : '预审设置',
-                menuId : 'ys9',
-                menuUrl : 'advanceHearSetsList'
-              },
-            ],
-          },
-          {
-            menuName : '复核管理',
-            menuId : 'fh1',
-            children : [
-              {
-                menuName : '案件列表',
-                menuId : 'fh2',
-                menuUrl : 'reviewCaseList'
-              },
-              {
-                menuName : '案件复核',
-                menuId : 'fh3',
-                menuUrl : 'reviewCaseReview'
-              },
-              {
-                menuName : '复核监控',
-                menuId : 'fh4',
-                menuUrl : 'monitor'
-              },
-              {
-                menuName : '撤案对接',
-                menuId : 'fh5',
-                menuUrl : 'withdrawCase'
-              },
-              {
-                menuName : '复核设置',
-                menuId : 'fh6',
-                menuUrl : 'reviewSetting'
-              },
-            ],
-          },
-          {
-            menuName : '规则库管理',
-            menuId : 'gzk1',
-            children : [
-              {
-                menuName : '规则库',
-                menuId : 'gzk2',
-                menuUrl : 'ruleBaseNavigation'
-              },
-              {
-                menuName : '规则模版',
-                menuId : 'gzmb',
-                menuUrl : 'ruleTemplate'
-              },
-              {
-                menuName : '执行记录',
-                menuId : 'zxjl',
-                menuUrl : 'exeRecord'
-              },
-            ],
-          },
-          {
-            menuName: '执行管理',
-            menuId: 'zxm1',
-            children: [
-              {
-                menuName: '法院信息表',
-                menuId: 'zxm2',
-                menuUrl: 'courtInfo'
-              },
-              {
-                menuName: '注册法官信息',
-                menuId: 'zxm3',
-                menuUrl: 'judgeInfo'
-              },
-              {
-                menuName: '注册信息审核',
-                menuId: 'zxm4',
-                menuUrl: 'judgeRegisterInfo'
-              },
-              {
-                menuName: '案件操作记录',
-                menuId: 'zxm5',
-                menuUrl: 'caseOperationRecord'
-              }
-            ]
-          },
-          {
-            menuName: '送达系统',
-            menuId: 'sdxt',
-            children: [
-              {
-                menuName: '渠道管理',
-                menuId: 'sdxt1',
-                menuUrl: 'serChannelManage'
-              },
-              {
-                menuName: '业务管理',
-                menuId: 'sdxt2',
-                menuUrl: 'serBusinessManage'
-              },
-              {
-                menuName: '客户管理',
-                menuId: 'sdxt3',
-                menuUrl: 'serCustomerManage'
+                menuName: '强制执行管理',
+                menuId: 'qzzx',
+                children: [
+                  {
+                    menuName: '强制执行案件',
+                    menuId: 'fyajgl1',
+                    menuUrl: 'emEnforcementCases'
+                  },
+                  {
+                    menuName: '下载任务页',
+                    menuId: 'fyajgl2',
+                    menuUrl: 'emDownloadTask'
+                  },
+                  {
+                    menuName: '文书生成记录',
+                    menuId: 'fyajgl3',
+                    menuUrl: 'emGenerationRecord'
+                  },
+                  {
+                    menuName: '渠道管理',
+                    menuId: 'fyajgl4',
+                    menuUrl: 'emChannelManagement'
+                  },
+                  {
+                    menuName: '受委托人管理',
+                    menuId: 'fyajgl5',
+                    menuUrl: 'emClientManagement'
+                  },
+                  {
+                    menuName: '委托人管理',
+                    menuId: 'fyajgl10',
+                    menuUrl: 'emWtrClientManagement'
+                  },
+                  {
+                    menuName: '被执行人财产状况',
+                    menuId: 'fyajgl6',
+                    menuUrl: 'emPropertyStatus'
+                  },
+                  {
+                    menuName: '申请执行人银行账户',
+                    menuId: 'fyajgl7',
+                    menuUrl: 'emBankAccount'
+                  },
+                  {
+                    menuName: '法院材料配置',
+                    menuId: 'fyajgl8',
+                    menuUrl: 'emMaterialAllocation'
+                  },
+                  {
+                    menuName: '法院案件关联',
+                    menuId: 'fyajgl9',
+                    menuUrl: 'courtCaseRelation'
+                  },
+                ]
               },
               {
                 menuName: '模板管理',
-                menuId: 'sdxt4',
-                menuUrl: 'serTemplateManage'
-              },
-              {
-                menuName: '短信发送',
-                menuId: 'sdxt5',
-                menuUrl: 'serSmsSend'
-              },
-              {
-                menuName: '邮件发送',
-                menuId: 'sdxt6',
-                menuUrl: 'serEmailSend'
-              },
-            ]
-          },
-          {
-            menuName: '强制执行管理',
-            menuId: 'qzzx',
-            children: [
-              {
-                menuName: '强制执行案件',
-                menuId: 'fyajgl1',
-                menuUrl: 'emEnforcementCases'
-              },
-              {
-                menuName: '下载任务页',
-                menuId: 'fyajgl2',
-                menuUrl: 'emDownloadTask'
-              },
-              {
-                menuName: '文书生成记录',
-                menuId: 'fyajgl3',
-                menuUrl: 'emGenerationRecord'
-              },
-              {
-                menuName: '渠道管理',
-                menuId: 'fyajgl4',
-                menuUrl: 'emChannelManagement'
-              },
-              {
-                menuName: '受委托人管理',
-                menuId: 'fyajgl5',
-                menuUrl: 'emClientManagement'
-              },
-              {
-                menuName: '委托人管理',
-                menuId: 'fyajgl10',
-                menuUrl: 'emWtrClientManagement'
-              },
-              {
-                menuName: '被执行人财产状况',
-                menuId: 'fyajgl6',
-                menuUrl: 'emPropertyStatus'
-              },
-              {
-                menuName: '申请执行人银行账户',
-                menuId: 'fyajgl7',
-                menuUrl: 'emBankAccount'
-              },
-              {
-                menuName: '法院材料配置',
-                menuId: 'fyajgl8',
-                menuUrl: 'emMaterialAllocation'
-              },
-              {
-                menuName: '法院案件关联',
-                menuId: 'fyajgl9',
-                menuUrl: 'courtCaseRelation'
+                menuId: 'mbgl',
+                children: [
+                  {
+                    menuName: '模板联调',
+                    menuId: 'mblt1',
+                    menuUrl: 'templateJoint'
+                  },
+                  {
+                    menuName: '参数列表',
+                    menuId: 'mblt2',
+                    menuUrl: 'ctParameterList'
+                  },
+                ],
               },
             ]
-          },
-          {
-            menuName: '模板管理',
-            menuId: 'mbgl',
-            children: [
-              {
-                menuName: '模板联调',
-                menuId: 'mblt1',
-                menuUrl: 'templateJoint'
-              },
-              {
-                menuName: '参数列表',
-                menuId: 'mblt2',
-                menuUrl: 'ctParameterList'
-              },
-            ],
-          },
-        ],
+          }else{
+            return JSON.parse(localStorage.getItem('menuInfoList'));
+          }
+        })(),
         // 当前高亮的 menu
         active : '/main/demo',
         // 推送记录 定时器
@@ -734,11 +746,6 @@
       }
     },
     mounted() {
-      if(process.env.NODE_ENV !== 'development'){
-        // 从 缓存读取 左侧树
-        this.menuList = JSON.parse(localStorage.getItem('menuInfoList'));
-        console.error(this.menuList);
-      }
       // 获取menu 树 , 高亮选中
       this.getMeun().then(this.setMuenActive);
 
@@ -778,6 +785,15 @@
       // menu选中
       handleSelect(val) {
         this.$store.commit('keepAlive/setkeepAliveStatus',false);
+
+        let path = this.$route.path;
+        if(val === '/main/workbench') {
+          // 跳转至工作台
+          window.open('//workbench.arbexpress.cn/#/login');
+          window.setTimeout(() => {
+            this.$router.replace(path);
+          },500);
+        }
       },
     },
     destroyed() {
