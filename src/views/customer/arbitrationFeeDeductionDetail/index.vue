@@ -262,22 +262,26 @@ export default {
       })
         .then(res => {
           let $list = res.result.list;
+          let $count = res.result.count;
           if (this.searchForm.orderType === 1) {
             // 扣除受理费
             let newList = $list.filter(v => {
               return v.orderType === 3;
             });
             console.log("newList::", newList);
-            this.total = newList.length;
+            // this.total = newList.length;
+            this.total = $count;
             this.tableData = newList;
           } else if (this.searchForm.orderType === 2) {
             // 退款
+            // this.total = $list.count;
+            this.total = $count;
             this.tableData = $list;
-            this.total = $list.count;
           } else if (this.searchForm.orderType === 3) {
             // 案件处理费
+            // this.total = $list.count;
+            this.total = $count;
             this.tableData = $list;
-            this.total = $list.count;
           }
           loading.close();
         })
