@@ -105,6 +105,7 @@
             }
             let obj = Object.assign(this.ruleForm,res.result.contractDeduction || {},res.result.verifyInfo || {});
             this.$set(this.ruleForm,obj);
+            console.log(this.ruleForm)
           });
         });
       },

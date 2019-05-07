@@ -1,5 +1,5 @@
 <template>
-	<div class="login-box">
+	<div class="login-box" v-show="pageShow">
 		<div class="title">
 			<div class="fl">
 				互仲科技 | 业务后台管理系统
@@ -76,26 +76,43 @@
 						{ required : true , min : 6 , message : '密码长度最少为6位'}
 					],
 				},
+				// 主要用于 工作台进入系统不显示默认页面
+				pageShow : false,
 			}
 		},
     beforeCreate(){
 			// 判断从工作台项目跳转过来
 			if(this.$route.query.token && this.$route.query.reject) {
-				let loading = this.$loading();
-				this.$http({
-					url : '/getUserMenuInfo.htm',
-					token : this.$route.query.token,
-				}).then(res => {
-					localStorage.clear();
-					localStorage.setItem('loginInfo', JSON.stringify(res.result.loginInfoVO));
-					localStorage.setItem('menuInfoList', JSON.stringify(res.result.menuInfoList));
-					this.$router.push(this.$route.query.reject);
-					window.setTimeout(() => {
+				let login = () => {
+					let loading = this.$loading();
+					this.$http({
+						url : '/getUserMenuInfo.htm',
+						token : this.$route.query.token,
+					}).then(res => {
+						localStorage.clear();
+						localStorage.setItem('loginInfo', JSON.stringify(res.result.loginInfoVO));
+						localStorage.setItem('menuInfoList', JSON.stringify(res.result.menuInfoList));
+						this.$router.push(this.$route.query.reject);
 						loading.close();
-					},1000);
-				}).catch(err => {
-					loading.close();
-				});
+					}).catch(err => {
+						this.pageShow = true;
+						loading.close();
+					});
+				};
+				// 判断如果登录过 直接进入对应页面
+				try {
+					if(this.$route.query.token === JSON.parse(localStorage.getItem('loginInfo')).token) {
+						this.$router.push(this.$route.query.reject);
+					}else{
+						login();
+					}
+				}catch(err) {
+					login();
+				}
+			}else{
+				window.setTimeout(() => {
+					this.pageShow = true;
+				},0);
 			}
     },
 		methods : {

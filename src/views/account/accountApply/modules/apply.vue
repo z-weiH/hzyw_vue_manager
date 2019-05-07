@@ -334,10 +334,18 @@
         if(this.item.settleType === 2){
           let msg;
           this.item.formulas.forEach((it,idx) => {
+            if(idx > 0){
+              if(!this.item.formulas[idx -1].amtEnd){
+                return msg = `第${idx}阶段的结束金额必须输入`;
+              }
+              if(+it.amtStart < +this.item.formulas[idx -1].amtEnd){
+                return msg = `第${idx + 1}阶段的起始金额必须大于第${idx}阶段的结束金额`;
+              }
+            }
             if(!it.hasOwnProperty('amtStart') || !it.hasOwnProperty('settleRate')){
               return msg = `请确保比例结算阶段${idx + 1}输入完整`;
             }
-            else if(+it.amtStart >= +it.amtEnd){
+            else if( it.amtEnd && (+it.amtStart >= +it.amtEnd)){
               return msg = `请确保比例结算阶段${idx + 1}起始金额小于结束金额`;
             }
             else if(+it.settleRate < 0 || +it.settleRate > 100){

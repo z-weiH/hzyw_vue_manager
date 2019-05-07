@@ -1018,6 +1018,13 @@ let router = new Router({
           },
         },
         {
+          path: 'emCalculator',
+          component: () => import('@/views/enforceManagement/emCalculator'), // 执行标的计算器
+          meta: {
+            name: 'emCalculator',
+          },
+        },
+        {
           path: 'emEnforcementCases',
           component: () => import('@/views/enforceManagement/emEnforcementCases'), // 强制执行案件
           meta: {
