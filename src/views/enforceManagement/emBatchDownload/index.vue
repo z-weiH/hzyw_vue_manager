@@ -71,6 +71,11 @@
             checked : false,
           },
           {
+            label : '关于被执行人财产状况说明',
+            value : 'cczksm',
+            checked : false,
+          },
+          {
             label : '营业执照',
             value : 'yyzz',
             checked : false,
@@ -95,6 +100,31 @@
             value : 'ldhtsmj',
             checked : false,
           },
+          {
+            label : '被执行人身份证正反面',
+            value : 'sfzzfm',
+            checked : false,
+          },
+          {
+            label : '裁决书',
+            value : 'cjs',
+            checked : false,
+          },
+
+
+          {
+            label : '债权转让协议',
+            value : 'zqzrxy',
+            checked : false,
+            disabled : this.$route.query.disabled === 'true',
+          },
+          {
+            label : '债权转让确认',
+            value : 'zqzrqrs',
+            checked : false,
+            disabled : this.$route.query.disabled === 'true',
+          },
+
           // {
           //   label : '受委托人在仲裁代理中不收取报酬的承诺书',
           //   value : 'bsqbccns',
@@ -115,34 +145,11 @@
             value : 'fwxy',
             checked : false,
           },
-          {
-            label : '被执行人身份证正反面',
-            value : 'sfzzfm',
-            checked : false,
-          },
-          {
-            label : '关于被执行人财产状况说明',
-            value : 'cczksm',
-            checked : false,
-          },
-          {
-            label : '债权转让协议',
-            value : 'zqzrxy',
-            checked : false,
-            disabled : this.$route.query.disabled === 'true',
-          },
-          {
-            label : '债权转让确认',
-            value : 'zqzrqrs',
-            checked : false,
-            disabled : this.$route.query.disabled === 'true',
-          },
 
-          {
-            label : '裁决书',
-            value : 'cjs',
-            checked : false,
-          },
+
+
+
+
           {
             label : '限制高消费及纳入失信被执行人名单申请书',
             value : 'xzgxfsms',
