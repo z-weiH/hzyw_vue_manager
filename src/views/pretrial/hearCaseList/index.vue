@@ -165,9 +165,9 @@
             <span v-ellipsis.20>{{scope.row.platName}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="productName" label="模板">
+        <el-table-column prop="prodTempCode" label="模板">
           <template slot-scope="scope">
-            <span v-ellipsis.20>{{scope.row.productName}}</span>
+            <span v-ellipsis.20>{{scope.row.prodTempCode}}</span>
           </template>
         </el-table-column>
         <el-table-column prop="loanBillNo" label="案件订单编号"></el-table-column>
