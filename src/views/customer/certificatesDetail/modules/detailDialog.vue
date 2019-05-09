@@ -40,8 +40,8 @@
                 <template v-else-if="tabsVal === '1'">
                   <el-table-column prop="ticketCount" label="退款仲券" :key="14"></el-table-column>
                   <el-table-column prop="applyName" label="申请人" :key="15"></el-table-column>
-                  <el-table-column prop="applyRemark" label="申请备注" :key="16">
-                    <template slot-scope="scope">{{scope.row.applyRemark || '--'}}</template>
+                  <el-table-column prop="refundReason" label="申请备注" :key="16">
+                    <template slot-scope="scope">{{scope.row.refundReason || '--'}}</template>
                   </el-table-column>
                 </template>
                 <el-table-column prop="auditName" label="审核人"></el-table-column>
@@ -90,10 +90,10 @@
                 </template>
                 <!-- 退券 -->
                 <template v-else-if="tabsVal === '1'">
-                  <el-table-column prop="ticketCount" label="退款服务费" :key="14"></el-table-column>
+                  <el-table-column prop="caseTicketFee" label="退款服务费" :key="14"></el-table-column>
                   <el-table-column prop="applyName" label="申请人" :key="15"></el-table-column>
-                  <el-table-column prop="applyRemark" label="申请备注" :key="16">
-                    <template slot-scope="scope">{{scope.row.applyRemark || '--'}}</template>
+                  <el-table-column prop="refundReason" label="申请备注" :key="16">
+                    <template slot-scope="scope">{{scope.row.refundReason || '--'}}</template>
                   </el-table-column>
                 </template>
                 <el-table-column prop="auditName" label="审核人"></el-table-column>
@@ -162,7 +162,7 @@ export default {
           value: "0"
         },
         {
-          label: "赠费",
+          label: "赠送",
           value: "2"
         },
         {
