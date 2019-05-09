@@ -301,7 +301,7 @@
           url : '/document/queryTemplateDocumentLogListByDocumentId.htm',
           method : 'post',
           data : {
-            docuemntId : this.documentIdList.filter(v => v.documentType === 6)[0].documentId,
+            docuemntId : this.documentIdList.filter(v => v.documentType === 5)[0].documentId,
           },
         }).then(res => {
           this.ruleForm.qzzxList = res.result;
