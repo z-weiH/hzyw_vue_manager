@@ -613,6 +613,31 @@ export default {
             if(flag){
               document.documentElement.querySelector('.body_container').scrollTo(0,0);
             }
+
+            this.queryRespondentInfoByCaseId(res.result.list[0].caseId).then(res => {
+              console.log(res);
+              res.result.forEach(it => {
+                //当事人类型：0申请人1被申请人 private Integer resLtype;
+                //证件类型 0身份证 1营业执照 private Integer resType;
+                if(it.resLtype === 0){
+                  if(it.resType === 0){
+                    this.idCardList[0].evi.eviDetailList.push(...[{eviTitle: '申请人身份证正面', eviFileurl: it.img02}, {eviTitle: '申请人身份证反面', eviFileurl: it.img01}])
+                  }else{
+                    this.idCardList[0].evi.eviDetailList.push({eviTitle: '申请人营业执照', eviFileurl: it.img01});
+                  }
+                }else{
+                  // if(it.resType)
+                  const flag = res.result.filter(i => i.resLtype === 1).length > 1;
+                  if(it.resType === 0){
+                    this.idCardList[0].evi.eviDetailList.push(...[{eviTitle: `被申请人${flag ? '（' + it.resName + '）': ''}身份证正面`, eviFileurl: it.img02}, {eviTitle: `被申请人${flag ? '（' + it.resName + '）': ''}身份证反面`, eviFileurl: it.img01}])
+                  }else {
+                    this.idCardList[0].evi.eviDetailList.push({eviTitle: `被申请人${flag ? '（' + it.resName + '）': ''}营业执照`, eviFileurl: it.img01});
+                  }
+                }
+              })
+              console.log(this.idCardList[0].evi.eviDetailList);
+
+            });
 					}
 				}).catch(() => {
 				  this.waiter.close();

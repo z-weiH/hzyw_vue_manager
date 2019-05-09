@@ -21,7 +21,8 @@
                     multiple
                     :limit="3"
                     :on-exceed="handleExceed"
-                    :file-list="fileList">
+                    :show-file-list="false"
+                    >
                     <el-button  size="small" type="text" >导入</el-button>
                   </el-upload>
                   仲裁案号

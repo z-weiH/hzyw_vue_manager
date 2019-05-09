@@ -10,6 +10,58 @@
           <el-input @keyup.native.enter="handleSearch" style="width:470px;" v-model.trim="ruleForm.keyWords" placeholder="请输入互金企业、产品名称、模板号、借款单号、被申请人姓名、手机"></el-input>
         </el-form-item>
 
+
+        <el-form-item label="" prop="clientCode">
+          <el-select
+            filterable
+            clearable
+            style="width:170px;"
+            v-model="ruleForm.clientCode"
+            placeholder="请选择企业"
+            @change="handleClientCodeChange"
+          >
+            <el-option
+              :label="item.clientName"
+              :value="item.clientCode"
+              v-for="(item,index) in companyOptions"
+              :key="index"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="" prop="productName">
+          <el-select
+            filterable
+            clearable
+            style="width:170px;"
+            v-model="ruleForm.productName"
+            placeholder="请选择产品"
+            @change="handleProductCodeChange"
+          >
+            <el-option
+              :label="item.productName"
+              :value="item.productName"
+              v-for="(item,index) in productOptions"
+              :key="index"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="" prop="proTempId">
+          <el-select
+            filterable
+            clearable
+            style="width:170px;"
+            v-model="ruleForm.proTempId"
+            placeholder="请选择模板"
+          >
+            <el-option
+              :label="item.proTempId"
+              :value="item.proTempId"
+              v-for="(item,index) in templateOptions"
+              :key="index"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+
         <el-form-item label=" " prop="accountPeriodType">
           <el-select clearable style="width:120px;" v-model="ruleForm.accountPeriodType" placeholder="请选择账龄">
             <el-option label="1~30天" value="M0"></el-option>
@@ -28,6 +80,9 @@
           </el-select>
         </el-form-item>
 
+
+
+
         <!-- 推送时间 -->
         <timeFrame
           :startDate.sync="ruleForm.pushStartDate"
@@ -37,7 +92,7 @@
         >
         </timeFrame>
 
-        <br />
+        <!--<br />-->
 
         <!-- 预审时间 -->
         <timeFrame
@@ -193,6 +248,12 @@
           token: token,
         ruleForm : {
           // 互金企业
+          clientCode: "",
+          // 产品名称
+          productName: "",
+          // 模板号
+          proTempId: "",
+          // 互金企业
           keyWords : '',
           // 账龄
           accountPeriodType : '',
@@ -218,14 +279,80 @@
         // 每页数量
         pageSize : 10,
         loading: null,
-        tableLoading: false
+        tableLoading: false,
+        // 所属企业 options
+        companyOptions: [
+          /* {
+              merchantName : '青岛鲁金所股权投资基金有限公司',
+              code : '1',
+            } */
+        ],
+        // 所属产品 options
+        productOptions: [
+          /* {
+              prodName : '闪来钱',
+              prodCode : '30',
+            } */
+        ],
+        // 所属模板 options
+        templateOptions: [
+          /* '3001', */
+        ],
       }
     },
     mounted() {
       this.initTableList();
     },
+    created() {
+      this.optsCompanyListView();
+    },
     methods : {
+      // 互金企业 change
+      handleClientCodeChange(val) {
+        // 清空旧数据
+        this.ruleForm.productName = "";
+        this.ruleForm.proTempId = "";
+        this.productOptions = [];
+        this.templateOptions = [];
+        // 拉取产品列表
+        val && this.optsPduListView();
+      },
+      // 产品名称 change
+      handleProductCodeChange(val) {
+        // 清空旧数据
+        this.ruleForm.proTempId = "";
+        this.templateOptions = [];
+        // 拉取模板列表
+        val && this.optsTemplateCode();
+      },
 
+      optsCompanyListView() {
+        this.$http.post("/preCaseLib/queryPreClientName.htm ").then(res => {
+          this.companyOptions = res.result;
+        });
+      },
+      optsPduListView(params) {
+        this.$http
+          .post("/preCaseLib/queryPreProductName.htm", {
+            clientCode: this.ruleForm.clientCode
+          })
+          .then(res => {
+            this.productOptions = res.result;
+          });
+      },
+      optsTemplateCode(params) {
+        this.$http
+          .post("/preCaseLib/queryPreProTempCode.htm", {
+            clientCode: this.ruleForm.clientCode,
+            productId: this.productOptions.find(it => it.productName === this.ruleForm.productName).productId
+          })
+          .then(res => {
+            console.log(res);
+            // this.templateOptions = res.result;
+              this.templateOptions = res.result;
+            console.log(this.templateOptions);
+          });
+      },
       cancelUpload(){
         console.log(this.ruleForm)
         // this.ruleForm.loanBillNos = null;
@@ -305,7 +432,9 @@
             queryStartDate : this.ruleForm.queryStartDate,
             queryEndDate : this.ruleForm.queryEndDate,
             status : this.ruleForm.status,
-
+            clientCode: this.ruleForm.clientCode,
+            productName: this.ruleForm.productName,
+            proTempId: this.ruleForm.proTempId,
           },
         }).then((res) => {
           this.total = res.result.count;

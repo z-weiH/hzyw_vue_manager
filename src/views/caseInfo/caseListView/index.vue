@@ -7,7 +7,7 @@
     <searchs @valueChange="searchItemChange" class="item-search" :search-items="searchItems" :item="searchItem" :query-url="queryUrl">
       <template slot="moreBtn">
             <el-button class="ml-20" type="primary" @click="handleExport">导出Excel</el-button>
-</template>
+      </template>
     </searchs>
     <div class="item-title">
       <div>案件列表</div>
@@ -111,8 +111,8 @@ export default {
 					colSpan: 4,
 					newline: 1,
 					options: this.opCompany,
-					labelfield: 'merchantName',
-					valuefield: 'code',
+					labelfield: 'clientName',
+					valuefield: 'clientCode',
 					filterable: true,
 				},
 				{
@@ -566,7 +566,13 @@ export default {
           (v.settleType == 1 ? v.caseTicketFee = '/':v.caseTicket = '/');
 					return v;
 				});
-        this.queryCount(item)
+        this.queryCount(item);
+        this.$http.post('/case/queryCaseClientNameByCaseInfo.htm',item).then(res => {
+          console.log('selectCompany:::', res)
+
+          this.searchItems[4].options = res.result
+          // console.log('list:',res.result);
+        })
 			})
 		},
     queryCount(item){
@@ -579,7 +585,7 @@ export default {
       })
     },
 		optsCompanyListView() {
-			this.$http.post(URL_JSON['selectCompany']).then(res => {
+			this.$http.post('/case/queryCaseClientNameByCaseInfo.htm').then(res => {
 				console.log('selectCompany:::', res)
 
 				this.searchItems[4].options = res.result

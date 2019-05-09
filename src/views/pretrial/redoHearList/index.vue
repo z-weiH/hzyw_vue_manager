@@ -115,8 +115,8 @@ export default {
             },
           ]
         },
-        {type: 'date',newline: true, placeholder: '复审开始时间', property: 'beginReviewFinishTime', colSpan: 4, lt: 'endReviewFinishTime'},
-        {type: 'date',placeholder: '复审结束时间', property: 'endReviewFinishTime', colSpan: 4, gt: 'beginReviewFinishTime'},
+        {type: 'date',newline: true, placeholder: '复审开始时间', property: 'beginReviewFinishTime', colSpan: 4, lte: 'endReviewFinishTime'},
+        {type: 'date',placeholder: '复审结束时间', property: 'endReviewFinishTime', colSpan: 4, gte: 'beginReviewFinishTime'},
 
 
       ],

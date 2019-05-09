@@ -363,8 +363,10 @@
   import ScreenView from './module/screenView'
   import LogDialog from '../templateJoint/module/logDialog'
   import scrollTop from '@/components/scrollTop'
+  import imgEvi from '@/components/script/imgEvi';
   export default {
     name: 'caseDetail',
+    mixins:[imgEvi],
     components: {
       scrollTop,
       LogDialog,
