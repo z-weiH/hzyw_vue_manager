@@ -1258,7 +1258,14 @@ let router = new Router({
       meta: {
         name: 'uploadPdf'
       }
-    }
+    },
+    {
+      path: '/templateHistory',
+      component: () => import('@/views/customer/templateHistory'), // 裁决书历史记录
+      meta: {
+        name: 'templateHistory',
+      },
+    },
   ],
 })
 

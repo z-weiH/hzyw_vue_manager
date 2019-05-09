@@ -192,6 +192,10 @@
             categoryCode : 10,
             categoryDesc : '短信信息',
           },
+          {
+            categoryCode : 11,
+            categoryDesc : '贷款信息',
+          },
         ];
         const result = [];
         typeArr.map((v) => {
