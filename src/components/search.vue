@@ -60,11 +60,34 @@
             },
           }
         }
+        if (this.searchItem && this.searchItem.lte) {
+          return {
+            disabledDate: time => {
+              if (!this.item[this.searchItem.lte]) return false
+              else if (new Date(time).getTime() >= new Date(this.item[this.searchItem.lte]).getTime()) {
+                return true
+              } else {
+                return false
+              }
+            },
+          }
+        }
         if (this.searchItem && this.searchItem.gt) {
           return {
             disabledDate: time => {
               if (!this.item[this.searchItem.gt]) return false
-              else if (new Date(time).getTime() < new Date(this.item[this.searchItem.gt]).getTime()) {
+              else if (new Date(this.$moment(new Date(time)).format("YYYY-MM-DD")).getTime() <= new Date(this.item[this.searchItem.gt]).getTime()) {
+                return true
+              } else {
+                return false
+              }
+            },
+          }
+        }if (this.searchItem && this.searchItem.gte) {
+          return {
+            disabledDate: time => {
+              if (!this.item[this.searchItem.gte]) return false
+              else if (new Date(this.$moment(new Date(time)).format("YYYY-MM-DD")).getTime() < new Date(this.item[this.searchItem.gte]).getTime()) {
                 return true
               } else {
                 return false

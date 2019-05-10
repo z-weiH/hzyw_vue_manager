@@ -34,8 +34,8 @@
       return {
        searchItems: [
          {type: 'text', placeholder: '互金企业、产品名称、模板号', colSpan: 6, property: 'keyWords'},
-         {type: 'date', placeholder: '分配开始时间', colSpan: 5, property: 'startDate'},
-         {type: 'date', placeholder: '分配截至时间', colSpan: 5, property: 'endDate'},
+         {type: 'date', placeholder: '分配开始时间', colSpan: 5, property: 'startDate', lte: 'endDate'},
+         {type: 'date', placeholder: '分配截至时间', colSpan: 5, property: 'endDate', gte: 'startDate'},
          {type: 'select', placeholder: '批次状态', colSpan: 3, property: 'batchStatus',options: [
              {label: '待审核', value: 0},
              {label: '审核完成', value: 1},

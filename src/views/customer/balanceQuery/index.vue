@@ -78,10 +78,12 @@
             <span v-if="scope.row.settleType === 2">比例结算</span>
           </template>
         </el-table-column>
-        <el-table-column prop="ticketTotal" label="可用服务费余额(元)">
-          <template slot-scope="scope">{{scope.row.ticketTotal || 0}}</template>
+        <el-table-column prop="ticketTotal" label="充值服务费">
+          <!-- <template slot-scope="scope">{{scope.row.ticketTotal || 0}}</template> -->
+          <!-- 充值服务(计算公式) = (ticketTotal - ticketGiftAvail) -->
+          <template slot-scope="scope">{{scope.row.ticketTotal - scope.row.ticketGiftAvail}}</template>
         </el-table-column>
-        <el-table-column prop="serviceFeeAvail" label="可用赠送服务费(元)">
+        <el-table-column prop="serviceFeeAvail" label="赠送服务费">
           <template slot-scope="scope">
             <template v-if="scope.row.ticketGiftAvail && scope.row.ticketGiftAvail  > 0">
               <span class="colLink" @click="handleDetail(scope.row)">{{scope.row.ticketGiftAvail}}</span>

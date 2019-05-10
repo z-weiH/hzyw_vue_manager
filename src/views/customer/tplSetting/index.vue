@@ -84,6 +84,7 @@
   import setDialog from './modules/setDialog.vue'
   import timeFrame from '@/components/timeFrame.vue'
   export default {
+    name : 'tplSetting',
     components : {
       setDialog,
       timeFrame,
@@ -109,7 +110,16 @@
         pageSize : 10,
       }
     },
-    mounted() {
+    activated() {
+      if(this.$store.state.keepAlive.keepAliveStatus === false) {
+        // 初始化数据
+        this.ruleForm.keyWords = '';
+        this.ruleForm.startDate = '';
+        this.ruleForm.endDate = '';
+        this.tableData = [];
+        this.currentPage = 1;
+        this.pageSize = 10;
+      }
       this.initTableList();
     },
     methods : {
@@ -121,6 +131,7 @@
       // 点击设置
       handleClick(row) {
         // this.$refs.setDialog.show(row);
+        this.$store.commit('keepAlive/setkeepAliveStatus',true);
         this.$router.push(`tplSettingList?clientCode=${row.clientCode}&templateId=${row.templateId}`);
       },
 

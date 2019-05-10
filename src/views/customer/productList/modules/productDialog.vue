@@ -6,6 +6,7 @@
       width="580px"
       @close="handleClose"
 			ref="dialog"
+      :close-on-click-modal="false"
     >
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">

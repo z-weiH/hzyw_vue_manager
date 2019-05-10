@@ -92,7 +92,7 @@
             <el-table-column
               prop="finalTicket"
               label="期末仲券数"
-              :render-header="headerFinalTicket"
+              :render-header="headerFinalTicketGift"
             ></el-table-column>
             <el-table-column
               prop="finalTicketGift"
@@ -134,7 +134,7 @@
           ></el-pagination>
         </div>
       </el-tab-pane>
-      <!-- <el-tab-pane label="比例结算客户">
+      <el-tab-pane label="比例结算客户">
         <div class="item-search">
           <el-form :inline="true" ref="searchForm" :model="searchForm1" label-width="0px">
             <el-form-item label=" " prop="clientCode">
@@ -151,6 +151,10 @@
 
             <el-form-item label=" " prop="hasRecharge">
               <el-checkbox v-model="searchForm1.hasRecharge">有充值记录</el-checkbox>
+            </el-form-item>
+
+            <el-form-item label=" " prop="hasGift">
+              <el-checkbox v-model="searchForm1.hasGift">有赠送记录</el-checkbox>
             </el-form-item>
 
             <el-form-item label=" " prop="hasRefund">
@@ -170,24 +174,22 @@
               <template slot-scope="scope">{{scope.$index + 1}}</template>
             </el-table-column>
             <el-table-column prop="clientName" label="客户名称" width="150"></el-table-column>
-            <el-table-column prop="finalFee" label="期末仲裁费余额" width="120"></el-table-column> -->
-            <!-- <el-table-column
-              prop="finalTicketGift"
-              label="期末赠送服务费"
-              :render-header="headerFinalTicketGift"
-              width="160"
-            ></el-table-column>-->
-            <!-- <el-table-column prop="rechargeFee" label="期间充值仲裁费" width="155"></el-table-column> -->
-            <!-- <el-table-column prop="periodTicketGift" label="期间赠送服务费" width="155"></el-table-column> -->
-            <!-- <el-table-column prop="refundFee" label="期间退款仲裁费"></el-table-column>
+            <el-table-column prop="originalServiceFee" label="期末服务费" width="150" :render-header="headerFinalTicket"></el-table-column>
+            <el-table-column prop="originalGiftServiceFee" label="期末赠送服务费" width="150" :render-header="headerFinalTicket"></el-table-column>
+
+            <!-- <el-table-column prop="finalFee" label="期末仲裁费余额" width="120"></el-table-column> -->
+
+            <el-table-column prop="periodTicketRecharge" label="期间充值服务费" width="155"></el-table-column>
+            <el-table-column prop="periodTicketGift" label="期间赠送服务费" width="155"></el-table-column>
+            <el-table-column prop="periodTicketRefund" label="期间退费"></el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button @click="handleDetail(scope.row)" type="text">查看详情</el-button>
               </template>
             </el-table-column>
-          </el-table> -->
+          </el-table>
           <!-- 分页 -->
-          <!-- <el-pagination
+          <el-pagination
             class="mt-10 mb-10"
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -198,7 +200,7 @@
             :total="total"
           ></el-pagination>
         </div>
-      </el-tab-pane> -->
+      </el-tab-pane>
     </el-tabs>
 
     <detailDialog ref="detailDialog" :modelType="tabcardType"></detailDialog>
@@ -249,6 +251,8 @@ export default {
       searchForm1: {
         // 客户
         clientCode: "",
+        // 赠券记录 0否 1是
+        hasGift: true,
         // 充值记录 0否 1是
         hasRecharge: true,
         // 退券记录 0否 1是
@@ -344,6 +348,7 @@ export default {
           data: {
             ...this.ruleForm,
             clientCode: this.searchForm1.clientCode,
+            hasGift: this.searchForm1.hasGift ? 1 : 0,
             hasRecharge: this.searchForm1.hasRecharge ? 1 : 0,
             hasRefund: this.searchForm1.hasRefund ? 1 : 0,
             settleType: type
@@ -459,45 +464,45 @@ export default {
     // 表格相关 end
 
     headerFinalTicket(h, { column, $index }) {
-      console.log(h, column);
-      // 期末仲券数
+      // console.log(h, column);
+      // 期末赠送服务费
       // 期末服务费
-      if (column.label === "期末仲券数") {
+     if (column.label === "期末服务费") {
         return (
           <span>
             {column.label}
             <el-tooltip class="item" effect="dark" placement="bottom">
               <i class="el-icon-info ml-10" />
               <div slot="content">
-                在所选择的时间范围内，该客户最新的账户
-                <br />
-                可用仲券，如：当在2月15日当天，查询1
-                <br />
-                月1日至1月30日的数据，期末仲券数=1月3
-                <br />
-                0日24点该客户账户剩余的可用仲券数，而
-                <br />
-                非2月15日的实时数据。
+                期末服务费意思为：所选时间范围内，
+                <br/>
+                该客户账户最新的可用服务费，
+                <br/>
+                如：选择查看1月1号到1月30号时间范围，
+                <br/>
+                那么此项将显示1月30号0点时，
+                <br/>
+                该账户的可用服务费金额
               </div>
             </el-tooltip>
           </span>
         );
-      } else if (column.label === "期末服务费") {
+      } else if(column.label === "期末赠送服务费"){
         return (
           <span>
             {column.label}
             <el-tooltip class="item" effect="dark" placement="bottom">
               <i class="el-icon-info ml-10" />
               <div slot="content">
-                在所选择的时间范围内，该客户最新的账户
-                <br />
-                可用仲券，如：当在2月15日当天，查询1
-                <br />
-                月1日至1月30日的数据，期末仲券数=1月3
-                <br />
-                0日24点该客户账户剩余的可用仲券数，而
-                <br />
-                非2月15日的实时数据。
+               期末赠送服务费意思为：
+               <br/>
+               所选时间范围内，该客户账户最新的可用赠送服务费，
+               <br/>
+               如：选择查看1月1号到1月30号时间范围，
+               <br/>
+               那么此项将显示1月30号0点时，
+               <br/>
+               该账户可用赠送服务费金额
               </div>
             </el-tooltip>
           </span>
@@ -506,8 +511,7 @@ export default {
     },
     headerFinalTicketGift(h, { column, $index }) {
       // 期末赠券数
-      // 期末赠送服务费
-
+      // 期末仲券
       if (column.label === "期末赠券数") {
         return (
           <span>
@@ -528,11 +532,24 @@ export default {
             </el-tooltip>
           </span>
         );
-      } else if (column.label === "期末赠送服务费") {
+      } else if (column.label === "期末仲券数") {
         return (
           <span>
             {column.label}
-            <i class="el-icon-info ml-10" />
+            <el-tooltip class="item" effect="dark" placement="bottom">
+              <i class="el-icon-info ml-10" />
+              <div slot="content">
+                在所选择的时间范围内，该客户最新的账户
+                <br />
+                可用仲券，如：当在2月15日当天，查询1
+                <br />
+                月1日至1月30日的数据，期末仲券数=1月3
+                <br />
+                0日24点该客户账户剩余的可用仲券数，而
+                <br />
+                非2月15日的实时数据。
+              </div>
+            </el-tooltip>
           </span>
         );
       }
