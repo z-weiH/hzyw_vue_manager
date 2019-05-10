@@ -287,10 +287,12 @@ export default {
         // 仲券结算
         this.initTableList(1);
         this.tabcardType = 1;
+        this.initClient();
       } else if (tab.index == 1) {
         //  比例结算
         this.initTableList(2);
         this.tabcardType = 2;
+        this.initClient();
       }
     },
     // 获取客户 options
