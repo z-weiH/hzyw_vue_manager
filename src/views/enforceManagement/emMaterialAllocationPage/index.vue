@@ -777,11 +777,11 @@
           }
           if(res.result.materialNumSetting){
             res.result.materialNumSetting.forEach(it => {
-              if(it.materialType !== 3){
+              // if(it.materialType !== 3){
                 let item = this.clfsList.find(i => i.materialType === it.materialType);
                 if(item)
                 item.materialNum = it.materialNum;
-              }
+              // }
             })
             console.log(this.clfsList);
           }
