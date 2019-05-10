@@ -295,11 +295,16 @@ export default {
     },
     // 获取客户 options
     initClient() {
+      // /merchant/queryMerchants.htm
       return this.$http({
         method: "post",
-        url: "/merchant/queryMerchants.htm"
+        url: "/merchant/queryMerchantsCommon.htm",
+        data:{
+          settleType:this.tabcardType
+        }
       }).then(res => {
-        this.clientOptions = res.result.list;
+        // this.clientOptions = res.result.list;
+        this.clientOptions = res.result;
       });
     },
     // 获取统计
