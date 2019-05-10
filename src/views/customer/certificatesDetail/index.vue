@@ -88,34 +88,36 @@
             <el-table-column prop="date" label="序号" width="50">
               <template slot-scope="scope">{{scope.$index + 1}}</template>
             </el-table-column>
-            <el-table-column prop="clientName" label="客户名称" width="150"></el-table-column>
+            <el-table-column prop="clientName" label="客户名称" width="220"></el-table-column>
             <el-table-column
               prop="finalTicket"
               label="期末仲券数"
               :render-header="headerFinalTicketGift"
+              width="220"
             ></el-table-column>
             <el-table-column
               prop="finalTicketGift"
               label="期末赠券数"
               :render-header="headerFinalTicketGift"
+              width="220"
             ></el-table-column>
-            <el-table-column prop="ticketValue" label="单张券面值（元）"></el-table-column>
-            <el-table-column prop="periodTicketRecharge" label="期间充值仲券">
+            <el-table-column prop="ticketValue" label="单张券面值（元）" width="180"></el-table-column>
+            <el-table-column prop="periodTicketRecharge" label="期间充值仲券" width="180">
               <template slot-scope="scope">
                   {{scope.row.periodTicketRecharge/10}}
               </template>
             </el-table-column>
-            <el-table-column prop="periodTicketGift" label="期间赠券">
+            <el-table-column prop="periodTicketGift" label="期间赠券" width="180">
                 <template slot-scope="scope">
                   {{scope.row.periodTicketGift/10}}
                 </template>
             </el-table-column>
-            <el-table-column prop="periodTicketRefund" label="期间退券">
+            <el-table-column prop="periodTicketRefund" label="期间退券" width="180">
                 <template slot-scope="scope">
                   {{scope.row.periodTicketRefund/10}}
                 </template>
             </el-table-column>
-            <el-table-column label="操作" width="140">
+            <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button @click="handleDetail(scope.row)" type="text">查看详情</el-button>
               </template>
@@ -173,15 +175,15 @@
             <el-table-column prop="date" label="序号" width="50">
               <template slot-scope="scope">{{scope.$index + 1}}</template>
             </el-table-column>
-            <el-table-column prop="clientName" label="客户名称" width="150"></el-table-column>
-            <el-table-column prop="originalServiceFee" label="期末服务费" width="150" :render-header="headerFinalTicket"></el-table-column>
-            <el-table-column prop="originalGiftServiceFee" label="期末赠送服务费" width="150" :render-header="headerFinalTicket"></el-table-column>
+            <el-table-column prop="clientName" label="客户名称" width="220"></el-table-column>
+            <el-table-column prop="originalServiceFee" label="期末服务费" width="200" :render-header="headerFinalTicket"></el-table-column>
+            <el-table-column prop="originalGiftServiceFee" label="期末赠送服务费" width="220" :render-header="headerFinalTicket"></el-table-column>
 
             <!-- <el-table-column prop="finalFee" label="期末仲裁费余额" width="120"></el-table-column> -->
 
-            <el-table-column prop="periodTicketRecharge" label="期间充值服务费" width="155"></el-table-column>
-            <el-table-column prop="periodTicketGift" label="期间赠送服务费" width="155"></el-table-column>
-            <el-table-column prop="periodTicketRefund" label="期间退费"></el-table-column>
+            <el-table-column prop="periodTicketRecharge" label="期间充值服务费" width="220"></el-table-column>
+            <el-table-column prop="periodTicketGift" label="期间赠送服务费" width="220"></el-table-column>
+            <el-table-column prop="periodTicketRefund" label="期间退费" width="200"></el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button @click="handleDetail(scope.row)" type="text">查看详情</el-button>
