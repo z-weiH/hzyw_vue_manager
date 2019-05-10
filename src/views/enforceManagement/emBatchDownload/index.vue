@@ -105,6 +105,13 @@
             value : 'sfzzfm',
             checked : false,
           },
+
+          {
+            label : '裁决书封面',
+            value : 'cjsfm',
+            checked : false,
+          },
+
           {
             label : '裁决书',
             value : 'cjs',
