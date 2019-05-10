@@ -72,7 +72,7 @@
             </template>
             </tbody>
           </table>
-          <p  v-if="item.settleType === 2" style="margin: 8px 0 ;text-align: center;width: 100%;">
+          <p  v-if="item.settleType === 2 && editState !== 9" style="margin: 8px 0 ;text-align: center;width: 100%;">
             <customer-button type="success" icon="el-icon-plus" plain round @click="handleSettleAdd">继续添加</customer-button>
           </p>
         </template>

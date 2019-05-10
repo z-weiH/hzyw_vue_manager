@@ -406,35 +406,81 @@
 
         //文书在《限制高消费及纳入失信被执行人名单申请书》后，依次需要增加《限高名单申请书》（附件2）、《失信名单申请书-盖公章》（附件3）
 
+        // 1：强制执行申请书；2：授权委托书；3：受委托人在仲裁代理中不收取报酬的承诺书；4：收取执行款银行账户确认书；5：被执行人身份证正反面：6：关于被执行人财产状况说明7：《借款协议》8:《服务协议》9：债权转让协议：10：限制高消费及纳入失信被执行人名单申请书'
+
+      //   private Boolean qzzxsqs=false;/制执行申请书数量 1
+      // private Boolean cczksm=false;//关于被执行人财产状况说明 2
+      // private Boolean yyzz=false;//营业执照 3
+      // private Boolean frsfzzfm=false;//法人身份证正反面 4
+      // private Boolean frdbrsfzms=false;//法定代表人身份证明书 5
+      // private Boolean sqwts=false;//授权委托书 6
+      // private Boolean ldhtsmj = false ;//劳动合同扫描件 7
+      // private Boolean sfzzfm=false;//被执行人身份证正反面  8
+      // private Boolean cjsfm=false;//裁决书封面 18
+      // private Boolean cjs=false;//裁决书 9
+      // private Boolean zqzrxy=false;//债权转让协议 10
+      // private Boolean zqzrqrs=false;//债权转让确认书  11
+      // private Boolean zxkyhzhqds=false;//收取执行款银行账户确认书  12
+      // private Boolean  jkxy=false;//借款协议 13
+      // private Boolean fwxy=false;//服务协议 14
+      //
+      // private Boolean xzgxfsms=false;//限制高消费及纳入失信被执行人名单申请书 15
+      // private Boolean xgmdsqs=false;//限高名单申请书 16
+      // private Boolean sxmdsqs=false;//失信名单申请书 17
+    //     else if(type === 11)
+    //   return '裁决书';
+    // else if(type === 12)
+    //     return '营业执照';
+    //   else if(type === 13)
+    //     return '法人身份证正反面';
+    //   else if(type === 14)
+    //     return '法人代表人身份证明书';
+    //   else if(type === 15)
+    //     return '债权转让确认书';
+    //   else if(type === 16)
+    //     return '限高名单申请书';
+    //   else if(type === 17)
+    //     return '失信名单申请书';
+    //   else if(type === 18)
+    //     return '劳动合同扫描';
         clfsList: [
-          {materialType: 1,materialNum: 0 },
-
-          {materialType: 12,materialNum: 0 },//营业执照
-          {materialType: 13,materialNum: 0 },//法人身份证正反面
-          {materialType: 14,materialNum: 0 },//法人代表人身份证明书
+          {materialType: 1,materialNum: 0 , value: 'qzzxsqs'},
+          {materialType: 2,materialNum: 0 ,value: 'cczksm' },
 
 
+          {materialType: 3,materialNum: 0 , value: 'yyzz'},//营业执照
+          {materialType: 4,materialNum: 0 ,value: 'frsfzzfm' },//法人身份证正反面
+          {materialType: 5,materialNum: 0 , value: 'frdbrsfzms' },//法人代表人身份证明书
 
 
-          {materialType: 2,materialNum: 0 },
-          {materialType: 18,materialNum: 0 },
+
+
+          {materialType: 6,materialNum: 0 ,value: 'sqwts'},
+          {materialType: 7,materialNum: 0 , value: 'ldhtsmj'},
+          {materialType: 8,materialNum: 0 , value: 'sfzzfm' },
+
+
+          {materialType: 18,materialNum: 0 , value: 'cjsfm'},
+          {materialType: 9,materialNum: 0 , value: 'cjs'},
+          {materialType: 10,materialNum: 0 , value: 'zqzrxy'},
+          {materialType: 11,materialNum: 0 , value: 'zqzrqrs'}, //债权转让确认书
+
+
+
           // {materialType: 3,materialNum: 0 },
-          {materialType: 4,materialNum: 0 },
-          {materialType: 7,materialNum: 0 },
-          {materialType: 8,materialNum: 0 },
-          {materialType: 5,materialNum: 0 },
-          {materialType: 6,materialNum: 0 },
+          {materialType: 12,materialNum: 0 , value: 'zxkyhzhqds'},
+          {materialType: 13,materialNum: 0 , value: 'jkxy'},
+          {materialType: 14,materialNum: 0 , value: 'fwxy'},
 
 
 
-          {materialType: 9,materialNum: 0 },
-          {materialType: 15,materialNum: 0 }, //债权转让确认书
 
-          {materialType: 11,materialNum: 0 },
-          {materialType: 10,materialNum: 0 },
 
-          {materialType: 16,materialNum: 0 }, //限高名单申请书
-          {materialType: 17,materialNum: 0 }, //失信名单申请书-盖公章
+
+          {materialType: 15,materialNum: 0 , value: 'xzgxfsms'},
+
+          {materialType: 16,materialNum: 0 , value: 'xgmdsqs'}, //限高名单申请书
+          {materialType: 17,materialNum: 0 , value: 'sxmdsqs' }, //失信名单申请书-盖公章
           ],
         clfsFlag: false,
         clfsObj: {},
@@ -606,25 +652,28 @@
         let obj = {
           courtId: this.$route.query.courtId,
           // bsqbccns: this.clfsListClone[2].materialNum,
-          cczksm: this.clfsListClone[6+3+1].materialNum,
-          fwxy: this.clfsListClone[4+3+1].materialNum,
-          jkxy: this.clfsListClone[3+3+1].materialNum,
-          qzzxsqs: this.clfsListClone[0].materialNum,
-          sfzzfm: this.clfsListClone[5+3+1].materialNum,
-          sqwts: this.clfsListClone[1+3].materialNum,
-          xzgxfsms: this.clfsListClone[8+3+2+1].materialNum,
-          zxkyhzhqds: this.clfsListClone[2+3+1].materialNum,
-          cjs : this.clfsListClone[7+3+2+1].materialNum,
-          yyzz : this.clfsListClone[1].materialNum,
-          frsfzzfm : this.clfsListClone[2].materialNum,
-          frdbrsfzms : this.clfsListClone[3].materialNum,
-          zqzrxy: this.clfsListClone[10+1].materialNum,
-          zqzrqrs: this.clfsListClone[11+1].materialNum,
-          xgmdsqs: this.clfsListClone[14+1].materialNum,
-          sxmdsqs: this.clfsListClone[15+1].materialNum,
-
-          ldhtsmj: this.clfsListClone[5].materialNum,
+          // cczksm: this.clfsListClone[6+3+1].materialNum,
+          // fwxy: this.clfsListClone[4+3+1].materialNum,
+          // jkxy: this.clfsListClone[3+3+1].materialNum,
+          // qzzxsqs: this.clfsListClone[0].materialNum,
+          // sfzzfm: this.clfsListClone[5+3+1].materialNum,
+          // sqwts: this.clfsListClone[1+3].materialNum,
+          // xzgxfsms: this.clfsListClone[8+3+2+1].materialNum,
+          // zxkyhzhqds: this.clfsListClone[2+3+1].materialNum,
+          // cjs : this.clfsListClone[7+3+2+1].materialNum,
+          // yyzz : this.clfsListClone[1].materialNum,
+          // frsfzzfm : this.clfsListClone[2].materialNum,
+          // frdbrsfzms : this.clfsListClone[3].materialNum,
+          // zqzrxy: this.clfsListClone[10+1].materialNum,
+          // zqzrqrs: this.clfsListClone[11+1].materialNum,
+          // xgmdsqs: this.clfsListClone[14+1].materialNum,
+          // sxmdsqs: this.clfsListClone[15+1].materialNum,
+          // ldhtsmj: this.clfsListClone[5].materialNum,
         };
+        for(let i =0 ;i < this.clfsListClone.length ; i++){
+          obj[this.clfsList[i].value] = this.clfsListClone[i].materialNum;
+        }
+
         let obj1 = {};
         for(let key in obj){
           if(obj[key] != 0){
@@ -650,43 +699,61 @@
         return newArr;
       },
       getmaterialName(type){
-        // 1：强制执行申请书；2：授权委托书；3：受委托人在仲裁代理中不收取报酬的承诺书；4：收取执行款银行账户确认书；5：被执行人身份证正反面：6：关于被执行人财产状况说明7：《借款协议》8:《服务协议》9：债权转让协议：10：限制高消费及纳入失信被执行人名单申请书'
+        // private Boolean qzzxsqs=false;/制执行申请书数量 1
+        // private Boolean cczksm=false;//关于被执行人财产状况说明 2
+        // private Boolean yyzz=false;//营业执照 3
+        // private Boolean frsfzzfm=false;//法人身份证正反面 4
+        // private Boolean frdbrsfzms=false;//法定代表人身份证明书 5
+        // private Boolean sqwts=false;//授权委托书 6
+        // private Boolean ldhtsmj = false ;//劳动合同扫描件 7
+        // private Boolean sfzzfm=false;//被执行人身份证正反面  8
+        // private Boolean cjsfm=false;//裁决书封面 18
+        // private Boolean cjs=false;//裁决书 9
+        // private Boolean zqzrxy=false;//债权转让协议 10
+        // private Boolean zqzrqrs=false;//债权转让确认书  11
+        // private Boolean zxkyhzhqds=false;//收取执行款银行账户确认书  12
+        // private Boolean  jkxy=false;//借款协议 13
+        // private Boolean fwxy=false;//服务协议 14
+        //
+        // private Boolean xzgxfsms=false;//限制高消费及纳入失信被执行人名单申请书 15
+        // private Boolean xgmdsqs=false;//限高名单申请书 16
+        // private Boolean sxmdsqs=false;//失信名单申请书 17
         if(type === 1)
           return '强制执行申请书';
         else if(type === 2)
-          return '授权委托书';
-        else if(type === 3)
-          return '受委托人在仲裁代理中不收取报酬的承诺书';
-        else if(type === 4)
-          return '收取执行款银行账户确认书';
-        else if(type === 5)
-          return '被执行人身份证正反面';
-        else if(type === 6)
           return '关于被执行人财产状况说明';
-        else if(type === 7)
-          return '借款协议';
-        else if(type === 8)
-          return '服务协议';
-        else if(type === 9)
-          return '债权转让协议';
-        else if(type === 10)
-          return '限制高消费及纳入失信被执行人名单申请书';
-        else if(type === 11)
-          return '裁决书';
-        else if(type === 12)
+        else if(type === 3)
           return '营业执照';
-        else if(type === 13)
+        else if(type === 4)
           return '法人身份证正反面';
-        else if(type === 14)
-          return '法人代表人身份证明书';
-        else if(type === 15)
+        else if(type === 5)
+          return '法定代表人身份证明书';
+        else if(type === 6)
+          return '授权委托书';
+        else if(type === 7)
+          return '劳动合同扫描件';
+        else if(type === 8)
+          return '被执行人身份证正反面';
+        else if(type === 9)
+          return '裁决书';
+        else if(type === 10)
+          return '债权转让协议';
+        else if(type === 11)
           return '债权转让确认书';
+        else if(type === 12)
+          return '收取执行款银行账户确认书';
+        else if(type === 13)
+          return '借款协议';
+        else if(type === 14)
+          return '服务协议';
+        else if(type === 15)
+          return '限制高消费及纳入失信被执行人名单申请书';
         else if(type === 16)
           return '限高名单申请书';
         else if(type === 17)
           return '失信名单申请书';
         else if(type === 18)
-          return '劳动合同扫描';
+          return '裁决书封面';
 
       },
       initPage(){
@@ -710,11 +777,11 @@
           }
           if(res.result.materialNumSetting){
             res.result.materialNumSetting.forEach(it => {
-              if(it.materialType !== 3){
+              // if(it.materialType !== 3){
                 let item = this.clfsList.find(i => i.materialType === it.materialType);
                 if(item)
                 item.materialNum = it.materialNum;
-              }
+              // }
             })
             console.log(this.clfsList);
           }

@@ -51,5 +51,5 @@ export default [
   '/main/arbitrationFeeDeductionDetail', // 仲裁费扣除总数 明细
 
   '/hearCaseListDetail',//预审案件库 详情
-
+  '/templateHistory', // 裁决书历史记录
 ]

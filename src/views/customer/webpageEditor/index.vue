@@ -6,6 +6,13 @@
         <i @click="handleHelp" title="查看帮助文档" class="el-icon-question"></i>
 
         <div class="fr">
+          <el-button 
+            v-if="QZZX === true" 
+            type="text" class="mr-10"
+            @click="handleOpenCJS"
+          >
+            打开裁决书
+          </el-button>
           <el-button v-if="autoSave" type="text" class="fadeIn">自动保存中...</el-button>
           <el-button @click="handleRecovery" v-if="autoSave === false" type="text">恢复</el-button>
           <el-button @click="handleCancel" size="small" icon="el-icon-back"></el-button>
@@ -185,6 +192,8 @@
         copyStyle : false,
         // 自动保存中 状态 true 自动保存中 
         autoSave : localStorage.getItem('ueditor_content') ? false : '',
+        // 判断当前是 强制执行书
+        QZZX : this.$route.query.type !== 'applyContent' && this.$route.query.type !== 'judgeContent',
       }
     },
     mounted() {
@@ -242,24 +251,30 @@
         }
       }
       // 回显数据
-      this.$http({
-        url : '/templateSetting/queryRichTextContentByIdAndType.htm',
-        method : 'post',
-        data : {
-          prodTempId : this.$route.query.prodTempId,
-          type : (
-            this.$route.query.type === 'applyContent' ? 1 :
-            this.$route.query.type === 'judgeContent' ? 2 :
-            this.$route.query.type === 'enforceContent' ? 3 : ''
-          ),
-        },
-      }).then((res) => {
-        fn(res.result[this.$route.query.type] || '');
-
-
-      }).catch(() => {
-        close.close();
-      });
+        // 申请书或者裁决书
+      if(this.$route.query.type === 'applyContent' || this.$route.query.type === 'judgeContent') {
+        this.$http({
+          method : 'post',
+          url : '/document/queryTemplateDocumentByDocumentId.htm',
+          data : {
+            prodTempId : this.$route.query.prodTempId,
+            documentType : this.$route.query.type === 'applyContent' ? 1 : 5,
+          },
+        }).then(res => {
+          fn(res.result.documentContent || '');
+        });
+        // 强制申请书
+      }else{
+        this.$http({
+          method : 'post',
+          url : '/document/queryExecuteDocumentByDocumentLogId.htm',
+          data : {
+            documentLogId : this.$route.query.documentLogId,
+          },
+        }).then(res => {
+          fn(res.result.executeContent || '');
+        });
+      }
     },
     methods : {
       // 复制 开关 change
@@ -409,16 +424,34 @@
         this.verify((content) => {
           if(content) {
             // 提交数据
-            this.$http({
-              url : '/templateSetting/updateTemplateDetailByProdTempId.htm',
-              method : 'post',
-              data : {
-                [this.$route.query.type] : content,
-                prodTempId : this.$route.query.prodTempId,
-              },
-            }).then((res) => {
-              this.$message.success('保存成功');
-            });
+            if(this.QZZX === false) {
+              this.$http({
+                url : '/templateSetting/updateTemplateDetailByProdTempId.htm',
+                method : 'post',
+                data : {
+                  [this.$route.query.type] : content,
+                  prodTempId : this.$route.query.prodTempId,
+                  documentId : this.$route.query.documentId,
+                  documentType : (
+                    this.$route.query.type === 'applyContent' ? '1' :
+                    this.$route.query.type === 'judgeContent' ? '5' : ''
+                  ),
+                },
+              }).then((res) => {
+                this.$message.success('保存成功');
+              });
+            }else{
+              this.$http({
+                method : 'post',
+                url : '/document/updateClientExecuteDocumentByDocumentLogId.htm',
+                data : {
+                  documentLogId : this.$route.query.documentLogId,
+                  executeContent : content,
+                },
+              }).then(res => {
+                this.$message.success('保存成功');
+              });
+            }
           }
         });
       },
@@ -496,6 +529,15 @@
       handleRecovery() {
         let cont = localStorage.getItem('ueditor_content');
         cont && this.$refs.ueeditor.setContent(cont);
+      },
+      // 打开裁决书
+      handleOpenCJS() {
+        window.open(this.$router.resolve({
+          path : '/templateHistory',
+          query : {
+            documentLogId : this.$route.query.documentLogId,
+          },
+        }).href);
       },
     },
     destroyed() {

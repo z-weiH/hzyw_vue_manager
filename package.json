@@ -10,14 +10,15 @@
     "start": "npm run dev",
     "build": "node build/build.js",
     "build:stats": "webpack --env production --json > stats.json",
-    "analyz":"npm run build --report"
+    "analyz": "npm run build --report"
   },
   "dependencies": {
     "autosize": "4.0.2",
     "highlight.js": "9.13.1",
-    "vue": "2.5.2",
+    "vue": "2.6.10",
     "vue-router": "3.0.1",
-    "vuedraggable": "2.16.0"
+    "vuedraggable": "2.16.0",
+    "xlsx": "^0.14.3"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
@@ -70,7 +71,7 @@
     "vue-loader": "13.7.3",
     "vue-piczoom": "1.0.6",
     "vue-style-loader": "3.0.1",
-    "vue-template-compiler": "2.5.2",
+    "vue-template-compiler": "2.6.10",
     "vuedraggable": "2.16.0",
     "vuex": "3.0.1",
     "webpack": "3.6.0",
