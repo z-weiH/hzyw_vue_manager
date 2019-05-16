@@ -88,7 +88,7 @@
             <el-table-column prop="date" label="序号" width="50">
               <template slot-scope="scope">{{scope.$index + 1}}</template>
             </el-table-column>
-            <el-table-column prop="clientName" label="客户名称" width="150"></el-table-column>
+            <el-table-column prop="clientName" label="客户名称"></el-table-column>
             <el-table-column
               prop="finalTicket"
               label="期末仲券数"
@@ -101,21 +101,15 @@
             ></el-table-column>
             <el-table-column prop="ticketValue" label="单张券面值（元）"></el-table-column>
             <el-table-column prop="periodTicketRecharge" label="期间充值仲券">
-              <template slot-scope="scope">
-                  {{scope.row.periodTicketRecharge/10}}
-              </template>
+              <template slot-scope="scope">{{scope.row.periodTicketRecharge/10}}</template>
             </el-table-column>
             <el-table-column prop="periodTicketGift" label="期间赠券">
-                <template slot-scope="scope">
-                  {{scope.row.periodTicketGift/10}}
-                </template>
+              <template slot-scope="scope">{{scope.row.periodTicketGift/10}}</template>
             </el-table-column>
             <el-table-column prop="periodTicketRefund" label="期间退券">
-                <template slot-scope="scope">
-                  {{scope.row.periodTicketRefund/10}}
-                </template>
+              <template slot-scope="scope">{{scope.row.periodTicketRefund/10}}</template>
             </el-table-column>
-            <el-table-column label="操作" width="140">
+            <el-table-column label="操作">
               <template slot-scope="scope">
                 <el-button @click="handleDetail(scope.row)" type="text">查看详情</el-button>
               </template>
@@ -173,14 +167,22 @@
             <el-table-column prop="date" label="序号" width="50">
               <template slot-scope="scope">{{scope.$index + 1}}</template>
             </el-table-column>
-            <el-table-column prop="clientName" label="客户名称" width="150"></el-table-column>
-            <el-table-column prop="originalServiceFee" label="期末服务费" width="150" :render-header="headerFinalTicket"></el-table-column>
-            <el-table-column prop="originalGiftServiceFee" label="期末赠送服务费" width="150" :render-header="headerFinalTicket"></el-table-column>
+            <el-table-column prop="clientName" label="客户名称"></el-table-column>
+            <el-table-column
+              prop="originalServiceFee"
+              label="期末服务费"
+              :render-header="headerFinalTicket"
+            ></el-table-column>
+            <el-table-column
+              prop="originalGiftServiceFee"
+              label="期末赠送服务费"
+              :render-header="headerFinalTicket"
+            ></el-table-column>
 
             <!-- <el-table-column prop="finalFee" label="期末仲裁费余额" width="120"></el-table-column> -->
 
-            <el-table-column prop="periodTicketRecharge" label="期间充值服务费" width="155"></el-table-column>
-            <el-table-column prop="periodTicketGift" label="期间赠送服务费" width="155"></el-table-column>
+            <el-table-column prop="periodTicketRecharge" label="期间充值服务费"></el-table-column>
+            <el-table-column prop="periodTicketGift" label="期间赠送服务费"></el-table-column>
             <el-table-column prop="periodTicketRefund" label="期间退费"></el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
@@ -285,19 +287,26 @@ export default {
         // 仲券结算
         this.initTableList(1);
         this.tabcardType = 1;
+        this.initClient();
       } else if (tab.index == 1) {
         //  比例结算
         this.initTableList(2);
         this.tabcardType = 2;
+        this.initClient();
       }
     },
     // 获取客户 options
     initClient() {
+      // /merchant/queryMerchants.htm
       return this.$http({
         method: "post",
-        url: "/merchant/queryMerchants.htm"
+        url: "/merchant/queryMerchantsCommon.htm",
+        data:{
+          settleType:this.tabcardType
+        }
       }).then(res => {
-        this.clientOptions = res.result.list;
+        // this.clientOptions = res.result.list;
+        this.clientOptions = res.result;
       });
     },
     // 获取统计
@@ -384,7 +393,7 @@ export default {
       this.queryTableData(stype);
     },
     queryTableData(stype) {
-       let loading = this.$loading();
+      let loading = this.$loading();
       if (stype === 1) {
         // 查询表格数据
         this.$http({
@@ -467,7 +476,7 @@ export default {
       // console.log(h, column);
       // 期末赠送服务费
       // 期末服务费
-     if (column.label === "期末服务费") {
+      if (column.label === "期末服务费") {
         return (
           <span>
             {column.label}
@@ -475,34 +484,34 @@ export default {
               <i class="el-icon-info ml-10" />
               <div slot="content">
                 期末服务费意思为：所选时间范围内，
-                <br/>
+                <br />
                 该客户账户最新的可用服务费，
-                <br/>
+                <br />
                 如：选择查看1月1号到1月30号时间范围，
-                <br/>
+                <br />
                 那么此项将显示1月30号0点时，
-                <br/>
+                <br />
                 该账户的可用服务费金额
               </div>
             </el-tooltip>
           </span>
         );
-      } else if(column.label === "期末赠送服务费"){
+      } else if (column.label === "期末赠送服务费") {
         return (
           <span>
             {column.label}
             <el-tooltip class="item" effect="dark" placement="bottom">
               <i class="el-icon-info ml-10" />
               <div slot="content">
-               期末赠送服务费意思为：
-               <br/>
-               所选时间范围内，该客户账户最新的可用赠送服务费，
-               <br/>
-               如：选择查看1月1号到1月30号时间范围，
-               <br/>
-               那么此项将显示1月30号0点时，
-               <br/>
-               该账户可用赠送服务费金额
+                期末赠送服务费意思为：
+                <br />
+                所选时间范围内，该客户账户最新的可用赠送服务费，
+                <br />
+                如：选择查看1月1号到1月30号时间范围，
+                <br />
+                那么此项将显示1月30号0点时，
+                <br />
+                该账户可用赠送服务费金额
               </div>
             </el-tooltip>
           </span>
