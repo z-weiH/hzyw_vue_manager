@@ -58,7 +58,7 @@
               </li>
 
             </ul>
-            <customer-button type="success" style="width: 100%;" @click="handleCalculator">计&nbsp;&nbsp;算</customer-button>
+            <customer-button type="success" style="width: 100%;" :disabled="checkDisabled" @click="handleCalculator">计&nbsp;&nbsp;算</customer-button>
           </div>
           <div class="right_contianer">
 
@@ -251,6 +251,14 @@ export default {
       total: 0,
       currentItem: {},
       formdata: null
+    }
+  },
+  computed:{
+    checkDisabled(){
+      if(!this.caseNoWz || !this.date){
+        return true;
+      }
+      return false;
     }
   },
   methods:{
