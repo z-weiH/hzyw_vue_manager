@@ -107,7 +107,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item v-if="ruleForm.dataSource === 1 || ruleForm.dataSource === 2" label=" "
+          <el-form-item v-if="ruleForm.dataSource === 1 " label=" "
             :rules="[
               {required : true , message : `请输入${ruleForm.dataSource === 1 ? '脚本' : '公式'}` , trigger : 'blur'},
             ]"
