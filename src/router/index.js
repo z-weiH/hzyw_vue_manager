@@ -32,6 +32,10 @@ let router = new Router({
       component: () => import('@/views/notFind'),
     },
     {
+      path: '/demo',
+      component: () => import('@/views/demo'),
+    },
+    {
       path: '/main',
       component: () => import('@/views/main'),
       children: [

@@ -11,6 +11,7 @@
         <customer-button type="primary" @click="jointOver(0)" :plain="true" v-if="roleType === 2 && debugStatus === 3">联调不通过</customer-button>
         <customer-button type="primary" @click="jointOver(1)" v-if="roleType === 2 && debugStatus === 3">联调通过</customer-button>
         <customer-button type="primary" @click="jointOver(2)" v-if="roleType === 1 && debugStatus === 2">联调完成</customer-button>
+        <customer-button type="primary" @click="overRun" v-if="supportRun">重跑申请书</customer-button>
       </div>
     </div>
     <div class="tm-body">
@@ -107,7 +108,6 @@
                 <el-table
                   :data="item.params"
                   border
-
                 >
                   <el-table-column prop="date" label="序号" width="50px">
                     <template slot-scope="scope">
@@ -390,10 +390,17 @@
         caseFailReasonList: [],
         toggleScreenView: false,
         colseTipFlag: false,
-        eviInfoObjectClone: {}
+        eviInfoObjectClone: {},
+        loading: {}
       }
     },
     computed:{
+      //判断案件进度是否支持重跑申请书
+      supportRun(){
+        const list = ['00', '10', '11', '12'];
+        return this.baseInfoObject && list.indexOf(this.baseInfoObject.caseOper) !== -1;
+      },
+
       roleType(){
         if(this.roleNames.indexOf("运营") !== -1){
           return 1;
@@ -405,6 +412,56 @@
       }
     },
     methods: {
+
+      //重跑申请书
+      overRun(){
+        this.$http({
+          url: '/applydoc/overRun.htm',
+          method: 'post',
+          data: {
+            caseOrderId: this.$route.query.caseOrderId
+          }
+        }).then(res => {
+          this.getProcess();
+        })
+      },
+
+      //查询重跑申请书进度
+      getProcess(){
+
+        this.loading =  this.$loading({
+          lock: true,
+          text: '进度查询中',
+          spinner: 'el-icon-loading',
+          background: 'rgba(255, 255, 255, 0.7)'
+        });
+        this.$http({
+          url: '/applydoc/queryOrderProcess.htm',
+          method: 'post',
+          data: {
+            caseOrderId: this.$route.query.caseOrderId
+          }
+        }).then(res => {
+          // 0整合中 1整合成功 2整合失败
+          if(res.result.processStatus === 0){
+            setTimeout(()=> {
+              this.getProcess();
+            },1000)
+          }else if(res.result.processStatus === 1){
+            this.loading.close();
+            this.$message.success("整合成功");
+          }else if(res.result.processStatus === 2){
+            this.loading.close();
+            this.$message.error("整合失败");
+            this.queryBaseInfo();
+          }else{
+            this.loading.close();
+            this.$message.error("操作失败");
+          }
+        }).catch(() => {
+          this.loading.close();
+        })
+      },
 
       openValue(url){
         window.open(url,'_blank')

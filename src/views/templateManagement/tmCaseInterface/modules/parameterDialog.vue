@@ -107,7 +107,7 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item v-if="ruleForm.dataSource === 1 || ruleForm.dataSource === 2" label=" "
+          <el-form-item v-if="ruleForm.dataSource === 1 || ruleForm.dataSource === 2 " label=" "
             :rules="[
               {required : true , message : `请输入${ruleForm.dataSource === 1 ? '脚本' : '公式'}` , trigger : 'blur'},
             ]"
@@ -118,7 +118,7 @@
             <customer-button type="success" @click="gotoPdf" size="mini" style="position: absolute;
     right: 45px;
     top: 15px;
-}">编写脚本</customer-button>
+}" v-if="ruleForm.dataSource === 1">编写脚本</customer-button>
 					</el-form-item>
 
           <el-form-item label="说明" prop="paramNote">
