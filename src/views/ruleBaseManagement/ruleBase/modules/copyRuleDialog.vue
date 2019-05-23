@@ -14,7 +14,8 @@
               模板树
             </p>
             <div class="innerContent">
-              <el-tree ref="tree" class="self_checked_tree" @check="getCheckedList" show-checkbox node-key="levelId" :data="treeData" :default-expanded-keys="keys" :props="defaultProps" ></el-tree>
+              <el-input v-model="filterText" placeholder="按业务、产品、模版筛选" size="mini" style="margin-top: 10px;"></el-input>
+              <el-tree ref="tree" :filter-node-method="filterNode" class="self_checked_tree" @check="getCheckedList" show-checkbox node-key="levelId" :data="treeData" :default-expanded-keys="keys" :props="defaultProps" ></el-tree>
 
             </div>
           </div>
@@ -60,9 +61,19 @@ export default {
           children: 'children',
           label: 'labelName'
         },
+        filterText: ''
       }
     },
+    watch: {
+      filterText(val) {
+        this.$refs.tree.filter(val);
+      },
+    },
     methods: {
+      filterNode(value, data){
+        if (!value) return true;
+        return data.labelName.indexOf(value) !== -1;
+      },
       confirmHandle(){
         let arr = [];
         this.rules.forEach(it => {
