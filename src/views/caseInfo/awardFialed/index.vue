@@ -136,7 +136,7 @@ export default {
     },
 
     reRun(row) {
-      this.$confirm("是否裁决书？", "提示", {
+      this.$confirm("是否重跑裁决书？", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         cancelButtonClass: "cancel",
