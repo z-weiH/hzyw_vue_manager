@@ -274,6 +274,13 @@ let router = new Router({
             name: 'caseStatisticsWorkbench',
           },
         },
+        {
+          path: 'awardFialed',
+          component: () => import('@/views/caseInfo/awardFialed'), //裁决书生成失败
+          meta: {
+            name: 'awardFialed',
+          },
+        },
         /* 案件信息module end */
         /* 短信记录 start */
         {
@@ -304,6 +311,7 @@ let router = new Router({
             name: 'mediationMsgSet',
           },
         },
+
         /* 短信记录 end */
         /* 状态配置 start */
         {

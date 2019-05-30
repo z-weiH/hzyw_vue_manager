@@ -51,7 +51,7 @@
         isPushRecord : false,
         // menu list
         menuList : (() => {
-          /* 
+          /*
               头皮发麻
                 el-menu bug
                 el-menu 内部组件中 items 初始化问题， 数据必须在初始化中加载完成。
@@ -458,6 +458,11 @@
                     menuId : 79,
                     menuUrl : 'caseStatisticsWorkbench'
                   },
+                  {
+                    menuName: '裁决书生成失败',
+                    menuId: 80,
+                    menuUrl: 'awardFialed'
+                  }
                 ],
               },
               {
