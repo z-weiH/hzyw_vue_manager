@@ -9,7 +9,7 @@
     >
       <div class="m-conetnt">
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
-          
+
 					<el-form-item class="param-name-box" label="参数" prop="paramCode">
 						<el-input @click.native.stop="searchShow" class="param-name-input" style="width:400px;" v-model.trim="ruleForm.paramCode" placeholder="请选择参数" suffix-icon="el-icon-arrow-down"></el-input>
 
@@ -93,6 +93,8 @@
               <el-option label="借款人银行卡信息" :value="7"></el-option>
               <el-option label="分期贷信息" :value="8"></el-option>
               <el-option label="代偿信息" :value="9"></el-option>
+              <el-option label="短信信息" :value="10"></el-option>
+              <el-option label="贷款信息" :value="11"></el-option>
             </el-select>
           </el-form-item>
 
@@ -105,14 +107,18 @@
             </el-select>
           </el-form-item>
 
-          <el-form-item v-if="ruleForm.dataSource === 1 || ruleForm.dataSource === 2" label=" " 
+          <el-form-item v-if="ruleForm.dataSource === 1 || ruleForm.dataSource === 2 " label=" "
             :rules="[
               {required : true , message : `请输入${ruleForm.dataSource === 1 ? '脚本' : '公式'}` , trigger : 'blur'},
             ]"
             prop="expression">
-						<el-input type="textarea" style="width:400px;" v-model.trim="ruleForm.expression" 
+						<el-input type="textarea" style="width:400px;" v-model.trim="ruleForm.expression"
               :placeholder="`请输入${ruleForm.dataSource === 1 ? '脚本' : '公式'}`"
             ></el-input>
+            <customer-button type="success" @click="gotoPdf" size="mini" style="position: absolute;
+    right: 45px;
+    top: 15px;
+}" v-if="ruleForm.dataSource === 1">编写脚本</customer-button>
 					</el-form-item>
 
           <el-form-item label="说明" prop="paramNote">
@@ -306,6 +312,10 @@
       },300);
     },
     methods : {
+      gotoPdf(){
+        let url = this.$router.resolve({path: '/uploadPdf'}).href;
+        window.open(url, "_blank")
+      },
       show(type,data) {
         this.dialogVisible = true;
         this.type = type;
@@ -355,7 +365,7 @@
       // 关闭浮层
       handleClose() {
         this.dialogVisible = false;
-        
+
         setTimeout(() => {
           // 取消按钮禁用
           this.submitDisabled = false;
@@ -370,7 +380,7 @@
           // 销毁事件
           document.removeEventListener('click',this.clickFn);
 				},500);
-				
+
       },
       // 点击提交
       handleSubmit(submitType) {

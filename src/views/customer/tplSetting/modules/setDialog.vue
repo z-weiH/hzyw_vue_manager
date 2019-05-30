@@ -9,8 +9,8 @@
     >
       <div class="m-content">
         <table
-          class="m-primordial-table 
-            el-table el-table--fit el-table--border 
+          class="m-primordial-table
+            el-table el-table--fit el-table--border
             el-table--enable-row-hover"
         >
           <tbody>
@@ -35,7 +35,7 @@
             </tr>
 
             <tr>
-              <td>社会唯一信用号：</td>
+              <td>统一社会信用代码：</td>
               <td>{{custInfo.idcard}}</td>
               <td>帐户：</td>
               <td>{{custInfo.accountNo}}</td>
@@ -47,8 +47,8 @@
         <template v-for="(item,index) in productList">
           <table
             :key="item.id"
-            class="m-primordial-table 
-              el-table el-table--fit el-table--border 
+            class="m-primordial-table
+              el-table el-table--fit el-table--border
               el-table--enable-row-hover mt-20"
           >
             <tr>
@@ -101,7 +101,7 @@
             </tr>
           </table>
         </template>
-        
+
       </div>
 
       <span slot="footer" class="dialog-footer">
@@ -133,7 +133,7 @@
           merchantName : '',
           // 法定代表人
           legalPerson : '',
-          // 社会唯一信用号
+          // 统一社会信用代码
           idcard : '',
           // 帐户
           accountNo : '',
@@ -210,7 +210,7 @@
       },
       // 模板提交成功 回调
       templateSuccessCBK() {
-        
+
       },
       // 点击 添加新产品
       handleNewProduct() {

@@ -6,12 +6,74 @@
     width="890px"
     center>
     <div class="dailog-container">
-      <table-edits :editDefines="edtDefines" :item="item" :disabled="true"></table-edits>
+      <table-edits :editDefines="edtDefines" :item="item" :disabled="true" :sliceNumber="5">
+        <table slot="tableAdded"   class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mb-20">
+          <tbody>
+          <tr class="table-edits">
+            <td colspan="5">第六部分：结算方案</td>
+          </tr>
+          <tr class="table-edits">
+            <td colspan="1">
+              <!--<el-input type="textarea" v-model="item.apprerResult" placeholder="请输入审核原因" :disabled="$parent.editState == 9"></el-input>-->
+              设置结算类型
+            </td>
+            <td colspan="4" style="text-align: left;padding-left: 3rem !important;">
+              <el-radio :disabled="editState == 9" v-model="item.settleType" :label="2">比例结算</el-radio>
+              <el-radio :disabled="editState == 9" v-model="item.settleType" :label="1">仲券结算</el-radio>
+            </td>
+          </tr>
+          <template v-if="item.settleType === 2">
+            <tr class="table-edits" v-for="(settle, idx) in item.formulas">
+              <td colspan="5"  class="settleAdded">
+                <p>
+                  <!--<i class="el-icon-close fr" style="cursor: pointer;" @click="handleSettleDel(idx)" v-if="idx !== 0"></i>-->
+                  {{'阶段' + (idx + 1)}}
+                </p>
+                <ul>
+                  <li>
+                    <div class="label">
+                      案件标的区间
+                    </div>
+                    <div class="content">
+                      <div class="input">
+                        <el-input size="small" v-model="settle.amtStart" disabled style="width: 180px;text-align: center;"></el-input>
+                        <div class="w100"></div>
+                        <el-input size="small" disabled v-model="settle.amtEnd" style="width: 180px;text-align: center;"></el-input>
+                        元
+                      </div>
+                      <div class="input_desc">
+                        * 若节点置空，代表不封顶，如：100元以上，则只需在左框填写100
+                      </div>
+
+                    </div>
+                  </li>
+                  <li >
+                    <div class="label">
+                      收取比例
+                    </div>
+                    <div class="content">
+                      <div class="input">
+                        <el-input size="small" :disabled="editState == 9" v-model="settle.settleRate"  style="width: 250px;text-align: center;"></el-input>
+                        %
+                      </div>
+                      <div class="input_desc">
+                        * 如：收取比例为1%，则填写1
+                      </div>
+
+                    </div>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </template>
+          </tbody>
+        </table>
+      </table-edits>
       <table
         class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover"
       >
       <tr v-if="item.auditList && item.auditList.length > 0">
-        <td colspan="4" >第八部分：审核结果</td>
+        <td colspan="4" >第九部分：审核结果</td>
       </tr>
       </table>
       <table-edits :editDefines="editDefines" :item="audit" v-for="(audit,index) in item.auditList" :key="index" :disabled="true"></table-edits>
@@ -43,7 +105,7 @@ export default {
         content: [
           {label: '客户全称：', type: 'text', placeholder: '请输入客户全称',columns:1,property: 'custName'},
           {label: '年营业额（万元）：', type: 'text', placeholder: '请输入年营业额',columns:1,property: 'busiAmount'},
-          {label: '社会唯一信用号：', type: 'text', placeholder: '请输入社会唯一信用号',columns:1,property: 'custIdcard'},
+          {label: '统一社会信用代码：', type: 'text', placeholder: '请输入社会唯一信用号',columns:1,property: 'custIdcard'},
           {label: '邮箱(账户)：', type: 'text', placeholder: '请输入邮箱(账户)',columns:1,property: 'loginName'},
           {label: '企业注册地址：', type: 'text', placeholder: '请输入企业注册地址',columns:2,property: 'custIdaddress'},
           {label: '网址或应用(名称)：', type: 'text', placeholder: '请输入网址或应用(名称)',columns:2,property: 'custWebsite'},
@@ -69,7 +131,7 @@ export default {
       },{
         title: '第四部分：配置信息',
         content: [
-          {label: '选择仲裁委：', type: 'select', options: this.AllArbList,columns:1,property: 'arbId',valuefield: 'arbId', labelfield: 'fullName'},
+          {label: '选择仲裁委：', type: 'select', options: this.AllArbList,columns:1,property: 'arbId',valuefield: 'arbId', labelfield: 'arbName'},
           // 1主账户、2子账户
           {label: '客户类型：', type: 'select', options: [{label: '主账户', value: 1},{label: '子账户', value: 2}],columns:1,property: 'custType'},
           {label: '选择关联的普通客户：', type: 'select', options: [],columns:2,property: 'parentId', valuefield: 'custId', labelfield: 'custName',
@@ -84,16 +146,23 @@ export default {
           {type: 'img',columns:1,property:'dataUrl'},
         ]
       },{
-        title: '第六部分：合同信息',
+        title: '第七部分：合同信息',
         content: [
           {label: '合同编号：', type: 'text', placeholder: '请输入合同编号',columns:1,property: 'contractNo'},
           {label: '合同时间：', type: 'date', placeholder: '请输入合同时间',columns:1,property: 'contractDate'},
           {label: '预缴仲裁受理费（元）：', type: 'text', placeholder: '请输入预缴仲裁受理费',columns:1,property: 'preCaseAmt'},
           {label: '技术服务费（元）：', type: 'text', placeholder: '请输入技术服务费',columns:1,property: 'serviceAmt'},
-          {label: '充值仲券（张）：', type: 'text', placeholder: '请输入充值仲券',columns:1,property: 'preCaseTicket'},
-          {label: '仲券金额（元）：', type: 'text', placeholder: '请输入仲券金额',columns:1,property: 'preTicketAmt'},
-          {label: '赠送仲券（张）：', type: 'text', placeholder: '请输入赠送仲券',columns:1,property: 'preGiftTicket'},
-          {label: '赠券有效期 ：', type: 'select', placeholder: '请选择赠券有效期',columns:1,property: 'preGiftPeriod',options: [
+          {labelFn: (item) => {
+              return item.settleType === 1 ? '充值仲券（张）：' : '充值服务费（元）：'
+            }, type: 'number', placeholder: '请输入',columns:1,property: 'preCaseTicket',rule:'require,gt0'},
+          {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'preTicketAmt',rule:'require,gt0',disabled: true, hidden: () => this.item.settleType === 1},
+          {labelFn: (item) => {
+              return item.settleType === 1 ? '赠送仲券（张）：' : '赠送服务费（元）：'
+            }, type: 'number', placeholder: '请输入',columns:1,property: 'preGiftTicket',rule:'require,gt0'},
+          // {label: ''}
+          {labelFn: (item) => {
+              return item.settleType === 1 ? '赠券有效期：' : '赠送服务费有效期：'
+            }, type: 'select', placeholder: '请选择有效期',columns:1,property: 'preGiftPeriod',options: [
               {label: '请选择赠券有效期', value: ''},
               {label: '1个月', value: '1'},
               {label: '2个月', value: '2'},
@@ -109,10 +178,24 @@ export default {
               {label: '12个月', value: '12'},
             ],hidden: () => {
               return this.item.preGiftTicket && this.item.preGiftTicket != 0;
-            }},
+            },
+            rule: [
+              {
+                validator: (rule, value, callback) => {
+                  if(this.item.preGiftTicket && this.item.preGiftTicket != 0 && !value){
+                    callback(new Error("不能为空"))
+                  }
+                  else {
+                    callback();
+                  }
+                }
+              }
+            ]
+
+          },
         ]
       },{
-        title: '第七部分：所属负责人',
+        title: '第八部分：所属负责人',
         content: [
           {label: '市场人员：',  type: 'select', options: [{label: '杭州仲裁委员会', value: 'hz'},{label: '衢州仲裁委员会', value: 'qz'}],columns:1,placeholder:'请选择市场人员',property: 'marketerId',valuefield: 'userId', labelfield: 'userName'},
           {type: 'info',columns:1, content:''},

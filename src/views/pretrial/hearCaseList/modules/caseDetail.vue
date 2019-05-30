@@ -644,6 +644,20 @@
 
           this.paramsList = res.result;
           this.paramsList.forEach(it => {
+            if(it.params && it.params.length > 0){
+              it.params.forEach(i => {
+                if(i.paramCode === 'resType'){
+                  i.paramValue = {"0":'自然人' ,'1':'企业'}[i.paramValue];
+                }
+                else if(i.paramCode === 'resIdType'){
+                  i.paramValue = {'0':'身份证', '3': '营业执照'}[i.paramValue];
+                }
+              })
+            }
+          })
+
+
+          this.paramsList.forEach(it => {
             if(it.params && it.params.length > 0 && it.params.find(i => i.groupNum)){
               it.params.forEach(i => {
                 if(!i.groupNum && i.groupNum !== 0){

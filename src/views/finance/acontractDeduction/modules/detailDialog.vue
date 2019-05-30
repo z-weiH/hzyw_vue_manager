@@ -22,7 +22,7 @@
           <span class="item-label">扣除数目：</span>
           <span class="item-value">
             {{
-              ruleForm.deductionType === 0 ? ruleForm.deductionTicket : ruleForm.deductionAmt
+              ruleForm.deductionType !== 1 ? ruleForm.deductionTicket : ruleForm.deductionAmt
             }}
           </span>
         </div>
@@ -73,7 +73,7 @@
       handleClose() {
         this.ruleForm = {};
       },
-      show(data) {
+      show(data,type) {
         this.dialogVisible = true;
 				// dialog 返回顶部
         this.$nextTick(() => {
@@ -94,6 +94,9 @@
             ),(
               res.result.verifyInfo || {}
             ));
+            if(type === 'sh') {
+              obj.userName = res.result.verifyInfo.verifyName;
+            }
             this.$set(this.ruleForm,obj);
           });
         });
@@ -115,8 +118,8 @@
     .item-value{
       width: 450px;
       display: inline-block;
-      word-wrap: break-word; 
-      word-break: normal; 
+      word-wrap: break-word;
+      word-break: normal;
       word-break:break-all;
       vertical-align: top;
     }

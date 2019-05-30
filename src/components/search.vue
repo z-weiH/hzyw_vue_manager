@@ -10,7 +10,7 @@
         </label>
         <label v-if="searchItem.connectIco" class="cc_Ico">{{searchItem.connectIco}}</label>
       </div>
-      <el-input @keyup.native.enter="doQuery" v-if="searchItem.type == 'text' || !searchItem.type" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder"></el-input>
+      <el-input @keyup.native.enter="doQuery" v-if="searchItem.type == 'text' || !searchItem.type" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder" @keyup.native="valueChange"></el-input>
       <el-select style="width: 100%;" clearable :filterable="searchItem.filterable" :remote="searchItem.remote" :reserve-keyword="searchItem.reserveKey" @change="valueChange" v-if="searchItem.type ==  'select'" v-model="item[searchItem.property]" :placeholder="searchItem.placeholder"
         :remote-method="searchItem.remoteMethod">
         <el-option v-for="(option,index) in searchItem.options" :key="index" :label="searchItem.labelfield ? option[searchItem.labelfield] : option.label" :value="searchItem.valuefield ? option[searchItem.valuefield] : option.value">
@@ -60,11 +60,34 @@
             },
           }
         }
+        if (this.searchItem && this.searchItem.lte) {
+          return {
+            disabledDate: time => {
+              if (!this.item[this.searchItem.lte]) return false
+              else if (new Date(time).getTime() >= new Date(this.item[this.searchItem.lte]).getTime()) {
+                return true
+              } else {
+                return false
+              }
+            },
+          }
+        }
         if (this.searchItem && this.searchItem.gt) {
           return {
             disabledDate: time => {
               if (!this.item[this.searchItem.gt]) return false
-              else if (new Date(time).getTime() < new Date(this.item[this.searchItem.gt]).getTime()) {
+              else if (new Date(this.$moment(new Date(time)).format("YYYY-MM-DD")).getTime() <= new Date(this.item[this.searchItem.gt]).getTime()) {
+                return true
+              } else {
+                return false
+              }
+            },
+          }
+        }if (this.searchItem && this.searchItem.gte) {
+          return {
+            disabledDate: time => {
+              if (!this.item[this.searchItem.gte]) return false
+              else if (new Date(this.$moment(new Date(time)).format("YYYY-MM-DD")).getTime() < new Date(this.item[this.searchItem.gte]).getTime()) {
                 return true
               } else {
                 return false

@@ -32,6 +32,10 @@ let router = new Router({
       component: () => import('@/views/notFind'),
     },
     {
+      path: '/demo',
+      component: () => import('@/views/demo'),
+    },
+    {
       path: '/main',
       component: () => import('@/views/main'),
       children: [
@@ -1018,6 +1022,13 @@ let router = new Router({
           },
         },
         {
+          path: 'emCalculator',
+          component: () => import('@/views/enforceManagement/emCalculator'), // 执行标的计算器
+          meta: {
+            name: 'emCalculator',
+          },
+        },
+        {
           path: 'emEnforcementCases',
           component: () => import('@/views/enforceManagement/emEnforcementCases'), // 强制执行案件
           meta: {
@@ -1244,7 +1255,21 @@ let router = new Router({
       meta: {
         name: 'hearCaseListDetail',
       },
-    }
+    },
+    {
+      path: '/uploadPdf',
+      component: () => import('@/views/ruleBaseManagement/uploadPdf'),
+      meta: {
+        name: 'uploadPdf'
+      }
+    },
+    {
+      path: '/templateHistory',
+      component: () => import('@/views/customer/templateHistory'), // 裁决书历史记录
+      meta: {
+        name: 'templateHistory',
+      },
+    },
   ],
 })
 

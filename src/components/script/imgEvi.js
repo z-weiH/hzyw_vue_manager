@@ -109,6 +109,18 @@ export  default {
     },
     imgEviListenerMove(){
 
+    },
+
+    async queryRespondentInfoByCaseId(caseId){
+      return this.$http({
+        url: '/firstAudit/queryRespondentInfoByCaseId.htm',
+        method: 'post',
+        data: {
+          caseId: caseId
+        }
+      }).then(res => {
+        return res;
+      })
     }
   },
   mounted(){

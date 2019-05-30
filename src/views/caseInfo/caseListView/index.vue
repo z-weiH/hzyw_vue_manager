@@ -7,7 +7,7 @@
     <searchs @valueChange="searchItemChange" class="item-search" :search-items="searchItems" :item="searchItem" :query-url="queryUrl">
       <template slot="moreBtn">
             <el-button class="ml-20" type="primary" @click="handleExport">导出Excel</el-button>
-</template>
+      </template>
     </searchs>
     <div class="item-title">
       <div>案件列表</div>
@@ -111,8 +111,8 @@ export default {
 					colSpan: 4,
 					newline: 1,
 					options: this.opCompany,
-					labelfield: 'merchantName',
-					valuefield: 'code',
+					labelfield: 'clientName',
+					valuefield: 'clientCode',
 					filterable: true,
 				},
 				{
@@ -250,7 +250,9 @@ export default {
 				},
 			],
 			cacheMerchantCode: '', //缓存的企业code
-			searchItem: {},
+			searchItem: {
+				caseProcess : ''
+			},
       countItem:{
         sumAmtBorrow: 0,
         caseCount:0,
@@ -434,9 +436,14 @@ export default {
 							width: 110,
 						},
 						{
-							label: '仲券服务费',
+							label: '服务费(元)',
 							property: 'caseTicketFee',
 							width: 110,
+            },
+            {
+							label: '仲券(张)',
+							property: 'caseTicket',
+							width: 100,
 						},
 						{
 							label: '预缴受理费',
@@ -452,12 +459,7 @@ export default {
 							label: '处理费',
 							property: 'handFee',
 							width: 100,
-						},
-						{
-							label: '仲券',
-							property: 'caseTicket',
-							width: 100,
-						},
+						}
 					],
 				},
 				{
@@ -560,10 +562,17 @@ export default {
 				//  this.tableData = res.result.list;
 				//   this.total = res.result.count;
 				this.tableData = res.result.list.map((v) => {
-					v.phoneStatusResult = v.phoneStatusResult || '未检测';
+          (v.phoneStatusResult = v.phoneStatusResult || '未检测') &&
+          (v.settleType == 1 ? v.caseTicketFee = '/':v.caseTicket = '/');
 					return v;
 				});
-        this.queryCount(item)
+        this.queryCount(item);
+        this.$http.post('/case/queryCaseClientNameByCaseInfo.htm',item).then(res => {
+          console.log('selectCompany:::', res)
+
+          this.searchItems[4].options = res.result
+          // console.log('list:',res.result);
+        })
 			})
 		},
     queryCount(item){
@@ -576,7 +585,7 @@ export default {
       })
     },
 		optsCompanyListView() {
-			this.$http.post(URL_JSON['selectCompany']).then(res => {
+			this.$http.post('/case/queryCaseClientNameByCaseInfo.htm').then(res => {
 				console.log('selectCompany:::', res)
 
 				this.searchItems[4].options = res.result
@@ -621,13 +630,20 @@ export default {
 		},
 	},
 	created() {
+		if(this.$route.query.caseProcess) {
+			this.searchItem.caseProcess = +this.$route.query.caseProcess;
+			// 清除url参数
+			this.$router.replace({
+				query : {},
+			});
+		}
 		this.optsCompanyListView() //互金企业
 		// this.optsPduListView() //产品名称
 		this.optsHkCaseStageView() //还款案件阶段
 		this.optsHkCaseStatusView() //还款案件状态
 	},
 	mounted() {
-		this.doQuery(this.queryUrl, this.searchItem)
+		this.doQuery(this.queryUrl, this.searchItem);
 	},
 	components: {
 		Searchs,

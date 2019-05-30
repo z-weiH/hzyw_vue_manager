@@ -101,7 +101,7 @@ export default {
   computed: {
     msg(){
       if(this.type == '0'){
-        return "被申请人：你通过（互金平台）借款时约定争议解决方式为仲裁，现（申请人姓名）向衢州仲裁委员会申请仲裁，请注意查收【衢州仲裁委员会】";
+        return "被申请人：你使用（互金平台）服务时约定争议解决方式为仲裁，现（申请人姓名）向衢州仲裁委员会申请仲裁，请注意查收短信【衢州仲裁委员会】";
       }
       else if(this.type == '1'){
         return "被申请人：（申请人姓名）就与你的合同纠纷向衢州仲裁委员会申请仲裁。本案调解员（调解员姓名）（调解员手机号）【衢州仲裁委员会】";
@@ -130,10 +130,10 @@ export default {
       let _newItem = Object.assign(this.item,this.$parent.searchItem);
       console.log("_newItem: ",_newItem);
       this.$http.post(URL_JSON["queryApplyCaseNum"], this.item).then(res => {
-        console.log("iiiii:--:", this.item);
+        // console.log("iiiii:--:", this.item);
         this.zqdata = res.result;
-        console.log("123123", this.zqdata);
-        console.log("rrrrr---", res.result);
+        console.log("queryApplyCaseNum::", this.zqdata);
+        // console.log("rrrrr---", res.result);
         this.editState1 = true;
       });
     },

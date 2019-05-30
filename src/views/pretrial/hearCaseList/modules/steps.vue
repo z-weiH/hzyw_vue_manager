@@ -24,7 +24,7 @@
                 </div>
                 <div class="desc" >
             <span :class="{'active': currentIdx === index+'-'+idx}" @click="currentIdx = index+'-'+idx">
-            {{getOperStatusCN(item.operStatus)}}
+            {{getOperStatusCN(item)}}
             </span>
                 </div>
                 <div style="clear: both;"></div>
@@ -62,7 +62,7 @@
 
       <div class="detail" :class="{'active': currentIdx !== -1}">
         <div class="title">
-          <span class="caption">{{getOperStatusCN(currentObj.operStatus)}}</span>
+          <span class="caption">{{getOperStatusCN(currentObj)}}</span>
           <span class="time">{{currentObj.createTime}}</span>
           <i class="el-icon-close" @click="currentIdx = -1;"></i>
         </div>
@@ -451,6 +451,40 @@
             </ul>
           </template>
 
+          <template v-if="currentObj.operStatus === 21">
+            <ul>
+
+              <li>
+                <span class="label">操作人</span>
+                <span class="value">{{currentObj.logObj.operUserName || '--'}}</span>
+              </li>
+              <li>
+                <span class="label">失败原因</span>
+                <span class="value">
+                  <ul v-for="(reson,idx) in currentObj.logObj.failedReasons">
+                      <li>{{idx+1 + '.' + reson}}</li>
+                  </ul>
+                </span>
+              </li>
+            </ul>
+          </template>
+
+          <template v-if="currentObj.operStatus === 22">
+            <ul>
+
+              <li>
+                <span class="label">回收人</span>
+                <span class="value">{{currentObj.logObj.recoveryName || '--'}}</span>
+              </li>
+              <li>
+                <span class="label">回收时间</span>
+                <span class="value">
+                  {{currentObj.logObj.operTime || '--'}}
+                </span>
+              </li>
+            </ul>
+          </template>
+
         </div>
       </div>
     </el-scrollbar>
@@ -503,49 +537,85 @@
 
       getOperStatusCN(status){
         // 1.推送完成 2.整合完成 4.修改身份证信息 5.机审完成 6.分配完成 7.初审人变更完成 8.身份证审核完成 9.签名审核完成 10.证据链审核完成 11.初审完成 12.脚本规则执行完成 13.审核意见采纳完成 14.复审认领完成 15.复审人变更完成 16.复审审核完成 17.复审完成 18.立案申请提交完成 19.退回重审
-        if(status === 1){
-          return '推送完成';
+        if(status.operStatus === 1){
+          if(status.isSuccess === 1)
+            return '推送成功'
+          return '推送失败';
         }
-        else if(status === 2){
-          return '整合完成';
+        else if(status.operStatus === 2){
+          if(status.isSuccess === 1)
+            return '整合成功'
+          return '整合失败';
         }
-        else if(status === 3){
+        else if(status.operStatus === 3){
           return '';
         }
-        else if(status === 4){
+        else if(status.operStatus === 4){
           return '修改身份证信息';
-        }else if(status === 5){
-          return '机审完成';
-        }else if(status === 6){
+        }else if(status.operStatus === 5){
+          let obj = JSON.parse(status.logJson);
+          if(obj.filter(it => it.isSuccess === 0).length === 0){
+            return '机审过检'
+          }
+          return '机审检出错误';
+        }else if(status.operStatus === 6){
           return '分配完成';
-        }else if(status === 7){
+        }else if(status.operStatus === 7){
           return '初审人变更完成';
-        }else if(status === 8){
-          return '身份证审核完成';
-        }else if(status === 9){
-          return '签名审核完成';
-        }else if(status === 10){
-          return '证据链审核完成';
-        }else if(status === 11){
-          return '初审完成';
-        }else if(status === 12){
-          return '脚本规则执行完成';
-        }else if(status === 13){
+        }else if(status.operStatus === 8){
+          let obj =JSON.parse(status.logJson);
+          if(!obj.totalReasonList || obj.totalReasonList.length === 0){
+            return '身份证初审通过'
+          }
+          return '身份证初审未通过';
+        }else if(status.operStatus === 9){
+          let obj =JSON.parse(status.logJson);
+          if(!obj.totalReasonList || obj.totalReasonList.length === 0){
+            return '签名初审通过'
+          }
+          return '签名初审未通过';
+        }else if(status.operStatus === 10){
+          let obj =JSON.parse(status.logJson);
+          if(!obj.totalReasonList || obj.totalReasonList.length === 0){
+            return '证据链初审通过'
+          }
+          return '证据链初审未通过';
+        }else if(status.operStatus === 11){
+          let obj =JSON.parse(status.logJson);
+          if(!obj.failedReasonList || obj.failedReasonList.length === 0){
+            return '初审通过'
+          }
+          return '初审未通过';
+        }else if(status.operStatus === 12){
+          let obj =JSON.parse(status.logJson);
+          if(!obj.find(it => it.ruleExeStatus !== 1)){
+            return '脚本规则过检'
+          }
+          return '脚本规则检出错误';
+        }else if(status.operStatus === 13){
           return '审核意见采纳完成';
-        }else if(status === 14){
+        }else if(status.operStatus === 14){
           return '复审认领完成';
-        }else if(status === 15){
+        }else if(status.operStatus === 15){
           return '复审人变更完成';
-        }else if(status === 16){
+        }else if(status.operStatus === 16){
           return '复审审核完成';
-        }else if(status === 17){
-          return '复审完成';
-        }else if(status === 18){
+        }else if(status.operStatus === 17){
+          let obj =JSON.parse(status.logJson);
+          if(!obj.failedReasonList || obj.failedReasonList.length === 0){
+            return '复审通过'
+          }
+          return '复审未通过';
+        }else if(status.operStatus === 18){
           return '立案申请提交完成';
-        }else if(status === 19){
+        }else if(status.operStatus === 19){
           return '退回重审';
-        }else if(status === 20) {
+        }else if(status.operStatus === 20) {
           return '手动状态返回';
+        }else if(status.operStatus === 21){
+          return '立案提交失败';
+        }else if(status.operStatus === 22){
+          return '案件回收';
         }
       },
       calc(price, times){

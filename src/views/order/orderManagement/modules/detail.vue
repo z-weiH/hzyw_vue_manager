@@ -234,19 +234,19 @@
           class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mt-10"
         >
           <tr>
-            <td colspan="4">借款协议</td>
+            <td colspan="3">借款协议</td>
           </tr>
-          
+
           <tr>
             <td colspan="1">协议名称</td>
-            <td colspan="1">协议编号</td>
+            <!--<td colspan="1">协议编号</td>-->
             <td colspan="1">协议页数</td>
             <td colspan="1">协议地址</td>
           </tr>
 
           <tr v-for="(item,index) in ruleForm.agreements" :key="index">
             <td colspan="1">{{item.provedObject}}</td>
-            <td colspan="1">{{item.agreeNo}}</td>
+            <!--<td colspan="1">{{item.agreeNo}}</td>-->
             <td colspan="1">{{item.pageSize}}</td>
             <td colspan="1">
               <a :href="item.agreeUrl" target="_blank" class="underline">查看</a>
@@ -268,7 +268,7 @@
             <td colspan="1">借款金额：</td>
             <td colspan="1">{{ruleForm.creditInfo.lamtBorrow}}</td>
           </tr>
-          
+
           <tr>
             <td colspan="1">借款时间：</td>
             <td colspan="1">{{ruleForm.creditInfo.borrowdate}}</td>
@@ -289,26 +289,26 @@
             <td colspan="1">借款到期时间：</td>
             <td colspan="1">{{ruleForm.creditInfo.loadDate}}</td>
           </tr>
-          
+
         </table>
 
         <!-- 打款凭证 -->
-        <table
-          class="m-primordial-table el-table el-table--fit el-table--border el-table--enable-row-hover mt-10"
-        >
-          <tr>
-            <td colspan="4">打款凭证</td>
-          </tr>
+        <!--<table-->
+          <!--class="m-primordial-table el-table el-table&#45;&#45;fit el-table&#45;&#45;border el-table&#45;&#45;enable-row-hover mt-10"-->
+        <!--&gt;-->
+          <!--<tr>-->
+            <!--<td colspan="4">打款凭证</td>-->
+          <!--</tr>-->
 
-          <tr>
-            <td colspan="1">凭证供应商：</td>
-            <td colspan="1">{{ruleForm.voucherInfo.voucherOffer}}</td>
-            <td colspan="1">凭证凭证：</td>
-            <td colspan="1">
-              <a :href="ruleForm.voucherInfo.voucherUrl" target="_blank" class="underline">查看</a>
-            </td>
-          </tr>
-        </table>
+          <!--<tr>-->
+            <!--<td colspan="1">凭证供应商：</td>-->
+            <!--<td colspan="1">{{ruleForm.voucherInfo.voucherOffer}}</td>-->
+            <!--<td colspan="1">凭证凭证：</td>-->
+            <!--<td colspan="1">-->
+              <!--<a :href="ruleForm.voucherInfo.voucherUrl" target="_blank" class="underline">查看</a>-->
+            <!--</td>-->
+          <!--</tr>-->
+        <!--</table>-->
 
         <!-- 还款信息 -->
         <table
@@ -480,7 +480,7 @@
             // 借款到期时间
             loadDate : '',
           },
-          
+
           /* ---------------------------- 打款凭证 -------------------------- */
           voucherInfo : {
             // 凭证供应商

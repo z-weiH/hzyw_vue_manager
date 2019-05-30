@@ -2,7 +2,7 @@
     <div>
       <searchs class="item-search" :search-items="searchItems" :item="searchItem" :queryUrl="queryUrl">
         <div class="fl ml-10" slot="moreBtn">
-          <el-button type="primary" @click="initPermissionList">初始化权限</el-button>
+          <customer-button :time="2500" type="primary" @click="initPermissionList">初始化权限</customer-button>
         </div>
       </searchs>
       <div class="item-title">

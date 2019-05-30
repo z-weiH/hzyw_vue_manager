@@ -21,9 +21,9 @@ axios.interceptors.request.use((config) => {
   // post 请求 使用 form Data 请求方式
   let token='';
   // console.log(config);
-  if(localStorage.getItem('loginInfo')){
+  if(localStorage.getItem('loginInfo') || config.token){
     try{
-      token= JSON.parse(localStorage.getItem('loginInfo')).token;
+      token= config.token || JSON.parse(localStorage.getItem('loginInfo')).token;
       if(config.notoken !== true){
         config.headers['token'] = token;
       }
@@ -44,7 +44,10 @@ axios.interceptors.request.use((config) => {
 
 // 响应拦截
 axios.interceptors.response.use((res) => {
-  // console.error(res.data);
+  console.error(res);
+  if(res.request && res.request.responseType === 'blob'){
+    return Promise.resolve(res.data);;
+  }
   // 登录超时 拦截
   if(res.data.code === '8888') {
     Message({
@@ -55,8 +58,8 @@ axios.interceptors.response.use((res) => {
     });
     router.push(`/login?returnUrl=${router.history.current.path}`);
     // 清除缓存
-    sessionStorage.removeItem('loginInfo');
-    sessionStorage.removeItem('menuInfoList');
+    localStorage.removeItem('loginInfo');
+    localStorage.removeItem('menuInfoList');
     res.data.description = '用户登录超时';
     return Promise.reject(res);
   }

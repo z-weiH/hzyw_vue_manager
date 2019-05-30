@@ -6,8 +6,8 @@ export default (code,callback) => {
   if(code === '8888') {
     router.push(`/login?returnUrl=${router.history.current.path}`);
     // 清除缓存
-    sessionStorage.removeItem('loginInfo');
-    sessionStorage.removeItem('menuInfoList');
+    localStorage.removeItem('loginInfo');
+    localStorage.removeItem('menuInfoList');
     Message({
       type: 'error',
       message: '登录超时',

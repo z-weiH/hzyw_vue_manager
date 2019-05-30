@@ -267,7 +267,14 @@ export default {
 						} else {
 							this.queryProductList(item['value'])
 						}
-						break
+            break
+          case 'loanBillNo':
+            if(item['value'] === ''){
+              console.log('lll-before:',this.searchItem)
+              this.searchItem.hasOwnProperty('loanBillNo') ? delete this.searchItem['loanBillNo'] : void(0)
+              console.log('lll-after:',this.searchItem)
+            }
+            break
 					default:
 						break
 				}
@@ -359,7 +366,7 @@ export default {
 					keyWords: into,
 				})
 				.then(res => {
-					console.log('互金：：：', res.result)
+					// console.log('互金：：：', res.result)
 					this.searchItems[0].options = res.result
 				})
 		},
@@ -379,7 +386,7 @@ export default {
 		cityDataChange() {
 			// city数据格式处理成2级结构
 			rawCitiesData.forEach(el => {
-				console.log(el)
+				// console.log(el)
 				el.children.forEach(el_child => {
 					delete el_child['children']
 				})

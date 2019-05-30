@@ -155,8 +155,9 @@ export default {
         console.log(res);
         if(res.code === '0000'){
           let value = '';
+          console.log(this.type);
           res.result.forEach( it => {
-            if(this.type === 0){
+            if(this.type === 3){
               if(it.numCoordinates != null)
                 value += it.numCoordinates;
             }else{

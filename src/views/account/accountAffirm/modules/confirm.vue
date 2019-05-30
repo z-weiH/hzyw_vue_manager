@@ -42,7 +42,7 @@
           content: [
             {label: '客户全称：', type: 'text', readonly: true,columns:1,property: 'custName'},
             {label: '帐号：', type: 'text', readonly: true,columns:1,property: 'loginName'},
-            {label: '社会唯一信用号：', type: 'text', readonly: true,columns:1,property: 'custIdcard'},
+            {label: '统一社会信用代码：', type: 'text', readonly: true,columns:1,property: 'custIdcard'},
             {label: '法定代表人：', type: 'text', readonly: true,columns:1,property: 'legallerName'},
             {label: '合同号：', type: 'text', readonly: true,columns:1,property: 'contactNo'},
           ]
@@ -51,8 +51,12 @@
           content: [
             {label: '添加受理费（元）: ', type: 'text',readonly: true,columns:1,property: 'caseAmount'},
             {label: '技术服务费（元）：', type: 'text',readonly: true,columns:1,property: 'serveAmount'},
-            {label: '添加仲券（张）：: ', type: 'text',readonly: true,columns:1,property: 'ticketCount'},
-            {label: '仲券金额（元）：', type: 'text',readonly: true,columns:1,property: 'ticketAmount'},
+            // {label: '添加仲券（张）：: ', type: 'text',readonly: true,columns:1,property: 'ticketCount'},
+            // {label: '仲券金额（元）：', type: 'text',readonly: true,columns:1,property: 'ticketAmount'},
+            {labelFn: (item) => {
+                return item.settleType === 1 ? '添加仲券（张）：' : '添加服务费（元）：'
+              }, type: 'number', placeholder: '请输入',columns:1,property: 'ticketCount',rule:'require,gt0'},
+            {label: '仲券金额（元）：', type: 'number', placeholder: '请输入仲券金额',columns:1,property: 'ticketAmount',rule:'require,gt0',disabled: true, hidden: () => this.item.settleType === 1},
           ]
         }],
       }
@@ -94,7 +98,5 @@
 
 <style scoped lang="scss">
   .dailog-container{
-    height: 542px;
-    overflow-y: scroll;
   }
 </style>

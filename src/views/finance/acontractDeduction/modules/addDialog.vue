@@ -8,23 +8,24 @@
 			ref="dialog"
     >
       <div class="m-conetnt">
-        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
-          
+        <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="120px">
+
 					<el-form-item label="签约客户:" prop="clientCode">
-            <el-select ref="client" @change="handleClientChange" filterable clearable v-model="ruleForm.clientCode" style="width:440px;">
+            <el-select ref="client" @change="handleClientChange" filterable clearable v-model="ruleForm.clientCode" style="width:420px;">
               <el-option :label="item.merchantName" :value="item.code" v-for="(item,index) in clientOptions" :key="index"></el-option>
             </el-select>
           </el-form-item>
 
           <el-form-item label="类型:" prop="deductionType">
             <el-radio-group v-model="ruleForm.deductionType">
-              <el-radio :label="0">扣除仲券</el-radio>
+              <el-radio :label="0" v-if="ruleForm.settleType === 1">扣除仲券</el-radio>
+              <el-radio :label="2" v-if="ruleForm.settleType === 2">扣除服务费</el-radio>
               <el-radio :label="1">扣除仲裁费</el-radio>
             </el-radio-group>
           </el-form-item>
 
           <div>
-            <el-row>
+            <el-row v-if="ruleForm.settleType === 1">
               <el-col :span="12">
                 <span class="w-100">仲券余额：</span>
                 <span>{{ruleForm.ticketAvail}}张</span>
@@ -32,6 +33,16 @@
               <el-col :span="12">
                 <span>赠券余额：</span>
                 <span>{{ruleForm.giftAvail}}张</span>
+              </el-col>
+            </el-row>
+            <el-row v-if="ruleForm.settleType === 2">
+              <el-col :span="12">
+                <span class="w-100">充值服务费余额：</span>
+                <span>{{ruleForm.ticketAvail}}元</span>
+              </el-col>
+              <el-col :span="12">
+                <span>赠送服务费余额：</span>
+                <span>{{ruleForm.giftAvail}}元</span>
               </el-col>
             </el-row>
             <el-row>
@@ -65,7 +76,10 @@
   export default {
     data() {
       let validator = (rule, value, callback) => {
-        if(this.ruleForm.deductionType === 0) {
+        if(this.ruleForm.deductionType !== 1) {
+          if(!/^[1-9]\d*$/.test(value) && this.ruleForm.settleType === 1){
+            callback("请输入正整数")
+          }
           if(value > this.ruleForm.ticketAvail + this.ruleForm.giftAvail ) {
             callback('不能超过余额数目');
           }else{
@@ -100,13 +114,16 @@
           giftAvail : '',
           // 仲裁费余额
           deductionAmt : '',
+
+          settleType: 1
         },
         rules : {
           deductionType : [
             {required : true , message : '请选择类型' , trigger : 'change'},
           ],
           deductionTicket : [
-            {required : true , pattern : /^[1-9]\d*$/, message : '请输入正整数' , trigger : 'blur'},
+            // {required : true , pattern : /^[1-9]\d*$/, message : '请输入正整数' , trigger : 'blur'},
+            {required : true , message : '请输入' , trigger : 'blur'},
             { validator: validator, trigger: 'blur' }
           ],
           deductionDesc : [
@@ -154,16 +171,27 @@
             clientCode : val,
           },
         }).then(res => {
-          this.ruleForm.ticketAvail = res.result.ticketAvail;
-          this.ruleForm.giftAvail = res.result.giftAvail;
+          this.ruleForm.settleType = res.result.settleType;
+          if(this.ruleForm.settleType === 2){
+            this.ruleForm.ticketAvail = res.result.serviceFee;
+            this.ruleForm.giftAvail = res.result.giftServiceFee;
+            this.ruleForm.deductionType =2;
+          }else{
+            this.ruleForm.ticketAvail = res.result.ticketAvail;
+            this.ruleForm.giftAvail = res.result.giftAvail;
+            this.ruleForm.deductionType = 0;
+          }
+          this.ruleForm. deductionTicket = '';
+         this.ruleForm.deductionDesc  =  '';
           this.ruleForm.deductionAmt = res.result.amtAvail;
+
         });
       },
 
       // 关闭浮层
       handleClose() {
         this.dialogVisible = false;
-        
+
         setTimeout(() => {
           // 取消按钮禁用
           this.submitDisabled = false;
@@ -178,7 +206,7 @@
             this.$refs.ruleForm.clearValidate();
           });
 				},500);
-				
+
       },
       // 点击提交
       handleSubmit(submitType) {
@@ -192,7 +220,7 @@
               deductionDesc : this.ruleForm.deductionDesc,
               deductionType : this.ruleForm.deductionType,
             };
-            if(this.ruleForm.deductionType === 0) {
+            if(this.ruleForm.deductionType !== 1) {
               obj.deductionTicket = this.ruleForm.deductionTicket;
             }else{
               obj.deductionAmt = this.ruleForm.deductionTicket;
@@ -219,7 +247,7 @@
 
 .acontract-deduction-add-dialog{
   .w-100{
-    width: 100px;
+    width: 120px;
     display: inline-block;
     text-align: right;
   }

@@ -63,13 +63,27 @@
             </el-tooltip>
           </template>
         </el-table-column>
-        <el-table-column prop="preCaseTicket" label="预加受理费"></el-table-column>
-        <el-table-column prop="preCaseAmt" label="预加仲券"></el-table-column>
-        <el-table-column prop="preTicketAmt" label="仲券金额"></el-table-column>
+        <el-table-column prop="settleTypeZw" label="结算方式"></el-table-column>
+        <el-table-column prop="preCaseTicket" label="预加服务费">
+          <template slot-scope="scope">
+            <span >{{scope.row.settleType === 2 ? scope.row.preCaseTicket : '/'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="preCaseAmt" label="预加受理费"></el-table-column>
+        <el-table-column prop="preTicketAmt" label="预加仲券">
+          <template slot-scope="scope">
+            <span >{{scope.row.settleType === 1 ? scope.row.preCaseTicket : '/'}}</span>
+          </template>
+        </el-table-column>
+        <el-table-column prop="preCaseTicket" label="仲券金额">
+          <template slot-scope="scope">
+            <span >{{scope.row.settleType === 1 ? scope.row.preTicketAmt : '/'}}</span>
+          </template>
+        </el-table-column>
         <el-table-column prop="preServiceAmt" label="技术服务费"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            
+
             <template v-if="scope.row.orderStatus === 1">
               <el-button @click="handleExamine(scope.row)" type="text">
                 待处理
@@ -215,7 +229,7 @@
       },
       // 分页 change
       handleCurrentChange(val) {
-        this.currentPage = val; 
+        this.currentPage = val;
         this.initTableList();
       },
 
@@ -230,7 +244,7 @@
   .el-form-item{
     margin-bottom: 0;
   }
-  
+
 }
 
 </style>
