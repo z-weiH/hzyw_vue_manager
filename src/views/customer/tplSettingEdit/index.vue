@@ -192,18 +192,31 @@
           </el-col>
         </el-row>
       </div>
+
+      <div class="m-template-list">
+        <el-col :span="12">
+          <el-row>
+            <span class="list-text">公式配置：</span>
+            <el-button @click="handleFormula" type="text">设置</el-button>
+          </el-row>
+        </el-col>
+      </div>
     </div>
 
     <!-- 设置 dialog -->
     <setDialog @successCBK="successCBK" ref="setDialog"></setDialog>
+    <!-- 公式配置 dialog -->
+    <formulaConfigDialog ref="formulaConfigDialog"></formulaConfigDialog>
   </div>
 </template>
 
 <script>
   import setDialog from './modules/setDialog.vue'
+  import formulaConfigDialog from './modules/formulaConfigDialog.vue'
   export default {
     components : {
       setDialog,
+      formulaConfigDialog,
     },
     data() {
       return {
@@ -478,6 +491,10 @@
       /* 文件上传失败 回调 */
       fileError() {
         this.$message.error('文件上传失败，请稍后重试');
+      },
+      // 公式配置
+      handleFormula() {
+        this.$refs.formulaConfigDialog.show();
       },
     },
   }
