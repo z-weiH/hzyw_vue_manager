@@ -1,4 +1,4 @@
-export default ({url = '' , method = 'post' , render = ''}) => {
+export default ({url = '' , method = 'post' , render = '' , init = true}) => {
   return {
     data() {
       return {
@@ -12,6 +12,9 @@ export default ({url = '' , method = 'post' , render = ''}) => {
         pageSize : 10,
       }
     },
+    mounted() {
+      init === true && this.initTableList();
+    },
     methods: {
       // 表格相关 start
 
@@ -24,7 +27,7 @@ export default ({url = '' , method = 'post' , render = ''}) => {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
 
-            ...this.ruleForm,
+            ...this.searchForm,
           },
         }).then((res) => {
           if(render) {
@@ -48,6 +51,25 @@ export default ({url = '' , method = 'post' , render = ''}) => {
       },
 
       // 表格相关 end
+
+      // 查询 重置为第一页
+      handleSearch() {
+        this.currentPage = 1;
+        this.initTableList();
+      },
+      // 重置
+      reset() {
+        this.currentPage = 1;
+        this.pageSize = 10;
+        if(this.$refs.pagination) {
+          this.$refs.pagination.$children[0].internalPageSize = 10;
+        }
+      },
+      // 重置 并搜索
+      reseting() {
+        this.reset();
+        this.initTableList();
+      },
     },
   }
 }
