@@ -87,10 +87,10 @@ export default {
           label: "仲裁闪信",
           value: "0"
         },
-        {
-          label: "调解闪信",
-          value: "1"
-        },
+        // {
+        //   label: "调解闪信",
+        //   value: "1"
+        // },
         {
           label: "不发送",
           value: "2"
