@@ -5,7 +5,7 @@
         <router-link :to="$options.name" class="aside_tit">裁决书生成失败</router-link>
       </div>
 
-      <searchs @valueChange="searchItemChange" class="item-search" :search-items="searchItems" :item="item" :query-url="queryUrl">
+      <searchs class="item-search" :search-items="searchItems" :item="item" :query-url="queryUrl">
         <template slot="moreBtn">
           <el-button class="ml-20" type="primary" @click="handleExport">导出Excel</el-button>
         </template>
@@ -67,7 +67,7 @@ export default {
         {
           type: 'text',
           property: 'keyWords',
-          placeholder: '所属客户、案号、借款单号、申请人、被申请人、手机号',
+          placeholder: '案号、借款单号、申请人、被申请人、手机号',
           colSpan: 12,
         },
         {
