@@ -533,12 +533,14 @@ export default {
 			// 	})
       this.$http.post("/againAudit/queryAuditOpinionByCaseId.htm",{caseId: card.caseId}).then(res => {
         this.$http.post("/firstAudit/queryAuditReasonByClientCode.htm", { caseId: card.caseId, clientCode: card.clientCode}).then(res1 => {
+          console.log(card)
           let obj = {
             clientName: card.clientName,
             publicRes: res.result.suggestions,
             privateRes: res1.result.suggestions,
             caseId: card.caseId,
-            status: res1.result.status
+            status: res1.result.status,
+            resType: card.idCard.resType
           }
           this.$refs.audit.show(obj);
         })
