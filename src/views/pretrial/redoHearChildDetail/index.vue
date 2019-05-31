@@ -75,7 +75,9 @@
           <div class="card_body">
             <div class="part_tit f_18">身份证信息</div>
             <div class="card_part">
-              <div class="img zhen">
+              <div class="img zhen" style="position: relative;">
+                <p style="text-align: center; position: absolute; top: 50%;transform: translateY(-50%);width: 100%; color: #c1c1c1;" v-if="!card.idCard.image02">暂无</p>
+
                 <img-zoom v-if="card.idCard.image02" :src="card.idCard.image02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
                 <!--<img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">-->
               </div>
