@@ -34,10 +34,16 @@
         </el-radio-group>
         <el-checkbox-group v-model="reasonIds">
           <template v-if="tab === 1 && !filterValue">
-            <template>
+            <template v-if="resType === 0">
               <p class="p_label">身份证</p>
               <el-checkbox  v-for="(opt,index) in resObj.publicRes.filter(it => it.reasonType === 0)" v-if=" !filterValue" :key="opt.reasonId" :label="opt.reasonId" name="type">{{opt.reasonMsg}}</el-checkbox>
               <p v-if="tab === 1 && !filterValue && resObj.publicRes.filter(it => it.reasonType === 0).length === 0" style="font-size: 14px;">无审核意见</p>
+            </template>
+
+            <template v-if="resType === 1">
+              <p class="p_label">营业执照</p>
+              <el-checkbox  v-for="(opt,index) in resObj.publicRes.filter(it => it.reasonType === 5)" v-if="tab === 1 && !filterValue" :key="opt.reasonId" :label="opt.reasonId" name="type">{{opt.reasonMsg}}</el-checkbox>
+              <p v-if="tab === 1 && !filterValue && resObj.publicRes.filter(it => it.reasonType === 5).length === 0" style="font-size: 14px;">无审核意见</p>
             </template>
 
             <template>
@@ -51,6 +57,9 @@
               <el-checkbox  v-for="(opt,index) in resObj.publicRes.filter(it => it.reasonType === 2)" v-if="tab === 1 && !filterValue" :key="opt.reasonId" :label="opt.reasonId" name="type">{{opt.reasonMsg}}</el-checkbox>
               <p v-if="tab === 1 && !filterValue && resObj.publicRes.filter(it => it.reasonType === 2).length === 0" style="font-size: 14px;">无审核意见</p>
             </template>
+
+
+
           </template>
 
 
@@ -59,10 +68,16 @@
 
 
           <template v-if="tab === 0 && !filterValue">
-            <template>
+            <template v-if="resType === 0">
               <p class="p_label">身份证</p>
               <el-checkbox  v-for="(opt,index) in resObj.privateRes.filter(it => it.reasonType === 0)" v-if="tab === 0 && !filterValue" :key="opt.reasonId" :label="opt.reasonId" name="type">{{opt.negReasonMsg}}</el-checkbox>
               <p v-if="tab === 0 && !filterValue && resObj.privateRes.filter(it => it.reasonType === 0).length === 0" style="font-size: 14px;">无审核意见</p>
+            </template>
+
+            <template v-if="resType === 1">
+              <p class="p_label">营业执照</p>
+              <el-checkbox  v-for="(opt,index) in resObj.privateRes.filter(it => it.reasonType === 5)" v-if="tab === 0 && !filterValue" :key="opt.reasonId" :label="opt.reasonId" name="type">{{opt.negReasonMsg}}</el-checkbox>
+              <p v-if="tab === 0 && !filterValue && resObj.privateRes.filter(it => it.reasonType === 5).length === 0" style="font-size: 14px;">无审核意见</p>
             </template>
 
             <template>
@@ -76,6 +91,8 @@
               <el-checkbox  v-for="(opt,index) in resObj.privateRes.filter(it => it.reasonType === 2)" v-if="tab === 0 && !filterValue" :key="opt.reasonId" :label="opt.reasonId" name="type">{{opt.negReasonMsg}}</el-checkbox>
               <p v-if="tab === 0 && !filterValue && resObj.privateRes.filter(it => it.reasonType === 2).length === 0" style="font-size: 14px;">无审核意见</p>
             </template>
+
+
           </template>
 
 
@@ -83,9 +100,17 @@
 
           <template v-if="filterValue">
             <p class="checkbox_label">{{resObj.clientName}}</p>
-            <p class="p_label">身份证</p>
-            <el-checkbox  v-for="(opt,index) in filterObj.privateRes.filter(it => it.reasonType === 0)"  :key="opt.reasonId" :label="opt.reasonId" name="type">{{opt.reasonMsg}}</el-checkbox>
-            <p v-if=" filterObj.privateRes.filter(it => it.reasonType === 0).length === 0" style="font-size: 14px;">无审核意见</p>
+            <template v-if="resType === 0">
+              <p class="p_label">身份证</p>
+              <el-checkbox  v-for="(opt,index) in filterObj.privateRes.filter(it => it.reasonType === 0)"  :key="opt.reasonId" :label="opt.reasonId" name="type">{{opt.reasonMsg}}</el-checkbox>
+              <p v-if=" filterObj.privateRes.filter(it => it.reasonType === 0).length === 0" style="font-size: 14px;">无审核意见</p>
+            </template>
+            <template v-if="resType === 1">
+              <p class="p_label">营业执照</p>
+              <el-checkbox  v-for="(opt,index) in filterObj.privateRes.filter(it => it.reasonType === 5)"  :key="opt.reasonId" :label="opt.reasonId" name="type">{{opt.reasonMsg}}</el-checkbox>
+              <p v-if=" filterObj.privateRes.filter(it => it.reasonType === 5).length === 0" style="font-size: 14px;">无审核意见</p>
+            </template>
+
             <p class="p_label">签名</p>
             <el-checkbox  v-for="(opt,index) in filterObj.privateRes.filter(it => it.reasonType === 1)"  :key="opt.reasonId" :label="opt.reasonId" name="type">{{opt.reasonMsg}}</el-checkbox>
             <p v-if=" filterObj.privateRes.filter(it => it.reasonType === 1).length === 0" style="font-size: 14px;">无审核意见</p>
@@ -94,16 +119,29 @@
             <p v-if=" filterObj.privateRes.filter(it => it.reasonType === 2).length === 0" style="font-size: 14px;">无审核意见</p>
 
 
+
+
             <p class="checkbox_label">公共</p>
-            <p class="p_label">身份证</p>
-            <el-checkbox  v-for="(opt,index) in filterObj.publicRes.filter(it => it.reasonType === 0)"  :key="index" :label="opt.reasonId" name="type">{{opt.reasonMsg}}</el-checkbox>
-            <p v-if=" filterObj.publicRes.filter(it => it.reasonType === 0).length === 0" style="font-size: 14px;">无审核意见</p>
+            <template v-if="resType === 0">
+              <p class="p_label">身份证</p>
+              <el-checkbox  v-for="(opt,index) in filterObj.publicRes.filter(it => it.reasonType === 0)"  :key="index" :label="opt.reasonId" name="type">{{opt.reasonMsg}}</el-checkbox>
+              <p v-if=" filterObj.publicRes.filter(it => it.reasonType === 0).length === 0" style="font-size: 14px;">无审核意见</p>
+            </template>
+            <template v-if="resType === 1">
+              <p class="p_label">营业执照</p>
+              <el-checkbox  v-for="(opt,index) in filterObj.publicRes.filter(it => it.reasonType === 5)"  :key="index" :label="opt.reasonId" name="type">{{opt.reasonMsg}}</el-checkbox>
+              <p v-if=" filterObj.publicRes.filter(it => it.reasonType === 5).length === 0" style="font-size: 14px;">无审核意见</p>
+            </template>
+
             <p class="p_label">签名</p>
             <el-checkbox  v-for="(opt,index) in filterObj.publicRes.filter(it => it.reasonType === 1)"  :key="index" :label="opt.reasonId" name="type">{{opt.reasonMsg}}</el-checkbox>
             <p v-if=" filterObj.publicRes.filter(it => it.reasonType === 1).length === 0" style="font-size: 14px;">无审核意见</p>
             <p class="p_label">证据链</p>
             <el-checkbox  v-for="(opt,index) in filterObj.publicRes.filter(it => it.reasonType === 2)"  :key="index" :label="opt.reasonId" name="type">{{opt.reasonMsg}}</el-checkbox>
             <p v-if=" filterObj.publicRes.filter(it => it.reasonType === 2).length === 0" style="font-size: 14px;">无审核意见</p>
+
+
+
 
           </template>
 
@@ -131,6 +169,7 @@ export default {
   },
   data() {
     return {
+      resType: 0,
       status: null,
       resObj: {},
       reasonIds: [],
@@ -151,7 +190,9 @@ export default {
   methods: {
 
     show(obj) {
-      let {status, clientName, publicRes, privateRes, caseId} = obj;
+      console.log(obj);
+      this.resType = obj.resType;
+      let {status, clientName, publicRes, privateRes, caseId } = obj;
       this.reasonIds = [];
       privateRes.forEach(it => {
         if(it.isChecked === 1){
