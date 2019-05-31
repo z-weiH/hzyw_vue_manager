@@ -1,6 +1,6 @@
 <template>
     <div class="loanBillNoCopy">
-        <span>{{loanBillNo}}</span>
+        <span STYLE="font-size: 13px;">{{loanBillNo}}</span>
         <customer-button class="copy_button" @click="copyContent" size="mini" >复制</customer-button>
     </div>
 </template>
