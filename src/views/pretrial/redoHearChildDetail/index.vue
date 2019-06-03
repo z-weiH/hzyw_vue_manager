@@ -560,7 +560,7 @@ export default {
             publicRes: res.result.suggestions,
             privateRes: res1.result.suggestions,
             caseId: card.caseId,
-            status: res1.result.status,
+            status: res.result.status + res1.result.status !== 2 ? 2 : 1,
             resType: card.idCard.resType
           }
           this.$refs.audit.show(obj);
