@@ -252,7 +252,7 @@ export default {
               console.log(e.path[0].width);
               let bl = (660/e.path[0].width) * 100;
               console.log(bl.toFixed(0));
-              this.currentUrl += ``;
+              this.currentUrl += `?x-oss-process=image/auto-orient,1`;
             }
             img.src=evi.eviUrl;
       }
