@@ -110,12 +110,12 @@
                     </li>
                   </template>
                   <template v-else>
-                    <li :class="{'pointer': respondentEidtConfig.idcardTypeStatus == 1 && subViewType == 1 && card.idCard.resType === 0}">
-                      <i v-if="card.idCard.idcardTypeStatus === 0" class="i_nopass"></i>
-                      <i v-if="card.idCard.idcardTypeStatus%2 === 1" class="i_pass"></i>
-                      <i v-if="card.idCard.idcardTypeStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdcardType')">{{card.idCard.resIdcardType}}</span>
-                      <b style="color:#aaa;" v-if="card.idCard.sexStatus === 3">(已修正)</b>
-                    </li>
+                    <!--<li :class="{'pointer': respondentEidtConfig.idcardTypeStatus == 1 && subViewType == 1 && card.idCard.resType === 0}">-->
+                      <!--<i v-if="card.idCard.idcardTypeStatus === 0" class="i_nopass"></i>-->
+                      <!--<i v-if="card.idCard.idcardTypeStatus%2 === 1" class="i_pass"></i>-->
+                      <!--<i v-if="card.idCard.idcardTypeStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdcardType')">{{card.idCard.resIdcardType}}</span>-->
+                      <!--<b style="color:#aaa;" v-if="card.idCard.sexStatus === 3">(已修正)</b>-->
+                    <!--</li>-->
                     <li :class="{'pointer': respondentEidtConfig.legalPersonStatus == 1 && subViewType == 1 && card.idCard.resType === 0}">
                       <i v-if="card.idCard.legalPersonStatus === 0" class="i_nopass"></i>
                       <i v-if="card.idCard.legalPersonStatus%2 === 1" class="i_pass"></i>

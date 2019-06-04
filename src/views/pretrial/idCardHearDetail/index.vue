@@ -114,13 +114,13 @@
                   </li>
                 </template>
                 <template v-else>
-                  <li :class="{'pointer': respondentEidtConfig.idcardTypeStatus == 1 && !disabled && card.auditInfoWrap.resType === 0}">
-                    <img class="mr-10" v-if="card.auditInfoWrap.idcardTypeStatus === 0 "  src="@/assets/img/error_tag.png" alt="">
-                    <img class="mr-5" v-if="card.auditInfoWrap.idcardTypeStatus%2 === 1 " src="@/assets/img/success_tag.png" alt="">
-                    <img class="mr-15" v-if="card.auditInfoWrap.idcardTypeStatus === 2 " src="@/assets/img/warning_tag.png" alt="">
-                    <span @click="handleRespondentClick(card,'resIdcardType')">{{card.auditInfoWrap.resIdcardType}}</span>
-                    <b style="color:#aaa;" v-if="card.auditInfoWrap.idcardTypeStatus === 3">(已修正)</b>
-                  </li>
+                  <!--<li :class="{'pointer': respondentEidtConfig.idcardTypeStatus == 1 && !disabled && card.auditInfoWrap.resType === 0}">-->
+                    <!--<img class="mr-10" v-if="card.auditInfoWrap.idcardTypeStatus === 0 "  src="@/assets/img/error_tag.png" alt="">-->
+                    <!--<img class="mr-5" v-if="card.auditInfoWrap.idcardTypeStatus%2 === 1 " src="@/assets/img/success_tag.png" alt="">-->
+                    <!--<img class="mr-15" v-if="card.auditInfoWrap.idcardTypeStatus === 2 " src="@/assets/img/warning_tag.png" alt="">-->
+                    <!--<span @click="handleRespondentClick(card,'resIdcardType')">{{card.auditInfoWrap.resIdcardType}}</span>-->
+                    <!--<b style="color:#aaa;" v-if="card.auditInfoWrap.idcardTypeStatus === 3">(已修正)</b>-->
+                  <!--</li>-->
                   <li :class="{'pointer': respondentEidtConfig.legalPersonStatus == 1 && !disabled && card.auditInfoWrap.resType === 0}">
                     <img class="mr-10" v-if="card.auditInfoWrap.legalPersonStatus === 0 "  src="@/assets/img/error_tag.png" alt="">
                     <img class="mr-5" v-if="card.auditInfoWrap.legalPersonStatus%2 === 1" src="@/assets/img/success_tag.png" alt="">
