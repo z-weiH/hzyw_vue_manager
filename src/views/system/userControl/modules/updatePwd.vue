@@ -30,7 +30,7 @@
         psdItems: [
           {type: 'text', property:'loginName', label: '用户名', disabled: true},
           {type: 'text', property:'userName', label: '真实姓名', disabled: true},
-          {type: 'password', property:'oldPwd', label: '旧密码',rule:'require'},
+          // {type: 'password', property:'oldPwd', label: '旧密码',rule:'require'},
           {type: 'password', property:'newPwd', label: '新密码',rule:'require'},
           {type: 'password', property:'confirmPwd', label: '确认密码',rule:[
               { required : true , message : '不能为空' , trigger : 'blur'},
