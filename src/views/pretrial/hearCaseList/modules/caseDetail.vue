@@ -381,7 +381,7 @@
 
                 </div>
                 <div class="yyzz" v-else >
-                  <img :src="item.img01" alt="">
+                  <img :src="item.img01 + '?x-oss-process=image/auto-orient,1'" alt="">
                 </div>
               </div>
               <div class="sqr" v-for="(item,idx) in litigantList.respondents" :key="item.img01+idx">
