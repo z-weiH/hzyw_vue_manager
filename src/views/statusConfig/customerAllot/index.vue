@@ -42,7 +42,7 @@ export default {
 				{
 					label: '互金企业',
 					type: 'select',
-					colSpan: 5,
+					colSpan: 3,
 					property: 'merchantCode',
 					options: this.opCompany,
 					labelfield: 'clientName',
@@ -51,7 +51,7 @@ export default {
 				{
 					label: '运营人员',
 					type: 'select',
-					colSpan: 4,
+					colSpan: 3,
 					property: 'operatorId',
 					options: this.operatorList,
 					labelfield: 'userName',
@@ -61,13 +61,13 @@ export default {
 					label: '分配时间',
 					type: 'date',
 					placeholder: '开始时段',
-					colSpan: 4,
+					colSpan: 3,
 					property: 'beginDistributeTime',
 				},
 				{
 					type: 'date',
 					placeholder: '结束时段',
-					colSpan: 4,
+					colSpan: 3,
 					property: 'endDistributeTime',
 				},
 			],
