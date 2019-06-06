@@ -418,9 +418,11 @@
     },
     methods: {
 
-      checkPdf(url) {
-        let idx = url.lastIndexOf('.') + 1;
-        return url.substring(idx).toLowerCase() === 'pdf';
+      checkPdf(url){
+        if(url.substr(url.length-3).toLowerCase() == 'pdf'){
+          return true;
+        }
+        return false;
       },
 
       //重跑申请书
