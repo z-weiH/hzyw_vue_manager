@@ -38,7 +38,7 @@
     <div class="item-title of-hidden">
       <span class="item-title-text">订单管理</span>
       <div class="fr">
-        <el-button @click="handleBatchUpload" type="primary">批量上传证据</el-button>
+        <!--<el-button @click="handleBatchUpload" type="primary">批量上传证据</el-button>-->
       </div>
     </div>
 
@@ -86,7 +86,7 @@
             <el-button @click="handleState(scope.row)" type="text">状态返回</el-button>
             <br />
             <el-button v-if="scope.row.orderStatus !== 1" @click="handleEditClaimant(scope.row)" type="text">修改被申请人</el-button>
-            <el-button @click="handleSubmitEvidence(scope.row)" type="text">证据</el-button>
+            <!--<el-button @click="handleSubmitEvidence(scope.row)" type="text">证据</el-button>-->
           </div>
         </el-table-column>
       </el-table>
@@ -148,7 +148,7 @@
           orderStatus : '',
         },
         rules : {},
-        
+
         // 表格数据
         tableData : [],
         // 数据总数
@@ -158,7 +158,7 @@
         // 每页数量
         pageSize : 10,
 
-        // 商户options 
+        // 商户options
         merchantOptions : [
           {merchantName : '张三' , code : '张三'}
         ],
@@ -220,7 +220,7 @@
           this.$message.success('重新提交成功');
         });
       },
-      // 修改被申请人 
+      // 修改被申请人
       handleEditClaimant(row) {
         this.$refs.editDialog.show(row);
       },
@@ -266,7 +266,7 @@
       },
       // 分页 change
       handleCurrentChange(val) {
-        this.currentPage = val; 
+        this.currentPage = val;
         this.initTableList();
       },
 
