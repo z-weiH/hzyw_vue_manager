@@ -255,7 +255,12 @@
 
               </div>
               <div class="yyzz" v-else >
-                <img :src="item.img01 + '?x-oss-process=image/auto-orient,1'" alt="">
+                <template v-if="checkPdf(item.img01)">
+                  <iframe :src="item.img01.replace(/http:|https:/g,'')" frameborder="0" width="500px" height="800px"></iframe>
+                </template>
+                <template v-else>
+                  <img :src="item.img01 + '?x-oss-process=image/auto-orient,1'" alt="">
+                </template>
               </div>
             </div>
             <div class="sqr" v-for="(item,idx) in litigantList.respondents" :key="item.img01+idx">
@@ -412,6 +417,11 @@
       }
     },
     methods: {
+
+      checkPdf(url) {
+        let idx = url.lastIndexOf('.') + 1;
+        return url.substring(idx).toLowerCase() === 'pdf';
+      },
 
       //重跑申请书
       overRun(){

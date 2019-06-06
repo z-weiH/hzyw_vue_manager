@@ -99,11 +99,17 @@
          </template>
          <template v-if="sqrInfo.type === 1">
            <div class="license">
-             <img :src="licenseUrl" alt="" style="width:100%;">
-             <div class="edit-wrap">
-               <span class="rotate-left" @click="rotate('left')"></span>
-               <span class="rotate-right" @click="rotate('right')"></span>
-             </div>
+             <template v-if="isYyzzPdf">
+               <iframe :src="licenseUrl.replace(/http:|https:/g,'')" frameborder="0" height="800px" width="500px"></iframe>
+             </template>
+             <template v-else>
+               <img :src="licenseUrl" alt="" style="width:100%;">
+               <div class="edit-wrap">
+                 <span class="rotate-left" @click="rotate('left')"></span>
+                 <span class="rotate-right" @click="rotate('right')"></span>
+               </div>
+             </template>
+
            </div>
            <div class="license_desc">
              <p>{{sqrInfo.idcard}}</p>
@@ -142,6 +148,7 @@ export default {
       //营业执照url
       licenseUrl:'',
 
+      isYyzzPdf: false,
 
       items: [{
         respondentInfo:{img01:'',img02:''}
@@ -209,7 +216,13 @@ export default {
           this.bsqrInfo = res.result.partyInfo.find(it =>it.litigantType == 1);
           console.log(this.sqrInfo,this.bsqrInfo)
           if(this.sqrInfo.type === 1){
-            this.licenseUrl = this.sqrInfo.img01 + '?x-oss-process=image/resize,h_929/auto-orient,1/rotate,0';
+            this.licenseUrl = this.sqrInfo.img01 ;
+            let idx = this.licenseUrl.lastIndexOf('.');
+            if(this.licenseUrl.substring(idx + 1).toLowerCase() !== 'pdf'){
+              this.licenseUrl = this.sqrInfo.img01 + '?x-oss-process=image/resize,h_929/auto-orient,1/rotate,0';
+            }else{
+              this.isYyzzPdf = true;
+            }
           }
           this.items = [res.result];
 
