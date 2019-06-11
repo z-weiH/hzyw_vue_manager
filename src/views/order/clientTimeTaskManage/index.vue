@@ -26,11 +26,7 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-        <el-table-column label="商户名称">
-          <template slot-scope="scope">
-            <el-button @click="handleDetail(scope.row)" type="text">{{scope.row.fullName}}</el-button>
-          </template>
-        </el-table-column>
+        <el-table-column prop="clientName" label="企业名称"></el-table-column>
         <el-table-column prop="busiCode" label="业务编码"></el-table-column>
         <el-table-column label="处理状态">
           <template slot-scope="scope">
