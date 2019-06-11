@@ -3,34 +3,10 @@
     <div class="item-search">
       <el-form :inline="true" ref="ruleForm" :model="ruleForm">
 
-        <el-form-item label=" " prop="keyWords">
-          <el-input v-model.trim="ruleForm.keyWords" placeholder="请输入参数"></el-input>
-        </el-form-item>
-
-        <el-form-item label=" " prop="busiCode">
-          <el-select clearable v-model="ruleForm.busiCode" placeholder="请选择业务">
-            <el-option label="请选择业务编码" value=""></el-option>
-            <template v-for="(item,index) in busiCodeOptions">
-              <el-option 
-                :key="item.busiCode + '' + index" 
-                :label="item.busiCode" 
-                :value="item.busiCode"
-              >
-              </el-option>
-            </template>
-          </el-select>
-        </el-form-item>
-
-        <el-form-item label=" " prop="isProcessed">
-          <el-select clearable v-model="ruleForm.isProcessed" placeholder="处理状态">
-            <el-option label="请选择" value=""></el-option>
-            <template v-for="(item,index) in processingStateOptions">
-              <el-option 
-                :key="item.value + '' + index" 
-                :label="item.label" 
-                :value="item.value"
-              >
-              </el-option>
+       <el-form-item style="display:inline-block;" label=" " prop="merchantCode">
+          <el-select filterable clearable class="mr-10" v-model="ruleForm.merchantCode" placeholder="请选择企业名称">
+            <template v-for="(item,index) in merchantOptions">
+              <el-option :key="item.code + index" :label="item.merchantName" :value="item.code"></el-option>
             </template>
           </el-select>
         </el-form-item>
@@ -56,13 +32,6 @@
           </template>
         </el-table-column>
         <el-table-column prop="busiCode" label="业务编码"></el-table-column>
-        <el-table-column prop="params" label="参数" width="280px">
-          <template slot-scope="scope">
-            <el-tooltip :content="scope.row.params" placement="top-start">
-              <span class="ellipsis" style="max-width:259px;">{{scope.row.params}}</span>
-            </el-tooltip>
-          </template>
-        </el-table-column>
         <el-table-column label="处理状态">
           <template slot-scope="scope">
             {{
@@ -77,17 +46,6 @@
             <el-tooltip :content="scope.row.requireTime" placement="top-start">
               <span class="ellipsis" style="max-width:104px;">{{scope.row.requireTime}}</span>
             </el-tooltip>
-          </template>
-        </el-table-column>
-        <el-table-column label="操作">
-          <template slot-scope="scope">
-            <!-- 待处理 or 处理失败有 重发按钮 -->
-            <template v-if="scope.row.isProcessed === 0 || scope.row.isProcessed === 2">
-              <el-button @click="handleReset(scope.row)" type="text">重发</el-button>
-            </template>
-            <template v-else>
-              --
-            </template>
           </template>
         </el-table-column>
       </el-table>
@@ -116,24 +74,13 @@
     data() {
       return {
         ruleForm : {
-          // 处理状态
-          isProcessed : '',
-          // 参数
-          keyWords : '',
-          // 业务编码
-          busiCode : '',
+          // 企业名称 id
+          merchantCode : '',
         },
 
-        // 业务编码 options
-        busiCodeOptions : [
-          {busiCode : '业务1' , busiCode : '业务1'},
-          {busiCode : '业务2' , busiCode : '业务2'}
-        ],
-        // 处理状态 options
-        processingStateOptions : [
-          {label : '待处理' , value : '0'},
-          {label : '处理失败' , value : '2'},
-          {label : '处理中' , value : '3'},
+        // 商户options
+        merchantOptions : [
+          /* {merchantName : '李四' , code : '李四'} */
         ],
 
         // 表格数据
@@ -148,12 +95,12 @@
     },
     mounted() {
       this.initTableList();
-      // 获取业务编码
+      // 获取所有 商户
       this.$http({
         method : 'post',
-        url : '/orderThird/queryByBusiCode.htm',
+        url : '/merchant/queryMerchants.htm',
       }).then((res) => {
-        this.busiCodeOptions = res.result;
+        this.merchantOptions = res.result.list;
       });
     },
     methods : {
@@ -199,9 +146,7 @@
           data : {
             pageSize : this.pageSize,
             currentNum : this.currentPage,
-            keyWords : this.ruleForm.keyWords,
-            isProcessed : this.ruleForm.isProcessed,
-            busiCode : this.ruleForm.busiCode,
+            merchantCode : this.ruleForm.merchantCode,
           },
         }).then((res) => {
           this.total = res.result.count;
