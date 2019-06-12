@@ -340,49 +340,20 @@ export default {
 			 * @param type
 			 * 1 代表单条数据冻结模版逻辑
 			 */
-			const h = this.$createElement
 			// 该变量用来捕获只勾选一行数据，
 			// 又去触发批量-冻结按钮，
 			// 这时候提示的模版是和当行数据模版一样的
-			let multi_btnType = this.selection.length === 1
+			let multi_btnType = this.selection.length === 1;
+			document.querySelector('.jd-textarea') && ( document.querySelector('.jd-textarea').value = '' );
 			if (type === 1 || multi_btnType) {
 				this.$msgbox({
-					title: '提示',
-					message: h('div', null, [
-						h('p', null, [
-							h('span', null, '待冻结'),
-							h(
-								'span',
-								{
-									style: {
-										color: '#EEA823',
-									},
-								},
-								`( ${multi_btnType ? this.selection[0].applicants : row.applicants} )`
-							),
-							h('span', null, '与'),
-							h(
-								'span',
-								{
-									style: {
-										color: '#EEA823',
-									},
-								},
-								`( ${multi_btnType ? this.selection[0].respondents : row.respondents} )`
-							),
-							h('span', null, '借款合同纠纷一案'),
-							h(
-								'span',
-								{
-									style: {
-										color: '#EEA823',
-									},
-								},
-								`( ${multi_btnType ? (this.selection[0].arbCaseId ? this.selection[0].arbCaseId : '暂无案号' ) : ( row.arbCaseId ? row.arbCaseId : '暂无案号')} )`
-							),
-						]),
-						h('p', null, '确认提交?'),
-					]),
+					title : '案件冻结',
+					message : <div class="jd-msgbox">
+						即将冻结<span class="jdcolor-yellow">{multi_btnType ? this.selection[0].applicants : row.applicants}</span>与<span class="jdcolor-yellow">{multi_btnType ? this.selection[0].respondents : row.respondents}</span>借款合同纠纷一案，案号<span class="jdcolor-yellow">{multi_btnType? this.selection[0].arbCaseId ? this.selection[0].arbCaseId : '暂无案号': row.arbCaseId ? row.arbCaseId : '暂无案号'}</span>。请填写解冻原因。
+						<div class="el-textarea mt-10">
+							<textarea placeholder="请输入冻结原因" rows="4" class="el-textarea__inner jd-textarea" maxlength="100"></textarea>
+						</div>
+					</div>,
 					center: true,
 					showCancelButton: true,
 					confirmButtonText: '确定',
@@ -392,15 +363,13 @@ export default {
 				}).catch(() => {});
 			} else {
 				this.$msgbox({
-					title: '提示',
-					message: h('div', null, [
-						h('p', null, [
-							h('span', null, '待冻结'),
-							h('span', { style: { color: '#EEA823' } }, this.selection.length),
-							h('span', null, '个案件'),
-						]),
-						h('p', null, '确认提交?'),
-					]),
+					title: '案件冻结',
+					message : <div class="jd-msgbox">
+						即将冻结<span class="jdcolor-yellow">{this.selection.length}</span>个案件。请填写解冻原因。
+						<div class="el-textarea mt-10">
+							<textarea placeholder="请输入冻结原因" rows="4" class="el-textarea__inner jd-textarea" maxlength="100"></textarea>
+						</div>
+					</div>,
 					center: true,
 					showCancelButton: true,
 					confirmButtonText: '确定',
@@ -423,6 +392,7 @@ export default {
 				.post(URL_JSON['saveunFreezeCaseIdsList'], {
 					caseIds: type === 0 ? (row ? row.caseId : this.caseIdsGroup[0]) : this.caseIdsGroup.join(),
 					mediateStatus: 1,
+					reason : document.querySelector('.jd-textarea').value,
 				})
 				.then(msg => {
 					if (msg.code === '0000') {
@@ -455,5 +425,13 @@ export default {
 	},
 }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
+
+.jd-msgbox{
+	line-height: 2;
+	.jdcolor-yellow{
+		color: #EEA823;
+	}
+}
+
 </style>
