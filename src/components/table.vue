@@ -3,6 +3,7 @@
     <el-table :data="tableData" :span-method="spanMethod" stripe border @selection-change="slectionChange">
       <el-table-column
         type="selection"
+        :selectable="selectable"
         width="55" v-if="needCheckbox">
       </el-table-column>
       <el-table-column label="" width="55" v-if="needSingleCheck">
@@ -98,7 +99,8 @@ export default {
     pager: Object,
     needCheckbox:Boolean,
     noPager: Boolean,
-    needSingleCheck: Boolean
+    needSingleCheck: Boolean,
+    selectable: Function,
   },
   computed: {
     columns() {

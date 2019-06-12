@@ -14,11 +14,12 @@
           调解状态设置列表
         </div>
         <div class='item-table'>
-           <table-component :needCheckbox="true" @slectionChange="slectionChange" :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)"  :table-data="tableData" :column-define="columnDefine">
+           <table-component :selectable="selectable" :needCheckbox="true" @slectionChange="slectionChange" :pager="pager"  @refreshList="doQuery(this.queryUrl, this.item)"  :table-data="tableData" :column-define="columnDefine">
               <el-table-column label="操作" slot="defineCol" width="126">
                  <template slot-scope="scope">
-                     <el-button size="mini" @click="multiUnfreeZe(1,scope.row)">解冻</el-button>
-                 </template>
+                     <el-button v-if="scope.row.status !== 2" size="mini" @click="multiUnfreeZe(1,scope.row)">解冻</el-button>
+										<span v-else>--</span>
+								 </template>
               </el-table-column>
            </table-component>
         </div>
@@ -208,6 +209,22 @@ export default {
 						},
 					],
 				},
+				{
+					label: '冻结状态',
+					type: 'select',
+					colSpan: 6,
+					property: 'status',
+					options: [
+						{
+							label: '冻结',
+							value: 1,
+						},
+						{
+							label: '解冻',
+							value: 2,
+						},
+					],
+				},
 				/*   {
               label: "调解中心",
               type: "select",
@@ -265,10 +282,25 @@ export default {
 					label: '短链查看',
 					property: 'shortChainView',
 				},
+				{
+					label: '冻结状态',
+					property: 'statusDesc',
+				},
+				{
+					label: '操作人',
+					property: 'userName',
+				},
+				{
+					label: '操作原因',
+					property: 'reason',
+				},
 			],
 		}
 	},
 	methods: {
+		selectable(row, index) {
+			return row.status !== 2;
+		},
 		doQuery(url, item) {
 			this.query(url, item).then(res => {
 				this.tableData = res.result.list
@@ -344,55 +376,22 @@ export default {
 			 * @param type
 			 * 1 代表单条数据解冻模版逻辑
 			 */
-			const h = this.$createElement
 			// 该变量用来捕获只勾选一行数据，
 			// 又去触发批量-解冻按钮，
 			// 这时候提示的模版是和当行数据模版一样的
 			let multi_btnType = this.selection.length === 1
 			console.log(multi_btnType)
 			console.log('mmmmmmmmmmmm-', this.selection)
+			document.querySelector('.jd-textarea') && ( document.querySelector('.jd-textarea').value = '' );
 			if (type === 1 || multi_btnType) {
 				this.$msgbox({
-					title: '提示',
-					message: h('div', null, [
-						h('p', null, [
-							h('span', null, '待解冻'),
-							h(
-								'span',
-								{
-									style: {
-										color: '#EEA823',
-									},
-								},
-								`( ${multi_btnType ? this.selection[0].applicants : row.applicants} )`
-							),
-							h('span', null, '与'),
-							h(
-								'span',
-								{
-									style: {
-										color: '#EEA823',
-									},
-								},
-								`( ${multi_btnType ? this.selection[0].respondents : row.respondents} )`
-							),
-							h('span', null, '借款合同纠纷一案'),
-							h(
-								'span',
-								{
-									style: {
-										color: '#EEA823',
-									},
-								},
-								`( ${
-									multi_btnType
-										? this.selection[0].arbCaseId ? this.selection[0].arbCaseId : '暂无案号'
-										: row.arbCaseId ? row.arbCaseId : '暂无案号'
-								} )`
-							),
-						]),
-						h('p', null, '确认提交?'),
-					]),
+					title : '案件解冻',
+					message : <div class="jd-msgbox">
+						即将解冻<span class="jdcolor-yellow">{multi_btnType ? this.selection[0].applicants : row.applicants}</span>与<span class="jdcolor-yellow">{multi_btnType ? this.selection[0].respondents : row.respondents}</span>借款合同纠纷一案，案号<span class="jdcolor-yellow">{multi_btnType? this.selection[0].arbCaseId ? this.selection[0].arbCaseId : '暂无案号': row.arbCaseId ? row.arbCaseId : '暂无案号'}</span>。请填写解冻原因。
+						<div class="el-textarea mt-10">
+							<textarea placeholder="请输入解冻原因" rows="4" class="el-textarea__inner jd-textarea" maxlength="100"></textarea>
+						</div>
+					</div>,
 					center: true,
 					showCancelButton: true,
 					confirmButtonText: '确定',
@@ -404,23 +403,13 @@ export default {
 					.catch(() => {})
 			} else {
 				this.$msgbox({
-					title: '提示',
-					message: h('div', null, [
-						h('p', null, [
-							h('span', null, '待解冻'),
-							h(
-								'span',
-								{
-									style: {
-										color: '#EEA823',
-									},
-								},
-								this.selection.length
-							),
-							h('span', null, '个案件'),
-						]),
-						h('p', null, '确认提交?'),
-					]),
+					title: '案件解冻',
+					message : <div class="jd-msgbox">
+						即将解冻<span class="jdcolor-yellow">{this.selection.length}</span>个案件。请填写解冻原因。
+						<div class="el-textarea mt-10">
+							<textarea placeholder="请输入解冻原因" rows="4" class="el-textarea__inner jd-textarea" maxlength="100"></textarea>
+						</div>
+					</div>,
 					center: true,
 					showCancelButton: true,
 					confirmButtonText: '确定',
@@ -446,6 +435,7 @@ export default {
 				.post(URL_JSON['saveunFreezeCaseIdsList'], {
 					caseIds: type === 0 ? (row ? row.caseId : this.caseIdsGroup[0]) : this.caseIdsGroup.join(),
 					mediateStatus: 0,
+					reason : document.querySelector('.jd-textarea').value,
 				})
 				.then(msg => {
 					if (msg.code === '0000') {
@@ -483,5 +473,13 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
+
+.jd-msgbox{
+	line-height: 2;
+	.jdcolor-yellow{
+		color: #EEA823;
+	}
+}
+
 </style>
