@@ -47,7 +47,7 @@ export default {
 					label: '案件查询',
 					type: 'text',
 					placeholder: '案号、申请人、被申请人、手机号',
-					colSpan: 7,
+					colSpan: 4,
 					property: 'keyWords',
 				},
 				{
@@ -68,20 +68,20 @@ export default {
 				{
 					type: 'date',
 					placeholder: '开始日期',
-					colSpan: 5,
+					colSpan: 4,
 					property: 'startDate',
 				},
 				{
 					type: 'date',
 					placeholder: '结束日期',
-					colSpan: 5,
+					colSpan: 4,
 					property: 'endDate',
 				},
 				{
 					newline: 1,
 					label: '互金企业',
 					type: 'select',
-					colSpan: 5,
+					colSpan: 4,
 					property: 'merchantCode',
 					options: [],
 					labelfield: 'merchantName',
@@ -94,7 +94,7 @@ export default {
 				{
 					label: '产品名称',
 					type: 'select',
-					colSpan: 5,
+					colSpan: 4,
 					property: 'prodCode',
 					options: [],
 					labelfield: 'prodName',
@@ -104,7 +104,7 @@ export default {
 				{
 					label: '逾期天数',
 					type: 'select',
-					colSpan: 6,
+					colSpan: 4,
 					property: 'overdueDate',
 					options: [
 						{
@@ -141,7 +141,7 @@ export default {
 					newline: 1,
 					label: '案件阶段',
 					type: 'select',
-					colSpan: 5,
+					colSpan: 4,
 					property: 'caseProcess',
 					options: [],
 					labelfield: 'desc',
@@ -150,7 +150,7 @@ export default {
 				{
 					label: '案件状态',
 					type: 'select',
-					colSpan: 5,
+					colSpan: 4,
 					property: 'statusThree',
 					options: [],
 					labelfield: 'desc',
@@ -159,7 +159,7 @@ export default {
 				{
 					label: '应裁情况',
 					type: 'select',
-					colSpan: 6,
+					colSpan: 4,
 					property: 'decideStatus',
 					options: [
 						{
@@ -180,7 +180,7 @@ export default {
 					newline: 1,
 					label: '短信送达',
 					type: 'select',
-					colSpan: 5,
+					colSpan: 4,
 					property: 'messageDelivery',
 					options: [
 						{
@@ -196,7 +196,7 @@ export default {
 				{
 					label: '短链查看',
 					type: 'select',
-					colSpan: 5,
+					colSpan: 4,
 					property: 'shortChainView',
 					options: [
 						{
@@ -212,7 +212,7 @@ export default {
 				{
 					label: '冻结状态',
 					type: 'select',
-					colSpan: 6,
+					colSpan: 4,
 					property: 'status',
 					options: [
 						{
