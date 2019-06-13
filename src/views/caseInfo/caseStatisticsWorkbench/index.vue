@@ -114,6 +114,7 @@
           <th colspan="1">处理天数</th>
           <th colspan="1">申请书模版</th>
           <th colspan="1">案件数量</th>
+          <th colspan="1">仲裁员</th>
           <th colspan="1">是否有裁决书模版</th>
           <th colspan="1">应裁情况</th>
         </tr>
@@ -129,6 +130,7 @@
                   <td v-if="item4.rowspan3" :rowspan="item4.rowspan3">{{item4.processDays}}</td>
                   <td rowspan="1">{{item4.templateName}}</td>
                   <td rowspan="1">{{item4.templateCount}}</td>
+                  <td rowspan="1">{{item4.arberName || '--'}}</td>
                   <td rowspan="1">{{item4.awardTemplate}}</td>
                   <td rowspan="1">
                     {{item4.opinionCount ? `应裁有意见${item4.opinionCount}笔` : '--'}}

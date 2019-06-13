@@ -39,9 +39,7 @@
         </el-table-column>
         <el-table-column prop="requireTime" label="请求时间">
           <template slot-scope="scope">
-            <el-tooltip :content="scope.row.requireTime" placement="top-start">
-              <span class="ellipsis" style="max-width:104px;">{{scope.row.requireTime}}</span>
-            </el-tooltip>
+            <span>{{scope.row.requireTime}}</span>
           </template>
         </el-table-column>
       </el-table>
