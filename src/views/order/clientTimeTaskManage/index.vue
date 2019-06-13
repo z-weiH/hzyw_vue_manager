@@ -26,7 +26,11 @@
             {{scope.$index + 1}}
           </template>
         </el-table-column>
-        <el-table-column prop="clientName" label="企业名称"></el-table-column>
+        <el-table-column prop="clientName" label="企业名称">
+          <template v-slot="scope">
+            {{scope.row.clientName || '--'}}
+          </template>
+        </el-table-column>
         <el-table-column prop="busiCode" label="业务编码"></el-table-column>
         <el-table-column label="处理状态">
           <template slot-scope="scope">
