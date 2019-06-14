@@ -12,11 +12,11 @@
         <el-form ref="ruleForm" :model="ruleForm" :rules="rules" label-width="100px">
           
 					<el-form-item label="产品名称：" prop="prodName">
-						<el-input style="width:400px;" v-model.trim="ruleForm.prodName" placeholder="请输入产品名称"></el-input>
+						<el-input :disabled="type === 'edit'" style="width:400px;" v-model.trim="ruleForm.prodName" placeholder="请输入产品名称"></el-input>
 					</el-form-item>
 
           <el-form-item label="产品编码：" prop="prodCode">
-						<el-input style="width:400px;" v-model.trim="ruleForm.prodCode" placeholder="请输入两位产品编码"></el-input>
+						<el-input :disabled="type === 'edit'" style="width:400px;" v-model.trim="ruleForm.prodCode" placeholder="请输入两位产品编码"></el-input>
 					</el-form-item>
 
 					<el-form-item label="业务类型：" prop="busiCode">
