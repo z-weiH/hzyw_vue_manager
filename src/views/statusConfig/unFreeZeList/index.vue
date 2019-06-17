@@ -349,7 +349,7 @@ export default {
 				this.$msgbox({
 					title : '案件冻结',
 					message : <div class="jd-msgbox">
-						即将冻结<span class="jdcolor-yellow">{multi_btnType ? this.selection[0].applicants : row.applicants}</span>与<span class="jdcolor-yellow">{multi_btnType ? this.selection[0].respondents : row.respondents}</span>借款合同纠纷一案，案号<span class="jdcolor-yellow">{multi_btnType? this.selection[0].arbCaseId ? this.selection[0].arbCaseId : '暂无案号': row.arbCaseId ? row.arbCaseId : '暂无案号'}</span>。请填写解冻原因。
+						即将冻结<span class="jdcolor-yellow">{multi_btnType ? this.selection[0].applicants : row.applicants}</span>与<span class="jdcolor-yellow">{multi_btnType ? this.selection[0].respondents : row.respondents}</span>借款合同纠纷一案，案号<span class="jdcolor-yellow">{multi_btnType? this.selection[0].arbCaseId ? this.selection[0].arbCaseId : '暂无案号': row.arbCaseId ? row.arbCaseId : '暂无案号'}</span>。请填写冻结原因。
 						<div class="el-textarea mt-10">
 							<textarea placeholder="请输入冻结原因" rows="4" class="el-textarea__inner jd-textarea" maxlength="100"></textarea>
 						</div>
@@ -365,7 +365,7 @@ export default {
 				this.$msgbox({
 					title: '案件冻结',
 					message : <div class="jd-msgbox">
-						即将冻结<span class="jdcolor-yellow">{this.selection.length}</span>个案件。请填写解冻原因。
+						即将冻结<span class="jdcolor-yellow">{this.selection.length}</span>个案件。请填写冻结原因。
 						<div class="el-textarea mt-10">
 							<textarea placeholder="请输入冻结原因" rows="4" class="el-textarea__inner jd-textarea" maxlength="100"></textarea>
 						</div>
