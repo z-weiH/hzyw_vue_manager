@@ -132,10 +132,12 @@ export default {
         {
           label: "案件数量",
           property: "countCase",
+          width: '90px'
         },
         {
           label: "子批次数",
           property: "countSubBatch",
+          width: '90px'
         },
         {
           label: "初审人",

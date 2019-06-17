@@ -71,7 +71,7 @@
           <iframe  :src="applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
         </div>
          <div ref="evidenceWarper"  class="pdf fr" >
-           <iframe v-if="checkPdf(currentUrl)" :src="currentUrl.replace(/http:|https:/g,'')" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+           <iframe v-if="checkPdf(currentUrl)" :src="'/static/pdfjs/web/viewer.html?file=' + currentUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
            <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;width:100%;" :src="currentUrl" alt=""></div>
          </div>
          <div class="clear"></div>
