@@ -36,7 +36,7 @@ export  default {
 
 
                 let width = + element.style.width.slice(0,element.style.width.length - 1);
-                let min = 25;
+                let min = 5;
                 let left = parseInt(element.style.left) || 0;
                 let top = parseInt(element.style.top) || 0;
                 let mouseTop = e.offsetX;
