@@ -10,6 +10,7 @@
     throttle
   } from "@/assets/js/tool";
   export default {
+    props : ['className'],
     data() {
       return {
         btopstat: false
@@ -17,7 +18,7 @@
     },
     mounted() {
       try{
-        $(".page-content .el-scrollbar__wrap")[0].addEventListener("scroll", throttle(this.handleScroll, 50));
+        $(`${this.className || '.page-content .el-scrollbar__wrap'}`)[0].addEventListener("scroll", throttle(this.handleScroll, 50));
       }catch(err) {
 
       }
@@ -28,7 +29,7 @@
         //   window.pageYOffset ||
         //   document.documentElement.scrollTop ||
         //   document.body.scrollTop;
-        let scrollTop = $(".page-content .el-scrollbar__wrap").scrollTop();
+        let scrollTop = $(`${this.className || '.page-content .el-scrollbar__wrap'}`).scrollTop();
         // console.log($(".page-content .el-scrollbar__wrap").scrollTop());
         if (scrollTop > 20) {
           this.btopstat = true;
@@ -39,7 +40,7 @@
       backTop() {
         // console.log($(".page-content .el-scrollbar__wrap").scrollTop());
         // html,body
-        $(".page-content .el-scrollbar__wrap").animate({
+        $(`${this.className || '.page-content .el-scrollbar__wrap'}`).animate({
           scrollTop: 0
         }, 400);
       }

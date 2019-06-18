@@ -266,10 +266,10 @@
 
           <!-- ** -->
 
-					<!-- 隐藏的 iframe 用于浏览器 ctrl + f -->
-					<div v-if="!(eviCode === 'AGREEMENT' || eviCode === 'SERVICE')" class="fn-hide">
+					<!-- 隐藏的 iframe 用于浏览器 ctrl + f 预加载-->
+					<div class="fn-hide">
 						<li v-for="(eviDetail,idx) in card.evi.eviDetailList" :key="idx">
-							<iframe class="fline-lalal" :src="eviDetail.eviFileurl" v-if="eviDetail.eviCode && (eviDetail.eviCode === 'AGREEMENT' || eviDetail.eviCode === 'SERVICE')"></iframe>
+							<iframe class="fline-lalal" :src="eviDetail.eviFileurl"></iframe>
 						</li>
 					</div>
 
@@ -290,7 +290,7 @@
 
     <closeDig v-if="isSubmit" message="复审结果已提交，请关闭本页面"></closeDig>
 
-    <backTop></backTop>
+    <backTop className=".el-scrollbar__wrap"></backTop>
     <respondent-edit :currentRespodent="currentRespodent" :respondentItem="respondentItem"></respondent-edit>
     <ruleResult ref="ruleResult"></ruleResult>
   </div>

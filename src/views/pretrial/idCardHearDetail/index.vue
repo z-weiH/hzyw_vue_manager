@@ -217,6 +217,8 @@
     <closeDlg :message="'已完成身份证审核，请关闭本页'" v-if="showCloseDlg"></closeDlg>
     <respondent-edit :currentRespodent="currentRespodent" :respondentItem="respondentItem"></respondent-edit>
     <ruleResult ref="ruleResult"></ruleResult>
+
+    <backTop className=".el-scrollbar__wrap"></backTop>
   </div>
 
 </template>
@@ -232,6 +234,7 @@ import PicZoom from "@/components/Piczoom";
 import closeDlg from "@/components/closeDlg";
 import imgZoom from "@/components/v-zoom"
 import loanBillNoCopy from './modules/loanBillNoCopy'
+import backTop from '@/components/backTop.vue'
 export default {
   extends: Mixins,
   data() {
@@ -580,7 +583,8 @@ export default {
     Edits,
     respondentEdit,
     ruleResult,
-    loanBillNoCopy
+    loanBillNoCopy,
+    backTop,
   },
   mounted() {
     this.subBatchNo = this.$route.query.subBatchNo;

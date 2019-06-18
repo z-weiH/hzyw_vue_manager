@@ -116,6 +116,8 @@
     <closeDlg :message="'已完成签名审核，请关闭本页'" v-if="showCloseDlg"></closeDlg>
     <!--<rule></rule>-->
     <ruleResult ref="ruleResult"></ruleResult>
+
+    <backTop className=".el-scrollbar__wrap"></backTop>
   </div>
 </template>
 
@@ -127,6 +129,7 @@ import Mixins from "@/components/script/_mixin";
 import closeDlg from "@/components/closeDlg";
 import selectQuery from './modules/selectQuery'
 import loanBillNoCopy from '../idCardHearDetail/modules/loanBillNoCopy'
+import backTop from '@/components/backTop.vue'
 export default {
   extends: Mixins,
   data() {
@@ -345,7 +348,8 @@ export default {
     selectQuery,
     rule,
     ruleResult,
-    loanBillNoCopy
+    loanBillNoCopy,
+    backTop,
   },
   mounted() {
     this.subBatchNo = this.$route.query.subBatchNo;

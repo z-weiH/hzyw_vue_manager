@@ -94,10 +94,10 @@
           </div>
 
 
-          <!-- 隐藏的 iframe 用于浏览器 ctrl + f -->
-					<div v-if="!(eviCode === 'AGREEMENT' || eviCode === 'SERVICE')" class="fn-hide">
+          <!-- 隐藏的 iframe 用于浏览器 ctrl + f 预加载 -->
+					<div class="fn-hide">
 						<li v-for="(eviDetail,idx) in evidence.eviDetailList" :key="idx">
-							<iframe class="fline-lalal" :src="eviDetail.eviFileurl" v-if="eviDetail.eviCode && (eviDetail.eviCode === 'AGREEMENT' || eviDetail.eviCode === 'SERVICE')"></iframe>
+							<iframe class="fline-lalal" :src="eviDetail.eviFileurl"></iframe>
 						</li>
 					</div>
         </div>
@@ -120,6 +120,8 @@
 
     <closeDlg :message="'已完成证据链审核，请关闭本页'"  v-if="showCloseDlg"></closeDlg>
     <ruleResult ref="ruleResult"></ruleResult>
+
+    <backTop className=".el-scrollbar__wrap"></backTop>
   </div>
 </template>
 
@@ -132,6 +134,7 @@
   import imgEvi from '@/components/script/imgEvi';
   import selectQuery from '../signatureHearDetail/modules/selectQuery'
   import loanBillNoCopy from '../idCardHearDetail/modules/loanBillNoCopy'
+  import backTop from '@/components/backTop.vue'
   export default {
     extends: Mixins,
     mixins:[imgEvi],
@@ -410,7 +413,8 @@
       closeDlg,
       selectQuery,
       ruleResult,
-      loanBillNoCopy
+      loanBillNoCopy,
+      backTop,
     },
     mounted() {
       this.subBatchNo = this.$route.query.subBatchNo;
