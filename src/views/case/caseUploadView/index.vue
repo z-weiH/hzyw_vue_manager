@@ -160,6 +160,9 @@
         for(let key in this.searchForm) {
           formData.append(key,this.searchForm[key]);
         }
+        // 打开进度条
+        this.speed = 0;
+        this.$refs.progressDialog.show();
         // 文件上传
         this.$http({
           url : '/caseupload/upload.htm',
@@ -168,7 +171,7 @@
           mheaders : true,
         }).then(res => {
           let timer;
-          // 进度条
+          // 进度条 请求
           let fn = () => {
             this.$http({
               url : '/caseupload/queryUploadSpeed.htm',
@@ -186,11 +189,15 @@
               }else{
                 this.speed = speed;
               }
+            }).catch(() => {
+              window.clearInterval(timer);
+              this.$refs.progressDialog.hide();
             });
           }
-          this.speed = 0;
-          this.$refs.progressDialog.show();
-          timer = window.setInterval(fn,2000);
+          fn();
+          timer = window.setInterval(fn,500);
+        }).catch(() => {
+          this.$refs.progressDialog.hide();
         });
       },
     },
