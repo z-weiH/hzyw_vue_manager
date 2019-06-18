@@ -51,7 +51,7 @@
     </div>
 
     <progressDialog :width="speed" ref="progressDialog">
-      <div>正在上传中({{speed}}%)...</div>
+      <div>正在上传中({{speed}}%)<span class="loading"></span></div>
     </progressDialog>
   </div>
 </template>
@@ -195,7 +195,7 @@
             });
           }
           fn();
-          timer = window.setInterval(fn,500);
+          timer = window.setInterval(fn,1000);
         }).catch(() => {
           this.$refs.progressDialog.hide();
         });
@@ -216,6 +216,25 @@
   .upload-wrap{
     text-align: center;
     padding-top: 100px;
+  }
+
+  .loading {
+    min-width: 2px;
+    min-height: 2px;
+    display: inline-block;
+    box-shadow: 2px 0 currentColor, 6px 0 currentColor, 10px 0 currentColor;
+    animation: dot 2.4s infinite steps(1, start);
+  }
+  @keyframes dot {
+    25% {
+      box-shadow: none;
+    }
+    50% {
+      box-shadow: 2px 0 currentColor;
+    }
+    75% {
+      box-shadow: 2px 0 currentColor, 6px 0 currentColor;
+    }
   }
 }
 
