@@ -78,7 +78,13 @@
           // 	模板号
           templateId : '',
 
-          token : JSON.parse(localStorage.getItem('loginInfo')).token,
+          token : (() => {
+            try {
+              return JSON.parse(localStorage.getItem('loginInfo')).token;
+            }catch(err) {
+              return '';
+            }
+          })(),
         },
 
         // 客户options
