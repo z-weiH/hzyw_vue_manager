@@ -95,11 +95,11 @@
 
 
           <!-- 隐藏的 iframe 用于浏览器 ctrl + f 预加载 -->
-					<div class="fn-hide">
+					<!-- <div class="fn-hide">
 						<li v-for="(eviDetail,idx) in evidence.eviDetailList" :key="idx">
 							<iframe class="fline-lalal" :src="eviDetail.eviFileurl"></iframe>
 						</li>
-					</div>
+					</div> -->
         </div>
 
 
