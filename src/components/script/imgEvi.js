@@ -1,4 +1,9 @@
 export  default {
+  data() {
+    return {
+      className : '',
+    }
+  },
   methods:{
     imgEviListener(refName){
 
@@ -121,9 +126,37 @@ export  default {
       }).then(res => {
         return res;
       })
-    }
+    },
+    // 禁止滚动 
+    imgEviListenerDisableRoll(className) {
+      this.className = className;
+      window.setTimeout(() => {
+        document.querySelector(`${className}`).addEventListener('DOMMouseScroll', this.scrollFunc);
+        document.querySelector(`${className}`).addEventListener('mousewheel', this.scrollFunc);
+      }, 5000);
+    },
+    scrollFunc(evt) {
+      evt = evt || window.event;
+      if (evt.preventDefault) {
+        // Firefox  
+        evt.preventDefault();
+        evt.stopPropagation();
+      } else {
+        // IE  
+        evt.cancelBubble = true;
+        evt.returnValue = false;
+      }
+      return false;
+    },
   },
   mounted(){
     this.imgEviListener('evidenceWarper');
-  }
+  },
+  beforeDestroy() {
+    if(this.className) {
+      document.querySelector(`${this.className}`).removeEventListener('DOMMouseScroll', this.scrollFunc);
+      document.querySelector(`${this.className}`).removeEventListener('mousewheel', this.scrollFunc);
+    }
+  },
+
 }
