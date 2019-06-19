@@ -242,11 +242,11 @@
             <div class="applybook_content of-hidden">
               <div class="article_left fl" style="position: relative;">
                 <el-button icon="el-icon-refresh" type="large" circle style="background: #F2F2F2;position: absolute;top: 70px; right: 40px;" @click="refreshApplicationUrl"></el-button>
-                <iframe :src="applicationUrl" width="100%" height="100%">
+                <iframe :src="'/static/pdfjs/web/viewer.html?file=' + applicationUrl" width="100%" height="100%">
                 </iframe>
               </div>
               <div ref="evidenceWarper" class="article_right fr">
-                <iframe v-if="checkPdf(currentUrl)" :src="currentUrl.replace(/http:|https:/g,'')" width="100%" height="100%"></iframe>
+                <iframe v-if="checkPdf(currentUrl)" :src="'/static/pdfjs/web/viewer.html?file=' + currentUrl.replace(/http:|https:/g,'') + '?'" width="100%" height="100%"></iframe>
                 <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;width:100%;" :src="currentUrl" alt=""></div>
               </div>
             </div>
@@ -267,11 +267,11 @@
           <!-- ** -->
 
 					<!-- 隐藏的 iframe 用于浏览器 ctrl + f 预加载-->
-					<div class="fn-hide">
+					<!-- <div class="fn-hide">
 						<li v-for="(eviDetail,idx) in card.evi.eviDetailList" :key="idx">
 							<iframe class="fline-lalal" :src="eviDetail.eviFileurl"></iframe>
 						</li>
-					</div>
+					</div> -->
 
         </div>
 
