@@ -87,7 +87,7 @@
                 </div>
                 <div  ref="evidenceWarper" class="article_right fr">
                   <iframe ref="evidence" v-if="checkPdf(currentUrl)"  :src="'/static/pdfjs/web/viewer.html?file=' + currentUrl.replace(/http:|https:/g,'') + '?'" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
-                  <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;width:100%;" :src="currentUrl" alt=""></div>
+                  <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;width:100%;" :src="currentUrl.replace(/http:|https:/g,'')" alt=""></div>
                 </div>
               </div>
             </div>

@@ -78,11 +78,11 @@
               <div class="img zhen" style="position: relative;">
                 <p style="text-align: center; position: absolute; top: 50%;transform: translateY(-50%);width: 100%; color: #c1c1c1;" v-if="!card.idCard.image02">此处无图片</p>
 
-                <img-zoom v-if="card.idCard.image02" :src="card.idCard.image02+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image02+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+                <img-zoom v-if="card.idCard.image02" :src="card.idCard.image02.replace(/http:|https:/g,'')+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image02.replace(/http:|https:/g,'')+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
                 <!--<img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">-->
               </div>
               <div class="img fan">
-                <img-zoom v-if="card.idCard.image01" :src="card.idCard.image01+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image01+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
+                <img-zoom v-if="card.idCard.image01" :src="card.idCard.image01.replace(/http:|https:/g,'')+'?x-oss-process=image/resize,h_250/auto-orient,1/rotate,0'" width="400" height="250" :bigsrc="card.idCard.image01.replace(/http:|https:/g,'')+'?x-oss-process=image/resize,h_1227/auto-orient,1/rotate,0'" :configs="configs"></img-zoom>
                 <!--<img v-else src="./../../../assets/img/imgerr.png" alt="" class="errImg">-->
               </div>
               <div class="img_desc">
@@ -247,7 +247,7 @@
               </div>
               <div ref="evidenceWarper" class="article_right fr">
                 <iframe v-if="checkPdf(currentUrl)" :src="'/static/pdfjs/web/viewer.html?file=' + currentUrl.replace(/http:|https:/g,'') + '?'" width="100%" height="100%"></iframe>
-                <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;width:100%;" :src="currentUrl" alt=""></div>
+                <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;width:100%;" :src="currentUrl.replace(/http:|https:/g,'')" alt=""></div>
               </div>
             </div>
           </div>
