@@ -10,7 +10,7 @@
         @load="imgLoaded"
         :src="url"
         style="width:100%"
-      ></img>
+      />
       <div
         v-if="!hideZoom && imgLoadedFlag &&!hideSelector"
         :class="['img-selector', {'circle': type === 'circle'}]"

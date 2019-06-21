@@ -85,9 +85,12 @@
                   <!--<pdf :src="evidence.applicationUrl"></pdf>-->
                   <iframe  :src="'/static/pdfjs/web/viewer.html?file=' + applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
                 </div>
-                <div  ref="evidenceWarper" class="article_right fr">
+                <div  ref="evidenceWarper" class="article_right fr" @mousewheel="handleDisabledMousewheel">
                   <iframe ref="evidence" v-if="checkPdf(currentUrl)"  :src="'/static/pdfjs/web/viewer.html?file=' + currentUrl.replace(/http:|https:/g,'') + '?'" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
-                  <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;width:100%;" :src="currentUrl.replace(/http:|https:/g,'')" alt=""></div>
+                  <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else>
+                    <!-- <img style="cursor: move;position: relative;width:100%;" :src="currentUrl.replace(/http:|https:/g,'')" alt=""> -->
+                    <zoomPro :url="currentUrl.replace(/http:|https:/g,'')" :scale.sync="imgScale" :width="300" :height="200"></zoomPro>
+                  </div>
                 </div>
               </div>
             </div>
@@ -134,7 +137,8 @@
   import imgEvi from '@/components/script/imgEvi';
   import selectQuery from '../signatureHearDetail/modules/selectQuery'
   import loanBillNoCopy from '../idCardHearDetail/modules/loanBillNoCopy'
-  import backTop from '@/components/backTop.vue'
+  import backTop from '@/components/backTop.vue';
+  import zoomPro from '@/components/vue-photo-zoom-pro.vue';
   export default {
     extends: Mixins,
     mixins:[imgEvi],
@@ -167,7 +171,9 @@
         },
         currentUrl: '',
         selfflag: 0,
-        caseId: ''
+        caseId: '',
+
+        imgScale: 2,
       }
     },
     // watch: {
@@ -279,7 +285,9 @@
             if (action === 'confirm') {
               instance.confirmButtonLoading = true;
               instance.confirmButtonText = '提交中';
+              done();
             } else {
+              done();
             }
           }
         }).then(res => {
@@ -417,7 +425,11 @@
             })
           }
         })
-      }
+      },
+      handleDisabledMousewheel(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      },
     },
     components: {
       audit,
@@ -427,6 +439,7 @@
       ruleResult,
       loanBillNoCopy,
       backTop,
+      zoomPro,
     },
     mounted() {
       this.subBatchNo = this.$route.query.subBatchNo;

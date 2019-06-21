@@ -245,9 +245,12 @@
                 <iframe :src="'/static/pdfjs/web/viewer.html?file=' + applicationUrl" width="100%" height="100%">
                 </iframe>
               </div>
-              <div ref="evidenceWarper" class="article_right fr">
+              <div ref="evidenceWarper" class="article_right fr" @mousewheel="handleDisabledMousewheel">
                 <iframe v-if="checkPdf(currentUrl)" :src="'/static/pdfjs/web/viewer.html?file=' + currentUrl.replace(/http:|https:/g,'') + '?'" width="100%" height="100%"></iframe>
-                <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else><img style="cursor: move;position: relative;width:100%;" :src="currentUrl.replace(/http:|https:/g,'')" alt=""></div>
+                <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else>
+									<!-- <img style="cursor: move;position: relative;width:100%;" :src="currentUrl.replace(/http:|https:/g,'')" alt=""> -->
+									<zoomPro :url="currentUrl.replace(/http:|https:/g,'')" :scale.sync="imgScale" :width="300" :height="200"></zoomPro>
+								</div>
               </div>
             </div>
           </div>
@@ -312,6 +315,7 @@ import passview from './modules/passview'
 import reback from './modules/reback'
 import backTop from '@/components/backTop.vue'
 import imgEvi from '@/components/script/imgEvi';
+import zoomPro from '@/components/vue-photo-zoom-pro.vue';
 
 
 
@@ -407,6 +411,8 @@ export default {
 					name: '债转通知',
 				},
 			],
+
+			imgScale: 2,
 		}
 	},
 	watch: {
@@ -719,7 +725,11 @@ export default {
     handleCurrentChange(val){
       this.currentNum = val;
       this.getRecheckDetail(true);
-    },
+		},
+		handleDisabledMousewheel(e) {
+			e.preventDefault();
+			e.stopPropagation();
+		},
 	},
 
 	mounted() {
@@ -763,7 +773,8 @@ export default {
     selectQuery,
     respondentEdit,
     ruleResult,
-    loanBillNoCopy
+		loanBillNoCopy,
+		zoomPro,
 	},
 }
 </script>
