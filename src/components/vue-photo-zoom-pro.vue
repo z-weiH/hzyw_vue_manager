@@ -44,6 +44,10 @@ export default {
       type: Number,
       default: 168
     },
+    height: {
+      type: Number,
+      default: 168,
+    },
     type: {
       type: String,
       default: "square",
@@ -91,6 +95,7 @@ export default {
     return {
       selector: {
         width: this.width,
+        height: this.height,
         top: 0,
         left: 0,
         bgTop: 0,
@@ -154,9 +159,10 @@ export default {
     },
     imgSelectorSize() {
       let width = this.selector.width;
+      let height = this.selector.height;
       return {
         width: `${width}px`,
-        height: `${width}px`
+        height: `${height}px`
       };
     },
     imgSelectorStyle() {
@@ -169,7 +175,7 @@ export default {
       } = this;
       return {
         width: `${width * scale}px`,
-        height: `${width * scale}px`
+        height: `${this.height * scale}px`
       };
     },
     imgOutShowPosition() {
@@ -248,7 +254,7 @@ export default {
       const { scrollLeft, scrollTop } = document.documentElement;
       selector.width = selectorWidth;
       selector.rightBound = width - selectorWidth;
-      selector.bottomBound = height - selectorWidth;
+      selector.bottomBound = height - this.height;
       selector.absoluteLeft = left + selectorHalfWidth + scrollLeft;
       selector.absoluteTop = top + selectorHalfWidth + scrollTop;
     },
