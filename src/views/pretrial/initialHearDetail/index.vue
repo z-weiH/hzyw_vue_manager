@@ -154,6 +154,7 @@
           console.log(r);
           if(r.code === '0000'){
             const h = this.$createElement;
+            let instance;
             this.$msgbox({
               title: '提示',
               message: h('div',null,[
@@ -175,6 +176,16 @@
               showCancelButton: true,
               confirmButtonText: '确定',
               cancelButtonText: '取消',
+              beforeClose: (action, instance, done) => {
+                instance = instance;
+                if (action === 'confirm') {
+                  instance.confirmButtonLoading = true;
+                  instance.confirmButtonText = '提交中';
+                  done();
+                } else {
+                  done();
+                }
+              }
             }).then(res =>{
               this.$http.post('/firstAudit/submitFirstAudit.htm',{subBatchNo: info.subBatchNo, type: 0})
                 .then(r => {
@@ -183,8 +194,13 @@
                     this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo, type: 'FIRST'});
                     this.getBatchInfo();
                     this.getBatchLog();
+                    window.setTimeout(() => {
+                      instance = false;
+                    },500);
                   }
-                })
+                }).catch(() => {
+                  instance = false;
+                });
             }).catch(()=>{});
           }
         });
