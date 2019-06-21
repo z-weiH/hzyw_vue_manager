@@ -263,6 +263,7 @@
       },
       HandleAudit() {
         const h = this.$createElement;
+        let instance;
         this.$msgbox({
           title: '提示',
           message: h('div',null,[
@@ -273,16 +274,27 @@
           showCancelButton: true,
           confirmButtonText: '确定',
           cancelButtonText: '取消',
+          beforeClose: (action, instance, done) => {
+            instance = instance;
+            if (action === 'confirm') {
+              instance.confirmButtonLoading = true;
+              instance.confirmButtonText = '提交中';
+            } else {
+            }
+          }
         }).then(res => {
           this.$http.post('/firstAudit/idCardFirstAuditFinished.htm',{subBatchNo: this.subBatchNo,type: 2})
             .then(r =>{
+              instance = false;
               if(r.code === '0000'){
                 this.showCloseDlg = true;
                 window.opener.location.reload();
 
                 // this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
               }
-            })
+            }).catch(() => {
+              instance = false;
+            });
         }).catch(() => {})
       },
       HandleAddmark(evidence) {

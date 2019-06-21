@@ -391,6 +391,7 @@ export default {
     },
     HandleAudit() {
       const h = this.$createElement;
+      let instance;
       this.$msgbox({
         title: "提示",
         message: h("div", null, [
@@ -400,7 +401,17 @@ export default {
         center: true,
         showCancelButton: true,
         confirmButtonText: "确定",
-        cancelButtonText: "取消"
+        cancelButtonText: "取消",
+        beforeClose: (action, instance, done) => {
+          instance = instance;
+          if (action === 'confirm') {
+            instance.confirmButtonLoading = true;
+            instance.confirmButtonText = '提交中';
+            done();
+          } else {
+            done();
+          }
+        }
       })
         .then(res => {
           this.$http
@@ -409,6 +420,7 @@ export default {
               type: 0
             })
             .then(r => {
+              instance = false;
               if (r.code === "0000") {
                 this.showCloseDlg = true;
                 // window.opener.history.go(0);
@@ -416,6 +428,8 @@ export default {
 
                 // this.$store.dispatch('updateAuditItems',{batchNo: this.batchNo});
               }
+            }).catch(() => {
+              instance = false;
             });
         })
         .catch(() => {});

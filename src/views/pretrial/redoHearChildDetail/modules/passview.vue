@@ -9,7 +9,7 @@
        </el-col>
      </el-row>
     <span slot="footer" class="dialog-footer">
-            <customer-button type="primary" @click="passAllCase">确 认</customer-button>
+            <customer-button :disabled="disabled" type="primary" @click="passAllCase">确 认</customer-button>
             <customer-button @click="$parent.pview_state = 0" >取 消</customer-button>
         </span>
   </el-dialog>
@@ -24,25 +24,31 @@ export default {
   },
   data() {
     return {
-      item:{}
+      item:{},
+      disabled : false,
     };
   },
   methods: {
     passAllCase() {
+      this.disabled = true;
       this.$http
         .post(URL_JSON["savePassBatchId"], {
           subBatchId: this.subBatchNo,
           type: 1
         })
         .then(res => {
+          this.disabled = false;
           if(res.code === "0000"){
             this.$parent.pview_state = 0;
             this.$message.success('批量通过完成');
             // 刷新上一张页面
             // window.opener.history.go(0);
-            window.opener.location.reload();
+            // window.opener.location.reload();
             this.$parent.FooPassCheckCBK && this.$parent.FooPassCheckCBK();
+            window.opener.location.href = '/#/main/redoHearList';
           }
+        }).catch(() => {
+          this.disabled = false;
         });
     },
     queryCaseNum() {
