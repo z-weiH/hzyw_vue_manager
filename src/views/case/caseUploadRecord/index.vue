@@ -25,6 +25,8 @@
         :actions="actions"
       ></table-component>
     </div>
+
+    <detailDialog ref="detailDialog"></detailDialog>
   </div>
 </template>
 
@@ -35,12 +37,13 @@ import exportFile from "@/assets/js/exportFile";
 import Searchs from "@/components/searchs";
 import TableComponent from "@/components/table";
 import Mixins from "@/components/script/_mixin";
+import detailDialog from './modules/detailDialog.vue';
 export default {
   name: "caseUploadRecord",
   mixins: [Mixins],
   data() {
     return {
-      queryUrl: "/caseupload/queryCaseUploadRecord.htm",
+      queryUrl: "/caseupload/queryCaseUploadList.htm",
       opCompany: [],
       opProduct: [],
       searchItem: {},
@@ -55,7 +58,7 @@ export default {
       },
       tableData: [{}],
       searchItems: [
-        {
+        /* {
           label: "操作人",
           type: "text",
           placeholder: "操作人姓名",
@@ -74,7 +77,7 @@ export default {
           placeholder: "结束日期",
           colSpan: 4,
           property: "endDate"
-        },
+        }, */
         {
           type: "select",
           label: "状态",
@@ -108,7 +111,6 @@ export default {
           type: "select",
           property: "clientCode",
           colSpan: 4,
-          newline: 1,
           options: this.opCompany,
           labelfield: "merchantName",
           valuefield: "code",
@@ -150,10 +152,8 @@ export default {
           type: 'select',
           options: [
             { label: "上传中", value: "0" },
-            { label: "上传失败", value: "1" },
-            { label: "上传成功", value: "2" },
-            { label: "处理失败", value: "3" },
-            { label: "处理成功", value: "4" }
+            { label: "上传失败", value: "2" },
+            { label: "上传成功", value: "1" },
           ]
         },
         {
@@ -161,11 +161,11 @@ export default {
           property: "templateId",
           width: 150,
         },
-        {
+        /* {
           label: "失败原因",
           property: "failedReason",
           width: 100
-        },
+        }, */
         {
           label: "操作人",
           property: "operName",
@@ -180,7 +180,7 @@ export default {
       actions: [
         {
           label: "操作",
-          btns: [{ label: "通知", function: this.doInform }],
+          btns: [{ label: "详情", function: this.doInform }],
           width:136
         }
       ]
@@ -260,20 +260,7 @@ export default {
       this.$router.push("caseUploadView");
     },
     doInform(it) {
-      console.log(it);
-      // 通知方法
-      this.$http
-        .post("/caseupload/caseUploadRecordNotify.htm", {
-          recordId: it.recordId
-        })
-        .then(res => {
-          if (res.code == "0000") {
-            this.$message({
-              message: "通知成功",
-              type: "success"
-            });
-          }
-        });
+      this.$refs.detailDialog.show(it);
     },
     doQuery(url, item) {
       this.query(url, item).then(res => {
@@ -291,7 +278,8 @@ export default {
   },
   components: {
     Searchs,
-    TableComponent
+    TableComponent,
+    detailDialog,
   }
 };
 </script>
