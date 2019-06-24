@@ -86,24 +86,24 @@ export default {
           options: [
             {
               label: "上传中",
-              value: 0
+              value: '0'
             },
             {
               label: "上传失败",
-              value: 1
+              value: '2'
             },
             {
               label: "上传成功",
-              value: 2
+              value: '1'
             },
-            {
+            /* {
               label: "处理失败",
               value: 3
             },
             {
               label: "处理成功",
               value: 4
-            }
+            } */
           ]
         },
         {
