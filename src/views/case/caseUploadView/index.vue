@@ -27,7 +27,7 @@
         </el-form-item>
 
         <el-form-item label="上传类型：" prop="uploadType" label-width="90px">
-          <el-select clearable v-model="searchForm.uploadType" placeholder="请选择" style="width:197px;" filterable>
+          <el-select v-model="searchForm.uploadType" placeholder="请选择" style="width:197px;" filterable>
             <el-option label="案件上传" :value="1"></el-option>
             <el-option label="补充数据" :value="2"></el-option>
           </el-select>
