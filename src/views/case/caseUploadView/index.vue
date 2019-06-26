@@ -27,7 +27,7 @@
         </el-form-item>
 
         <el-form-item label="上传类型：" prop="uploadType" label-width="90px">
-          <el-select clearable v-model="searchForm.uploadType" placeholder="请选择" style="width:197px;" filterable>
+          <el-select v-model="searchForm.uploadType" placeholder="请选择" style="width:197px;" filterable>
             <el-option label="案件上传" :value="1"></el-option>
             <el-option label="补充数据" :value="2"></el-option>
           </el-select>
@@ -46,10 +46,10 @@
           :action="`${$host}/caseupload/caseUpload.htm`"
           :show-file-list="false"
           accept=".zip"
-          :disabled="(searchForm.clientCode && searchForm.productCode && searchForm.templateId) ? false : true"
+          :disabled="(searchForm.clientCode && searchForm.productCode) ? false : true"
           :http-request="handleUpload"
         >
-          <el-button type="primary" :disabled="(searchForm.clientCode && searchForm.productCode && searchForm.templateId) ? false : true">
+          <el-button type="primary" :disabled="(searchForm.clientCode && searchForm.productCode) ? false : true">
             <i class="el-icon-upload el-icon--left"></i>批量上传案件
           </el-button>
         </el-upload>
@@ -85,7 +85,7 @@
           // 	模板号
           templateId : '',
           // 1案件上传 2补充数据
-          uploadType : '',
+          uploadType : 1,
 
           token : (() => {
             try {
