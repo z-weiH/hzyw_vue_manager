@@ -86,7 +86,7 @@
             checked : false,
           },
           {
-            label : '法人代表人身份证明书',
+            label : '法定代表人身份证明书',
             value : 'frdbrsfzms',
             checked : false,
           },
