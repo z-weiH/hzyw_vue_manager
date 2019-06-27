@@ -311,6 +311,13 @@ let router = new Router({
             name: 'mediationMsgSet',
           },
         },
+        {
+          path: 'noteStatistics',
+          component: () => import('@/views/msgRecorder/noteStatistics'), // 短信统计
+          meta: {
+            name: 'noteStatistics',
+          },
+        },
 
         /* 短信记录 end */
         /* 状态配置 start */

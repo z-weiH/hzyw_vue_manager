@@ -488,7 +488,12 @@
                     menuName : '调解短信设置',
                     menuId : 85,
                     menuUrl : 'mediationMsgSet'
-                  }
+                  },
+                  {
+                    menuName : '短信统计',
+                    menuId : 86,
+                    menuUrl : 'noteStatistics'
+                  },
                 ],
               }, {
                 menuName : '状态配置',
