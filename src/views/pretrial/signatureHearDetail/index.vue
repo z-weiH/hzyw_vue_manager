@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%;background: #F7F7F7">
-    <el-scrollbar style="height: 100%">
+    <el-scrollbar style="height: 100%" class="elm-scrollbar-wrap">
       <div class="body_container">
         <div class="header_container">
           <div class="header">

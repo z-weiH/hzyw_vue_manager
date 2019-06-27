@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%;background: #F7F7F7">
-    <el-scrollbar style="height: 100%;">
+    <el-scrollbar style="height: 100%;" class="elm-scrollbar-wrap">
       <div class="body_container">
         <div class="header_container">
           <div class="header">
@@ -33,7 +33,7 @@
         <!-- end -->
         <div class="card"  v-for="(card, index) in idCardList" :key="index">
           <div class="fix_screen" v-if="idCardList.length != 0">
-            <span class="arrow_left" @click="gotoPrevPage(card)"></span><span class="arrow_right" @click="gotoNextPage(card)"></span>
+            <span :class="{'min-arrow_left' : bodyWidth <= 1366}" class="arrow_left" @click="gotoPrevPage(card)"></span><span :class="{'min-arrow_right' : bodyWidth <= 1366}" class="arrow_right" @click="gotoNextPage(card)"></span>
           </div>
           <div class="card_header">
             <el-row>
@@ -124,7 +124,8 @@
                     <li>
                       <i v-if="card.idCard.effctDateStatus === 0" class="i_nopass"></i>
                       <i v-if="card.idCard.effctDateStatus === 1" class="i_pass"></i>
-                      <i v-if="card.idCard.effctDateStatus === 2" class="i_warn"></i> {{card.idCard.resEffctDate}}
+                      <i v-if="card.idCard.effctDateStatus === 2" class="i_warn"></i>
+											<span v-html="formatPaymentDate(card.idCard.resEffctDate)"></span>
                     </li>
                   </template>
                   <template v-else>
@@ -166,7 +167,8 @@
                     <li>
                       <i v-if="card.idCard.effctDateStatus === 0" class="i_nopass"></i>
                       <i v-if="card.idCard.effctDateStatus === 1" class="i_pass"></i>
-                      <i v-if="card.idCard.effctDateStatus === 2" class="i_warn"></i> {{card.idCard.resEffctDate}}
+                      <i v-if="card.idCard.effctDateStatus === 2" class="i_warn"></i>
+											<span v-html="formatPaymentDate(card.idCard.resEffctDate)"></span>
                     </li>
                   </template>
 
@@ -230,15 +232,24 @@
             <div class="bdje" style="margin-bottom: 20px;;font-size: 16px;">
               <span style="color: #193b8c;font-size: 18px;">仲裁标的：</span>{{card.subjectAmt}}元
             </div>
-            <div class="applybook_title of-hidden">
+						<div class="lh-50 ft-16">
+              <div class="fl color-blue w-90 align-right">左栏：</div>
+              <div class="of-hidden color-blue">仲裁申请书</div>
+            </div>
+            <div class="lh-30 ft-16 mb-10 max-5">
+              <div class="fl color-blue w-90 align-right">右栏：</div>
+              <div class="of-hidden color-blue">
+                <span class="mr-10 in-block cursor" :class="{'evidence-active': currentUrl.indexOf(eviDetail.eviFileurl) == 0}" v-for="(eviDetail,idx) in card.evi.eviDetailList" :key="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</span>
+              </div>
+            </div>
+            <!-- <div class="applybook_title of-hidden">
               <div class="tit fl">仲裁申请书</div>
               <div class="scroll_toolbar fr">
                 <ul>
                   <li class="fl evi_bar" :class="{active: currentUrl.indexOf(eviDetail.eviFileurl) ==0 }" v-for="(eviDetail,idx) in card.evi.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
                 </ul>
-                <!-- <scroll-y @handleClick="scrollbarClick" :options="card.evi.eviDetailList" label="eviTitle" :defaultWidth="520"></scroll-y> -->
               </div>
-            </div>
+            </div> -->
             <div class="applybook_content of-hidden">
               <div class="article_left fl" style="position: relative;">
                 <el-button icon="el-icon-refresh" type="large" circle style="background: #F2F2F2;position: absolute;top: 70px; right: 40px;" @click="refreshApplicationUrl"></el-button>
@@ -413,6 +424,7 @@ export default {
 			],
 
 			imgScale: 2,
+			bodyWidth: document.body.offsetWidth,
 		}
 	},
 	watch: {
@@ -730,6 +742,13 @@ export default {
 			e.preventDefault();
 			e.stopPropagation();
 		},
+		formatPaymentDate(data) {
+			try{
+				return `<span class="color-999">${data.split(':')[0]}：</span>${data.split(':')[1]}`
+			}catch (err) {
+				return ''
+			}
+		},
 	},
 
 	mounted() {
@@ -1026,23 +1045,20 @@ li.pointer > span{
 		background-size: 100%;
 		background-position: 100% 100%;
 		position: fixed;
-		top: 20%;
+		top: 50%;
+		transform: translateY(-50%);
 		cursor: pointer;
 		&:hover {
 			opacity: 0.8;
 		}
 	}
 	.arrow_left {
-		top: 20%;
-		left: calc(50vw - 690px);
-		width: 120px;
-		height: 120px;
+		left: calc( (100vw - 1366px) * .5 - 89px);
     z-index: 9999999;
 		&:after {
-			margin: 16px 0 0 16px;
 			content: '';
 			display: block;
-			opacity: 0.1;
+			opacity: 1;
 			width: 89px;
 			height: 89px;
 			background-image: url(./../../../assets/img/rct_page01.png);
@@ -1054,17 +1070,13 @@ li.pointer > span{
 		}
 	}
 	.arrow_right {
-		top: 20%;
-		right: calc(50vw - 690px);
-		width: 120px;
-		height: 120px;
+		right: calc( (100vw - 1366px) * .5 - 89px);
     z-index: 9999999;
 
     &:after {
-			margin: 16px 0 0 16px;
 			content: '';
 			display: block;
-			opacity: 0.1;
+			opacity: 1;
 			width: 89px;
 			height: 89px;
 			background-image: url(./../../../assets/img/rct_page02.png);
@@ -1074,6 +1086,12 @@ li.pointer > span{
 				opacity: 1;
 			}
 		}
+	}
+	.min-arrow_left{
+		left: calc( (100vw - 1366px) * .5);
+	}
+	.min-arrow_right{
+		right: calc( (100vw - 1366px) * .5);
 	}
 }
 
@@ -1227,5 +1245,31 @@ body {
 }
   .pagination{
     margin-bottom: 20px;
+  }
+
+	.lh-50{
+    line-height: 50px;
+  }
+  .lh-30{
+    line-height: 30px;
+  }
+  .ft-16{
+    font-size: 16px;
+  }
+  .w-90{
+    width: 90px;
+  }
+  .align-right{
+    text-align: right;
+  }
+  .in-block{
+    display: inline-block;  
+  }
+  .evidence-active{
+    border-bottom: 2px solid #193b8c;
+  }
+  .max-5{
+    max-height: 152px;
+    overflow: auto;
   }
 </style>
