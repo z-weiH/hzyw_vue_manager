@@ -58,7 +58,7 @@
 
           <el-form-item label="接收状态：" label-width="100px">
             <el-select clearable style="width:144px;" v-model="searchForm.receiveResult" placeholder="请选择">
-              <el-option label="待发送" :value="2"></el-option>
+              <el-option label="待接收" :value="2"></el-option>
               <el-option label="成功" :value="0"></el-option>
               <el-option label="失败" :value="1"></el-option>
             </el-select>
