@@ -153,6 +153,7 @@
 <script>
   import timeFrame from '@/components/timeFrame.vue'
   import tableMixins from '@/assets/js/tableMixins.js'
+  import moment from 'moment'
   export default {
     mixins : [tableMixins({url : '/send/queryMessageSendCountPage.htm' , init : false})],
     components : {
@@ -164,7 +165,7 @@
 
         searchForm : {
           // 开始日期
-          beginSendTime : '',
+          beginSendTime : moment().format('YYYY-MM-DD'),
           // 结束日期
           endSendTime : '',
           // 手机号码
