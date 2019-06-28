@@ -255,8 +255,9 @@
               return {
                 allCount : n.allCount += v.allCount,
                 successCount : n.successCount += v.successCount,
+                failCount : n.failCount += v.failCount,
               }
-            },{allCount : 0 , successCount : 0});
+            },{allCount : 0 , successCount : 0 , failCount : 0});
             arr.length > 0 && arr.push({
               carrier : '汇总：',
               ...hj,
