@@ -169,7 +169,7 @@
         },
 
         tableSuccessData : [
-          {
+          /* {
             carrier : '中国移动',
           },
           {
@@ -183,10 +183,10 @@
           },
           {
             carrier : '汇总：',
-          },
+          }, */
         ],
         tableErrorData : [
-          {
+          /* {
             carrier : '中国移动',
           },
           {
@@ -209,7 +209,7 @@
           },
           {
             carrier : '其他',
-          },
+          }, */
         ],
       }
     },
