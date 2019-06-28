@@ -35,6 +35,7 @@
               <el-option label="仲裁闪信" :value="8"></el-option>
               <el-option label="调解闪信" :value="9"></el-option>
               <el-option label="补充证据" :value="10"></el-option>
+              <el-option label="受理通知" :value="11"></el-option>
               <el-option label="其他" :value="0"></el-option>
             </el-select>
           </el-form-item>
