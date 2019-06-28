@@ -118,6 +118,7 @@
             <el-table-column prop="carrier" label="运营商"></el-table-column>
             <el-table-column prop="allCount" label="短信数量"></el-table-column>
             <el-table-column prop="successCount" label="接收成功数量"></el-table-column>
+            <el-table-column prop="failCount" label="接收失败数量"></el-table-column>
             <el-table-column label="成功率">
               <template v-slot="scope">
                 {{computeSuccess(scope.row.successCount)}}%
@@ -125,7 +126,7 @@
             </el-table-column>
             <el-table-column label="失败率">
               <template v-slot="scope">
-                {{computeError(scope.row.allCount - scope.row.successCount)}}%
+                {{computeError(scope.row.failCount)}}%
               </template>
             </el-table-column>
           </el-table>
