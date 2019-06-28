@@ -167,7 +167,7 @@
           // 开始日期
           beginSendTime : moment().format('YYYY-MM-DD'),
           // 结束日期
-          endSendTime : '',
+          endSendTime : moment().format('YYYY-MM-DD'),
           // 手机号码
           keyWords : '',
           // 短信类型
