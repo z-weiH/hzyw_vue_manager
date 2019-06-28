@@ -31,6 +31,10 @@
               <el-option label="裁决通知" :value="4"></el-option>
               <el-option label="验证码" :value="5"></el-option>
               <el-option label="生成账号" :value="6"></el-option>
+              <el-option label="调解短信" :value="7"></el-option>
+              <el-option label="仲裁闪信" :value="8"></el-option>
+              <el-option label="调解闪信" :value="9"></el-option>
+              <el-option label="补充证据" :value="10"></el-option>
               <el-option label="其他" :value="0"></el-option>
             </el-select>
           </el-form-item>
@@ -115,7 +119,12 @@
             <el-table-column prop="successCount" label="接收成功数量"></el-table-column>
             <el-table-column label="成功率">
               <template v-slot="scope">
-                {{Math.round(scope.row.successCount / scope.row.allCount * 100) || 0}}%
+                {{computeSuccess(scope.row.successCount)}}%
+              </template>
+            </el-table-column>
+            <el-table-column label="失败率">
+              <template v-slot="scope">
+                {{computeError(scope.row.allCount - scope.row.successCount)}}%
               </template>
             </el-table-column>
           </el-table>
@@ -269,6 +278,14 @@
         }).catch(() => {
 
         });
+      },
+      // 计算成功率
+      computeSuccess(successCount) {
+        return ((successCount / this.tableSuccessData[this.tableSuccessData.length - 1].allCount).toFixed(4) * 100).toFixed(2);
+      },
+      // 计算失败率
+      computeError(errorCount) {
+        return ((errorCount / this.tableSuccessData[this.tableSuccessData.length - 1].allCount).toFixed(4) * 100).toFixed(2);
       },
       // 点击搜索
       search() {
