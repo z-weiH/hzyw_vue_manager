@@ -231,27 +231,23 @@
             method : 'post',
             data : this.searchForm,
           }).then((res) => {
+            let arr = [];
             let hj = res.result.reduce((n,v) => {
               // 其他
               if(!v.carrier) {
                 v.carrier = '其他';
-                this.$set(this.tableSuccessData,'3',v);
-              }else if(v.carrier === '中国移动') {
-                this.$set(this.tableSuccessData,'0',v);
-              }else if(v.carrier === '中国联通') {
-                this.$set(this.tableSuccessData,'2',v);
-              }else if(v.carrier === '中国电信') {
-                this.$set(this.tableSuccessData,'1',v);
               }
+              arr.push(v);
               return {
                 allCount : n.allCount += v.allCount,
                 successCount : n.successCount += v.successCount,
               }
             },{allCount : 0 , successCount : 0});
-            this.$set(this.tableSuccessData,'4',{
-              carrier : '汇总：',
+            arr.push({
+              carrier : '汇总',
               ...hj,
             });
+            this.tableSuccessData = arr;
           });
         };
         // 失败
