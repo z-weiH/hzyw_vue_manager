@@ -256,7 +256,7 @@
               }
             },{allCount : 0 , successCount : 0});
             arr.push({
-              carrier : '汇总',
+              carrier : '汇总：',
               ...hj,
             });
             this.tableSuccessData = arr;
@@ -269,6 +269,13 @@
             method : 'post',
             data : this.searchForm,
           }).then((res) => {
+            let hj = res.result.reduce((n,v) => {
+              return n + v.count
+            },0);
+            res.result.push({
+              carrier : '汇总：',
+              count : hj,
+            });
             this.tableErrorData = res.result;
           });
         };
