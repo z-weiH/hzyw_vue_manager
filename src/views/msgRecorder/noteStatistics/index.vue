@@ -341,6 +341,9 @@
     color: #0F357F;
     text-align: center;
     margin-bottom: 20px;
+    >div{
+      background-color: #E6ECFF;
+    }
     .note-list{
       width: 50%;
     }
@@ -348,7 +351,7 @@
       overflow: hidden;
     }
     .active{
-      background-color: #E6ECFF;
+      background-color: #fff;
     }
   }
 
