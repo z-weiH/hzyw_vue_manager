@@ -66,12 +66,12 @@
 
     <div class="item-table">
       <div class="change-wrap">
-        <div :class="{active : active === true}" @click="handleStatus(true)" class="fl note-list cursor">短信列表</div>
-        <div :class="{active : active === false}" @click="handleStatus(false)" class="statistics cursor">短信统计</div>
+        <div :class="{active : active === true}" @click="handleStatus(true)" class="fl note-list cursor">短信统计</div>
+        <div :class="{active : active === false}" @click="handleStatus(false)" class="statistics cursor">短信列表</div>
       </div>
 
       <!-- 短信列表 -->
-      <div v-if="active === true" key="1">
+      <div v-if="active === false" key="1">
         <el-table
           :data="tableData"
           border
@@ -143,7 +143,7 @@
   import timeFrame from '@/components/timeFrame.vue'
   import tableMixins from '@/assets/js/tableMixins.js'
   export default {
-    mixins : [tableMixins({url : '/send/queryMessageSendCountPage.htm'})],
+    mixins : [tableMixins({url : '/send/queryMessageSendCountPage.htm' , init : false})],
     components : {
 			timeFrame,
 		},
@@ -213,6 +213,9 @@
         ],
       }
     },
+    mounted() {
+      this.search();
+    },
     methods : {
       handleStatus(val) {
         // 点击相同 tabs
@@ -269,7 +272,7 @@
       },
       // 点击搜索
       search() {
-        if(this.active === true) {
+        if(this.active === false) {
           this.handleSearch();
         }else{
           this.queryStatisticsDate();
