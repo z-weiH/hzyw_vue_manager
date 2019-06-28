@@ -255,7 +255,7 @@
                 successCount : n.successCount += v.successCount,
               }
             },{allCount : 0 , successCount : 0});
-            arr.push({
+            arr.length > 0 && arr.push({
               carrier : '汇总：',
               ...hj,
             });
@@ -272,7 +272,7 @@
             let hj = res.result.reduce((n,v) => {
               return n + v.count
             },0);
-            res.result.push({
+            res.result.length > 0 && res.result.push({
               carrier : '汇总：',
               count : hj,
             });
