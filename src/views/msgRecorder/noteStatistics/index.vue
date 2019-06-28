@@ -78,8 +78,12 @@
         >
           <el-table-column prop="sendTime" label="发送日期"></el-table-column>
           <el-table-column prop="sendPhone" label="发送号码"></el-table-column>
-          <el-table-column prop="carrier" label="所属运营商"></el-table-column>
-          <el-table-column prop="province" label="所属省份"></el-table-column>
+          <el-table-column prop="carrier" label="所属运营商">
+            <template v-slot="scope">{{scope.row.carrier || '--'}}</template>
+          </el-table-column>
+          <el-table-column prop="province" label="所属省份">
+            <template v-slot="scope">{{scope.row.province || '--'}}</template>
+          </el-table-column>
           <el-table-column prop="messageTypeDesc" label="短信类型"></el-table-column>
           <el-table-column prop="sendResultDesc" label="发送状态"></el-table-column>
           <el-table-column prop="receiveResultDesc" label="接收状态"></el-table-column>
@@ -221,41 +225,50 @@
       // 获取统计数据
       queryStatisticsDate() {
         // 成功
-        this.$http({
-          url : '/send/queryMessageSendSuccCount.htm',
-          method : 'post',
-          data : this.searchForm,
-        }).then((res) => {
-          // 合计
-          let allCount = 0 , successCount = 0;
-          res.result.map(v => {
-            // 其他
-            if(!v.carrier) {
-              v.carrier = '其他';
-              this.$set(this.tableSuccessData,'3',v);
-            }else if(v.carrier === '中国移动') {
-              this.$set(this.tableSuccessData,'0',v);
-            }else if(v.carrier === '中国联通') {
-              this.$set(this.tableSuccessData,'2',v);
-            }else if(v.carrier === '中国电信') {
-              this.$set(this.tableSuccessData,'1',v);
-            }
-            allCount += v.allCount;
-            successCount += v.successCount;
+        let success = () => {
+          return this.$http({
+            url : '/send/queryMessageSendSuccCount.htm',
+            method : 'post',
+            data : this.searchForm,
+          }).then((res) => {
+            let hj = res.result.reduce((n,v) => {
+              // 其他
+              if(!v.carrier) {
+                v.carrier = '其他';
+                this.$set(this.tableSuccessData,'3',v);
+              }else if(v.carrier === '中国移动') {
+                this.$set(this.tableSuccessData,'0',v);
+              }else if(v.carrier === '中国联通') {
+                this.$set(this.tableSuccessData,'2',v);
+              }else if(v.carrier === '中国电信') {
+                this.$set(this.tableSuccessData,'1',v);
+              }
+              return {
+                allCount : n.allCount += v.allCount,
+                successCount : n.successCount += v.successCount,
+              }
+            },{allCount : 0 , successCount : 0});
+            this.$set(this.tableSuccessData,'4',{
+              carrier : '汇总：',
+              ...hj,
+            });
           });
-          this.$set(this.tableSuccessData,'4',{
-            carrier : '汇总：',
-            allCount,
-            successCount,
-          });
-        });
+        };
         // 失败
-        this.$http({
-          url : '/send/queryMessageReceiveFailure.htm',
-          method : 'post',
-          data : this.searchForm,
-        }).then((res) => {
-          this.tableErrorData = res.result;
+        let error = () => {
+          return this.$http({
+            url : '/send/queryMessageReceiveFailure.htm',
+            method : 'post',
+            data : this.searchForm,
+          }).then((res) => {
+            this.tableErrorData = res.result;
+          });
+        };
+
+        Promise.all([success(),error()]).then(() => {
+
+        }).catch(() => {
+
         });
       },
       // 点击搜索
