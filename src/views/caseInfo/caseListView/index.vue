@@ -22,6 +22,12 @@
             <li><span>总受理费:</span><span>{{countItem.sumPrepaymentAmt}}元&nbsp;;</span></li>
             <li><span>总受理费退费:</span><span>{{countItem.sumAcceptReturnAmt}}元&nbsp;;</span></li>
             <li><span>总使用仲券:</span><span>{{countItem.sumCaseTicket}}张&nbsp;;</span></li>
+						<li>
+							<span @click="handleReload" class="cursor">
+								<i ref="reloadi" class="ml-10 el-icon-refresh"></i>
+								刷新
+							</span>
+						</li>
           </ul>
         </div>
       </div>
@@ -577,7 +583,7 @@ export default {
 		},
     queryCount(item){
       // 案件列表-统计查询api
-      this.$http.post(URL_JSON['queryCaseListCountItem'],item).then(res=>{
+      return this.$http.post(URL_JSON['queryCaseListCountItem'],item).then(res=>{
         console.log('统计查询api',res)
         if(res.code === '0000'){
           this.countItem = res.result
@@ -628,6 +634,23 @@ export default {
 				}, 300)
 			})
 		},
+		// 刷新
+		handleReload(e) {
+			let i = this.$refs.reloadi;
+			if(i.classList.value.indexOf('m-rotate') !== -1) {
+				return;
+			}
+			i.classList.add('m-rotate');
+			this.queryCount().then(() => {
+				window.setTimeout(() => {
+					i.classList.remove('m-rotate');
+				},500);
+			}).catch(() => {
+				window.setTimeout(() => {
+					i.classList.remove('m-rotate');
+				},500);
+			});
+		},
 	},
 	created() {
 		if(this.$route.query.caseProcess) {
@@ -654,6 +677,19 @@ export default {
 
 <style lang="scss" scoped>
 @import '@/assets/style/scss/helper/_mixin.scss';
+
+@keyframes mrotate {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+.m-rotate{
+	animation: 1s mrotate linear infinite forwards;
+}
+
 .item-title{
   // position: relative;
   @include clearfix;
