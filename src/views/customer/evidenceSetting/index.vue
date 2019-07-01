@@ -168,7 +168,7 @@
           },
         }).then((res) => {
           // 数据处理
-          this.evidenceList = res.result.map((v,k) => {
+          let arr = res.result.map((v,k) => {
             let children = v.eviList;
             let arr = children.map((v1,k1) => {
               v1.evidenceNameText = v1.eviTitle;
@@ -177,6 +177,16 @@
             });
             v.eviList = arr;
             return v;
+          });
+          // 根据 groupNum排序
+          this.evidenceList = arr.sort((a,b) => {
+            if(a.groupNum > b.groupNum) {
+              return 1;
+            }else if(a.groupNum < b.groupNum) {
+              return -1;
+            }else {
+              return 0;
+            }
           });
         });
       },
