@@ -572,6 +572,7 @@ export default {
           (v.settleType == 1 ? v.caseTicketFee = '/':v.caseTicket = '/');
 					return v;
 				});
+				this.item = item;
         this.queryCount(item);
         this.$http.post('/case/queryCaseClientNameByCaseInfo.htm',item).then(res => {
           console.log('selectCompany:::', res)
@@ -641,7 +642,7 @@ export default {
 				return;
 			}
 			i.classList.add('m-rotate');
-			this.queryCount().then(() => {
+			this.queryCount(this.item).then(() => {
 				window.setTimeout(() => {
 					i.classList.remove('m-rotate');
 				},500);

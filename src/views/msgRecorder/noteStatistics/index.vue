@@ -115,7 +115,11 @@
             border
             class="mb-20"
           >
-            <el-table-column prop="carrier" label="运营商"></el-table-column>
+            <el-table-column prop="carrier" label="运营商">
+              <template v-slot="scope">
+                <div :class="{'align-right' : scope.$index === tableSuccessData.length - 1}">{{scope.row.carrier}}</div>
+              </template>  
+            </el-table-column>
             <el-table-column prop="allCount" label="短信数量"></el-table-column>
             <el-table-column prop="successCount" label="接收成功数量"></el-table-column>
             <el-table-column prop="failCount" label="接收失败数量"></el-table-column>
@@ -138,11 +142,19 @@
             class="mb-20"
             :span-method="arraySpanMethod"
           >
-            <el-table-column prop="carrier" label="所属运营商">
-              <template v-slot="scope">{{scope.row.carrier || '其他'}}</template>
+            <el-table-column prop="carrier" label="所属运营商" width="200">
+              <template v-slot="scope">
+                <div :class="{'align-right' : scope.$index === tableErrorData.length - 1}">
+                  {{scope.row.carrier || '其他'}}
+                </div>
+              </template>
             </el-table-column>
-            <el-table-column prop="returnDetails" label="失败原因"></el-table-column>
-            <el-table-column prop="count" label="失败数量"></el-table-column>
+            <el-table-column prop="returnDetails" label="失败原因">
+              <template v-slot="scope">
+                <div class="align-left">{{scope.row.returnDetails}}</div>
+              </template>
+            </el-table-column>
+            <el-table-column prop="count" label="失败数量" width="200"></el-table-column>
           </el-table>
         </div>
       </div>
@@ -308,11 +320,29 @@
       },
       // 表格 合并逻辑
       arraySpanMethod({ row, column, rowIndex, columnIndex }) {
-        return this.mergeFn({ row, column, rowIndex, columnIndex,
-          colList : [0],
-          attr : 'carrier',
-          table : this.tableErrorData,
-        });
+        // 处理汇总表格合并
+        if(row.carrier === '汇总：' && columnIndex === 0) {
+          return {
+            rowspan: 1,
+            colspan: 2,
+          }
+        }else if(row.carrier === '汇总：' && columnIndex === 1) {
+          return {
+            rowspan: 1,
+            colspan: 0,
+          }
+        }else if(row.carrier === '汇总：' && columnIndex === 2) {
+          return {
+            rowspan: 1,
+            colspan: 1,
+          }
+        }else{
+          return this.mergeFn({ row, column, rowIndex, columnIndex,
+            colList : [0],
+            attr : 'carrier',
+            table : this.tableErrorData,
+          });
+        }
       },
       mergeFn({ row, column, rowIndex, columnIndex,colList,attr,table}) {
         // colList - 需要执行的列
@@ -359,6 +389,12 @@
 .note-statistics{
   .color-blue{
     color: #0F357F;
+  }
+  .align-right{
+    text-align: right;
+  }
+  .align-left{
+    text-align: left;
   }
   .time-frame .m-span{
     margin-top: 0;
