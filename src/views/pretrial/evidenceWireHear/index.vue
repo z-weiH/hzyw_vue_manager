@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%;background: #F7F7F7">
-    <el-scrollbar  style="height:100%;">
+    <el-scrollbar  style="height:100%;" class="elm-scrollbar-wrap">
       <div class="body_container">
         <div class="header_container">
 
@@ -25,8 +25,8 @@
 
         <div class="card" style="position:relative;" v-for="(evidence, index) in evidenceItems" :key="index">
           <div class="fix_screen" v-if="evidenceItems.length > 0">
-            <span class="arrow_left" @click="HandlePrev" :class="{disabled: canPrev}"></span>
-            <span class="arrow_right" @click="HandleNext" :class="{disabled: canNext}"></span>
+            <span class="arrow_left" @click="HandlePrev" :class="{disabled: canPrev , 'min-arrow_left' : bodyWidth <= 1366}"></span>
+            <span class="arrow_right" @click="HandleNext" :class="{disabled: canNext, 'min-arrow_right' : bodyWidth <= 1366}"></span>
           </div>
           <div class="card_header" style="overflow: hidden;position: relative;">
             <div class="fr mt-5" style="position: relative" v-if="!disabled">
@@ -41,7 +41,7 @@
             <div class="mt-5 rule_res" :style="{right: disabled ? '25px' : '185px'}">
               <customer-button v-if="evidence.logStatus === 1"  type="text" @click="gotourl(evidence.caseId)">查看日志</customer-button>
               <customer-button type="text" @click="HandleRuleRes(evidence)">脚本执行记录</customer-button>
-            </div>
+            </div> 
             <span class="header_title">{{evidence.subSortNo}}/{{evidence.totalCount}} {{evidence.lender}}与{{evidence.respondents}}的借款合同纠纷</span>
             <loanBillNoCopy :loanBillNo="evidence.loanBillNo"></loanBillNoCopy>
             <div class="header_img">
@@ -70,16 +70,25 @@
             <div class="bdje" style="line-height: 50px;font-size: 16px;">
               <span style="color: #193b8c;font-size: 18px;">仲裁标的：</span>{{evidence.subjectAmt}}元
             </div>
+            <div class="lh-50 ft-16">
+              <div class="fl color-blue w-90 align-right">左栏：</div>
+              <div class="of-hidden color-blue">仲裁申请书</div>
+            </div>
+            <div class="lh-30 ft-16 mb-10 max-5">
+              <div class="fl color-blue w-90 align-right">右栏：</div>
+              <div class="of-hidden color-blue">
+                <span class="mr-10 in-block cursor" :class="{'evidence-active': currentUrl.indexOf(eviDetail.eviFileurl) == 0}" v-for="(eviDetail,idx) in evidence.eviDetailList" :key="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</span>
+              </div>
+            </div>
             <div class="applybook_body">
-              <div class="applybook_title of-hidden">
+              <!-- <div class="applybook_title of-hidden">
                 <div class="tit fl part_tit f_18">仲裁申请书</div>
                 <div class="scroll_toolbar fr">
                   <ul>
                     <li class="fl evi_bar" :class="{active: currentUrl.indexOf(eviDetail.eviFileurl) == 0}" v-for="(eviDetail,idx) in evidence.eviDetailList" :index="idx" @click="scrollbarClick(eviDetail)">{{eviDetail.eviTitle}}</li>
                   </ul>
-                  <!-- <scroll-y label="eviTitle" @handleClick="scrollbarClick" :options="evidence.eviDetailList" :defaultWidth="520"></scroll-y> -->
                 </div>
-              </div>
+              </div> -->
               <div class="applybook_content of-hidden">
                 <div class="article_left fl">
                   <!--<pdf :src="evidence.applicationUrl"></pdf>-->
@@ -174,6 +183,7 @@
         caseId: '',
 
         imgScale: 2,
+        bodyWidth: document.body.offsetWidth,
       }
     },
     // watch: {
@@ -508,8 +518,9 @@
       background-repeat: no-repeat;
       background-size: 100%;
       background-position: 100% 100%;
-      position: absolute;
-      top: 20%;
+      position: fixed;
+      top: 50%;
+      transform: translateY(-50%);
       cursor: pointer;
       z-index: 9999;
       &:hover {
@@ -517,14 +528,18 @@
       }
     }
     .arrow_left {
-      top:50%;
-      left: 0px;
+      left: calc( (100vw - 1366px) * .5 - 89px);
       background-image: url(./../../../assets/img/rct_page01.png);
     }
     .arrow_right {
-      top:50%;
-      right: 0px;
+      right: calc( (100vw - 1366px) * .5 - 89px);
       background-image: url(./../../../assets/img/rct_page02.png);
+    }
+    .min-arrow_left{
+      left: calc( (100vw - 1366px) * .5);
+    }
+    .min-arrow_right{
+      right: calc( (100vw - 1366px) * .5);
     }
     .arrow_left.disabled{
       cursor: not-allowed;
@@ -720,6 +735,32 @@
       display: table-cell;
       vertical-align: middle;
     }
+  }
+
+  .lh-50{
+    line-height: 50px;
+  }
+  .lh-30{
+    line-height: 30px;
+  }
+  .ft-16{
+    font-size: 16px;
+  }
+  .w-90{
+    width: 90px;
+  }
+  .align-right{
+    text-align: right;
+  }
+  .in-block{
+    display: inline-block;  
+  }
+  .evidence-active{
+    border-bottom: 2px solid #193b8c;
+  }
+  .max-5{
+    max-height: 152px;
+    overflow: auto;
   }
 
 </style>

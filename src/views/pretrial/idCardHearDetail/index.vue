@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%;background: #F7F7F7">
-    <el-scrollbar style="height: 100%;">
+    <el-scrollbar style="height: 100%;" class="elm-scrollbar-wrap">
       <div
         class="body_container"
       >
@@ -131,7 +131,7 @@
                     <img class="mr-10" v-if="card.auditInfoWrap.effctDateStatus === 0 || card.checkEFFECT"  src="@/assets/img/error_tag.png" alt="">
                     <img class="mr-5" v-if="card.auditInfoWrap.effctDateStatus === 1 && !card.checkEFFECT" src="@/assets/img/success_tag.png" alt="">
                     <img class="mr-15" v-if="card.auditInfoWrap.effctDateStatus === 2 && !card.checkEFFECT" src="@/assets/img/warning_tag.png" alt="">
-                    <span>{{card.auditInfoWrap.resEffctDate}}</span>
+                    <span v-html="formatPaymentDate(card.auditInfoWrap.resEffctDate)"></span>
                   </li>
                 </template>
                 <template v-else>
@@ -177,7 +177,7 @@
                     <img class="mr-10" v-if="card.auditInfoWrap.effctDateStatus === 0 || card.checkEFFECT"  src="@/assets/img/error_tag.png" alt="">
                     <img class="mr-5" v-if="card.auditInfoWrap.effctDateStatus === 1 && !card.checkEFFECT" src="@/assets/img/success_tag.png" alt="">
                     <img class="mr-15" v-if="card.auditInfoWrap.effctDateStatus === 2 && !card.checkEFFECT" src="@/assets/img/warning_tag.png" alt="">
-                    <span>{{card.auditInfoWrap.resEffctDate}}</span>
+                    <span v-html="formatPaymentDate(card.auditInfoWrap.resEffctDate)"></span>
                   </li>
                 </template>
 
@@ -576,7 +576,7 @@ export default {
           // })
         }
       })
-    }
+    },
     // scrollFunc() {
     //   this.$refs.picZoom.forEach(it => {
     //     // this.pager.currentNum = Math.ceil(this.markflag/20);
@@ -587,6 +587,14 @@ export default {
     //     },300)
     //   })
     // }
+
+    formatPaymentDate(data) {
+			try{
+				return `<span class="color-999">${data.split(':')[0]}：</span>${data.split(':')[1]}`
+			}catch (err) {
+				return ''
+			}
+		},
   },
   components: {
     audit,

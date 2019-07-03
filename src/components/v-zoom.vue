@@ -1,6 +1,6 @@
 <template>
   <div class="_magnifier" style="width:100%;height:100%;">
-    <img :style="{'transform':'rotate('+cureentDeg+'deg)','height':height +'px','max-width':'100%'}" :src="src" @mouseover="handOver" @click="showImg"  @mousemove="handMove" @mouseout="handOut"/>
+    <img  @mousewheel="handleDisabledMousewheel" :style="{'transform':'rotate('+cureentDeg+'deg)','height':height +'px','max-width':'100%'}" :src="src" @mouseover="handOver" @click="showImg"  @mousemove="handMove" @mouseout="handOut"/>
     <div class="edit-wrap" >
       <span class="rotate-left" @click="rotate('left')"></span>
       <span class="rotate-right" @click="rotate('right')"></span>
@@ -164,6 +164,10 @@
           imgLayer.appendChild(this.bigImg);
           document.body.appendChild(imgLayer)
         }
+      },
+      handleDisabledMousewheel(e) {
+        e.preventDefault();
+        e.stopPropagation();
       },
     },
   }
