@@ -94,7 +94,8 @@
                   <!--<pdf :src="evidence.applicationUrl"></pdf>-->
                   <iframe  :src="'/static/pdfjs/web/viewer.html?file=' + applicationUrl" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
                 </div>
-                <div  ref="evidenceWarper" class="article_right fr" @mousewheel="handleDisabledMousewheel">
+                <div  ref="evidenceWarper" class="article_right fr" @mousewheel="handleDisabledMousewheel" style="position: relative;">
+                  <!-- <el-button v-if="checkPdf(currentUrl)" icon="el-icon-refresh" type="large" circle style="background: #F2F2F2;position: absolute;top: 70px; right: 40px;" @click="refreshRight"></el-button> -->
                   <iframe ref="evidence" v-if="checkPdf(currentUrl)"  :src="'/static/pdfjs/web/viewer.html?file=' + currentUrl.replace(/http:|https:/g,'') + '?'" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
                   <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else>
                     <!-- <img style="cursor: move;position: relative;width:100%;" :src="currentUrl.replace(/http:|https:/g,'')" alt=""> -->
@@ -233,7 +234,7 @@
 
       //判断文件是否是pdf
       checkPdf(url){
-        if(url.substr(url.length-3).toLowerCase() == 'pdf' || this.checkMovie(url)){
+        if(url.indexOf('.pdf') !== -1 || this.checkMovie(url)){
           return true;
         }
         return false;
@@ -439,6 +440,10 @@
       handleDisabledMousewheel(e) {
         e.preventDefault();
         e.stopPropagation();
+      },
+      refreshRight() {
+        let idx = this.applicationUrl.lastIndexOf('=');
+        this.currentUrl = this.currentUrl.substring(0,idx) + '?time=' +new Date().getTime();
       },
     },
     components: {

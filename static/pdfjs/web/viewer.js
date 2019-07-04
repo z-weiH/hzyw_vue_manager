@@ -100,7 +100,9 @@ var _pdfjsLib = __webpack_require__(1);
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var CSS_UNITS = 96.0 / 72.0;
-var DEFAULT_SCALE_VALUE = 'auto';
+/* 修改 */
+var DEFAULT_SCALE_VALUE = 'page-fit'; // 'auto'
+/* 修改 */
 var DEFAULT_SCALE = 1.0;
 var MIN_SCALE = 0.25;
 var MAX_SCALE = 10.0;
@@ -9974,7 +9976,9 @@ var ViewHistory = function () {
     key: '_readFromStorage',
     value: function _readFromStorage() {
       return new Promise(function (resolve) {
+        /* 修改 */
         var value = localStorage.getItem('pdfjs.history');
+        /* 修改 */
         if (!value) {
           var databaseStr = localStorage.getItem('database');
           if (databaseStr) {
