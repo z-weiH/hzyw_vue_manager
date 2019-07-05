@@ -104,6 +104,9 @@ body {
     .elm-scrollbar-wrap .el-scrollbar__bar.is-vertical{
         width: 10px!important;
     }
+    .elm-scrollbar-wrap .el-scrollbar__thumb{
+        right: -2px;
+    }
     /*字体大小*/
     .font-12 {
         font-size: 12px;
