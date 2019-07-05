@@ -81,7 +81,7 @@ export default {
         {
           type: "select",
           label: "状态",
-          colSpan: 4,
+          colSpan: 3,
           property: "recordStatus",
           options: [
             {
@@ -110,7 +110,7 @@ export default {
           label: "互金企业",
           type: "select",
           property: "clientCode",
-          colSpan: 4,
+          colSpan: 3,
           options: this.opCompany,
           labelfield: "merchantName",
           valuefield: "code",
@@ -120,7 +120,7 @@ export default {
           label: "产品名称",
           type: "select",
           property: "productCode",
-          colSpan: 4,
+          colSpan: 3,
           options: this.opProduct,
           labelfield: "prodName",
           valuefield: "prodName",
@@ -130,7 +130,7 @@ export default {
           label: "模版编码",
           type: "select",
           property: "templateId",
-          colSpan: 4,
+          colSpan: 3,
           options: []
           // labelfield: "templateName",
           // valuefield: "templateCode"
