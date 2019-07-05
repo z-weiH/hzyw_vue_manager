@@ -76,7 +76,7 @@
 
           this.$refs.edits.$refs.editsform.validate((valid) => {
             if(valid){
-              this.$http.post("/firstAudit/respondentModified.htm",{cardList:[obj],caseId:this.currentRespodent.caseId,resId:this.currentRespodent.resId},{mheaders: true}).then(res => {
+              this.$http.post("/firstAudit/respondentModified.htm",{cardList:[obj],caseId:this.currentRespodent.caseId,resId:this.currentRespodent.resId , resIdcard : this.currentRespodent.resIdcard},{mheaders: true}).then(res => {
                 if(res.code === '0000'){
                   this.$message.success("修改成功，仲裁申请书已更新");
                   this.$parent.respondentEditFlag = false;
