@@ -120,6 +120,14 @@
                     <span @click="handleRespondentClick(card,'resIdaddress')">{{card.auditInfoWrap.resIdaddress}}</span>
                     <b style="color:#aaa;" v-if="card.auditInfoWrap.idaddressStatus === 3">(已修正)</b>
                   </li>
+
+                  <li style="padding-left:24px;">
+                    <p v-if="card.auditInfoWrap.courtName" class="color-999">{{card.auditInfoWrap.courtName}}</p>
+                    <p v-else class="color-origin">未匹配到中院</p>
+                    <p v-if="card.auditInfoWrap.basicCourtName" class="color-999">{{card.auditInfoWrap.basicCourtName}}</p>
+                    <p v-else class="color-origin">未匹配到基层法院</p>
+                  </li>
+
                   <li :class="{'pointer': respondentEidtConfig.idcardStatus == 1 && !disabled && card.auditInfoWrap.resType === 0}">
                     <img class="mr-10" v-if="card.auditInfoWrap.idcardStatus === 0 || card.checkIDCARD"  src="@/assets/img/error_tag.png" alt="">
                     <img class="mr-5" v-if="card.auditInfoWrap.idcardStatus%2 === 1 && !card.checkIDCARD" src="@/assets/img/success_tag.png" alt="">
@@ -163,6 +171,13 @@
                     <img class="mr-15" v-if="card.auditInfoWrap.idaddressStatus === 2 && !card.checkADDRESS" src="@/assets/img/warning_tag.png" alt="">
                     <span @click="handleRespondentClick(card,'resIdaddress')">{{card.auditInfoWrap.resIdaddress}}</span>
                     <b style="color:#aaa;" v-if="card.auditInfoWrap.idaddressStatus === 3">(已修正)</b>
+                  </li>
+
+                  <li style="padding-left:24px;">
+                    <p v-if="card.auditInfoWrap.courtName" class="color-999">{{card.auditInfoWrap.courtName}}</p>
+                    <p v-else class="color-origin">未匹配到中院</p>
+                    <p v-if="card.auditInfoWrap.basicCourtName" class="color-999">{{card.auditInfoWrap.basicCourtName}}</p>
+                    <p v-else class="color-origin">未匹配到基层法院</p>
                   </li>
 
                   <li :class="{'pointer': respondentEidtConfig.legalPersonStatus == 1 && !disabled && card.auditInfoWrap.resType === 0}">
@@ -215,7 +230,7 @@
     </el-scrollbar>
     <audit ref="audit" :caseId="currentCaseId" :selValue="selValue" :type="0"></audit>
     <closeDlg :message="'已完成身份证审核，请关闭本页'" v-if="showCloseDlg"></closeDlg>
-    <respondent-edit :currentRespodent="currentRespodent" :respondentItem="respondentItem"></respondent-edit>
+    <respondent-edit :successCBK="successCBK" :currentRespodent="currentRespodent" :respondentItem="respondentItem"></respondent-edit>
     <ruleResult ref="ruleResult"></ruleResult>
 
     <backTop className=".el-scrollbar__wrap"></backTop>
@@ -594,7 +609,11 @@ export default {
 			}catch (err) {
 				return ''
 			}
-		},
+    },
+    // 信息修正成功 回调
+    successCBK() {
+      //this.HandleQuery();
+    },
   },
   components: {
     audit,
@@ -634,6 +653,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+  .color-origin{
+    color: #e6a23c;
+  }
   .rule_res{
     position: absolute;
     top: 0;

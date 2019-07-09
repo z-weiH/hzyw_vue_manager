@@ -31,7 +31,7 @@
       props:{
         currentRespodent:Object,
         respondentItem:Object,
-
+        successCBK: Function,
       },
       data(){
         return {
@@ -96,7 +96,7 @@
                     }
                   })
 
-
+                  this.successCBK && this.successCBK();
                 }
               })
             }
