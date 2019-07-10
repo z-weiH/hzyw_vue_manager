@@ -139,6 +139,7 @@ export default {
         .post(URL_JSON["editAccountApply"], { customerId: row.custId })
         .then(res => {
           if (res.code === "0000") {
+            res.result.formulas[0].amtStart = '0';
             this.item = res.result;
             this.editState = 1;
           }
