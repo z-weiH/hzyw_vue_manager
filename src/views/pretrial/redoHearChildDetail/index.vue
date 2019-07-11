@@ -115,6 +115,12 @@
                       <i v-if="card.idCard.idaddressStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdaddress')">{{card.idCard.resIdaddress}}</span>
                       <b style="color:#aaa;" v-if="card.idCard.idaddressStatus === 3">(已修正)</b>
                     </li>
+										<li style="padding-left:24px;">
+                    <p v-if="card.idCard.courtName" class="color-999">{{card.idCard.courtName}}</p>
+                    <p v-else class="color-origin">未匹配到中院</p>
+                    <p v-if="card.idCard.basicCourtName" class="color-999">{{card.idCard.basicCourtName}}</p>
+                    <p v-else class="color-origin">未匹配到基层法院</p>
+                  </li>
                     <li :class="{'pointer': respondentEidtConfig.idcardStatus == 1 && subViewType == 1 && card.idCard.resType === 0}">
                       <i v-if="card.idCard.idcardStatus === 0" class="i_nopass"></i>
                       <i v-if="card.idCard.idcardStatus%2 === 1" class="i_pass"></i>
@@ -155,6 +161,13 @@
                       <i v-if="card.idCard.idaddressStatus === 2" class="i_warn"></i> <span @click="handleRespondentClick(card,'resIdaddress')">{{card.idCard.resIdaddress}}</span>
                       <b style="color:#aaa;" v-if="card.idCard.idaddressStatus === 3">(已修正)</b>
                     </li>
+
+										<li style="padding-left:24px;">
+                    <p v-if="card.idCard.courtName" class="color-999">{{card.idCard.courtName}}</p>
+                    <p v-else class="color-origin">未匹配到中院</p>
+                    <p v-if="card.idCard.basicCourtName" class="color-999">{{card.idCard.basicCourtName}}</p>
+                    <p v-else class="color-origin">未匹配到基层法院</p>
+                  </li>
 
 
                     <li :class="{'pointer': respondentEidtConfig.legalPersonStatus == 1 && subViewType == 1 && card.idCard.resType === 0}">
@@ -806,6 +819,9 @@ export default {
 <style lang="scss" scoped>
 @import '@/assets/style/scss/helper/_mixin.scss';
 $themeColor: #193b8c;
+.color-origin{
+    color: #e6a23c;
+  }
 li.pointer > span{
   cursor: pointer;
 }
