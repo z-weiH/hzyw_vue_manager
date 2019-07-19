@@ -23,7 +23,7 @@
               <span v-else>暂无图片</span>
             </td>
             <td colspan="1">上传签章：</td>
-            <td colspan="1">
+            <td colspan="1" v-if="!imgUrl">
               <el-button class="file-inut-box" size="mini" icon='el-icon-upload'>
                 点击这里上传文件
                 <input ref="file" @change="handleSuccess" class="m-file-input" type="file" />
@@ -33,10 +33,10 @@
         </table>
       </div>
 
-      <span slot="footer" class="dialog-footer">
+      <!-- <span slot="footer" class="dialog-footer">
         <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit">修 改</el-button>
         <el-button @click="handleClose">取 消</el-button>
-      </span>
+      </span> -->
     </el-dialog>
   </div>
 </template>

@@ -232,7 +232,7 @@
                 <td colspan="1">证件类型：</td>
                 <td colspan="1">
                   <el-form-item label=" " prop="idtype">
-                    <el-select v-model="ruleForm.idtype" placeholder="请选择">
+                    <el-select v-model="ruleForm.idtype" placeholder="请选择" :disabled="type === 'edit'">
                       <el-option key="1" v-if="ruleForm.type === 0" label="身份证" :value="0"></el-option>
                       <el-option key="2" v-else label="营业执照" :value="3"></el-option>
                     </el-select>
@@ -241,7 +241,7 @@
                 <td colspan="1">社会唯一信用代码：</td>
                 <td colspan="1">
                   <el-form-item label=" " prop="idcard">
-                    <el-input placeholder="请输入信用代码" v-model="ruleForm.idcard"></el-input>
+                    <el-input placeholder="请输入信用代码" v-model="ruleForm.idcard" :disabled="type === 'edit'"></el-input>
                   </el-form-item>
                 </td>
               </tr>
