@@ -96,7 +96,7 @@
                 </div>
                 <div  ref="evidenceWarper" class="article_right fr" @mousewheel="handleDisabledMousewheel" style="position: relative;">
                   <!-- <el-button v-if="checkPdf(currentUrl)" icon="el-icon-refresh" type="large" circle style="background: #F2F2F2;position: absolute;top: 70px; right: 40px;" @click="refreshRight"></el-button> -->
-                  <iframe ref="evidence" v-if="checkPdf(currentUrl)"  :src="'/static/pdfjs/web/viewer.html?file=' + currentUrl.replace(/http:|https:/g,'') + '?'" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
+                  <iframe ref="evidence" v-if="checkPdf(currentUrl)"  :src="'/static/pdfjs/web/viewer.html?file=' + currentUrl.replace(/http:|https:/g,'') + '?'+ new Date().getTime()" width="100%" height="100%" frameborder="0" scrolling="yes"></iframe>
                   <div ref="imgEvi" style="overflow: auto;width:100%;height:100%;" v-else>
                     <!-- <img style="cursor: move;position: relative;width:100%;" :src="currentUrl.replace(/http:|https:/g,'')" alt=""> -->
                     <zoomPro :url="currentUrl.replace(/http:|https:/g,'')" :scale.sync="imgScale" :width="300" :height="200"></zoomPro>
@@ -443,7 +443,7 @@
       },
       refreshRight() {
         let idx = this.applicationUrl.lastIndexOf('=');
-        this.currentUrl = this.currentUrl.substring(0,idx) + '?time=' +new Date().getTime();
+        this.currentUrl = this.currentUrl.substring(0,idx) + '?time=' + new Date().getTime();
       },
     },
     components: {
