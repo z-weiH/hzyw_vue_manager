@@ -33,10 +33,10 @@
         </table>
       </div>
 
-      <!-- <span slot="footer" class="dialog-footer">
+      <span slot="footer" class="dialog-footer" v-if="!imgUrl">
         <el-button :disabled="submitDisabled" type="primary" @click="handleSubmit">修 改</el-button>
         <el-button @click="handleClose">取 消</el-button>
-      </span> -->
+      </span>
     </el-dialog>
   </div>
 </template>
